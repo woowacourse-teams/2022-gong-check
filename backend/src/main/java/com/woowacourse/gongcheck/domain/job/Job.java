@@ -1,6 +1,6 @@
-package com.woowacourse.gongcheck.domain.space;
+package com.woowacourse.gongcheck.domain.job;
 
-import com.woowacourse.gongcheck.domain.member.Member;
+import com.woowacourse.gongcheck.domain.space.Space;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -16,9 +16,9 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Entity
-@Table(name = "space")
+@Table(name = "job")
 @Getter
-public class Space {
+public class Job {
 
     private static final int NAME_MAX_LENGTH = 20;
 
@@ -27,14 +27,11 @@ public class Space {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    @JoinColumn(name = "space_id", nullable = false)
+    private Space space;
 
     @Column(name = "name", length = NAME_MAX_LENGTH, nullable = false)
     private String name;
-
-    @Column(name = "img_url")
-    private String imageUrl;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
@@ -42,16 +39,14 @@ public class Space {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    protected Space() {
+    protected Job() {
     }
 
     @Builder
-    public Space(Long id, Member member, String name, String imageUrl, LocalDateTime createdAt,
-                 LocalDateTime updatedAt) {
+    public Job(Long id, Space space, String name, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
-        this.member = member;
+        this.space = space;
         this.name = name;
-        this.imageUrl = imageUrl;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -64,8 +59,8 @@ public class Space {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Space space = (Space) o;
-        return id.equals(space.id);
+        Job job = (Job) o;
+        return id.equals(job.id);
     }
 
     @Override
