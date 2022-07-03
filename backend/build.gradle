@@ -61,3 +61,14 @@ tasks.named('asciidoctor') {
     inputs.dir snippetsDir
     dependsOn test
 }
+
+task createDocument(type: Copy) {
+    dependsOn asciidoctor
+
+    from file("build/asciidoc/html5/index.html")
+    into file("src/main/resources/static")
+}
+
+bootJar {
+    dependsOn createDocument
+}
