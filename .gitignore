@@ -1,8 +1,12 @@
-.DS_*
-*.log
-logs
-**/*.backup.*
-**/*.back.*
-dist
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
 
-node_modules
+### VS Code ###
+.vscode/
+
+### mac os ###
+.DS_Store
