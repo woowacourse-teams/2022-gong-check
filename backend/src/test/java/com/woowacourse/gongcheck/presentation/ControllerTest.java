@@ -12,12 +12,12 @@ import org.springframework.web.context.WebApplicationContext;
 @WebMvcTest({
     GuestAuthController.class
 })
-public class ControllerTest {
+class ControllerTest {
 
     protected MockMvcRequestSpecification given;
 
     @MockBean
-    private GuestAuthService guestAuthService;
+    protected GuestAuthService guestAuthService;
 
     @BeforeEach
     void setDocsGiven(WebApplicationContext webApplicationContext) {
