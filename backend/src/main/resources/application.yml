@@ -16,5 +16,11 @@ spring:
         format_sql: true
     open-in-view: false
 
+security:
+  jwt:
+    token:
+      secret-key: Z29uZy1jaGVjay1nb25nLWNoZWNrLWdvbmctY2hlY2stZ29uZy1jaGVjay1nb25nLWNoZWNrLWdvbmctY2hlY2stZ29uZy1jaGVjay1nb25nLWNoZWNrCg==
+      expire-time: 3600000
+
 server:
   port: 8080
