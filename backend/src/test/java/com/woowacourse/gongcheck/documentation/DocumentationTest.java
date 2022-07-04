@@ -28,7 +28,8 @@ class DocumentationTest {
     protected GuestAuthService guestAuthService;
 
     @BeforeEach
-    void setDocsGiven(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
+    void setDocsGiven(final WebApplicationContext webApplicationContext,
+                      final RestDocumentationContextProvider restDocumentation) {
         docsGiven = RestAssuredMockMvc.given()
                 .mockMvc(MockMvcBuilders.webAppContextSetup(webApplicationContext)
                         .apply(documentationConfiguration(restDocumentation)

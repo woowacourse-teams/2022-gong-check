@@ -43,13 +43,13 @@ public class Member {
         this.updatedAt = updatedAt;
     }
 
-    public void checkPassword(String password) {
+    public void checkPassword(final String password) {
         if (!isSameSpacePassword(password)) {
             throw new UnauthorizedException("공간 비밀번호와 입력하신 비밀번호가 일치하지 않습니다.");
         }
     }
 
-    private boolean isSameSpacePassword(String password) {
+    private boolean isSameSpacePassword(final String password) {
         return this.spacePassword.equals(password);
     }
 

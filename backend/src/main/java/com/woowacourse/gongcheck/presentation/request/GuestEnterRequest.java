@@ -12,7 +12,7 @@ public class GuestEnterRequest {
     private GuestEnterRequest() {
     }
 
-    public GuestEnterRequest(String password) {
+    public GuestEnterRequest(final String password) {
         this.password = password;
     }
 
