@@ -1,11 +1,10 @@
 {
-  "name": "my-webpack-project",
+  "name": "gong-check",
   "version": "1.0.0",
-  "description": "My webpack project",
+  "description": "Gong Check Project",
   "scripts": {
-    "start": "webpack serve --open",
+    "start": "webpack serve",
     "build": "webpack --mode=production --node-env=production",
-    "watch": "webpack --watch",
     "prettier": "npx prettier --write '**/*.{jsx,js,css,html,json}'"
   },
   "repository": {
@@ -14,10 +13,6 @@
   },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/intae92/2022-gong-check/issues"
-  },
-  "homepage": "https://github.com/intae92/2022-gong-check#readme",
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
