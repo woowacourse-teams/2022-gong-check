@@ -18,7 +18,9 @@ public class ErrorResponse {
     }
 
     public static ErrorResponse from(final MethodArgumentNotValidException e) {
-        return new ErrorResponse(e.getAllErrors().get(0).getDefaultMessage());
+        return new ErrorResponse(e.getAllErrors()
+                .get(0)
+                .getDefaultMessage());
     }
 
     public String getMessage() {
