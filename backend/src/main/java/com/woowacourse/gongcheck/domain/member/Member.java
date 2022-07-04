@@ -50,7 +50,7 @@ public class Member {
     }
 
     private boolean isSameSpacePassword(final String password) {
-        return this.spacePassword.equals(password);
+        return spacePassword.equals(password);
     }
 
     @Override
