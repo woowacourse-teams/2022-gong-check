@@ -24,11 +24,6 @@ const layout = css`
   padding: 8px 32px;
 `;
 
-const pageTitle = css`
-  font-size: 20px;
-  font-weight: 600;
-`;
-
 const contents = css`
   display: flex;
   flex-direction: column;
@@ -45,6 +40,6 @@ const cardTitle = css`
   text-align: center;
 `;
 
-const styles = { spaceCard, layout, pageTitle, contents, cardTitle };
+const styles = { spaceCard, layout, contents, cardTitle };
 
 export default styles;
