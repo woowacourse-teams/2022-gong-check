@@ -9,7 +9,7 @@ const jobCard = css`
   width: 320px;
   height: 144px;
   margin: 24px;
-  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.4);
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3);
   &:hover {
     transform: scale(1.01);
     cursor: pointer;

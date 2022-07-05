@@ -19,7 +19,7 @@ const Header = () => {
   };
 
   return (
-    <div css={styles.headerDiv}>
+    <div css={styles.header}>
       {isVisibaleButton && <IoIosArrowBack css={styles.arrowBackIcon} onClick={handlePreviousButtonClick} size={30} />}
       <h1>GongCheck</h1>
       <div></div>
