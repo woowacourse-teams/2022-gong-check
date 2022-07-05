@@ -1,4 +1,6 @@
 /**  @jsxImportSource @emotion/react */
+import SpaceCard from '../../components/SpaceCard';
+import PageTitle from '../../components/_common/PageTitle';
 import styles from './styles';
 
 const spaces = [
@@ -14,26 +16,12 @@ const spaces = [
   },
 ];
 
-type SpaceCardProps = {
-  spaceName: string;
-  imageURL: string;
-};
-
-const SpaceCard = ({ spaceName, imageURL }: SpaceCardProps) => {
-  return (
-    <div css={styles.spaceCard({ imageURL })}>
-      <span css={styles.cardTitle}>{spaceName}</span>
-    </div>
-  );
-};
-
 const SpaceList = () => {
   return (
     <div css={styles.layout}>
-      <p css={styles.pageTitle}>
+      <PageTitle>
         장소 목록 (<span>2</span>)
-      </p>
-
+      </PageTitle>
       <div css={styles.contents}>
         {spaces.map((space, index) => (
           <SpaceCard spaceName={space.name} imageURL={space.imageURL} key={index} />
