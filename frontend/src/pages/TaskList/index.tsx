@@ -3,6 +3,7 @@ import PageTitle from '../../components/_common/PageTitle';
 import styles from './styles';
 import TaskCard from '../../components/TaskCard';
 import { css } from '@emotion/react';
+import Button from '../../components/_common/Button';
 
 const locations = [
   {
@@ -58,6 +59,7 @@ const TaskList = () => {
           css={css`
             display: flex;
             flex-direction: column;
+            align-items: center;
           `}
         >
           {locations.map(location => (
@@ -66,7 +68,7 @@ const TaskList = () => {
               <TaskCard tasks={location.tasks} />
             </section>
           ))}
-          <button type="submit">제출</button>
+          <Button type="submit">제출</Button>
         </form>
       </div>
     </div>
