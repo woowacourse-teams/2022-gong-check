@@ -51,7 +51,7 @@ class JobRepositoryTest {
     void 멤버와_아이디로_작업을_조회한다() {
         Member host = memberRepository.save(Member_생성("1234"));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
-        Job job = jobRepository.save(Job_생성(space, "트랙룸"));
+        Job job = jobRepository.save(Job_생성(space, "청소"));
 
         Optional<Job> result = jobRepository.findBySpaceMemberAndId(host, job.getId());
 
@@ -63,7 +63,7 @@ class JobRepositoryTest {
         Member host1 = memberRepository.save(Member_생성("1234"));
         Member host2 = memberRepository.save(Member_생성("1234"));
         Space space = spaceRepository.save(Space_생성(host2, "잠실"));
-        Job job = jobRepository.save(Job_생성(space, "트랙룸"));
+        Job job = jobRepository.save(Job_생성(space, "청소"));
 
         Optional<Job> result = jobRepository.findBySpaceMemberAndId(host1, job.getId());
 

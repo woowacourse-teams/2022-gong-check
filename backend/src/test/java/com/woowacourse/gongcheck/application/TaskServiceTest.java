@@ -58,7 +58,7 @@ class TaskServiceTest {
         Member host1 = memberRepository.save(Member_생성("1234"));
         Member host2 = memberRepository.save(Member_생성("1234"));
         Space space = spaceRepository.save(Space_생성(host2, "잠실"));
-        Job job = jobRepository.save(Job_생성(space, "트랙룸"));
+        Job job = jobRepository.save(Job_생성(space, "청소"));
 
         assertThatThrownBy(() -> taskService.createNewRunningTask(host1.getId(), job.getId()))
                 .isInstanceOf(NotFoundException.class)
