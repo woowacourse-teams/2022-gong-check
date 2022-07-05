@@ -1,5 +1,6 @@
 package com.woowacourse.gongcheck.domain.member;
 
+import com.woowacourse.gongcheck.exception.UnauthorizedException;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -40,6 +41,16 @@ public class Member {
         this.spacePassword = spacePassword;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public void checkPassword(final String password) {
+        if (!isSameSpacePassword(password)) {
+            throw new UnauthorizedException("공간 비밀번호와 입력하신 비밀번호가 일치하지 않습니다.");
+        }
+    }
+
+    private boolean isSameSpacePassword(final String password) {
+        return spacePassword.equals(password);
     }
 
     @Override
