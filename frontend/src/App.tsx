@@ -11,6 +11,7 @@ const App = () => {
     <div
       css={css`
         display: flex;
+        flex-direction: column;
         width: 400px;
         height: auto;
         border: 1px solid black;
