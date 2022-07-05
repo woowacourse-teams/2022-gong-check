@@ -15,7 +15,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-public class JobDocumentation extends DocumentationTest {
+class JobDocumentation extends DocumentationTest {
 
     @Test
     void 작업_조회() {

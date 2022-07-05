@@ -5,8 +5,8 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 
 import com.woowacourse.gongcheck.application.GuestAuthService;
 import com.woowacourse.gongcheck.application.JjwtTokenProvider;
+import com.woowacourse.gongcheck.application.JobService;
 import com.woowacourse.gongcheck.application.SpaceService;
-import com.woowacourse.gongcheck.application.response.JobService;
 import com.woowacourse.gongcheck.presentation.AuthenticationContext;
 import com.woowacourse.gongcheck.presentation.GuestAuthController;
 import com.woowacourse.gongcheck.presentation.JobController;

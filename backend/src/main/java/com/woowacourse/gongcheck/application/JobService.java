@@ -1,5 +1,6 @@
-package com.woowacourse.gongcheck.application.response;
+package com.woowacourse.gongcheck.application;
 
+import com.woowacourse.gongcheck.application.response.JobsResponse;
 import com.woowacourse.gongcheck.domain.job.Job;
 import com.woowacourse.gongcheck.domain.job.JobRepository;
 import com.woowacourse.gongcheck.domain.member.Member;

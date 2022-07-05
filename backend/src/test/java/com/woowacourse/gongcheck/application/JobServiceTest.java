@@ -1,13 +1,13 @@
-package com.woowacourse.gongcheck.application.response;
+package com.woowacourse.gongcheck.application;
 
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Job_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Member_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.gongcheck.application.SpaceService;
+import com.woowacourse.gongcheck.application.response.JobsResponse;
 import com.woowacourse.gongcheck.domain.job.Job;
 import com.woowacourse.gongcheck.domain.job.JobRepository;
 import com.woowacourse.gongcheck.domain.member.Member;

@@ -1,8 +1,7 @@
 package com.woowacourse.gongcheck.presentation;
 
-import com.woowacourse.gongcheck.application.response.JobService;
+import com.woowacourse.gongcheck.application.JobService;
 import com.woowacourse.gongcheck.application.response.JobsResponse;
-import com.woowacourse.gongcheck.application.response.SpacesResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
