@@ -36,6 +36,10 @@ public class TaskService {
         Job job = jobRepository.findBySpaceMemberAndId(host, jobId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 작업입니다."));
 
+        createAndSaveNewRunningTasks(job);
+    }
+
+    private void createAndSaveNewRunningTasks(final Job job) {
         Tasks tasks = new Tasks(taskRepository.findAllBySectionJob(job));
         if (runningTaskRepository.existsByTaskIdIn(tasks.getTaskIds())) {
             throw new BusinessException("현재 진행중인 작업이 존재하여 새로운 작업을 생성할 수 없습니다.");
