@@ -11,6 +11,7 @@ public class AuthorizationTokenExtractor {
 
     private static final Pattern JWT_TOKEN_PATTERN = Pattern.compile(
             "^Bearer \\b([A-Za-z\\d-_]*\\.[A-Za-z\\d-_]*\\.[A-Za-z\\d-_]*)$");
+    private static final int TOKEN_INDEX = 1;
 
     private AuthorizationTokenExtractor() {
     }
@@ -24,7 +25,7 @@ public class AuthorizationTokenExtractor {
 
         Matcher matcher = JWT_TOKEN_PATTERN.matcher(header);
         if (matcher.find()) {
-            return Optional.of(matcher.group(1));
+            return Optional.of(matcher.group(TOKEN_INDEX));
         }
         return Optional.empty();
     }

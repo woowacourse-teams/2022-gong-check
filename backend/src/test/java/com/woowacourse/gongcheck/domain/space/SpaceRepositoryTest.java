@@ -38,6 +38,4 @@ class SpaceRepositoryTest {
                 () -> assertThat(result.hasNext()).isTrue()
         );
     }
-
-
 }

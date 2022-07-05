@@ -17,7 +17,6 @@ class SpaceDocumentation extends DocumentationTest {
 
     @Test
     void 공간_조회() {
-
         Member host = Member_생성("1234");
         when(spaceService.findPage(anyLong(), any())).thenReturn(
                 SpacesResponse.of(List.of(

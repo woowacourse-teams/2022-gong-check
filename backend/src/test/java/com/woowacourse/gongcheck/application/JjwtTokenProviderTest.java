@@ -11,7 +11,7 @@ import io.jsonwebtoken.security.Keys;
 import java.util.Date;
 import org.junit.jupiter.api.Test;
 
-class JwtTokenProviderTest {
+class JjwtTokenProviderTest {
 
     private final String key = "Z29uZy1jaGVjay1nb25nLWNoZWNrLWdvbmctY2hlY2stZ29uZy1jaGVjay1nb25nLWNoZWNrLWdvbmctY2hlY2stZ29uZy1jaGVjay1nb25nLWNoZWNrCg==";
     private final JjwtTokenProvider tokenProvider = new JjwtTokenProvider(key, 360000);

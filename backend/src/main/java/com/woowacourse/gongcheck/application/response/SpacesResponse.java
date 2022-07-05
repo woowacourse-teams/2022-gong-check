@@ -35,7 +35,8 @@ public class SpacesResponse {
         return new SpacesResponse(
                 spaces.stream()
                         .map(SpaceResponse::from)
-                        .collect(toList()), hasNext
+                        .collect(toList()),
+                hasNext
         );
     }
 }

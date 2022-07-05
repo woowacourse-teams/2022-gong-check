@@ -13,7 +13,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
 
-
 @ExtendWith(MockitoExtension.class)
 class AuthorizationTokenExtractorTest {
 
