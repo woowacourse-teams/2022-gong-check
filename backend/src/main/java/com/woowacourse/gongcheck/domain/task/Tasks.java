@@ -12,6 +12,12 @@ public class Tasks {
         this.tasks = tasks;
     }
 
+    public List<RunningTask> createRunningTasks() {
+        return tasks.stream()
+                .map(Task::createRunningTask)
+                .collect(Collectors.toList());
+    }
+
     public List<Long> getTaskIds() {
         return tasks.stream()
                 .map(Task::getId)
