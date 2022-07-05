@@ -30,4 +30,13 @@ public class JobsResponse {
                 jobs.hasNext()
         );
     }
+
+    public static JobsResponse of(final List<Job> jobs, final boolean hasNext) {
+        return new JobsResponse(
+                jobs.stream()
+                        .map(JobResponse::from)
+                        .collect(toList()),
+                hasNext
+        );
+    }
 }
