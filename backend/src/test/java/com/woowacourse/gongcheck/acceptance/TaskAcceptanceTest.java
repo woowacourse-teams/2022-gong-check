@@ -28,6 +28,28 @@ class TaskAcceptanceTest extends AcceptanceTest {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
     }
 
+    @Test
+    void 이미_존재하는_진행작업이_있는데_생성하는_경우_실패한다() {
+        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
+        String token = 토큰을_요청한다(guestEnterRequest);
+
+        RestAssured
+                .given().log().all()
+                .auth().oauth2(token)
+                .when().post("/api/jobs/1/tasks/new")
+                .then().log().all()
+                .extract();
+
+        ExtractableResponse<Response> response = RestAssured
+                .given().log().all()
+                .auth().oauth2(token)
+                .when().post("/api/jobs/1/tasks/new")
+                .then().log().all()
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
     private String 토큰을_요청한다(final GuestEnterRequest guestEnterRequest) {
         return RestAssured
                 .given().log().all()
