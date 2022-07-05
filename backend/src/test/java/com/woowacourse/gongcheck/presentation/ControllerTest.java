@@ -1,6 +1,7 @@
 package com.woowacourse.gongcheck.presentation;
 
 import com.woowacourse.gongcheck.application.GuestAuthService;
+import com.woowacourse.gongcheck.application.JjwtTokenProvider;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.module.mockmvc.specification.MockMvcRequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +11,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 @WebMvcTest({
-    GuestAuthController.class
+        GuestAuthController.class,
+        AuthenticationContext.class,
+        JjwtTokenProvider.class
 })
 class ControllerTest {
 

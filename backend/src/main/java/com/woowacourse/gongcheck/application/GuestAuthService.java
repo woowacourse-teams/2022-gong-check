@@ -13,9 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class GuestAuthService {
 
     private final MemberRepository memberRepository;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JjwtTokenProvider jwtTokenProvider;
 
-    public GuestAuthService(final MemberRepository memberRepository, final JwtTokenProvider jwtTokenProvider) {
+    public GuestAuthService(final MemberRepository memberRepository, final JjwtTokenProvider jwtTokenProvider) {
         this.memberRepository = memberRepository;
         this.jwtTokenProvider = jwtTokenProvider;
     }

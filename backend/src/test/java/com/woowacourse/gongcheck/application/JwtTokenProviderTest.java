@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 class JwtTokenProviderTest {
 
     private final String key = "Z29uZy1jaGVjay1nb25nLWNoZWNrLWdvbmctY2hlY2stZ29uZy1jaGVjay1nb25nLWNoZWNrLWdvbmctY2hlY2stZ29uZy1jaGVjay1nb25nLWNoZWNrCg==";
-    private final JwtTokenProvider tokenProvider = new JwtTokenProvider(key, 360000);
+    private final JjwtTokenProvider tokenProvider = new JjwtTokenProvider(key, 360000);
 
     @Test
     void 토큰을_생성한다() {
