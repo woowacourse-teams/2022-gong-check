@@ -28,7 +28,7 @@ public class TaskService {
     public void createNewRunningTask(final Long hostId, final Long jobId) {
         Member host = memberRepository.findById(hostId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 호스트입니다."));
-        Job job = jobRepository.findById(jobId)
+        Job job = jobRepository.findBySpaceMemberAndId(host, jobId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 작업입니다."));
     }
 }
