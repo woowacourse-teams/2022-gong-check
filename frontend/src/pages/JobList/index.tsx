@@ -1,6 +1,7 @@
 /**  @jsxImportSource @emotion/react */
 import PageTitle from '../../components/_common/PageTitle';
 import styles from './styles';
+import JobCard from '../../components/JobCard';
 
 const jobs = ['청소', '마감'];
 
@@ -12,7 +13,7 @@ const JobList = () => {
       </PageTitle>
       <div css={styles.contents}>
         {jobs.map((job, index) => (
-          <div key={index}>{job}</div>
+          <JobCard jobName={job} key={index} />
         ))}
       </div>
     </div>
