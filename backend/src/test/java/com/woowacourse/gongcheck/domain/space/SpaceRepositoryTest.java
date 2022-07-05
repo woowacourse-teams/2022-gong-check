@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import com.woowacourse.gongcheck.domain.member.Member;
 import com.woowacourse.gongcheck.domain.member.MemberRepository;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -37,5 +38,28 @@ class SpaceRepositoryTest {
                 () -> assertThat(result.getSize()).isEqualTo(2),
                 () -> assertThat(result.hasNext()).isTrue()
         );
+    }
+
+    @Test
+    void 멤버와_아이디로_공간을_조회한다() {
+        Member host = memberRepository.save(Member_생성("1234"));
+        Space space = Space_생성(host, "잠실");
+        spaceRepository.save(space);
+
+        Optional<Space> result = spaceRepository.findByMemberAndId(host, space.getId());
+
+        assertThat(result).isNotEmpty();
+    }
+
+    @Test
+    void 다른_호스트의_공간을_조회할_경우_빈_값이_조회된다() {
+        Member host1 = memberRepository.save(Member_생성("1234"));
+        Member host2 = memberRepository.save(Member_생성("1234"));
+        Space space = Space_생성(host2, "잠실");
+        spaceRepository.save(space);
+
+        Optional<Space> result = spaceRepository.findByMemberAndId(host1, space.getId());
+
+        assertThat(result).isEmpty();
     }
 }
