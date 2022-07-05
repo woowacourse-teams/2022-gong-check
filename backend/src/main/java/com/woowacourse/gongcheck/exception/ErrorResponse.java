@@ -23,6 +23,10 @@ public class ErrorResponse {
                 .getDefaultMessage());
     }
 
+    public static ErrorResponse from(final String message) {
+        return new ErrorResponse(message);
+    }
+
     public String getMessage() {
         return message;
     }
