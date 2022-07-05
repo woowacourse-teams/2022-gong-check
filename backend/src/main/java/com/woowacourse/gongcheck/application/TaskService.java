@@ -40,5 +40,6 @@ public class TaskService {
         if (runningTaskRepository.existsByTaskIdIn(tasks.getTaskIds())) {
             throw new BusinessException("현재 진행중인 작업이 존재하여 새로운 작업을 생성할 수 없습니다.");
         }
+        runningTaskRepository.saveAll(tasks.createRunningTasks());
     }
 }

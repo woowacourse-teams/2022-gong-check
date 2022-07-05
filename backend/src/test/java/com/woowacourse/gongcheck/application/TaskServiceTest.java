@@ -6,6 +6,7 @@ import static com.woowacourse.gongcheck.fixture.FixtureFactory.RunningTask_생�
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Section_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Task_생성;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.gongcheck.domain.job.Job;
@@ -16,12 +17,15 @@ import com.woowacourse.gongcheck.domain.section.Section;
 import com.woowacourse.gongcheck.domain.section.SectionRepository;
 import com.woowacourse.gongcheck.domain.space.Space;
 import com.woowacourse.gongcheck.domain.space.SpaceRepository;
+import com.woowacourse.gongcheck.domain.task.RunningTask;
 import com.woowacourse.gongcheck.domain.task.RunningTaskRepository;
 import com.woowacourse.gongcheck.domain.task.Task;
 import com.woowacourse.gongcheck.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -94,5 +98,23 @@ class TaskServiceTest {
         assertThatThrownBy(() -> taskService.createNewRunningTask(host.getId(), job.getId()))
                 .isInstanceOf(BusinessException.class)
                 .hasMessage("현재 진행중인 작업이 존재하여 새로운 작업을 생성할 수 없습니다.");
+    }
+
+    @Test
+    void 정상적으로_새로운_진행_작업을_생성한다() {
+        Member host = memberRepository.save(Member_생성("1234"));
+        Space space = spaceRepository.save(Space_생성(host, "잠실"));
+        Job job = jobRepository.save(Job_생성(space, "청소"));
+        Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
+        Task task1 = Task_생성(section, "책상 청소");
+        Task task2 = Task_생성(section, "의자 넣기");
+        taskRepository.saveAll(List.of(task1, task2));
+
+        taskService.createNewRunningTask(host.getId(), job.getId());
+        List<RunningTask> result = runningTaskRepository.findAllById(Stream.of(task1, task2)
+                .map(Task::getId)
+                .collect(Collectors.toList()));
+
+        assertThat(result).hasSize(2);
     }
 }
