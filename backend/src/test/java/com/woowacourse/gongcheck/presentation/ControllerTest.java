@@ -2,6 +2,7 @@ package com.woowacourse.gongcheck.presentation;
 
 import com.woowacourse.gongcheck.application.GuestAuthService;
 import com.woowacourse.gongcheck.application.JwtTokenProvider;
+import com.woowacourse.gongcheck.application.SubmissionService;
 import com.woowacourse.gongcheck.application.TaskService;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.module.mockmvc.specification.MockMvcRequestSpecification;
@@ -13,7 +14,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 @WebMvcTest({
         GuestAuthController.class,
-        TaskController.class
+        TaskController.class,
+        SubmissionController.class
 })
 class ControllerTest {
 
@@ -24,6 +26,9 @@ class ControllerTest {
 
     @MockBean
     protected TaskService taskService;
+
+    @MockBean
+    protected SubmissionService submissionService;
 
     @MockBean
     protected AuthenticationContext authenticationContext;
