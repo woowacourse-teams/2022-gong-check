@@ -10,6 +10,7 @@ const theme = Object.freeze({
     shadow30: '#00000030',
     shadow40: '#00000040',
     shadow60: '#00000060',
+    shadow80: '#00000080',
   },
 });
 

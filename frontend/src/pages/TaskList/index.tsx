@@ -4,6 +4,8 @@ import styles from './styles';
 import TaskCard from '../../components/TaskCard';
 import { css } from '@emotion/react';
 import Button from '../../components/_common/Button';
+import InputModal from '../../components/InputModal';
+import useModal from '../../hooks/useModal';
 
 const locations = [
   {
@@ -51,6 +53,7 @@ const locations = [
 ];
 
 const TaskList = () => {
+  const { isShowModal, closeModal } = useModal();
   return (
     <div css={styles.layout}>
       <PageTitle>마감 체크리스트</PageTitle>
@@ -71,6 +74,16 @@ const TaskList = () => {
           <Button type="submit">제출</Button>
         </form>
       </div>
+      {isShowModal && (
+        <InputModal
+          title="체크리스트 제출"
+          detail="확인 버튼을 누르면 제출됩니다."
+          placeholder="이름을 입력해주세요."
+          buttonText="확인"
+          closeModal={closeModal}
+          requiredSubmit={true}
+        />
+      )}
     </div>
   );
 };
