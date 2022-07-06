@@ -17,6 +17,7 @@ import com.woowacourse.gongcheck.domain.section.SectionRepository;
 import com.woowacourse.gongcheck.domain.space.Space;
 import com.woowacourse.gongcheck.domain.space.SpaceRepository;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -45,7 +46,7 @@ class RunningTaskRepositoryTest {
     private RunningTaskRepository runningTaskRepository;
 
     @Nested
-    class 테스크에_진행중인_테스크가_있는지_확인한다 {
+    class 테스크가_존재한다 {
 
         private Host host;
         private Space space;
@@ -63,7 +64,7 @@ class RunningTaskRepositoryTest {
         }
 
         @Test
-        void 존재하는_경우() {
+        void 진행중인_테스크가_존재하는_경우_True를_반환한다() {
             runningTaskRepository.save(RunningTask_생성(task));
             boolean result = runningTaskRepository.existsByTaskIdIn(List.of(task.getId()));
 
@@ -71,10 +72,27 @@ class RunningTaskRepositoryTest {
         }
 
         @Test
-        void 존재하지_않는_경우() {
+        void 진행중인_테스크가_존재하지_않는_경우_False를_반환한다() {
             boolean result = runningTaskRepository.existsByTaskIdIn(List.of(task.getId()));
 
             assertThat(result).isFalse();
+        }
+
+        @Test
+        void 진행중인_테스크가_존재하는_경우_테스크를_조회한다() {
+            Optional<RunningTask> result = runningTaskRepository.findByTaskSectionJobSpaceHostAndTaskId(
+                    host, task.getId());
+
+            assertThat(result).isEmpty();
+        }
+
+        @Test
+        void 진행중인_테스크가_존재하지_않는_경우_테스크를_조회한다() {
+            runningTaskRepository.save(RunningTask_생성(task));
+            Optional<RunningTask> result = runningTaskRepository.findByTaskSectionJobSpaceHostAndTaskId(
+                    host, task.getId());
+
+            assertThat(result).isNotEmpty();
         }
     }
 }
