@@ -5,13 +5,13 @@ import lombok.Getter;
 @Getter
 public class JobActiveResponse {
 
-    private boolean isActive;
+    private boolean active;
 
     private JobActiveResponse() {
     }
 
-    private JobActiveResponse(final boolean isActive) {
-        this.isActive = isActive;
+    private JobActiveResponse(final boolean active) {
+        this.active = active;
     }
 
     public static JobActiveResponse from(final boolean isActive) {

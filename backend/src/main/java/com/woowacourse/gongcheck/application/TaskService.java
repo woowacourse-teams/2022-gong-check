@@ -32,33 +32,27 @@ public class TaskService {
 
     @Transactional
     public void createNewRunningTasks(final Long hostId, final Long jobId) {
-        Job job = findJobByHostIdAndId(hostId, jobId);
-        createAndSaveNewRunningTasks(job);
-    }
-
-    public JobActiveResponse isJobActivated(final Long hostId, final Long jobId) {
-        Job job = findJobByHostIdAndId(hostId, jobId);
-        Tasks tasks = new Tasks(taskRepository.findAllBySectionJob(job));
-        return JobActiveResponse.from(hasAnyRunningTask(tasks));
-    }
-
-    private Job findJobByHostIdAndId(final Long hostId, final Long jobId) {
-        Host host = hostRepository.findById(hostId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 호스트입니다."));
-        Job job = jobRepository.findBySpaceHostAndId(host, jobId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 작업입니다."));
-        return job;
-    }
-
-    private void createAndSaveNewRunningTasks(final Job job) {
-        Tasks tasks = new Tasks(taskRepository.findAllBySectionJob(job));
-        if (hasAnyRunningTask(tasks)) {
+        Tasks tasks = createTasksByHostIdAndJobId(hostId, jobId);
+        if (existsAnyRunningTaskIn(tasks)) {
             throw new BusinessException("현재 진행중인 작업이 존재하여 새로운 작업을 생성할 수 없습니다.");
         }
         runningTaskRepository.saveAll(tasks.createRunningTasks());
     }
 
-    private boolean hasAnyRunningTask(final Tasks tasks) {
+    public JobActiveResponse isJobActivated(final Long hostId, final Long jobId) {
+        Tasks tasks = createTasksByHostIdAndJobId(hostId, jobId);
+        return JobActiveResponse.from(existsAnyRunningTaskIn(tasks));
+    }
+
+    private Tasks createTasksByHostIdAndJobId(final Long hostId, final Long jobId) {
+        Host host = hostRepository.findById(hostId)
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 호스트입니다."));
+        Job job = jobRepository.findBySpaceHostAndId(host, jobId)
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 작업입니다."));
+        return new Tasks(taskRepository.findAllBySectionJob(job));
+    }
+
+    private boolean existsAnyRunningTaskIn(final Tasks tasks) {
         return runningTaskRepository.existsByTaskIdIn(tasks.getTaskIds());
     }
 }
