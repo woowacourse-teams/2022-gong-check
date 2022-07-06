@@ -117,4 +117,49 @@ class TaskServiceTest {
 
         assertThat(result).hasSize(2);
     }
+
+    @Test
+    void 진행_작업_체크_시_진행_작업이_존재하지_않을_경우_예외가_발생한다() {
+        Host host = hostRepository.save(Host_생성("1234"));
+        Space space = spaceRepository.save(Space_생성(host, "잠실"));
+        Job job = jobRepository.save(Job_생성(space, "청소"));
+        sectionRepository.save(Section_생성(job, "트랙룸"));
+
+        assertThatThrownBy(() -> taskService.changeRunningTaskCheckedStatus(host.getId(), 0L))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("진행중인 작업이 존재하지 않습니다.");
+    }
+
+    @Test
+    void 진행_작업_체크_시_Host와_일치하는_진행_작업이_없을_경우_예외가_발생한다() {
+        Host host = hostRepository.save(Host_생성("1234"));
+        Host differentHost = hostRepository.save(Host_생성("1234"));
+        Space space = spaceRepository.save(Space_생성(host, "잠실"));
+        Job job = jobRepository.save(Job_생성(space, "청소"));
+        Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
+        Task task = Task_생성(section, "책상 청소");
+        taskRepository.save(task);
+        taskService.createNewRunningTasks(host.getId(), job.getId());
+
+        assertThatThrownBy(() -> taskService.changeRunningTaskCheckedStatus(differentHost.getId(), task.getId()))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("진행중인 작업이 존재하지 않습니다.");
+    }
+
+    @Test
+    void 진행_작업의_상태를_변경한다() {
+        Host host = hostRepository.save(Host_생성("1234"));
+        Space space = spaceRepository.save(Space_생성(host, "잠실"));
+        Job job = jobRepository.save(Job_생성(space, "청소"));
+        Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
+        Task task = Task_생성(section, "책상 청소");
+        taskRepository.save(task);
+        taskService.createNewRunningTasks(host.getId(), job.getId());
+
+        taskService.changeRunningTaskCheckedStatus(host.getId(), task.getId());
+
+        RunningTask runningTask = runningTaskRepository.findByTaskSectionJobSpaceHostAndTaskId(host, task.getId())
+                .orElseThrow(() -> new NotFoundException("진행중인 작업이 존재하지 않습니다."));
+        assertThat(runningTask.isChecked()).isTrue();
+    }
 }
