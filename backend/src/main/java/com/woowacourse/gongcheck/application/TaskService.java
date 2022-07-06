@@ -5,7 +5,9 @@ import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.domain.job.Job;
 import com.woowacourse.gongcheck.domain.job.JobRepository;
+import com.woowacourse.gongcheck.domain.task.RunningTask;
 import com.woowacourse.gongcheck.domain.task.RunningTaskRepository;
+import com.woowacourse.gongcheck.domain.task.Task;
 import com.woowacourse.gongcheck.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.domain.task.Tasks;
 import com.woowacourse.gongcheck.exception.BusinessException;
@@ -42,6 +44,18 @@ public class TaskService {
     public JobActiveResponse isJobActivated(final Long hostId, final Long jobId) {
         Tasks tasks = createTasksByHostIdAndJobId(hostId, jobId);
         return JobActiveResponse.from(existsAnyRunningTaskIn(tasks));
+    }
+
+    @Transactional
+    public void flipRunningTask(final Long hostId, final Long taskId) {
+        Host host = hostRepository.findById(hostId)
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 호스트입니다."));
+        Task task = taskRepository.findBySectionJobSpaceHostAndId(host, taskId)
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 작업입니다."));
+        RunningTask runningTask = runningTaskRepository.findByTaskId(task.getId())
+                .orElseThrow(() -> new BusinessException("현재 진행 중인 작업이 아닙니다."));;
+
+        runningTask.flipCheckedStatus();
     }
 
     private Tasks createTasksByHostIdAndJobId(final Long hostId, final Long jobId) {

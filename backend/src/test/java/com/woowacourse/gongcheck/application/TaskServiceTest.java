@@ -30,6 +30,8 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -180,5 +182,75 @@ class TaskServiceTest {
 
             assertThat(result.isActive()).isFalse();
         }
+    }
+
+    @Test
+    void 진행_작업_체크_시_진행_작업이_존재하지_않을_경우_예외가_발생한다() {
+        Host host = hostRepository.save(Host_생성("1234"));
+        Space space = spaceRepository.save(Space_생성(host, "잠실"));
+        Job job = jobRepository.save(Job_생성(space, "청소"));
+        Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
+        Task task = Task_생성(section, "책상 청소");
+        taskRepository.save(task);
+
+        assertThatThrownBy(() -> taskService.flipRunningTask(host.getId(), task.getId()))
+                .isInstanceOf(BusinessException.class)
+                .hasMessage("현재 진행 중인 작업이 아닙니다.");
+    }
+
+    @Test
+    void 진행_작업_체크_시_입력한_host의_진행_작업이_아닐_경우_예외가_발생한다() {
+        Host host = hostRepository.save(Host_생성("1234"));
+        Space space = spaceRepository.save(Space_생성(host, "잠실"));
+        Job job = jobRepository.save(Job_생성(space, "청소"));
+        Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
+        Task task = Task_생성(section, "책상 청소");
+
+        Host differentHost = hostRepository.save(Host_생성("1234"));
+        Space differentSpace = spaceRepository.save(Space_생성(differentHost, "선릉"));
+        Job differentJob = jobRepository.save(Job_생성(differentSpace, "청소"));
+        Section differentSection = sectionRepository.save(Section_생성(differentJob, "트랙룸"));
+        Task differentTask = Task_생성(differentSection, "책상 청소");
+
+        taskRepository.save(task);
+        taskRepository.save(differentTask);
+        runningTaskRepository.save(RunningTask_생성(task));
+        runningTaskRepository.save(RunningTask_생성(differentTask));
+
+        assertThatThrownBy(() -> taskService.flipRunningTask(differentHost.getId(), task.getId()))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("존재하지 않는 작업입니다.");
+    }
+
+    @Test
+    void 진행_작업_체크_시_Host가_존재하지_않는_경우_예외가_발생한다() {
+        Host host = hostRepository.save(Host_생성("1234"));
+        Space space = spaceRepository.save(Space_생성(host, "잠실"));
+        Job job = jobRepository.save(Job_생성(space, "청소"));
+        Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
+        Task task = Task_생성(section, "책상 청소");
+        taskRepository.save(task);
+        runningTaskRepository.save(RunningTask_생성(task));
+
+        assertThatThrownBy(() -> taskService.flipRunningTask(0L, task.getId()))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("존재하지 않는 호스트입니다.");
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {"false:true", "true:false"}, delimiter = ':')
+    void 진행_작업의_상태를_변경한다(final boolean input, final boolean expected) {
+        Host host = hostRepository.save(Host_생성("1234"));
+        Space space = spaceRepository.save(Space_생성(host, "잠실"));
+        Job job = jobRepository.save(Job_생성(space, "청소"));
+        Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
+        Task task = Task_생성(section, "책상 청소");
+        taskRepository.save(task);
+        runningTaskRepository.save(RunningTask_생성(task.getId(), input));
+
+        taskService.flipRunningTask(host.getId(), task.getId());
+
+        RunningTask runningTask = runningTaskRepository.findByTaskId(task.getId()).get();
+        assertThat(runningTask.isChecked()).isEqualTo(expected);
     }
 }

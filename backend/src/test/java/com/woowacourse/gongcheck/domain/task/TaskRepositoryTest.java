@@ -52,4 +52,17 @@ class TaskRepositoryTest {
 
         assertThat(result).hasSize(4);
     }
+
+    @Test
+    void Host와_TaskId를_입력_받아_Task를_조회한다() {
+        Host host = hostRepository.save(Host_생성("1234"));
+        Space space = spaceRepository.save(Space_생성(host, "잠실"));
+        Job job = jobRepository.save(Job_생성(space, "청소"));
+        Section section1 = sectionRepository.save(Section_생성(job, "트랙룸"));
+        Task task = taskRepository.save(Task_생성(section1, "책상 청소"));
+
+        Task result = taskRepository.findBySectionJobSpaceHostAndId(host, task.getId()).get();
+
+        assertThat(result).isEqualTo(task);
+    }
 }

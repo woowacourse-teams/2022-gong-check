@@ -55,4 +55,12 @@ public class FixtureFactory {
                 .createdAt(LocalDateTime.now())
                 .build();
     }
+
+    public static RunningTask RunningTask_생성(final Long taskId, final boolean isChecked) {
+        return RunningTask.builder()
+                .taskId(taskId)
+                .isChecked(isChecked)
+                .createdAt(LocalDateTime.now())
+                .build();
+    }
 }

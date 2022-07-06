@@ -37,4 +37,17 @@ class TaskDocumentation extends DocumentationTest {
                 .apply(document("tasks/active"))
                 .statusCode(HttpStatus.OK.value());
     }
+
+    @Test
+    void 진행중인_단일_작업_체크() {
+        doNothing().when(taskService).flipRunningTask(anyLong(), any());
+        when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
+        docsGiven
+                .header("Authorization", "Bearer jwt.token.here")
+                .when().post("/api/tasks/1/flip")
+                .then().log().all()
+                .apply(document("tasks/check"))
+                .statusCode(HttpStatus.OK.value());
+    }
 }
