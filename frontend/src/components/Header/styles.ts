@@ -13,7 +13,6 @@ const header = css`
 `;
 
 const arrowBackIcon = css`
-  color: ${theme.colors.skyblue};
   cursor: pointer;
 `;
 
