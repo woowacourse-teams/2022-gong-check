@@ -1,6 +1,5 @@
 /**  @jsxImportSource @emotion/react */
 import { useRoutes } from 'react-router-dom';
-import Header from './components/Header';
 import routes from './Routes';
 import { css } from '@emotion/react';
 
@@ -17,7 +16,6 @@ const App = () => {
         border: 1px solid black;
       `}
     >
-      <Header />
       {content}
     </div>
   );

@@ -1,27 +1,27 @@
 /**  @jsxImportSource @emotion/react */
 import { useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
-import { useLocation, useNavigate } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 import styles from './styles';
+
+const hostId = 1;
 
 const Header = () => {
   const [isVisibaleButton, setIsVisibaleButton] = useState(true);
-
   const navigate = useNavigate();
 
-  const handlePreviousButtonClick = () => {
+  const handleClickPreviousButton = () => {
     navigate(-1);
+  };
 
-    // TO DO:
-    // 현재 path 네임 알아오고
-    // path 네임별로 뒤로갈 위치 정해주기
+  const handleClickLogo = () => {
+    navigate(`${hostId}/spaces`);
   };
 
   return (
     <div css={styles.header}>
-      {isVisibaleButton && <IoIosArrowBack css={styles.arrowBackIcon} onClick={handlePreviousButtonClick} size={30} />}
-      <h1>GongCheck</h1>
+      {isVisibaleButton && <IoIosArrowBack css={styles.arrowBackIcon} onClick={handleClickPreviousButton} size={30} />}
+      <h1 onClick={handleClickLogo}>GongCheck</h1>
       <div></div>
     </div>
   );
