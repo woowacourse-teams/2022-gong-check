@@ -14,7 +14,7 @@ public class JobActiveResponse {
         this.active = active;
     }
 
-    public static JobActiveResponse from(final boolean isActive) {
-        return new JobActiveResponse(isActive);
+    public static JobActiveResponse from(final boolean active) {
+        return new JobActiveResponse(active);
     }
 }

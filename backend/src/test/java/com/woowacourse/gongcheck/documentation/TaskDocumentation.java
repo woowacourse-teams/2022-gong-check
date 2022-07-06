@@ -34,7 +34,7 @@ class TaskDocumentation extends DocumentationTest {
                 .header("Authorization", "Bearer jwt.token.here")
                 .when().get("/api/jobs/1/active")
                 .then().log().all()
-                .apply(document("tasks/isActive"))
+                .apply(document("tasks/active"))
                 .statusCode(HttpStatus.OK.value());
     }
 }
