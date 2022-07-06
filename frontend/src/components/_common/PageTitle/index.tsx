@@ -9,6 +9,7 @@ const PageTitle = ({ children }: PageTitleProps) => {
   return (
     <p
       css={css`
+        margin: 24px 0;
         font-size: 20px;
         font-weight: 600;
       `}

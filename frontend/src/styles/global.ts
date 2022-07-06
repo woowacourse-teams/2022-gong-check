@@ -7,7 +7,6 @@ const globalStyle = css`
 
   body {
     margin: 0;
-
     display: flex;
     justify-content: center;
     width: 100vw;
@@ -24,7 +23,7 @@ const globalStyle = css`
     display: flex;
     flex-direction: column;
     width: 400px;
-    height: 100vh;
+    min-height: 100vh;
     background-color: white;
     position: absolute;
   }

@@ -21,7 +21,7 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "allowUnreachableCode": false,
-    "skipLibCheck": true
-  },
-  "include": ["src"]
+    "skipLibCheck": true,
+    "typeRoots": ["src"]
+  }
 }
