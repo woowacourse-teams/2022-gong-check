@@ -1,8 +1,8 @@
 package com.woowacourse.gongcheck.application;
 
 import com.woowacourse.gongcheck.application.response.GuestTokenResponse;
-import com.woowacourse.gongcheck.domain.member.Member;
-import com.woowacourse.gongcheck.domain.member.MemberRepository;
+import com.woowacourse.gongcheck.domain.host.Host;
+import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import com.woowacourse.gongcheck.presentation.request.GuestEnterRequest;
 import org.springframework.stereotype.Service;
@@ -12,16 +12,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class GuestAuthService {
 
-    private final MemberRepository memberRepository;
+    private final HostRepository hostRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public GuestAuthService(final MemberRepository memberRepository, final JwtTokenProvider jwtTokenProvider) {
-        this.memberRepository = memberRepository;
+    public GuestAuthService(final HostRepository hostRepository, final JwtTokenProvider jwtTokenProvider) {
+        this.hostRepository = hostRepository;
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
     public GuestTokenResponse createToken(final long hostId, final GuestEnterRequest request) {
-        Member host = memberRepository.findById(hostId)
+        Host host = hostRepository.findById(hostId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 호스트입니다."));
         host.checkPassword(request.getPassword());
 

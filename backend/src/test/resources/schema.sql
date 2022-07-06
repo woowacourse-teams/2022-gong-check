@@ -1,4 +1,4 @@
-DROP TABLE member IF EXISTS;
+DROP TABLE host IF EXISTS;
 DROP TABLE space IF EXISTS;
 DROP TABLE job IF EXISTS;
 DROP TABLE running_task IF EXISTS;
@@ -6,7 +6,7 @@ DROP TABLE task IF EXISTS;
 DROP TABLE section IF EXISTS;
 DROP TABLE submission IF EXISTS;
 
-CREATE TABLE member
+CREATE TABLE host
 (
     id             BIGINT     NOT NULL AUTO_INCREMENT,
     space_password VARCHAR(4) NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE member
 CREATE TABLE space
 (
     id         BIGINT      NOT NULL AUTO_INCREMENT,
-    member_id  BIGINT      NOT NULL,
+    host_id  BIGINT      NOT NULL,
     name       VARCHAR(20) NOT NULL,
     img_url    VARCHAR     NULL,
     created_at TIMESTAMP   NOT NULL,
