@@ -34,7 +34,7 @@ class TaskControllerTest extends ControllerTest {
     @Test
     void 진행중인_작업이_없는_경우_예외가_발생한다() {
         doThrow(new BusinessException("현재 진행 중인 작업이 아닙니다.")).when(taskService)
-                .flipRunningTaskCheckedStatus(anyLong(), anyLong());
+                .flipRunningTask(anyLong(), anyLong());
         when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
         ExtractableResponse<MockMvcResponse> response = given
@@ -50,7 +50,7 @@ class TaskControllerTest extends ControllerTest {
     @Test
     void 진행중인_작업과_hostId가_일치하지_않는_경우_예외가_발생한다() {
         doThrow(new NotFoundException("진행중인 작업이 존재하지 않습니다.")).when(taskService)
-                .flipRunningTaskCheckedStatus(anyLong(), anyLong());
+                .flipRunningTask(anyLong(), anyLong());
         when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
         ExtractableResponse<MockMvcResponse> response = given
@@ -66,7 +66,7 @@ class TaskControllerTest extends ControllerTest {
     @Test
     void 호스트가_존재하지_않는데_체크박스_상태변경_할_경우_예외가_발생한다() {
         doThrow(new NotFoundException("진행중인 작업이 존재하지 않습니다.")).when(taskService)
-                .flipRunningTaskCheckedStatus(anyLong(), anyLong());
+                .flipRunningTask(anyLong(), anyLong());
         when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
         ExtractableResponse<MockMvcResponse> response = given

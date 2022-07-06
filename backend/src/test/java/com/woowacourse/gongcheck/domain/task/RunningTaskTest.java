@@ -14,7 +14,7 @@ class RunningTaskTest {
                 .isChecked(isChecked)
                 .build();
 
-        runningTask.changeCheckedStatus();
+        runningTask.flipCheckedStatus();
 
         assertThat(runningTask.isChecked()).isEqualTo(expected);
     }

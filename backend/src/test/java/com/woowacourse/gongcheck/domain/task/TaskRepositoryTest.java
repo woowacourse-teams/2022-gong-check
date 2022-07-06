@@ -54,7 +54,7 @@ class TaskRepositoryTest {
     }
 
     @Test
-    void Host와_TaskID를_입력_받아_Task를_조회한다() {
+    void Host와_TaskId를_입력_받아_Task를_조회한다() {
         Host host = hostRepository.save(Host_생성("1234"));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
         Job job = jobRepository.save(Job_생성(space, "청소"));

@@ -40,7 +40,7 @@ class TaskDocumentation extends DocumentationTest {
 
     @Test
     void 진행중인_단일_작업_체크() {
-        doNothing().when(taskService).flipRunningTaskCheckedStatus(anyLong(), any());
+        doNothing().when(taskService).flipRunningTask(anyLong(), any());
         when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
         docsGiven

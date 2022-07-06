@@ -45,7 +45,7 @@ public class RunningTask {
         this.createdAt = createdAt;
     }
 
-    public void changeCheckedStatus() {
+    public void flipCheckedStatus() {
         isChecked = !isChecked;
     }
 

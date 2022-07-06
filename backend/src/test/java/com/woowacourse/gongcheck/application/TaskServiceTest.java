@@ -193,7 +193,7 @@ class TaskServiceTest {
         Task task = Task_생성(section, "책상 청소");
         taskRepository.save(task);
 
-        assertThatThrownBy(() -> taskService.flipRunningTaskCheckedStatus(host.getId(), task.getId()))
+        assertThatThrownBy(() -> taskService.flipRunningTask(host.getId(), task.getId()))
                 .isInstanceOf(BusinessException.class)
                 .hasMessage("현재 진행 중인 작업이 아닙니다.");
     }
@@ -217,7 +217,7 @@ class TaskServiceTest {
         runningTaskRepository.save(RunningTask_생성(task));
         runningTaskRepository.save(RunningTask_생성(differentTask));
 
-        assertThatThrownBy(() -> taskService.flipRunningTaskCheckedStatus(differentHost.getId(), task.getId()))
+        assertThatThrownBy(() -> taskService.flipRunningTask(differentHost.getId(), task.getId()))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("존재하지 않는 작업입니다.");
     }
@@ -232,7 +232,7 @@ class TaskServiceTest {
         taskRepository.save(task);
         runningTaskRepository.save(RunningTask_생성(task));
 
-        assertThatThrownBy(() -> taskService.flipRunningTaskCheckedStatus(0L, task.getId()))
+        assertThatThrownBy(() -> taskService.flipRunningTask(0L, task.getId()))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("존재하지 않는 호스트입니다.");
     }
@@ -248,7 +248,7 @@ class TaskServiceTest {
         taskRepository.save(task);
         runningTaskRepository.save(RunningTask_생성(task.getId(), input));
 
-        taskService.flipRunningTaskCheckedStatus(host.getId(), task.getId());
+        taskService.flipRunningTask(host.getId(), task.getId());
 
         RunningTask runningTask = runningTaskRepository.findByTaskId(task.getId()).get();
         assertThat(runningTask.isChecked()).isEqualTo(expected);

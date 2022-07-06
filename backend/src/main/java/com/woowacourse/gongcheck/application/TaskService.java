@@ -46,6 +46,18 @@ public class TaskService {
         return JobActiveResponse.from(existsAnyRunningTaskIn(tasks));
     }
 
+    @Transactional
+    public void flipRunningTask(final Long hostId, final Long taskId) {
+        Host host = hostRepository.findById(hostId)
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 호스트입니다."));
+        Task task = taskRepository.findBySectionJobSpaceHostAndId(host, taskId)
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 작업입니다."));
+        RunningTask runningTask = runningTaskRepository.findByTaskId(task.getId())
+                .orElseThrow(() -> new BusinessException("현재 진행 중인 작업이 아닙니다."));;
+
+        runningTask.flipCheckedStatus();
+    }
+
     private Tasks createTasksByHostIdAndJobId(final Long hostId, final Long jobId) {
         Host host = hostRepository.findById(hostId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 호스트입니다."));
@@ -54,29 +66,7 @@ public class TaskService {
         return new Tasks(taskRepository.findAllBySectionJob(job));
     }
 
-
-
     private boolean existsAnyRunningTaskIn(final Tasks tasks) {
         return runningTaskRepository.existsByTaskIdIn(tasks.getTaskIds());
-    }
-
-    @Transactional
-    public void flipRunningTaskCheckedStatus(final Long hostId, final Long taskId) {
-        Host host = hostRepository.findById(hostId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 호스트입니다."));
-        Task task = taskRepository.findBySectionJobSpaceHostAndId(host, taskId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 작업입니다."));
-        RunningTask runningTask = runningTaskRepository.findByTaskId(task.getId())
-                .orElseThrow(() -> new BusinessException("현재 진행 중인 작업이 아닙니다."));;
-
-        runningTask.changeCheckedStatus();
-    }
-
-    private void createAndSaveNewRunningTasks(final Job job) {
-        Tasks tasks = new Tasks(taskRepository.findAllBySectionJob(job));
-        if (runningTaskRepository.existsByTaskIdIn(tasks.getTaskIds())) {
-            throw new BusinessException("현재 진행중인 작업이 존재하여 새로운 작업을 생성할 수 없습니다.");
-        }
-        runningTaskRepository.saveAll(tasks.createRunningTasks());
     }
 }

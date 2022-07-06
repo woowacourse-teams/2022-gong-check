@@ -91,7 +91,6 @@ class TaskAcceptanceTest extends AcceptanceTest {
     void 진행중인_작업의_체크_상태를_변환한다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
-
         RestAssured
                 .given().log().all()
                 .auth().oauth2(token)

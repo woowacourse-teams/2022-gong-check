@@ -35,9 +35,9 @@ public class TaskController {
     }
 
     @PostMapping("/tasks/{taskId}/flip")
-    public ResponseEntity<Void> changeRunningTaskCheckedStatus(@AuthenticationPrincipal final Long hostId,
-                                                               @PathVariable final Long taskId) {
-        taskService.flipRunningTaskCheckedStatus(hostId, taskId);
+    public ResponseEntity<Void> flipRunningTask(@AuthenticationPrincipal final Long hostId,
+                                                @PathVariable final Long taskId) {
+        taskService.flipRunningTask(hostId, taskId);
         return ResponseEntity.ok().build();
     }
 }
