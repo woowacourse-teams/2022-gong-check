@@ -6,6 +6,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 
+import com.woowacourse.gongcheck.application.response.JobActiveResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 

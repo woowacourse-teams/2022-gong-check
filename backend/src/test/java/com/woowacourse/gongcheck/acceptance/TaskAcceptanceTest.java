@@ -51,43 +51,6 @@ class TaskAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void 진행중인_작업의_체크_상태를_변환한다() {
-        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
-        String token = 토큰을_요청한다(guestEnterRequest);
-
-        RestAssured
-                .given().log().all()
-                .auth().oauth2(token)
-                .when().post("/api/jobs/1/tasks/new")
-                .then().log().all()
-                .extract();
-
-        ExtractableResponse<Response> response = RestAssured
-                .given().log().all()
-                .auth().oauth2(token)
-                .when().post("/api/tasks/1/flip")
-                .then().log().all()
-                .extract();
-
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-    }
-
-    @Test
-    void 진행중이지_않은_작업을_체크시도할_경우_예외가_발생한다() {
-        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
-        String token = 토큰을_요청한다(guestEnterRequest);
-
-        ExtractableResponse<Response> response = RestAssured
-                .given().log().all()
-                .auth().oauth2(token)
-                .when().post("/api/tasks/1/flip")
-                .then().log().all()
-                .extract();
-
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-    }
-
-    @Test
     void 진행_작업을_생성하고_작업의_진행여부를_확인한다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
@@ -122,6 +85,43 @@ class TaskAcceptanceTest extends AcceptanceTest {
                 .extract();
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 진행중인_작업의_체크_상태를_변환한다() {
+        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
+        String token = 토큰을_요청한다(guestEnterRequest);
+
+        RestAssured
+                .given().log().all()
+                .auth().oauth2(token)
+                .when().post("/api/jobs/1/tasks/new")
+                .then().log().all()
+                .extract();
+
+        ExtractableResponse<Response> response = RestAssured
+                .given().log().all()
+                .auth().oauth2(token)
+                .when().post("/api/tasks/1/flip")
+                .then().log().all()
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 진행중이지_않은_작업을_체크시도할_경우_예외가_발생한다() {
+        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
+        String token = 토큰을_요청한다(guestEnterRequest);
+
+        ExtractableResponse<Response> response = RestAssured
+                .given().log().all()
+                .auth().oauth2(token)
+                .when().post("/api/tasks/1/flip")
+                .then().log().all()
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
 
     private String 토큰을_요청한다(final GuestEnterRequest guestEnterRequest) {

@@ -1,6 +1,7 @@
 package com.woowacourse.gongcheck.presentation;
 
 import com.woowacourse.gongcheck.application.TaskService;
+import com.woowacourse.gongcheck.application.response.JobActiveResponse;
 import java.net.URI;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
