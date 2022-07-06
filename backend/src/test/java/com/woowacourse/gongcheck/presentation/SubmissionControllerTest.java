@@ -13,6 +13,7 @@ import com.woowacourse.gongcheck.presentation.request.SubmissionRequest;
 import io.restassured.module.mockmvc.response.MockMvcResponse;
 import io.restassured.response.ExtractableResponse;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
@@ -24,7 +25,7 @@ class SubmissionControllerTest extends ControllerTest {
 
         SubmissionRequest submissionRequest = new SubmissionRequest("123456789123456789123");
         ExtractableResponse<MockMvcResponse> response = given
-                .header("Authorization", "Bearer jwt.token.here")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer jwt.token.here")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(submissionRequest)
                 .when().post("/api/jobs/1/complete")
@@ -44,7 +45,7 @@ class SubmissionControllerTest extends ControllerTest {
 
         SubmissionRequest submissionRequest = new SubmissionRequest(null);
         ExtractableResponse<MockMvcResponse> response = given
-                .header("Authorization", "Bearer jwt.token.here")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer jwt.token.here")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(submissionRequest)
                 .when().post("/api/jobs/1/complete")
@@ -67,7 +68,7 @@ class SubmissionControllerTest extends ControllerTest {
 
         SubmissionRequest submissionRequest = new SubmissionRequest("제출자");
         ExtractableResponse<MockMvcResponse> response = given
-                .header("Authorization", "Bearer jwt.token.here")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer jwt.token.here")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(submissionRequest)
                 .when().post("/api/jobs/1/complete")
@@ -90,7 +91,7 @@ class SubmissionControllerTest extends ControllerTest {
 
         SubmissionRequest submissionRequest = new SubmissionRequest("제출자");
         ExtractableResponse<MockMvcResponse> response = given
-                .header("Authorization", "Bearer jwt.token.here")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer jwt.token.here")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(submissionRequest)
                 .when().post("/api/jobs/1/complete")
