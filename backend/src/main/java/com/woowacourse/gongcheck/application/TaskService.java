@@ -48,6 +48,7 @@ public class TaskService {
         runningTaskRepository.saveAll(tasks.createRunningTasks());
     }
 
+    @Transactional
     public void changeRunningTaskCheckedStatus(final Long hostId, final Long taskId) {
         Host host = hostRepository.findById(hostId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 호스트입니다."));
