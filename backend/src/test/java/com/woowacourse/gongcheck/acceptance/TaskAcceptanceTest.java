@@ -50,6 +50,28 @@ class TaskAcceptanceTest extends AcceptanceTest {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
 
+    @Test
+    void 작업의_진행여부를_확인한다() {
+        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
+        String token = 토큰을_요청한다(guestEnterRequest);
+
+        RestAssured
+                .given().log().all()
+                .auth().oauth2(token)
+                .when().post("/api/jobs/1/tasks/new")
+                .then().log().all()
+                .extract();
+
+        ExtractableResponse<Response> response = RestAssured
+                .given().log().all()
+                .auth().oauth2(token)
+                .when().get("/api/jobs/1/active")
+                .then().log().all()
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
     private String 토큰을_요청한다(final GuestEnterRequest guestEnterRequest) {
         return RestAssured
                 .given().log().all()
