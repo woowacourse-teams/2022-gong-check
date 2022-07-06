@@ -40,14 +40,6 @@ public class TaskService {
         createAndSaveNewRunningTasks(job);
     }
 
-    private void createAndSaveNewRunningTasks(final Job job) {
-        Tasks tasks = new Tasks(taskRepository.findAllBySectionJob(job));
-        if (runningTaskRepository.existsByTaskIdIn(tasks.getTaskIds())) {
-            throw new BusinessException("현재 진행중인 작업이 존재하여 새로운 작업을 생성할 수 없습니다.");
-        }
-        runningTaskRepository.saveAll(tasks.createRunningTasks());
-    }
-
     @Transactional
     public void changeRunningTaskCheckedStatus(final Long hostId, final Long taskId) {
         Host host = hostRepository.findById(hostId)
@@ -56,5 +48,13 @@ public class TaskService {
                 .orElseThrow(() -> new NotFoundException("진행중인 작업이 존재하지 않습니다."));
 
         runningTask.changeCheckedStatus();
+    }
+
+    private void createAndSaveNewRunningTasks(final Job job) {
+        Tasks tasks = new Tasks(taskRepository.findAllBySectionJob(job));
+        if (runningTaskRepository.existsByTaskIdIn(tasks.getTaskIds())) {
+            throw new BusinessException("현재 진행중인 작업이 존재하여 새로운 작업을 생성할 수 없습니다.");
+        }
+        runningTaskRepository.saveAll(tasks.createRunningTasks());
     }
 }
