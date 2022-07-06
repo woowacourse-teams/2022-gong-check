@@ -7,5 +7,17 @@
   "trailingComma": "es5",
   "useTabs": false,
   "arrowParens": "avoid",
-  "bracketSpacing": true
+  "bracketSpacing": true,
+  "importOrderSeparation": true,
+  "importOrder": [
+    "^(@/pages)(.*|$)",
+    "^(@/components/_common)(.*|$)",
+    "^(@/components)(.*|$)",
+    "^(@/hooks)(.*|$)",
+    "^(@/constants/)(.*|$)",
+    "^(@/assets/)(.*|$)",
+    "@/ModalPortal",
+    "^(@/styles)(.*|$)",
+    "^(./styles)(.*|$)"
+  ]
 }

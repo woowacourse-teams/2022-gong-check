@@ -1,11 +1,15 @@
 /**  @jsxImportSource @emotion/react */
-import PageTitle from '../../components/_common/PageTitle';
-import styles from './styles';
-import TaskCard from '../../components/TaskCard';
 import { css } from '@emotion/react';
-import Button from '../../components/_common/Button';
-import InputModal from '../../components/InputModal';
-import useModal from '../../hooks/useModal';
+
+import Button from '@/components/_common/Button';
+import PageTitle from '@/components/_common/PageTitle';
+
+import InputModal from '@/components/InputModal';
+import TaskCard from '@/components/TaskCard';
+
+import useModal from '@/hooks/useModal';
+
+import styles from './styles';
 
 const locations = [
   {

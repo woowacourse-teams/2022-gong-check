@@ -1,9 +1,11 @@
 /**  @jsxImportSource @emotion/react */
+import PageTitle from '@/components/_common/PageTitle';
 
-import InputModal from '../../components/InputModal';
-import SpaceCard from '../../components/SpaceCard';
-import PageTitle from '../../components/_common/PageTitle';
-import useModal from '../../hooks/useModal';
+import InputModal from '@/components/InputModal';
+import SpaceCard from '@/components/SpaceCard';
+
+import useModal from '@/hooks/useModal';
+
 import styles from './styles';
 
 const spaces = [

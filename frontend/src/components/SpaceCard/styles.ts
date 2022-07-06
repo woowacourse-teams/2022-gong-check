@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
-import theme from '../../styles/theme';
+
+import theme from '@/styles/theme';
 
 const spaceCard = ({ imageURL }: { imageURL: string }) => css`
   display: flex;

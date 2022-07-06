@@ -1,5 +1,6 @@
 /**  @jsxImportSource @emotion/react */
-import CheckBox from '../_common/Checkbox';
+import CheckBox from '@/components/_common/Checkbox';
+
 import styles from './styles';
 
 type TaskType = {
