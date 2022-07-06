@@ -33,14 +33,30 @@ class TaskControllerTest extends ControllerTest {
 
     @Test
     void 진행중인_작업이_없는_경우_예외가_발생한다() {
-        doThrow(new NotFoundException("진행중인 작업이 존재하지 않습니다.")).when(taskService)
-                .changeRunningTaskCheckedStatus(anyLong(), anyLong());
+        doThrow(new BusinessException("현재 진행 중인 작업이 아닙니다.")).when(taskService)
+                .flipRunningTaskCheckedStatus(anyLong(), anyLong());
         when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
         ExtractableResponse<MockMvcResponse> response = given
                 .header("Authorization", "Bearer jwt.token.here")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .when().post("/api/tasks/1")
+                .when().post("/api/tasks/1/flip")
+                .then().log().all()
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    void 진행중인_작업과_hostId가_일치하지_않는_경우_예외가_발생한다() {
+        doThrow(new NotFoundException("진행중인 작업이 존재하지 않습니다.")).when(taskService)
+                .flipRunningTaskCheckedStatus(anyLong(), anyLong());
+        when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
+        ExtractableResponse<MockMvcResponse> response = given
+                .header("Authorization", "Bearer jwt.token.here")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().post("/api/tasks/1/flip")
                 .then().log().all()
                 .extract();
 
@@ -48,15 +64,15 @@ class TaskControllerTest extends ControllerTest {
     }
 
     @Test
-    void 진행중인_작업과_hostId가_일치하지_않는_경우_예외가_발생한다() {
+    void 호스트가_존재하지_않는데_체크박스_상태변경_할_경우_예외가_발생한다() {
         doThrow(new NotFoundException("진행중인 작업이 존재하지 않습니다.")).when(taskService)
-                .changeRunningTaskCheckedStatus(anyLong(), anyLong());
+                .flipRunningTaskCheckedStatus(anyLong(), anyLong());
         when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
         ExtractableResponse<MockMvcResponse> response = given
                 .header("Authorization", "Bearer jwt.token.here")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .when().post("/api/tasks/1")
+                .when().post("/api/tasks/1/flip")
                 .then().log().all()
                 .extract();
 

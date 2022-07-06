@@ -25,10 +25,10 @@ public class TaskController {
         return ResponseEntity.created(URI.create("/api/jobs/" + jobId + "/tasks")).build();
     }
 
-    @PostMapping("/tasks/{taskId}")
+    @PostMapping("/tasks/{taskId}/flip")
     public ResponseEntity<Void> changeRunningTaskCheckedStatus(@AuthenticationPrincipal final Long hostId,
                                                                @PathVariable final Long taskId) {
-        taskService.changeRunningTaskCheckedStatus(hostId, taskId);
+        taskService.flipRunningTaskCheckedStatus(hostId, taskId);
         return ResponseEntity.ok().build();
     }
 }
