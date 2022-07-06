@@ -4,7 +4,6 @@ import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.domain.job.Job;
 import com.woowacourse.gongcheck.domain.job.JobRepository;
-import com.woowacourse.gongcheck.domain.submission.Submission;
 import com.woowacourse.gongcheck.domain.submission.SubmissionRepository;
 import com.woowacourse.gongcheck.domain.task.RunningTaskRepository;
 import com.woowacourse.gongcheck.domain.task.RunningTasks;
@@ -13,7 +12,6 @@ import com.woowacourse.gongcheck.domain.task.Tasks;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import com.woowacourse.gongcheck.presentation.request.SubmissionRequest;
-import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,11 +50,7 @@ public class SubmissionService {
         RunningTasks runningTasks = new RunningTasks(runningTaskRepository.findAllById(tasks.getTaskIds()));
         validateRunning(tasks);
         validateCompletion(runningTasks);
-        submissionRepository.save(Submission.builder()
-                .job(job)
-                .author(request.getAuthor())
-                .createdAt(LocalDateTime.now())
-                .build());
+        submissionRepository.save(job.createSubmission(request.getAuthor()));
         runningTaskRepository.deleteAllByIdInBatch(tasks.getTaskIds());
     }
 
