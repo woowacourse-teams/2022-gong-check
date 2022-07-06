@@ -1,6 +1,7 @@
 package com.woowacourse.gongcheck.application;
 
 import com.woowacourse.gongcheck.application.response.JobActiveResponse;
+import com.woowacourse.gongcheck.application.response.RunningTasksResponse;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.domain.job.Job;
@@ -46,6 +47,11 @@ public class TaskService {
         return JobActiveResponse.from(existsAnyRunningTaskIn(tasks));
     }
 
+    public RunningTasksResponse findRunningTasks(final Long hostId, final Long jobId) {
+        Tasks tasks = createTasksByHostIdAndJobId(hostId, jobId);
+        return findExistingRunningTasks(tasks);
+    }
+
     @Transactional
     public void flipRunningTask(final Long hostId, final Long taskId) {
         Host host = hostRepository.findById(hostId)
@@ -53,7 +59,7 @@ public class TaskService {
         Task task = taskRepository.findBySectionJobSpaceHostAndId(host, taskId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 작업입니다."));
         RunningTask runningTask = runningTaskRepository.findByTaskId(task.getId())
-                .orElseThrow(() -> new BusinessException("현재 진행 중인 작업이 아닙니다."));;
+                .orElseThrow(() -> new BusinessException("현재 진행 중인 작업이 아닙니다."));
 
         runningTask.flipCheckedStatus();
     }
@@ -64,6 +70,13 @@ public class TaskService {
         Job job = jobRepository.findBySpaceHostAndId(host, jobId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 작업입니다."));
         return new Tasks(taskRepository.findAllBySectionJob(job));
+    }
+
+    private RunningTasksResponse findExistingRunningTasks(final Tasks tasks) {
+        if (!existsAnyRunningTaskIn(tasks)) {
+            throw new BusinessException("현재 진행중인 작업이 존재하지 않아 조회할 수 없습니다");
+        }
+        return RunningTasksResponse.from(tasks);
     }
 
     private boolean existsAnyRunningTaskIn(final Tasks tasks) {

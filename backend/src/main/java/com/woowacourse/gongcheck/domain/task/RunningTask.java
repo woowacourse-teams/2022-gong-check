@@ -39,8 +39,9 @@ public class RunningTask {
     }
 
     @Builder
-    public RunningTask(Long taskId, boolean isChecked, LocalDateTime createdAt) {
+    public RunningTask(Long taskId, Task task, boolean isChecked, LocalDateTime createdAt) {
         this.taskId = taskId;
+        this.task = task;
         this.isChecked = isChecked;
         this.createdAt = createdAt;
     }
