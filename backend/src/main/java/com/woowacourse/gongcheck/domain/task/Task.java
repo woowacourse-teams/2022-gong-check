@@ -51,6 +51,14 @@ public class Task {
         this.updatedAt = updatedAt;
     }
 
+    public RunningTask createRunningTask() {
+        return RunningTask.builder()
+                .taskId(id)
+                .isChecked(false)
+                .createdAt(LocalDateTime.now())
+                .build();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

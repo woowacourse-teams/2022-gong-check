@@ -4,11 +4,8 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,12 +17,8 @@ import org.hibernate.annotations.ColumnDefault;
 public class RunningTask {
 
     @Id
+    @JoinColumn(name = "task_id")
     private Long taskId;
-
-    @MapsId("taskId")
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "task_id", nullable = false)
-    private Task task;
 
     @Column(name = "is_checked", nullable = false)
     @ColumnDefault("false")
@@ -38,9 +31,8 @@ public class RunningTask {
     }
 
     @Builder
-    public RunningTask(Long taskId, Task task, boolean isChecked, LocalDateTime createdAt) {
+    public RunningTask(Long taskId, boolean isChecked, LocalDateTime createdAt) {
         this.taskId = taskId;
-        this.task = task;
         this.isChecked = isChecked;
         this.createdAt = createdAt;
     }

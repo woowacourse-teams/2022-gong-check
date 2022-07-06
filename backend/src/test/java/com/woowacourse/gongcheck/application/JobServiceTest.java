@@ -1,17 +1,17 @@
 package com.woowacourse.gongcheck.application;
 
+import static com.woowacourse.gongcheck.fixture.FixtureFactory.Host_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Job_생성;
-import static com.woowacourse.gongcheck.fixture.FixtureFactory.Member_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.gongcheck.application.response.JobsResponse;
+import com.woowacourse.gongcheck.domain.host.Host;
+import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.domain.job.Job;
 import com.woowacourse.gongcheck.domain.job.JobRepository;
-import com.woowacourse.gongcheck.domain.member.Member;
-import com.woowacourse.gongcheck.domain.member.MemberRepository;
 import com.woowacourse.gongcheck.domain.space.Space;
 import com.woowacourse.gongcheck.domain.space.SpaceRepository;
 import com.woowacourse.gongcheck.exception.NotFoundException;
@@ -30,7 +30,7 @@ class JobServiceTest {
     private JobService jobService;
 
     @Autowired
-    private MemberRepository memberRepository;
+    private HostRepository hostRepository;
 
     @Autowired
     private SpaceRepository spaceRepository;
@@ -40,7 +40,7 @@ class JobServiceTest {
 
     @Test
     void 작업_목록을_조회한다() {
-        Member host = memberRepository.save(Member_생성("1234"));
+        Host host = hostRepository.save(Host_생성("1234"));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
         Job job1 = Job_생성(space, "오픈");
         Job job2 = Job_생성(space, "청소");
@@ -64,7 +64,7 @@ class JobServiceTest {
 
     @Test
     void 존재하지_않는_공간의_작업_목록을_조회할_경우_예외를_던진다() {
-        Member host = memberRepository.save(Member_생성("1234"));
+        Host host = hostRepository.save(Host_생성("1234"));
 
         assertThatThrownBy(() -> jobService.findPage(host.getId(), 0L, PageRequest.of(0, 1)))
                 .isInstanceOf(NotFoundException.class)
@@ -73,8 +73,8 @@ class JobServiceTest {
 
     @Test
     void 다른_호스트의_공간의_작업_목록을_조회할_경우_예외를_던진다() {
-        Member host1 = memberRepository.save(Member_생성("1234"));
-        Member host2 = memberRepository.save(Member_생성("1234"));
+        Host host1 = hostRepository.save(Host_생성("1234"));
+        Host host2 = hostRepository.save(Host_생성("1234"));
         Space space = spaceRepository.save(Space_생성(host2, "잠실"));
 
         assertThatThrownBy(() -> jobService.findPage(host1.getId(), space.getId(), PageRequest.of(0, 1)))

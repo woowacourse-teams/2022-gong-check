@@ -1,14 +1,14 @@
 package com.woowacourse.gongcheck.application;
 
-import static com.woowacourse.gongcheck.fixture.FixtureFactory.Member_생성;
+import static com.woowacourse.gongcheck.fixture.FixtureFactory.Host_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.gongcheck.application.response.SpacesResponse;
-import com.woowacourse.gongcheck.domain.member.Member;
-import com.woowacourse.gongcheck.domain.member.MemberRepository;
+import com.woowacourse.gongcheck.domain.host.Host;
+import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.domain.space.Space;
 import com.woowacourse.gongcheck.domain.space.SpaceRepository;
 import com.woowacourse.gongcheck.exception.NotFoundException;
@@ -27,17 +27,17 @@ class SpaceServiceTest {
     private SpaceService spaceService;
 
     @Autowired
-    private MemberRepository memberRepository;
+    private HostRepository hostRepository;
 
     @Autowired
     private SpaceRepository spaceRepository;
 
     @Test
     void 공간을_조회한다() {
-        Member host = memberRepository.save(Member_생성("1234"));
-        Space space1 = Space_생성(host, "test1");
-        Space space2 = Space_생성(host, "test2");
-        Space space3 = Space_생성(host, "test3");
+        Host host = hostRepository.save(Host_생성("1234"));
+        Space space1 = Space_생성(host, "잠실");
+        Space space2 = Space_생성(host, "선릉");
+        Space space3 = Space_생성(host, "양평같은방");
         spaceRepository.saveAll(List.of(space1, space2, space3));
 
         SpacesResponse result = spaceService.findPage(host.getId(), PageRequest.of(0, 2));

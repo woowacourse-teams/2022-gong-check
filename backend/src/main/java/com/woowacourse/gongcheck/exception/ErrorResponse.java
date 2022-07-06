@@ -1,7 +1,9 @@
 package com.woowacourse.gongcheck.exception;
 
+import lombok.Getter;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
+@Getter
 public class ErrorResponse {
 
     private String message;
@@ -25,9 +27,5 @@ public class ErrorResponse {
 
     public static ErrorResponse from(final String message) {
         return new ErrorResponse(message);
-    }
-
-    public String getMessage() {
-        return message;
     }
 }
