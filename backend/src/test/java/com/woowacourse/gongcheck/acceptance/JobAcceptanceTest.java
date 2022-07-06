@@ -11,17 +11,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-class SpaceAcceptanceTest extends AcceptanceTest {
+class JobAcceptanceTest extends AcceptanceTest {
 
     @Test
-    void 공간을_조회한다() {
+    void 작업을_조회한다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()
                 .auth().oauth2(token)
-                .when().get("/api/spaces?page=0&size=5")
+                .when().get("/api/spaces/1/jobs?page=0&size=5")
                 .then().log().all()
                 .extract();
 
