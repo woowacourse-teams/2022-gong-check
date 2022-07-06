@@ -9,6 +9,7 @@ import static com.woowacourse.gongcheck.fixture.FixtureFactory.Task_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.woowacourse.gongcheck.application.response.JobActiveResponse;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.domain.job.Job;
@@ -116,5 +117,60 @@ class TaskServiceTest {
                 .collect(Collectors.toList()));
 
         assertThat(result).hasSize(2);
+    }
+
+    @Test
+    void 존재하지_않는_호스트로_진행_작업_여부를_확인하려는_경우_예외가_발생한다() {
+        assertThatThrownBy(() -> taskService.isJobActivated(0L, 1L))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("존재하지 않는 호스트입니다.");
+    }
+
+    @Test
+    void 존재하지_않는_작업의_진행_작업_여부를_확인하려는_경우_예외가_발생한다() {
+        Host host = hostRepository.save(Host_생성("1234"));
+
+        assertThatThrownBy(() -> taskService.isJobActivated(host.getId(), 0L))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("존재하지 않는 작업입니다.");
+    }
+
+    @Test
+    void 다른_호스트의_작업의_진행_작업_여부를_확인하려는_경우_예외가_발생한다() {
+        Host host1 = hostRepository.save(Host_생성("1234"));
+        Host host2 = hostRepository.save(Host_생성("1234"));
+        Space space = spaceRepository.save(Space_생성(host2, "잠실"));
+        Job job = jobRepository.save(Job_생성(space, "청소"));
+
+        assertThatThrownBy(() -> taskService.isJobActivated(host1.getId(), job.getId()))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("존재하지 않는 작업입니다.");
+    }
+
+    @Test
+    void Job_아이디와_연관된_진행_작업이_존재하는_경우_참을_반환한다() {
+        Host host = hostRepository.save(Host_생성("1234"));
+        Space space = spaceRepository.save(Space_생성(host, "잠실"));
+        Job job = jobRepository.save(Job_생성(space, "청소"));
+        Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
+        taskRepository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
+        taskService.createNewRunningTasks(host.getId(), job.getId());
+
+        JobActiveResponse result = taskService.isJobActivated(host.getId(), job.getId());
+
+        assertThat(result.isActive()).isTrue();
+    }
+
+    @Test
+    void Job_아이디와_연관된_진행_작업이_존재하지_않는_경우_거짓을_반환한다() {
+        Host host = hostRepository.save(Host_생성("1234"));
+        Space space = spaceRepository.save(Space_생성(host, "잠실"));
+        Job job = jobRepository.save(Job_생성(space, "청소"));
+        Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
+        taskRepository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
+
+        JobActiveResponse result = taskService.isJobActivated(host.getId(), job.getId());
+
+        assertThat(result.isActive()).isFalse();
     }
 }
