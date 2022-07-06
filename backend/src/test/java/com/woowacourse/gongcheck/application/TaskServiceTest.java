@@ -158,7 +158,7 @@ class TaskServiceTest {
 
         JobActiveResponse result = taskService.isJobActivated(host.getId(), job.getId());
 
-        assertThat(result.getIsActive()).isTrue();
+        assertThat(result.isActive()).isTrue();
     }
 
     @Test
@@ -171,6 +171,6 @@ class TaskServiceTest {
 
         JobActiveResponse result = taskService.isJobActivated(host.getId(), job.getId());
 
-        assertThat(result.getIsActive()).isFalse();
+        assertThat(result.isActive()).isFalse();
     }
 }
