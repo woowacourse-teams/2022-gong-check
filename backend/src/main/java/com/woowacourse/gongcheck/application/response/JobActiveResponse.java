@@ -11,11 +11,11 @@ public class JobActiveResponse {
     private JobActiveResponse() {
     }
 
-    private JobActiveResponse(boolean isActive) {
+    private JobActiveResponse(final boolean isActive) {
         this.isActive = isActive;
     }
 
-    public static JobActiveResponse from(boolean isActive) {
+    public static JobActiveResponse from(final boolean isActive) {
         return new JobActiveResponse(isActive);
     }
 
