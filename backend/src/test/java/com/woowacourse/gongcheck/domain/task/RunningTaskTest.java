@@ -9,7 +9,7 @@ class RunningTaskTest {
 
     @ParameterizedTest
     @CsvSource(value = {"false:true", "true:false"}, delimiter = ':')
-    void RunningTask의_체크_상태를_변경한다(boolean isChecked, boolean expected) {
+    void RunningTask의_체크_상태를_변경한다(final boolean isChecked, final boolean expected) {
         RunningTask runningTask = RunningTask.builder()
                 .isChecked(isChecked)
                 .build();
