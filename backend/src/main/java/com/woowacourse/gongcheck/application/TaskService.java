@@ -30,7 +30,7 @@ public class TaskService {
     }
 
     @Transactional
-    public void createNewRunningTask(final Long hostId, final Long jobId) {
+    public void createNewRunningTasks(final Long hostId, final Long jobId) {
         Member host = memberRepository.findById(hostId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 호스트입니다."));
         Job job = jobRepository.findBySpaceMemberAndId(host, jobId)

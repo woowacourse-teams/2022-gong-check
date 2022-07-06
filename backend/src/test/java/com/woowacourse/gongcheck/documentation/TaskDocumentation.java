@@ -13,7 +13,7 @@ class TaskDocumentation extends DocumentationTest {
 
     @Test
     void 새_진행_작업_생성() {
-        doNothing().when(taskService).createNewRunningTask(anyLong(), any());
+        doNothing().when(taskService).createNewRunningTasks(anyLong(), any());
         when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
         docsGiven

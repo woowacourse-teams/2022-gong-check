@@ -17,7 +17,7 @@ class TaskControllerTest extends ControllerTest {
     @Test
     void 이미_존재하는_진행작업이_있는데_생성하는_경우_예외가_발생한다() {
         doThrow(new BusinessException("현재 진행중인 작업이 존재하여 새로운 작업을 생성할 수 없습니다.")).when(taskService)
-                .createNewRunningTask(anyLong(), anyLong());
+                .createNewRunningTasks(anyLong(), anyLong());
         when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
         ExtractableResponse<MockMvcResponse> response = given
