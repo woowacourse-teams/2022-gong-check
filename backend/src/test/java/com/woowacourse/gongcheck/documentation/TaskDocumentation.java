@@ -26,12 +26,12 @@ class TaskDocumentation extends DocumentationTest {
 
     @Test
     void 진행중인_단일_작업_체크() {
-        doNothing().when(taskService).changeRunningTaskCheckedStatus(anyLong(), any());
+        doNothing().when(taskService).flipRunningTaskCheckedStatus(anyLong(), any());
         when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
         docsGiven
                 .header("Authorization", "Bearer jwt.token.here")
-                .when().post("/api/tasks/1")
+                .when().post("/api/tasks/1/flip")
                 .then().log().all()
                 .apply(document("tasks/check"))
                 .statusCode(HttpStatus.OK.value());

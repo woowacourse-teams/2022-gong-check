@@ -65,7 +65,7 @@ class TaskAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()
                 .auth().oauth2(token)
-                .when().post("/api/tasks/1")
+                .when().post("/api/tasks/1/flip")
                 .then().log().all()
                 .extract();
 
@@ -77,21 +77,14 @@ class TaskAcceptanceTest extends AcceptanceTest {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 
-        RestAssured
-                .given().log().all()
-                .auth().oauth2(token)
-                .when().post("/api/jobs/1/tasks/new")
-                .then().log().all()
-                .extract();
-
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()
                 .auth().oauth2(token)
-                .when().post("/api/tasks/1")
+                .when().post("/api/tasks/1/flip")
                 .then().log().all()
                 .extract();
 
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
 
     private String 토큰을_요청한다(final GuestEnterRequest guestEnterRequest) {
