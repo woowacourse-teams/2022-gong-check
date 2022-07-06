@@ -3,6 +3,7 @@ package com.woowacourse.gongcheck.presentation;
 import com.woowacourse.gongcheck.application.TaskService;
 import java.net.URI;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,13 @@ public class TaskController {
                                                @PathVariable final Long jobId) {
         taskService.createNewRunningTasks(hostId, jobId);
         return ResponseEntity.created(URI.create("/api/jobs/" + jobId + "/tasks")).build();
+    }
+
+    @GetMapping("/jobs/{jobId}/active")
+    public ResponseEntity<JobActiveResponse> isJobActive(@AuthenticationPrincipal final Long hostId,
+                                                         @PathVariable final Long jobId) {
+        JobActiveResponse response = taskService.isJobActivated(hostId, jobId);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/tasks/{taskId}/flip")

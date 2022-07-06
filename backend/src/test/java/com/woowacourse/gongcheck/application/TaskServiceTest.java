@@ -120,6 +120,67 @@ class TaskServiceTest {
         assertThat(result).hasSize(2);
     }
 
+    @Nested
+    class 작업의_진행_여부는 {
+        private Host host;
+        private Space space;
+        private Job job;
+        private Section section;
+
+        @BeforeEach
+        void setUp() {
+            host = hostRepository.save(Host_생성("1234"));
+            space = spaceRepository.save(Space_생성(host, "잠실"));
+            job = jobRepository.save(Job_생성(space, "청소"));
+            section = sectionRepository.save(Section_생성(job, "트랙룸"));
+            taskRepository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
+        }
+
+        @Test
+        void 존재하지_않는_호스트로_확인하려는_경우_예외가_발생한다() {
+            assertThatThrownBy(() -> taskService.isJobActivated(0L, 1L))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 호스트입니다.");
+        }
+
+        @Test
+        void 존재하지_않는_작업으로_확인하려는_경우_예외가_발생한다() {
+            Host host = hostRepository.save(Host_생성("1234"));
+
+            assertThatThrownBy(() -> taskService.isJobActivated(host.getId(), 0L))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 작업입니다.");
+        }
+
+        @Test
+        void 다른_호스트의_작업으로_확인하려는_경우_예외가_발생한다() {
+            Host host1 = hostRepository.save(Host_생성("1234"));
+            Host host2 = hostRepository.save(Host_생성("1234"));
+            Space space = spaceRepository.save(Space_생성(host2, "잠실"));
+            Job job = jobRepository.save(Job_생성(space, "청소"));
+
+            assertThatThrownBy(() -> taskService.isJobActivated(host1.getId(), job.getId()))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 작업입니다.");
+        }
+
+        @Test
+        void 진행_작업이_존재하는_경우_참을_반환한다() {
+            taskService.createNewRunningTasks(host.getId(), job.getId());
+
+            JobActiveResponse result = taskService.isJobActivated(host.getId(), job.getId());
+
+            assertThat(result.isActive()).isTrue();
+        }
+
+        @Test
+        void 진행_작업이_존재하지_않는_경우_거짓을_반환한다() {
+            JobActiveResponse result = taskService.isJobActivated(host.getId(), job.getId());
+
+            assertThat(result.isActive()).isFalse();
+        }
+    }
+
     @Test
     void 진행_작업_체크_시_진행_작업이_존재하지_않을_경우_예외가_발생한다() {
         Host host = hostRepository.save(Host_생성("1234"));

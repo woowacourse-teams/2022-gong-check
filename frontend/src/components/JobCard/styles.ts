@@ -1,15 +1,15 @@
 import { css } from '@emotion/react';
+import theme from '../../styles/theme';
 
 const jobCard = css`
   display: flex;
   justify-content: center;
   align-items: center;
-  box-sizing: border-box;
   border-radius: 16px;
   width: 320px;
   height: 144px;
   margin: 24px;
-  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 2px 2px 2px 2px ${theme.colors.shadow30};
   &:hover {
     transform: scale(1.01);
     cursor: pointer;
