@@ -19,8 +19,8 @@ public class TaskController {
     }
 
     @PostMapping("/jobs/{jobId}/tasks/new")
-    public ResponseEntity<Void> createNewTasks(@AuthenticationPrincipal Long hostId,
-                                               @PathVariable Long jobId) {
+    public ResponseEntity<Void> createNewTasks(@AuthenticationPrincipal final Long hostId,
+                                               @PathVariable final Long jobId) {
         taskService.createNewRunningTask(hostId, jobId);
         return ResponseEntity.created(URI.create("/api/jobs/" + jobId + "/tasks")).build();
     }
