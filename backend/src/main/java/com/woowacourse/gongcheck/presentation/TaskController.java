@@ -33,4 +33,11 @@ public class TaskController {
         JobActiveResponse response = taskService.isJobActivated(hostId, jobId);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/tasks/{taskId}/flip")
+    public ResponseEntity<Void> flipRunningTask(@AuthenticationPrincipal final Long hostId,
+                                                @PathVariable final Long taskId) {
+        taskService.flipRunningTask(hostId, taskId);
+        return ResponseEntity.ok().build();
+    }
 }
