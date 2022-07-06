@@ -1,12 +1,16 @@
 /**  @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import React, { useState } from 'react';
-import theme from '../../styles/theme';
-import Button from '../_common/Button';
-import Input from '../_common/Input';
+
+import Button from '@/components/_common/Button';
+import Dimmer from '@/components/_common/Dimmer';
+import Input from '@/components/_common/Input';
+
+import ModalPortal from '@/ModalPortal';
+
+import theme from '@/styles/theme';
+
 import styles from './styles';
-import ModalPortal from '../../ModalPortal';
-import Dimmer from '../_common/Dimmer';
 
 interface InputModalProps {
   title: string;

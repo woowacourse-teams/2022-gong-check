@@ -1,8 +1,8 @@
-import SpaceList from './pages/SpaceList';
+import Header from './components/Header';
 import JobList from './pages/JobList';
+import SpaceList from './pages/SpaceList';
 import TaskList from './pages/TaskList';
 import { Outlet } from 'react-router-dom';
-import Header from './components/Header';
 
 const DefaultLayout = () => {
   return (

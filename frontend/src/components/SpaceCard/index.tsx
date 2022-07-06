@@ -1,6 +1,8 @@
 /**  @jsxImportSource @emotion/react */
 import { useNavigate } from 'react-router-dom';
-import CardTitle from '../_common/CardTitle';
+
+import CardTitle from '@/components/_common/CardTitle';
+
 import styles from './styles';
 
 type SpaceCardProps = {

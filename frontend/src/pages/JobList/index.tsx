@@ -1,7 +1,9 @@
 /**  @jsxImportSource @emotion/react */
-import PageTitle from '../../components/_common/PageTitle';
+import PageTitle from '@/components/_common/PageTitle';
+
+import JobCard from '@/components/JobCard';
+
 import styles from './styles';
-import JobCard from '../../components/JobCard';
 
 const jobs = [
   {

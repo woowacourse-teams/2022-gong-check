@@ -22,6 +22,10 @@
     "noFallthroughCasesInSwitch": true,
     "allowUnreachableCode": false,
     "skipLibCheck": true,
-    "typeRoots": ["src"]
-  }
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src"]
 }

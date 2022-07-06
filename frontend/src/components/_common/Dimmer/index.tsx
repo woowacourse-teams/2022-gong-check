@@ -1,7 +1,7 @@
 /**  @jsxImportSource @emotion/react */
-
 import { css } from '@emotion/react';
-import theme from '../../../styles/theme';
+
+import theme from '@/styles/theme';
 
 interface DimmerProps {
   children: React.ReactNode;
