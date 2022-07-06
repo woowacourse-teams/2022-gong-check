@@ -24,4 +24,11 @@ public class TaskController {
         taskService.createNewRunningTasks(hostId, jobId);
         return ResponseEntity.created(URI.create("/api/jobs/" + jobId + "/tasks")).build();
     }
+
+    @PostMapping("/tasks/{taskId}")
+    public ResponseEntity<Void> changeRunningTaskCheckedStatus(@AuthenticationPrincipal final Long hostId,
+                                                               @PathVariable final Long taskId) {
+        taskService.changeRunningTaskCheckedStatus(hostId, taskId);
+        return ResponseEntity.ok().build();
+    }
 }

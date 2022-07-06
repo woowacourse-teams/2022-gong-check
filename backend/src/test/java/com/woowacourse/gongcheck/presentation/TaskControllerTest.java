@@ -6,6 +6,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 import com.woowacourse.gongcheck.exception.BusinessException;
+import com.woowacourse.gongcheck.exception.NotFoundException;
 import io.restassured.module.mockmvc.response.MockMvcResponse;
 import io.restassured.response.ExtractableResponse;
 import org.junit.jupiter.api.Test;
@@ -28,5 +29,37 @@ class TaskControllerTest extends ControllerTest {
                 .extract();
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    void 진행중인_작업이_없는_경우_예외가_발생한다() {
+        doThrow(new NotFoundException("진행중인 작업이 존재하지 않습니다.")).when(taskService)
+                .changeRunningTaskCheckedStatus(anyLong(), anyLong());
+        when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
+        ExtractableResponse<MockMvcResponse> response = given
+                .header("Authorization", "Bearer jwt.token.here")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().post("/api/tasks/1")
+                .then().log().all()
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value());
+    }
+
+    @Test
+    void 진행중인_작업과_hostId가_일치하지_않는_경우_예외가_발생한다() {
+        doThrow(new NotFoundException("진행중인 작업이 존재하지 않습니다.")).when(taskService)
+                .changeRunningTaskCheckedStatus(anyLong(), anyLong());
+        when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
+        ExtractableResponse<MockMvcResponse> response = given
+                .header("Authorization", "Bearer jwt.token.here")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().post("/api/tasks/1")
+                .then().log().all()
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value());
     }
 }
