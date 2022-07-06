@@ -1,7 +1,9 @@
 /**  @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import { useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
+import logo from '../../assets/logoTitle.svg';
 import styles from './styles';
 
 const hostId = 1;
@@ -21,7 +23,16 @@ const Header = () => {
   return (
     <div css={styles.header}>
       {isVisibaleButton && <IoIosArrowBack css={styles.arrowBackIcon} onClick={handleClickPreviousButton} size={30} />}
-      <h1 onClick={handleClickLogo}>GongCheck</h1>
+      <div
+        css={css`
+          position: absolute;
+          left: 50%;
+          transform: translate(-50%, 10%);
+        `}
+        onClick={handleClickLogo}
+      >
+        <img src={logo} alt="logoTitle" />
+      </div>
       <div></div>
     </div>
   );

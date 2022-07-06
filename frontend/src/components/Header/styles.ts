@@ -10,6 +10,7 @@ const header = css`
   width: 100%;
   height: 50px;
   padding: 0 8px;
+  position: relative;
 `;
 
 const arrowBackIcon = css`

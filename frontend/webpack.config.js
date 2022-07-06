@@ -34,6 +34,15 @@ const config = {
           loader: 'babel-loader',
         },
       },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: '[path]/[name].[ext]',
+          },
+        },
+      },
     ],
   },
   resolve: {
