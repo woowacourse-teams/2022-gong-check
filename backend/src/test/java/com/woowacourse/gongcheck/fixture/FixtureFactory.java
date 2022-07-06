@@ -40,9 +40,27 @@ public class FixtureFactory {
                 .build();
     }
 
+    public static Section Section_아이디_지정_생성(final Long id, final Job job, final String name) {
+        return Section.builder()
+                .id(id)
+                .job(job)
+                .name(name)
+                .createdAt(LocalDateTime.now())
+                .build();
+    }
+
     public static Task Task_생성(final Section section, final String name) {
         return Task.builder()
                 .section(section)
+                .name(name)
+                .createdAt(LocalDateTime.now())
+                .build();
+    }
+
+    public static Task RunningTask로_Task_생성(final RunningTask runningTask, final Section section, final String name) {
+        return Task.builder()
+                .section(section)
+                .runningTask(runningTask)
                 .name(name)
                 .createdAt(LocalDateTime.now())
                 .build();
