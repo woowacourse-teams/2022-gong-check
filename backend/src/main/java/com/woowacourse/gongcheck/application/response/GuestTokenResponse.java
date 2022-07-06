@@ -1,5 +1,8 @@
 package com.woowacourse.gongcheck.application.response;
 
+import lombok.Getter;
+
+@Getter
 public class GuestTokenResponse {
 
     private String token;
@@ -13,9 +16,5 @@ public class GuestTokenResponse {
 
     public static GuestTokenResponse from(final String token) {
         return new GuestTokenResponse(token);
-    }
-
-    public String getToken() {
-        return token;
     }
 }
