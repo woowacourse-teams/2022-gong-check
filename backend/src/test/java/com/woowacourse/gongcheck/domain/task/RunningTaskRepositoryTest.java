@@ -80,8 +80,7 @@ class RunningTaskRepositoryTest {
 
         @Test
         void 진행중인_테스크가_존재하지_않는_경우_테스크를_조회한다() {
-            Optional<RunningTask> result = runningTaskRepository.findByTaskSectionJobSpaceHostAndTaskId(
-                    host, task.getId());
+            Optional<RunningTask> result = runningTaskRepository.findByTaskId(task.getId());
 
             assertThat(result).isEmpty();
         }
@@ -89,8 +88,7 @@ class RunningTaskRepositoryTest {
         @Test
         void 진행중인_테스크가_존재하는_경우_테스크를_조회한다() {
             runningTaskRepository.save(RunningTask_생성(task));
-            Optional<RunningTask> result = runningTaskRepository.findByTaskSectionJobSpaceHostAndTaskId(
-                    host, task.getId());
+            Optional<RunningTask> result = runningTaskRepository.findByTaskId(task.getId());
 
             assertThat(result).isNotEmpty();
         }

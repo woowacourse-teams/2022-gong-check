@@ -123,27 +123,51 @@ class TaskServiceTest {
         Host host = hostRepository.save(Host_생성("1234"));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
         Job job = jobRepository.save(Job_생성(space, "청소"));
-        sectionRepository.save(Section_생성(job, "트랙룸"));
+        Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
+        Task task = Task_생성(section, "책상 청소");
+        taskRepository.save(task);
 
-        assertThatThrownBy(() -> taskService.changeRunningTaskCheckedStatus(host.getId(), 0L))
-                .isInstanceOf(NotFoundException.class)
-                .hasMessage("진행중인 작업이 존재하지 않습니다.");
+        assertThatThrownBy(() -> taskService.flipRunningTaskCheckedStatus(host.getId(), task.getId()))
+                .isInstanceOf(BusinessException.class)
+                .hasMessage("현재 진행 중인 작업이 아닙니다.");
     }
 
     @Test
-    void 진행_작업_체크_시_Host와_일치하는_진행_작업이_없을_경우_예외가_발생한다() {
+    void 진행_작업_체크_시_입력한_host의_진행_작업이_아닐_경우_예외가_발생한다() {
         Host host = hostRepository.save(Host_생성("1234"));
+        Space space = spaceRepository.save(Space_생성(host, "잠실"));
+        Job job = jobRepository.save(Job_생성(space, "청소"));
+        Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
+        Task task = Task_생성(section, "책상 청소");
+
         Host differentHost = hostRepository.save(Host_생성("1234"));
+        Space differentSpace = spaceRepository.save(Space_생성(differentHost, "선릉"));
+        Job differentJob = jobRepository.save(Job_생성(differentSpace, "청소"));
+        Section differentSection = sectionRepository.save(Section_생성(differentJob, "트랙룸"));
+        Task differentTask = Task_생성(differentSection, "책상 청소");
+
+        taskRepository.save(task);
+        taskRepository.save(differentTask);
+        taskService.createNewRunningTasks(host.getId(), job.getId());
+        taskService.createNewRunningTasks(differentHost.getId(), differentJob.getId());
+
+        assertThatThrownBy(() -> taskService.flipRunningTaskCheckedStatus(differentHost.getId(), task.getId()))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("존재하지 않는 작업입니다.");
+    }
+
+    @Test
+    void 진행_작업_체크_시_Host가_존재하지_않는_경우_예외가_발생한다() {
+        Host host = hostRepository.save(Host_생성("1234"));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
         Job job = jobRepository.save(Job_생성(space, "청소"));
         Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
         Task task = Task_생성(section, "책상 청소");
         taskRepository.save(task);
-        taskService.createNewRunningTasks(host.getId(), job.getId());
 
-        assertThatThrownBy(() -> taskService.changeRunningTaskCheckedStatus(differentHost.getId(), task.getId()))
+        assertThatThrownBy(() -> taskService.flipRunningTaskCheckedStatus(0L, task.getId()))
                 .isInstanceOf(NotFoundException.class)
-                .hasMessage("진행중인 작업이 존재하지 않습니다.");
+                .hasMessage("존재하지 않는 호스트입니다.");
     }
 
     @Test
@@ -156,9 +180,9 @@ class TaskServiceTest {
         taskRepository.save(task);
         taskService.createNewRunningTasks(host.getId(), job.getId());
 
-        taskService.changeRunningTaskCheckedStatus(host.getId(), task.getId());
+        taskService.flipRunningTaskCheckedStatus(host.getId(), task.getId());
 
-        RunningTask runningTask = runningTaskRepository.findByTaskSectionJobSpaceHostAndTaskId(host, task.getId())
+        RunningTask runningTask = runningTaskRepository.findByTaskId(task.getId())
                 .orElseThrow(() -> new NotFoundException("진행중인 작업이 존재하지 않습니다."));
         assertThat(runningTask.isChecked()).isTrue();
     }
