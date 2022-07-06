@@ -7,6 +7,12 @@ const globalStyle = css`
 
   body {
     margin: 0;
+
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: #f5f5f5;
   }
 
   button {
@@ -16,18 +22,11 @@ const globalStyle = css`
 
   #root {
     display: flex;
-    justify-content: center;
-    width: 100vw;
-    height: 100vh;
-    background-color: #f5f5f5;
-  }
-
-  #app {
-    display: flex;
     flex-direction: column;
     width: 400px;
-    min-height: 800px;
+    height: 100vh;
     background-color: white;
+    position: absolute;
   }
 `;
 
