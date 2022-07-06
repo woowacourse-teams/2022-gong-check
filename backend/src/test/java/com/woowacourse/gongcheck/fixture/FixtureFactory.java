@@ -1,7 +1,7 @@
 package com.woowacourse.gongcheck.fixture;
 
+import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.job.Job;
-import com.woowacourse.gongcheck.domain.member.Member;
 import com.woowacourse.gongcheck.domain.section.Section;
 import com.woowacourse.gongcheck.domain.space.Space;
 import com.woowacourse.gongcheck.domain.task.RunningTask;
@@ -10,15 +10,15 @@ import java.time.LocalDateTime;
 
 public class FixtureFactory {
 
-    public static Member Member_생성(final String password) {
-        return Member.builder()
+    public static Host Host_생성(final String password) {
+        return Host.builder()
                 .spacePassword(password)
                 .createdAt(LocalDateTime.now()).build();
     }
 
-    public static Space Space_생성(final Member host, final String name) {
+    public static Space Space_생성(final Host host, final String name) {
         return Space.builder()
-                .member(host)
+                .host(host)
                 .name(name)
                 .createdAt(LocalDateTime.now())
                 .build();

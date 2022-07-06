@@ -1,7 +1,7 @@
 package com.woowacourse.gongcheck.documentation;
 
+import static com.woowacourse.gongcheck.fixture.FixtureFactory.Host_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Job_생성;
-import static com.woowacourse.gongcheck.fixture.FixtureFactory.Member_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_생성;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -9,7 +9,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 
 import com.woowacourse.gongcheck.application.response.JobsResponse;
-import com.woowacourse.gongcheck.domain.member.Member;
+import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.space.Space;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ class JobDocumentation extends DocumentationTest {
 
     @Test
     void 작업_조회() {
-        Member host = Member_생성("1234");
+        Host host = Host_생성("1234");
         Space space = Space_생성(host, "잠실");
         when(jobService.findPage(anyLong(), anyLong(), any())).thenReturn(
                 JobsResponse.of(List.of(

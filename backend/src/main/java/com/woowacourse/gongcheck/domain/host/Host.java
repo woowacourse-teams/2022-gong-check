@@ -1,4 +1,4 @@
-package com.woowacourse.gongcheck.domain.member;
+package com.woowacourse.gongcheck.domain.host;
 
 import com.woowacourse.gongcheck.exception.UnauthorizedException;
 import java.time.LocalDateTime;
@@ -13,9 +13,9 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Entity
-@Table(name = "member")
+@Table(name = "host")
 @Getter
-public class Member {
+public class Host {
 
     private static final int SPACE_PASSWORD_MAX_LENGTH = 4;
 
@@ -32,11 +32,11 @@ public class Member {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    protected Member() {
+    protected Host() {
     }
 
     @Builder
-    public Member(Long id, String spacePassword, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Host(Long id, String spacePassword, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.spacePassword = spacePassword;
         this.createdAt = createdAt;
@@ -61,8 +61,8 @@ public class Member {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Member member = (Member) o;
-        return id.equals(member.id);
+        Host host = (Host) o;
+        return id.equals(host.id);
     }
 
     @Override

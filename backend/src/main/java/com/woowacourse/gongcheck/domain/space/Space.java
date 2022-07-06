@@ -1,6 +1,6 @@
 package com.woowacourse.gongcheck.domain.space;
 
-import com.woowacourse.gongcheck.domain.member.Member;
+import com.woowacourse.gongcheck.domain.host.Host;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -27,8 +27,8 @@ public class Space {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    @JoinColumn(name = "host_id", nullable = false)
+    private Host host;
 
     @Column(name = "name", length = NAME_MAX_LENGTH, nullable = false)
     private String name;
@@ -46,10 +46,10 @@ public class Space {
     }
 
     @Builder
-    public Space(Long id, Member member, String name, String imageUrl, LocalDateTime createdAt,
+    public Space(Long id, Host host, String name, String imageUrl, LocalDateTime createdAt,
                  LocalDateTime updatedAt) {
         this.id = id;
-        this.member = member;
+        this.host = host;
         this.name = name;
         this.imageUrl = imageUrl;
         this.createdAt = createdAt;

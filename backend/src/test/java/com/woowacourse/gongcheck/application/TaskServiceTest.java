@@ -1,7 +1,7 @@
 package com.woowacourse.gongcheck.application;
 
+import static com.woowacourse.gongcheck.fixture.FixtureFactory.Host_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Job_생성;
-import static com.woowacourse.gongcheck.fixture.FixtureFactory.Member_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.RunningTask_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Section_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_생성;
@@ -9,10 +9,10 @@ import static com.woowacourse.gongcheck.fixture.FixtureFactory.Task_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.woowacourse.gongcheck.domain.host.Host;
+import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.domain.job.Job;
 import com.woowacourse.gongcheck.domain.job.JobRepository;
-import com.woowacourse.gongcheck.domain.member.Member;
-import com.woowacourse.gongcheck.domain.member.MemberRepository;
 import com.woowacourse.gongcheck.domain.section.Section;
 import com.woowacourse.gongcheck.domain.section.SectionRepository;
 import com.woowacourse.gongcheck.domain.space.Space;
@@ -39,7 +39,7 @@ class TaskServiceTest {
     private TaskService taskService;
 
     @Autowired
-    private MemberRepository memberRepository;
+    private HostRepository hostRepository;
 
     @Autowired
     private SpaceRepository spaceRepository;
@@ -65,7 +65,7 @@ class TaskServiceTest {
 
     @Test
     void 존재하지_않는_작업의_새로운_작업을_진행하려는_경우_예외가_발생한다() {
-        Member host = memberRepository.save(Member_생성("1234"));
+        Host host = hostRepository.save(Host_생성("1234"));
 
         assertThatThrownBy(() -> taskService.createNewRunningTasks(host.getId(), 0L))
                 .isInstanceOf(NotFoundException.class)
@@ -74,8 +74,8 @@ class TaskServiceTest {
 
     @Test
     void 다른_호스트의_작업의_새로운_작업을_진행하려는_경우_예외가_발생한다() {
-        Member host1 = memberRepository.save(Member_생성("1234"));
-        Member host2 = memberRepository.save(Member_생성("1234"));
+        Host host1 = hostRepository.save(Host_생성("1234"));
+        Host host2 = hostRepository.save(Host_생성("1234"));
         Space space = spaceRepository.save(Space_생성(host2, "잠실"));
         Job job = jobRepository.save(Job_생성(space, "청소"));
 
@@ -86,7 +86,7 @@ class TaskServiceTest {
 
     @Test
     void 이미_진행중인_작업이_존재하는데_새로운_작업을_진행하려는_경우_예외가_발생한다() {
-        Member host = memberRepository.save(Member_생성("1234"));
+        Host host = hostRepository.save(Host_생성("1234"));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
         Job job = jobRepository.save(Job_생성(space, "청소"));
         Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
@@ -102,7 +102,7 @@ class TaskServiceTest {
 
     @Test
     void 정상적으로_새로운_진행_작업을_생성한다() {
-        Member host = memberRepository.save(Member_생성("1234"));
+        Host host = hostRepository.save(Host_생성("1234"));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
         Job job = jobRepository.save(Job_생성(space, "청소"));
         Section section = sectionRepository.save(Section_생성(job, "트랙룸"));

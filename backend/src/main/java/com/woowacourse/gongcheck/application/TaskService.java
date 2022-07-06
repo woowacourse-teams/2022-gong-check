@@ -1,9 +1,9 @@
 package com.woowacourse.gongcheck.application;
 
+import com.woowacourse.gongcheck.domain.host.Host;
+import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.domain.job.Job;
 import com.woowacourse.gongcheck.domain.job.JobRepository;
-import com.woowacourse.gongcheck.domain.member.Member;
-import com.woowacourse.gongcheck.domain.member.MemberRepository;
 import com.woowacourse.gongcheck.domain.task.RunningTaskRepository;
 import com.woowacourse.gongcheck.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.domain.task.Tasks;
@@ -16,14 +16,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class TaskService {
 
-    private final MemberRepository memberRepository;
+    private final HostRepository hostRepository;
     private final JobRepository jobRepository;
     private final TaskRepository taskRepository;
     private final RunningTaskRepository runningTaskRepository;
 
-    public TaskService(final MemberRepository memberRepository, final JobRepository jobRepository,
+    public TaskService(final HostRepository hostRepository, final JobRepository jobRepository,
                        final TaskRepository taskRepository, final RunningTaskRepository runningTaskRepository) {
-        this.memberRepository = memberRepository;
+        this.hostRepository = hostRepository;
         this.jobRepository = jobRepository;
         this.taskRepository = taskRepository;
         this.runningTaskRepository = runningTaskRepository;
@@ -31,9 +31,9 @@ public class TaskService {
 
     @Transactional
     public void createNewRunningTasks(final Long hostId, final Long jobId) {
-        Member host = memberRepository.findById(hostId)
+        Host host = hostRepository.findById(hostId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 호스트입니다."));
-        Job job = jobRepository.findBySpaceMemberAndId(host, jobId)
+        Job job = jobRepository.findBySpaceHostAndId(host, jobId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 작업입니다."));
 
         createAndSaveNewRunningTasks(job);
