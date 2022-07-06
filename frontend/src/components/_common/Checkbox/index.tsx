@@ -11,7 +11,7 @@ type CheckBoxProps = {
 const CheckBox = ({ id, checked = false, onChange }: CheckBoxProps) => {
   return (
     <>
-      <input css={styles.input} type="checkbox" id={id} checked={checked} onChange={onChange} />
+      <input css={styles.input} type="checkbox" id={id} checked={checked} onChange={onChange} readOnly />
       <label css={styles.label} htmlFor={id} onClick={onChange} />
     </>
   );
