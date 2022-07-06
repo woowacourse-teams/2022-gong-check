@@ -103,7 +103,9 @@ class TaskServiceTest {
         Task task1 = Task_생성(section, "책상 청소");
         Task task2 = Task_생성(section, "의자 넣기");
         taskRepository.saveAll(List.of(task1, task2));
-        runningTaskRepository.saveAll(List.of(RunningTask_생성(task1), RunningTask_생성(task2)));
+        runningTaskRepository.saveAll(
+                List.of(RunningTask_생성(task1.getId(), true),
+                        RunningTask_생성(task2.getId(), true)));
 
         assertThatThrownBy(() -> taskService.createNewRunningTasks(host.getId(), job.getId()))
                 .isInstanceOf(BusinessException.class)
@@ -228,8 +230,8 @@ class TaskServiceTest {
         void 다른_호스트의_작업의_진행중인_작업을_조회하려는_경우_예외가_발생한다() {
             Host differentHost = hostRepository.save(Host_생성("1234"));
             taskRepository.saveAll(List.of(task1, task2));
-            RunningTask runningTask1 = RunningTask_생성(task1);
-            RunningTask runningTask2 = RunningTask_생성(task2);
+            RunningTask runningTask1 = RunningTask_생성(task1.getId(), false);
+            RunningTask runningTask2 = RunningTask_생성(task2.getId(), false);
             runningTaskRepository.saveAll(List.of(runningTask1, runningTask2));
             entityManager.flush();
             entityManager.clear();
@@ -251,8 +253,8 @@ class TaskServiceTest {
         @Test
         void 정상적으로_진행중인_작업을_조회한다() {
             taskRepository.saveAll(List.of(task1, task2));
-            RunningTask runningTask1 = RunningTask_생성(task1);
-            RunningTask runningTask2 = RunningTask_생성(task2);
+            RunningTask runningTask1 = RunningTask_생성(task1.getId(), false);
+            RunningTask runningTask2 = RunningTask_생성(task2.getId(), false);
             runningTaskRepository.saveAll(List.of(runningTask1, runningTask2));
             entityManager.flush();
             entityManager.clear();
@@ -292,8 +294,8 @@ class TaskServiceTest {
 
         taskRepository.save(task);
         taskRepository.save(differentTask);
-        runningTaskRepository.save(RunningTask_생성(task));
-        runningTaskRepository.save(RunningTask_생성(differentTask));
+        runningTaskRepository.save(RunningTask_생성(task.getId(), false));
+        runningTaskRepository.save(RunningTask_생성(differentTask.getId(), false));
 
         assertThatThrownBy(() -> taskService.flipRunningTask(differentHost.getId(), task.getId()))
                 .isInstanceOf(NotFoundException.class)
@@ -308,7 +310,7 @@ class TaskServiceTest {
         Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
         Task task = Task_생성(section, "책상 청소");
         taskRepository.save(task);
-        runningTaskRepository.save(RunningTask_생성(task));
+        runningTaskRepository.save(RunningTask_생성(task.getId(), false));
 
         assertThatThrownBy(() -> taskService.flipRunningTask(0L, task.getId()))
                 .isInstanceOf(NotFoundException.class)

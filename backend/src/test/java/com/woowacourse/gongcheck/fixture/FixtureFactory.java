@@ -66,14 +66,6 @@ public class FixtureFactory {
                 .build();
     }
 
-    public static RunningTask RunningTask_생성(final Task task) {
-        return RunningTask.builder()
-                .taskId(task.getId())
-                .isChecked(false)
-                .createdAt(LocalDateTime.now())
-                .build();
-    }
-
     public static RunningTask RunningTask_생성(final Long taskId, final boolean isChecked) {
         return RunningTask.builder()
                 .taskId(taskId)

@@ -21,6 +21,8 @@ class SubmissionAcceptanceTest extends AcceptanceTest {
         새로운_진행작업을_생성한다(token);
         체크박스를_체크한다(token, 1L);
         체크박스를_체크한다(token, 2L);
+        체크박스를_체크한다(token, 3L);
+        체크박스를_체크한다(token, 4L);
         SubmissionRequest submissionRequest = new SubmissionRequest("제출자");
 
         ExtractableResponse<Response> response = RestAssured
@@ -79,7 +81,7 @@ class SubmissionAcceptanceTest extends AcceptanceTest {
         RestAssured
                 .given().log().all()
                 .auth().oauth2(token)
-                .when().post("/api/tasks/" + taskId)
+                .when().post("/api/tasks/" + taskId + "/flip")
                 .then().log().all();
     }
 }
