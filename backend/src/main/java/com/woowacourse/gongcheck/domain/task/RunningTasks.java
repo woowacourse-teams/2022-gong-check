@@ -12,8 +12,6 @@ public class RunningTasks {
 
     public boolean isAllChecked() {
         return runningTasks.stream()
-                .filter(runningTask -> !runningTask.isChecked())
-                .findAny()
-                .isEmpty();
+                .allMatch(RunningTask::isChecked);
     }
 }
