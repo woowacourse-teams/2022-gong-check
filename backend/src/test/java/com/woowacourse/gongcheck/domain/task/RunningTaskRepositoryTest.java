@@ -45,7 +45,7 @@ class RunningTaskRepositoryTest {
     private RunningTaskRepository runningTaskRepository;
 
     @Nested
-    class 테스크에_진행중인_테스트가_있는지_확인한다 {
+    class 테스크에_진행중인_테스크가_있는지_확인한다 {
 
         private Member host;
         private Space space;
