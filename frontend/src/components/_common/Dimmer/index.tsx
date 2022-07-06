@@ -10,7 +10,8 @@ interface DimmerProps {
 }
 
 const Dimmer = ({ children, requiredSubmit = false, closeModal }: DimmerProps) => {
-  const handleClickDimed = () => {
+  const handleClickDimed = (e: React.MouseEvent<HTMLElement>) => {
+    if (e.currentTarget !== e.target) return;
     if (requiredSubmit) closeModal();
   };
 
