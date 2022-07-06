@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 
 const layout = css`
-  min-height: 100vh;
   padding: 8px 32px;
 `;
 

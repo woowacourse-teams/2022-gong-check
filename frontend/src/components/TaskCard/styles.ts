@@ -1,13 +1,13 @@
 import { css } from '@emotion/react';
+import theme from '../../styles/theme';
 
 const taskCard = css`
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   width: 320px;
   border-radius: 20px;
   padding: 24px;
-  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 2px 2px 2px 2px ${theme.colors.shadow30};
 `;
 
 const task = css`

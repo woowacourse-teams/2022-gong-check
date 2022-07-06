@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 
 const layout = css`
-  min-height: 100vh;
   padding: 8px 32px;
 `;
 
@@ -13,7 +12,6 @@ const contents = css`
 `;
 
 const location = css`
-  box-sizing: border-box;
   margin: 16px;
 `;
 

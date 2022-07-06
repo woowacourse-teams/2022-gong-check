@@ -1,5 +1,6 @@
 /**  @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import theme from '../../../styles/theme';
 
 type CardTitleProps = {
   children: React.ReactNode;
@@ -9,8 +10,8 @@ const CardTitle = ({ children }: CardTitleProps) => {
   return (
     <span
       css={css`
-        color: white;
-        background-color: rgba(0, 0, 0, 0.6);
+        color: ${theme.colors.white};
+        background-color: ${theme.colors.shadow60};
         font-size: 56px;
         padding: 8px 16px 4px;
         border-radius: 16px;
