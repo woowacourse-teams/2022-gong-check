@@ -14,46 +14,41 @@ import theme from '@/styles/theme';
 
 import styles from './styles';
 
-interface InputModalProps {
+interface NameModalProps {
   title: string;
   detail: string;
   placeholder: string;
   buttonText: string;
   closeModal: () => void;
   requiredSubmit?: boolean;
+  jobId: string | undefined;
 }
 
-const InputModal = ({
+const NameModal = ({
   title,
   detail,
   placeholder,
   buttonText,
   closeModal,
   requiredSubmit = false,
-}: InputModalProps) => {
+  jobId,
+}: NameModalProps) => {
   const [isDisabledButton, setIsDisabledButton] = useState(true);
-  const [password, setPassword] = useState('');
-
-  const setToken = async (password: string) => {
-    const {
-      data: { token },
-    }: any = await apis.postPassword({ hostId: 1, password });
-    localStorage.setItem('user', token);
-  };
+  const [name, setName] = useState('');
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isTyped = !!e.target.value;
-    setPassword(e.target.value);
+    setName(e.target.value);
     setIsDisabledButton(!isTyped);
   };
 
   const handleClickButton = async () => {
     try {
-      await setToken(password);
+      await apis.postJobComplete({ jobId, author: name });
+      alert('제출 되었습니다.');
       closeModal();
-      window.location.reload();
     } catch (err) {
-      alert('비밀번호를 확인해주세요.');
+      alert(err);
     }
   };
 
@@ -63,7 +58,7 @@ const InputModal = ({
         <div css={styles.container}>
           <h1 css={styles.title}>{title}</h1>
           <span css={styles.detail}>{detail}</span>
-          <Input placeholder={placeholder} onChange={handleOnChange} value={password} />
+          <Input placeholder={placeholder} onChange={handleOnChange} value={name} />
           <Button
             css={css`
               margin-bottom: 0;
@@ -81,4 +76,4 @@ const InputModal = ({
   );
 };
 
-export default InputModal;
+export default NameModal;

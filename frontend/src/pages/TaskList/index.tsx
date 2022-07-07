@@ -7,11 +7,14 @@ import Button from '@/components/_common/Button';
 import PageTitle from '@/components/_common/PageTitle';
 
 import InputModal from '@/components/InputModal';
+import NameModal from '@/components/InputModal/nameModal';
 import TaskCard from '@/components/TaskCard';
 
 import useModal from '@/hooks/useModal';
 
 import apis from '@/apis';
+
+import theme from '@/styles/theme';
 
 import styles from './styles';
 
@@ -31,11 +34,16 @@ type LocationStateType = {
   active: boolean;
 };
 
+const isAllChecked = (sections: Array<SectionType>): boolean => {
+  return sections
+    .map(section => section.tasks.every(task => task.checked === true))
+    .every(isChecked => isChecked === true);
+};
+
 const TaskList = () => {
-  const { isShowModal, closeModal } = useModal(false);
+  const { isShowModal, openModal, closeModal } = useModal(false);
   const { state } = useLocation();
   const { active } = state as LocationStateType;
-
   const { jobId } = useParams();
 
   const [sections, setSections] = useState<Array<SectionType>>([]);
@@ -51,6 +59,11 @@ const TaskList = () => {
   const newTasks = async () => {
     await apis.postNewTasks({ jobId });
     await getSections(jobId as string);
+  };
+
+  const handleClickButton = (e: any) => {
+    e.preventDefault();
+    openModal();
   };
 
   useEffect(() => {
@@ -74,17 +87,29 @@ const TaskList = () => {
               <TaskCard tasks={tasks} getSections={getSections} />
             </section>
           ))}
-          <Button type="submit">제출</Button>
+          <Button
+            type="submit"
+            css={css`
+              margin-bottom: 0;
+              width: 256px;
+              background: ${isAllChecked(sections) ? theme.colors.primary : theme.colors.gray};
+            `}
+            onClick={handleClickButton}
+            disabled={!isAllChecked(sections)}
+          >
+            제출
+          </Button>
         </form>
       </div>
       {isShowModal && (
-        <InputModal
+        <NameModal
           title="체크리스트 제출"
           detail="확인 버튼을 누르면 제출됩니다."
           placeholder="이름을 입력해주세요."
           buttonText="확인"
           closeModal={closeModal}
           requiredSubmit={true}
+          jobId={jobId}
         />
       )}
     </div>
