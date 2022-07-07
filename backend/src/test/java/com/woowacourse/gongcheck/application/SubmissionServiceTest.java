@@ -130,6 +130,7 @@ class SubmissionServiceTest {
             checkAllRunningTasks(true);
 
             submissionService.submitJobCompletion(hostWithTasks.getId(), job.getId(), request);
+
             assertAll(
                     () -> assertThat(submissionRepository.findAll().size()).isEqualTo(1),
                     () -> assertThat(runningTaskRepository.findAll().size()).isEqualTo(0)
