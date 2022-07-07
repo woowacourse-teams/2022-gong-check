@@ -1,7 +1,10 @@
 /**  @jsxImportSource @emotion/react */
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import CardTitle from '@/components/_common/CardTitle';
+
+import apis from '@/apis';
 
 import styles from './styles';
 
@@ -11,10 +14,24 @@ type JobCardProps = {
 };
 
 const JobCard = ({ jobName, id }: JobCardProps) => {
+  const [active, setActive] = useState<boolean>(false);
+
+  useEffect(() => {
+    const getJobActive = async () => {
+      const {
+        data: { active },
+      } = await apis.getJobActive({ jobId: id });
+
+      setActive(active);
+    };
+
+    getJobActive();
+  }, []);
+
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(id.toString());
+    navigate(id.toString(), { state: { active } });
   };
 
   return (
