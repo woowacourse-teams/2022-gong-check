@@ -1,12 +1,11 @@
 /**  @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import Button from '@/components/_common/Button';
 import PageTitle from '@/components/_common/PageTitle';
 
-import InputModal from '@/components/InputModal';
 import NameModal from '@/components/InputModal/nameModal';
 import TaskCard from '@/components/TaskCard';
 
@@ -30,10 +29,6 @@ type TaskType = {
   checked: boolean;
 };
 
-type LocationStateType = {
-  active: boolean;
-};
-
 const isAllChecked = (sections: Array<SectionType>): boolean => {
   return sections
     .map(section => section.tasks.every(task => task.checked === true))
@@ -42,8 +37,6 @@ const isAllChecked = (sections: Array<SectionType>): boolean => {
 
 const TaskList = () => {
   const { isShowModal, openModal, closeModal } = useModal(false);
-  const { state } = useLocation();
-  const { active } = state as LocationStateType;
   const { jobId } = useParams();
 
   const [sections, setSections] = useState<Array<SectionType>>([]);
@@ -56,18 +49,13 @@ const TaskList = () => {
     setSections(sections);
   };
 
-  const newTasks = async () => {
-    await apis.postNewTasks({ jobId });
-    await getSections(jobId as string);
-  };
-
-  const handleClickButton = (e: any) => {
+  const handleClickButton = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     openModal();
   };
 
   useEffect(() => {
-    active ? getSections(jobId as string) : newTasks();
+    getSections(jobId as string);
   }, []);
 
   if (sections.length === 0) return;
