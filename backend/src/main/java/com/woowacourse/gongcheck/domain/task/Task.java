@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,6 +31,9 @@ public class Task {
     @JoinColumn(name = "section_id", nullable = false)
     private Section section;
 
+    @OneToOne(mappedBy = "task", fetch = FetchType.LAZY)
+    private RunningTask runningTask;
+
     @Column(name = "name", length = NAME_MAX_LENGTH, nullable = false)
     private String name;
 
@@ -43,9 +47,12 @@ public class Task {
     }
 
     @Builder
-    public Task(Long id, Section section, String name, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Task(Long id, Section section, RunningTask runningTask, String name,
+                LocalDateTime createdAt,
+                LocalDateTime updatedAt) {
         this.id = id;
         this.section = section;
+        this.runningTask = runningTask;
         this.name = name;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;

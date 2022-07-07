@@ -10,6 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.gongcheck.application.response.JobActiveResponse;
+import com.woowacourse.gongcheck.application.response.RunningTasksResponse;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.domain.job.Job;
@@ -27,6 +28,7 @@ import com.woowacourse.gongcheck.exception.NotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -60,6 +62,9 @@ class TaskServiceTest {
 
     @Autowired
     private RunningTaskRepository runningTaskRepository;
+
+    @Autowired
+    private EntityManager entityManager;
 
     @Test
     void 존재하지_않는_호스트로_새로운_작업을_진행하려하는_경우_예외가_발생한다() {
@@ -181,6 +186,79 @@ class TaskServiceTest {
             JobActiveResponse result = taskService.isJobActivated(host.getId(), job.getId());
 
             assertThat(result.isActive()).isFalse();
+        }
+    }
+
+    @Nested
+    class 진행_작업_조회 {
+
+        private Host host;
+        private Space space;
+        private Job job;
+        private Section section;
+        private Task task1, task2;
+
+        @BeforeEach
+        void init() {
+            host = hostRepository.save(Host_생성("1234"));
+            space = spaceRepository.save(Space_생성(host, "잠실"));
+            job = jobRepository.save(Job_생성(space, "청소"));
+            section = sectionRepository.save(Section_생성(job, "트랙룸"));
+            task1 = Task_생성(section, "책상 청소");
+            task2 = Task_생성(section, "의자 넣기");
+        }
+
+        @Test
+        void 존재하지_않는_호스트로_진행중인_작업을_조회하려하는_경우_예외가_발생한다() {
+            assertThatThrownBy(() -> taskService.findRunningTasks(0L, 1L))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 호스트입니다.");
+        }
+
+        @Test
+        void 존재하지_않는_작업의_진행중인_작업을_조회하려는_경우_예외가_발생한다() {
+            Host host = hostRepository.save(Host_생성("1234"));
+
+            assertThatThrownBy(() -> taskService.findRunningTasks(host.getId(), 0L))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 작업입니다.");
+        }
+
+        @Test
+        void 다른_호스트의_작업의_진행중인_작업을_조회하려는_경우_예외가_발생한다() {
+            Host differentHost = hostRepository.save(Host_생성("1234"));
+            taskRepository.saveAll(List.of(task1, task2));
+            RunningTask runningTask1 = RunningTask_생성(task1);
+            RunningTask runningTask2 = RunningTask_생성(task2);
+            runningTaskRepository.saveAll(List.of(runningTask1, runningTask2));
+            entityManager.flush();
+            entityManager.clear();
+
+            assertThatThrownBy(() -> taskService.findRunningTasks(differentHost.getId(), job.getId()))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 작업입니다.");
+        }
+
+        @Test
+        void 진행중인_작업이_없는데_진행중인_작업을_조회하려는_경우_예외가_발생한다() {
+            taskRepository.saveAll(List.of(task1, task2));
+
+            assertThatThrownBy(() -> taskService.findRunningTasks(host.getId(), job.getId()))
+                    .isInstanceOf(BusinessException.class)
+                    .hasMessage("현재 진행중인 작업이 존재하지 않아 조회할 수 없습니다");
+        }
+
+        @Test
+        void 정상적으로_진행중인_작업을_조회한다() {
+            taskRepository.saveAll(List.of(task1, task2));
+            RunningTask runningTask1 = RunningTask_생성(task1);
+            RunningTask runningTask2 = RunningTask_생성(task2);
+            runningTaskRepository.saveAll(List.of(runningTask1, runningTask2));
+            entityManager.flush();
+            entityManager.clear();
+
+            RunningTasksResponse result = taskService.findRunningTasks(host.getId(), job.getId());
+            assertThat(result.getSections()).hasSize(1);
         }
     }
 

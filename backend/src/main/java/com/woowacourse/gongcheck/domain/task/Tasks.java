@@ -3,7 +3,9 @@ package com.woowacourse.gongcheck.domain.task;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import lombok.Getter;
 
+@Getter
 public class Tasks {
 
     private final List<Task> tasks;
