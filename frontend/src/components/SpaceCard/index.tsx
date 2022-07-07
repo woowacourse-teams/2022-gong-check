@@ -7,11 +7,11 @@ import styles from './styles';
 
 type SpaceCardProps = {
   spaceName: string;
-  imageURL: string;
+  imageUrl: string;
   id: number;
 };
 
-const SpaceCard = ({ spaceName, imageURL, id }: SpaceCardProps) => {
+const SpaceCard = ({ spaceName, imageUrl, id }: SpaceCardProps) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -19,7 +19,7 @@ const SpaceCard = ({ spaceName, imageURL, id }: SpaceCardProps) => {
   };
 
   return (
-    <div css={styles.spaceCard({ imageURL })} onClick={handleClick}>
+    <div css={styles.spaceCard({ imageUrl })} onClick={handleClick}>
       <CardTitle>{spaceName}</CardTitle>
     </div>
   );

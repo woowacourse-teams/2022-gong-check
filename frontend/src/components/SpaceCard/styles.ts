@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 
 import theme from '@/styles/theme';
 
-const spaceCard = ({ imageURL }: { imageURL: string }) => css`
+const spaceCard = ({ imageUrl }: { imageUrl: string }) => css`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,7 +11,7 @@ const spaceCard = ({ imageURL }: { imageURL: string }) => css`
   width: 240px;
   height: 240px;
   margin: 24px;
-  background: url(${imageURL});
+  background: url(${imageUrl});
   background-size: cover;
   &:hover {
     transform: scale(1.01);
