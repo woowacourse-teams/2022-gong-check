@@ -70,9 +70,11 @@ const TaskList = () => {
     active ? getSections(jobId as string) : newTasks();
   }, []);
 
+  if (sections.length === 0) return;
+
   return (
     <div css={styles.layout}>
-      <PageTitle>마감 체크리스트</PageTitle>
+      <PageTitle>청소 체크리스트</PageTitle>
       <div css={styles.contents}>
         <form
           css={css`
