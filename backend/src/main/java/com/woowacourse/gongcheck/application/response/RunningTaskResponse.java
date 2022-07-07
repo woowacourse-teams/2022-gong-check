@@ -8,7 +8,7 @@ public class RunningTaskResponse {
 
     private Long id;
     private String name;
-    private Boolean checked;
+    private boolean checked;
 
     private RunningTaskResponse() {
     }
