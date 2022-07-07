@@ -6,6 +6,7 @@ import com.woowacourse.gongcheck.support.AuthorizationTokenExtractor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
@@ -23,6 +24,10 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler)
             throws Exception {
+        if (CorsUtils.isPreFlightRequest(request)) {
+            return true;
+        }
+
         String token = AuthorizationTokenExtractor.extractToken(request)
                 .orElseThrow(() -> new UnauthorizedException("헤더에 토큰 값이 정상적으로 존재하지 않습니다."));
 
