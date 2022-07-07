@@ -61,8 +61,8 @@ class TaskDocumentation extends DocumentationTest {
         Job job = Job_생성(space, "청소");
         Section section1 = Section_아이디_지정_생성(1L, job, "트랙룸");
         Section section2 = Section_아이디_지정_생성(2L, job, "굿샷강의장");
-        RunningTask runningTask1 = RunningTask_생성(Task_생성(section1, "책상 청소"));
-        RunningTask runningTask2 = RunningTask_생성(Task_생성(section2, "책상 청소"));
+        RunningTask runningTask1 = RunningTask_생성(Task_생성(section1, "책상 청소").getId(), false);
+        RunningTask runningTask2 = RunningTask_생성(Task_생성(section2, "책상 청소").getId(), false);
         Task task1 = RunningTask로_Task_생성(runningTask1, section1, "책상 청소");
         Task task2 = RunningTask로_Task_생성(runningTask2, section2, "의자 청소");
         when(taskService.findRunningTasks(anyLong(), any())).thenReturn(
