@@ -65,7 +65,7 @@ class RunningTaskRepositoryTest {
 
         @Test
         void 진행중인_테스크가_존재하는_경우_True를_반환한다() {
-            runningTaskRepository.save(RunningTask_생성(task));
+            runningTaskRepository.save(RunningTask_생성(task.getId(), false));
             boolean result = runningTaskRepository.existsByTaskIdIn(List.of(task.getId()));
 
             assertThat(result).isTrue();
@@ -87,7 +87,7 @@ class RunningTaskRepositoryTest {
 
         @Test
         void 진행중인_테스크가_존재하는_경우_테스크를_조회한다() {
-            runningTaskRepository.save(RunningTask_생성(task));
+            runningTaskRepository.save(RunningTask_생성(task.getId(), false));
             Optional<RunningTask> result = runningTaskRepository.findByTaskId(task.getId());
 
             assertThat(result).isNotEmpty();

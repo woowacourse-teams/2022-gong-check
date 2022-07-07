@@ -1,6 +1,7 @@
 package com.woowacourse.gongcheck.domain.job;
 
 import com.woowacourse.gongcheck.domain.space.Space;
+import com.woowacourse.gongcheck.domain.submission.Submission;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -49,6 +50,14 @@ public class Job {
         this.name = name;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public Submission createSubmission(final String author) {
+        return Submission.builder()
+                .job(this)
+                .author(author)
+                .createdAt(LocalDateTime.now())
+                .build();
     }
 
     @Override
