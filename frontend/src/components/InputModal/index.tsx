@@ -1,5 +1,4 @@
 /**  @jsxImportSource @emotion/react */
-import apis from '@/apis';
 import { css } from '@emotion/react';
 import { useState } from 'react';
 
