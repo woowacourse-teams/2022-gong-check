@@ -21,7 +21,6 @@ const Dimmer = ({ children, requiredSubmit = false, closeModal }: DimmerProps) =
         background-color: ${theme.colors.shadow80};
         width: 400px;
         height: 100vh;
-        position: relative;
         display: flex;
         justify-content: center;
         align-items: center;

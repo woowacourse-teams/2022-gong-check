@@ -27,6 +27,11 @@ const globalStyle = css`
     background-color: white;
     position: absolute;
   }
+
+  #modal {
+    position: fixed;
+    top: 0;
+  }
 `;
 
 export default globalStyle;

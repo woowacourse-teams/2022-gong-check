@@ -11,6 +11,7 @@ const header = css`
   height: 50px;
   padding: 0 8px;
   position: relative;
+  cursor: pointer;
 `;
 
 const arrowBackIcon = css`

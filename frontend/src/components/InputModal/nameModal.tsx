@@ -1,6 +1,7 @@
 /**  @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import Button from '@/components/_common/Button';
 import Dimmer from '@/components/_common/Dimmer';
@@ -35,6 +36,8 @@ const NameModal = ({
 }: NameModalProps) => {
   const [isDisabledButton, setIsDisabledButton] = useState(true);
   const [name, setName] = useState('');
+  const navigate = useNavigate();
+  const { hostId } = useParams();
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isTyped = !!e.target.value;
@@ -47,6 +50,7 @@ const NameModal = ({
       await apis.postJobComplete({ jobId, author: name });
       alert('제출 되었습니다.');
       closeModal();
+      navigate(`/${hostId}/spaces`);
     } catch (err) {
       alert(err);
     }
