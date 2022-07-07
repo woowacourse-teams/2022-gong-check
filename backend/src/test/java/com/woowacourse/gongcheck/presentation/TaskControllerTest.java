@@ -32,6 +32,22 @@ class TaskControllerTest extends ControllerTest {
     }
 
     @Test
+    void 존재하는_진행작업이_없는데_조회하는_경우_예외가_발생한다() {
+        doThrow(new BusinessException("현재 진행중인 작업이 존재하지 않아 조회할 수 없습니다")).when(taskService)
+                .findRunningTasks(anyLong(), anyLong());
+        when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
+        ExtractableResponse<MockMvcResponse> response = given
+                .header("Authorization", "Bearer jwt.token.here")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().get("/api/jobs/1/tasks")
+                .then().log().all()
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
     void 진행중인_작업이_없는_경우_예외가_발생한다() {
         doThrow(new BusinessException("현재 진행 중인 작업이 아닙니다.")).when(taskService)
                 .flipRunningTask(anyLong(), anyLong());
