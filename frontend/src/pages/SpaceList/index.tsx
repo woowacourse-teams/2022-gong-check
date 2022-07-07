@@ -1,10 +1,7 @@
 /**  @jsxImportSource @emotion/react */
 import PageTitle from '@/components/_common/PageTitle';
 
-import InputModal from '@/components/InputModal';
 import SpaceCard from '@/components/SpaceCard';
-
-import useModal from '@/hooks/useModal';
 
 import styles from './styles';
 
@@ -24,7 +21,6 @@ const spaces = [
 ];
 
 const SpaceList = () => {
-  const { isShowModal, closeModal } = useModal();
   return (
     <div css={styles.layout}>
       <PageTitle>
@@ -35,15 +31,6 @@ const SpaceList = () => {
           <SpaceCard spaceName={space.name} imageURL={space.imageURL} key={space.id} id={space.id} />
         ))}
       </div>
-      {isShowModal && (
-        <InputModal
-          title="비밀번호 입력"
-          detail="해당 공간의 관계자만 접근할 수 있습니다."
-          placeholder="비밀번호를 입력해주세요."
-          buttonText="확인"
-          closeModal={closeModal}
-        />
-      )}
     </div>
   );
 };
