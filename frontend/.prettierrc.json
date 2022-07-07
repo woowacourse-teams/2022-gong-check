@@ -14,6 +14,7 @@
     "^(@/components/_common)(.*|$)",
     "^(@/components)(.*|$)",
     "^(@/hooks)(.*|$)",
+    "@/apis",
     "^(@/constants/)(.*|$)",
     "^(@/assets/)(.*|$)",
     "@/ModalPortal",

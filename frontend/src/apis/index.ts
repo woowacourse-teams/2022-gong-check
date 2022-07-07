@@ -5,9 +5,6 @@ const DEV_URL = 'http://localhost:8080';
 // const BASE_URL = '';
 const API_URL = DEV_URL;
 
-const TOKEN =
-  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjU3MTYwMDU2LCJleHAiOjE2NTcxNjM2NTZ9.o63RFWZc3-duoCoVID3fX943pb1b4NwpxXiQ8QNnzyI';
-
 const axiosInstance = axios.create({
   baseURL: API_URL,
 });
@@ -18,8 +15,7 @@ const axiosInstanceToken = axios.create({
 
 axiosInstanceToken.interceptors.request.use(
   config => {
-    // const accessToken = sessionStorage.getItem('accessToken');
-    const accessToken = TOKEN;
+    const accessToken = localStorage.getItem('user');
 
     if (accessToken) {
       config.headers = {
