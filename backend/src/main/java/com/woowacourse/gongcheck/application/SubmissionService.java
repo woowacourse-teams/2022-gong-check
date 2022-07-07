@@ -47,9 +47,9 @@ public class SubmissionService {
 
     private void saveSubmissionAndClearRunningTasks(final SubmissionRequest request, final Job job) {
         Tasks tasks = new Tasks(taskRepository.findAllBySectionJob(job));
-        RunningTasks runningTasks = new RunningTasks(runningTaskRepository.findAllById(tasks.getTaskIds()));
         validateRunning(tasks);
-        validateCompletion(runningTasks);
+        RunningTasks runningTasks = new RunningTasks(runningTaskRepository.findAllById(tasks.getTaskIds()));
+        runningTasks.validateCompletion();
         submissionRepository.save(job.createSubmission(request.getAuthor()));
         runningTaskRepository.deleteAllByIdInBatch(tasks.getTaskIds());
     }
@@ -57,12 +57,6 @@ public class SubmissionService {
     private void validateRunning(final Tasks tasks) {
         if (!runningTaskRepository.existsByTaskIdIn(tasks.getTaskIds())) {
             throw new BusinessException("현재 제출할 수 있는 진행중인 작업이 존재하지 않습니다.");
-        }
-    }
-
-    private void validateCompletion(final RunningTasks runningTasks) {
-        if (!runningTasks.isAllChecked()) {
-            throw new BusinessException("모든 작업이 완료되지않아 제출이 불가합니다.");
         }
     }
 }
