@@ -1,5 +1,7 @@
 /**  @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { useEffect, useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 
 import Button from '@/components/_common/Button';
 import PageTitle from '@/components/_common/PageTitle';
@@ -9,55 +11,52 @@ import TaskCard from '@/components/TaskCard';
 
 import useModal from '@/hooks/useModal';
 
+import apis from '@/apis';
+
 import styles from './styles';
 
-const locations = [
-  {
-    id: 1,
-    name: '대강의실',
-    tasks: [
-      {
-        id: 1,
-        name: '창문 닦기',
-        isChecked: true,
-      },
-      {
-        id: 2,
-        name: '책상 닦기',
-        isChecked: false,
-      },
-    ],
-  },
-  {
-    id: 2,
-    name: '소강의실1',
-    tasks: [
-      {
-        id: 1,
-        name: '창문 닦기',
-        isChecked: false,
-      },
-      {
-        id: 2,
-        name: '창틀 닦기',
-        isChecked: true,
-      },
-      {
-        id: 3,
-        name: '에어컨 끄기',
-        isChecked: true,
-      },
-      {
-        id: 4,
-        name: '로비 정리',
-        isChecked: true,
-      },
-    ],
-  },
-];
+type SectionType = {
+  id: number;
+  name: string;
+  tasks: Array<TaskType>;
+};
+
+type TaskType = {
+  id: number;
+  name: string;
+  checked: boolean;
+};
+
+type LocationStateType = {
+  active: boolean;
+};
 
 const TaskList = () => {
-  const { isShowModal, closeModal } = useModal();
+  const { isShowModal, closeModal } = useModal(false);
+  const { state } = useLocation();
+  const { active } = state as LocationStateType;
+
+  const { jobId } = useParams();
+
+  const [sections, setSections] = useState<Array<SectionType>>([]);
+
+  const getSections = async (jobId: string) => {
+    const {
+      data: { sections },
+    } = await apis.getTasks({ jobId });
+
+    setSections(sections);
+  };
+
+  const newTasks = async () => {
+    await apis.postNewTasks({ jobId });
+    await getSections(jobId as string);
+  };
+
+  useEffect(() => {
+    active ? getSections(jobId as string) : newTasks();
+  }, []);
+
   return (
     <div css={styles.layout}>
       <PageTitle>마감 체크리스트</PageTitle>
@@ -69,10 +68,10 @@ const TaskList = () => {
             align-items: center;
           `}
         >
-          {locations.map(location => (
-            <section css={styles.location} key={location.id}>
-              <p css={styles.locationName}>{location.name}</p>
-              <TaskCard tasks={location.tasks} />
+          {sections.map(({ id, name, tasks }) => (
+            <section css={styles.location} key={id}>
+              <p css={styles.locationName}>{name}</p>
+              <TaskCard tasks={tasks} getSections={getSections} />
             </section>
           ))}
           <Button type="submit">제출</Button>
