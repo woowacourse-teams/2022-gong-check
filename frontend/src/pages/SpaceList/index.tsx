@@ -11,7 +11,7 @@ import styles from './styles';
 
 type SpaceType = {
   name: string;
-  imageURL: string;
+  imageUrl: string;
   id: number;
 };
 
@@ -33,11 +33,11 @@ const SpaceList = () => {
   return (
     <div css={styles.layout}>
       <PageTitle>
-        장소 목록 (<span>2</span>)
+        장소 목록 (<span>{spaces.length}</span>)
       </PageTitle>
       <div css={styles.contents}>
         {spaces.map(space => (
-          <SpaceCard spaceName={space.name} imageURL={space.imageURL} key={space.id} id={space.id} />
+          <SpaceCard spaceName={space.name} imageUrl={space.imageUrl} key={space.id} id={space.id} />
         ))}
       </div>
     </div>

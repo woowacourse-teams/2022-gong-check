@@ -34,7 +34,7 @@ const JobList = () => {
   return (
     <div css={styles.layout}>
       <PageTitle>
-        체크리스트 목록(<span>2</span>)
+        체크리스트 목록(<span>{jobs.length}</span>)
       </PageTitle>
       <div css={styles.contents}>
         {jobs.map(job => (
