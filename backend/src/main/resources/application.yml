@@ -15,7 +15,10 @@ spring:
         show_sql: true
         format_sql: true
     open-in-view: false
-
+  sql:
+    init:
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:dummy_data.sql
 security:
   jwt:
     token:
