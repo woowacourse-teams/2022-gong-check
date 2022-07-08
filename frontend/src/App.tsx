@@ -1,4 +1,3 @@
-/**  @jsxImportSource @emotion/react */
 import routes from './Routes';
 import { useRoutes } from 'react-router-dom';
 

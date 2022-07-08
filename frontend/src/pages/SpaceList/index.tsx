@@ -1,4 +1,3 @@
-/**  @jsxImportSource @emotion/react */
 import { useEffect, useState } from 'react';
 
 import PageTitle from '@/components/_common/PageTitle';
