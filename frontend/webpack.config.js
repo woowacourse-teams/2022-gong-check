@@ -19,7 +19,8 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './public/index.html',
+      template: 'public/index.html',
+      favicon: 'src/assets/favicon.png',
     }),
     new CleanWebpackPlugin({
       cleanAfterEveryBuildPatterns: ['dist'],
