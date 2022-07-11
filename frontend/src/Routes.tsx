@@ -1,10 +1,11 @@
-import UserLayout from './layouts/UserLayout';
-
-import JobList from '@/pages/JobList';
-import SpaceList from '@/pages/SpaceList';
-import TaskList from '@/pages/TaskList';
+import { lazy } from 'react';
 
 import DefaultLayout from '@/layouts/DefaultLayout';
+import UserLayout from '@/layouts/UserLayout';
+
+const SpaceListPage = lazy(() => import('@/pages/SpaceList'));
+const JobListPage = lazy(() => import('@/pages/JobList'));
+const TaskListPage = lazy(() => import('@/pages/TaskList'));
 
 const routes = [
   {
@@ -17,15 +18,15 @@ const routes = [
         children: [
           {
             path: 'spaces',
-            element: <SpaceList />,
+            element: <SpaceListPage />,
           },
           {
             path: 'spaces/:spaceId',
-            element: <JobList />,
+            element: <JobListPage />,
           },
           {
             path: 'spaces/:spaceId/:jobId',
-            element: <TaskList />,
+            element: <TaskListPage />,
           },
         ],
       },

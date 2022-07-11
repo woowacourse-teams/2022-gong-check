@@ -15,9 +15,7 @@ const JobCard = ({ jobName, id }: JobCardProps) => {
   const navigate = useNavigate();
 
   const handleClick = async () => {
-    const {
-      data: { active },
-    } = await apis.getJobActive({ jobId: id });
+    const { active } = await apis.getJobActive({ jobId: id });
 
     if (!active) {
       await apis.postNewTasks({ jobId: id });

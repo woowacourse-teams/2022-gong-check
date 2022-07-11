@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import Header from '@/components/Header';
@@ -20,7 +21,9 @@ const UserLayout = () => {
           closeModal={closeModal}
         />
       )}
-      <Outlet />
+      <Suspense fallback={<div>로딩 스피너</div>}>
+        <Outlet />
+      </Suspense>
     </>
   );
 };

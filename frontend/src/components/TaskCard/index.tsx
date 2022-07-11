@@ -14,19 +14,17 @@ type TaskType = {
 
 type TaskCardProps = {
   tasks: Array<TaskType>;
-  getSections: (jobId: string) => void;
+  getSections: () => void;
 };
 
 const TaskCard = ({ tasks, getSections }: TaskCardProps) => {
-  const { jobId } = useParams();
-
   const handleClickCheckBox = async (
     e: React.MouseEvent<HTMLElement, MouseEvent> | React.ChangeEvent<HTMLElement>,
     id: number
   ) => {
     e.preventDefault();
     await apis.postCheckTask({ taskId: id });
-    await getSections(jobId as string);
+    getSections();
   };
 
   return (

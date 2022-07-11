@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
 import PageTitle from '@/components/_common/PageTitle';
@@ -9,34 +9,18 @@ import apis from '@/apis';
 
 import styles from './styles';
 
-type JobType = {
-  id: number;
-  name: string;
-};
-
 const JobList = () => {
-  const [jobs, setJobs] = useState<Array<JobType>>([]);
   const { spaceId } = useParams();
 
-  useEffect(() => {
-    const getSpaces = async () => {
-      const {
-        data: { jobs },
-      } = await apis.getJobs({ spaceId });
-
-      setJobs(jobs);
-    };
-
-    getSpaces();
-  }, []);
+  const { data } = useQuery(['jobs', spaceId], () => apis.getJobs({ spaceId }), { suspense: true });
 
   return (
     <div css={styles.layout}>
       <PageTitle>
-        체크리스트 목록(<span>{jobs.length}</span>)
+        체크리스트 목록(<span>{data?.jobs.length}</span>)
       </PageTitle>
       <div css={styles.contents}>
-        {jobs.map(job => (
+        {data?.jobs.map(job => (
           <JobCard jobName={job.name} key={job.id} id={job.id} />
         ))}
       </div>
