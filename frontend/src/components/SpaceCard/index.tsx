@@ -1,4 +1,3 @@
-/**  @jsxImportSource @emotion/react */
 import { useNavigate } from 'react-router-dom';
 
 import CardTitle from '@/components/_common/CardTitle';
