@@ -1,4 +1,3 @@
-/**  @jsxImportSource @emotion/react */
 import App from './App';
 import { Global } from '@emotion/react';
 import ReactDOM from 'react-dom/client';
