@@ -1,5 +1,4 @@
 import { css } from '@emotion/react';
-import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
