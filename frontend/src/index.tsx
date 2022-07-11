@@ -3,6 +3,7 @@ import { Global } from '@emotion/react';
 import ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
 
 import globalStyle from './styles/global';
 
@@ -13,7 +14,9 @@ root.render(
   <BrowserRouter>
     <Global styles={globalStyle} />
     <QueryClientProvider client={queryClient}>
-      <App />
+      <RecoilRoot>
+        <App />
+      </RecoilRoot>
     </QueryClientProvider>
   </BrowserRouter>
 );
