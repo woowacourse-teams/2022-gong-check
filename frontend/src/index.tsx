@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import globalStyle from './styles/global';
 
-const root = ReactDOM.createRoot(document.getElementById('root') as Element);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
   <BrowserRouter>

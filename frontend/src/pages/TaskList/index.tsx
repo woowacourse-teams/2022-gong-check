@@ -57,7 +57,7 @@ const TaskList = () => {
     getSections(jobId as string);
   }, []);
 
-  if (sections.length === 0) return;
+  if (sections.length === 0) return <div>체크리스트가 없습니다.</div>;
 
   return (
     <div css={styles.layout}>

@@ -11,6 +11,7 @@
   "importOrderSeparation": true,
   "importOrder": [
     "^(@/pages)(.*|$)",
+    "^(@/layouts)(.*|$)",
     "^(@/components/_common)(.*|$)",
     "^(@/components)(.*|$)",
     "^(@/hooks)(.*|$)",

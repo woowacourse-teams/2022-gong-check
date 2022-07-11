@@ -18,7 +18,7 @@ const Header = () => {
   };
 
   const handleClickLogo = () => {
-    navigate(`${hostId}/spaces`);
+    navigate(`/enter/${hostId}/spaces`);
   };
 
   return (
