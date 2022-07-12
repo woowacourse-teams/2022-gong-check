@@ -3,12 +3,13 @@ package com.woowacourse.gongcheck.domain.space;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Host_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_생성;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
+import com.woowacourse.gongcheck.exception.NotFoundException;
 import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -46,20 +47,21 @@ class SpaceRepositoryTest {
         Space space = Space_생성(host, "잠실");
         spaceRepository.save(space);
 
-        Optional<Space> result = spaceRepository.findByHostAndId(host, space.getId());
+        Space result = spaceRepository.getByHostAndId(host, space.getId());
 
-        assertThat(result).isNotEmpty();
+        assertThat(result).isNotNull();
     }
 
     @Test
-    void 다른_호스트의_공간을_조회할_경우_빈_값이_조회된다() {
+    void 다른_호스트의_공간을_조회할_경우_예외가_발생한다() {
         Host host1 = hostRepository.save(Host_생성("1234"));
         Host host2 = hostRepository.save(Host_생성("1234"));
         Space space = Space_생성(host2, "잠실");
         spaceRepository.save(space);
 
-        Optional<Space> result = spaceRepository.findByHostAndId(host1, space.getId());
-
-        assertThat(result).isEmpty();
+        assertThatThrownBy(() ->
+                spaceRepository.getByHostAndId(host1, space.getId()))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("존재하지 않는 공간입니다.");
     }
 }
