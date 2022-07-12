@@ -29,8 +29,7 @@ public class JobService {
     }
 
     public JobsResponse findPage(final Long hostId, final Long spaceId, final Pageable pageable) {
-        Host host = hostRepository.findById(hostId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 호스트입니다."));
+        Host host = hostRepository.getById(hostId);
         Space space = spaceRepository.findByHostAndId(host, spaceId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 공간입니다."));
         Slice<Job> jobs = jobRepository.findBySpaceHostAndSpace(host, space, pageable);

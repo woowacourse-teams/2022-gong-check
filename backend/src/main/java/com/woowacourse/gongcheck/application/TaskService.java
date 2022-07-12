@@ -54,8 +54,7 @@ public class TaskService {
 
     @Transactional
     public void flipRunningTask(final Long hostId, final Long taskId) {
-        Host host = hostRepository.findById(hostId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 호스트입니다."));
+        Host host = hostRepository.getById(hostId);
         Task task = taskRepository.findBySectionJobSpaceHostAndId(host, taskId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 작업입니다."));
         RunningTask runningTask = runningTaskRepository.findByTaskId(task.getId())
@@ -65,8 +64,7 @@ public class TaskService {
     }
 
     private Tasks createTasksByHostIdAndJobId(final Long hostId, final Long jobId) {
-        Host host = hostRepository.findById(hostId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 호스트입니다."));
+        Host host = hostRepository.getById(hostId);
         Job job = jobRepository.findBySpaceHostAndId(host, jobId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 작업입니다."));
         return new Tasks(taskRepository.findAllBySectionJob(job));

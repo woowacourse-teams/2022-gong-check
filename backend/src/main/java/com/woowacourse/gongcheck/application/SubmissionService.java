@@ -38,8 +38,7 @@ public class SubmissionService {
 
     @Transactional
     public void submitJobCompletion(final Long hostId, final Long jobId, final SubmissionRequest request) {
-        Host host = hostRepository.findById(hostId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 호스트입니다."));
+        Host host = hostRepository.getById(hostId);
         Job job = jobRepository.findBySpaceHostAndId(host, jobId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 작업입니다."));
         saveSubmissionAndClearRunningTasks(request, job);
