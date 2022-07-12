@@ -5,6 +5,8 @@ import Button from '@/components/_common/Button';
 import Dimmer from '@/components/_common/Dimmer';
 import Input from '@/components/_common/Input';
 
+import useModal from '@/hooks/useModal';
+
 import apis from '@/apis';
 
 import ModalPortal from '@/ModalPortal';
@@ -18,25 +20,15 @@ interface InputModalProps {
   detail: string;
   placeholder: string;
   buttonText: string;
-  closeModal: () => void;
-  requiredSubmit?: boolean;
 }
 
-const InputModal = ({
-  title,
-  detail,
-  placeholder,
-  buttonText,
-  closeModal,
-  requiredSubmit = false,
-}: InputModalProps) => {
+const InputModal = ({ title, detail, placeholder, buttonText }: InputModalProps) => {
+  const { closeModal } = useModal();
   const [isDisabledButton, setIsDisabledButton] = useState(true);
   const [password, setPassword] = useState('');
 
   const setToken = async (password: string) => {
-    const {
-      data: { token },
-    }: any = await apis.postPassword({ hostId: 1, password });
+    const { token } = await apis.postPassword({ hostId: 1, password });
     localStorage.setItem('user', token);
   };
 
@@ -58,7 +50,7 @@ const InputModal = ({
 
   return (
     <ModalPortal>
-      <Dimmer closeModal={closeModal} requiredSubmit={requiredSubmit}>
+      <Dimmer isAbleClick={false}>
         <div css={styles.container}>
           <h1 css={styles.title}>{title}</h1>
           <span css={styles.detail}>{detail}</span>

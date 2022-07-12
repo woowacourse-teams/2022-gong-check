@@ -1,17 +1,23 @@
-import { useCallback, useState } from 'react';
+import React from 'react';
+import { useSetRecoilState } from 'recoil';
 
-const useModal = (isShow: boolean) => {
-  const [isShowModal, setIsShowModal] = useState(isShow);
+import { isShowModalState, modalComponentState } from '@/recoil/modal';
 
-  const openModal = useCallback(() => {
+const useModal = () => {
+  const setIsShowModal = useSetRecoilState(isShowModalState);
+  const setModal = useSetRecoilState(modalComponentState);
+
+  const openModal = (Component: React.ReactElement | '') => {
     setIsShowModal(true);
-  }, [setIsShowModal]);
+    setModal(Component);
+  };
 
-  const closeModal = useCallback(() => {
+  const closeModal = () => {
     setIsShowModal(false);
-  }, [setIsShowModal]);
+    setModal('');
+  };
 
-  return { isShowModal, openModal, closeModal };
+  return { openModal, closeModal };
 };
 
 export default useModal;

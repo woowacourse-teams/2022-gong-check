@@ -5,7 +5,7 @@ export const isShowModalState = atom({
   default: false,
 });
 
-export const modalComponentState = atom<React.ReactElement | string>({
+export const modalComponentState = atom<React.ReactElement | ''>({
   key: 'modal/modalComponentState',
   default: '',
 });

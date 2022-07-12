@@ -1,17 +1,20 @@
 import { css } from '@emotion/react';
 
+import useModal from '@/hooks/useModal';
+
 import theme from '@/styles/theme';
 
 interface DimmerProps {
   children: React.ReactNode;
-  requiredSubmit?: boolean;
-  closeModal: () => void;
+  isAbleClick?: boolean;
 }
 
-const Dimmer = ({ children, requiredSubmit = false, closeModal }: DimmerProps) => {
+const Dimmer = ({ children, isAbleClick = true }: DimmerProps) => {
+  const { closeModal } = useModal();
+
   const handleClickDimed = (e: React.MouseEvent<HTMLElement>) => {
     if (e.currentTarget !== e.target) return;
-    if (requiredSubmit) closeModal();
+    if (isAbleClick) closeModal();
   };
 
   return (

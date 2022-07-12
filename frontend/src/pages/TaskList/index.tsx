@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import Button from '@/components/_common/Button';
 import PageTitle from '@/components/_common/PageTitle';
 
-import NameModal from '@/components/InputModal/nameModal';
+import NameModal from '@/components/NameModal';
 import TaskCard from '@/components/TaskCard';
 
 import useModal from '@/hooks/useModal';
@@ -35,7 +35,7 @@ const isAllChecked = (sections: SectionType[]): boolean => {
 };
 
 const TaskList = () => {
-  const { isShowModal, openModal, closeModal } = useModal(false);
+  const { openModal } = useModal();
   const { jobId } = useParams();
 
   const { data, refetch: getSections } = useQuery(['sections', jobId], () => apis.getTasks({ jobId }), {
@@ -44,7 +44,15 @@ const TaskList = () => {
 
   const handleClickButton = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    openModal();
+    openModal(
+      <NameModal
+        title="체크리스트 제출"
+        detail="확인 버튼을 누르면 제출됩니다."
+        placeholder="이름을 입력해주세요."
+        buttonText="확인"
+        jobId={jobId}
+      />
+    );
   };
 
   if (!data?.sections.length) return <div>체크리스트가 없습니다.</div>;
@@ -80,17 +88,6 @@ const TaskList = () => {
           </Button>
         </form>
       </div>
-      {isShowModal && (
-        <NameModal
-          title="체크리스트 제출"
-          detail="확인 버튼을 누르면 제출됩니다."
-          placeholder="이름을 입력해주세요."
-          buttonText="확인"
-          closeModal={closeModal}
-          requiredSubmit={true}
-          jobId={jobId}
-        />
-      )}
     </div>
   );
 };

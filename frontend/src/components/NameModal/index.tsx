@@ -6,6 +6,8 @@ import Button from '@/components/_common/Button';
 import Dimmer from '@/components/_common/Dimmer';
 import Input from '@/components/_common/Input';
 
+import useModal from '@/hooks/useModal';
+
 import apis from '@/apis';
 
 import ModalPortal from '@/ModalPortal';
@@ -19,23 +21,15 @@ interface NameModalProps {
   detail: string;
   placeholder: string;
   buttonText: string;
-  closeModal: () => void;
-  requiredSubmit?: boolean;
   jobId: string | undefined;
 }
 
-const NameModal = ({
-  title,
-  detail,
-  placeholder,
-  buttonText,
-  closeModal,
-  requiredSubmit = false,
-  jobId,
-}: NameModalProps) => {
+const NameModal = ({ title, detail, placeholder, buttonText, jobId }: NameModalProps) => {
+  const navigate = useNavigate();
+
+  const { closeModal } = useModal();
   const [isDisabledButton, setIsDisabledButton] = useState(true);
   const [name, setName] = useState('');
-  const navigate = useNavigate();
   const { hostId } = useParams();
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,7 +51,7 @@ const NameModal = ({
 
   return (
     <ModalPortal>
-      <Dimmer closeModal={closeModal} requiredSubmit={requiredSubmit}>
+      <Dimmer isAbleClick={false}>
         <div css={styles.container}>
           <h1 css={styles.title}>{title}</h1>
           <span css={styles.detail}>{detail}</span>

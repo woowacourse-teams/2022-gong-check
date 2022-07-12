@@ -1,15 +1,19 @@
-import { axiosInstance, axiosInstanceToken } from './config';
-import { ApiSpacesData, ApiJobData, ApiTaskData, ApiJobActiveData } from '@/types/apis';
 import { AxiosResponse } from 'axios';
 
+import { ApiSpacesData, ApiJobData, ApiTaskData, ApiJobActiveData, ApiTokenData } from '@/types/apis';
+
+import { axiosInstance, axiosInstanceToken } from './config';
+
 const postPassword = async ({ hostId, password }: any) => {
-  return await axiosInstance({
+  const { data }: AxiosResponse<ApiTokenData> = await axiosInstance({
     method: 'POST',
     url: `api/hosts/${hostId}/enter`,
     data: {
       password,
     },
   });
+
+  return data;
 };
 
 const getSpaces = async () => {

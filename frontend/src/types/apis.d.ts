@@ -38,3 +38,7 @@ export type ApiTaskData = {
 export type ApiJobActiveData = {
   active: boolean;
 };
+
+export type ApiTokenData = {
+  token: string;
+};
