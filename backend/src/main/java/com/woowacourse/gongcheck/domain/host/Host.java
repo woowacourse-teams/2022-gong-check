@@ -36,7 +36,8 @@ public class Host {
     }
 
     @Builder
-    public Host(Long id, String spacePassword, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Host(final Long id, final String spacePassword, final LocalDateTime createdAt,
+                final LocalDateTime updatedAt) {
         this.id = id;
         this.spacePassword = spacePassword;
         this.createdAt = createdAt;
@@ -54,7 +55,7 @@ public class Host {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }

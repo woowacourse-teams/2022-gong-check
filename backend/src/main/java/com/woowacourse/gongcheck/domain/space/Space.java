@@ -46,8 +46,8 @@ public class Space {
     }
 
     @Builder
-    public Space(Long id, Host host, String name, String imageUrl, LocalDateTime createdAt,
-                 LocalDateTime updatedAt) {
+    public Space(final Long id, final Host host, final String name, final String imageUrl,
+                 final LocalDateTime createdAt, final LocalDateTime updatedAt) {
         this.id = id;
         this.host = host;
         this.name = name;
@@ -57,7 +57,7 @@ public class Space {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }

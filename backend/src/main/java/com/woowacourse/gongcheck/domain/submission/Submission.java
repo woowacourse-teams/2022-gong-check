@@ -40,7 +40,7 @@ public class Submission {
     }
 
     @Builder
-    public Submission(Long id, Job job, String author, LocalDateTime createdAt) {
+    public Submission(final Long id, final Job job, final String author, final LocalDateTime createdAt) {
         this.id = id;
         this.job = job;
         this.author = author;
@@ -48,7 +48,7 @@ public class Submission {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }

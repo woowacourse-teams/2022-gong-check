@@ -44,7 +44,8 @@ public class Job {
     }
 
     @Builder
-    public Job(Long id, Space space, String name, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Job(final Long id, final Space space, final String name, final LocalDateTime createdAt,
+               final LocalDateTime updatedAt) {
         this.id = id;
         this.space = space;
         this.name = name;
@@ -61,7 +62,7 @@ public class Job {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
