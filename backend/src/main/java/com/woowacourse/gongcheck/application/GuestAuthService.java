@@ -3,7 +3,6 @@ package com.woowacourse.gongcheck.application;
 import com.woowacourse.gongcheck.application.response.GuestTokenResponse;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
-import com.woowacourse.gongcheck.exception.NotFoundException;
 import com.woowacourse.gongcheck.presentation.request.GuestEnterRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,8 +20,7 @@ public class GuestAuthService {
     }
 
     public GuestTokenResponse createToken(final long hostId, final GuestEnterRequest request) {
-        Host host = hostRepository.findById(hostId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 호스트입니다."));
+        Host host = hostRepository.getById(hostId);
         host.checkPassword(request.getPassword());
 
         String token = jwtTokenProvider.createToken(String.valueOf(hostId));
