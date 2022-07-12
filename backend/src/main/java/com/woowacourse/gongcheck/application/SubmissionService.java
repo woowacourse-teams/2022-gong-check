@@ -10,7 +10,6 @@ import com.woowacourse.gongcheck.domain.task.RunningTasks;
 import com.woowacourse.gongcheck.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.domain.task.Tasks;
 import com.woowacourse.gongcheck.exception.BusinessException;
-import com.woowacourse.gongcheck.exception.NotFoundException;
 import com.woowacourse.gongcheck.presentation.request.SubmissionRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,8 +38,7 @@ public class SubmissionService {
     @Transactional
     public void submitJobCompletion(final Long hostId, final Long jobId, final SubmissionRequest request) {
         Host host = hostRepository.getById(hostId);
-        Job job = jobRepository.findBySpaceHostAndId(host, jobId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 작업입니다."));
+        Job job = jobRepository.getBySpaceHostAndId(host, jobId);
         saveSubmissionAndClearRunningTasks(request, job);
     }
 
