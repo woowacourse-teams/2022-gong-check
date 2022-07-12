@@ -1,6 +1,5 @@
 import styles from './styles';
 
-styles;
 type CheckBoxProps = {
   id: string;
   checked: boolean;

@@ -11,14 +11,18 @@
   "importOrderSeparation": true,
   "importOrder": [
     "^(@/pages)(.*|$)",
+    "^(@/layouts)(.*|$)",
     "^(@/components/_common)(.*|$)",
     "^(@/components)(.*|$)",
     "^(@/hooks)(.*|$)",
+    "^(@/recoil)(.*|$)",
     "@/apis",
+    "^(@/types)(.*|$)",
     "^(@/constants/)(.*|$)",
     "^(@/assets/)(.*|$)",
     "@/ModalPortal",
     "^(@/styles)(.*|$)",
-    "^(./styles)(.*|$)"
+    "^(./styles)(.*|$)",
+    "^(./config)(.*|$)"
   ]
 }

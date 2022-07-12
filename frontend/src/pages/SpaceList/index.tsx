@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 
 import PageTitle from '@/components/_common/PageTitle';
 
@@ -8,34 +8,16 @@ import apis from '@/apis';
 
 import styles from './styles';
 
-type SpaceType = {
-  name: string;
-  imageUrl: string;
-  id: number;
-};
-
 const SpaceList = () => {
-  const [spaces, setSpaces] = useState<Array<SpaceType>>([]);
-
-  useEffect(() => {
-    const getSpaces = async () => {
-      const {
-        data: { spaces },
-      } = await apis.getSpaces();
-
-      setSpaces(spaces);
-    };
-
-    getSpaces();
-  }, []);
+  const { data } = useQuery(['spaces'], apis.getSpaces, { suspense: true });
 
   return (
     <div css={styles.layout}>
       <PageTitle>
-        장소 목록 (<span>{spaces.length}</span>)
+        장소 목록 (<span>{data?.spaces.length}</span>)
       </PageTitle>
       <div css={styles.contents}>
-        {spaces.map(space => (
+        {data?.spaces.map(space => (
           <SpaceCard spaceName={space.name} imageUrl={space.imageUrl} key={space.id} id={space.id} />
         ))}
       </div>

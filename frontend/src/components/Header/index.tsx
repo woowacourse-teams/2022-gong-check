@@ -10,7 +10,7 @@ import styles from './styles';
 const hostId = 1;
 
 const Header = () => {
-  const [isVisibaleButton, setIsVisibaleButton] = useState(true);
+  const [isShowButton] = useState(true);
   const navigate = useNavigate();
 
   const handleClickPreviousButton = () => {
@@ -18,12 +18,12 @@ const Header = () => {
   };
 
   const handleClickLogo = () => {
-    navigate(`${hostId}/spaces`);
+    navigate(`/enter/${hostId}/spaces`);
   };
 
   return (
     <div css={styles.header}>
-      {isVisibaleButton && <IoIosArrowBack css={styles.arrowBackIcon} onClick={handleClickPreviousButton} size={30} />}
+      {isShowButton && <IoIosArrowBack css={styles.arrowBackIcon} onClick={handleClickPreviousButton} size={30} />}
       <div
         css={css`
           position: absolute;

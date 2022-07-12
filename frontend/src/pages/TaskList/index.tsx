@@ -1,11 +1,11 @@
 import { css } from '@emotion/react';
-import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
 import Button from '@/components/_common/Button';
 import PageTitle from '@/components/_common/PageTitle';
 
-import NameModal from '@/components/InputModal/nameModal';
+import NameModal from '@/components/NameModal';
 import TaskCard from '@/components/TaskCard';
 
 import useModal from '@/hooks/useModal';
@@ -28,36 +28,34 @@ type TaskType = {
   checked: boolean;
 };
 
-const isAllChecked = (sections: Array<SectionType>): boolean => {
+const isAllChecked = (sections: SectionType[]): boolean => {
   return sections
     .map(section => section.tasks.every(task => task.checked === true))
     .every(isChecked => isChecked === true);
 };
 
 const TaskList = () => {
-  const { isShowModal, openModal, closeModal } = useModal(false);
+  const { openModal } = useModal();
   const { jobId } = useParams();
 
-  const [sections, setSections] = useState<Array<SectionType>>([]);
-
-  const getSections = async (jobId: string) => {
-    const {
-      data: { sections },
-    } = await apis.getTasks({ jobId });
-
-    setSections(sections);
-  };
+  const { data, refetch: getSections } = useQuery(['sections', jobId], () => apis.getTasks({ jobId }), {
+    suspense: true,
+  });
 
   const handleClickButton = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    openModal();
+    openModal(
+      <NameModal
+        title="체크리스트 제출"
+        detail="확인 버튼을 누르면 제출됩니다."
+        placeholder="이름을 입력해주세요."
+        buttonText="확인"
+        jobId={jobId}
+      />
+    );
   };
 
-  useEffect(() => {
-    getSections(jobId as string);
-  }, []);
-
-  if (sections.length === 0) return;
+  if (!data?.sections.length) return <div>체크리스트가 없습니다.</div>;
 
   return (
     <div css={styles.layout}>
@@ -70,7 +68,7 @@ const TaskList = () => {
             align-items: center;
           `}
         >
-          {sections.map(({ id, name, tasks }) => (
+          {data.sections.map(({ id, name, tasks }) => (
             <section css={styles.location} key={id}>
               <p css={styles.locationName}>{name}</p>
               <TaskCard tasks={tasks} getSections={getSections} />
@@ -81,26 +79,15 @@ const TaskList = () => {
             css={css`
               margin-bottom: 0;
               width: 256px;
-              background: ${isAllChecked(sections) ? theme.colors.primary : theme.colors.gray};
+              background: ${isAllChecked(data.sections) ? theme.colors.primary : theme.colors.gray};
             `}
             onClick={handleClickButton}
-            disabled={!isAllChecked(sections)}
+            disabled={!isAllChecked(data.sections)}
           >
             제출
           </Button>
         </form>
       </div>
-      {isShowModal && (
-        <NameModal
-          title="체크리스트 제출"
-          detail="확인 버튼을 누르면 제출됩니다."
-          placeholder="이름을 입력해주세요."
-          buttonText="확인"
-          closeModal={closeModal}
-          requiredSubmit={true}
-          jobId={jobId}
-        />
-      )}
     </div>
   );
 };

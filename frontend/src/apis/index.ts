@@ -1,71 +1,48 @@
-import axios from 'axios';
+import { AxiosResponse } from 'axios';
 
-const DEV_URL = 'http://localhost:8080';
-// const PROD_URL = process.env.REACT_APP_API_ROOT;
-// const BASE_URL = '';
-const API_URL = DEV_URL;
+import { ApiSpacesData, ApiJobData, ApiTaskData, ApiJobActiveData, ApiTokenData } from '@/types/apis';
 
-const axiosInstance = axios.create({
-  baseURL: API_URL,
-});
+import { axiosInstance, axiosInstanceToken } from './config';
 
-const axiosInstanceToken = axios.create({
-  baseURL: API_URL,
-});
-
-axiosInstanceToken.interceptors.request.use(
-  config => {
-    const accessToken = localStorage.getItem('user');
-
-    if (accessToken) {
-      config.headers = {
-        Authorization: `Bearer ${accessToken}`,
-      };
-    }
-
-    return config;
-  },
-  error => {
-    return Promise.reject(error);
-  }
-);
-
-// 비밀번호 입력
 const postPassword = async ({ hostId, password }: any) => {
-  return await axiosInstance({
+  const { data }: AxiosResponse<ApiTokenData> = await axiosInstance({
     method: 'POST',
     url: `api/hosts/${hostId}/enter`,
     data: {
       password,
     },
   });
+
+  return data;
 };
 
-// 공간 목록 {page,size}
 const getSpaces = async () => {
-  return await axiosInstanceToken({
+  const { data }: AxiosResponse<ApiSpacesData> = await axiosInstanceToken({
     method: 'GET',
     url: `api/spaces`,
   });
+
+  return data;
 };
 
-// 업무 종류
 const getJobs = async ({ spaceId }: any) => {
-  return await axiosInstanceToken({
+  const { data }: AxiosResponse<ApiJobData> = await axiosInstanceToken({
     method: 'GET',
     url: `/api/spaces/${spaceId}/jobs`,
   });
+
+  return data;
 };
 
-// 진행중인 작업이 있는지 확인
 const getJobActive = async ({ jobId }: any) => {
-  return await axiosInstanceToken({
+  const { data }: AxiosResponse<ApiJobActiveData> = await axiosInstanceToken({
     method: 'GET',
     url: `/api/jobs/${jobId}/active`,
   });
+
+  return data;
 };
 
-// 새 작업 생성
 const postNewTasks = async ({ jobId }: any) => {
   return await axiosInstanceToken({
     method: 'POST',
@@ -73,15 +50,15 @@ const postNewTasks = async ({ jobId }: any) => {
   });
 };
 
-// 진행중인 작업 불러오기
 const getTasks = async ({ jobId }: any) => {
-  return await axiosInstanceToken({
+  const { data }: AxiosResponse<ApiTaskData> = await axiosInstanceToken({
     method: 'GET',
     url: `/api/jobs/${jobId}/tasks`,
   });
+
+  return data;
 };
 
-// 체크박스 체크하기
 const postCheckTask = async ({ taskId }: any) => {
   return await axiosInstanceToken({
     method: 'POST',
@@ -89,7 +66,6 @@ const postCheckTask = async ({ taskId }: any) => {
   });
 };
 
-// 제출하기
 const postJobComplete = async ({ jobId, author }: any) => {
   return await axiosInstanceToken({
     method: 'POST',

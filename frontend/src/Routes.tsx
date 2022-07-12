@@ -1,33 +1,11 @@
-import { Outlet } from 'react-router-dom';
+import { lazy } from 'react';
 
-import JobList from '@/pages/JobList';
-import SpaceList from '@/pages/SpaceList';
-import TaskList from '@/pages/TaskList';
+import DefaultLayout from '@/layouts/DefaultLayout';
+import UserLayout from '@/layouts/UserLayout';
 
-import Header from '@/components/Header';
-import InputModal from '@/components/InputModal';
-
-import useModal from '@/hooks/useModal';
-
-const DefaultLayout = () => {
-  const { isShowModal, closeModal } = useModal(!localStorage.getItem('user'));
-
-  return (
-    <>
-      <Header />
-      {isShowModal && (
-        <InputModal
-          title="비밀번호 입력"
-          detail="해당 공간의 관계자만 접근할 수 있습니다."
-          placeholder="비밀번호를 입력해주세요."
-          buttonText="확인"
-          closeModal={closeModal}
-        />
-      )}
-      <Outlet />
-    </>
-  );
-};
+const SpaceListPage = lazy(() => import('@/pages/SpaceList'));
+const JobListPage = lazy(() => import('@/pages/JobList'));
+const TaskListPage = lazy(() => import('@/pages/TaskList'));
 
 const routes = [
   {
@@ -35,19 +13,20 @@ const routes = [
     element: <DefaultLayout />,
     children: [
       {
-        path: ':hostId',
+        path: 'enter/:hostId',
+        element: <UserLayout />,
         children: [
           {
             path: 'spaces',
-            element: <SpaceList />,
+            element: <SpaceListPage />,
           },
           {
             path: 'spaces/:spaceId',
-            element: <JobList />,
+            element: <JobListPage />,
           },
           {
             path: 'spaces/:spaceId/:jobId',
-            element: <TaskList />,
+            element: <TaskListPage />,
           },
         ],
       },

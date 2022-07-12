@@ -1,33 +1,19 @@
-import { useNavigate } from 'react-router-dom';
+import useJobCard from './useJobCard';
 
 import CardTitle from '@/components/_common/CardTitle';
 
-import apis from '@/apis';
-
 import styles from './styles';
 
-type JobCardProps = {
+interface JobCardProps {
   jobName: string;
   id: number;
-};
+}
 
 const JobCard = ({ jobName, id }: JobCardProps) => {
-  const navigate = useNavigate();
-
-  const handleClick = async () => {
-    const {
-      data: { active },
-    } = await apis.getJobActive({ jobId: id });
-
-    if (!active) {
-      await apis.postNewTasks({ jobId: id });
-    }
-
-    navigate(id.toString());
-  };
+  const { onClickJobCard } = useJobCard(id);
 
   return (
-    <div css={styles.jobCard} onClick={handleClick}>
+    <div css={styles.jobCard} onClick={onClickJobCard}>
       <CardTitle>{jobName}</CardTitle>
     </div>
   );
