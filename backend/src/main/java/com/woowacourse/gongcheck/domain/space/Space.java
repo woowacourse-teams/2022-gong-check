@@ -47,8 +47,7 @@ public class Space {
 
     @Builder
     public Space(final Long id, final Host host, final String name, final String imageUrl,
-                 final LocalDateTime createdAt,
-                 final LocalDateTime updatedAt) {
+                 final LocalDateTime createdAt, final LocalDateTime updatedAt) {
         this.id = id;
         this.host = host;
         this.name = name;
