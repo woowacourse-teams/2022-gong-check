@@ -43,7 +43,8 @@ public class Section {
     }
 
     @Builder
-    public Section(Long id, Job job, String name, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Section(final Long id, final Job job, final String name, final LocalDateTime createdAt,
+                   final LocalDateTime updatedAt) {
         this.id = id;
         this.job = job;
         this.name = name;
@@ -52,7 +53,7 @@ public class Section {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }

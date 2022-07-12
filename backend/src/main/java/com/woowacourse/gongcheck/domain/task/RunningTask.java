@@ -39,7 +39,7 @@ public class RunningTask {
     }
 
     @Builder
-    public RunningTask(Long taskId, Task task, boolean isChecked, LocalDateTime createdAt) {
+    public RunningTask(final Long taskId, final Task task, final boolean isChecked, final LocalDateTime createdAt) {
         this.taskId = taskId;
         this.task = task;
         this.isChecked = isChecked;
@@ -51,7 +51,7 @@ public class RunningTask {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }

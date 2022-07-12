@@ -47,9 +47,9 @@ public class Task {
     }
 
     @Builder
-    public Task(Long id, Section section, RunningTask runningTask, String name,
-                LocalDateTime createdAt,
-                LocalDateTime updatedAt) {
+    public Task(final Long id, final Section section, final RunningTask runningTask, final String name,
+                final LocalDateTime createdAt,
+                final LocalDateTime updatedAt) {
         this.id = id;
         this.section = section;
         this.runningTask = runningTask;
@@ -67,7 +67,7 @@ public class Task {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
