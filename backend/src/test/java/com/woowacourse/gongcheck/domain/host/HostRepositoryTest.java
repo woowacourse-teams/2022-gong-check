@@ -17,12 +17,11 @@ class HostRepositoryTest {
 
     @Test
     void 아이디로_호스트를_조회한다() {
-        Host host = Host_생성("1234");
-        Host savedHost = hostRepository.save(host);
+        Host host = hostRepository.save(Host_생성("1234"));
 
-        Host findHost = hostRepository.getById(savedHost.getId());
+        Host result = hostRepository.getById(host.getId());
 
-        assertThat(findHost).isEqualTo(savedHost);
+        assertThat(result).isEqualTo(host);
     }
 
     @Test

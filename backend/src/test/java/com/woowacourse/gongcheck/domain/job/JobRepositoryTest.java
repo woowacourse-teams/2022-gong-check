@@ -56,7 +56,7 @@ class JobRepositoryTest {
 
         Job result = jobRepository.getBySpaceHostAndId(host, job.getId());
 
-        assertThat(result).isNotNull();
+        assertThat(result).isEqualTo(job);
     }
 
     @Test

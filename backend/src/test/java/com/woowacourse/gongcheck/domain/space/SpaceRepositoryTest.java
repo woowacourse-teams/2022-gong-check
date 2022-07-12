@@ -44,12 +44,11 @@ class SpaceRepositoryTest {
     @Test
     void 멤버와_아이디로_공간을_조회한다() {
         Host host = hostRepository.save(Host_생성("1234"));
-        Space space = Space_생성(host, "잠실");
-        spaceRepository.save(space);
+        Space space = spaceRepository.save(Space_생성(host, "잠실"));
 
         Space result = spaceRepository.getByHostAndId(host, space.getId());
 
-        assertThat(result).isNotNull();
+        assertThat(result).isEqualTo(space);
     }
 
     @Test
