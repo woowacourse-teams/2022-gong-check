@@ -23,16 +23,17 @@ interface InputModalProps {
 }
 
 const InputModal = ({ title, detail, placeholder, buttonText }: InputModalProps) => {
-  const { closeModal } = useModal();
   const [isDisabledButton, setIsDisabledButton] = useState(true);
   const [password, setPassword] = useState('');
+
+  const { closeModal } = useModal();
 
   const setToken = async (password: string) => {
     const { token } = await apis.postPassword({ hostId: 1, password });
     localStorage.setItem('user', token);
   };
 
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isTyped = !!e.target.value;
     setPassword(e.target.value);
     setIsDisabledButton(!isTyped);
@@ -54,7 +55,7 @@ const InputModal = ({ title, detail, placeholder, buttonText }: InputModalProps)
         <div css={styles.container}>
           <h1 css={styles.title}>{title}</h1>
           <span css={styles.detail}>{detail}</span>
-          <Input placeholder={placeholder} onChange={handleOnChange} value={password} />
+          <Input placeholder={placeholder} onChange={handleChange} value={password} />
           <Button
             css={css`
               margin-bottom: 0;

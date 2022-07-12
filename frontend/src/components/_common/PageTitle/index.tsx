@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
 
-type PageTitleProps = {
+interface PageTitleProps {
   children: React.ReactNode;
-};
+}
 
 const PageTitle = ({ children }: PageTitleProps) => {
   return (

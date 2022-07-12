@@ -2,9 +2,9 @@ import { css } from '@emotion/react';
 
 import theme from '@/styles/theme';
 
-type CardTitleProps = {
+interface CardTitleProps {
   children: React.ReactNode;
-};
+}
 
 const CardTitle = ({ children }: CardTitleProps) => {
   return (

@@ -12,9 +12,8 @@ interface DimmerProps {
 const Dimmer = ({ children, isAbleClick = true }: DimmerProps) => {
   const { closeModal } = useModal();
 
-  const handleClickDimed = (e: React.MouseEvent<HTMLElement>) => {
-    if (e.currentTarget !== e.target) return;
-    if (isAbleClick) closeModal();
+  const handleClickDimmed = (e: React.MouseEvent<HTMLElement>) => {
+    if (e.currentTarget === e.target && isAbleClick) closeModal();
   };
 
   return (
@@ -27,7 +26,7 @@ const Dimmer = ({ children, isAbleClick = true }: DimmerProps) => {
         justify-content: center;
         align-items: center;
       `}
-      onClick={handleClickDimed}
+      onClick={handleClickDimmed}
     >
       {children}
     </div>
