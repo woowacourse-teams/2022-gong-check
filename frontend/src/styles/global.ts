@@ -5,13 +5,11 @@ const globalStyle = css`
     box-sizing: border-box;
   }
 
+  // 모달이 웹에서도 모바일 환경 처럼 보일 수 있도록 center 처리
   body {
     margin: 0;
     display: flex;
     justify-content: center;
-    width: 100vw;
-    height: 100vh;
-    background-color: #f5f5f5;
   }
 
   button {
@@ -21,14 +19,12 @@ const globalStyle = css`
 
   #root {
     display: flex;
-    flex-direction: column;
-    width: 400px;
-    min-height: 100vh;
-    background-color: white;
-    position: absolute;
+    justify-content: center;
   }
 
   #modal {
+    display: flex;
+    justify-content: center;
     position: fixed;
     top: 0;
   }

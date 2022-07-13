@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import { Suspense, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
@@ -23,12 +24,21 @@ const UserLayout = () => {
   });
 
   return (
-    <>
+    <div
+      css={css`
+        display: flex;
+        flex-direction: column;
+        width: 400px;
+        min-height: 100vh;
+        background-color: white;
+        position: absolute;
+      `}
+    >
       <Header />
       <Suspense fallback={<div>로딩 스피너</div>}>
         <Outlet />
       </Suspense>
-    </>
+    </div>
   );
 };
 
