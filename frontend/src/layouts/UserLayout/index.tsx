@@ -7,7 +7,7 @@ import InputModal from '@/components/InputModal';
 
 import useModal from '@/hooks/useModal';
 
-const UserLayout = () => {
+const UserLayout: React.FC = () => {
   const { openModal } = useModal();
 
   useEffect(() => {

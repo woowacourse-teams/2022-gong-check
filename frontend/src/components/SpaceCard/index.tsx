@@ -10,7 +10,7 @@ type SpaceCardProps = {
   id: number;
 };
 
-const SpaceCard = ({ spaceName, imageUrl, id }: SpaceCardProps) => {
+const SpaceCard: React.FC<SpaceCardProps> = ({ spaceName, imageUrl, id }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {

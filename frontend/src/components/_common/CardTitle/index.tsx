@@ -6,7 +6,7 @@ interface CardTitleProps {
   children: React.ReactNode;
 }
 
-const CardTitle = ({ children }: CardTitleProps) => {
+const CardTitle: React.FC<CardTitleProps> = ({ children }) => {
   return (
     <span
       css={css`

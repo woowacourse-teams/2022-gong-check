@@ -15,7 +15,7 @@ type TaskCardProps = {
   getSections: () => void;
 };
 
-const TaskCard = ({ tasks, getSections }: TaskCardProps) => {
+const TaskCard: React.FC<TaskCardProps> = ({ tasks, getSections }) => {
   const handleClickCheckBox = async (
     e: React.MouseEvent<HTMLElement, MouseEvent> | React.ChangeEvent<HTMLElement>,
     id: number

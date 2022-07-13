@@ -8,6 +8,7 @@ const SpaceListPage = lazy(() => import('@/pages/user/SpaceList'));
 const JobListPage = lazy(() => import('@/pages/user/JobList'));
 const TaskListPage = lazy(() => import('@/pages/user/TaskList'));
 
+const HomePage = lazy(() => import('@/pages/host/Home'));
 const LoginPage = lazy(() => import('@/pages/host/Login'));
 const ManagePage = lazy(() => import('@/pages/host/Manage'));
 
@@ -38,6 +39,10 @@ const routes = [
         path: 'host',
         element: <HostLayout />,
         children: [
+          {
+            path: '',
+            element: <HomePage />,
+          },
           {
             path: 'login',
             element: <LoginPage />,

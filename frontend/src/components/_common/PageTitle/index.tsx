@@ -4,7 +4,7 @@ interface PageTitleProps {
   children: React.ReactNode;
 }
 
-const PageTitle = ({ children }: PageTitleProps) => {
+const PageTitle: React.FC<PageTitleProps> = ({ children }) => {
   return (
     <p
       css={css`

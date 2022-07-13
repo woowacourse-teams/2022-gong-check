@@ -34,7 +34,7 @@ const isAllChecked = (sections: SectionType[]): boolean => {
     .every(isChecked => isChecked === true);
 };
 
-const TaskList = () => {
+const TaskList: React.FC = () => {
   const { openModal } = useModal();
   const { jobId } = useParams();
 

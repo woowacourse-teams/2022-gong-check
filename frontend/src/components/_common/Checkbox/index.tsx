@@ -6,7 +6,7 @@ type CheckBoxProps = {
   onChange?: (e: React.MouseEvent<HTMLElement> | React.ChangeEvent<HTMLElement>) => void;
 };
 
-const CheckBox = ({ id, checked = false, onChange }: CheckBoxProps) => {
+const CheckBox: React.FC<CheckBoxProps> = ({ id, checked = false, onChange }) => {
   return (
     <>
       <input css={styles.input} type="checkbox" id={id} checked={checked} onChange={onChange} readOnly />
