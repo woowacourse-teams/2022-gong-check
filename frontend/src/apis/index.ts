@@ -44,7 +44,7 @@ const getJobActive = async ({ jobId }: any) => {
 };
 
 const postNewTasks = async ({ jobId }: any) => {
-  return await axiosInstanceToken({
+  return axiosInstanceToken({
     method: 'POST',
     url: `/api/jobs/${jobId}/tasks/new`,
   });
@@ -59,15 +59,15 @@ const getTasks = async ({ jobId }: any) => {
   return data;
 };
 
-const postCheckTask = async ({ taskId }: any) => {
-  return await axiosInstanceToken({
+const postCheckTask = ({ taskId }: any) => {
+  return axiosInstanceToken({
     method: 'POST',
     url: `/api/tasks/${taskId}/flip`,
   });
 };
 
-const postJobComplete = async ({ jobId, author }: any) => {
-  return await axiosInstanceToken({
+const postJobComplete = ({ jobId, author }: any) => {
+  return axiosInstanceToken({
     method: 'POST',
     url: `/api/jobs/${jobId}/complete`,
     data: {

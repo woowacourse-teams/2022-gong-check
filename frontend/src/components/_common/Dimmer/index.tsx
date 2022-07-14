@@ -9,7 +9,7 @@ interface DimmerProps {
   isAbleClick?: boolean;
 }
 
-const Dimmer = ({ children, isAbleClick = true }: DimmerProps) => {
+const Dimmer: React.FC<DimmerProps> = ({ children, isAbleClick = true }) => {
   const { closeModal } = useModal();
 
   const handleClickDimmed = (e: React.MouseEvent<HTMLElement>) => {

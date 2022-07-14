@@ -19,8 +19,8 @@ interface NameModalProps {
   jobId: string | undefined;
 }
 
-const NameModal = ({ title, detail, placeholder, buttonText, jobId }: NameModalProps) => {
-  const { name, isDisabledButton, onChaneInput, onClickButton } = useNameModal(jobId);
+const NameModal: React.FC<NameModalProps> = ({ title, detail, placeholder, buttonText, jobId }) => {
+  const { name, isDisabledButton, onChangeInput, onClickButton } = useNameModal(jobId);
 
   return (
     <ModalPortal>
@@ -28,7 +28,7 @@ const NameModal = ({ title, detail, placeholder, buttonText, jobId }: NameModalP
         <div css={styles.container}>
           <h1 css={styles.title}>{title}</h1>
           <span css={styles.detail}>{detail}</span>
-          <Input placeholder={placeholder} onChange={onChaneInput} value={name} />
+          <Input placeholder={placeholder} onChange={onChangeInput} value={name} />
           <Button
             css={css`
               margin-bottom: 0;

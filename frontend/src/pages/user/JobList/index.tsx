@@ -9,7 +9,7 @@ import apis from '@/apis';
 
 import styles from './styles';
 
-const JobList = () => {
+const JobList: React.FC = () => {
   const { spaceId } = useParams();
 
   const { data } = useQuery(['jobs', spaceId], () => apis.getJobs({ spaceId }), { suspense: true });

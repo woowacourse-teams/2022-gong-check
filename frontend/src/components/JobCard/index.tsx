@@ -9,7 +9,7 @@ interface JobCardProps {
   id: number;
 }
 
-const JobCard = ({ jobName, id }: JobCardProps) => {
+const JobCard: React.FC<JobCardProps> = ({ jobName, id }) => {
   const { onClickJobCard } = useJobCard(id);
 
   return (

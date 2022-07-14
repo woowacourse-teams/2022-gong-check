@@ -14,7 +14,7 @@ const useNameModal = (jobId: string | undefined) => {
 
   const { closeModal } = useModal();
 
-  const onChaneInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isTyped = !!e.target.value;
     setName(e.target.value);
     setIsDisabledButton(!isTyped);
@@ -25,13 +25,13 @@ const useNameModal = (jobId: string | undefined) => {
       await apis.postJobComplete({ jobId, author: name });
       alert('제출 되었습니다.');
       closeModal();
-      navigate(`/${hostId}/spaces`);
+      navigate(`/enter/${hostId}/spaces`);
     } catch (err) {
       alert(err);
     }
   };
 
-  return { onChaneInput, onClickButton, isDisabledButton, name };
+  return { onChangeInput, onClickButton, isDisabledButton, name };
 };
 
 export default useNameModal;

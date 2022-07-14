@@ -22,7 +22,7 @@ interface InputModalProps {
   buttonText: string;
 }
 
-const InputModal = ({ title, detail, placeholder, buttonText }: InputModalProps) => {
+const InputModal: React.FC<InputModalProps> = ({ title, detail, placeholder, buttonText }) => {
   const [isDisabledButton, setIsDisabledButton] = useState(true);
   const [password, setPassword] = useState('');
 

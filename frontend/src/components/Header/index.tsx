@@ -9,7 +9,7 @@ import styles from './styles';
 
 const hostId = 1;
 
-const Header = () => {
+const Header: React.FC = () => {
   const [isShowButton] = useState(true);
   const navigate = useNavigate();
 

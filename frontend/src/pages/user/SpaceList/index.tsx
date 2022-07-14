@@ -8,7 +8,7 @@ import apis from '@/apis';
 
 import styles from './styles';
 
-const SpaceList = () => {
+const SpaceList: React.FC = () => {
   const { data } = useQuery(['spaces'], apis.getSpaces, { suspense: true });
 
   return (
