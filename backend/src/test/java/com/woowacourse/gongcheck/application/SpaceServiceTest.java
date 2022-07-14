@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
@@ -53,7 +54,7 @@ class SpaceServiceTest {
     @Test
     void 공간을_생성한다() {
         Host host = hostRepository.save(Host_생성("1234"));
-        SpaceCreateRequest spaceCreateRequest = new SpaceCreateRequest("잠실 캠퍼스", "https://image.com");
+        SpaceCreateRequest spaceCreateRequest = new SpaceCreateRequest("잠실 캠퍼스", new MockMultipartFile("잠실 캠퍼스 사진", new byte[]{}));
         Long spaceId = spaceService.createSpace(host.getId(), spaceCreateRequest);
 
         assertThat(spaceId).isNotNull();
@@ -66,7 +67,7 @@ class SpaceServiceTest {
         Space space = Space_생성(host, spaceName);
         spaceRepository.save(space);
 
-        SpaceCreateRequest request = new SpaceCreateRequest(spaceName, "https://image.com1");
+        SpaceCreateRequest request = new SpaceCreateRequest(spaceName, new MockMultipartFile("잠실 캠퍼스 사진", new byte[]{}));
 
         assertThatThrownBy(() -> spaceService.createSpace(host.getId(), request))
                 .isInstanceOf(BusinessException.class)

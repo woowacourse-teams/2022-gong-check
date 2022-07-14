@@ -19,10 +19,12 @@ public class SpaceService {
 
     private final HostRepository hostRepository;
     private final SpaceRepository spaceRepository;
+    private final ImageUploader imageUploader;
 
-    public SpaceService(final HostRepository hostRepository, final SpaceRepository spaceRepository) {
+    public SpaceService(HostRepository hostRepository, SpaceRepository spaceRepository, ImageUploader imageUploader) {
         this.hostRepository = hostRepository;
         this.spaceRepository = spaceRepository;
+        this.imageUploader = imageUploader;
     }
 
     public SpacesResponse findPage(final Long hostId, final Pageable pageable) {
@@ -37,13 +39,14 @@ public class SpaceService {
             throw new BusinessException("이미 존재하는 이름입니다.");
         }
 
+        String imageUrl = imageUploader.upload(request.getImage(), "spaces");
+
         Space space = Space.builder()
                 .host(host)
                 .name(request.getName())
-                .imageUrl(request.getImageUrl())
+                .imageUrl(imageUrl)
                 .createdAt(LocalDateTime.now())
                 .build();
-        Space savedSpace = spaceRepository.save(space);
-        return savedSpace.getId();
+        return spaceRepository.save(space).getId();
     }
 }
