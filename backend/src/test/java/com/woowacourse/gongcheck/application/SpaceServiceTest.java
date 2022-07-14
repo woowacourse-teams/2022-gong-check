@@ -11,13 +11,17 @@ import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.domain.space.Space;
 import com.woowacourse.gongcheck.domain.space.SpaceRepository;
+import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.NotFoundException;
+import com.woowacourse.gongcheck.presentation.request.SpaceCreateRequest;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.HttpClientErrorException.BadRequest;
 
 @SpringBootTest
 @Transactional
@@ -46,6 +50,29 @@ class SpaceServiceTest {
                 () -> assertThat(result.getSpaces()).hasSize(2),
                 () -> assertThat(result.isHasNext()).isTrue()
         );
+    }
+
+    @Test
+    void 공간을_생성한다() {
+        Host host = hostRepository.save(Host_생성("1234"));
+        SpaceCreateRequest spaceCreateRequest = new SpaceCreateRequest("잠실 캠퍼스", "https://image.com");
+        Long spaceId = spaceService.createSpace(host.getId(), spaceCreateRequest);
+
+        assertThat(spaceId).isNotNull();
+    }
+
+    @Test
+    void 공간_생성_시_이미_존재하는_이름을_입력할_경우_예외가_발생한다() {
+        Host host = hostRepository.save(Host_생성("1234"));
+        String spaceName = "잠실 캠퍼스";
+        Space space = Space_생성(host, spaceName);
+        spaceRepository.save(space);
+
+        SpaceCreateRequest request = new SpaceCreateRequest(spaceName, "https://image.com1");
+
+        assertThatThrownBy(() -> spaceService.createSpace(host.getId(), request))
+                .isInstanceOf(BusinessException.class)
+                .hasMessage("이미 존재하는 이름입니다.");
     }
 
     @Test

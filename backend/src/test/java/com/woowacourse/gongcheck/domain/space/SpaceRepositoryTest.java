@@ -63,4 +63,24 @@ class SpaceRepositoryTest {
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("존재하지 않는 공간입니다.");
     }
+
+    @Test
+    void 호스트와_공간_이름을_입력_받아_이미_존재하는_공간_이름이면_참을_반환한다() {
+        Host host = hostRepository.save(Host_생성("1234"));
+        Space space = Space_생성(host, "잠실");
+        spaceRepository.save(space);
+
+        boolean result = spaceRepository.existsByHostAndName(host, space.getName());
+
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    void 호스트와_공간_이름을_입력_받아_이미_존재하는_공간_이름이_아니면_거짓을_반환한다() {
+        Host host = hostRepository.save(Host_생성("1234"));
+
+        boolean result = spaceRepository.existsByHostAndName(host, "잠실");
+
+        assertThat(result).isFalse();
+    }
 }
