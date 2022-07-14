@@ -14,12 +14,8 @@ const useGitHubLogin = () => {
   useEffect(() => {
     if (data) {
       localStorage.setItem('host', data.token);
-      if (data.existHost) {
-        navigate('/host');
-      }
-      if (!data.existHost) {
-        navigate('/enter/1');
-      }
+
+      data.existHost ? navigate('/host') : navigate('/enter/1');
     }
   }, [data]);
 };
