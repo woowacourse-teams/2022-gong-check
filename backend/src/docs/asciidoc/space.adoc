@@ -1,0 +1,5 @@
+[[space]]
+== space
+
+=== space 목록 조회
+operation::spaces/list[snippets='http-request,http-response']

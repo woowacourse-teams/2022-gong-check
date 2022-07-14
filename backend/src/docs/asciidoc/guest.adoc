@@ -1,0 +1,5 @@
+[[Guest]]
+== 게스트
+
+=== 공간 입장
+operation::guests/auth/success[snippets='http-request,http-response']

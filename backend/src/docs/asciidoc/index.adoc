@@ -1,0 +1,13 @@
+:doctype: book
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+== Gong-Check
+
+include::guest.adoc[]
+include::space.adoc[]
+include::job.adoc[]
+include::task.adoc[]
+include::submission.adoc[]
