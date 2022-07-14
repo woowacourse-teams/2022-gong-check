@@ -2,9 +2,13 @@ package com.woowacourse.gongcheck.presentation;
 
 import com.woowacourse.gongcheck.application.SpaceService;
 import com.woowacourse.gongcheck.application.response.SpacesResponse;
+import com.woowacourse.gongcheck.presentation.request.SpaceCreateRequest;
+import java.net.URI;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,5 +27,12 @@ public class SpaceController {
                                                      final Pageable pageable) {
         SpacesResponse response = spaceService.findPage(hostId, pageable);
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/spaces")
+    public ResponseEntity<Void> createSpace(@AuthenticationPrincipal final Long hostId,
+                                            @RequestBody final SpaceCreateRequest request) {
+        Long spaceId = spaceService.createSpace(hostId, request);
+        return ResponseEntity.created(URI.create("/api/spaces/" + spaceId)).build();
     }
 }

@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.woowacourse.gongcheck.presentation.request.GuestEnterRequest;
 import com.woowacourse.gongcheck.presentation.request.SpaceCreateRequest;
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;

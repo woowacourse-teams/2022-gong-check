@@ -4,7 +4,6 @@ import com.woowacourse.gongcheck.application.response.SpacesResponse;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.domain.space.Space;
-import com.woowacourse.gongcheck.domain.space.Space.SpaceBuilder;
 import com.woowacourse.gongcheck.domain.space.SpaceRepository;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.presentation.request.SpaceCreateRequest;
@@ -34,7 +33,7 @@ public class SpaceService {
 
     public Long createSpace(Long hostId, SpaceCreateRequest request) {
         Host host = hostRepository.getById(hostId);
-        if(spaceRepository.existsByHostAndName(host, request.getName())) {
+        if (spaceRepository.existsByHostAndName(host, request.getName())) {
             throw new BusinessException("이미 존재하는 이름입니다.");
         }
 
