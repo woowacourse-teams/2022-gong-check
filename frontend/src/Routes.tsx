@@ -10,6 +10,7 @@ const TaskListPage = lazy(() => import('@/pages/user/TaskList'));
 
 const HomePage = lazy(() => import('@/pages/host/Home'));
 const LoginPage = lazy(() => import('@/pages/host/Login'));
+const AuthCallBackPage = lazy(() => import('@/pages/host/AuthCallBack'));
 const ManagePage = lazy(() => import('@/pages/host/Manage'));
 
 const routes = [
@@ -46,6 +47,10 @@ const routes = [
           {
             path: 'login',
             element: <LoginPage />,
+          },
+          {
+            path: 'authCallback',
+            element: <AuthCallBackPage />,
           },
           {
             path: 'manage',

@@ -11,6 +11,7 @@ const HostLayout: React.FC = () => {
           flex-direction: column;
           width: 100vw;
           height: 100vh;
+          background-color: #f8f9fe;
         `}
       >
         <Outlet />
