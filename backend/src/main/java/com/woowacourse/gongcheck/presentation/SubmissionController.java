@@ -1,6 +1,8 @@
 package com.woowacourse.gongcheck.presentation;
 
+import com.woowacourse.gongcheck.application.SlackService;
 import com.woowacourse.gongcheck.application.SubmissionService;
+import com.woowacourse.gongcheck.application.response.SubmissionResponse;
 import com.woowacourse.gongcheck.presentation.request.SubmissionRequest;
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -15,16 +17,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class SubmissionController {
 
     private final SubmissionService submissionService;
+    private final SlackService slackService;
 
-    public SubmissionController(final SubmissionService submissionService) {
+    public SubmissionController(final SubmissionService submissionService, final SlackService slackService) {
         this.submissionService = submissionService;
+        this.slackService = slackService;
     }
 
     @PostMapping("/jobs/{jobId}/complete")
     public ResponseEntity<Void> submitJobCompletion(@AuthenticationPrincipal final Long hostId,
                                                     @PathVariable final Long jobId,
                                                     @Valid @RequestBody final SubmissionRequest request) {
-        submissionService.submitJobCompletion(hostId, jobId, request);
+        SubmissionResponse submissionResponse = submissionService.submitJobCompletion(hostId, jobId, request);
+        slackService.sendMessage(submissionResponse);
         return ResponseEntity.ok().build();
     }
 }

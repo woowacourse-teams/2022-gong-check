@@ -50,6 +50,11 @@ dependencies {
     asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.5.RELEASE'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
+
+    // slack
+    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+    implementation 'com.slack.api:slack-app-backend:1.22.2'
+    implementation 'com.slack.api:slack-api-model:1.22.2'
 }
 
 tasks.named('test') {

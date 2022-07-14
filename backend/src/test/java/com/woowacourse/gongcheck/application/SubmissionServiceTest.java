@@ -10,6 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.gongcheck.application.response.SubmissionResponse;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.domain.job.Job;
@@ -129,11 +130,15 @@ class SubmissionServiceTest {
         void 현재_진행중인_작업이_모두_완료된_상태로_제출한다() {
             checkAllRunningTasks(true);
 
-            submissionService.submitJobCompletion(hostWithTasks.getId(), job.getId(), request);
+            SubmissionResponse submissionResponse = submissionService.submitJobCompletion(hostWithTasks.getId(),
+                    job.getId(), request);
 
             assertAll(
                     () -> assertThat(submissionRepository.findAll().size()).isEqualTo(1),
-                    () -> assertThat(runningTaskRepository.findAll().size()).isEqualTo(0)
+                    () -> assertThat(runningTaskRepository.findAll().size()).isEqualTo(0),
+                    () -> assertThat(submissionResponse.getAuthor()).isEqualTo(request.getAuthor()),
+                    () -> assertThat(submissionResponse.getSpaceName()).isEqualTo(space.getName()),
+                    () -> assertThat(submissionResponse.getJobName()).isEqualTo(job.getName())
             );
         }
 

@@ -34,6 +34,9 @@ public class Job {
     @Column(name = "name", length = NAME_MAX_LENGTH, nullable = false)
     private String name;
 
+    @Column(name = "slack_url")
+    private String slackUrl;
+
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
@@ -44,11 +47,12 @@ public class Job {
     }
 
     @Builder
-    public Job(final Long id, final Space space, final String name, final LocalDateTime createdAt,
-               final LocalDateTime updatedAt) {
+    public Job(final Long id, final Space space, final String name, final String slackUrl,
+               final LocalDateTime createdAt, final LocalDateTime updatedAt) {
         this.id = id;
         this.space = space;
         this.name = name;
+        this.slackUrl = slackUrl;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
