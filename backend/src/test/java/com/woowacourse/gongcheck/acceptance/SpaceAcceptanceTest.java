@@ -48,4 +48,32 @@ class SpaceAcceptanceTest extends AcceptanceTest {
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
     }
+
+    @Test
+    void 한_호스트가_이미_존재하는_이름의_공간을_생성하면_에러_응답을_반환한다() {
+        SpaceCreateRequest spaceCreateRequest = new SpaceCreateRequest("잠실 캠퍼스", "https://image.com");
+
+        // 호스트 로그인 구현 전까지 토큰 입력용으로 사용
+        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
+        String token = 토큰을_요청한다(guestEnterRequest);
+        RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(spaceCreateRequest)
+                .auth().oauth2(token)
+                .when().post("/api/spaces")
+                .then().log().all()
+                .extract();
+
+        ExtractableResponse<Response> response = RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(spaceCreateRequest)
+                .auth().oauth2(token)
+                .when().post("/api/spaces")
+                .then().log().all()
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
 }
