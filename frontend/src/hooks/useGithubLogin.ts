@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import githubAuth from '@/apis/githubAuth';
 
 const useGitHubLogin = () => {
-  const code = new URL(window.location.href).searchParams.get('code');
+  const code = new URL(location.href).searchParams.get('code');
 
   const navigate = useNavigate();
 
