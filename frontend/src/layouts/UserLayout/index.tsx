@@ -2,10 +2,11 @@ import { css } from '@emotion/react';
 import { Suspense, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import Header from '@/components/Header';
 import InputModal from '@/components/InputModal';
 
 import useModal from '@/hooks/useModal';
+
+import theme from '@/styles/theme';
 
 const UserLayout: React.FC = () => {
   const { openModal } = useModal();
@@ -32,9 +33,10 @@ const UserLayout: React.FC = () => {
         min-height: 100vh;
         background-color: white;
         position: absolute;
+        border: 2px solid ${theme.colors.gray};
+        border-radius: 14px;
       `}
     >
-      <Header />
       <Suspense fallback={<div>로딩 스피너</div>}>
         <Outlet />
       </Suspense>
