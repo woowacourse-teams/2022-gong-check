@@ -34,13 +34,11 @@ class JobAcceptanceTest extends AcceptanceTest {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
-
     @Test
     void 작업을_생성한다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 
-        // 공간 생성 추가해야함
         List<TaskRequest> tasks = List.of(new TaskRequest("책상 닦기"), new TaskRequest("칠판 닦기"));
         List<SectionRequest> sections = List.of(new SectionRequest("대강의실", tasks));
         JobCreateRequest request = new JobCreateRequest("청소", sections);
@@ -63,7 +61,6 @@ class JobAcceptanceTest extends AcceptanceTest {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 
-        // 공간 생성 추가해야함
         List<TaskRequest> tasks = List.of(new TaskRequest("책상 닦기"), new TaskRequest("칠판 닦기"));
         List<SectionRequest> sections = List.of(new SectionRequest("대강의실", tasks));
         JobCreateRequest wrongRequest = new JobCreateRequest(input, sections);
@@ -86,7 +83,6 @@ class JobAcceptanceTest extends AcceptanceTest {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 
-        // 공간 생성 추가해야함
         List<TaskRequest> tasks = List.of(new TaskRequest("책상 닦기"), new TaskRequest("칠판 닦기"));
         List<SectionRequest> sections = List.of(new SectionRequest(input, tasks));
         JobCreateRequest wrongRequest = new JobCreateRequest(input, sections);
@@ -109,7 +105,6 @@ class JobAcceptanceTest extends AcceptanceTest {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 
-        // 공간 생성 추가해야함
         List<TaskRequest> tasks = List.of(new TaskRequest(input), new TaskRequest("칠판 닦기"));
         List<SectionRequest> sections = List.of(new SectionRequest("대강의실", tasks));
         JobCreateRequest wrongRequest = new JobCreateRequest("청소", sections);
