@@ -1,8 +1,9 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const useGoPreviousPage = () => {
-  const { pathname } = useLocation();
   const navigate = useNavigate();
+
+  const { pathname } = useLocation();
 
   const goPreviousPage = () => {
     navigate(pathname.split('/').slice(0, -1).join('/'));

@@ -1,5 +1,4 @@
 import useJobCard from './useJobCard';
-import { css } from '@emotion/react';
 
 import checklistImage from '@/assets/checklistImage.svg';
 

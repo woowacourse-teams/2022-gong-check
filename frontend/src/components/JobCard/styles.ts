@@ -11,7 +11,7 @@ const jobCard = css`
   height: 144px;
   margin: 16px;
   padding: 0 16px;
-  background-color: ${theme.colors.lightGray};
+  background-color: ${theme.colors.lightGrayHost};
   box-shadow: 2px 2px 2px 2px ${theme.colors.shadow40};
   cursor: pointer;
   :hover {
