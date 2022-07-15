@@ -15,6 +15,9 @@ import com.woowacourse.gongcheck.domain.job.JobRepository;
 import com.woowacourse.gongcheck.domain.space.Space;
 import com.woowacourse.gongcheck.domain.space.SpaceRepository;
 import com.woowacourse.gongcheck.exception.NotFoundException;
+import com.woowacourse.gongcheck.presentation.request.JobCreateRequest;
+import com.woowacourse.gongcheck.presentation.request.SectionRequest;
+import com.woowacourse.gongcheck.presentation.request.TaskRequest;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,5 +83,18 @@ class JobServiceTest {
         assertThatThrownBy(() -> jobService.findPage(host1.getId(), space.getId(), PageRequest.of(0, 1)))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("존재하지 않는 공간입니다.");
+    }
+
+    @Test
+    void 공간과_섹션들과_작업들을_생성한다() {
+        Host host = hostRepository.save(Host_생성("1234"));
+        Space space = spaceRepository.save(Space_생성(host, "잠실"));
+        List<TaskRequest> tasks = List.of(new TaskRequest("책상 닦기"), new TaskRequest("칠판 닦기"));
+        List<SectionRequest> sections = List.of(new SectionRequest("대강의실", tasks));
+        JobCreateRequest jobCreateRequest = new JobCreateRequest("청소", sections);
+
+        Long savedJob = jobService.createJob(host.getId(), space.getId(), jobCreateRequest);
+
+        assertThat(savedJob).isNotNull();
     }
 }
