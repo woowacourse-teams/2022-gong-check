@@ -33,6 +33,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
         String subject = jwtTokenProvider.extractSubject(token);
         authenticationContext.setPrincipal(subject);
+        Authority authority = jwtTokenProvider.extractAuthority(token);
+        authenticationContext.setAuthority(authority);
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }
 }
