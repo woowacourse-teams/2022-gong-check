@@ -12,6 +12,7 @@ const TaskListPage = lazy(() => import('@/pages/user/TaskList'));
 const HomePage = lazy(() => import('@/pages/host/Home'));
 const LoginPage = lazy(() => import('@/pages/host/Login'));
 const AuthCallBackPage = lazy(() => import('@/pages/host/AuthCallBack'));
+const DashBoardPage = lazy(() => import('@/pages/host/DashBoard'));
 
 const routes = [
   {
@@ -55,15 +56,18 @@ const routes = [
           {
             path: 'manage',
             element: <ManageLayout />,
-            // children: [
-            // 공간 생성, 수정 <SpaceCreatePage/>
-            // 공간 정보 수정 페이지 <SpaceUpdatePage/>
-            // 전체 공간 정보 보여주기 <DashBoardPage/>
-            // 공간 사용 내역 보기 페이지 <SpaceRecordPage/>
-            // 체크리스트 생성 페이지 <JobCreatePage />
-            // 체크리스트 수정 페이지 <JobUpdatePage />
-            // 회원 정보 수정 페이지 <JobUpdatePage />
-            // ]
+            children: [
+              {
+                path: '',
+                element: <DashBoardPage />,
+              },
+              // 공간 생성, 수정 <SpaceCreatePage/>
+              // 공간 정보 수정 페이지 <SpaceUpdatePage/>
+              // 공간 사용 내역 보기 페이지 <SpaceRecordPage/>
+              // 체크리스트 생성 페이지 <JobCreatePage />
+              // 체크리스트 수정 페이지 <JobUpdatePage />
+              // 회원 정보 수정 페이지 <JobUpdatePage />
+            ],
           },
         ],
       },
