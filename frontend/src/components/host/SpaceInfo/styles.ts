@@ -13,7 +13,7 @@ const button = css`
   margin: 0;
   font-size: 1rem;
 `;
-``;
+
 const spaceInfo = css`
   min-height: 25rem;
   background: ${theme.colors.white};
