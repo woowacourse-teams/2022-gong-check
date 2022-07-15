@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import githubAuth from '@/apis/githubAuth';
 
 const useGitHubLogin = () => {
-  const code = new URL(window.location.href).searchParams.get('code');
+  const code = new URL(location.href).searchParams.get('code');
 
   const navigate = useNavigate();
 
@@ -14,12 +14,8 @@ const useGitHubLogin = () => {
   useEffect(() => {
     if (data) {
       localStorage.setItem('host', data.token);
-      if (data.existHost) {
-        navigate('/host');
-      }
-      if (!data.existHost) {
-        navigate('/enter/1');
-      }
+
+      data.existHost ? navigate('/host') : navigate('/enter/1');
     }
   }, [data]);
 };
