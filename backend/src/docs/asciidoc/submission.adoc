@@ -1,0 +1,5 @@
+[[Submission]]
+== submission
+
+=== 제출
+operation::submissions/submit/success[snippets='http-request,http-response']

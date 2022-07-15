@@ -1,0 +1,5 @@
+[[job]]
+== job
+
+=== job 목록 조회
+operation::jobs/list[snippets='http-request,http-response']
