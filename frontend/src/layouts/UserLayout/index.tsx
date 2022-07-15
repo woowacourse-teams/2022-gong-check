@@ -33,8 +33,6 @@ const UserLayout: React.FC = () => {
         min-height: 100vh;
         background-color: white;
         position: absolute;
-        border: 2px solid ${theme.colors.gray};
-        border-radius: 14px;
       `}
     >
       <Suspense fallback={<div>로딩 스피너</div>}>
