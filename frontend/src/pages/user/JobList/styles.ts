@@ -1,8 +1,6 @@
 import { css } from '@emotion/react';
 
-const layout = css`
-  padding: 8px 32px;
-`;
+const layout = css``;
 
 const contents = css`
   display: flex;
