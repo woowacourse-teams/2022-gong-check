@@ -33,7 +33,7 @@ class SubmissionDocumentation extends DocumentationTest {
             SubmissionResponse response = SubmissionResponse.of("author",
                     Job.builder().space(Space.builder().build()).build());
             when(submissionService.submitJobCompletion(anyLong(), anyLong(), any())).thenReturn(response);
-            doNothing().when(slackService).sendMessage(response);
+            doNothing().when(alertService).sendMessage(response);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             SubmissionRequest submissionRequest = new SubmissionRequest("제출자");

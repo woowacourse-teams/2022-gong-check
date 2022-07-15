@@ -1,6 +1,6 @@
 package com.woowacourse.gongcheck.acceptance;
 
-import com.woowacourse.gongcheck.application.SlackService;
+import com.woowacourse.gongcheck.application.AlertService;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,7 +14,7 @@ import org.springframework.test.annotation.DirtiesContext;
 class AcceptanceTest {
 
     @MockBean
-    private SlackService slackService;
+    private AlertService alertService;
 
     @LocalServerPort
     private int port;

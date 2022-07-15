@@ -1,6 +1,6 @@
 package com.woowacourse.gongcheck.presentation;
 
-import com.woowacourse.gongcheck.application.SlackService;
+import com.woowacourse.gongcheck.application.AlertService;
 import com.woowacourse.gongcheck.application.SubmissionService;
 import com.woowacourse.gongcheck.application.response.SubmissionResponse;
 import com.woowacourse.gongcheck.presentation.request.SubmissionRequest;
@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class SubmissionController {
 
     private final SubmissionService submissionService;
-    private final SlackService slackService;
+    private final AlertService alertService;
 
-    public SubmissionController(final SubmissionService submissionService, final SlackService slackService) {
+    public SubmissionController(final SubmissionService submissionService, final AlertService alertService) {
         this.submissionService = submissionService;
-        this.slackService = slackService;
+        this.alertService = alertService;
     }
 
     @PostMapping("/jobs/{jobId}/complete")
@@ -29,7 +29,7 @@ public class SubmissionController {
                                                     @PathVariable final Long jobId,
                                                     @Valid @RequestBody final SubmissionRequest request) {
         SubmissionResponse submissionResponse = submissionService.submitJobCompletion(hostId, jobId, request);
-        slackService.sendMessage(submissionResponse);
+        alertService.sendMessage(submissionResponse);
         return ResponseEntity.ok().build();
     }
 }
