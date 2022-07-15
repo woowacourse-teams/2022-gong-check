@@ -5,6 +5,7 @@ import com.woowacourse.gongcheck.application.response.SpacesResponse;
 import com.woowacourse.gongcheck.presentation.request.SpaceCreateRequest;
 import java.net.URI;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

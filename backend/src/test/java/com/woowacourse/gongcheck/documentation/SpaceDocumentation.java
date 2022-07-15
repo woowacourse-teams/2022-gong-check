@@ -49,7 +49,7 @@ class SpaceDocumentation extends DocumentationTest {
     class 공간을_생성한다 {
 
         @Test
-        void 공간을_생성에_성공한다() throws IOException {
+        void 공간_생성에_성공한다() throws IOException {
             File fakeImage = File.createTempFile("temp", ".jpg");
             when(spaceService.createSpace(anyLong(), any())).thenReturn(1L);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
@@ -63,6 +63,35 @@ class SpaceDocumentation extends DocumentationTest {
                     .then().log().all()
                     .apply(document("spaces/create"))
                     .statusCode(HttpStatus.CREATED.value());
+        }
+
+        @Test
+        void 공간_이름이_null_인_경우_생성에_실패한다() {
+            when(spaceService.createSpace(anyLong(), any())).thenReturn(1L);
+            when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
+            docsGiven
+                    .header(AUTHORIZATION, "Bearer jwt.token.here")
+                    .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
+                    .when().post("/api/spaces")
+                    .then().log().all()
+                    .apply(document("spaces/create"))
+                    .statusCode(HttpStatus.BAD_REQUEST.value());
+        }
+
+        @Test
+        void 공간_이름이_빈_값_인_경우_생성에_실패한다() {
+            when(spaceService.createSpace(anyLong(), any())).thenReturn(1L);
+            when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
+            docsGiven
+                    .header(AUTHORIZATION, "Bearer jwt.token.here")
+                    .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
+                    .param("name", "")
+                    .when().post("/api/spaces")
+                    .then().log().all()
+                    .apply(document("spaces/create"))
+                    .statusCode(HttpStatus.BAD_REQUEST.value());
         }
     }
 }
