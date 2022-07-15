@@ -27,8 +27,8 @@ public class HostAuthService {
     }
 
     @Transactional
-    public TokenResponse createToken(final TokenRequest tokenRequest) {
-        String accessToken = githubOauthClient.requestAccessToken(tokenRequest.getCode());
+    public TokenResponse createToken(final TokenRequest request) {
+        String accessToken = githubOauthClient.requestAccessToken(request.getCode());
         GithubProfileResponse githubProfileResponse = githubOauthClient.requestGithubProfile(accessToken);
         boolean existHost = hostRepository.existsByGithubId(githubProfileResponse.getGithubId());
         Host host = findOrCreateHost(existHost, githubProfileResponse);

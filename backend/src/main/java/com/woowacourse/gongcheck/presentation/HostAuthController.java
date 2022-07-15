@@ -20,7 +20,7 @@ public class HostAuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenResponse> login(@RequestBody final TokenRequest tokenRequest) {
-        return ResponseEntity.ok(hostAuthService.createToken(tokenRequest));
+    public ResponseEntity<TokenResponse> login(@RequestBody final TokenRequest request) {
+        return ResponseEntity.ok(hostAuthService.createToken(request));
     }
 }
