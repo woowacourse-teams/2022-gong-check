@@ -7,10 +7,15 @@ const theme = Object.freeze({
     gray: '#d1ccc0',
     lightGray: '#f5f5f5',
     white: '#ffffff',
+    shadow10: '#00000010',
+    shadow20: '#00000020',
     shadow30: '#00000030',
     shadow40: '#00000040',
+    shadow50: '#00000050',
     shadow60: '#00000060',
+    shadow70: '#00000060',
     shadow80: '#00000080',
+    shadow90: '#00000060',
   },
 });
 
