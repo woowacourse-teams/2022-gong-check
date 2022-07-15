@@ -6,8 +6,6 @@ import InputModal from '@/components/InputModal';
 
 import useModal from '@/hooks/useModal';
 
-import theme from '@/styles/theme';
-
 const UserLayout: React.FC = () => {
   const { openModal } = useModal();
 
