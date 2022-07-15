@@ -12,6 +12,7 @@ const TaskListPage = lazy(() => import('@/pages/user/TaskList'));
 const HomePage = lazy(() => import('@/pages/host/Home'));
 const LoginPage = lazy(() => import('@/pages/host/Login'));
 const AuthCallBackPage = lazy(() => import('@/pages/host/AuthCallBack'));
+const SpaceCreatePage = lazy(() => import('@/pages/host/SpaceCreate'));
 
 const routes = [
   {
@@ -55,6 +56,12 @@ const routes = [
           {
             path: 'manage',
             element: <ManageLayout />,
+            children: [
+              {
+                path: 'spaceCreate',
+                element: <SpaceCreatePage />,
+              },
+            ],
             // children: [
             // 공간 생성, 수정 <SpaceCreatePage/>
             // 공간 정보 수정 페이지 <SpaceUpdatePage/>
