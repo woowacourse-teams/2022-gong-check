@@ -1,8 +1,10 @@
 plugins {
     id 'org.springframework.boot' version '2.6.9'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'org.asciidoctor.convert' version '1.5.8'
+    id 'org.asciidoctor.jvm.convert' version '3.3.2'
     id 'java'
+    id 'jacoco'
+    id "org.sonarqube" version "3.4.0.2513"
 }
 
 group = 'com.woowacourse'
@@ -10,9 +12,7 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
+    asciidoctorExtensions
 }
 
 repositories {
@@ -47,7 +47,7 @@ dependencies {
     testImplementation 'io.rest-assured:spring-mock-mvc:4.4.0'
 
     // rest-docs
-    asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.5.RELEASE'
+    asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
 }
@@ -58,17 +58,44 @@ tasks.named('test') {
 }
 
 tasks.named('asciidoctor') {
+    configurations 'asciidoctorExtensions'
+    sources{
+        include("**/index.adoc","**/common/*.adoc")
+    }
+    baseDirFollowsSourceFile()
     inputs.dir snippetsDir
+
     dependsOn test
+}
+
+asciidoctor.doFirst {
+    delete file('src/main/resources/static/docs')
 }
 
 task createDocument(type: Copy) {
     dependsOn asciidoctor
 
-    from file("build/asciidoc/html5/index.html")
+    from file("build/docs/asciidoc")
     into file("src/main/resources/static")
 }
 
 bootJar {
     dependsOn createDocument
+}
+
+jacocoTestReport {
+    reports {
+        html.enabled true
+        xml.enabled true
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "woowacourse-teams_2022-gong-check"
+        property "sonar.organization", "woowacourse-teams"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property 'sonar.coverage.jacoco.xmlReportPaths', 'build/reports/jacoco/test/jacocoTestReport.xml'
+        property 'sonar.language', 'java'
+    }
 }
