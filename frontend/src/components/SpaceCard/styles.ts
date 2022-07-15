@@ -12,18 +12,20 @@ const spaceCard = ({ imageUrl }: { imageUrl: string }) => css`
   padding: 24px;
   box-shadow: 2px 2px 2px 2px ${theme.colors.shadow40};
   border-radius: 24px;
-  background-image: linear-gradient(#00000000, ${theme.colors.black}), url(${imageUrl});
+  text-shadow: 0 0 4px black;
+  background-image: linear-gradient(${theme.colors.shadow40}, ${theme.colors.shadow40}), url(${imageUrl});
   background-size: cover;
-  &:hover {
+  cursor: pointer;
+
+  :hover {
     transform: scale(1.01);
-    cursor: pointer;
   }
 `;
 
 const title = css`
   color: ${theme.colors.white};
-  font-size: 44px;
-  background-image: linear-gradient(transparent 95%, ${theme.colors.primary} 5%);
+  font-size: 32px;
+  background-image: linear-gradient(transparent 90%, ${theme.colors.primary} 10%);
 `;
 
 const styles = { spaceCard, title };
