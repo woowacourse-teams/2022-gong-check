@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Transactional(readOnly = true)
@@ -39,7 +40,7 @@ public class SpaceService {
             throw new BusinessException("이미 존재하는 이름입니다.");
         }
 
-        String imageUrl = imageUploader.upload(request.getImage(), "spaces");
+        String imageUrl = uploadImageAndGetUrlOrNull(request.getImage());
 
         Space space = Space.builder()
                 .host(host)
@@ -48,5 +49,12 @@ public class SpaceService {
                 .createdAt(LocalDateTime.now())
                 .build();
         return spaceRepository.save(space).getId();
+    }
+
+    private String uploadImageAndGetUrlOrNull(MultipartFile image) {
+        if (image != null) {
+            return imageUploader.upload(image, "spaces");
+        }
+        return null;
     }
 }

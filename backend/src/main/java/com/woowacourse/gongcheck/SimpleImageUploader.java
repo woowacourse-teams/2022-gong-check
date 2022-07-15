@@ -1,5 +1,6 @@
-package com.woowacourse.gongcheck.application;
+package com.woowacourse.gongcheck;
 
+import com.woowacourse.gongcheck.application.ImageUploader;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
