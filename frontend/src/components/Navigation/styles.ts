@@ -1,5 +1,7 @@
 import { css } from '@emotion/react';
 
+import theme from '@/styles/theme';
+
 const layout = css`
   position: fixed;
   top: 0;
@@ -50,14 +52,18 @@ const categoryTextWrapper = css`
   width: 100%;
   font-size: 14px;
   font-weight: 500;
-  background-color: #f9fbfd;
+  background-color: ${theme.colors.lightGrayHost};
   padding: 12px 8px;
   margin: 4px 0;
-  color: #808080;
+  color: ${theme.colors.blackHost};
   cursor: pointer;
 
+  svg {
+    margin-bottom: 4px;
+  }
+
   span {
-    margin-left: 12px;
+    margin-left: 8px;
   }
 
   :hover {

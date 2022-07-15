@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import { CgHomeAlt, CgGirl } from 'react-icons/cg';
 
 import navigationLogo from '@/assets/navigationLogo.png';
@@ -20,7 +21,7 @@ const Navigation: React.FC = () => {
         <span css={styles.categoryTitle}>Menu</span>
         <div css={styles.categoryList}>
           <div css={styles.categoryTextWrapper}>
-            <CgGirl size={16} />
+            <CgGirl size={20} />
             <span> 내 정보 수정</span>
           </div>
         </div>
@@ -31,7 +32,7 @@ const Navigation: React.FC = () => {
         <div css={styles.categoryList}>
           {SPACE_DATA.map(space => (
             <div css={styles.categoryTextWrapper} key={space.id}>
-              <CgHomeAlt size={16} />
+              <CgHomeAlt size={20} />
               <span>{space.name}</span>
             </div>
           ))}

@@ -48,12 +48,23 @@ public class Space {
     @Builder
     public Space(final Long id, final Host host, final String name, final String imageUrl,
                  final LocalDateTime createdAt, final LocalDateTime updatedAt) {
+        checkNameLength(name);
         this.id = id;
         this.host = host;
         this.name = name;
         this.imageUrl = imageUrl;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    private void checkNameLength(final String name) {
+        if (name.isBlank()) {
+            throw new IllegalArgumentException("공간의 이름은 공백일 수 없습니다.");
+        }
+
+        if (name.length() > NAME_MAX_LENGTH) {
+            throw new IllegalArgumentException("공간의 이름은 " + NAME_MAX_LENGTH + "자 이하여야합니다.");
+        }
     }
 
     @Override
