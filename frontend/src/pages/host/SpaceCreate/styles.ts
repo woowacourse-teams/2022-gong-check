@@ -8,8 +8,19 @@ const layout = css`
   align-items: center;
 `;
 
-const contents = css``;
+const contents = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 
-const styles = { layout, contents };
+const text = css`
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+`;
+
+const styles = { layout, contents, text };
 
 export default styles;
