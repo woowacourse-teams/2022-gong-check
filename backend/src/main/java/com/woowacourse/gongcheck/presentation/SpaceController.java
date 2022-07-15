@@ -32,7 +32,7 @@ public class SpaceController {
 
     @PostMapping("/spaces")
     public ResponseEntity<Void> createSpace(@AuthenticationPrincipal final Long hostId,
-                                            @Valid @ModelAttribute SpaceCreateRequest request) {
+                                            @Valid @ModelAttribute final SpaceCreateRequest request) {
         Long spaceId = spaceService.createSpace(hostId, request);
         return ResponseEntity.created(URI.create("/api/spaces/" + spaceId)).build();
     }

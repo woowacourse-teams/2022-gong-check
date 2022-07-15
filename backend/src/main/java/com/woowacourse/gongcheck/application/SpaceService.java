@@ -8,6 +8,7 @@ import com.woowacourse.gongcheck.domain.space.SpaceRepository;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.presentation.request.SpaceCreateRequest;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,8 @@ public class SpaceService {
     private final SpaceRepository spaceRepository;
     private final ImageUploader imageUploader;
 
-    public SpaceService(HostRepository hostRepository, SpaceRepository spaceRepository, ImageUploader imageUploader) {
+    public SpaceService(final HostRepository hostRepository, final SpaceRepository spaceRepository,
+                        final ImageUploader imageUploader) {
         this.hostRepository = hostRepository;
         this.spaceRepository = spaceRepository;
         this.imageUploader = imageUploader;
@@ -34,11 +36,9 @@ public class SpaceService {
         return SpacesResponse.from(spaces);
     }
 
-    public Long createSpace(Long hostId, SpaceCreateRequest request) {
+    public Long createSpace(final Long hostId, final SpaceCreateRequest request) {
         Host host = hostRepository.getById(hostId);
-        if (spaceRepository.existsByHostAndName(host, request.getName())) {
-            throw new BusinessException("이미 존재하는 이름입니다.");
-        }
+        checkDuplicateName(request, host);
 
         String imageUrl = uploadImageAndGetUrlOrNull(request.getImage());
 
@@ -48,11 +48,18 @@ public class SpaceService {
                 .imageUrl(imageUrl)
                 .createdAt(LocalDateTime.now())
                 .build();
-        return spaceRepository.save(space).getId();
+        return spaceRepository.save(space)
+                .getId();
     }
 
-    private String uploadImageAndGetUrlOrNull(MultipartFile image) {
-        if (image != null) {
+    private void checkDuplicateName(final SpaceCreateRequest request, final Host host) {
+        if (spaceRepository.existsByHostAndName(host, request.getName())) {
+            throw new BusinessException("이미 존재하는 이름입니다.");
+        }
+    }
+
+    private String uploadImageAndGetUrlOrNull(final MultipartFile image) {
+        if (!Objects.isNull(image)) {
             return imageUploader.upload(image, "spaces");
         }
         return null;

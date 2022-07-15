@@ -14,7 +14,7 @@ public class SpaceCreateRequest {
     private SpaceCreateRequest() {
     }
 
-    public SpaceCreateRequest(String name, MultipartFile image) {
+    public SpaceCreateRequest(final String name, final MultipartFile image) {
         this.name = name;
         this.image = image;
     }
