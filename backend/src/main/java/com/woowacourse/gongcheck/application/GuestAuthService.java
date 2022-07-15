@@ -1,5 +1,7 @@
 package com.woowacourse.gongcheck.application;
 
+import static com.woowacourse.gongcheck.presentation.Authority.GUEST;
+
 import com.woowacourse.gongcheck.application.response.GuestTokenResponse;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
@@ -24,7 +26,7 @@ public class GuestAuthService {
         Host host = hostRepository.getById(hostId);
         host.checkPassword(new SpacePassword(request.getPassword()));
 
-        String token = jwtTokenProvider.createToken(String.valueOf(hostId));
+        String token = jwtTokenProvider.createToken(String.valueOf(hostId), GUEST);
         return GuestTokenResponse.from(token);
     }
 }

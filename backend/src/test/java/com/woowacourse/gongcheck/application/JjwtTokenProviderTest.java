@@ -1,5 +1,6 @@
 package com.woowacourse.gongcheck.application;
 
+import static com.woowacourse.gongcheck.presentation.Authority.GUEST;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -18,7 +19,7 @@ class JjwtTokenProviderTest {
 
     @Test
     void 토큰을_생성한다() {
-        String token = tokenProvider.createToken("1");
+        String token = tokenProvider.createToken("1", GUEST);
 
         assertThat(token).isNotNull();
     }
@@ -54,5 +55,16 @@ class JjwtTokenProviderTest {
                 .compact();
 
         assertThat(tokenProvider.extractSubject(token)).isEqualTo(subject);
+    }
+
+    @Test
+    void 권한을_반환한다() {
+        String token = Jwts.builder()
+                .setSubject("1")
+                .claim("authority", GUEST)
+                .signWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(key)), SignatureAlgorithm.HS256)
+                .compact();
+
+        assertThat(tokenProvider.extractAuthority(token)).isEqualTo(GUEST);
     }
 }
