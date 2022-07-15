@@ -1,7 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 
-import CardTitle from '@/components/_common/CardTitle';
-
 import styles from './styles';
 
 type SpaceCardProps = {
@@ -19,7 +17,7 @@ const SpaceCard: React.FC<SpaceCardProps> = ({ spaceName, imageUrl, id }) => {
 
   return (
     <div css={styles.spaceCard({ imageUrl })} onClick={handleClick}>
-      <CardTitle>{spaceName}</CardTitle>
+      <span css={styles.title}>{spaceName}</span>
     </div>
   );
 };

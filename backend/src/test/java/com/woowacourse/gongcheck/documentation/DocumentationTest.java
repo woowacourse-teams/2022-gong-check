@@ -4,6 +4,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 
 import com.woowacourse.gongcheck.application.GuestAuthService;
+import com.woowacourse.gongcheck.application.ImageUploader;
 import com.woowacourse.gongcheck.application.JjwtTokenProvider;
 import com.woowacourse.gongcheck.application.JobService;
 import com.woowacourse.gongcheck.application.SpaceService;
@@ -58,6 +59,9 @@ class DocumentationTest {
 
     @MockBean
     protected AuthenticationContext authenticationContext;
+
+    @MockBean
+    protected ImageUploader imageUploader;
 
     @BeforeEach
     void setDocsGiven(final WebApplicationContext webApplicationContext,
