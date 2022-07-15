@@ -8,14 +8,14 @@ const contentWith = css`
 `;
 
 const button = css`
-  width: 80px;
-  height: 40px;
+  width: 5rem;
+  height: 2.5rem;
   margin: 0;
+  font-size: 1rem;
 `;
-
+``;
 const spaceInfo = css`
-  width: 400px;
-  min-height: 500px;
+  min-height: 25rem;
   background: ${theme.colors.white};
   border-radius: 8px;
   box-shadow: 2px 2px 2px 2px ${theme.colors.shadow30};
@@ -25,16 +25,16 @@ const titleWrapper = css`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 1.25rem;
   border-bottom: 1px solid ${theme.colors.gray200};
 `;
 
 const title = css`
-  font-size: 24px;
+  font-size: 1.4rem;
 `;
 
 const subTitle = css`
-  font-size: 18px;
+  font-size: 1rem;
   font-weight: bold;
 `;
 
@@ -48,7 +48,7 @@ const imageWrapper = css`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: 20px;
+  padding-bottom: 1.25rem;
 `;
 
 const imageBox = css`
@@ -58,9 +58,10 @@ const imageBox = css`
   background-repeat: no-repeat;
   border: 2px ${theme.colors.gray};
   border-radius: 8px;
-  width: 300px;
-  height: 300px;
+  width: 15rem;
+  height: 15rem;
   position: relative;
+  margin: 0 1.5rem;
   cursor: pointer;
 `;
 
@@ -73,7 +74,7 @@ const imageCoverText = css`
   width: 100%;
   color: ${theme.colors.lightGray};
   text-shadow: 0px 0px 4px ${theme.colors.shadow60};
-  font-size: 14px;
+  font-size: 0.8rem;
   position: absolute;
   bottom: 0;
   left: 50%;
@@ -91,7 +92,7 @@ const iconBox = css`
 
 const inputContainer = css`
   border-top: 1px solid ${theme.colors.gray200};
-  padding-bottom: 20px;
+  padding-bottom: 1.25rem;
 `;
 
 const inputWrapper = css`
@@ -100,10 +101,10 @@ const inputWrapper = css`
 
 const input = css`
   border: none;
-  font-size: 30px;
+  font-size: 1.4rem;
   font-weight: bold;
   cursor: pointer;
-  max-width: 280px;
+  max-width: 12.5rem;
 
   &:focus {
     outline: none;
