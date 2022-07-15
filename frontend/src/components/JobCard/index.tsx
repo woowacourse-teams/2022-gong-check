@@ -1,6 +1,7 @@
 import useJobCard from './useJobCard';
+import { css } from '@emotion/react';
 
-import CardTitle from '@/components/_common/CardTitle';
+import checklistImage from '@/assets/checklistImage.svg';
 
 import styles from './styles';
 
@@ -14,7 +15,11 @@ const JobCard: React.FC<JobCardProps> = ({ jobName, id }) => {
 
   return (
     <div css={styles.jobCard} onClick={onClickJobCard}>
-      <CardTitle>{jobName}</CardTitle>
+      <div css={styles.textWrapper}>
+        <span>{jobName}</span>
+        <span>체크리스트</span>
+      </div>
+      <img src={checklistImage} alt="" />
     </div>
   );
 };
