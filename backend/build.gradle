@@ -3,6 +3,8 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
     id 'java'
+    id 'jacoco'
+    id "org.sonarqube" version "3.4.0.2513"
 }
 
 group = 'com.woowacourse'
@@ -79,4 +81,21 @@ task createDocument(type: Copy) {
 
 bootJar {
     dependsOn createDocument
+}
+
+jacocoTestReport {
+    reports {
+        html.enabled true
+        xml.enabled true
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "woowacourse-teams_2022-gong-check"
+        property "sonar.organization", "woowacourse-teams"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property 'sonar.coverage.jacoco.xmlReportPaths', 'build/reports/jacoco/test/jacocoTestReport.xml'
+        property 'sonar.language', 'java'
+    }
 }
