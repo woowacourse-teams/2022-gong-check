@@ -15,6 +15,7 @@ const globalStyle = css`
     margin: 0;
     display: flex;
     justify-content: center;
+    background-color: #f5f6fa;
   }
 
   button {
