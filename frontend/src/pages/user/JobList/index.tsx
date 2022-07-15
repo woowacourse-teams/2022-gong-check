@@ -5,9 +5,9 @@ import { useParams } from 'react-router-dom';
 
 import JobCard from '@/components/JobCard';
 
-import apis from '@/apis';
+import useGoPreviousPage from '@/hooks/useGoPreviousPage';
 
-import theme from '@/styles/theme';
+import apis from '@/apis';
 
 import styles from './styles';
 
@@ -22,43 +22,25 @@ const JobList: React.FC = () => {
   // spaceId로 공간에 대한 정보 조회
   const { data } = useQuery(['jobs', spaceId], () => apis.getJobs({ spaceId }), { suspense: true });
 
+  const { goPreviousPage } = useGoPreviousPage();
+
   return (
     <div css={styles.layout}>
-      <div
-        css={css`
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          height: 200px;
-          background-image: linear-gradient(${theme.colors.shadow40}, ${theme.colors.shadow40}),
-            url(${SPACE_DATA.imageUrl});
-          padding: 16px;
-          background-size: cover;
-        `}
-      >
+      <div css={styles.cover(SPACE_DATA.imageUrl)}>
         <IoIosArrowBack
           css={css`
             color: white;
+            cursor: pointer;
           `}
-          size={30}
+          size={40}
+          onClick={goPreviousPage}
         />
-        <span
-          css={css`
-            color: ${theme.colors.white};
-            font-size: 32px;
-            text-shadow: 0 0 4px black;
-            background-image: linear-gradient(transparent 90%, ${theme.colors.primary} 10%);
-            width: fit-content;
-          `}
-        >
-          {SPACE_DATA.name}
-        </span>
+        <span css={styles.coverText}>{SPACE_DATA.name}</span>
       </div>
-      <div css={styles.contents}>
-        {data?.jobs.map(job => (
-          <JobCard jobName={job.name} key={job.id} id={job.id} />
-        ))}
-      </div>
+      <span css={styles.text}>체크하실 업무를 선택해주세요.</span>
+      {data?.jobs.map(job => (
+        <JobCard jobName={job.name} key={job.id} id={job.id} />
+      ))}
     </div>
   );
 };
