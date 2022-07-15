@@ -16,6 +16,10 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class GithubOauthClient {
 
+    private static final String ACCEPT_HEADER = "Accept";
+    private static final String AUTHORIZATION_HEADER = "Authorization";
+    private static final String BEARER_TYPE = "Bearer ";
+
     private final String clientId;
     private final String clientSecret;
     private final String tokenUrl;
@@ -38,7 +42,7 @@ public class GithubOauthClient {
         GithubAccessTokenRequest githubAccessTokenRequest = new GithubAccessTokenRequest(code, clientId, clientSecret);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
+        headers.add(ACCEPT_HEADER, MediaType.APPLICATION_JSON_VALUE);
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity(githubAccessTokenRequest, headers);
 
         String accessToken = restTemplate
@@ -53,7 +57,7 @@ public class GithubOauthClient {
 
     public GithubProfileResponse requestGithubProfile(String accessToken) {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + accessToken);
+        headers.add(AUTHORIZATION_HEADER, BEARER_TYPE + accessToken);
 
         HttpEntity httpEntity = new HttpEntity<>(headers);
 
