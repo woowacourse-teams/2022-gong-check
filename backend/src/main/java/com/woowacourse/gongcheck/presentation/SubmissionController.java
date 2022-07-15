@@ -5,6 +5,7 @@ import com.woowacourse.gongcheck.application.SubmissionService;
 import com.woowacourse.gongcheck.application.response.SubmissionResponse;
 import com.woowacourse.gongcheck.presentation.request.SubmissionRequest;
 import javax.validation.Valid;
+import org.springframework.core.task.TaskRejectedException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +30,11 @@ public class SubmissionController {
                                                     @PathVariable final Long jobId,
                                                     @Valid @RequestBody final SubmissionRequest request) {
         SubmissionResponse submissionResponse = submissionService.submitJobCompletion(hostId, jobId, request);
-        alertService.sendMessage(submissionResponse);
+        try {
+            alertService.sendMessage(submissionResponse);
+        } catch (TaskRejectedException e) {
+            throw new RuntimeException(e);
+        }
         return ResponseEntity.ok().build();
     }
 }
