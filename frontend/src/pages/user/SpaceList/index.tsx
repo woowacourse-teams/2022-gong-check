@@ -4,7 +4,7 @@ import SpaceCard from '@/components/SpaceCard';
 
 import apis from '@/apis';
 
-import logo from '@/assets/logoTitle.svg';
+import logo from '@/assets/logoTitle.png';
 
 import styles from './styles';
 

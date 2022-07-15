@@ -5,12 +5,12 @@ const layout = css`
   flex-direction: column;
   width: 100%;
   align-items: center;
-  padding: 32px;
+  padding: 24px 32px;
 `;
 
 const logo = css`
-  width: 320px;
-  margin-bottom: 48px;
+  width: 248px;
+  margin: 32px 0;
 `;
 
 const text = css`
