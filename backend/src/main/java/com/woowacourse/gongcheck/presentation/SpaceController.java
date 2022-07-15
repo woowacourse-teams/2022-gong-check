@@ -4,6 +4,7 @@ import com.woowacourse.gongcheck.application.SpaceService;
 import com.woowacourse.gongcheck.application.response.SpacesResponse;
 import com.woowacourse.gongcheck.presentation.request.SpaceCreateRequest;
 import java.net.URI;
+import javax.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +32,7 @@ public class SpaceController {
 
     @PostMapping("/spaces")
     public ResponseEntity<Void> createSpace(@AuthenticationPrincipal final Long hostId,
-                                            @ModelAttribute SpaceCreateRequest request) {
+                                            @Valid @ModelAttribute SpaceCreateRequest request) {
         Long spaceId = spaceService.createSpace(hostId, request);
         return ResponseEntity.created(URI.create("/api/spaces/" + spaceId)).build();
     }
