@@ -8,17 +8,17 @@ import theme from '@/styles/theme';
 
 import styles from './styles';
 
-type SpaceInfoProps = {
+interface SpaceInfoProps {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   inputText: '' | string;
-};
+}
 
 const SpaceInfo: React.FC<SpaceInfoProps> = ({ onSubmit, inputText = '' }) => {
   const labelRef = useRef(null);
-  const [imgURL, setImgURL] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
   const [isActiveSubmit, setIsActiveSubmit] = useState(false);
 
-  const isExistImgURL = useMemo(() => !!imgURL, [imgURL]);
+  const isExistimageUrl = useMemo(() => !!imageUrl, [imageUrl]);
 
   const handleChangeImg = (e: React.FormEvent<HTMLInputElement>) => {
     const input = e.target as HTMLInputElement;
@@ -30,10 +30,10 @@ const SpaceInfo: React.FC<SpaceInfoProps> = ({ onSubmit, inputText = '' }) => {
     const file = input.files[0];
     const src = URL.createObjectURL(file);
 
-    setImgURL(src);
+    setImageUrl(src);
   };
 
-  const handleChangeSpaceName = (e: React.FormEvent<HTMLInputElement>) => {
+  const handleChangeSpaceName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target as HTMLInputElement;
 
     const isExistValue = input.value.length > 0;
@@ -61,20 +61,20 @@ const SpaceInfo: React.FC<SpaceInfoProps> = ({ onSubmit, inputText = '' }) => {
             <label
               css={css`
                 ${styles.imageBox}
-                border-style: ${isExistImgURL ? 'none' : 'dashed'};
-                background-image: url(${imgURL});
+                border-style: ${isExistimageUrl ? 'none' : 'dashed'};
+                background-image: url(${imageUrl});
               `}
               htmlFor="file"
               ref={labelRef}
             >
               <input css={styles.imageInput} type="file" id="file" accept="image/*" onChange={handleChangeImg} />
-              {!isExistImgURL && (
+              {!isExistimageUrl && (
                 <div css={styles.iconBox}>
                   <HiPlus size={50} />
                 </div>
               )}
               <p css={styles.imageCoverText}>
-                {isExistImgURL ? '이미지 수정 시 클릭해 주세요.' : '이미지를 추가해 주세요.'}
+                {isExistimageUrl ? '이미지 수정 시 클릭해 주세요.' : '이미지를 추가해 주세요.'}
               </p>
             </label>
           </div>
