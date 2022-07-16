@@ -1,13 +1,23 @@
 package com.woowacourse.gongcheck.application;
 
+import static java.util.stream.Collectors.toList;
+
 import com.woowacourse.gongcheck.application.response.SpacesResponse;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
+import com.woowacourse.gongcheck.domain.job.Job;
+import com.woowacourse.gongcheck.domain.job.JobRepository;
+import com.woowacourse.gongcheck.domain.section.Section;
+import com.woowacourse.gongcheck.domain.section.SectionRepository;
 import com.woowacourse.gongcheck.domain.space.Space;
 import com.woowacourse.gongcheck.domain.space.SpaceRepository;
+import com.woowacourse.gongcheck.domain.task.Task;
+import com.woowacourse.gongcheck.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.presentation.request.SpaceCreateRequest;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -21,12 +31,20 @@ public class SpaceService {
 
     private final HostRepository hostRepository;
     private final SpaceRepository spaceRepository;
+    private final JobRepository jobRepository;
+    private final SectionRepository sectionRepository;
+    private final TaskRepository taskRepository;
     private final ImageUploader imageUploader;
 
     public SpaceService(final HostRepository hostRepository, final SpaceRepository spaceRepository,
+                        final JobRepository jobRepository,
+                        final SectionRepository sectionRepository, final TaskRepository taskRepository,
                         final ImageUploader imageUploader) {
         this.hostRepository = hostRepository;
         this.spaceRepository = spaceRepository;
+        this.jobRepository = jobRepository;
+        this.sectionRepository = sectionRepository;
+        this.taskRepository = taskRepository;
         this.imageUploader = imageUploader;
     }
 
@@ -50,6 +68,33 @@ public class SpaceService {
                 .build();
         return spaceRepository.save(space)
                 .getId();
+    }
+
+    public void removeSpace(final Long hostId, final Long spaceId) {
+        Host host = hostRepository.getById(hostId);
+        Space space = spaceRepository.getByHostAndId(host, spaceId);
+        List<Job> jobs = jobRepository.findAllBySpace(space);
+        List<Section> sections = findSectionsBy(jobs);
+        List<Task> tasks = findTasksBy(sections);
+
+        taskRepository.deleteAllInBatch(tasks);
+        sectionRepository.deleteAllInBatch(sections);
+        jobRepository.deleteAllInBatch(jobs);
+        spaceRepository.deleteById(spaceId);
+    }
+
+    private List<Section> findSectionsBy(final List<Job> jobs) {
+        return jobs.stream()
+                .map(sectionRepository::findAllByJob)
+                .flatMap(Collection::stream)
+                .collect(toList());
+    }
+
+    private List<Task> findTasksBy(final List<Section> sections) {
+        return sections.stream()
+                .map(taskRepository::findAllBySection)
+                .flatMap(Collection::stream)
+                .collect(toList());
     }
 
     private void checkDuplicateName(final SpaceCreateRequest request, final Host host) {

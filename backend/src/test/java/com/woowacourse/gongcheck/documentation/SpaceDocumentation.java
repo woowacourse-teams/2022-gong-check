@@ -4,6 +4,7 @@ import static com.woowacourse.gongcheck.fixture.FixtureFactory.Host_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_아이디_지정_생성;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -93,5 +94,18 @@ class SpaceDocumentation extends DocumentationTest {
                     .apply(document("spaces/create"))
                     .statusCode(HttpStatus.BAD_REQUEST.value());
         }
+    }
+
+    @Test
+    void 공간을_삭제한다() {
+        doNothing().when(spaceService).removeSpace(anyLong(), anyLong());
+        when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
+        docsGiven
+                .header(AUTHORIZATION, "Bearer jwt.token.here")
+                .when().delete("/api/spaces/1")
+                .then().log().all()
+                .apply(document("spaces/delete"))
+                .statusCode(HttpStatus.NO_CONTENT.value());
     }
 }
