@@ -38,6 +38,9 @@ import org.springframework.transaction.annotation.Transactional;
 class SpaceServiceTest {
 
     @Autowired
+    EntityManager entityManager;
+
+    @Autowired
     private SpaceService spaceService;
 
     @Autowired
@@ -120,9 +123,6 @@ class SpaceServiceTest {
                     .hasMessage("존재하지 않는 호스트입니다.");
         }
     }
-
-    @Autowired
-    EntityManager entityManager;
 
     @Test
     void Space를_삭제하면_관련된_Job_Section_Task를_함께_삭제한다() {
