@@ -1,5 +1,7 @@
 package com.woowacourse.gongcheck.application;
 
+import static com.woowacourse.gongcheck.fixture.FixtureFactory.*;
+
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.domain.host.SpacePassword;
@@ -24,7 +26,7 @@ class HostServiceTest {
 
     @Test
     void SpacePassword를_변경한다() {
-        Host host = hostRepository.save(FixtureFactory.Host_생성("1234"));
+        Host host = hostRepository.save(Host_생성("1234"));
 
         String changedPassword = "4567";
         hostService.changeSpacePassword(host.getId(), new SpacePasswordChangeRequest(changedPassword));
