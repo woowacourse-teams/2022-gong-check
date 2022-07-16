@@ -19,7 +19,7 @@ spring:
         format_sql: true
     open-in-view: false
   profiles:
-    include: oauth
+    include: test
 security:
   jwt:
     token:

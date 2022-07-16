@@ -20,7 +20,7 @@ spring:
       schema-locations: classpath:schema.sql
       data-locations: classpath:dummy_data.sql
   profiles:
-    include: oauth
+    include: test
 security:
   jwt:
     token:
