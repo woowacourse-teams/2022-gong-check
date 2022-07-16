@@ -50,6 +50,10 @@ public class Host {
         }
     }
 
+    public void changeSpacePassword(final String spacePassword) {
+        this.spacePassword = spacePassword;
+    }
+
     private boolean isSameSpacePassword(final String password) {
         return spacePassword.equals(password);
     }

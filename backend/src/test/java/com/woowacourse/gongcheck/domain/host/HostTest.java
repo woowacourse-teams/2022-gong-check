@@ -1,9 +1,11 @@
 package com.woowacourse.gongcheck.domain.host;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.woowacourse.gongcheck.exception.UnauthorizedException;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -27,5 +29,17 @@ class HostTest {
         void 일치하면_예외가_발생하지_않는다() {
             assertDoesNotThrow(() -> host.checkPassword("0123"));
         }
+    }
+
+    @Test
+    void SpacePassword를_수정한다() {
+        Host host = Host.builder()
+                .spacePassword("1234")
+                .build();
+        String changedPassword = "4567";
+
+        host.changeSpacePassword(changedPassword);
+
+        assertThat(host.getSpacePassword()).isEqualTo(changedPassword);
     }
 }
