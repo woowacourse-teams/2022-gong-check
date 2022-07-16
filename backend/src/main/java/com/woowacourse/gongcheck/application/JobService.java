@@ -48,6 +48,7 @@ public class JobService {
         return JobsResponse.from(jobs);
     }
 
+    @Transactional
     public Long createJob(final Long hostId, final Long spaceId, final JobCreateRequest request) {
         Host host = hostRepository.getById(hostId);
         Space space = spaceRepository.getByHostAndId(host, spaceId);
