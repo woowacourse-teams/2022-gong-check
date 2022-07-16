@@ -70,4 +70,16 @@ class JobRepositoryTest {
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("존재하지 않는 작업입니다.");
     }
+
+    @Test
+    void 입력된_Space에_등록된_모든_Job을_조회한다() {
+        Host host = hostRepository.save(Host_생성("1234"));
+        Space space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
+        Job job1 = jobRepository.save(Job_생성(space, "청소"));
+        Job job2 = jobRepository.save(Job_생성(space, "마감"));
+
+        List<Job> result = jobRepository.findAllBySpace(space);
+
+        assertThat(result).containsExactly(job1, job2);
+    }
 }
