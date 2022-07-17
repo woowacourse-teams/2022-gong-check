@@ -97,4 +97,31 @@ class JobServiceTest {
 
         assertThat(savedJobId).isNotNull();
     }
+
+    @Test
+    void Host가_존재하지_않는데_Job_생성_시_예외가_발생한다() {
+        Host host = hostRepository.save(Host_생성("1234"));
+        Space space = spaceRepository.save(Space_생성(host, "잠실"));
+
+        List<TaskRequest> tasks = List.of(new TaskRequest("책상 닦기"), new TaskRequest("칠판 닦기"));
+        List<SectionRequest> sections = List.of(new SectionRequest("대강의실", tasks));
+        JobCreateRequest jobCreateRequest = new JobCreateRequest("청소", sections);
+
+        assertThatThrownBy(() -> jobService.createJob(0L, space.getId(), jobCreateRequest))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("존재하지 않는 호스트입니다.");
+    }
+
+    @Test
+    void Space가_존재하지_않는데_Job_생성_시_예외가_발생한다() {
+        Host host = hostRepository.save(Host_생성("1234"));
+
+        List<TaskRequest> tasks = List.of(new TaskRequest("책상 닦기"), new TaskRequest("칠판 닦기"));
+        List<SectionRequest> sections = List.of(new SectionRequest("대강의실", tasks));
+        JobCreateRequest jobCreateRequest = new JobCreateRequest("청소", sections);
+
+        assertThatThrownBy(() -> jobService.createJob(host.getId(), 0L, jobCreateRequest))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("존재하지 않는 공간입니다.");
+    }
 }
