@@ -11,6 +11,7 @@ import com.woowacourse.gongcheck.domain.section.Section;
 import com.woowacourse.gongcheck.domain.section.SectionRepository;
 import com.woowacourse.gongcheck.domain.space.Space;
 import com.woowacourse.gongcheck.domain.space.SpaceRepository;
+import com.woowacourse.gongcheck.domain.task.RunningTaskRepository;
 import com.woowacourse.gongcheck.domain.task.Task;
 import com.woowacourse.gongcheck.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.exception.BusinessException;
@@ -34,16 +35,19 @@ public class SpaceService {
     private final JobRepository jobRepository;
     private final SectionRepository sectionRepository;
     private final TaskRepository taskRepository;
+    private final RunningTaskRepository runningTaskRepository;
     private final ImageUploader imageUploader;
 
     public SpaceService(final HostRepository hostRepository, final SpaceRepository spaceRepository,
                         final JobRepository jobRepository, final SectionRepository sectionRepository,
-                        final TaskRepository taskRepository, final ImageUploader imageUploader) {
+                        final TaskRepository taskRepository, final RunningTaskRepository runningTaskRepository,
+                        final ImageUploader imageUploader) {
         this.hostRepository = hostRepository;
         this.spaceRepository = spaceRepository;
         this.jobRepository = jobRepository;
         this.sectionRepository = sectionRepository;
         this.taskRepository = taskRepository;
+        this.runningTaskRepository = runningTaskRepository;
         this.imageUploader = imageUploader;
     }
 
@@ -76,6 +80,9 @@ public class SpaceService {
         List<Section> sections = findSectionsByJobs(jobs);
         List<Task> tasks = findTasksBySections(sections);
 
+        runningTaskRepository.deleteAllByIdInBatch(tasks.stream()
+                .map(Task::getId)
+                .collect(toList()));
         taskRepository.deleteAllInBatch(tasks);
         sectionRepository.deleteAllInBatch(sections);
         jobRepository.deleteAllInBatch(jobs);

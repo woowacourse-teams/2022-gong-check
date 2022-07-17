@@ -10,7 +10,6 @@ import com.woowacourse.gongcheck.exception.NotFoundException;
 import com.woowacourse.gongcheck.exception.UnauthorizedException;
 import com.woowacourse.gongcheck.fixture.FixtureFactory;
 import com.woowacourse.gongcheck.presentation.request.GuestEnterRequest;
-import java.time.LocalDateTime;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

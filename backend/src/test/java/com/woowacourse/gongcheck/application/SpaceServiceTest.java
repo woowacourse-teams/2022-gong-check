@@ -2,6 +2,7 @@ package com.woowacourse.gongcheck.application;
 
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Host_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Job_생성;
+import static com.woowacourse.gongcheck.fixture.FixtureFactory.RunningTask_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Section_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Task_생성;
@@ -18,6 +19,8 @@ import com.woowacourse.gongcheck.domain.section.Section;
 import com.woowacourse.gongcheck.domain.section.SectionRepository;
 import com.woowacourse.gongcheck.domain.space.Space;
 import com.woowacourse.gongcheck.domain.space.SpaceRepository;
+import com.woowacourse.gongcheck.domain.task.RunningTask;
+import com.woowacourse.gongcheck.domain.task.RunningTaskRepository;
 import com.woowacourse.gongcheck.domain.task.Task;
 import com.woowacourse.gongcheck.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.exception.BusinessException;
@@ -57,6 +60,9 @@ class SpaceServiceTest {
 
     @Autowired
     private TaskRepository taskRepository;
+
+    @Autowired
+    private RunningTaskRepository runningTaskRepository;
 
     @Nested
     class 공간_조회 {
@@ -131,6 +137,7 @@ class SpaceServiceTest {
         Job job = jobRepository.save(Job_생성(space, "청소"));
         Section section = sectionRepository.save(Section_생성(job, "대강의실"));
         Task task = taskRepository.save(Task_생성(section, "책상 닦기"));
+        RunningTask runningTask = runningTaskRepository.save(RunningTask_생성(task.getId(), false));
 
         spaceService.removeSpace(host.getId(), space.getId());
 
@@ -140,7 +147,8 @@ class SpaceServiceTest {
                 () -> assertThat(spaceRepository.findById(space.getId())).isEmpty(),
                 () -> assertThat(jobRepository.findById(job.getId())).isEmpty(),
                 () -> assertThat(sectionRepository.findById(section.getId())).isEmpty(),
-                () -> assertThat(taskRepository.findById(task.getId())).isEmpty()
+                () -> assertThat(taskRepository.findById(task.getId())).isEmpty(),
+                () -> assertThat(runningTaskRepository.findById(runningTask.getTaskId())).isEmpty()
         );
     }
 }

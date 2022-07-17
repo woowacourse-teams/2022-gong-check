@@ -3,8 +3,6 @@ package com.woowacourse.gongcheck.domain.host;
 import com.woowacourse.gongcheck.exception.UnauthorizedException;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
