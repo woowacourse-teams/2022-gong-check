@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import React from 'react';
 
 import Button from '@/components/_common/Button';
 
@@ -17,18 +18,22 @@ interface Submission {
 interface SubmissionsProps {
   submissions: Submission[];
   isFullSize?: boolean;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const Submissions: React.FC<SubmissionsProps> = ({ submissions, isFullSize = false }) => {
+const Submissions: React.FC<SubmissionsProps> = ({ submissions, isFullSize = false, onClick }) => {
   return (
-    <div css={styles.layout}>
+    <div css={styles.layout({ isFullSize })}>
       <div css={styles.header}>
         <p>
           공간 사용 내역(<span>{submissions.length}</span>)
         </p>
-        <Button css={styles.detailButton} type="button">
-          더보기
-        </Button>
+
+        {!isFullSize && (
+          <Button css={styles.detailButton} type="button" onClick={onClick}>
+            더보기
+          </Button>
+        )}
       </div>
       <div>
         <table css={styles.table({ isFullSize })}>

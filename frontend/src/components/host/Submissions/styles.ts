@@ -2,10 +2,14 @@ import { css } from '@emotion/react';
 
 import theme from '@/styles/theme';
 
-const layout = css`
+const layout = ({ isFullSize }: { isFullSize: boolean }) => css`
   background: ${theme.colors.white};
   border-radius: 8px;
   font-size: 16px;
+  ${!isFullSize &&
+  css`
+    width: 30em;
+  `}
 `;
 
 const header = css`

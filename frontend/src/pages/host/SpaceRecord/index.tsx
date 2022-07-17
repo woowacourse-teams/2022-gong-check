@@ -64,7 +64,7 @@ const submissions = [
 const SpaceRecord: React.FC = () => {
   return (
     <div css={styles.layout}>
-      <Submissions submissions={submissions} />
+      <Submissions submissions={submissions} isFullSize={true} />
     </div>
   );
 };
