@@ -106,7 +106,28 @@ class JobAcceptanceTest extends AcceptanceTest {
 
         List<TaskRequest> tasks = List.of(new TaskRequest("책상 닦기"), new TaskRequest("칠판 닦기"));
         List<SectionRequest> sections = List.of(new SectionRequest(input, tasks));
-        JobCreateRequest wrongRequest = new JobCreateRequest(input, sections);
+        JobCreateRequest wrongRequest = new JobCreateRequest("청소", sections);
+
+        ExtractableResponse<Response> response = RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(wrongRequest)
+                .auth().oauth2(token)
+                .when().post("/api/spaces/1/jobs")
+                .then().log().all()
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    void Section의_이름이_null일_경우_예외가_발생한다() {
+        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
+        String token = 토큰을_요청한다(guestEnterRequest);
+
+        List<TaskRequest> tasks = List.of(new TaskRequest("책상 닦기"), new TaskRequest("칠판 닦기"));
+        List<SectionRequest> sections = List.of(new SectionRequest(null, tasks));
+        JobCreateRequest wrongRequest = new JobCreateRequest("청소", sections);
 
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()
@@ -127,6 +148,27 @@ class JobAcceptanceTest extends AcceptanceTest {
         String token = 토큰을_요청한다(guestEnterRequest);
 
         List<TaskRequest> tasks = List.of(new TaskRequest(input), new TaskRequest("칠판 닦기"));
+        List<SectionRequest> sections = List.of(new SectionRequest("대강의실", tasks));
+        JobCreateRequest wrongRequest = new JobCreateRequest("청소", sections);
+
+        ExtractableResponse<Response> response = RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(wrongRequest)
+                .auth().oauth2(token)
+                .when().post("/api/spaces/1/jobs")
+                .then().log().all()
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    void Task의_이름이_null일_경우_예외가_발생한다() {
+        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
+        String token = 토큰을_요청한다(guestEnterRequest);
+
+        List<TaskRequest> tasks = List.of(new TaskRequest(null), new TaskRequest("칠판 닦기"));
         List<SectionRequest> sections = List.of(new SectionRequest("대강의실", tasks));
         JobCreateRequest wrongRequest = new JobCreateRequest("청소", sections);
 
