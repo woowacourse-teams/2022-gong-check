@@ -13,6 +13,7 @@ const HomePage = lazy(() => import('@/pages/host/Home'));
 const LoginPage = lazy(() => import('@/pages/host/Login'));
 const AuthCallBackPage = lazy(() => import('@/pages/host/AuthCallBack'));
 const DashBoardPage = lazy(() => import('@/pages/host/DashBoard'));
+const SpaceCreatePage = lazy(() => import('@/pages/host/SpaceCreate'));
 const SpaceRecordPage = lazy(() => import('@/pages/host/SpaceRecord'));
 
 const routes = [
@@ -61,6 +62,10 @@ const routes = [
               {
                 path: '',
                 element: <DashBoardPage />,
+              },
+              {
+                path: 'spaceCreate',
+                element: <SpaceCreatePage />,
               },
               {
                 path: 'spaceRecord',
