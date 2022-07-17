@@ -10,10 +10,11 @@ const input = css`
 `;
 
 const label = css`
-  width: 16px;
-  height: 16px;
-  border: 1px solid ${theme.colors.black};
+  width: 28px;
+  height: 28px;
+  border: 1px solid ${theme.colors.shadow30};
   border-radius: 10px;
+  box-shadow: 2px 2px 2px 0px ${theme.colors.shadow30};
   cursor: pointer;
 `;
 

@@ -1,14 +1,17 @@
 import { css } from '@emotion/react';
 
-import theme from '@/styles/theme';
-
 const taskCard = css`
   display: flex;
   flex-direction: column;
   width: 320px;
-  border-radius: 20px;
-  padding: 24px;
-  box-shadow: 2px 2px 2px 2px ${theme.colors.shadow30};
+  padding: 16px;
+
+  span {
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const task = css`
