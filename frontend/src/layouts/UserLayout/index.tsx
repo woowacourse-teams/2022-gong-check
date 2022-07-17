@@ -6,8 +6,6 @@ import InputModal from '@/components/InputModal';
 
 import useModal from '@/hooks/useModal';
 
-import theme from '@/styles/theme';
-
 const UserLayout: React.FC = () => {
   const { openModal } = useModal();
 
@@ -33,8 +31,6 @@ const UserLayout: React.FC = () => {
         min-height: 100vh;
         background-color: white;
         position: absolute;
-        border: 2px solid ${theme.colors.gray};
-        border-radius: 14px;
       `}
     >
       <Suspense fallback={<div>로딩 스피너</div>}>
