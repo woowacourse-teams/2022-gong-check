@@ -16,9 +16,10 @@ interface Submission {
 
 interface SubmissionsProps {
   submissions: Submission[];
+  isFullSize?: boolean;
 }
 
-const Submissions: React.FC<SubmissionsProps> = ({ submissions }) => {
+const Submissions: React.FC<SubmissionsProps> = ({ submissions, isFullSize = false }) => {
   return (
     <div css={styles.layout}>
       <div css={styles.header}>
@@ -30,7 +31,7 @@ const Submissions: React.FC<SubmissionsProps> = ({ submissions }) => {
         </Button>
       </div>
       <div>
-        <table css={styles.table}>
+        <table css={styles.table({ isFullSize })}>
           <thead>
             <tr>
               {columns.map(column => (

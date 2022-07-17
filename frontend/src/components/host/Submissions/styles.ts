@@ -13,6 +13,7 @@ const header = css`
   justify-content: space-between;
   align-items: center;
   padding: 0 1.25em;
+
   p {
     font-size: 1.3em;
   }
@@ -24,7 +25,7 @@ const detailButton = css`
   margin: 0;
 `;
 
-const table = css`
+const table = ({ isFullSize }: { isFullSize: boolean }) => css`
   width: 100%;
   padding: 1em;
   border-collapse: collapse;
@@ -41,36 +42,33 @@ const table = css`
     width: 100%;
     display: block;
     overflow-y: scroll;
-    height: 12.5em;
+    height: ${isFullSize ? '100%' : '12.5em'};
 
     ::-webkit-scrollbar {
       width: 0.3em;
-    } /* 스크롤 바 */
-
-    ::-webkit-scrollbar-track {
-      /* background-color: #fff; */
-    } /* 스크롤 바 밑의 배경 */
+    }
 
     ::-webkit-scrollbar-thumb {
-      background: #ddd;
+      background: ${theme.colors.shadow20};
       border-radius: 8px;
-    } /* 실질적 스크롤 바 */
+    }
 
     ::-webkit-scrollbar-thumb:hover {
-      background: #404040;
-    } /* 실질적 스크롤 바 위에 마우스를 올려다 둘 때 */
+      background: ${theme.colors.shadow60};
+    }
 
     ::-webkit-scrollbar-thumb:active {
-      background: #808080;
-    } /* 실질적 스크롤 바를 클릭할 때 */
+      background: ${theme.colors.shadow80};
+    }
 
     ::-webkit-scrollbar-button {
       display: none;
-    } /* 스크롤 바 상 하단 버튼 */
+    }
 
     tr {
-      border-bottom: 1px solid black;
+      border-bottom: 1px solid ${theme.colors.shadow10};
     }
+
     tr:nth-last-of-type(1) {
       border-bottom: none;
     }
@@ -79,14 +77,13 @@ const table = css`
   th,
   td {
     padding: 1em;
-    min-width: 6em;
-    max-width: 6em;
-
+    min-width: ${isFullSize ? '12em' : '6em'};
+    max-width: ${isFullSize ? '12em' : '6em'};
     word-wrap: break-word;
     text-align: left;
     &:nth-of-type(3) {
-      min-width: 15em;
-      max-width: 15em;
+      min-width: ${isFullSize ? '20em' : '15em'};
+      max-width: ${isFullSize ? '20em' : '15em'};
     }
   }
 `;
