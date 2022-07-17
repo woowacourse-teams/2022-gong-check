@@ -30,4 +30,9 @@ class SpacePasswordTest {
     void 비밀번호_값이_같으면_같은_비밀번호이다() {
         assertThat(new SpacePassword("1234")).isEqualTo(new SpacePassword("1234"));
     }
+
+    @Test
+    void 비밀번호_값이_다르면_다른_비밀번호이다() {
+        assertThat(new SpacePassword("1234")).isNotEqualTo(new SpacePassword("4567"));
+    }
 }

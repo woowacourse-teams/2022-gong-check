@@ -35,7 +35,8 @@ class HostServiceTest {
 
     @Test
     void 존재하지_않는_Host의_SpacePassword를_변경하려는_경우_예외가_발생한다() {
-        Assertions.assertThatThrownBy(() -> hostService.changeSpacePassword(0L, new SpacePasswordChangeRequest("1234")))
+        SpacePasswordChangeRequest request = new SpacePasswordChangeRequest("1234");
+        Assertions.assertThatThrownBy(() -> hostService.changeSpacePassword(0L, request))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("존재하지 않는 호스트입니다.");
     }

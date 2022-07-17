@@ -55,7 +55,8 @@ class HostDocumentation extends DocumentationTest {
         void 비밀번호_형식이_맞지_않는_경우_변경에_실패한다() {
             doThrow(new BusinessException("비밀번호는 네 자리 숫자로 이루어져야 합니다."))
                     .when(hostService)
-                    .changeSpacePassword(anyLong(), any());            when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+                    .changeSpacePassword(anyLong(), any());
+            when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             docsGiven
                     .header("Authorization", "Bearer jwt.token.here")
