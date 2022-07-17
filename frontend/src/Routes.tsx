@@ -13,6 +13,7 @@ const HomePage = lazy(() => import('@/pages/host/Home'));
 const LoginPage = lazy(() => import('@/pages/host/Login'));
 const AuthCallBackPage = lazy(() => import('@/pages/host/AuthCallBack'));
 const DashBoardPage = lazy(() => import('@/pages/host/DashBoard'));
+const SpaceCreatePage = lazy(() => import('@/pages/host/SpaceCreate'));
 
 const routes = [
   {
@@ -60,6 +61,10 @@ const routes = [
               {
                 path: '',
                 element: <DashBoardPage />,
+              },
+              {
+                path: 'spaceCreate',
+                element: <SpaceCreatePage />,
               },
               // 공간 생성, 수정 <SpaceCreatePage/>
               // 공간 정보 수정 페이지 <SpaceUpdatePage/>
