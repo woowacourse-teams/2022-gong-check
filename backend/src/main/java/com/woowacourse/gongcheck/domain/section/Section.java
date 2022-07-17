@@ -53,6 +53,7 @@ public class Section {
     @Builder
     public Section(final Long id, final Job job, final String name, final LocalDateTime createdAt,
                    final LocalDateTime updatedAt) {
+        job.addSection(this);
         this.id = id;
         this.job = job;
         this.name = name;
@@ -60,8 +61,8 @@ public class Section {
         this.updatedAt = updatedAt;
     }
 
-    public void addAllTasks(final List<Task> tasks) {
-        this.tasks.addAll(tasks);
+    public void addTask(final Task task) {
+        this.tasks.add(task);
     }
 
     @Override

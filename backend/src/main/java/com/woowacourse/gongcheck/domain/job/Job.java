@@ -65,8 +65,8 @@ public class Job {
         this.updatedAt = updatedAt;
     }
 
-    public void addAllSections(List<Section> sections) {
-        this.sections.addAll(sections);
+    public void addSection(final Section section) {
+        this.sections.add(section);
     }
 
     public Submission createSubmission(final String author) {

@@ -14,7 +14,6 @@ import com.woowacourse.gongcheck.presentation.request.SectionRequest;
 import com.woowacourse.gongcheck.presentation.request.TaskRequest;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -52,37 +51,32 @@ public class JobService {
                 .name(request.getName())
                 .createdAt(LocalDateTime.now())
                 .build();
-        List<Section> sections = createSections(request.getSections(), job);
-        job.addAllSections(sections);
+        createSectionsAndTasks(request.getSections(), job);
         jobRepository.save(job);
         return job.getId();
     }
 
-    private List<Section> createSections(final List<SectionRequest> sections, final Job job) {
-        return sections.stream()
-                .map(i -> createSection(i, job))
-                .collect(Collectors.toList());
+    private void createSectionsAndTasks(final List<SectionRequest> sections, final Job job) {
+        sections.forEach(i -> createSectionAndTasks(i, job));
     }
 
-    private Section createSection(final SectionRequest sectionRequest, final Job job) {
+    private void createSectionAndTasks(final SectionRequest sectionRequest, final Job job) {
         Section section = Section.builder()
                 .job(job)
                 .name(sectionRequest.getName())
                 .createdAt(LocalDateTime.now())
                 .build();
-        List<Task> tasks = createTasks(sectionRequest.getTasks(), section);
-        section.addAllTasks(tasks);
-        return section;
+
+        createTasks(sectionRequest, section);
     }
 
-    private List<Task> createTasks(final List<TaskRequest> taskRequests, final Section section) {
-        return taskRequests.stream()
-                .map(i -> createTask(i, section))
-                .collect(Collectors.toList());
+    private void createTasks(final SectionRequest sectionRequest, final Section section) {
+        sectionRequest.getTasks()
+                .forEach(i -> createTask(i, section));
     }
 
-    private Task createTask(final TaskRequest taskRequest, final Section section) {
-        return Task.builder()
+    private void createTask(final TaskRequest taskRequest, final Section section) {
+        Task.builder()
                 .section(section)
                 .name(taskRequest.getName())
                 .createdAt(LocalDateTime.now())

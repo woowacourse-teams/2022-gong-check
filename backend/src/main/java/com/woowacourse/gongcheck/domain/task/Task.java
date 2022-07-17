@@ -49,6 +49,7 @@ public class Task {
     @Builder
     public Task(final Long id, final Section section, final RunningTask runningTask, final String name,
                 final LocalDateTime createdAt, final LocalDateTime updatedAt) {
+        section.addTask(this);
         this.id = id;
         this.section = section;
         this.runningTask = runningTask;
