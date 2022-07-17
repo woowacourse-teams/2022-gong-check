@@ -87,7 +87,7 @@ const TaskList: React.FC = () => {
               color: black;
               cursor: pointer;
             `}
-            size={40}
+            size={30}
             onClick={goPreviousPage}
           />
         </div>

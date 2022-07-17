@@ -65,10 +65,9 @@ const infoWrapper = css`
 `;
 
 const arrowBackIconWrapper = css`
-  background: beige;
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 20px;
+  left: 20px;
 `;
 
 const progressBarWrapper = css`
