@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 public class HostService {
 
     private final HostRepository hostRepository;
@@ -16,6 +16,7 @@ public class HostService {
         this.hostRepository = hostRepository;
     }
 
+    @Transactional
     public void changeSpacePassword(final Long hostId, final SpacePasswordChangeRequest request) {
         Host host = hostRepository.getById(hostId);
         host.changeSpacePassword(request.getPassword());

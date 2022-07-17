@@ -37,9 +37,8 @@ public class SpaceService {
     private final ImageUploader imageUploader;
 
     public SpaceService(final HostRepository hostRepository, final SpaceRepository spaceRepository,
-                        final JobRepository jobRepository,
-                        final SectionRepository sectionRepository, final TaskRepository taskRepository,
-                        final ImageUploader imageUploader) {
+                        final JobRepository jobRepository, final SectionRepository sectionRepository,
+                        final TaskRepository taskRepository, final ImageUploader imageUploader) {
         this.hostRepository = hostRepository;
         this.spaceRepository = spaceRepository;
         this.jobRepository = jobRepository;
@@ -74,8 +73,8 @@ public class SpaceService {
         Host host = hostRepository.getById(hostId);
         Space space = spaceRepository.getByHostAndId(host, spaceId);
         List<Job> jobs = jobRepository.findAllBySpace(space);
-        List<Section> sections = findSectionsBy(jobs);
-        List<Task> tasks = findTasksBy(sections);
+        List<Section> sections = findSectionsByJobs(jobs);
+        List<Task> tasks = findTasksBySections(sections);
 
         taskRepository.deleteAllInBatch(tasks);
         sectionRepository.deleteAllInBatch(sections);
@@ -83,14 +82,14 @@ public class SpaceService {
         spaceRepository.deleteById(spaceId);
     }
 
-    private List<Section> findSectionsBy(final List<Job> jobs) {
+    private List<Section> findSectionsByJobs(final List<Job> jobs) {
         return jobs.stream()
                 .map(sectionRepository::findAllByJob)
                 .flatMap(Collection::stream)
                 .collect(toList());
     }
 
-    private List<Task> findTasksBy(final List<Section> sections) {
+    private List<Task> findTasksBySections(final List<Section> sections) {
         return sections.stream()
                 .map(taskRepository::findAllBySection)
                 .flatMap(Collection::stream)
