@@ -1,9 +1,13 @@
 package com.woowacourse.gongcheck.domain.job;
 
+import com.woowacourse.gongcheck.domain.section.Section;
 import com.woowacourse.gongcheck.domain.space.Space;
 import com.woowacourse.gongcheck.domain.submission.Submission;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
@@ -43,6 +48,9 @@ public class Job {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @OneToMany(mappedBy = "job", cascade = CascadeType.PERSIST)
+    private List<Section> sections = new ArrayList<>();
+
     protected Job() {
     }
 
@@ -55,6 +63,10 @@ public class Job {
         this.slackUrl = slackUrl;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public void addAllSections(List<Section> sections) {
+        this.sections.addAll(sections);
     }
 
     public Submission createSubmission(final String author) {

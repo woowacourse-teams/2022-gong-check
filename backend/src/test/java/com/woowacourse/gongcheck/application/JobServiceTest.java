@@ -42,7 +42,7 @@ class JobServiceTest {
     private JobRepository jobRepository;
 
     @Test
-    void 작업_목록을_조회한다() {
+    void Job_목록을_조회한다() {
         Host host = hostRepository.save(Host_생성("1234"));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
         Job job1 = Job_생성(space, "오픈");
@@ -59,14 +59,14 @@ class JobServiceTest {
     }
 
     @Test
-    void 존재하지_않는_호스트로_작업_목록을_조회할_경우_예외를_던진다() {
+    void 존재하지_않는_호스트로_Job_목록을_조회할_경우_예외를_던진다() {
         assertThatThrownBy(() -> jobService.findPage(0L, 1L, PageRequest.of(0, 1)))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("존재하지 않는 호스트입니다.");
     }
 
     @Test
-    void 존재하지_않는_공간의_작업_목록을_조회할_경우_예외를_던진다() {
+    void 존재하지_않는_Space의_Job_목록을_조회할_경우_예외를_던진다() {
         Host host = hostRepository.save(Host_생성("1234"));
 
         assertThatThrownBy(() -> jobService.findPage(host.getId(), 0L, PageRequest.of(0, 1)))
@@ -75,7 +75,7 @@ class JobServiceTest {
     }
 
     @Test
-    void 다른_호스트의_공간의_작업_목록을_조회할_경우_예외를_던진다() {
+    void 다른_호스트의_Space의_Job_목록을_조회할_경우_예외를_던진다() {
         Host host1 = hostRepository.save(Host_생성("1234"));
         Host host2 = hostRepository.save(Host_생성("1234"));
         Space space = spaceRepository.save(Space_생성(host2, "잠실"));
@@ -86,15 +86,15 @@ class JobServiceTest {
     }
 
     @Test
-    void 공간과_섹션들과_작업들을_생성한다() {
+    void Job과_Section들과_Task들을_한_번에_생성한다() {
         Host host = hostRepository.save(Host_생성("1234"));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
         List<TaskRequest> tasks = List.of(new TaskRequest("책상 닦기"), new TaskRequest("칠판 닦기"));
         List<SectionRequest> sections = List.of(new SectionRequest("대강의실", tasks));
         JobCreateRequest jobCreateRequest = new JobCreateRequest("청소", sections);
 
-        Long savedJob = jobService.createJob(host.getId(), space.getId(), jobCreateRequest);
+        Long savedJobId = jobService.createJob(host.getId(), space.getId(), jobCreateRequest);
 
-        assertThat(savedJob).isNotNull();
+        assertThat(savedJobId).isNotNull();
     }
 }

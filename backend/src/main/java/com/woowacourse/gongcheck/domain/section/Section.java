@@ -1,8 +1,12 @@
 package com.woowacourse.gongcheck.domain.section;
 
 import com.woowacourse.gongcheck.domain.job.Job;
+import com.woowacourse.gongcheck.domain.task.Task;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,6 +44,9 @@ public class Section {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @OneToMany(mappedBy = "section", cascade = CascadeType.PERSIST)
+    private List<Task> tasks = new ArrayList<>();
+
     protected Section() {
     }
 
@@ -50,6 +58,10 @@ public class Section {
         this.name = name;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public void addAllTasks(final List<Task> tasks) {
+        this.tasks.addAll(tasks);
     }
 
     @Override
