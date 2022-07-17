@@ -20,7 +20,7 @@ import org.springframework.http.MediaType;
 class JobAcceptanceTest extends AcceptanceTest {
 
     @Test
-    void 작업을_조회한다() {
+    void Job을_조회한다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 
@@ -35,7 +35,7 @@ class JobAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void 작업을_생성한다() {
+    void Job을_생성한다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 
@@ -56,8 +56,8 @@ class JobAcceptanceTest extends AcceptanceTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"", "작업 이름이 20글자 이상일 경우 예외"})
-    void 작업의_이름이_1글자_미만_20글자_초과일_경우_예외가_발생한다(String input) {
+    @ValueSource(strings = {"", "Job 이름이 20글자 이상일 경우 예외"})
+    void Job의_이름이_1글자_미만_20글자_초과일_경우_예외가_발생한다(final String input) {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 

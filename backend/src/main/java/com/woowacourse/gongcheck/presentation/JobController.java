@@ -36,7 +36,7 @@ public class JobController {
     public ResponseEntity<Void> createJob(@AuthenticationPrincipal final Long hostId,
                                           @PathVariable final Long spaceId,
                                           @Valid @RequestBody final JobCreateRequest request) {
-        Long jobId = jobService.createJob(hostId, spaceId, request);
-        return ResponseEntity.created(URI.create("/api/spaces/" + jobId + "/jobs")).build();
+        Long savedJobId = jobService.createJob(hostId, spaceId, request);
+        return ResponseEntity.created(URI.create("/api/spaces/" + savedJobId + "/jobs")).build();
     }
 }

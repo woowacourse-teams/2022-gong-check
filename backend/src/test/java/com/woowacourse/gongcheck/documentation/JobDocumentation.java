@@ -26,10 +26,10 @@ import org.springframework.http.MediaType;
 class JobDocumentation extends DocumentationTest {
 
     @Nested
-    class 작업을_조회한다 {
+    class Job을_조회한다 {
 
         @Test
-        void 작업_조회에_성공한다() {
+        void Job_조회에_성공한다() {
             Host host = Host_생성("1234");
             Space space = Space_생성(host, "잠실");
             when(jobService.findPage(anyLong(), anyLong(), any())).thenReturn(
@@ -52,13 +52,13 @@ class JobDocumentation extends DocumentationTest {
     }
 
     @Nested
-    class 작업을_생성_시 {
+    class Job을_생성_시 {
         List<TaskRequest> tasks1 = List.of(new TaskRequest("책상 닦기"), new TaskRequest("칠판 닦기"));
         List<TaskRequest> tasks2 = List.of(new TaskRequest("책상 닦기"), new TaskRequest("칠판 닦기"));
         List<SectionRequest> sections = List.of(new SectionRequest("대강의실", tasks1), new SectionRequest("소강의실", tasks2));
 
         @Test
-        void 작업을_생성한다() {
+        void Job을_생성한다() {
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
             JobCreateRequest request = new JobCreateRequest("청소", sections);
 
@@ -73,7 +73,7 @@ class JobDocumentation extends DocumentationTest {
         }
 
         @Test
-        void 작업의_이름_길이가_올바르지_않을_경우_예외가_발생한다() {
+        void Job의_이름_길이가_올바르지_않을_경우_예외가_발생한다() {
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
             JobCreateRequest wrongRequest = new JobCreateRequest("작업의 이름이 20글자 초과한다면 예외", sections);
 
