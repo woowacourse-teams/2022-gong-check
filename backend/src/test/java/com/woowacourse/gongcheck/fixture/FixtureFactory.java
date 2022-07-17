@@ -1,6 +1,7 @@
 package com.woowacourse.gongcheck.fixture;
 
 import com.woowacourse.gongcheck.domain.host.Host;
+import com.woowacourse.gongcheck.domain.host.SpacePassword;
 import com.woowacourse.gongcheck.domain.job.Job;
 import com.woowacourse.gongcheck.domain.section.Section;
 import com.woowacourse.gongcheck.domain.space.Space;
@@ -12,7 +13,7 @@ public class FixtureFactory {
 
     public static Host Host_생성(final String password) {
         return Host.builder()
-                .spacePassword(password)
+                .spacePassword(new SpacePassword(password))
                 .createdAt(LocalDateTime.now()).build();
     }
 

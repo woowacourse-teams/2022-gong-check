@@ -8,6 +8,7 @@ import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import com.woowacourse.gongcheck.exception.UnauthorizedException;
+import com.woowacourse.gongcheck.fixture.FixtureFactory;
 import com.woowacourse.gongcheck.presentation.request.GuestEnterRequest;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Nested;
@@ -38,10 +39,7 @@ class GuestAuthServiceTest {
 
         @Test
         void 비밀번호가_틀리면_예외가_발생한다() {
-            Host host = hostRepository.save(Host.builder()
-                    .spacePassword("0123")
-                    .createdAt(LocalDateTime.now())
-                    .build());
+            Host host = hostRepository.save(FixtureFactory.Host_생성("0123"));
 
             assertThatThrownBy(() -> guestAuthService.createToken(host.getId(), new GuestEnterRequest("1234")))
                     .isInstanceOf(UnauthorizedException.class)
@@ -50,10 +48,7 @@ class GuestAuthServiceTest {
 
         @Test
         void 정상적으로_토큰을_발행한다() {
-            Host host = hostRepository.save(Host.builder()
-                    .spacePassword("0123")
-                    .createdAt(LocalDateTime.now())
-                    .build());
+            Host host = hostRepository.save(FixtureFactory.Host_생성("0123"));
             GuestTokenResponse token = guestAuthService.createToken(host.getId(), new GuestEnterRequest("0123"));
 
             assertThat(token.getToken()).isNotNull();

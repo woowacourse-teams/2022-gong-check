@@ -2,6 +2,7 @@ package com.woowacourse.gongcheck.application;
 
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
+import com.woowacourse.gongcheck.domain.host.SpacePassword;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import com.woowacourse.gongcheck.fixture.FixtureFactory;
 import com.woowacourse.gongcheck.presentation.request.SpacePasswordChangeRequest;
@@ -29,7 +30,7 @@ class HostServiceTest {
         hostService.changeSpacePassword(host.getId(), new SpacePasswordChangeRequest(changedPassword));
 
         Assertions.assertThat(hostRepository.getById(host.getId()).getSpacePassword())
-                .isEqualTo(changedPassword);
+                .isEqualTo(new SpacePassword(changedPassword));
     }
 
     @Test
