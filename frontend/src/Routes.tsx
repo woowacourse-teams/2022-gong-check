@@ -8,6 +8,7 @@ import UserLayout from '@/layouts/UserLayout';
 const SpaceListPage = lazy(() => import('@/pages/user/SpaceList'));
 const JobListPage = lazy(() => import('@/pages/user/JobList'));
 const TaskListPage = lazy(() => import('@/pages/user/TaskList'));
+const PasswordPage = lazy(() => import('@/pages/user/Password'));
 
 const HomePage = lazy(() => import('@/pages/host/Home'));
 const LoginPage = lazy(() => import('@/pages/host/Login'));
@@ -24,6 +25,10 @@ const routes = [
         path: 'enter/:hostId',
         element: <UserLayout />,
         children: [
+          {
+            path: 'pwd',
+            element: <PasswordPage />,
+          },
           {
             path: 'spaces',
             element: <SpaceListPage />,
