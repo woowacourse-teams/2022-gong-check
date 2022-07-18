@@ -1,42 +1,59 @@
 import { css } from '@emotion/react';
+import { AxiosResponse, AxiosError } from 'axios';
 import { Suspense, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { ErrorBoundary } from 'react-error-boundary';
+import { QueryErrorResetBoundary } from 'react-query';
+import { Outlet, useNavigate, useParams } from 'react-router-dom';
 
-import InputModal from '@/components/InputModal';
-
-import useModal from '@/hooks/useModal';
+const EXPIRED_TOKEN_TEXT = '만료된 토큰입니다.';
+const NOT_TOKEN_TEXT = '헤더에 토큰 값이 정상적으로 존재하지 않습니다.';
 
 const UserLayout: React.FC = () => {
-  const { openModal } = useModal();
+  const navigate = useNavigate();
+  const { hostId } = useParams();
 
   useEffect(() => {
     if (!localStorage.getItem('user')) {
-      openModal(
-        <InputModal
-          title="비밀번호 입력"
-          detail="해당 공간의 관계자만 접근할 수 있습니다."
-          placeholder="비밀번호를 입력해주세요."
-          buttonText="확인"
-        />
-      );
+      navigate(`/enter/${hostId}/pwd`);
     }
-  });
+  }, []);
 
   return (
-    <div
-      css={css`
-        display: flex;
-        flex-direction: column;
-        width: 400px;
-        min-height: 100vh;
-        background-color: white;
-        position: absolute;
-      `}
-    >
-      <Suspense fallback={<div>로딩 스피너</div>}>
-        <Outlet />
-      </Suspense>
-    </div>
+    <QueryErrorResetBoundary>
+      <ErrorBoundary
+        fallbackRender={({ error }) => {
+          const err = error as AxiosError;
+          const res = err.response as AxiosResponse;
+          const message = res.data.message;
+
+          if (message === EXPIRED_TOKEN_TEXT) {
+            localStorage.removeItem('user');
+            navigate(`/enter/${hostId}/pwd`);
+          }
+
+          if (message === NOT_TOKEN_TEXT) {
+            navigate(`/enter/${hostId}/pwd`);
+          }
+
+          return <></>;
+        }}
+      >
+        <div
+          css={css`
+            display: flex;
+            flex-direction: column;
+            width: 400px;
+            min-height: 100vh;
+            background-color: white;
+            position: absolute;
+          `}
+        >
+          <Suspense fallback={<div>로딩 스피너</div>}>
+            <Outlet />
+          </Suspense>
+        </div>
+      </ErrorBoundary>
+    </QueryErrorResetBoundary>
   );
 };
 
