@@ -67,7 +67,7 @@ public class GithubOauthClient {
             return restTemplate
                     .exchange(url, httpMethod, httpEntity, exchangeType)
                     .getBody();
-        } catch (HttpClientErrorException e) {
+        } catch (HttpClientErrorException | NullPointerException e) {
             throw new NotFoundException("해당 사용자의 프로필을 요청할 수 없습니다.");
         }
     }
