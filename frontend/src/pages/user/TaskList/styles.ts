@@ -7,7 +7,6 @@ const layout = css`
   flex-direction: column;
   width: 100%;
   align-items: center;
-
   font-size: 16px;
 `;
 

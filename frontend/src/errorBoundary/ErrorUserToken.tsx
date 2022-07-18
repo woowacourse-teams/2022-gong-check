@@ -1,4 +1,4 @@
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError } from 'axios';
 import { ErrorBoundary } from 'react-error-boundary';
 import { QueryErrorResetBoundary } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -18,9 +18,8 @@ const ErrorUserToken: React.FC<ErrorUserTokenProps> = ({ children }) => {
     <QueryErrorResetBoundary>
       <ErrorBoundary
         fallbackRender={({ error }) => {
-          const err = error as AxiosError;
-          const res = err.response as AxiosResponse;
-          const message = res.data.message;
+          const err = error as AxiosError<{ message: string }>;
+          const message = err.response?.data.message;
 
           if (message === EXPIRED_TOKEN_TEXT || message === NOT_TOKEN_TEXT) {
             localStorage.removeItem('user');

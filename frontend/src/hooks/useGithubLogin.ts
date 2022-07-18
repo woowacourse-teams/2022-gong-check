@@ -15,7 +15,7 @@ const useGitHubLogin = () => {
     if (data) {
       localStorage.setItem('host', data.token);
 
-      data.existHost ? navigate('/host') : navigate('/enter/1');
+      data.existHost ? navigate('/manage') : navigate('/enter/1');
     }
   }, [data]);
 };

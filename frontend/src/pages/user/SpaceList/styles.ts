@@ -3,7 +3,6 @@ import { css } from '@emotion/react';
 const layout = css`
   display: flex;
   flex-direction: column;
-  width: 100%;
   align-items: center;
   padding: 24px 32px;
 `;

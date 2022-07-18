@@ -1,7 +1,11 @@
 import ErrorUserToken from '@/errorBoundary/ErrorUserToken';
-import { css } from '@emotion/react';
+import { Global } from '@emotion/react';
 import { Suspense, useEffect } from 'react';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
+
+import transitions from '@/styles/transitions';
+
+import styles from './styles';
 
 const UserLayout: React.FC = () => {
   const navigate = useNavigate();
@@ -14,22 +18,14 @@ const UserLayout: React.FC = () => {
   }, []);
 
   return (
-    <ErrorUserToken>
-      <div
-        css={css`
-          display: flex;
-          flex-direction: column;
-          width: 400px;
-          min-height: 100vh;
-          background-color: white;
-          position: absolute;
-        `}
-      >
-        <Suspense fallback={<div>로딩 스피너</div>}>
+    <Suspense fallback={<div>유저 레이아웃 로딩 스피너</div>}>
+      <ErrorUserToken>
+        <div css={styles.layout}>
+          <Global styles={transitions} />
           <Outlet />
-        </Suspense>
-      </div>
-    </ErrorUserToken>
+        </div>
+      </ErrorUserToken>
+    </Suspense>
   );
 };
 
