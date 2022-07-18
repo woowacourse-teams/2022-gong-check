@@ -1,0 +1,4 @@
+[submodule "backend/submodule"]
+	path = backend/submodule
+	url = https://github.com/gong-check/submodule.git
+    branch = main
