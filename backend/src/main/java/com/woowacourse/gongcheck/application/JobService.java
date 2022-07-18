@@ -57,7 +57,7 @@ public class JobService {
     }
 
     private void createSectionsAndTasks(final List<SectionRequest> sections, final Job job) {
-        sections.forEach(i -> createSectionAndTasks(i, job));
+        sections.forEach(sectionRequest -> createSectionAndTasks(sectionRequest, job));
     }
 
     private void createSectionAndTasks(final SectionRequest sectionRequest, final Job job) {
@@ -72,7 +72,7 @@ public class JobService {
 
     private void createTasks(final SectionRequest sectionRequest, final Section section) {
         sectionRequest.getTasks()
-                .forEach(i -> createTask(i, section));
+                .forEach(taskRequest -> createTask(taskRequest, section));
     }
 
     private void createTask(final TaskRequest taskRequest, final Section section) {
