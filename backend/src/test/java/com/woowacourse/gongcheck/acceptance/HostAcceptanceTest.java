@@ -22,7 +22,7 @@ class HostAcceptanceTest extends AcceptanceTest {
 
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()
-                .body(new SpacePasswordChangeRequest("1234"))
+                .body(new SpacePasswordChangeRequest("4567"))
                 .auth().oauth2(token)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when().patch("/api/spacePassword")

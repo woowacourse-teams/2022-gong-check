@@ -131,7 +131,7 @@ class SpaceServiceTest {
     }
 
     @Test
-    void Space를_삭제하면_관련된_Job_Section_Task를_함께_삭제한다() {
+    void Space를_삭제하면_관련된_Job_Section_Task_RunningTask를_함께_삭제한다() {
         Host host = hostRepository.save(Host_생성("1234"));
         Space space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
         Job job = jobRepository.save(Job_생성(space, "청소"));
