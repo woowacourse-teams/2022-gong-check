@@ -1,7 +1,7 @@
 package com.woowacourse.gongcheck.documentation;
 
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Host_생성;
-import static com.woowacourse.gongcheck.fixture.FixtureFactory.Job_생성;
+import static com.woowacourse.gongcheck.fixture.FixtureFactory.Job_아이디_지정_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_생성;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -27,8 +27,8 @@ class JobDocumentation extends DocumentationTest {
             Space space = Space_생성(host, "잠실");
             when(jobService.findPage(anyLong(), anyLong(), any())).thenReturn(
                     JobsResponse.of(List.of(
-                                    Job_생성(space, "청소"),
-                                    Job_생성(space, "마감")),
+                            Job_아이디_지정_생성(1L, space, "청소"),
+                            Job_아이디_지정_생성(2L, space, "마감")),
                             true)
             );
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));

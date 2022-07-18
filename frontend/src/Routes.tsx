@@ -8,11 +8,14 @@ import UserLayout from '@/layouts/UserLayout';
 const SpaceListPage = lazy(() => import('@/pages/user/SpaceList'));
 const JobListPage = lazy(() => import('@/pages/user/JobList'));
 const TaskListPage = lazy(() => import('@/pages/user/TaskList'));
+const PasswordPage = lazy(() => import('@/pages/user/Password'));
 
 const HomePage = lazy(() => import('@/pages/host/Home'));
 const LoginPage = lazy(() => import('@/pages/host/Login'));
 const AuthCallBackPage = lazy(() => import('@/pages/host/AuthCallBack'));
 const DashBoardPage = lazy(() => import('@/pages/host/DashBoard'));
+const SpaceCreatePage = lazy(() => import('@/pages/host/SpaceCreate'));
+const SpaceRecordPage = lazy(() => import('@/pages/host/SpaceRecord'));
 
 const routes = [
   {
@@ -23,6 +26,10 @@ const routes = [
         path: 'enter/:hostId',
         element: <UserLayout />,
         children: [
+          {
+            path: 'pwd',
+            element: <PasswordPage />,
+          },
           {
             path: 'spaces',
             element: <SpaceListPage />,
@@ -60,6 +67,14 @@ const routes = [
               {
                 path: '',
                 element: <DashBoardPage />,
+              },
+              {
+                path: 'spaceCreate',
+                element: <SpaceCreatePage />,
+              },
+              {
+                path: 'spaceRecord',
+                element: <SpaceRecordPage />,
               },
               // 공간 생성, 수정 <SpaceCreatePage/>
               // 공간 정보 수정 페이지 <SpaceUpdatePage/>

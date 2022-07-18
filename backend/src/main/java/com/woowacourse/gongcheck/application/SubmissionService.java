@@ -1,5 +1,6 @@
 package com.woowacourse.gongcheck.application;
 
+import com.woowacourse.gongcheck.application.response.SubmissionResponse;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.domain.job.Job;
@@ -36,10 +37,11 @@ public class SubmissionService {
     }
 
     @Transactional
-    public void submitJobCompletion(final Long hostId, final Long jobId, final SubmissionRequest request) {
+    public SubmissionResponse submitJobCompletion(final Long hostId, final Long jobId, final SubmissionRequest request) {
         Host host = hostRepository.getById(hostId);
         Job job = jobRepository.getBySpaceHostAndId(host, jobId);
         saveSubmissionAndClearRunningTasks(request, job);
+        return SubmissionResponse.of(request.getAuthor(), job);
     }
 
     private void saveSubmissionAndClearRunningTasks(final SubmissionRequest request, final Job job) {

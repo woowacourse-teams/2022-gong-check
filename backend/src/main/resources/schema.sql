@@ -23,6 +23,7 @@ CREATE TABLE job
     id         BIGINT      NOT NULL AUTO_INCREMENT,
     space_id   BIGINT      NOT NULL,
     name       VARCHAR(20) NOT NULL,
+    slack_url  VARCHAR     NULL,
     created_at TIMESTAMP   NOT NULL,
     updated_at TIMESTAMP NULL,
     PRIMARY KEY (id)

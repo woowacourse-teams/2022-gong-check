@@ -9,6 +9,9 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 
+import com.woowacourse.gongcheck.application.response.SubmissionResponse;
+import com.woowacourse.gongcheck.domain.job.Job;
+import com.woowacourse.gongcheck.domain.space.Space;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.ErrorResponse;
 import com.woowacourse.gongcheck.presentation.request.SubmissionRequest;
@@ -27,7 +30,10 @@ class SubmissionDocumentation extends DocumentationTest {
 
         @Test
         void 현재_진행중인_작업이_모두_완료된_상태로_제출하면_제출에_성공한다() {
-            doNothing().when(submissionService).submitJobCompletion(anyLong(), anyLong(), any());
+            SubmissionResponse response = SubmissionResponse.of("author",
+                    Job.builder().space(Space.builder().build()).build());
+            when(submissionService.submitJobCompletion(anyLong(), anyLong(), any())).thenReturn(response);
+            doNothing().when(alertService).sendMessage(response);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             SubmissionRequest submissionRequest = new SubmissionRequest("제출자");

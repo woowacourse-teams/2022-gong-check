@@ -24,8 +24,26 @@ public class FixtureFactory {
                 .build();
     }
 
+    public static Space Space_아이디_지정_생성(final Long id, final Host host, final String name) {
+        return Space.builder()
+                .id(id)
+                .host(host)
+                .name(name)
+                .createdAt(LocalDateTime.now())
+                .build();
+    }
+
     public static Job Job_생성(final Space space, final String name) {
         return Job.builder()
+                .space(space)
+                .name(name)
+                .createdAt(LocalDateTime.now())
+                .build();
+    }
+
+    public static Job Job_아이디_지정_생성(final Long id, final Space space, final String name) {
+        return Job.builder()
+                .id(id)
                 .space(space)
                 .name(name)
                 .createdAt(LocalDateTime.now())
@@ -57,8 +75,9 @@ public class FixtureFactory {
                 .build();
     }
 
-    public static Task RunningTask로_Task_생성(final RunningTask runningTask, final Section section, final String name) {
+    public static Task RunningTask로_Task_아이디_지정_생성(final Long id, final RunningTask runningTask, final Section section, final String name) {
         return Task.builder()
+                .id(id)
                 .section(section)
                 .runningTask(runningTask)
                 .name(name)

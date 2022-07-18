@@ -1,10 +1,12 @@
-import { Suspense } from 'react';
+import { Suspense, useMemo } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import styles from './styles';
 
+const MANAGE_PATH = '/host/manage';
+
 const HostLayout: React.FC = () => {
-  const isManagePath = location.pathname === '/host/manage';
+  const isManagePath = useMemo(() => location.pathname.includes(MANAGE_PATH), []);
 
   return (
     <div css={styles.layout(isManagePath)}>
