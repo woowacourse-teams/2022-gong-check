@@ -3,7 +3,7 @@ package com.woowacourse.gongcheck.documentation;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Host_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Job_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.RunningTask_생성;
-import static com.woowacourse.gongcheck.fixture.FixtureFactory.RunningTask로_Task_생성;
+import static com.woowacourse.gongcheck.fixture.FixtureFactory.RunningTask로_Task_아이디_지정_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Section_아이디_지정_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Task_생성;
@@ -98,9 +98,9 @@ class TaskDocumentation extends DocumentationTest {
             Section section1 = Section_아이디_지정_생성(1L, job, "트랙룸");
             Section section2 = Section_아이디_지정_생성(2L, job, "굿샷강의장");
             RunningTask runningTask1 = RunningTask_생성(Task_생성(section1, "책상 청소").getId(), false);
-            RunningTask runningTask2 = RunningTask_생성(Task_생성(section2, "책상 청소").getId(), false);
-            Task task1 = RunningTask로_Task_생성(runningTask1, section1, "책상 청소");
-            Task task2 = RunningTask로_Task_생성(runningTask2, section2, "의자 청소");
+            RunningTask runningTask2 = RunningTask_생성(Task_생성(section2, "책상 청소").getId(), true);
+            Task task1 = RunningTask로_Task_아이디_지정_생성(1L, runningTask1, section1, "책상 청소");
+            Task task2 = RunningTask로_Task_아이디_지정_생성(2L, runningTask2, section2, "의자 청소");
             when(taskService.findRunningTasks(anyLong(), any())).thenReturn(
                     RunningTasksResponse.from(new Tasks(List.of(task1, task2)))
             );

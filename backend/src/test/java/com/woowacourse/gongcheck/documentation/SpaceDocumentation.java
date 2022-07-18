@@ -1,7 +1,7 @@
 package com.woowacourse.gongcheck.documentation;
 
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Host_생성;
-import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_생성;
+import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_아이디_지정_생성;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
@@ -28,8 +28,8 @@ class SpaceDocumentation extends DocumentationTest {
             Host host = Host_생성("1234");
             when(spaceService.findPage(anyLong(), any())).thenReturn(
                     SpacesResponse.of(List.of(
-                                    Space_생성(host, "잠실"),
-                                    Space_생성(host, "선릉")),
+                            Space_아이디_지정_생성(1L, host, "잠실"),
+                            Space_아이디_지정_생성(2L, host, "선릉")),
                             true)
             );
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
