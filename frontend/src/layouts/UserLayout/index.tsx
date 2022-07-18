@@ -1,10 +1,14 @@
-import { css } from '@emotion/react';
+import { Global } from '@emotion/react';
 import { Suspense, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import InputModal from '@/components/InputModal';
 
 import useModal from '@/hooks/useModal';
+
+import transitions from '@/styles/transitions';
+
+import styles from './styles';
 
 const UserLayout: React.FC = () => {
   const { openModal } = useModal();
@@ -23,17 +27,9 @@ const UserLayout: React.FC = () => {
   });
 
   return (
-    <div
-      css={css`
-        display: flex;
-        flex-direction: column;
-        width: 400px;
-        min-height: 100vh;
-        background-color: white;
-        position: absolute;
-      `}
-    >
+    <div css={styles.layout}>
       <Suspense fallback={<div>로딩 스피너</div>}>
+        <Global styles={transitions} />
         <Outlet />
       </Suspense>
     </div>
