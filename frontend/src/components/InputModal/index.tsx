@@ -30,7 +30,7 @@ const InputModal: React.FC<InputModalProps> = ({ title, detail, placeholder, but
 
   const setToken = async (password: string) => {
     const { token } = await apis.postPassword({ hostId: 1, password });
-    localStorage.setItem('user', token);
+    localStorage.setItem('token', token);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

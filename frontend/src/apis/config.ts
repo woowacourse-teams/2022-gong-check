@@ -13,7 +13,7 @@ export const axiosInstanceToken = axios.create({
 
 axiosInstanceToken.interceptors.request.use(
   config => {
-    const accessToken = localStorage.getItem('user');
+    const accessToken = localStorage.getItem('token');
 
     if (accessToken) {
       config.headers = {
