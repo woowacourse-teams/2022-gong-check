@@ -11,9 +11,11 @@ import java.time.LocalDateTime;
 
 public class FixtureFactory {
 
-    public static Host Host_생성(final String password) {
+    public static Host Host_생성(final String password, final Long githubId) {
         return Host.builder()
                 .spacePassword(new SpacePassword(password))
+                .githubId(githubId)
+                .imageUrl("test.com")
                 .createdAt(LocalDateTime.now()).build();
     }
 
@@ -76,7 +78,8 @@ public class FixtureFactory {
                 .build();
     }
 
-    public static Task RunningTask로_Task_아이디_지정_생성(final Long id, final RunningTask runningTask, final Section section, final String name) {
+    public static Task RunningTask로_Task_아이디_지정_생성(final Long id, final RunningTask runningTask, final Section section,
+                                                   final String name) {
         return Task.builder()
                 .id(id)
                 .section(section)
