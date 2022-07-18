@@ -59,6 +59,19 @@ class GithubOauthClientTest {
     }
 
     @Test
+    void 깃허브_access_Token_요청에_실패하면_예외가_발생한다() {
+        mockRestServiceServer.expect(requestTo("https://github.com/login/oauth/access_token"))
+                .andExpect(method(HttpMethod.POST))
+                .andRespond(withStatus(HttpStatus.NOT_FOUND)
+                        .contentType(MediaType.APPLICATION_JSON));
+
+        assertThatThrownBy(() -> githubOauthClient.requestAccessToken("code"))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("해당 사용자의 프로필을 요청할 수 없습니다.");
+        mockRestServiceServer.verify();
+    }
+
+    @Test
     void 올바르지_않은_code이면_예외가_발생한다() throws JsonProcessingException {
         GithubAccessTokenResponse token = new GithubAccessTokenResponse(null);
         mockRestServiceServer.expect(requestTo("https://github.com/login/oauth/access_token"))

@@ -45,9 +45,7 @@ public class GithubOauthClient {
         headers.add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
         HttpEntity<?> httpEntity = new HttpEntity<>(githubAccessTokenRequest, headers);
 
-        String accessToken = restTemplate
-                .exchange(tokenUrl, HttpMethod.POST, httpEntity, GithubAccessTokenResponse.class)
-                .getBody()
+        String accessToken = exchangeRestTemplateBody(tokenUrl, HttpMethod.POST, httpEntity, GithubAccessTokenResponse.class)
                 .getAccessToken();
         if (Objects.isNull(accessToken)) {
             throw new UnauthorizedException("잘못된 요청입니다.");
@@ -60,10 +58,14 @@ public class GithubOauthClient {
         headers.add(HttpHeaders.AUTHORIZATION, BEARER_TYPE + accessToken);
 
         HttpEntity<?> httpEntity = new HttpEntity<>(headers);
+        return exchangeRestTemplateBody(profileUrl, HttpMethod.GET, httpEntity, GithubProfileResponse.class);
+    }
 
+    private <T> T exchangeRestTemplateBody(final String url, final HttpMethod httpMethod,
+                                           final HttpEntity<?> httpEntity, final Class<T> exchangeType) {
         try {
             return restTemplate
-                    .exchange(profileUrl, HttpMethod.GET, httpEntity, GithubProfileResponse.class)
+                    .exchange(url, httpMethod, httpEntity, exchangeType)
                     .getBody();
         } catch (HttpClientErrorException e) {
             throw new NotFoundException("해당 사용자의 프로필을 요청할 수 없습니다.");
