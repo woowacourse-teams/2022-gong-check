@@ -5,7 +5,6 @@ import theme from '@/styles/theme';
 const layout = css`
   display: flex;
   flex-direction: column;
-  width: 100%;
   align-items: center;
 `;
 
@@ -35,6 +34,11 @@ const text = css`
   margin-bottom: 24px;
 `;
 
-const styles = { layout, cover, coverText, text };
+const arrow = css`
+  color: white;
+  cursor: pointer;
+`;
+
+const styles = { layout, cover, coverText, text, arrow };
 
 export default styles;
