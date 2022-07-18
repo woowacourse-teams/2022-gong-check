@@ -4,6 +4,7 @@ import com.woowacourse.gongcheck.application.response.GithubAccessTokenResponse;
 import com.woowacourse.gongcheck.application.response.GithubProfileResponse;
 import com.woowacourse.gongcheck.exception.UnauthorizedException;
 import com.woowacourse.gongcheck.presentation.request.GithubAccessTokenRequest;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -16,8 +17,6 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class GithubOauthClient {
 
-    private static final String ACCEPT_HEADER = "Accept";
-    private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String BEARER_TYPE = "Bearer ";
 
     private final String clientId;
@@ -42,14 +41,14 @@ public class GithubOauthClient {
         GithubAccessTokenRequest githubAccessTokenRequest = new GithubAccessTokenRequest(code, clientId, clientSecret);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add(ACCEPT_HEADER, MediaType.APPLICATION_JSON_VALUE);
+        headers.add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity(githubAccessTokenRequest, headers);
 
         String accessToken = restTemplate
                 .exchange(tokenUrl, HttpMethod.POST, httpEntity, GithubAccessTokenResponse.class)
                 .getBody()
                 .getAccessToken();
-        if (accessToken == null) {
+        if (Objects.isNull(accessToken)) {
             throw new UnauthorizedException("잘못된 요청입니다.");
         }
         return accessToken;
@@ -57,7 +56,7 @@ public class GithubOauthClient {
 
     public GithubProfileResponse requestGithubProfile(String accessToken) {
         HttpHeaders headers = new HttpHeaders();
-        headers.add(AUTHORIZATION_HEADER, BEARER_TYPE + accessToken);
+        headers.add(HttpHeaders.AUTHORIZATION, BEARER_TYPE + accessToken);
 
         HttpEntity httpEntity = new HttpEntity<>(headers);
 

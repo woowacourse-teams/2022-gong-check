@@ -18,8 +18,7 @@ public class HostAuthService {
     private final GithubOauthClient githubOauthClient;
     private final HostRepository hostRepository;
 
-    public HostAuthService(final JwtTokenProvider jwtTokenProvider,
-                           final GithubOauthClient githubOauthClient,
+    public HostAuthService(final JwtTokenProvider jwtTokenProvider, final GithubOauthClient githubOauthClient,
                            final HostRepository hostRepository) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.githubOauthClient = githubOauthClient;

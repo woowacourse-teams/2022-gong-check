@@ -8,5 +8,5 @@ public interface JwtTokenProvider {
 
     String extractSubject(final String token) throws UnauthorizedException;
 
-    Authority extractAuthority(final String token);
+    Authority extractAuthority(final String token) throws UnauthorizedException;
 }
