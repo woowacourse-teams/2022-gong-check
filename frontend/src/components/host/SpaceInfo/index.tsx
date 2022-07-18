@@ -9,8 +9,8 @@ import theme from '@/styles/theme';
 import styles from './styles';
 
 interface SpaceInfoProps {
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  inputText: '' | string;
+  onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
+  inputText?: '' | string;
 }
 
 const SpaceInfo: React.FC<SpaceInfoProps> = ({ onSubmit, inputText = '' }) => {
@@ -67,7 +67,14 @@ const SpaceInfo: React.FC<SpaceInfoProps> = ({ onSubmit, inputText = '' }) => {
               htmlFor="file"
               ref={labelRef}
             >
-              <input css={styles.imageInput} type="file" id="file" accept="image/*" onChange={handleChangeImg} />
+              <input
+                css={styles.imageInput}
+                name="imageInput"
+                type="file"
+                id="file"
+                accept="image/*"
+                onChange={handleChangeImg}
+              />
               {!isExistimageUrl && (
                 <div css={styles.iconBox}>
                   <HiPlus size={50} />
@@ -84,6 +91,7 @@ const SpaceInfo: React.FC<SpaceInfoProps> = ({ onSubmit, inputText = '' }) => {
             <p css={styles.subTitle}>공간 이름</p>
             <input
               css={styles.input}
+              name="nameInput"
               placeholder="이름을 입력하세요"
               type="text"
               defaultValue={inputText || ''}
