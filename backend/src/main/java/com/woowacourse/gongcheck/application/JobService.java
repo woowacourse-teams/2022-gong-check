@@ -6,14 +6,17 @@ import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.domain.job.Job;
 import com.woowacourse.gongcheck.domain.job.JobRepository;
 import com.woowacourse.gongcheck.domain.section.Section;
+import com.woowacourse.gongcheck.domain.section.SectionRepository;
 import com.woowacourse.gongcheck.domain.space.Space;
 import com.woowacourse.gongcheck.domain.space.SpaceRepository;
 import com.woowacourse.gongcheck.domain.task.Task;
+import com.woowacourse.gongcheck.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.presentation.request.JobCreateRequest;
 import com.woowacourse.gongcheck.presentation.request.SectionRequest;
 import com.woowacourse.gongcheck.presentation.request.TaskRequest;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -26,12 +29,17 @@ public class JobService {
     private final HostRepository hostRepository;
     private final SpaceRepository spaceRepository;
     private final JobRepository jobRepository;
+    private final SectionRepository sectionRepository;
+    private final TaskRepository taskRepository;
 
     public JobService(final HostRepository hostRepository, final SpaceRepository spaceRepository,
-                      final JobRepository jobRepository) {
+                      final JobRepository jobRepository, final SectionRepository sectionRepository,
+                      final TaskRepository taskRepository) {
         this.hostRepository = hostRepository;
         this.spaceRepository = spaceRepository;
         this.jobRepository = jobRepository;
+        this.sectionRepository = sectionRepository;
+        this.taskRepository = taskRepository;
     }
 
     public JobsResponse findPage(final Long hostId, final Long spaceId, final Pageable pageable) {
@@ -51,32 +59,36 @@ public class JobService {
                 .name(request.getName())
                 .createdAt(LocalDateTime.now())
                 .build();
-        createSectionsAndTasks(request.getSections(), job);
         jobRepository.save(job);
+        createSectionsAndTasks(request.getSections(), job);
         return job.getId();
     }
 
-    private void createSectionsAndTasks(final List<SectionRequest> sections, final Job job) {
-        sections.forEach(sectionRequest -> createSectionAndTasks(sectionRequest, job));
+    private void createSectionsAndTasks(final List<SectionRequest> sectionRequests, final Job job) {
+        sectionRequests.forEach(sectionRequest -> createSectionAndTasks(sectionRequest, job));
     }
 
-    private void createSectionAndTasks(final SectionRequest sectionRequest, final Job job) {
+    private Section createSectionAndTasks(final SectionRequest sectionRequest, final Job job) {
         Section section = Section.builder()
                 .job(job)
                 .name(sectionRequest.getName())
                 .createdAt(LocalDateTime.now())
                 .build();
-
-        createTasks(sectionRequest, section);
+        sectionRepository.save(section);
+        createTasks(sectionRequest.getTasks(), section);
+        return section;
     }
 
-    private void createTasks(final SectionRequest sectionRequest, final Section section) {
-        sectionRequest.getTasks()
-                .forEach(taskRequest -> createTask(taskRequest, section));
+    private void createTasks(final List<TaskRequest> taskRequests, final Section section) {
+        List<Task> tasks = taskRequests
+                .stream()
+                .map(taskRequest -> createTask(taskRequest, section))
+                .collect(Collectors.toList());
+        taskRepository.saveAll(tasks);
     }
 
-    private void createTask(final TaskRequest taskRequest, final Section section) {
-        Task.builder()
+    private Task createTask(final TaskRequest taskRequest, final Section section) {
+        return Task.builder()
                 .section(section)
                 .name(taskRequest.getName())
                 .createdAt(LocalDateTime.now())

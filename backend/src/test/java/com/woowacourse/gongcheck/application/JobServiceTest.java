@@ -12,11 +12,8 @@ import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.domain.job.Job;
 import com.woowacourse.gongcheck.domain.job.JobRepository;
-import com.woowacourse.gongcheck.domain.section.Section;
-import com.woowacourse.gongcheck.domain.section.SectionRepository;
 import com.woowacourse.gongcheck.domain.space.Space;
 import com.woowacourse.gongcheck.domain.space.SpaceRepository;
-import com.woowacourse.gongcheck.domain.task.Task;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import com.woowacourse.gongcheck.presentation.request.JobCreateRequest;
 import com.woowacourse.gongcheck.presentation.request.SectionRequest;
@@ -97,15 +94,8 @@ class JobServiceTest {
         JobCreateRequest jobCreateRequest = new JobCreateRequest("청소", sections);
 
         Long savedJobId = jobService.createJob(host.getId(), space.getId(), jobCreateRequest);
-        Job job = jobRepository.getById(savedJobId);
-        List<Section> savedSections = job.getSections();
-        List<Task> savedTasks = savedSections.get(0).getTasks();
 
-        assertAll(
-                () -> assertThat(savedJobId).isNotNull(),
-                () -> assertThat(savedSections).hasSize(1),
-                () -> assertThat(savedTasks).hasSize(2)
-        );
+        assertThat(savedJobId).isNotNull();
     }
 
     @Test
