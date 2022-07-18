@@ -15,10 +15,12 @@ import lombok.Getter;
 
 @Entity
 @Table(name = "host")
+@Builder
 @Getter
 public class Host {
 
     private static final int SPACE_PASSWORD_MAX_LENGTH = 4;
+    private static final String DEFAULT_SPACE_PASSWORD = "0000";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +44,6 @@ public class Host {
     protected Host() {
     }
 
-    @Builder
     public Host(final Long id, final SpacePassword spacePassword, final Long githubId, final String imageUrl,
                 final LocalDateTime createdAt, final LocalDateTime updatedAt) {
         this.id = id;

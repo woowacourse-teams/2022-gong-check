@@ -11,6 +11,14 @@ import org.junit.jupiter.api.Test;
 
 class HostTest {
 
+    @Test
+    void Host_생성시_기본_비밀번호는_0000_이다() {
+        Host host = Host.builder()
+                .build();
+
+        assertThat(host.getSpacePassword()).isEqualTo("0000");
+    }
+
     @Nested
     class 비밀번호를_검사할_때 {
 
