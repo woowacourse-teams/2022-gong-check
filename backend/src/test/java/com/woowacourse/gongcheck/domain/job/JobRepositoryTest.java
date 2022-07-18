@@ -60,7 +60,7 @@ class JobRepositoryTest {
     }
 
     @Test
-    void 다른_호스트의_Job을_조회할_경우_예외가_발생한다() {
+    void 다른_Host의_Job을_조회할_경우_예외가_발생한다() {
         Host host1 = hostRepository.save(Host_생성("1234"));
         Host host2 = hostRepository.save(Host_생성("1234"));
         Space space = spaceRepository.save(Space_생성(host2, "잠실"));

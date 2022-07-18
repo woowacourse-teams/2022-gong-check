@@ -59,7 +59,7 @@ class JobServiceTest {
     }
 
     @Test
-    void 존재하지_않는_호스트로_Job_목록을_조회할_경우_예외를_던진다() {
+    void 존재하지_않는_Host로_Job_목록을_조회할_경우_예외를_던진다() {
         assertThatThrownBy(() -> jobService.findPage(0L, 1L, PageRequest.of(0, 1)))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("존재하지 않는 호스트입니다.");
@@ -75,7 +75,7 @@ class JobServiceTest {
     }
 
     @Test
-    void 다른_호스트의_Space의_Job_목록을_조회할_경우_예외를_던진다() {
+    void 다른_Host의_Space의_Job_목록을_조회할_경우_예외를_던진다() {
         Host host1 = hostRepository.save(Host_생성("1234"));
         Host host2 = hostRepository.save(Host_생성("1234"));
         Space space = spaceRepository.save(Space_생성(host2, "잠실"));
