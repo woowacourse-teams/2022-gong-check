@@ -2,14 +2,11 @@ package com.woowacourse.gongcheck.application.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.woowacourse.gongcheck.domain.host.Host;
-import com.woowacourse.gongcheck.domain.host.SpacePassword;
 import java.time.LocalDateTime;
 import lombok.Getter;
 
 @Getter
 public class GithubProfileResponse {
-
-    public static final String DEFAULT_SPACE_PASSWORD = "0000";
 
     @JsonProperty("name")
     private String nickname;
@@ -33,7 +30,6 @@ public class GithubProfileResponse {
 
     public Host toHost() {
         return Host.builder()
-                .spacePassword(new SpacePassword(DEFAULT_SPACE_PASSWORD))
                 .githubId(getGithubId())
                 .imageUrl(imageUrl)
                 .createdAt(LocalDateTime.now())

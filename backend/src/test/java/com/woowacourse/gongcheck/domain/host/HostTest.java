@@ -16,7 +16,7 @@ class HostTest {
         Host host = Host.builder()
                 .build();
 
-        assertThat(host.getSpacePassword()).isEqualTo("0000");
+        assertThat(host.getSpacePassword().getValue()).isEqualTo("0000");
     }
 
     @Nested

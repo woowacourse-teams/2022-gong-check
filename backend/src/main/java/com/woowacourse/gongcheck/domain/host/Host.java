@@ -27,7 +27,8 @@ public class Host {
     private Long id;
 
     @Embedded
-    private SpacePassword spacePassword;
+    @Builder.Default
+    private SpacePassword spacePassword = new SpacePassword(DEFAULT_SPACE_PASSWORD);
 
     @Column(name = "github_id", nullable = false, unique = true)
     private Long githubId;
