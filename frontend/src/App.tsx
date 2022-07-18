@@ -1,5 +1,5 @@
 import routes from './Routes';
-import Transitions from '@/transitions';
+import Transitions from '@/Transitions';
 import { useRoutes } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
