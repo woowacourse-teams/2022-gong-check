@@ -22,12 +22,8 @@ const ErrorUserToken: React.FC<ErrorUserTokenProps> = ({ children }) => {
           const res = err.response as AxiosResponse;
           const message = res.data.message;
 
-          if (message === EXPIRED_TOKEN_TEXT) {
+          if (message === EXPIRED_TOKEN_TEXT || message === NOT_TOKEN_TEXT) {
             localStorage.removeItem('user');
-            navigate(`/enter/${hostId}/pwd`);
-          }
-
-          if (message === NOT_TOKEN_TEXT) {
             navigate(`/enter/${hostId}/pwd`);
           }
 
