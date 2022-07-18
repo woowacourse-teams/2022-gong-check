@@ -15,11 +15,6 @@ const globalStyle = css`
     margin: 0;
     display: flex;
     justify-content: center;
-    -ms-overflow-style: none;
-  }
-
-  ::-webkit-scrollbar {
-    display: none;
   }
 
   button {
