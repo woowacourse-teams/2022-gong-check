@@ -112,7 +112,7 @@ class TaskAcceptanceTest extends AcceptanceTest {
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
-    
+
     @Test
     void 진행중인_작업이_존재하지_않는데_조회할_경우_예외가_발생한다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
