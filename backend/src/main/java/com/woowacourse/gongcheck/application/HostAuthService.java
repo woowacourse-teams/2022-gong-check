@@ -29,14 +29,14 @@ public class HostAuthService {
     public TokenResponse createToken(final TokenRequest request) {
         String accessToken = githubOauthClient.requestAccessToken(request.getCode());
         GithubProfileResponse githubProfileResponse = githubOauthClient.requestGithubProfile(accessToken);
-        boolean existHost = hostRepository.existsByGithubId(githubProfileResponse.getGithubId());
-        Host host = findOrCreateHost(existHost, githubProfileResponse);
+        boolean alreadyJoin = hostRepository.existsByGithubId(githubProfileResponse.getGithubId());
+        Host host = findOrCreateHost(alreadyJoin, githubProfileResponse);
         String token = jwtTokenProvider.createToken(String.valueOf(host.getId()), HOST);
-        return TokenResponse.of(token, existHost);
+        return TokenResponse.of(token, alreadyJoin);
     }
 
-    private Host findOrCreateHost(final boolean existHost, final GithubProfileResponse githubProfileResponse) {
-        if (existHost) {
+    private Host findOrCreateHost(final boolean alreadyJoin, final GithubProfileResponse githubProfileResponse) {
+        if (alreadyJoin) {
             return hostRepository.getByGithubId(githubProfileResponse.getGithubId());
         }
         return hostRepository.save(githubProfileResponse.toHost());

@@ -37,7 +37,7 @@ public class GithubOauthClient {
         this.restTemplate = restTemplate;
     }
 
-    public String requestAccessToken(String code) {
+    public String requestAccessToken(final String code) {
         GithubAccessTokenRequest githubAccessTokenRequest = new GithubAccessTokenRequest(code, clientId, clientSecret);
 
         HttpHeaders headers = new HttpHeaders();
@@ -54,7 +54,7 @@ public class GithubOauthClient {
         return accessToken;
     }
 
-    public GithubProfileResponse requestGithubProfile(String accessToken) {
+    public GithubProfileResponse requestGithubProfile(final String accessToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, BEARER_TYPE + accessToken);
 

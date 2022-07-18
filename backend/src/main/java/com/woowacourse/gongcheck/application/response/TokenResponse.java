@@ -6,17 +6,17 @@ import lombok.Getter;
 public class TokenResponse {
 
     private String token;
-    private boolean existHost;
+    private boolean alreadyJoin;
 
     private TokenResponse() {
     }
 
-    private TokenResponse(final String token, final boolean existHost) {
+    private TokenResponse(final String token, final boolean alreadyJoin) {
         this.token = token;
-        this.existHost = existHost;
+        this.alreadyJoin = alreadyJoin;
     }
 
-    public static TokenResponse of(final String token, final boolean existHost) {
-        return new TokenResponse(token, existHost);
+    public static TokenResponse of(final String token, final boolean alreadyJoin) {
+        return new TokenResponse(token, alreadyJoin);
     }
 }
