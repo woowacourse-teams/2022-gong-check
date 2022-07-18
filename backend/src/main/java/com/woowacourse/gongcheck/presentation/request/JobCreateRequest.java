@@ -14,12 +14,12 @@ public class JobCreateRequest {
     private String name;
 
     @Valid
-    private List<SectionRequest> sections;
+    private List<SectionCreateRequest> sections;
 
     private JobCreateRequest() {
     }
 
-    public JobCreateRequest(final String name, final List<SectionRequest> sections) {
+    public JobCreateRequest(final String name, final List<SectionCreateRequest> sections) {
         this.name = name;
         this.sections = sections;
     }

@@ -7,19 +7,19 @@ import javax.validation.constraints.Size;
 import lombok.Getter;
 
 @Getter
-public class SectionRequest {
+public class SectionCreateRequest {
 
     @Size(min = 1, max = 20, message = "Section 이름은 한글자 이상 20자 이하여야 합니다.")
     @NotNull(message = "작업의 이름은 null 일 수 없습니다.")
     private String name;
 
     @Valid
-    private List<TaskRequest> tasks;
+    private List<TaskCreateRequest> tasks;
 
-    private SectionRequest() {
+    private SectionCreateRequest() {
     }
 
-    public SectionRequest(final String name, final List<TaskRequest> tasks) {
+    public SectionCreateRequest(final String name, final List<TaskCreateRequest> tasks) {
         this.name = name;
         this.tasks = tasks;
     }

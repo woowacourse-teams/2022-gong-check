@@ -5,8 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.gongcheck.presentation.request.GuestEnterRequest;
 import com.woowacourse.gongcheck.presentation.request.JobCreateRequest;
-import com.woowacourse.gongcheck.presentation.request.SectionRequest;
-import com.woowacourse.gongcheck.presentation.request.TaskRequest;
+import com.woowacourse.gongcheck.presentation.request.SectionCreateRequest;
+import com.woowacourse.gongcheck.presentation.request.TaskCreateRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -40,8 +40,8 @@ class JobAcceptanceTest extends AcceptanceTest {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 
-        List<TaskRequest> tasks = List.of(new TaskRequest("책상 닦기"), new TaskRequest("칠판 닦기"));
-        List<SectionRequest> sections = List.of(new SectionRequest("대강의실", tasks));
+        List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
+        List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
         JobCreateRequest request = new JobCreateRequest("청소", sections);
 
         ExtractableResponse<Response> response = RestAssured
@@ -63,8 +63,8 @@ class JobAcceptanceTest extends AcceptanceTest {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 
-        List<TaskRequest> tasks = List.of(new TaskRequest("책상 닦기"), new TaskRequest("칠판 닦기"));
-        List<SectionRequest> sections = List.of(new SectionRequest("대강의실", tasks));
+        List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
+        List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
         JobCreateRequest wrongRequest = new JobCreateRequest(input, sections);
 
         ExtractableResponse<Response> response = RestAssured
@@ -86,8 +86,8 @@ class JobAcceptanceTest extends AcceptanceTest {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 
-        List<TaskRequest> tasks = List.of(new TaskRequest("책상 닦기"), new TaskRequest("칠판 닦기"));
-        List<SectionRequest> sections = List.of(new SectionRequest(input, tasks));
+        List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
+        List<SectionCreateRequest> sections = List.of(new SectionCreateRequest(input, tasks));
         JobCreateRequest wrongRequest = new JobCreateRequest("청소", sections);
 
         ExtractableResponse<Response> response = RestAssured
@@ -109,8 +109,8 @@ class JobAcceptanceTest extends AcceptanceTest {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 
-        List<TaskRequest> tasks = List.of(new TaskRequest(input), new TaskRequest("칠판 닦기"));
-        List<SectionRequest> sections = List.of(new SectionRequest("대강의실", tasks));
+        List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest(input), new TaskCreateRequest("칠판 닦기"));
+        List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
         JobCreateRequest wrongRequest = new JobCreateRequest("청소", sections);
 
         ExtractableResponse<Response> response = RestAssured
