@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class SlackService implements AlertService {
 
-    @Override
     @Async
+    @Override
     public void sendMessage(final SubmissionResponse submissionResponse) {
         try (Slack slack = Slack.getInstance()) {
             Payload payload = Payload.builder()
