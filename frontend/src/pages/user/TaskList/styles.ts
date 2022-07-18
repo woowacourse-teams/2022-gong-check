@@ -1,14 +1,7 @@
 import { css } from '@emotion/react';
 
 const layout = css`
-  padding: 8px 32px;
-`;
-
-const contents = css`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  align-items: center;
+  padding: 32px;
 `;
 
 const location = css`
@@ -21,6 +14,6 @@ const locationName = css`
   margin: 16px 8px;
 `;
 
-const styles = { layout, contents, location, locationName };
+const styles = { layout, location, locationName };
 
 export default styles;

@@ -60,34 +60,32 @@ const TaskList: React.FC = () => {
   return (
     <div css={styles.layout}>
       <PageTitle>청소 체크리스트</PageTitle>
-      <div css={styles.contents}>
-        <form
+      <form
+        css={css`
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        `}
+      >
+        {data.sections.map(({ id, name, tasks }) => (
+          <section css={styles.location} key={id}>
+            <p css={styles.locationName}>{name}</p>
+            <TaskCard tasks={tasks} getSections={getSections} />
+          </section>
+        ))}
+        <Button
+          type="submit"
           css={css`
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            margin-bottom: 0;
+            width: 256px;
+            background: ${isAllChecked(data.sections) ? theme.colors.primary : theme.colors.gray};
           `}
+          onClick={handleClickButton}
+          disabled={!isAllChecked(data.sections)}
         >
-          {data.sections.map(({ id, name, tasks }) => (
-            <section css={styles.location} key={id}>
-              <p css={styles.locationName}>{name}</p>
-              <TaskCard tasks={tasks} getSections={getSections} />
-            </section>
-          ))}
-          <Button
-            type="submit"
-            css={css`
-              margin-bottom: 0;
-              width: 256px;
-              background: ${isAllChecked(data.sections) ? theme.colors.primary : theme.colors.gray};
-            `}
-            onClick={handleClickButton}
-            disabled={!isAllChecked(data.sections)}
-          >
-            제출
-          </Button>
-        </form>
-      </div>
+          제출
+        </Button>
+      </form>
     </div>
   );
 };
