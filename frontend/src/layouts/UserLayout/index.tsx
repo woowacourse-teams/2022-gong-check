@@ -18,14 +18,14 @@ const UserLayout: React.FC = () => {
   }, []);
 
   return (
-    <ErrorUserToken>
-      <Suspense fallback={<div>로딩 스피너</div>}>
-        <Global styles={transitions} />
+    <Suspense fallback={<div>유저 레이아웃 로딩 스피너</div>}>
+      <ErrorUserToken>
         <div css={styles.layout}>
+          <Global styles={transitions} />
           <Outlet />
         </div>
-      </Suspense>
-    </ErrorUserToken>
+      </ErrorUserToken>
+    </Suspense>
   );
 };
 
