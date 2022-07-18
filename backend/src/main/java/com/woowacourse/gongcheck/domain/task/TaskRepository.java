@@ -17,7 +17,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     Optional<Task> findBySectionJobSpaceHostAndId(final Host host, final Long id);
 
-    List<Task> findAllBySection(final Section section);
+    List<Task> findAllBySectionIn(final List<Section> sections);
 
     default Task getBySectionJobSpaceHostAndId(final Host host, final Long id) throws NotFoundException {
         return findBySectionJobSpaceHostAndId(host, id)

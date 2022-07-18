@@ -77,8 +77,8 @@ public class SpaceService {
         Host host = hostRepository.getById(hostId);
         Space space = spaceRepository.getByHostAndId(host, spaceId);
         List<Job> jobs = jobRepository.findAllBySpace(space);
-        List<Section> sections = findSectionsByJobs(jobs);
-        List<Task> tasks = findTasksBySections(sections);
+        List<Section> sections = sectionRepository.findAllByJobIn(jobs);
+        List<Task> tasks = taskRepository.findAllBySectionIn(sections);
 
         runningTaskRepository.deleteAllByIdInBatch(tasks.stream()
                 .map(Task::getId)
@@ -87,20 +87,6 @@ public class SpaceService {
         sectionRepository.deleteAllInBatch(sections);
         jobRepository.deleteAllInBatch(jobs);
         spaceRepository.deleteById(spaceId);
-    }
-
-    private List<Section> findSectionsByJobs(final List<Job> jobs) {
-        return jobs.stream()
-                .map(sectionRepository::findAllByJob)
-                .flatMap(Collection::stream)
-                .collect(toList());
-    }
-
-    private List<Task> findTasksBySections(final List<Section> sections) {
-        return sections.stream()
-                .map(taskRepository::findAllBySection)
-                .flatMap(Collection::stream)
-                .collect(toList());
     }
 
     private void checkDuplicateName(final SpaceCreateRequest request, final Host host) {
