@@ -1,26 +1,15 @@
 import { css } from '@emotion/react';
 import { Suspense, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
-
-import InputModal from '@/components/InputModal';
-
-import useModal from '@/hooks/useModal';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 const UserLayout: React.FC = () => {
-  const { openModal } = useModal();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!localStorage.getItem('user')) {
-      openModal(
-        <InputModal
-          title="비밀번호 입력"
-          detail="해당 공간의 관계자만 접근할 수 있습니다."
-          placeholder="비밀번호를 입력해주세요."
-          buttonText="확인"
-        />
-      );
+      navigate('pwd');
     }
-  });
+  }, []);
 
   return (
     <div
