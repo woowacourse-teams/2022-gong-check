@@ -33,7 +33,7 @@ class JobRepositoryTest {
 
     @Test
     void 멤버와_Space으로_조회한다() {
-        Host host = hostRepository.save(Host_생성("1234"));
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
         Job job1 = Job_생성(space, "오픈");
         Job job2 = Job_생성(space, "청소");
@@ -50,7 +50,7 @@ class JobRepositoryTest {
 
     @Test
     void 멤버와_아이디로_작업을_조회한다() {
-        Host host = hostRepository.save(Host_생성("1234"));
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
         Job job = jobRepository.save(Job_생성(space, "청소"));
 
@@ -61,8 +61,8 @@ class JobRepositoryTest {
 
     @Test
     void 다른_Host의_Job을_조회할_경우_예외가_발생한다() {
-        Host host1 = hostRepository.save(Host_생성("1234"));
-        Host host2 = hostRepository.save(Host_생성("1234"));
+        Host host1 = hostRepository.save(Host_생성("1234", 1234L));
+        Host host2 = hostRepository.save(Host_생성("1234", 2345L));
         Space space = spaceRepository.save(Space_생성(host2, "잠실"));
         Job job = jobRepository.save(Job_생성(space, "청소"));
 
@@ -73,7 +73,7 @@ class JobRepositoryTest {
 
     @Test
     void 입력된_Space에_등록된_모든_Job을_조회한다() {
-        Host host = hostRepository.save(Host_생성("1234"));
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
         Space space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
         Job job1 = jobRepository.save(Job_생성(space, "청소"));
         Job job2 = jobRepository.save(Job_생성(space, "마감"));

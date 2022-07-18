@@ -34,7 +34,7 @@ class SectionRepositoryTest {
 
     @Test
     void 입력된_Job_목록에_해당하는_모든_Section을_조회한다() {
-        Host host = hostRepository.save(Host_생성("1234"));
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
         Job job1 = jobRepository.save(Job_생성(space, "청소"));
         Job job2 = jobRepository.save(Job_생성(space, "마감"));

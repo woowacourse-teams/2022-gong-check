@@ -5,6 +5,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 
 import com.woowacourse.gongcheck.application.AlertService;
 import com.woowacourse.gongcheck.application.GuestAuthService;
+import com.woowacourse.gongcheck.application.HostAuthService;
 import com.woowacourse.gongcheck.application.HostService;
 import com.woowacourse.gongcheck.application.ImageUploader;
 import com.woowacourse.gongcheck.application.JjwtTokenProvider;
@@ -45,6 +46,9 @@ class DocumentationTest {
 
     protected MockMvcRequestSpecification docsGiven;
 
+    @MockBean
+    protected HostAuthService hostAuthService;
+    
     @MockBean
     protected GuestAuthService guestAuthService;
 

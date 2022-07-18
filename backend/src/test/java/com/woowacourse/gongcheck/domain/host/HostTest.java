@@ -14,7 +14,7 @@ class HostTest {
     @Nested
     class 비밀번호를_검사할_때 {
 
-        private final Host host = Host_생성("0123");
+        private final Host host = Host_생성("0123", 1234L);
 
         @Test
         void 일치하지_않으면_예외가_발생한다() {
@@ -34,7 +34,7 @@ class HostTest {
 
     @Test
     void SpacePassword를_수정한다() {
-        Host host = Host_생성("0123");
+        Host host = Host_생성("0123", 1234L);
         String changedPassword = "4567";
 
         host.changeSpacePassword(new SpacePassword(changedPassword));

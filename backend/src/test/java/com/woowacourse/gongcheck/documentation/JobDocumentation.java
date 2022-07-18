@@ -30,12 +30,12 @@ class JobDocumentation extends DocumentationTest {
 
         @Test
         void Job_조회에_성공한다() {
-            Host host = Host_생성("1234");
+            Host host = Host_생성("1234", 1234L);
             Space space = Space_생성(host, "잠실");
             when(jobService.findPage(anyLong(), anyLong(), any())).thenReturn(
                     JobsResponse.of(List.of(
-                            Job_아이디_지정_생성(1L, space, "청소"),
-                            Job_아이디_지정_생성(2L, space, "마감")),
+                                    Job_아이디_지정_생성(1L, space, "청소"),
+                                    Job_아이디_지정_생성(2L, space, "마감")),
                             true)
             );
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
@@ -55,7 +55,8 @@ class JobDocumentation extends DocumentationTest {
     class Job을_생성_시 {
         List<TaskCreateRequest> tasks1 = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
         List<TaskCreateRequest> tasks2 = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
-        List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks1), new SectionCreateRequest("소강의실", tasks2));
+        List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks1),
+                new SectionCreateRequest("소강의실", tasks2));
 
         @Test
         void Job을_생성한다() {
@@ -110,7 +111,8 @@ class JobDocumentation extends DocumentationTest {
         @Test
         void Task_이름_길이가_올바르지_않을_경우_예외가_발생한다() {
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
-            List<TaskCreateRequest> tasks1 = List.of(new TaskCreateRequest("Task의 이름이 1글자 미만 50글자 초과일 경우, Status Code 404를 반환한다"));
+            List<TaskCreateRequest> tasks1 = List.of(
+                    new TaskCreateRequest("Task의 이름이 1글자 미만 50글자 초과일 경우, Status Code 404를 반환한다"));
             List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks1));
             JobCreateRequest wrongRequest = new JobCreateRequest("청소", sections);
 

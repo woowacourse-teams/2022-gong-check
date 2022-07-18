@@ -34,7 +34,7 @@ class SubmissionDocumentation extends DocumentationTest {
 
         @Test
         void 현재_진행중인_작업이_모두_완료된_상태로_제출하면_제출에_성공한다() {
-            Host host = Host_생성("1234");
+            Host host = Host_생성("1234", 1234L);
             Space space = Space_아이디_지정_생성(1L, host, "잠실");
             Job job = Job_아이디_지정_생성(1L, space, "청소");
             SubmissionResponse response = SubmissionResponse.of("author", job);

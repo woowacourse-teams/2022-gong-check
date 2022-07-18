@@ -92,7 +92,7 @@ class TaskDocumentation extends DocumentationTest {
 
         @Test
         void 진행중인_작업이_있으면_조회에_성공한다() {
-            Host host = Host_생성("1234");
+            Host host = Host_생성("1234", 1234L);
             Space space = Space_생성(host, "잠실");
             Job job = Job_생성(space, "청소");
             Section section1 = Section_아이디_지정_생성(1L, job, "트랙룸");

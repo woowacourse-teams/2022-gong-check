@@ -26,7 +26,7 @@ class SpaceDocumentation extends DocumentationTest {
 
         @Test
         void 공간_조회에_성공한다() {
-            Host host = Host_생성("1234");
+            Host host = Host_생성("1234", 1234L);
             when(spaceService.findPage(anyLong(), any())).thenReturn(
                     SpacesResponse.of(List.of(
                             Space_아이디_지정_생성(1L, host, "잠실"),

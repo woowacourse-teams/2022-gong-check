@@ -43,7 +43,7 @@ class JobServiceTest {
 
     @Test
     void Job_목록을_조회한다() {
-        Host host = hostRepository.save(Host_생성("1234"));
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
         Job job1 = Job_생성(space, "오픈");
         Job job2 = Job_생성(space, "청소");
@@ -67,7 +67,7 @@ class JobServiceTest {
 
     @Test
     void 존재하지_않는_Space의_Job_목록을_조회할_경우_예외를_던진다() {
-        Host host = hostRepository.save(Host_생성("1234"));
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
 
         assertThatThrownBy(() -> jobService.findPage(host.getId(), 0L, PageRequest.of(0, 1)))
                 .isInstanceOf(NotFoundException.class)
@@ -76,8 +76,8 @@ class JobServiceTest {
 
     @Test
     void 다른_Host의_Space의_Job_목록을_조회할_경우_예외를_던진다() {
-        Host host1 = hostRepository.save(Host_생성("1234"));
-        Host host2 = hostRepository.save(Host_생성("1234"));
+        Host host1 = hostRepository.save(Host_생성("1234", 1234L));
+        Host host2 = hostRepository.save(Host_생성("1234", 2345L));
         Space space = spaceRepository.save(Space_생성(host2, "잠실"));
 
         assertThatThrownBy(() -> jobService.findPage(host1.getId(), space.getId(), PageRequest.of(0, 1)))
@@ -87,7 +87,7 @@ class JobServiceTest {
 
     @Test
     void Job과_Section들과_Task들을_한_번에_생성한다() {
-        Host host = hostRepository.save(Host_생성("1234"));
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
         List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
         List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
@@ -100,7 +100,7 @@ class JobServiceTest {
 
     @Test
     void Host가_존재하지_않는데_Job_생성_시_예외가_발생한다() {
-        Host host = hostRepository.save(Host_생성("1234"));
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
 
         List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
@@ -114,7 +114,7 @@ class JobServiceTest {
 
     @Test
     void Space가_존재하지_않는데_Job_생성_시_예외가_발생한다() {
-        Host host = hostRepository.save(Host_생성("1234"));
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
 
         List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
         List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));

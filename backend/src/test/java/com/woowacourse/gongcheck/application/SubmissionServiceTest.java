@@ -78,8 +78,8 @@ class SubmissionServiceTest {
 
         @BeforeEach
         void setUp() {
-            hostWithoutTasks = hostRepository.save(Host_생성("1234"));
-            hostWithTasks = hostRepository.save(Host_생성("1234"));
+            hostWithoutTasks = hostRepository.save(Host_생성("1234", 1234L));
+            hostWithTasks = hostRepository.save(Host_생성("1234", 2345L));
             space = spaceRepository.save(Space_생성(hostWithTasks, "잠실"));
             job = jobRepository.save(Job_생성(space, "청소"));
             section = sectionRepository.save(Section_생성(job, "트랙룸"));

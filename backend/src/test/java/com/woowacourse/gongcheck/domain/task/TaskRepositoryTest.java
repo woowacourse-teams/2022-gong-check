@@ -42,7 +42,7 @@ class TaskRepositoryTest {
 
     @Test
     void Job이_가진_모든_Task를_조회한다() {
-        Host host = hostRepository.save(Host_생성("1234"));
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
         Job job = jobRepository.save(Job_생성(space, "청소"));
         Section section1 = sectionRepository.save(Section_생성(job, "트랙룸"));
@@ -57,7 +57,7 @@ class TaskRepositoryTest {
 
     @Test
     void Host와_TaskId를_입력_받아_Task를_조회한다() {
-        Host host = hostRepository.save(Host_생성("1234"));
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
         Job job = jobRepository.save(Job_생성(space, "청소"));
         Section section1 = sectionRepository.save(Section_생성(job, "트랙룸"));
@@ -70,7 +70,7 @@ class TaskRepositoryTest {
 
     @Test
     void 입력받은_TaskId에_해당하는_Task가_없는_경우_예외가_발생한다() {
-        Host host = hostRepository.save(Host_생성("1234"));
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
 
         assertThatThrownBy(() -> taskRepository.getBySectionJobSpaceHostAndId(host, 0L))
                 .isInstanceOf(NotFoundException.class)
@@ -79,8 +79,8 @@ class TaskRepositoryTest {
 
     @Test
     void 입력받은_Host에_해당하는_Task가_없는_경우_예외가_발생한다() {
-        Host host1 = hostRepository.save(Host_생성("1234"));
-        Host host2 = hostRepository.save(Host_생성("1234"));
+        Host host1 = hostRepository.save(Host_생성("1234", 1234L));
+        Host host2 = hostRepository.save(Host_생성("1234", 2345L));
         Space space = spaceRepository.save(Space_생성(host1, "잠실"));
         Job job = jobRepository.save(Job_생성(space, "청소"));
         Section section1 = sectionRepository.save(Section_생성(job, "트랙룸"));
@@ -93,7 +93,7 @@ class TaskRepositoryTest {
 
     @Test
     void 입력받은_Section_목록에_해당하는_모든_Task를_조회한다() {
-        Host host = hostRepository.save(Host_생성("1234"));
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
         Job job = jobRepository.save(Job_생성(space, "청소"));
         Section section1 = sectionRepository.save(Section_생성(job, "트랙룸"));
