@@ -67,4 +67,13 @@ class JjwtTokenProviderTest {
 
         assertThat(tokenProvider.extractAuthority(token)).isEqualTo(GUEST);
     }
+
+    @Test
+    void 권한_반환에_실패하면_예외가_발생한다() {
+        String invalidToken = "invalidToken";
+
+        assertThatThrownBy(() -> tokenProvider.extractAuthority(invalidToken))
+                .isInstanceOf(UnauthorizedException.class)
+                .hasMessage("올바르지 않은 토큰입니다.");
+    }
 }

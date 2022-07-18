@@ -10,6 +10,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.gongcheck.application.response.GithubAccessTokenResponse;
 import com.woowacourse.gongcheck.application.response.GithubProfileResponse;
+import com.woowacourse.gongcheck.exception.NotFoundException;
 import com.woowacourse.gongcheck.exception.UnauthorizedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -87,5 +88,19 @@ class GithubOauthClientTest {
 
         assertThat(githubProfileResponse).usingRecursiveComparison()
                 .isEqualTo(result);
+    }
+
+    @Test
+    void 깃허브_프로필_요청에_실패하면_예외가_발생한다() throws JsonProcessingException {
+        mockRestServiceServer.expect(requestTo("https://api.github.com/user"))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.NOT_FOUND)
+                        .contentType(MediaType.APPLICATION_JSON));
+
+        assertThatThrownBy(() -> githubOauthClient
+                .requestGithubProfile("access_token"))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("해당 사용자의 프로필을 요청할 수 없습니다.");
+        mockRestServiceServer.verify();
     }
 }

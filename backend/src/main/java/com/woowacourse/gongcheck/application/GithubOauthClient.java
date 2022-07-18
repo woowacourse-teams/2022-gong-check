@@ -2,6 +2,7 @@ package com.woowacourse.gongcheck.application;
 
 import com.woowacourse.gongcheck.application.response.GithubAccessTokenResponse;
 import com.woowacourse.gongcheck.application.response.GithubProfileResponse;
+import com.woowacourse.gongcheck.exception.NotFoundException;
 import com.woowacourse.gongcheck.exception.UnauthorizedException;
 import com.woowacourse.gongcheck.presentation.request.GithubAccessTokenRequest;
 import java.util.Objects;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Component
@@ -60,8 +62,12 @@ public class GithubOauthClient {
 
         HttpEntity httpEntity = new HttpEntity<>(headers);
 
-        return restTemplate
-                .exchange(profileUrl, HttpMethod.GET, httpEntity, GithubProfileResponse.class)
-                .getBody();
+        try {
+            return restTemplate
+                    .exchange(profileUrl, HttpMethod.GET, httpEntity, GithubProfileResponse.class)
+                    .getBody();
+        } catch (HttpClientErrorException e) {
+            throw new NotFoundException("해당 사용자의 프로필을 요청할 수 없습니다.");
+        }
     }
 }

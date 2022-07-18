@@ -48,7 +48,7 @@ public class JjwtTokenProvider implements JwtTokenProvider {
     }
 
     @Override
-    public Authority extractAuthority(final String token) {
+    public Authority extractAuthority(final String token) throws UnauthorizedException {
         String authority = extractBody(token).get(AUTHORITY, String.class);
         return Authority.valueOf(authority);
     }
