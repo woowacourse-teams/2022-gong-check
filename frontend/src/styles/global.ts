@@ -15,7 +15,11 @@ const globalStyle = css`
     margin: 0;
     display: flex;
     justify-content: center;
-    background-color: #f5f6fa;
+    -ms-overflow-style: none;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
   }
 
   button {
@@ -26,6 +30,9 @@ const globalStyle = css`
   #root {
     display: flex;
     justify-content: center;
+    width: 100vw;
+    min-height: 100vh;
+    background-color: #f5f6fa;
   }
 
   #modal {
