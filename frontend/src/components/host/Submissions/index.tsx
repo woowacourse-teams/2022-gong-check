@@ -1,7 +1,9 @@
 import { css } from '@emotion/react';
 import React from 'react';
 
-import Button from '@/components/_common/Button';
+import Button from '@/components/common/Button';
+
+import theme from '@/styles/theme';
 
 import styles from './styles';
 
@@ -25,9 +27,7 @@ const Submissions: React.FC<SubmissionsProps> = ({ submissions, isFullSize = fal
   return (
     <div css={styles.layout({ isFullSize })}>
       <div css={styles.header}>
-        <p>
-          공간 사용 내역(<span>{submissions.length}</span>)
-        </p>
+        <p>공간 사용 내역</p>
 
         {!isFullSize && (
           <Button css={styles.detailButton} type="button" onClick={onClick}>
@@ -52,7 +52,7 @@ const Submissions: React.FC<SubmissionsProps> = ({ submissions, isFullSize = fal
                 <td>{jobName}</td>
                 <td
                   css={css`
-                    color: green;
+                    color: ${theme.colors.green};
                   `}
                 >
                   {createdAt}
