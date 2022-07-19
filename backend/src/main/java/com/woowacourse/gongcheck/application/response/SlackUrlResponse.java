@@ -11,7 +11,7 @@ public class SlackUrlResponse {
     private SlackUrlResponse() {
     }
 
-    private SlackUrlResponse(final String slackUrl) {
+    public SlackUrlResponse(final String slackUrl) {
         this.slackUrl = slackUrl;
     }
 

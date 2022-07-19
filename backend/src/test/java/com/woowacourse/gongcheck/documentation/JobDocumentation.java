@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 
 import com.woowacourse.gongcheck.application.response.JobsResponse;
+import com.woowacourse.gongcheck.application.response.SlackUrlResponse;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.space.Space;
 import com.woowacourse.gongcheck.presentation.request.JobCreateRequest;
@@ -127,5 +128,20 @@ class JobDocumentation extends DocumentationTest {
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         }
+    }
+
+    @Test
+    void Job의_Slack_Url을_조회한다() {
+        when(jobService.findSlackUrl(anyLong(), anyLong())).thenReturn(new SlackUrlResponse("http://slackurl.com"));
+        when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
+        ExtractableResponse<MockMvcResponse> response = docsGiven
+                .header("Authorization", "Bearer jwt.token.here")
+                .when().get("/api/jobs/1/slack")
+                .then().log().all()
+                .apply(document("jobs/slack_url"))
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 }
