@@ -90,4 +90,21 @@ class TaskRepositoryTest {
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("존재하지 않는 작업입니다.");
     }
+
+    @Test
+    void 입력받은_Section_목록에_해당하는_모든_Task를_조회한다() {
+        Host host = hostRepository.save(Host_생성("1234"));
+        Space space = spaceRepository.save(Space_생성(host, "잠실"));
+        Job job = jobRepository.save(Job_생성(space, "청소"));
+        Section section1 = sectionRepository.save(Section_생성(job, "트랙룸"));
+        Section section2 = sectionRepository.save(Section_생성(job, "트랙룸"));
+        Task task1 = taskRepository.save(Task_생성(section1, "책상 청소"));
+        Task task2 = taskRepository.save(Task_생성(section1, "빈백 정리"));
+        Task task3 = taskRepository.save(Task_생성(section2, "책상 청소"));
+        Task task4 = taskRepository.save(Task_생성(section2, "빈백 정리"));
+
+        List<Task> result = taskRepository.findAllBySectionIn(List.of(section1, section2));
+
+        assertThat(result).containsExactly(task1, task2, task3, task4);
+    }
 }
