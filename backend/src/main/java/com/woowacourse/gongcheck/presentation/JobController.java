@@ -2,6 +2,7 @@ package com.woowacourse.gongcheck.presentation;
 
 import com.woowacourse.gongcheck.application.JobService;
 import com.woowacourse.gongcheck.application.response.JobsResponse;
+import com.woowacourse.gongcheck.application.response.SlackUrlResponse;
 import com.woowacourse.gongcheck.presentation.request.JobCreateRequest;
 import java.net.URI;
 import javax.validation.Valid;
@@ -38,5 +39,12 @@ public class JobController {
                                           @Valid @RequestBody final JobCreateRequest request) {
         Long savedJobId = jobService.createJob(hostId, spaceId, request);
         return ResponseEntity.created(URI.create("/api/spaces/" + savedJobId + "/jobs")).build();
+    }
+
+    @GetMapping("/jobs/{jobId}/slack")
+    public ResponseEntity<SlackUrlResponse> findSlackUrl(@AuthenticationPrincipal final Long hostId,
+                                                         @PathVariable final Long jobId) {
+        SlackUrlResponse response = jobService.findSlackUrl(hostId, jobId);
+        return ResponseEntity.ok(response);
     }
 }

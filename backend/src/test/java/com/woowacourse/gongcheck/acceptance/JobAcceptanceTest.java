@@ -124,4 +124,19 @@ class JobAcceptanceTest extends AcceptanceTest {
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
+
+    @Test
+    void Job의_Slack_Url을_조회한다() {
+        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
+        String token = 토큰을_요청한다(guestEnterRequest);
+
+        ExtractableResponse<Response> response = RestAssured
+                .given().log().all()
+                .auth().oauth2(token)
+                .when().get("/api/jobs/1/slack")
+                .then().log().all()
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
 }
