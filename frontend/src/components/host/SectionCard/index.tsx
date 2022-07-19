@@ -32,24 +32,24 @@ const SectionCard: React.FC<SectionCardProps> = ({
   const [sectionName, setSectionName] = useState(section.name);
   const [isEditing, setIsEditing] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSectionName(e.target.value);
   };
 
-  const handleClickConfirm = () => {
+  const onClickConfirm = () => {
     editSection(sectionIndex, sectionName);
     setIsEditing(false);
   };
 
-  const handleClickEdit = () => {
+  const onClickEdit = () => {
     setIsEditing(true);
   };
 
-  const handleClickDelete = () => {
+  const onClickDelete = () => {
     deleteSection(sectionIndex);
   };
 
-  const handleClickCreate = () => {
+  const onClickCreate = () => {
     createTask(sectionIndex);
   };
 
@@ -58,8 +58,8 @@ const SectionCard: React.FC<SectionCardProps> = ({
       <div css={styles.titleWrapper}>
         {isEditing ? (
           <>
-            <input value={sectionName} onChange={handleChange} />
-            <Button css={styles.confirmButton} onClick={handleClickConfirm}>
+            <input value={sectionName} onChange={onChange} />
+            <Button css={styles.confirmButton} onClick={onClickConfirm}>
               수정 완료
             </Button>
           </>
@@ -67,10 +67,10 @@ const SectionCard: React.FC<SectionCardProps> = ({
           <>
             <span>{sectionName}</span>
             <div>
-              <Button css={styles.editButton} onClick={handleClickEdit}>
+              <Button css={styles.editButton} onClick={onClickEdit}>
                 이름 수정
               </Button>
-              <Button css={styles.deleteButton} onClick={handleClickDelete}>
+              <Button css={styles.deleteButton} onClick={onClickDelete}>
                 삭제
               </Button>
             </div>
@@ -87,7 +87,7 @@ const SectionCard: React.FC<SectionCardProps> = ({
           key={nanoid()}
         />
       ))}
-      <button css={styles.newTaskButton} onClick={handleClickCreate}>
+      <button css={styles.newTaskButton} onClick={onClickCreate}>
         + 새 작업 추가
       </button>
     </div>

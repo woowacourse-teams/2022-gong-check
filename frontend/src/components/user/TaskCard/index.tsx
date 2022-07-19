@@ -16,7 +16,7 @@ type TaskCardProps = {
 };
 
 const TaskCard: React.FC<TaskCardProps> = ({ tasks, getSections }) => {
-  const handleClickCheckBox = async (
+  const onClickCheckBox = async (
     e: React.MouseEvent<HTMLElement, MouseEvent> | React.ChangeEvent<HTMLElement>,
     id: number
   ) => {
@@ -29,11 +29,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ tasks, getSections }) => {
     <div css={styles.taskCard}>
       {tasks.map((task, id) => (
         <div key={id} css={styles.task}>
-          <CheckBox
-            onChange={e => handleClickCheckBox(e, task.id)}
-            checked={task.checked}
-            id={JSON.stringify(task.id)}
-          />
+          <CheckBox onChange={e => onClickCheckBox(e, task.id)} checked={task.checked} id={JSON.stringify(task.id)} />
           <span>{task.name}</span>
         </div>
       ))}
