@@ -1,6 +1,5 @@
-import { css } from '@emotion/react';
-import { useState } from 'react';
-import { useQuery } from 'react-query';
+import { useEffect, useState } from 'react';
+import { useMutation, useQuery } from 'react-query';
 
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
@@ -10,23 +9,36 @@ import slackApi from '@/apis/slack';
 import styles from './styles';
 
 const SlackUrlBox: React.FC<{ jobName: string; jobId: number }> = ({ jobName, jobId }) => {
-  // const { data } = useQuery(['slackUrl', jobId], () => slackApi.getSlackUrl(jobId), { suspense: true });
+  const { data } = useQuery(['slackUrl', 1], () => slackApi.getSlackUrl(1), {
+    retry: 3,
+  });
+  const { mutate } = useMutation(() => slackApi.putSlackUrl(1), {
+    retry: 3,
+  });
 
   const [url, setUrl] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUrl(e.target.value);
   };
 
-  // if (data) {
-  //   setUrl(data.slackUrl);
-  // }
+  const onClick = () => {
+    mutate();
+  };
+
+  useEffect(() => {
+    if (data) {
+      setUrl(data.slackUrl);
+    }
+  }, []);
 
   return (
     <div css={styles.slackUrlBox}>
       <span css={styles.jobName}>{jobName}</span>
-      <Input css={styles.input} defaultValue={url} placeholder="Slack URL" onChange={handleChange} />
-      <Button css={styles.button}>편집</Button>
+      <Input css={styles.input} value={url} placeholder="Slack URL" onChange={onChange} />
+      <Button css={styles.button} onClick={onClick}>
+        편집
+      </Button>
     </div>
   );
 };

@@ -13,7 +13,7 @@ interface SpaceInfoProps {
   onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
   inputText?: '' | string;
   isEditMode?: boolean;
-  data?: { name: string; imageUrl: string; id: number };
+  data: { name: string; imageUrl: string; id: number } | undefined;
 }
 
 const SpaceInfo: React.FC<SpaceInfoProps> = ({ onSubmit, inputText = '', isEditMode = true, data }) => {
