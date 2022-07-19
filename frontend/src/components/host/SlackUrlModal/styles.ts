@@ -3,8 +3,7 @@ import { css } from '@emotion/react';
 import theme from '@/styles/theme';
 
 const container = css`
-  width: 50%;
-  min-width: 480px;
+  width: 560px;
   background-color: ${theme.colors.white};
   display: flex;
   flex-direction: column;
@@ -34,11 +33,14 @@ const icon = css`
 `;
 
 const contents = css`
+  display: flex;
+  flex-direction: column;
+  width: 80%;
   height: 30vh;
   overflow-y: scroll;
 
   ::-webkit-scrollbar {
-    width: 0.4em;
+    width: 0.3em;
   }
 
   ::-webkit-scrollbar-thumb {

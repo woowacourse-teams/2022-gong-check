@@ -13,7 +13,7 @@ import styles from './styles';
 
 const SPACE_INFO_DATA = {
   id: 1,
-  name: '잠실 캠퍼스',
+  name: '더미데이터 캠퍼스',
   imageUrl: 'https://velog.velcdn.com/images/cks3066/post/258f92c1-32be-4acb-be30-1eb64635c013/image.jpg',
 };
 
@@ -25,6 +25,10 @@ const JOBS_DATA = [
   {
     id: 2,
     name: '마감',
+  },
+  {
+    id: 3,
+    name: '더미데이터',
   },
 ];
 
@@ -46,7 +50,6 @@ const DashBoard: React.FC = () => {
 
   return (
     <div css={styles.layout}>
-      <h1>공간 관리</h1>
       <div css={styles.contents}>
         <div css={styles.cardWrapper}>
           <SpaceInfo isEditMode={false} data={SPACE_INFO_DATA} />

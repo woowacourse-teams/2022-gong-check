@@ -9,7 +9,7 @@ import slackApi from '@/apis/slack';
 import styles from './styles';
 
 const SLACK_URL_DATA = {
-  slackUrl: 'https://sdfgsd.sdf',
+  slackUrl: 'https://slackUrl.com',
 };
 
 interface SlackUrlBoxProps {
@@ -37,13 +37,17 @@ const SlackUrlBox: React.FC<SlackUrlBoxProps> = ({ jobName, jobId }) => {
   // <Input css={styles.input} value={data.slackUrl} placeholder="Slack URL" />;
 
   return (
-    <form css={styles.slackUrlBox} onSubmit={onSubmit}>
-      <span css={styles.jobName}>{jobName}</span>
-      <Input css={styles.input} name="slackUrl" defaultValue={SLACK_URL_DATA.slackUrl} placeholder="Slack URL" />
-      <Button type="submit" css={styles.button}>
-        편집
-      </Button>
-    </form>
+    <div css={styles.slackUrlBox}>
+      <label htmlFor="slackUrl" css={styles.label}>
+        {jobName}
+      </label>
+      <form css={styles.form} onSubmit={onSubmit}>
+        <Input css={styles.input} name="slackUrl" defaultValue={SLACK_URL_DATA.slackUrl} placeholder="Slack URL" />
+        <Button type="submit" css={styles.button}>
+          수정
+        </Button>
+      </form>
+    </div>
   );
 };
 
