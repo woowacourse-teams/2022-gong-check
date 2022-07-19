@@ -4,7 +4,7 @@ import theme from '@/styles/theme';
 
 type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
-const Input: React.FC<InputProps> = ({ placeholder, onChange }) => {
+const Input: React.FC<InputProps> = ({ placeholder, onChange, ...props }) => {
   return (
     <input
       css={css`
@@ -25,6 +25,7 @@ const Input: React.FC<InputProps> = ({ placeholder, onChange }) => {
       `}
       placeholder={placeholder}
       onChange={onChange}
+      {...props}
     />
   );
 };

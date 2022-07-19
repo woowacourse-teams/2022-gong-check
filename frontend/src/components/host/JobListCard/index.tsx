@@ -1,4 +1,9 @@
-import Button from '@/components/_common/Button';
+import { useNavigate } from 'react-router-dom';
+
+import Button from '@/components/common/Button';
+import SlackUrlModal from '@/components/host/SlackUrlModal';
+
+import useModal from '@/hooks/useModal';
 
 import slackIcon from '@/assets/slackIcon.svg';
 
@@ -9,21 +14,25 @@ const JOB_LIST = [
   { id: 2, name: '마감' },
 ];
 
-const JobList: React.FC = () => {
+const JobListCard: React.FC = () => {
+  const navigate = useNavigate();
+
+  const { openModal } = useModal();
+
   const handleClickSlackButton = () => {
-    alert('슬랙 버튼 클릭');
+    openModal(<SlackUrlModal />);
   };
 
   const handleClickNewJobButton = () => {
-    alert('새 공간 생성 버튼 클릭');
+    navigate('spaceCreate');
   };
 
   const handleClickUpdateJobButton = () => {
-    alert('작업 수정 버튼 클릭');
+    navigate('jobCreate');
   };
 
-  const handleClickDeleteJobButton = () => {
-    alert('작업 삭제 버튼 클릭');
+  const handleClickDeleteJobButton = (jobId: number) => {
+    alert(`작업 삭제 버튼 클릭! jobId:${jobId}`);
   };
 
   return (
@@ -40,7 +49,6 @@ const JobList: React.FC = () => {
           </Button>
         </div>
       </div>
-
       <div css={styles.jobListWrapper}>
         {JOB_LIST.map(job => (
           <div css={styles.jobList} key={job.id}>
@@ -49,7 +57,12 @@ const JobList: React.FC = () => {
               <Button css={styles.updateButton} onClick={handleClickUpdateJobButton}>
                 수정
               </Button>
-              <Button css={styles.deleteButton} onClick={handleClickDeleteJobButton}>
+              <Button
+                css={styles.deleteButton}
+                onClick={() => {
+                  handleClickDeleteJobButton(job.id);
+                }}
+              >
                 삭제
               </Button>
             </div>
@@ -60,4 +73,4 @@ const JobList: React.FC = () => {
   );
 };
 
-export default JobList;
+export default JobListCard;

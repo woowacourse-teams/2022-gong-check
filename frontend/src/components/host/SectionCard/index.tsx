@@ -1,8 +1,7 @@
 import { nanoid } from 'nanoid';
 import { useState } from 'react';
 
-import Button from '@/components/_common/Button';
-
+import Button from '@/components/common/Button';
 import TaskBox from '@/components/host/TaskBox';
 
 import styles from './styles';

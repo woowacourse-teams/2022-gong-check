@@ -3,7 +3,8 @@ import { css } from '@emotion/react';
 import theme from '@/styles/theme';
 
 const container = css`
-  width: 80%;
+  width: 50%;
+  min-width: 480px;
   background-color: ${theme.colors.white};
   display: flex;
   flex-direction: column;
@@ -11,6 +12,10 @@ const container = css`
   align-items: center;
   padding: 40px 16px;
   border-radius: 18px;
+
+  div {
+    display: flex;
+  }
 `;
 
 const title = css`
@@ -22,6 +27,12 @@ const detail = css`
   margin: 16px 0;
 `;
 
-const styles = { title, detail, container };
+const icon = css`
+  width: 32px;
+  height: 32px;
+  margin-right: 12px;
+`;
+
+const styles = { title, detail, container, icon };
 
 export default styles;

@@ -4,10 +4,9 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
-import Button from '@/components/_common/Button';
-
-import NameModal from '@/components/NameModal';
-import TaskCard from '@/components/TaskCard';
+import Button from '@/components/common/Button';
+import NameModal from '@/components/user/NameModal';
+import TaskCard from '@/components/user/TaskCard';
 
 import useGoPreviousPage from '@/hooks/useGoPreviousPage';
 import useModal from '@/hooks/useModal';

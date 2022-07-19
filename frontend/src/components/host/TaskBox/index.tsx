@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { BiPencil, BiTrash } from 'react-icons/bi';
 
-import Button from '@/components/_common/Button';
+import Button from '@/components/common/Button';
 
 import styles from './styles';
 

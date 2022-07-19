@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import GitHubLoginButton from '@/components/_common/GitHubLoginButton';
+import GitHubLoginButton from '@/components/common/GitHubLoginButton';
 
 import homeCover from '@/assets/homeCover.png';
 

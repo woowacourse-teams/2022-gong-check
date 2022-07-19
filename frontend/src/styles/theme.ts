@@ -3,7 +3,7 @@ const theme = Object.freeze({
     primary: '#68c1f8',
     background: '#f9faff',
     green: '#7ed957',
-    red: '#e8ebf2',
+    red: '#ff6348',
     skyblue: '#68c1f8',
     lightSkyBlue: '#f1f8fe',
     black: '#272727',

@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import React, { useMemo, useRef, useState } from 'react';
 import { HiPlus } from 'react-icons/hi';
 
-import Button from '@/components/_common/Button';
+import Button from '@/components/common/Button';
 
 import theme from '@/styles/theme';
 
