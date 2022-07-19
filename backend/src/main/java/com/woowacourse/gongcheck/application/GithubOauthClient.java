@@ -45,12 +45,12 @@ public class GithubOauthClient {
         headers.add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
         HttpEntity<?> httpEntity = new HttpEntity<>(githubAccessTokenRequest, headers);
 
-        String accessToken = exchangeRestTemplateBody(tokenUrl, HttpMethod.POST, httpEntity, GithubAccessTokenResponse.class)
-                .getAccessToken();
-        if (Objects.isNull(accessToken)) {
+        GithubAccessTokenResponse githubAccessTokenResponse = exchangeRestTemplateBody(tokenUrl, HttpMethod.POST,
+                httpEntity, GithubAccessTokenResponse.class);
+        if (Objects.isNull(githubAccessTokenResponse)) {
             throw new UnauthorizedException("잘못된 요청입니다.");
         }
-        return accessToken;
+        return githubAccessTokenResponse.getAccessToken();
     }
 
     public GithubProfileResponse requestGithubProfile(final String accessToken) {
