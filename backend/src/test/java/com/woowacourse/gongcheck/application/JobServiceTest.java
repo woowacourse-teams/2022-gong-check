@@ -127,8 +127,17 @@ class JobServiceTest {
 
     @Test
     void Host가_존재하지_않는데_Slack_Url_조회_시_예외가_발생한다() {
-        assertThatThrownBy(() -> jobService.findSlackUrl(0L))
+        assertThatThrownBy(() -> jobService.findSlackUrl(0L, 0L))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("존재하지 않는 호스트입니다.");
+    }
+
+    @Test
+    void Job이_존재하지_않는데_Slack_Url_조회_시_예외가_발생한다() {
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
+
+        assertThatThrownBy(() -> jobService.findSlackUrl(host.getId(), 0L))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("존재하지 않는 작업입니다.");
     }
 }

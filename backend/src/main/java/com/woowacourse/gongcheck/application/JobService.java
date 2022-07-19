@@ -64,8 +64,9 @@ public class JobService {
         return job.getId();
     }
 
-    public void findSlackUrl(final Long hostId) {
+    public void findSlackUrl(final Long hostId, final Long jobId) {
         Host host = hostRepository.getById(hostId);
+        Job job = jobRepository.getBySpaceHostAndId(host, jobId);
     }
 
     private void createSectionsAndTasks(final List<SectionCreateRequest> sectionCreateRequests, final Job job) {
