@@ -9,7 +9,7 @@ const container = css`
   height: 360px;
   overflow-y: scroll;
   padding: 32px;
-  background-color: ${theme.colors.lightGray};
+  background-color: ${theme.colors.gray200};
 
   ::-webkit-scrollbar {
     width: 0.4em;

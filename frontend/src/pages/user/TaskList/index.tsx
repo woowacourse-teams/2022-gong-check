@@ -120,7 +120,7 @@ const TaskList: React.FC = () => {
             css={css`
               margin-bottom: 0;
               width: 256px;
-              background: ${isAllChecked(data.sections) ? theme.colors.primary : theme.colors.gray};
+              background: ${isAllChecked(data.sections) ? theme.colors.primary : theme.colors.gray400};
             `}
             onClick={handleClickButton}
             disabled={!isAllChecked(data.sections)}

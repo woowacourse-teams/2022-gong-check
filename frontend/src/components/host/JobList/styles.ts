@@ -15,7 +15,7 @@ const title = css`
   padding: 24px;
   height: 20%;
   font-size: 18px;
-  border-bottom: 1px solid ${theme.colors.lightGray};
+  border-bottom: 1px solid ${theme.colors.gray200};
   color: ${theme.colors.blackHost};
 `;
 
@@ -33,7 +33,7 @@ const jobListWrapper = css`
     width: 4px;
   }
   ::-webkit-scrollbar-thumb {
-    background-color: ${theme.colors.lightGrayHost};
+    background-color: ${theme.colors.gray100};
     height: 4px;
     border: 100%;
   }
@@ -52,7 +52,7 @@ const jobList = css`
   justify-content: space-between;
   width: 100%;
   padding: 12px 16px;
-  background-color: ${theme.colors.lightGrayHost};
+  background-color: ${theme.colors.gray100};
   border-radius: 8px;
   color: ${theme.colors.blackHost};
 `;
@@ -65,7 +65,7 @@ const slackButton = css`
   margin: 0 12px;
   background-color: ${theme.colors.white};
   color: ${theme.colors.black};
-  border: 1px solid ${theme.colors.gray};
+  border: 1px solid ${theme.colors.gray400};
 
   img {
     height: 10px;

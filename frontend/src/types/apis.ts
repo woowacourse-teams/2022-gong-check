@@ -4,19 +4,15 @@ type SpaceType = {
   id: number;
 };
 
-export type ApiSpacesData = {
-  spaces: SpaceType[];
-  hasNext: boolean;
-};
-
 type JobType = {
   id: number;
   name: string;
 };
 
-export type ApiJobData = {
-  jobs: JobType[];
-  hasNext: boolean;
+type SectionType = {
+  id: number;
+  name: string;
+  tasks: TaskType[];
 };
 
 type TaskType = {
@@ -25,10 +21,14 @@ type TaskType = {
   checked: boolean;
 };
 
-type SectionType = {
-  id: number;
-  name: string;
-  tasks: TaskType[];
+export type ApiSpacesData = {
+  spaces: SpaceType[];
+  hasNext: boolean;
+};
+
+export type ApiJobData = {
+  jobs: JobType[];
+  hasNext: boolean;
 };
 
 export type ApiTaskData = {

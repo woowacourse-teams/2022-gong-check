@@ -49,7 +49,7 @@ const SpaceInfo: React.FC<SpaceInfoProps> = ({ onSubmit, inputText = '' }) => {
             type="submit"
             css={css`
               ${styles.button}
-              background: ${isActiveSubmit ? theme.colors.primary : theme.colors.gray};
+              background: ${isActiveSubmit ? theme.colors.primary : theme.colors.gray400};
             `}
           >
             생성하기

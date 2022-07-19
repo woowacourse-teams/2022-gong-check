@@ -60,7 +60,7 @@ const InputModal: React.FC<InputModalProps> = ({ title, detail, placeholder, but
             css={css`
               margin-bottom: 0;
               width: 256px;
-              background: ${isDisabledButton ? theme.colors.gray : theme.colors.primary};
+              background: ${isDisabledButton ? theme.colors.gray400 : theme.colors.primary};
             `}
             onClick={handleClickButton}
             disabled={isDisabledButton}

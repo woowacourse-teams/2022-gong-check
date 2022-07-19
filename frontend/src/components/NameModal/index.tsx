@@ -33,7 +33,7 @@ const NameModal: React.FC<NameModalProps> = ({ title, detail, placeholder, butto
             css={css`
               margin-bottom: 0;
               width: 256px;
-              background: ${isDisabledButton ? theme.colors.gray : theme.colors.primary};
+              background: ${isDisabledButton ? theme.colors.gray400 : theme.colors.primary};
             `}
             onClick={onClickButton}
             disabled={isDisabledButton}

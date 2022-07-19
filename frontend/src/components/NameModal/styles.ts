@@ -18,7 +18,7 @@ const title = css`
 `;
 
 const detail = css`
-  color: ${theme.colors.gray};
+  color: ${theme.colors.gray400};
   margin: 16px 0;
 `;
 

@@ -9,7 +9,7 @@ const Input: React.FC<InputProps> = ({ placeholder, onChange }) => {
     <input
       css={css`
         border: none;
-        background-color: ${theme.colors.lightGray};
+        background-color: ${theme.colors.gray200};
         width: 100%;
         border-radius: 12px;
         width: 256px;
@@ -17,7 +17,7 @@ const Input: React.FC<InputProps> = ({ placeholder, onChange }) => {
         padding: 8px 16px;
         font-size: 16px;
         &::placeholder {
-          color: ${theme.colors.gray};
+          color: ${theme.colors.gray400};
         }
         &:focus {
           outline: none;

@@ -52,7 +52,7 @@ const categoryTextWrapper = css`
   width: 100%;
   font-size: 14px;
   font-weight: 500;
-  background-color: ${theme.colors.lightGrayHost};
+  background-color: ${theme.colors.gray100};
   padding: 12px 8px;
   margin: 4px 0;
   color: ${theme.colors.blackHost};

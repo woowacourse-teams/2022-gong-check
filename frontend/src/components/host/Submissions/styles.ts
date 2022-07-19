@@ -36,7 +36,7 @@ const table = ({ isFullSize }: { isFullSize: boolean }) => css`
   display: block;
 
   thead {
-    background-color: ${theme.colors.lightGray};
+    background-color: ${theme.colors.gray200};
     color: ${theme.colors.shadow30};
     box-shadow: 0 1px 4px 0px ${theme.colors.shadow30};
     width: 100%;
