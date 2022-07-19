@@ -17,10 +17,11 @@ const getSlackUrl = async (jobId: number | string) => {
 };
 
 // slack URL 수정
-const putSlackUrl = (jobId: number | string) => {
+const putSlackUrl = (jobId: number | string, slackUrl: string) => {
   return axiosInstanceToken({
     method: 'PUT',
     url: `/api/jobs/${jobId}/slack`,
+    data: { slackUrl },
   });
 };
 
