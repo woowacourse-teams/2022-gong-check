@@ -1,3 +1,4 @@
+import apiAuth from './githubAuth';
 import apisJob from './job';
 import apisPassword from './password';
 import apisSlack from './slack';
@@ -12,6 +13,7 @@ const apis = {
   ...apisPassword,
   ...apisSlack,
   ...apisTask,
+  ...apiAuth,
 };
 
 export default apis;
