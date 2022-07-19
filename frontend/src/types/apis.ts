@@ -40,3 +40,8 @@ export type ApiSubmissionData = {
   spaces: SubmissionType[];
   hasNext: boolean;
 };
+
+export type ApiHostTokenData = {
+  token: string;
+  alreadyJoin: boolean;
+};
