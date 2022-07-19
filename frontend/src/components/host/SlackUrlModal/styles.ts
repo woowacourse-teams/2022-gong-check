@@ -33,6 +33,32 @@ const icon = css`
   margin-right: 12px;
 `;
 
-const styles = { title, detail, container, icon };
+const contents = css`
+  height: 30vh;
+  overflow-y: scroll;
+
+  ::-webkit-scrollbar {
+    width: 0.4em;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: ${theme.colors.shadow20};
+    border-radius: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: ${theme.colors.shadow60};
+  }
+
+  ::-webkit-scrollbar-thumb:active {
+    background: ${theme.colors.shadow80};
+  }
+
+  ::-webkit-scrollbar-button {
+    display: none;
+  }
+`;
+
+const styles = { title, detail, container, icon, contents };
 
 export default styles;
