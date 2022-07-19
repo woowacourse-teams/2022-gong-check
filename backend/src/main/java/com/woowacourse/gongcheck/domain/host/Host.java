@@ -20,7 +20,6 @@ import lombok.Getter;
 public class Host {
 
     private static final int SPACE_PASSWORD_MAX_LENGTH = 4;
-    private static final String DEFAULT_SPACE_PASSWORD = "0000";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +27,7 @@ public class Host {
 
     @Embedded
     @Builder.Default
-    private SpacePassword spacePassword = new SpacePassword(DEFAULT_SPACE_PASSWORD);
+    private SpacePassword spacePassword = new SpacePassword("0000");
 
     @Column(name = "github_id", nullable = false, unique = true)
     private Long githubId;
