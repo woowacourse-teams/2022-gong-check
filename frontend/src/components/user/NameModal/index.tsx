@@ -1,9 +1,9 @@
 import useNameModal from './useNameModal';
 import { css } from '@emotion/react';
 
-import Button from '@/components/_common/Button';
-import Dimmer from '@/components/_common/Dimmer';
-import Input from '@/components/_common/Input';
+import Button from '@/components/common/Button';
+import Dimmer from '@/components/common/Dimmer';
+import Input from '@/components/common/Input';
 
 import ModalPortal from '@/ModalPortal';
 
@@ -24,7 +24,7 @@ const NameModal: React.FC<NameModalProps> = ({ title, detail, placeholder, butto
 
   return (
     <ModalPortal>
-      <Dimmer>
+      <Dimmer mode="mobile">
         <div css={styles.container}>
           <h1 css={styles.title}>{title}</h1>
           <span css={styles.detail}>{detail}</span>
@@ -33,7 +33,7 @@ const NameModal: React.FC<NameModalProps> = ({ title, detail, placeholder, butto
             css={css`
               margin-bottom: 0;
               width: 256px;
-              background: ${isDisabledButton ? theme.colors.gray : theme.colors.primary};
+              background: ${isDisabledButton ? theme.colors.gray400 : theme.colors.primary};
             `}
             onClick={onClickButton}
             disabled={isDisabledButton}

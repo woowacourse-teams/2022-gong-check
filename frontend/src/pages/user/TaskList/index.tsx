@@ -4,10 +4,9 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
-import Button from '@/components/_common/Button';
-
-import NameModal from '@/components/NameModal';
-import TaskCard from '@/components/TaskCard';
+import Button from '@/components/common/Button';
+import NameModal from '@/components/user/NameModal';
+import TaskCard from '@/components/user/TaskCard';
 
 import useGoPreviousPage from '@/hooks/useGoPreviousPage';
 import useModal from '@/hooks/useModal';
@@ -84,7 +83,7 @@ const TaskList: React.FC = () => {
         <div css={styles.arrowBackIconWrapper}>
           <IoIosArrowBack
             css={css`
-              color: black;
+              color: ${theme.colors.black};
               cursor: pointer;
             `}
             size={30}
@@ -120,7 +119,7 @@ const TaskList: React.FC = () => {
             css={css`
               margin-bottom: 0;
               width: 256px;
-              background: ${isAllChecked(data.sections) ? theme.colors.primary : theme.colors.gray};
+              background: ${isAllChecked(data.sections) ? theme.colors.primary : theme.colors.gray400};
             `}
             onClick={handleClickButton}
             disabled={!isAllChecked(data.sections)}

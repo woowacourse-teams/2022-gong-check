@@ -23,19 +23,19 @@ const cover = (imageUrl: string) => css`
 const coverText = css`
   color: ${theme.colors.white};
   font-size: 36px;
-  text-shadow: 0 0 4px black;
+  text-shadow: 0 0 4px ${theme.colors.black};
   background-image: linear-gradient(transparent 90%, ${theme.colors.primary} 10%);
   width: fit-content;
 `;
 
 const text = css`
   font-weight: 600;
-  color: #84817a;
+  color: ${theme.colors.gray500};
   margin-bottom: 24px;
 `;
 
 const arrow = css`
-  color: white;
+  color: ${theme.colors.white};
   cursor: pointer;
 `;
 

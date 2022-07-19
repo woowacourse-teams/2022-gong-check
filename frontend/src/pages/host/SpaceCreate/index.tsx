@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
-import Button from '@/components/_common/Button';
-
+import Button from '@/components/common/Button';
 import SpaceInfo from '@/components/host/SpaceInfo';
 
 import styles from './styles';

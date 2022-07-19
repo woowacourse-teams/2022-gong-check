@@ -13,12 +13,12 @@ const layout = css`
 const contents = css`
   width: 95%;
   min-height: 100%;
-  background-color: white;
+  background-color: ${theme.colors.white};
 `;
 
 const pageTitle = css`
   width: 100%;
-  border-bottom: 1px solid ${theme.colors.gray200};
+  border-bottom: 1px solid ${theme.colors.gray300};
   padding: 8px 32px;
   font-size: 28px;
 `;
@@ -38,7 +38,7 @@ const createCard = css`
   align-items: center;
   width: 480px;
   height: 360px;
-  background-color: ${theme.colors.lightGray};
+  background-color: ${theme.colors.gray200};
   font-size: 64px;
   cursor: pointer;
   :hover {
