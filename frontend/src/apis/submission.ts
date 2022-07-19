@@ -1,7 +1,8 @@
-import { axiosInstanceToken } from '../config';
 import { AxiosResponse } from 'axios';
 
 import { ApiSubmissionData } from '@/types/apis';
+
+import { axiosInstanceToken } from './config';
 
 const postJobComplete = ({ jobId, author }: any) => {
   return axiosInstanceToken({
@@ -25,6 +26,6 @@ const getSubmission = async ({ spaceId }: any) => {
   return data;
 };
 
-const apis = { postJobComplete, getSubmission };
+const apiSubmission = { postJobComplete, getSubmission };
 
-export default apis;
+export default apiSubmission;

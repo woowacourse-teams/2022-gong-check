@@ -24,7 +24,7 @@ const JobListCard: React.FC = () => {
   };
 
   const handleClickNewJobButton = () => {
-    navigate('spaceCreate');
+    navigate('jobCreate');
   };
 
   const handleClickUpdateJobButton = () => {

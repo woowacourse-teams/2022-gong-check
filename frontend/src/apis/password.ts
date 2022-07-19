@@ -1,7 +1,8 @@
-import { axiosInstance, axiosInstanceToken } from '../config';
 import { AxiosResponse } from 'axios';
 
 import { ApiTokenData } from '@/types/apis';
+
+import { axiosInstance, axiosInstanceToken } from './config';
 
 const postPassword = async ({ hostId, password }: any) => {
   const { data }: AxiosResponse<ApiTokenData> = await axiosInstance({
@@ -29,6 +30,6 @@ const patchSpacePwassword = ({ password }: any) => {
   });
 };
 
-const apis = { postPassword, patchSpacePwassword };
+const apiPassword = { postPassword, patchSpacePwassword };
 
-export default apis;
+export default apiPassword;

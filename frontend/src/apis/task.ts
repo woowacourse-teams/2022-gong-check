@@ -1,7 +1,8 @@
-import { axiosInstanceToken } from '../config';
 import { AxiosResponse } from 'axios';
 
 import { ApiTaskData } from '@/types/apis';
+
+import { axiosInstanceToken } from './config';
 
 const postNewTasks = async ({ jobId }: any) => {
   return axiosInstanceToken({
@@ -26,6 +27,6 @@ const postCheckTask = ({ taskId }: any) => {
   });
 };
 
-const apis = { postCheckTask, getTasks, postNewTasks };
+const apiTask = { postCheckTask, getTasks, postNewTasks };
 
-export default apis;
+export default apiTask;
