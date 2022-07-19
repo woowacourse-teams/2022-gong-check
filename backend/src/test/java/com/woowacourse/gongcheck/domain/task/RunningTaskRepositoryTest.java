@@ -56,7 +56,7 @@ class RunningTaskRepositoryTest {
 
         @BeforeEach
         void setUp() {
-            host = hostRepository.save(Host_생성("1234"));
+            host = hostRepository.save(Host_생성("1234", 1234L));
             space = spaceRepository.save(Space_생성(host, "잠실"));
             job = jobRepository.save(Job_생성(space, "청소"));
             section = sectionRepository.save(Section_생성(job, "트랙룸"));

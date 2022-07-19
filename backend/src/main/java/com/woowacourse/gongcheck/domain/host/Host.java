@@ -15,15 +15,25 @@ import lombok.Getter;
 
 @Entity
 @Table(name = "host")
+@Builder
 @Getter
 public class Host {
+
+    private static final int SPACE_PASSWORD_MAX_LENGTH = 4;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Embedded
-    private SpacePassword spacePassword;
+    @Builder.Default
+    private SpacePassword spacePassword = new SpacePassword("0000");
+
+    @Column(name = "github_id", nullable = false, unique = true)
+    private Long githubId;
+
+    @Column(name = "image_url", nullable = false)
+    private String imageUrl;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
@@ -34,11 +44,12 @@ public class Host {
     protected Host() {
     }
 
-    @Builder
-    public Host(final Long id, final SpacePassword spacePassword, final LocalDateTime createdAt,
-                final LocalDateTime updatedAt) {
+    public Host(final Long id, final SpacePassword spacePassword, final Long githubId, final String imageUrl,
+                final LocalDateTime createdAt, final LocalDateTime updatedAt) {
         this.id = id;
         this.spacePassword = spacePassword;
+        this.githubId = githubId;
+        this.imageUrl = imageUrl;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }

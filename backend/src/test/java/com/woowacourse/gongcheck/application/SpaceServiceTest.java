@@ -69,7 +69,7 @@ class SpaceServiceTest {
 
         @Test
         void 공간을_조회한다() {
-            Host host = hostRepository.save(Host_생성("1234"));
+            Host host = hostRepository.save(Host_생성("1234", 1234L));
             Space space1 = Space_생성(host, "잠실");
             Space space2 = Space_생성(host, "선릉");
             Space space3 = Space_생성(host, "양평같은방");
@@ -96,7 +96,7 @@ class SpaceServiceTest {
 
         @Test
         void 공간을_생성한다() {
-            Host host = hostRepository.save(Host_생성("1234"));
+            Host host = hostRepository.save(Host_생성("1234", 1234L));
             SpaceCreateRequest spaceCreateRequest = new SpaceCreateRequest("잠실 캠퍼스",
                     new MockMultipartFile("잠실 캠퍼스 사진", new byte[]{}));
             Long spaceId = spaceService.createSpace(host.getId(), spaceCreateRequest);
@@ -106,7 +106,7 @@ class SpaceServiceTest {
 
         @Test
         void 이미_존재하는_공간_이름을_입력할_경우_예외가_발생한다() {
-            Host host = hostRepository.save(Host_생성("1234"));
+            Host host = hostRepository.save(Host_생성("1234", 1234L));
             String spaceName = "잠실 캠퍼스";
             Space space = Space_생성(host, spaceName);
             spaceRepository.save(space);
@@ -132,7 +132,7 @@ class SpaceServiceTest {
 
     @Test
     void Space를_삭제하면_관련된_Job_Section_Task_RunningTask를_함께_삭제한다() {
-        Host host = hostRepository.save(Host_생성("1234"));
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
         Space space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
         Job job = jobRepository.save(Job_생성(space, "청소"));
         Section section = sectionRepository.save(Section_생성(job, "대강의실"));

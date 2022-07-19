@@ -11,7 +11,7 @@ class SpaceTest {
 
     @Test
     void Space_이름은_20자_이하여야_한다() {
-        Host host = Host_생성("1234");
+        Host host = Host_생성("1234", 1234L);
 
         assertThatThrownBy(
                 () -> Space.builder()
@@ -25,7 +25,7 @@ class SpaceTest {
 
     @Test
     void Space_이름은_빈_값일_수_없다() {
-        Host host = Host_생성("1234");
+        Host host = Host_생성("1234", 1234L);
 
         assertThatThrownBy(
                 () -> Space.builder()

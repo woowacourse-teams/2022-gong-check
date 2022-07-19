@@ -27,7 +27,7 @@ class SpaceRepositoryTest {
 
     @Test
     void 멤버아이디로_공간을_조회한다() {
-        Host host = hostRepository.save(Host_생성("1234"));
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
         Space space1 = Space_생성(host, "잠실");
         Space space2 = Space_생성(host, "선릉");
         Space space3 = Space_생성(host, "양평같은방");
@@ -43,7 +43,7 @@ class SpaceRepositoryTest {
 
     @Test
     void 멤버와_아이디로_공간을_조회한다() {
-        Host host = hostRepository.save(Host_생성("1234"));
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
 
         Space result = spaceRepository.getByHostAndId(host, space.getId());
@@ -53,8 +53,8 @@ class SpaceRepositoryTest {
 
     @Test
     void 다른_호스트의_공간을_조회할_경우_예외가_발생한다() {
-        Host host1 = hostRepository.save(Host_생성("1234"));
-        Host host2 = hostRepository.save(Host_생성("1234"));
+        Host host1 = hostRepository.save(Host_생성("1234", 1234L));
+        Host host2 = hostRepository.save(Host_생성("1234", 2345L));
         Space space = Space_생성(host2, "잠실");
         spaceRepository.save(space);
 
@@ -66,7 +66,7 @@ class SpaceRepositoryTest {
 
     @Test
     void 호스트와_공간_이름을_입력_받아_이미_존재하는_공간_이름이면_참을_반환한다() {
-        Host host = hostRepository.save(Host_생성("1234"));
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
         Space space = Space_생성(host, "잠실");
         spaceRepository.save(space);
 
@@ -77,7 +77,7 @@ class SpaceRepositoryTest {
 
     @Test
     void 호스트와_공간_이름을_입력_받아_이미_존재하는_공간_이름이_아니면_거짓을_반환한다() {
-        Host host = hostRepository.save(Host_생성("1234"));
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
 
         boolean result = spaceRepository.existsByHostAndName(host, "잠실");
 

@@ -38,7 +38,7 @@ class GuestAuthServiceTest {
 
         @Test
         void 비밀번호가_틀리면_예외가_발생한다() {
-            Host host = hostRepository.save(Host_생성("0123"));
+            Host host = hostRepository.save(Host_생성("0123", 1234L));
 
             assertThatThrownBy(() -> guestAuthService.createToken(host.getId(), new GuestEnterRequest("1234")))
                     .isInstanceOf(UnauthorizedException.class)
@@ -47,7 +47,7 @@ class GuestAuthServiceTest {
 
         @Test
         void 정상적으로_토큰을_발행한다() {
-            Host host = hostRepository.save(Host_생성("0123"));
+            Host host = hostRepository.save(Host_생성("0123", 1234L));
             GuestTokenResponse token = guestAuthService.createToken(host.getId(), new GuestEnterRequest("0123"));
 
             assertThat(token.getToken()).isNotNull();

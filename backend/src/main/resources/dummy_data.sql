@@ -1,5 +1,5 @@
-INSERT INTO host (space_password, created_at)
-VALUES ('1234', current_timestamp());
+INSERT INTO host (space_password, github_id, image_url, created_at)
+VALUES ('1234', 1, 'test.com', current_timestamp());
 
 INSERT INTO space (host_id, name, img_url, created_at)
 VALUES (1, '잠실', 'https://velog.velcdn.com/images/cks3066/post/258f92c1-32be-4acb-be30-1eb64635c013/image.jpg',
