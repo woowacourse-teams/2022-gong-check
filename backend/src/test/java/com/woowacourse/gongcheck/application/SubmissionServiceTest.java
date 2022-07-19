@@ -5,11 +5,13 @@ import static com.woowacourse.gongcheck.fixture.FixtureFactory.Job_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.RunningTask_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Section_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_생성;
+import static com.woowacourse.gongcheck.fixture.FixtureFactory.Submission_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Task_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.gongcheck.application.response.JobSubmissionsResponse;
 import com.woowacourse.gongcheck.application.response.SubmissionResponse;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
@@ -33,6 +35,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
@@ -146,6 +149,53 @@ class SubmissionServiceTest {
             RunningTask runningTask1 = RunningTask_생성(task1.getId(), true);
             RunningTask runningTask2 = RunningTask_생성(task2.getId(), isChecked);
             runningTaskRepository.saveAll(List.of(runningTask1, runningTask2));
+        }
+    }
+
+    @Nested
+    class Submission_목록을_응답한다 {
+        private Host host;
+        private Space space;
+        private Job job1;
+        private Job job2;
+
+        @BeforeEach
+        void setUp() {
+            host = hostRepository.save(Host_생성("1234", 1234L));
+            space = spaceRepository.save(Space_생성(host, "잠실"));
+            job1 = jobRepository.save(Job_생성(space, "오픈"));
+            job2 = jobRepository.save(Job_생성(space, "마감"));
+            submissionRepository.save(Submission_생성(job1));
+            submissionRepository.save(Submission_생성(job2));
+            submissionRepository.save(Submission_생성(job2));
+        }
+
+        @Test
+        void 존재하지_않는_Host에_해당하는_Submission을_조회하려는_경우_예외를_발생시킨다() {
+            Long spaceId = space.getId();
+            PageRequest pageRequest = PageRequest.of(0, 2);
+            assertThatThrownBy(() -> submissionService.findPage(0L, spaceId, pageRequest))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 호스트입니다.");
+        }
+
+        @Test
+        void 존재하지_않는_Space에_해당하는_Submission을_조회하려는_경우_예외를_발생시킨다() {
+            Long hostId = host.getId();
+            PageRequest pageRequest = PageRequest.of(0, 2);
+            assertThatThrownBy(() -> submissionService.findPage(hostId, 0L, pageRequest))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 공간입니다.");
+        }
+
+        @Test
+        void 입력받은_Space에_해당하는_Submission_응답을_반환한다() {
+            JobSubmissionsResponse response = submissionService.findPage(host.getId(), space.getId(), PageRequest.of(0, 2));
+
+            assertAll(
+                    () -> assertThat(response.getSubmissions().size()).isEqualTo(2),
+                    () -> assertThat(response.isHasNext()).isTrue()
+            );
         }
     }
 }
