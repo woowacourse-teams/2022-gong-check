@@ -10,7 +10,11 @@ import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
@@ -26,10 +30,10 @@ class SpaceRepositoryTest {
     private SpaceRepository spaceRepository;
 
     @Test
-    void 멤버아이디로_공간을_조회한다() {
+    void Host의_Space를_조회한다() {
         Host host = hostRepository.save(Host_생성("1234", 1234L));
-        Space space1 = Space_생성(host, "잠실");
-        Space space2 = Space_생성(host, "선릉");
+        Space space1 = Space_생성(host, "잠실 캠퍼스");
+        Space space2 = Space_생성(host, "선릉 캠퍼스");
         Space space3 = Space_생성(host, "양평같은방");
         spaceRepository.saveAll(List.of(space1, space2, space3));
 
@@ -41,46 +45,52 @@ class SpaceRepositoryTest {
         );
     }
 
-    @Test
-    void 멤버와_아이디로_공간을_조회한다() {
-        Host host = hostRepository.save(Host_생성("1234", 1234L));
-        Space space = spaceRepository.save(Space_생성(host, "잠실"));
+    @Nested
+    class Space를_조회할_때 {
 
-        Space result = spaceRepository.getByHostAndId(host, space.getId());
+        private Host host;
+        private Space space;
 
-        assertThat(result).isEqualTo(space);
+        @BeforeEach
+        void setUp() {
+            host = hostRepository.save(Host_생성("1234", 1234L));
+            space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
+        }
+
+        @Test
+        void Host와_SpaceId로_조회한다() {
+            Space result = spaceRepository.getByHostAndId(host, space.getId());
+
+            assertThat(result).isEqualTo(space);
+        }
+
+        @Test
+        void 다른_Host의_Space를_조회할_경우_예외가_발생한다() {
+            Host anotherHost = hostRepository.save(Host_생성("1234", 2345L));
+
+            assertThatThrownBy(() ->
+                    spaceRepository.getByHostAndId(anotherHost, space.getId()))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 공간입니다.");
+        }
+
+        @Test
+        void 존재하지_않는_Space를_조회할_경우_예외가_발생한다() {
+            assertThatThrownBy(() ->
+                    spaceRepository.getByHostAndId(host, 0L))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 공간입니다.");
+        }
     }
 
-    @Test
-    void 다른_호스트의_공간을_조회할_경우_예외가_발생한다() {
-        Host host1 = hostRepository.save(Host_생성("1234", 1234L));
-        Host host2 = hostRepository.save(Host_생성("1234", 2345L));
-        Space space = Space_생성(host2, "잠실");
-        spaceRepository.save(space);
-
-        assertThatThrownBy(() ->
-                spaceRepository.getByHostAndId(host1, space.getId()))
-                .isInstanceOf(NotFoundException.class)
-                .hasMessage("존재하지 않는 공간입니다.");
-    }
-
-    @Test
-    void 호스트와_공간_이름을_입력_받아_이미_존재하는_공간_이름이면_참을_반환한다() {
+    @ParameterizedTest
+    @CsvSource(value = {"잠실 캠퍼스, true", "선릉 캠퍼스, false"})
+    void 이미_존재하는_Space이름인지_확인한다(final String spaceName, final boolean expected) {
         Host host = hostRepository.save(Host_생성("1234", 1234L));
-        Space space = Space_생성(host, "잠실");
-        spaceRepository.save(space);
+        spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
 
-        boolean result = spaceRepository.existsByHostAndName(host, space.getName());
+        boolean actual = spaceRepository.existsByHostAndName(host, spaceName);
 
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    void 호스트와_공간_이름을_입력_받아_이미_존재하는_공간_이름이_아니면_거짓을_반환한다() {
-        Host host = hostRepository.save(Host_생성("1234", 1234L));
-
-        boolean result = spaceRepository.existsByHostAndName(host, "잠실");
-
-        assertThat(result).isFalse();
+        assertThat(actual).isEqualTo(expected);
     }
 }
