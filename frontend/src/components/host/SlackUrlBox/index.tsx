@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 
@@ -9,7 +10,7 @@ import slackApi from '@/apis/slack';
 import styles from './styles';
 
 const SlackUrlBox: React.FC<{ jobName: string; jobId: number }> = ({ jobName, jobId }) => {
-  const { data } = useQuery(['slackUrl', jobId], () => slackApi.getSlackUrl(jobId), { suspense: true });
+  // const { data } = useQuery(['slackUrl', jobId], () => slackApi.getSlackUrl(jobId), { suspense: true });
 
   const [url, setUrl] = useState('');
 
@@ -17,12 +18,12 @@ const SlackUrlBox: React.FC<{ jobName: string; jobId: number }> = ({ jobName, jo
     setUrl(e.target.value);
   };
 
-  if (data) {
-    setUrl(data.slackUrl);
-  }
+  // if (data) {
+  //   setUrl(data.slackUrl);
+  // }
 
   return (
-    <div>
+    <div css={styles.slackUrlBox}>
       <span css={styles.jobName}>{jobName}</span>
       <Input css={styles.input} defaultValue={url} placeholder="Slack URL" onChange={handleChange} />
       <Button css={styles.button}>편집</Button>

@@ -2,7 +2,8 @@ import { css } from '@emotion/react';
 
 const jobName = css`
   font-size: 20px;
-  margin-right: 4px;
+  line-height: 48px;
+  vertical-align: middle;
 `;
 
 const input = css`
@@ -10,10 +11,17 @@ const input = css`
 `;
 
 const button = css`
-  margin-bottom: 0;
+  margin: 0 8px;
   width: 58px;
 `;
 
-const styles = { jobName, input, button };
+const slackUrlBox = css`
+  display: flex;
+  justify-content: center;
+  height: 48px;
+  margin: 8px 0;
+`;
+
+const styles = { slackUrlBox, jobName, input, button };
 
 export default styles;
