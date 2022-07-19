@@ -10,6 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.gongcheck.application.response.SpaceResponse;
 import com.woowacourse.gongcheck.application.response.SpacesResponse;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
@@ -28,6 +29,7 @@ import com.woowacourse.gongcheck.exception.NotFoundException;
 import com.woowacourse.gongcheck.presentation.request.SpaceCreateRequest;
 import java.util.List;
 import javax.persistence.EntityManager;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,13 +67,13 @@ class SpaceServiceTest {
     private RunningTaskRepository runningTaskRepository;
 
     @Nested
-    class 공간_조회 {
+    class Space_조회 {
 
         @Test
-        void 공간을_조회한다() {
+        void Space를_조회한다() {
             Host host = hostRepository.save(Host_생성("1234", 1234L));
-            Space space1 = Space_생성(host, "잠실");
-            Space space2 = Space_생성(host, "선릉");
+            Space space1 = Space_생성(host, "잠실 캠퍼스");
+            Space space2 = Space_생성(host, "선릉 캠퍼스");
             Space space3 = Space_생성(host, "양평같은방");
             spaceRepository.saveAll(List.of(space1, space2, space3));
 
@@ -84,7 +86,7 @@ class SpaceServiceTest {
         }
 
         @Test
-        void 존재하지_않는_호스트로_공간을_조회할_경우_예외를_던진다() {
+        void 존재하지_않는_Host로_Space를_조회할_경우_예외가_발생한다() {
             assertThatThrownBy(() -> spaceService.findPage(0L, PageRequest.of(0, 1)))
                     .isInstanceOf(NotFoundException.class)
                     .hasMessage("존재하지 않는 호스트입니다.");
@@ -92,10 +94,10 @@ class SpaceServiceTest {
     }
 
     @Nested
-    class 공간_생성 {
+    class Space_생성 {
 
         @Test
-        void 공간을_생성한다() {
+        void Space를_생성한다() {
             Host host = hostRepository.save(Host_생성("1234", 1234L));
             SpaceCreateRequest spaceCreateRequest = new SpaceCreateRequest("잠실 캠퍼스",
                     new MockMultipartFile("잠실 캠퍼스 사진", new byte[]{}));
@@ -105,7 +107,7 @@ class SpaceServiceTest {
         }
 
         @Test
-        void 이미_존재하는_공간_이름을_입력할_경우_예외가_발생한다() {
+        void 이미_존재하는_Space_이름을_입력할_경우_예외가_발생한다() {
             Host host = hostRepository.save(Host_생성("1234", 1234L));
             String spaceName = "잠실 캠퍼스";
             Space space = Space_생성(host, spaceName);
@@ -120,13 +122,59 @@ class SpaceServiceTest {
         }
 
         @Test
-        void 존재하지_않는_호스트로_생성하려는_경우_예외가_발생한다() {
+        void 존재하지_않는_Host로_생성하려는_경우_예외가_발생한다() {
             SpaceCreateRequest request = new SpaceCreateRequest("잠실 캠퍼스",
                     new MockMultipartFile("잠실 캠퍼스 사진", new byte[]{}));
 
             assertThatThrownBy(() -> spaceService.createSpace(0L, request))
                     .isInstanceOf(NotFoundException.class)
                     .hasMessage("존재하지 않는 호스트입니다.");
+        }
+    }
+
+    @Nested
+    class 단일_Space_조회 {
+
+        private Host host;
+        private Space space1;
+        private Space space2;
+
+        @BeforeEach
+        void setUp() {
+            host = hostRepository.save(Host_생성("1234", 1234L));
+            space1 = Space_생성(host, "잠실 캠퍼스");
+            space2 = Space_생성(host, "선릉 캠퍼스");
+            spaceRepository.saveAll(List.of(space1, space2));
+        }
+
+        @Test
+        void HostId와_SpaceId로_단일_Space를_조회한다() {
+            SpaceResponse response = spaceService.findSpace(host.getId(), space1.getId());
+
+            assertThat(response.getName()).isEqualTo(space1.getName());
+        }
+
+        @Test
+        void 다른_HostId로_단일_Space를_조회할_경우_예외가_발생한다() {
+            Host anotherHost = hostRepository.save(Host_생성("1234", 2345L));
+
+            assertThatThrownBy(() -> spaceService.findSpace(anotherHost.getId(), space1.getId()))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 공간입니다.");
+        }
+
+        @Test
+        void 존재하지_않는_HostId로_단일_Space를_조회할_경우_예외가_발생한다() {
+            assertThatThrownBy(() -> spaceService.findSpace(0L, space1.getId()))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 호스트입니다.");
+        }
+
+        @Test
+        void 존재하지_않는_SpaceId로_단일_Space를_조회할_경우_예외가_발생한다() {
+            assertThatThrownBy(() -> spaceService.findSpace(host.getId(), 0L))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 공간입니다.");
         }
     }
 

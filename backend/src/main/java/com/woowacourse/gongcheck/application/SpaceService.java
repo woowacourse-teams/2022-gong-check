@@ -2,6 +2,7 @@ package com.woowacourse.gongcheck.application;
 
 import static java.util.stream.Collectors.toList;
 
+import com.woowacourse.gongcheck.application.response.SpaceResponse;
 import com.woowacourse.gongcheck.application.response.SpacesResponse;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
@@ -17,7 +18,6 @@ import com.woowacourse.gongcheck.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.presentation.request.SpaceCreateRequest;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.data.domain.Pageable;
@@ -71,6 +71,12 @@ public class SpaceService {
                 .build();
         return spaceRepository.save(space)
                 .getId();
+    }
+
+    public SpaceResponse findSpace(final Long hostId, final Long spaceId) {
+        Host host = hostRepository.getById(hostId);
+        Space space = spaceRepository.getByHostAndId(host, spaceId);
+        return SpaceResponse.from(space);
     }
 
     public void removeSpace(final Long hostId, final Long spaceId) {
