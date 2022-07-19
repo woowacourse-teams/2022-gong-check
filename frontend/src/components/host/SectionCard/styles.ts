@@ -65,7 +65,7 @@ const editButton = css`
 `;
 
 const deleteButton = css`
-  background-color: tomato;
+  background-color: ${theme.colors.red};
   width: fit-content;
   height: fit-content;
   padding: 8px 12px;

@@ -8,8 +8,8 @@ const layout = css`
   left: 0;
   height: 100vh;
   width: 224px;
-  background-color: white;
-  box-shadow: 6px 0 8px #f0f3f8;
+  background-color: ${theme.colors.white};
+  box-shadow: 6px 0 8px ${theme.colors.gray350};
 `;
 
 const logo = css`
@@ -35,7 +35,7 @@ const category = css`
 const categoryTitle = css`
   font-size: 16px;
   font-weight: 600;
-  color: #808080;
+  color: ${theme.colors.gray800};
   margin: 8px 0;
   padding: 0 8px;
 `;
@@ -55,7 +55,7 @@ const categoryTextWrapper = css`
   background-color: ${theme.colors.gray100};
   padding: 12px 8px;
   margin: 4px 0;
-  color: ${theme.colors.blackHost};
+  color: ${theme.colors.gray800};
   cursor: pointer;
 
   svg {
@@ -67,7 +67,7 @@ const categoryTextWrapper = css`
   }
 
   :hover {
-    background-color: #f1f8fe;
+    background-color: ${theme.colors.lightSkyBlue};
   }
 `;
 
@@ -76,7 +76,7 @@ const addNewSpace = css`
   margin: 14px 0;
   justify-content: center;
   width: 100%;
-  color: #808080;
+  color: ${theme.colors.gray800};
   font-size: 14px;
 
   span:hover {

@@ -18,7 +18,7 @@ const Home: React.FC = () => {
           height: 64px;
           padding: 0 48px;
           font-size: 32px;
-          color: white;
+          color: ${theme.colors.white};
           background-color: ${theme.colors.primary};
         `}
       >

@@ -1,3 +1,4 @@
+import theme from './theme';
 import { css } from '@emotion/react';
 
 const globalStyle = css`
@@ -7,7 +8,7 @@ const globalStyle = css`
 
   a {
     text-decoration: none;
-    color: black;
+    color: ${theme.colors.black};
   }
 
   // 모달이 웹에서도 모바일 환경 처럼 보일 수 있도록 center 처리
@@ -27,7 +28,7 @@ const globalStyle = css`
     justify-content: center;
     width: 100vw;
     min-height: 100vh;
-    background-color: #f5f6fa;
+    background-color: ${theme.colors.gray350};
   }
 
   #modal {

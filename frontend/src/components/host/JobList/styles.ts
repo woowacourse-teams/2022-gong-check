@@ -5,7 +5,7 @@ import theme from '@/styles/theme';
 const layout = css`
   width: 40vw;
   height: 40vh;
-  background-color: white;
+  background-color: ${theme.colors.white};
 `;
 
 const title = css`
@@ -16,7 +16,7 @@ const title = css`
   height: 20%;
   font-size: 18px;
   border-bottom: 1px solid ${theme.colors.gray200};
-  color: ${theme.colors.blackHost};
+  color: ${theme.colors.gray800};
 `;
 
 const jobListWrapper = css`
@@ -54,7 +54,7 @@ const jobList = css`
   padding: 12px 16px;
   background-color: ${theme.colors.gray100};
   border-radius: 8px;
-  color: ${theme.colors.blackHost};
+  color: ${theme.colors.gray800};
 `;
 
 const slackButton = css`
@@ -95,7 +95,7 @@ const deleteButton = css`
   padding: 8px 12px;
   font-size: 12px;
   margin: 0;
-  background-color: tomato;
+  background-color: ${theme.colors.red};
 `;
 
 const styles = { layout, title, jobListWrapper, jobList, slackButton, newJobButton, updateButton, deleteButton };

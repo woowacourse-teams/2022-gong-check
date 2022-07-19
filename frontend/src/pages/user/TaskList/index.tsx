@@ -84,7 +84,7 @@ const TaskList: React.FC = () => {
         <div css={styles.arrowBackIconWrapper}>
           <IoIosArrowBack
             css={css`
-              color: black;
+              color: ${theme.colors.black};
               cursor: pointer;
             `}
             size={30}

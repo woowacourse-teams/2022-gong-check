@@ -3,6 +3,8 @@ import React from 'react';
 
 import Button from '@/components/_common/Button';
 
+import theme from '@/styles/theme';
+
 import styles from './styles';
 
 const columns = ['제출자', '업무', '제출일자'];
@@ -52,7 +54,7 @@ const Submissions: React.FC<SubmissionsProps> = ({ submissions, isFullSize = fal
                 <td>{jobName}</td>
                 <td
                   css={css`
-                    color: green;
+                    color: ${theme.colors.green};
                   `}
                 >
                   {createdAt}

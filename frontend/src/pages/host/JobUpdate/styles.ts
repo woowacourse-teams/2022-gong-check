@@ -13,7 +13,7 @@ const layout = css`
 const contents = css`
   width: 95%;
   min-height: 100%;
-  background-color: white;
+  background-color: ${theme.colors.white};
 `;
 
 const pageTitle = css`
