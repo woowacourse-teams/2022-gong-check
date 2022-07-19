@@ -1,25 +1,4 @@
-type SpaceType = {
-  name: string;
-  imageUrl: string;
-  id: number;
-};
-
-type JobType = {
-  id: number;
-  name: string;
-};
-
-type SectionType = {
-  id: number;
-  name: string;
-  tasks: TaskType[];
-};
-
-type TaskType = {
-  id: number;
-  name: string;
-  checked: boolean;
-};
+import { JobType, SectionType, SpaceType } from '@/types';
 
 export type ApiSpacesData = {
   spaces: SpaceType[];
