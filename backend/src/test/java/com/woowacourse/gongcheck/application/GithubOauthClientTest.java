@@ -73,12 +73,11 @@ class GithubOauthClientTest {
 
     @Test
     void 올바르지_않은_code이면_예외가_발생한다() throws JsonProcessingException {
-        GithubAccessTokenResponse token = new GithubAccessTokenResponse(null);
         mockRestServiceServer.expect(requestTo("https://github.com/login/oauth/access_token"))
                 .andExpect(method(HttpMethod.POST))
                 .andRespond(withStatus(HttpStatus.OK)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(objectMapper.writeValueAsString(token)));
+                        .body(objectMapper.writeValueAsString(null)));
 
         assertThatThrownBy(() -> githubOauthClient.requestAccessToken("code"))
                 .isInstanceOf(UnauthorizedException.class)
