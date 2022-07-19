@@ -124,4 +124,11 @@ class JobServiceTest {
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("존재하지 않는 공간입니다.");
     }
+
+    @Test
+    void Host가_존재하지_않는데_Slack_Url_조회_시_예외가_발생한다() {
+        assertThatThrownBy(() -> jobService.findSlackUrl(0L))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("존재하지 않는 호스트입니다.");
+    }
 }
