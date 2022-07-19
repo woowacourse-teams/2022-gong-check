@@ -37,7 +37,8 @@ public class SubmissionService {
     }
 
     @Transactional
-    public SubmissionResponse submitJobCompletion(final Long hostId, final Long jobId, final SubmissionRequest request) {
+    public SubmissionResponse submitJobCompletion(final Long hostId, final Long jobId,
+                                                  final SubmissionRequest request) {
         Host host = hostRepository.getById(hostId);
         Job job = jobRepository.getBySpaceHostAndId(host, jobId);
         saveSubmissionAndClearRunningTasks(request, job);

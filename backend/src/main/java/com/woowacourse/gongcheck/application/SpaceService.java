@@ -17,7 +17,6 @@ import com.woowacourse.gongcheck.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.presentation.request.SpaceCreateRequest;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.data.domain.Pageable;
