@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 
+import com.woowacourse.gongcheck.application.response.SpaceResponse;
 import com.woowacourse.gongcheck.application.response.SpacesResponse;
 import com.woowacourse.gongcheck.domain.host.Host;
 import java.io.File;
@@ -22,15 +23,15 @@ import org.springframework.http.MediaType;
 class SpaceDocumentation extends DocumentationTest {
 
     @Nested
-    class 공간을_조회한다 {
+    class Space를_조회한다 {
 
         @Test
-        void 공간_조회에_성공한다() {
+        void Space_조회에_성공한다() {
             Host host = Host_생성("1234", 1234L);
             when(spaceService.findPage(anyLong(), any())).thenReturn(
                     SpacesResponse.of(List.of(
-                            Space_아이디_지정_생성(1L, host, "잠실"),
-                            Space_아이디_지정_생성(2L, host, "선릉")),
+                                    Space_아이디_지정_생성(1L, host, "잠실"),
+                                    Space_아이디_지정_생성(2L, host, "선릉")),
                             true)
             );
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
@@ -47,10 +48,10 @@ class SpaceDocumentation extends DocumentationTest {
     }
 
     @Nested
-    class 공간을_생성한다 {
+    class Space를_생성한다 {
 
         @Test
-        void 공간_생성에_성공한다() throws IOException {
+        void Space_생성에_성공한다() throws IOException {
             File fakeImage = File.createTempFile("temp", ".jpg");
             when(spaceService.createSpace(anyLong(), any())).thenReturn(1L);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
@@ -67,7 +68,7 @@ class SpaceDocumentation extends DocumentationTest {
         }
 
         @Test
-        void 공간_이름이_null_인_경우_생성에_실패한다() {
+        void Space_이름이_null_인_경우_생성에_실패한다() {
             when(spaceService.createSpace(anyLong(), any())).thenReturn(1L);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
@@ -81,7 +82,7 @@ class SpaceDocumentation extends DocumentationTest {
         }
 
         @Test
-        void 공간_이름이_빈_값_인_경우_생성에_실패한다() {
+        void Space_이름이_빈_값_인_경우_생성에_실패한다() {
             when(spaceService.createSpace(anyLong(), any())).thenReturn(1L);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
@@ -93,6 +94,26 @@ class SpaceDocumentation extends DocumentationTest {
                     .then().log().all()
                     .apply(document("spaces/create"))
                     .statusCode(HttpStatus.BAD_REQUEST.value());
+        }
+    }
+
+    @Nested
+    class 단일_Space를_조회한다 {
+
+        @Test
+        void 조회에_성공한다() {
+            Host host = Host_생성("1234", 1234L);
+            when(spaceService.findSpace(anyLong(), anyLong()))
+                    .thenReturn(SpaceResponse.from(Space_아이디_지정_생성(1L, host, "잠실 캠퍼스")));
+            when(authenticationContext.getPrincipal())
+                    .thenReturn(String.valueOf(anyLong()));
+
+            docsGiven
+                    .header(AUTHORIZATION, "Bearer jwt.token.here")
+                    .when().get("/api/spaces/1")
+                    .then().log().all()
+                    .apply(document("spaces/find"))
+                    .statusCode(HttpStatus.OK.value());
         }
     }
 
