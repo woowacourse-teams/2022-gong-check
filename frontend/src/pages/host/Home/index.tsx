@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import GitHubLoginButton from '@/components/_common/GitHubLoginButton';
+import GitHubLoginButton from '@/components/common/GitHubLoginButton';
 
 import homeCover from '@/assets/homeCover.png';
 
@@ -18,7 +18,7 @@ const Home: React.FC = () => {
           height: 64px;
           padding: 0 48px;
           font-size: 32px;
-          color: white;
+          color: ${theme.colors.white};
           background-color: ${theme.colors.primary};
         `}
       >

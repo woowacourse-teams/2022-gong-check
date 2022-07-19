@@ -1,6 +1,6 @@
 import usePassword from './usePassword';
 
-import Button from '@/components/_common/Button';
+import Button from '@/components/common/Button';
 
 import homeCover from '@/assets/homeCover.png';
 

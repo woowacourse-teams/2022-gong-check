@@ -9,24 +9,26 @@ const contentWith = css`
 
 const button = css`
   width: 5rem;
-  height: 2.5rem;
+  height: 2rem;
   margin: 0;
   font-size: 1rem;
+  padding: 8px 0;
 `;
 
 const spaceInfo = css`
   min-height: 25rem;
+  min-width: 18.2rem;
   background: ${theme.colors.white};
   border-radius: 8px;
-  box-shadow: 2px 2px 2px 2px ${theme.colors.shadow30};
+  box-shadow: 2px 2px 2px 2px ${theme.colors.shadow10};
 `;
 
 const titleWrapper = css`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1.25rem;
-  border-bottom: 1px solid ${theme.colors.gray200};
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid ${theme.colors.gray300};
 `;
 
 const title = css`
@@ -53,10 +55,10 @@ const imageWrapper = css`
 
 const imageBox = css`
   display: block;
-  background: ${theme.colors.gray200};
+  background: ${theme.colors.gray300};
   background-size: cover;
   background-repeat: no-repeat;
-  border: 2px ${theme.colors.gray};
+  border: 2px ${theme.colors.gray400};
   border-radius: 8px;
   width: 15rem;
   height: 15rem;
@@ -72,7 +74,7 @@ const imageInput = css`
 
 const imageCoverText = css`
   width: 100%;
-  color: ${theme.colors.lightGray};
+  color: ${theme.colors.gray200};
   text-shadow: 0px 0px 4px ${theme.colors.shadow60};
   font-size: 0.8rem;
   position: absolute;
@@ -91,7 +93,7 @@ const iconBox = css`
 `;
 
 const inputContainer = css`
-  border-top: 1px solid ${theme.colors.gray200};
+  border-top: 1px solid ${theme.colors.gray300};
   padding-bottom: 1.25rem;
 `;
 

@@ -2,7 +2,7 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
-import JobCard from '@/components/JobCard';
+import JobCard from '@/components/user/JobCard';
 
 import useGoPreviousPage from '@/hooks/useGoPreviousPage';
 

@@ -1,4 +1,4 @@
-import ErrorUserToken from '@/errorBoundary/ErrorUserToken';
+import ErrorUserToken from '@/ErrorBoundary/ErrorUserToken';
 import { Global } from '@emotion/react';
 import { Suspense, useEffect } from 'react';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
@@ -12,7 +12,7 @@ const UserLayout: React.FC = () => {
   const { hostId } = useParams();
 
   useEffect(() => {
-    if (!localStorage.getItem('user')) {
+    if (!localStorage.getItem('token')) {
       navigate(`/enter/${hostId}/pwd`);
     }
   }, []);

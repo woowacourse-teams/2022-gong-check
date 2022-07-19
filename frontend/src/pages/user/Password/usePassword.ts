@@ -11,7 +11,7 @@ const usePassword = () => {
 
   const setToken = async (password: string) => {
     const { token } = await apis.postPassword({ hostId, password });
-    localStorage.setItem('user', token);
+    localStorage.setItem('token', token);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
