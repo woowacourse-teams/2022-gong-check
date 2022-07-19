@@ -9,23 +9,25 @@ const contentWith = css`
 
 const button = css`
   width: 5rem;
-  height: 2.5rem;
+  height: 2rem;
   margin: 0;
   font-size: 1rem;
+  padding: 8px 0;
 `;
 
 const spaceInfo = css`
   min-height: 25rem;
+  min-width: 18.2rem;
   background: ${theme.colors.white};
   border-radius: 8px;
-  box-shadow: 2px 2px 2px 2px ${theme.colors.shadow30};
+  box-shadow: 2px 2px 2px 2px ${theme.colors.shadow10};
 `;
 
 const titleWrapper = css`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1.25rem;
+  padding: 1rem 1.25rem;
   border-bottom: 1px solid ${theme.colors.gray300};
 `;
 

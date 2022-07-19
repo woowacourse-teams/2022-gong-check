@@ -1,7 +1,8 @@
-import { axiosInstanceToken } from '../config';
 import { AxiosResponse } from 'axios';
 
 import { ApiSpacesData, ApiSpaceData } from '@/types/apis';
+
+import { axiosInstanceToken } from './config';
 
 const getSpaces = async () => {
   const { data }: AxiosResponse<ApiSpacesData> = await axiosInstanceToken({
@@ -46,6 +47,6 @@ const getSpace = async ({ spaceId }: any) => {
   return data;
 };
 
-const apis = { getSpaces, deleteSpace, getSpace };
+const apiSpace = { getSpaces, deleteSpace, getSpace };
 
-export default apis;
+export default apiSpace;

@@ -26,25 +26,39 @@ const DashBoard: React.FC = () => {
 
   // SpaceInfo 공간정보 수정하기 구현 해야 합니다.
   const onClickSubmissionsDetail = () => {
-    navigate(`/host/manage/spaceRecord/${spaceId}`);
+    navigate('spaceRecord');
   };
 
   return (
     <div
       css={css`
         padding: 16px 48px;
-
-        /* 임시 css 설정 - start*/
         display: flex;
         flex-direction: column;
-        gap: 20px;
-        /* 임시 css 설정 - end*/
       `}
     >
       <h1>공간 관리</h1>
-      <SpaceInfo isEditMode={false} data={mockData} />
-      <JobListCard />
-      <Submissions submissions={submissions} onClick={onClickSubmissionsDetail} />
+      <div
+        css={css`
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        `}
+      >
+        <div
+          css={css`
+            display: flex;
+            gap: 20px;
+            margin-bottom: 32px;
+          `}
+        >
+          <SpaceInfo isEditMode={false} data={mockData} />
+          <JobListCard />
+        </div>
+        <Submissions submissions={submissions} onClick={onClickSubmissionsDetail} />
+      </div>
     </div>
   );
 };
