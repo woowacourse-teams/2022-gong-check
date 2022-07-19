@@ -4,16 +4,15 @@ import javax.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter
-public class GuestEnterRequest {
-
+public class SpacePasswordChangeRequest {
 
     @NotNull
     private String password;
 
-    private GuestEnterRequest() {
+    private SpacePasswordChangeRequest() {
     }
 
-    public GuestEnterRequest(final String password) {
+    public SpacePasswordChangeRequest(final String password) {
         this.password = password;
     }
 }

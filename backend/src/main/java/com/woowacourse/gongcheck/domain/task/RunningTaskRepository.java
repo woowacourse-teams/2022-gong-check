@@ -10,4 +10,5 @@ public interface RunningTaskRepository extends JpaRepository<RunningTask, Long> 
     boolean existsByTaskIdIn(@Param("taskIds") final List<Long> taskIds);
 
     Optional<RunningTask> findByTaskId(final Long taskId);
+
 }
