@@ -5,8 +5,12 @@ const transitions = css`
     width: 400px;
     overflow-x: hidden;
     position: relative;
+    -ms-overflow-style: none;
   }
 
+  .transitions-group::-webkit-scrollbar {
+    display: none;
+  }
   // slide right
   .slide-right-enter {
     transform: scale(1.1);
