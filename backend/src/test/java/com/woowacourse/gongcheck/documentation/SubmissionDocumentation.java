@@ -3,6 +3,7 @@ package com.woowacourse.gongcheck.documentation;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Host_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Job_아이디_지정_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_아이디_지정_생성;
+import static com.woowacourse.gongcheck.fixture.FixtureFactory.Submission_아이디_지정_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
@@ -10,17 +11,21 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 
+import com.woowacourse.gongcheck.application.response.JobSubmissionsResponse;
 import com.woowacourse.gongcheck.application.response.SubmissionResponse;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.job.Job;
 import com.woowacourse.gongcheck.domain.space.Space;
+import com.woowacourse.gongcheck.domain.submission.Submission;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.ErrorResponse;
 import com.woowacourse.gongcheck.presentation.request.SubmissionRequest;
 import io.restassured.module.mockmvc.response.MockMvcResponse;
 import io.restassured.response.ExtractableResponse;
+import java.util.List;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -141,6 +146,33 @@ class SubmissionDocumentation extends DocumentationTest {
                     () -> assertThat(response.as(ErrorResponse.class).getMessage())
                             .isEqualTo("모든 작업이 완료되지않아 제출이 불가합니다.")
             );
+        }
+    }
+
+    @Nested
+    class Submission_목록_조회 {
+
+        @Test
+        void Submission_목록_조회에_성공한다() {
+            Host host = Host_생성("1234", 1234L);
+            Space space = Space_아이디_지정_생성(1L, host, "잠실");
+            Job job1 = Job_아이디_지정_생성(1L, space, "청소");
+            Job job2 = Job_아이디_지정_생성(2L, space, "마감");
+            Submission submission1 = Submission_아이디_지정_생성(1L, job1);
+            Submission submission2 = Submission_아이디_지정_생성(2L, job2);
+            JobSubmissionsResponse response = JobSubmissionsResponse.of(List.of(submission1, submission2), true);
+
+            when(submissionService.findPage(anyLong(), anyLong(), any())).thenReturn(response);
+            when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
+            docsGiven
+                    .header(AUTHORIZATION, "Bearer jwt.token.here")
+                    .queryParam("page", 0)
+                    .queryParam("size", 2)
+                    .when().get("/api/spaces/1/submissions")
+                    .then().log().all()
+                    .apply(document("submissions/list"))
+                    .statusCode(HttpStatus.OK.value());
         }
     }
 }

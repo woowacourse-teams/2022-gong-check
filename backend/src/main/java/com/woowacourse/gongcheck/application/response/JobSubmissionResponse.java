@@ -21,11 +21,16 @@ public class JobSubmissionResponse {
         this.jobId = submission.getJob().getId();
         this.jobName = submission.getJob().getName();
         this.author = submission.getAuthor();
-        this.createdAt = submission.getCreatedAt();
+        this.createdAt = formatTime(submission.getCreatedAt());
 
     }
 
     public static JobSubmissionResponse from(final Submission submission) {
         return new JobSubmissionResponse(submission);
+    }
+
+    private LocalDateTime formatTime(final LocalDateTime time) {
+        return LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(),
+                time.getHour(), time.getMinute(), time.getSecond());
     }
 }

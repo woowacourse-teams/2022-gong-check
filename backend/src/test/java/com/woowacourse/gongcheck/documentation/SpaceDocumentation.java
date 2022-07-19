@@ -29,8 +29,8 @@ class SpaceDocumentation extends DocumentationTest {
             Host host = Host_생성("1234", 1234L);
             when(spaceService.findPage(anyLong(), any())).thenReturn(
                     SpacesResponse.of(List.of(
-                            Space_아이디_지정_생성(1L, host, "잠실"),
-                            Space_아이디_지정_생성(2L, host, "선릉")),
+                                    Space_아이디_지정_생성(1L, host, "잠실"),
+                                    Space_아이디_지정_생성(2L, host, "선릉")),
                             true)
             );
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));

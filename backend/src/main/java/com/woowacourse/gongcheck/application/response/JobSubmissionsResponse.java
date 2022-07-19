@@ -17,7 +17,7 @@ public class JobSubmissionsResponse {
     private JobSubmissionsResponse() {
     }
 
-    public JobSubmissionsResponse(List<JobSubmissionResponse> submissions, boolean hasNext) {
+    public JobSubmissionsResponse(final List<JobSubmissionResponse> submissions, final boolean hasNext) {
         this.submissions = submissions;
         this.hasNext = hasNext;
     }
@@ -29,6 +29,15 @@ public class JobSubmissionsResponse {
                         .map(JobSubmissionResponse::from)
                         .collect(toList()),
                 submissions.hasNext()
+        );
+    }
+
+    public static JobSubmissionsResponse of(final List<Submission> submissions, final boolean hasNext) {
+        return new JobSubmissionsResponse(
+                submissions.stream()
+                        .map(JobSubmissionResponse::from)
+                        .collect(toList()),
+                hasNext
         );
     }
 }

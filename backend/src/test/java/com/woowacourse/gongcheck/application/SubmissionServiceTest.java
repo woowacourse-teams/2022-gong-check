@@ -190,7 +190,8 @@ class SubmissionServiceTest {
 
         @Test
         void 입력받은_Space에_해당하는_Submission_응답을_반환한다() {
-            JobSubmissionsResponse response = submissionService.findPage(host.getId(), space.getId(), PageRequest.of(0, 2));
+            JobSubmissionsResponse response = submissionService.findPage(host.getId(), space.getId(),
+                    PageRequest.of(0, 2));
 
             assertAll(
                     () -> assertThat(response.getSubmissions().size()).isEqualTo(2),

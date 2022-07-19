@@ -48,7 +48,7 @@ class DocumentationTest {
 
     @MockBean
     protected HostAuthService hostAuthService;
-    
+
     @MockBean
     protected GuestAuthService guestAuthService;
 

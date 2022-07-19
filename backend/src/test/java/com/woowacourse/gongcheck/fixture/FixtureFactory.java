@@ -101,7 +101,16 @@ public class FixtureFactory {
     public static Submission Submission_생성(final Job job) {
         return Submission.builder()
                 .job(job)
-                .author("테스트 제출자")
+                .author("어썸오")
+                .createdAt(LocalDateTime.now())
+                .build();
+    }
+
+    public static Submission Submission_아이디_지정_생성(final Long id, final Job job) {
+        return Submission.builder()
+                .id(id)
+                .job(job)
+                .author("어썸오")
                 .createdAt(LocalDateTime.now())
                 .build();
     }
