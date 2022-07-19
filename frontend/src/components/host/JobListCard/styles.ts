@@ -3,20 +3,20 @@ import { css } from '@emotion/react';
 import theme from '@/styles/theme';
 
 const layout = css`
-  width: 40vw;
-  height: 40vh;
+  width: 36rem;
+  min-height: 25rem;
   background-color: ${theme.colors.white};
+  box-shadow: 2px 2px 2px 2px ${theme.colors.shadow10};
+  border-radius: 8px;
 `;
 
 const title = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 24px;
-  height: 20%;
-  font-size: 18px;
+  padding: 1rem 1.25rem;
+  font-size: 1.4rem;
   border-bottom: 1px solid ${theme.colors.gray200};
-  color: ${theme.colors.gray800};
 `;
 
 const jobListWrapper = css`
@@ -59,25 +59,30 @@ const jobList = css`
 
 const slackButton = css`
   width: auto;
-  height: auto;
-  padding: 6px 10px;
-  font-size: 12px;
+  height: 2rem;
+  padding: 0 12px;
+  font-weight: 500;
+  font-size: 1rem;
   margin: 0 12px;
   background-color: ${theme.colors.white};
   color: ${theme.colors.black};
   border: 1px solid ${theme.colors.gray400};
 
   img {
-    height: 10px;
+    height: 12px;
+    width: 12px;
     margin-right: 6px;
   }
 `;
 
 const newJobButton = css`
   width: auto;
-  height: auto;
-  padding: 6px;
-  font-size: 12px;
+  height: 2rem;
+  padding: 6px 10px;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0 12px;
+
   margin: 0;
 `;
 

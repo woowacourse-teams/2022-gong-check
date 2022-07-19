@@ -1,9 +1,14 @@
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 
 import { axiosInstanceToken } from './config';
 
-const getSlackUrl = async (jobId: number) => {
-  const { data }: AxiosResponse<{ slackUrl: string }> = await axiosInstanceToken({
+type ApiSlackUrlData = {
+  slackUrl: string;
+};
+
+// slack URL 조회
+const getSlackUrl = async ({ jobId }: any) => {
+  const { data }: AxiosResponse<ApiSlackUrlData> = await axiosInstanceToken({
     method: 'GET',
     url: `/api/jobs/${jobId}/slack`,
   });
@@ -11,6 +16,14 @@ const getSlackUrl = async (jobId: number) => {
   return data;
 };
 
-const slackApi = { getSlackUrl };
+// slack URL 수정
+const putSlackUrl = async ({ jobId }: any) => {
+  return axiosInstanceToken({
+    method: 'PUT',
+    url: `/api/jobs/${jobId}/slack`,
+  });
+};
 
-export default slackApi;
+const apiSlack = { getSlackUrl, putSlackUrl };
+
+export default apiSlack;

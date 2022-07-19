@@ -62,23 +62,23 @@ const routes = [
             element: <ManageLayout />,
             children: [
               {
-                path: ':spaceId',
-                element: <DashBoardPage />,
-              },
-              {
                 path: 'spaceCreate',
                 element: <SpaceCreatePage />,
               },
               {
-                path: 'spaceRecord/:spaceId',
+                path: ':spaceId',
+                element: <DashBoardPage />,
+              },
+              {
+                path: ':spaceId/spaceRecord',
                 element: <SpaceRecordPage />,
               },
               {
-                path: 'jobCreate',
+                path: ':spaceId/jobCreate',
                 element: <JobCreatePage />,
               },
               {
-                path: 'jobUpdate',
+                path: ':spaceId/jobUpdate',
                 element: <JobUpdatePage />,
               },
               // 공간 정보 수정 페이지 <SpaceUpdatePage/>

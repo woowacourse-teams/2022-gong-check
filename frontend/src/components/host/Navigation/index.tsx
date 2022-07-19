@@ -22,6 +22,10 @@ const Navigation: React.FC<NavigationProps> = ({ spaces }) => {
     navigate(`${spaceId}`);
   };
 
+  const onClickNewSpace = () => {
+    navigate('/host/manage/spaceCreate');
+  };
+
   return (
     <div css={styles.layout}>
       <div id="로고 들어가는 위치" css={styles.logo}>
@@ -47,7 +51,7 @@ const Navigation: React.FC<NavigationProps> = ({ spaces }) => {
               <span>{space.name}</span>
             </div>
           ))}
-          <div css={styles.addNewSpace}>
+          <div css={styles.addNewSpace} onClick={onClickNewSpace}>
             <span>+ 새로운 공간 추가</span>
           </div>
         </div>

@@ -27,9 +27,7 @@ const Submissions: React.FC<SubmissionsProps> = ({ submissions, isFullSize = fal
   return (
     <div css={styles.layout({ isFullSize })}>
       <div css={styles.header}>
-        <p>
-          공간 사용 내역(<span>{submissions.length}</span>)
-        </p>
+        <p>공간 사용 내역</p>
 
         {!isFullSize && (
           <Button css={styles.detailButton} type="button" onClick={onClick}>

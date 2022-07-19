@@ -6,7 +6,8 @@ const layout = (isManagePath: boolean) => css`
   display: flex;
   flex-direction: column;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
+  height: fit-content;
   background-color: ${theme.colors.background};
   padding-left: ${isManagePath ? '224px' : '0'};
 `;

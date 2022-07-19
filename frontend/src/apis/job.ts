@@ -1,7 +1,8 @@
-import { axiosInstanceToken } from '../config';
 import { AxiosResponse } from 'axios';
 
 import { ApiJobActiveData, ApiJobData } from '@/types/apis';
+
+import { axiosInstanceToken } from './config';
 
 const getJobs = async ({ spaceId }: any) => {
   const { data }: AxiosResponse<ApiJobData> = await axiosInstanceToken({
@@ -56,6 +57,6 @@ const deleteJob = ({ jobId }: any) => {
   });
 };
 
-const apis = { getJobs, getJobActive, postNewJob, putJob, deleteJob };
+const apiJobs = { getJobs, getJobActive, postNewJob, putJob, deleteJob };
 
-export default apis;
+export default apiJobs;

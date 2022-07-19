@@ -54,7 +54,7 @@ const SpaceInfo: React.FC<SpaceInfoProps> = ({ onSubmit, inputText = '', isEditM
     return (
       <div css={styles.spaceInfo}>
         <div css={styles.titleWrapper}>
-          <p css={styles.title}>공간 정보</p>
+          <span css={styles.title}>공간 정보</span>
           <Button
             type="button"
             css={css`
