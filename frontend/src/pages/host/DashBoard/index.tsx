@@ -7,13 +7,7 @@ import JobListCard from '@/components/host/JobListCard';
 import SpaceInfo from '@/components/host/SpaceInfo';
 import Submissions from '@/components/host/Submissions';
 
-import apis from '@/apis';
-
-const mockData = {
-  id: 1,
-  name: '잠실 캠퍼스',
-  imageUrl: 'https://velog.velcdn.com/images/cks3066/post/258f92c1-32be-4acb-be30-1eb64635c013/image.jpg',
-};
+import styles from './styles';
 
 const DashBoard: React.FC = () => {
   const navigate = useNavigate();
@@ -30,30 +24,10 @@ const DashBoard: React.FC = () => {
   };
 
   return (
-    <div
-      css={css`
-        padding: 16px 48px;
-        display: flex;
-        flex-direction: column;
-      `}
-    >
+    <div css={styles.layout}>
       <h1>공간 관리</h1>
-      <div
-        css={css`
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        `}
-      >
-        <div
-          css={css`
-            display: flex;
-            gap: 20px;
-            margin-bottom: 32px;
-          `}
-        >
+      <div css={styles.contents}>
+        <div css={styles.cardWrapper}>
           <SpaceInfo isEditMode={false} data={mockData} />
           <JobListCard />
         </div>

@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
@@ -6,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import useGitHubLogin from '@/hooks/useGithubLogin';
 
 import apis from '@/apis';
+
+import styles from './styles';
 
 const AuthCallBack: React.FC = () => {
   const navigate = useNavigate();
@@ -36,15 +37,7 @@ const AuthCallBack: React.FC = () => {
   }, [data]);
 
   return (
-    <div
-      css={css`
-        display: flex;
-        height: 100vh;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      `}
-    >
+    <div css={styles.layout}>
       <div>로그인 진행 중...</div>
     </div>
   );
