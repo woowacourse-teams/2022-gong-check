@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { useQuery } from 'react-query';
 import { Outlet } from 'react-router-dom';
 
-import Navigation from '@/components/Navigation';
+import Navigation from '@/components/host/Navigation';
 
 import apis from '@/apis';
 

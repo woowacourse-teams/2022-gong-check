@@ -1,3 +1,5 @@
+import { JobType, SectionType, SpaceType } from '@/types';
+
 export type ApiSpaceData = {
   name: string;
   imageUrl: string;
@@ -9,26 +11,9 @@ export type ApiSpacesData = {
   hasNext: boolean;
 };
 
-type JobType = {
-  id: number;
-  name: string;
-};
-
 export type ApiJobData = {
   jobs: JobType[];
   hasNext: boolean;
-};
-
-type TaskType = {
-  id: number;
-  name: string;
-  checked: boolean;
-};
-
-type SectionType = {
-  id: number;
-  name: string;
-  tasks: TaskType[];
 };
 
 export type ApiTaskData = {

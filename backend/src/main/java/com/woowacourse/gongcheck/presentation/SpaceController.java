@@ -5,11 +5,12 @@ import com.woowacourse.gongcheck.application.response.SpacesResponse;
 import com.woowacourse.gongcheck.presentation.request.SpaceCreateRequest;
 import java.net.URI;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,5 +37,12 @@ public class SpaceController {
                                             @Valid @ModelAttribute final SpaceCreateRequest request) {
         Long spaceId = spaceService.createSpace(hostId, request);
         return ResponseEntity.created(URI.create("/api/spaces/" + spaceId)).build();
+    }
+
+    @DeleteMapping("/spaces/{spaceId}")
+    public ResponseEntity<Void> removeSpace(@AuthenticationPrincipal final Long hostId,
+                                            @PathVariable final Long spaceId) {
+        spaceService.removeSpace(hostId, spaceId);
+        return ResponseEntity.noContent().build();
     }
 }

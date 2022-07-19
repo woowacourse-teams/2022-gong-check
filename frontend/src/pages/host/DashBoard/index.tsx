@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import JobList from '@/components/host/JobList';
+import JobListCard from '@/components/host/JobListCard';
 import SpaceInfo from '@/components/host/SpaceInfo';
 import Submissions from '@/components/host/Submissions';
 
@@ -43,7 +43,7 @@ const DashBoard: React.FC = () => {
     >
       <h1>공간 관리</h1>
       <SpaceInfo isEditMode={false} data={mockData} />
-      <JobList />
+      <JobListCard />
       <Submissions submissions={submissions} onClick={onClickSubmissionsDetail} />
     </div>
   );

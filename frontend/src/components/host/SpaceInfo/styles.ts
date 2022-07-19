@@ -26,7 +26,7 @@ const titleWrapper = css`
   justify-content: space-between;
   align-items: center;
   padding: 0 1.25rem;
-  border-bottom: 1px solid ${theme.colors.gray200};
+  border-bottom: 1px solid ${theme.colors.gray300};
 `;
 
 const title = css`
@@ -53,10 +53,10 @@ const imageWrapper = css`
 
 const imageBox = css`
   display: block;
-  background: ${theme.colors.gray200};
+  background: ${theme.colors.gray300};
   background-size: cover;
   background-repeat: no-repeat;
-  border: 2px ${theme.colors.gray};
+  border: 2px ${theme.colors.gray400};
   border-radius: 8px;
   width: 15rem;
   height: 15rem;
@@ -72,7 +72,7 @@ const imageInput = css`
 
 const imageCoverText = css`
   width: 100%;
-  color: ${theme.colors.lightGray};
+  color: ${theme.colors.gray200};
   text-shadow: 0px 0px 4px ${theme.colors.shadow60};
   font-size: 0.8rem;
   position: absolute;
@@ -91,7 +91,7 @@ const iconBox = css`
 `;
 
 const inputContainer = css`
-  border-top: 1px solid ${theme.colors.gray200};
+  border-top: 1px solid ${theme.colors.gray300};
   padding-bottom: 1.25rem;
 `;
 

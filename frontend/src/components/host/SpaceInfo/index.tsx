@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { HiPlus } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 
-import Button from '@/components/_common/Button';
+import Button from '@/components/common/Button';
 
 import theme from '@/styles/theme';
 
@@ -113,7 +113,7 @@ const SpaceInfo: React.FC<SpaceInfoProps> = ({ onSubmit, inputText = '', isEditM
             type="submit"
             css={css`
               ${styles.button}
-              background: ${isActiveSubmit ? theme.colors.primary : theme.colors.gray};
+              background: ${isActiveSubmit ? theme.colors.primary : theme.colors.gray400};
             `}
           >
             생성하기

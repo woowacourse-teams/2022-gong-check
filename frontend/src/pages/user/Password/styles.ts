@@ -28,7 +28,7 @@ const textWrapper = css`
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: ${theme.colors.gray200};
+    color: ${theme.colors.gray300};
     line-height: 1.5rem;
   }
 `;
@@ -41,10 +41,10 @@ const form = ({ isActiveSubmit }: { isActiveSubmit: boolean }) => css`
 
   input {
     border: none;
-    background-color: ${theme.colors.lightGray};
+    background-color: ${theme.colors.gray200};
     font-size: 16px;
     &::placeholder {
-      color: ${theme.colors.gray};
+      color: ${theme.colors.gray400};
     }
     &:focus {
       outline: none;
@@ -61,7 +61,7 @@ const form = ({ isActiveSubmit }: { isActiveSubmit: boolean }) => css`
   }
 
   button {
-    background: ${isActiveSubmit ? theme.colors.primary : theme.colors.gray};
+    background: ${isActiveSubmit ? theme.colors.primary : theme.colors.gray400};
   }
 `;
 
