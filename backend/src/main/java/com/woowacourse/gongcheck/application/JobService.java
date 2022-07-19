@@ -14,6 +14,7 @@ import com.woowacourse.gongcheck.domain.task.Task;
 import com.woowacourse.gongcheck.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.presentation.request.JobCreateRequest;
 import com.woowacourse.gongcheck.presentation.request.SectionCreateRequest;
+import com.woowacourse.gongcheck.presentation.request.SlackUrlChangeRequest;
 import com.woowacourse.gongcheck.presentation.request.TaskCreateRequest;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -69,6 +70,12 @@ public class JobService {
         Host host = hostRepository.getById(hostId);
         Job job = jobRepository.getBySpaceHostAndId(host, jobId);
         return SlackUrlResponse.from(job);
+    }
+
+    public void changeSlackUrl(final Long hostId, final Long jobId, final SlackUrlChangeRequest request) {
+        Host host = hostRepository.getById(hostId);
+        Job job = jobRepository.getBySpaceHostAndId(host, jobId);
+        job.changeSlackUrl(request.getSlackUrl());
     }
 
     private void createSectionsAndTasks(final List<SectionCreateRequest> sectionCreateRequests, final Job job) {
