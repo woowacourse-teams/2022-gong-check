@@ -6,6 +6,7 @@ import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 
@@ -15,6 +16,7 @@ import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.space.Space;
 import com.woowacourse.gongcheck.presentation.request.JobCreateRequest;
 import com.woowacourse.gongcheck.presentation.request.SectionCreateRequest;
+import com.woowacourse.gongcheck.presentation.request.SlackUrlChangeRequest;
 import com.woowacourse.gongcheck.presentation.request.TaskCreateRequest;
 import io.restassured.module.mockmvc.response.MockMvcResponse;
 import io.restassured.response.ExtractableResponse;
@@ -143,5 +145,42 @@ class JobDocumentation extends DocumentationTest {
                 .extract();
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Nested
+    class SlackUrl_수정_시 {
+
+        @Test
+        void 정상적으로_수정한다() {
+            doNothing().when(jobService).changeSlackUrl(anyLong(), anyLong(), any());
+            when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
+            SlackUrlChangeRequest request = new SlackUrlChangeRequest("https://newslackurl.com");
+
+            docsGiven
+                    .header("Authorization", "Bearer jwt.token.here")
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .body(request)
+                    .when().put("/api/jobs/1/slack")
+                    .then().log().all()
+                    .apply(document("jobs/change_slack_url/success"))
+                    .statusCode(HttpStatus.NO_CONTENT.value());
+        }
+
+        @Test
+        void null이_전달될_경우_예외가_발생한다() {
+            doNothing().when(jobService).changeSlackUrl(anyLong(), anyLong(), any());
+            when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+            SlackUrlChangeRequest wrongRequest = new SlackUrlChangeRequest(null);
+
+            docsGiven
+                    .header("Authorization", "Bearer jwt.token.here")
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .body(wrongRequest)
+                    .when().put("/api/jobs/1/slack")
+                    .then().log().all()
+                    .apply(document("jobs/change_slack_url/fail"))
+                    .statusCode(HttpStatus.BAD_REQUEST.value());
+        }
     }
 }
