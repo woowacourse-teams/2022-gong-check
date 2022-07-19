@@ -22,7 +22,7 @@ const ErrorUserToken: React.FC<ErrorUserTokenProps> = ({ children }) => {
           const message = err.response?.data.message;
 
           if (message === EXPIRED_TOKEN_TEXT || message === NOT_TOKEN_TEXT) {
-            localStorage.removeItem('user');
+            localStorage.removeItem('token');
             navigate(`/enter/${hostId}/pwd`);
           }
 

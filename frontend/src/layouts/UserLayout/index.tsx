@@ -12,7 +12,7 @@ const UserLayout: React.FC = () => {
   const { hostId } = useParams();
 
   useEffect(() => {
-    if (!localStorage.getItem('user')) {
+    if (!localStorage.getItem('token')) {
       navigate(`/enter/${hostId}/pwd`);
     }
   }, []);

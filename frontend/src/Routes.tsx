@@ -62,7 +62,7 @@ const routes = [
             element: <ManageLayout />,
             children: [
               {
-                path: '',
+                path: ':spaceId',
                 element: <DashBoardPage />,
               },
               {
@@ -70,7 +70,7 @@ const routes = [
                 element: <SpaceCreatePage />,
               },
               {
-                path: 'spaceRecord',
+                path: 'spaceRecord/:spaceId',
                 element: <SpaceRecordPage />,
               },
               {

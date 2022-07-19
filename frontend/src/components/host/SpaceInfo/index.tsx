@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { HiPlus } from 'react-icons/hi';
+import { useNavigate } from 'react-router-dom';
 
 import Button from '@/components/common/Button';
 
@@ -9,11 +10,14 @@ import theme from '@/styles/theme';
 import styles from './styles';
 
 interface SpaceInfoProps {
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  inputText: '' | string;
+  onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
+  inputText?: '' | string;
+  isEditMode?: boolean;
+  data?: { name: string; imageUrl: string; id: number };
 }
 
-const SpaceInfo: React.FC<SpaceInfoProps> = ({ onSubmit, inputText = '' }) => {
+const SpaceInfo: React.FC<SpaceInfoProps> = ({ onSubmit, inputText = '', isEditMode = true, data }) => {
+  const navigate = useNavigate();
   const labelRef = useRef(null);
   const [imageUrl, setImageUrl] = useState('');
   const [isActiveSubmit, setIsActiveSubmit] = useState(false);
@@ -39,6 +43,66 @@ const SpaceInfo: React.FC<SpaceInfoProps> = ({ onSubmit, inputText = '' }) => {
     const isExistValue = input.value.length > 0;
     setIsActiveSubmit(isExistValue);
   };
+
+  const onClickEditSpaceInfo = () => {
+    console.log('onClickEditSpaceInfo');
+    // navigate()
+    // TODO 수정하기 페이지 이동
+  };
+
+  if (!isEditMode) {
+    return (
+      <div css={styles.spaceInfo}>
+        <div css={styles.titleWrapper}>
+          <p css={styles.title}>공간 정보</p>
+          <Button
+            type="button"
+            css={css`
+              ${styles.button}
+            `}
+            onClick={onClickEditSpaceInfo}
+          >
+            수정하기
+          </Button>
+        </div>
+        <div css={styles.imageContainer}>
+          <p css={styles.subTitle}>대표이미지</p>
+          <div css={styles.imageWrapper}>
+            <label
+              css={css`
+                ${styles.imageBox}
+
+                background-image: url(${data?.imageUrl});
+              `}
+              htmlFor="file"
+              ref={labelRef}
+            >
+              {/* <input
+                css={styles.imageInput}
+                name="imageInput"
+                type="file"
+                id="file"
+                accept="image/*"
+                onChange={handleChangeImg}
+              /> */}
+            </label>
+          </div>
+        </div>
+        <div css={styles.inputContainer}>
+          <div css={styles.inputWrapper}>
+            <p css={styles.subTitle}>공간 이름</p>
+            <input
+              css={styles.input}
+              name="nameInput"
+              placeholder="이름을 입력하세요"
+              type="text"
+              defaultValue={data?.name}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div css={styles.spaceInfo}>
@@ -67,7 +131,14 @@ const SpaceInfo: React.FC<SpaceInfoProps> = ({ onSubmit, inputText = '' }) => {
               htmlFor="file"
               ref={labelRef}
             >
-              <input css={styles.imageInput} type="file" id="file" accept="image/*" onChange={handleChangeImg} />
+              <input
+                css={styles.imageInput}
+                name="imageInput"
+                type="file"
+                id="file"
+                accept="image/*"
+                onChange={handleChangeImg}
+              />
               {!isExistimageUrl && (
                 <div css={styles.iconBox}>
                   <HiPlus size={50} />
@@ -84,6 +155,7 @@ const SpaceInfo: React.FC<SpaceInfoProps> = ({ onSubmit, inputText = '' }) => {
             <p css={styles.subTitle}>공간 이름</p>
             <input
               css={styles.input}
+              name="nameInput"
               placeholder="이름을 입력하세요"
               type="text"
               defaultValue={inputText || ''}

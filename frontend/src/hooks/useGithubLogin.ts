@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
+import apis from '@/apis';
 import githubAuth from '@/apis/githubAuth';
 
 const useGitHubLogin = () => {
@@ -10,14 +11,21 @@ const useGitHubLogin = () => {
   const navigate = useNavigate();
 
   const { data } = useQuery(['hostToken'], () => githubAuth.getToken(code), { suspense: true });
+  const { data: spacesData } = useQuery(['spaces'], apis.getSpaces, { suspense: true });
 
   useEffect(() => {
     if (data) {
-      localStorage.setItem('host', data.token);
+      localStorage.setItem('token', data.token);
 
-      data.existHost ? navigate('/manage') : navigate('/enter/1');
+      if (spacesData?.spaces.length === 0) {
+        navigate('/host/manage/spaceCreate');
+        return;
+      }
+
+      const space = spacesData?.spaces[0];
+      navigate(`/host/manage/${space?.id}`);
     }
-  }, [data]);
+  }, [data, spacesData]);
 };
 
 export default useGitHubLogin;
