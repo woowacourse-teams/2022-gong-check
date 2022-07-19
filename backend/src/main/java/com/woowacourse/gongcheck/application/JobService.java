@@ -1,6 +1,7 @@
 package com.woowacourse.gongcheck.application;
 
 import com.woowacourse.gongcheck.application.response.JobsResponse;
+import com.woowacourse.gongcheck.application.response.SlackUrlResponse;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.domain.job.Job;
@@ -64,9 +65,10 @@ public class JobService {
         return job.getId();
     }
 
-    public void findSlackUrl(final Long hostId, final Long jobId) {
+    public SlackUrlResponse findSlackUrl(final Long hostId, final Long jobId) {
         Host host = hostRepository.getById(hostId);
         Job job = jobRepository.getBySpaceHostAndId(host, jobId);
+        return SlackUrlResponse.from(job);
     }
 
     private void createSectionsAndTasks(final List<SectionCreateRequest> sectionCreateRequests, final Job job) {

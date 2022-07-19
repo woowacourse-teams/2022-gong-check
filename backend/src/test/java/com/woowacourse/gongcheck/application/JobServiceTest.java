@@ -152,4 +152,13 @@ class JobServiceTest {
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("존재하지 않는 작업입니다.");
     }
+
+    @Test
+    void Job의_Slack_Url을_정상적으로_조회한다() {
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
+        Space space = spaceRepository.save(Space_생성(host, "잠실"));
+        Job job = jobRepository.save(Job_생성(space, "톱오브스윙방", "http://slackurl.com"));
+
+        assertThat(jobService.findSlackUrl(host.getId(), job.getId()).getSlackUrl()).isEqualTo("http://slackurl.com");
+    }
 }
