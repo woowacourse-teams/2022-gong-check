@@ -4,12 +4,12 @@ import theme from '@/styles/theme';
 
 type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
-const Input: React.FC<InputProps> = ({ placeholder, onChange }) => {
+const Input: React.FC<InputProps> = ({ placeholder, onChange, ...props }) => {
   return (
     <input
       css={css`
         border: none;
-        background-color: ${theme.colors.lightGray};
+        background-color: ${theme.colors.gray200};
         width: 100%;
         border-radius: 12px;
         width: 256px;
@@ -17,7 +17,7 @@ const Input: React.FC<InputProps> = ({ placeholder, onChange }) => {
         padding: 8px 16px;
         font-size: 16px;
         &::placeholder {
-          color: ${theme.colors.gray};
+          color: ${theme.colors.gray400};
         }
         &:focus {
           outline: none;
@@ -25,6 +25,7 @@ const Input: React.FC<InputProps> = ({ placeholder, onChange }) => {
       `}
       placeholder={placeholder}
       onChange={onChange}
+      {...props}
     />
   );
 };

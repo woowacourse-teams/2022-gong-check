@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import React, { useMemo, useRef, useState } from 'react';
 import { HiPlus } from 'react-icons/hi';
 
-import Button from '@/components/_common/Button';
+import Button from '@/components/common/Button';
 
 import theme from '@/styles/theme';
 
@@ -49,7 +49,7 @@ const SpaceInfo: React.FC<SpaceInfoProps> = ({ onSubmit, inputText = '' }) => {
             type="submit"
             css={css`
               ${styles.button}
-              background: ${isActiveSubmit ? theme.colors.primary : theme.colors.gray};
+              background: ${isActiveSubmit ? theme.colors.primary : theme.colors.gray400};
             `}
           >
             생성하기

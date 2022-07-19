@@ -51,7 +51,7 @@ const pencil = css`
 const trash = css`
   margin: 0 4px;
   cursor: pointer;
-  color: tomato;
+  color: ${theme.colors.red};
   :hover {
     animation: ${shake} 2s infinite linear alternate;
   }

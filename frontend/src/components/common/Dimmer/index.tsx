@@ -6,10 +6,11 @@ import theme from '@/styles/theme';
 
 interface DimmerProps {
   children: React.ReactNode;
+  mode: 'full' | 'mobile';
   isAbleClick?: boolean;
 }
 
-const Dimmer: React.FC<DimmerProps> = ({ children, isAbleClick = true }) => {
+const Dimmer: React.FC<DimmerProps> = ({ children, isAbleClick = true, mode = 'full' }) => {
   const { closeModal } = useModal();
 
   const handleClickDimmed = (e: React.MouseEvent<HTMLElement>) => {
@@ -20,7 +21,7 @@ const Dimmer: React.FC<DimmerProps> = ({ children, isAbleClick = true }) => {
     <div
       css={css`
         background-color: ${theme.colors.shadow80};
-        width: 400px;
+        width: ${mode === 'full' ? '100vw' : '400px'};
         height: 100vh;
         display: flex;
         justify-content: center;

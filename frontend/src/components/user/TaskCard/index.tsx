@@ -1,4 +1,4 @@
-import CheckBox from '@/components/_common/Checkbox';
+import CheckBox from '@/components/common/Checkbox';
 
 import apis from '@/apis';
 

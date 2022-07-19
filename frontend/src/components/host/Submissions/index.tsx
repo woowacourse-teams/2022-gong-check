@@ -1,7 +1,9 @@
 import { css } from '@emotion/react';
 import React from 'react';
 
-import Button from '@/components/_common/Button';
+import Button from '@/components/common/Button';
+
+import theme from '@/styles/theme';
 
 import styles from './styles';
 
@@ -52,7 +54,7 @@ const Submissions: React.FC<SubmissionsProps> = ({ submissions, isFullSize = fal
                 <td>{jobName}</td>
                 <td
                   css={css`
-                    color: green;
+                    color: ${theme.colors.green};
                   `}
                 >
                   {createdAt}

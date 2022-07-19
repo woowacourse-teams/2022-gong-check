@@ -2,7 +2,7 @@ import submissions from '@/mock/submissions';
 import { css } from '@emotion/react';
 import { useNavigate } from 'react-router-dom';
 
-import JobList from '@/components/host/JobList';
+import JobListCard from '@/components/host/JobListCard';
 import Submissions from '@/components/host/Submissions';
 
 const DashBoard: React.FC = () => {
@@ -25,7 +25,7 @@ const DashBoard: React.FC = () => {
       `}
     >
       <h1>공간 관리</h1>
-      <JobList />
+      <JobListCard />
       <Submissions submissions={submissions} onClick={handleClickSubmissionsDetail} />
     </div>
   );

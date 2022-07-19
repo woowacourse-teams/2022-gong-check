@@ -5,7 +5,7 @@ import theme from '@/styles/theme';
 const layout = css`
   width: 40vw;
   height: 40vh;
-  background-color: white;
+  background-color: ${theme.colors.white};
 `;
 
 const title = css`
@@ -15,8 +15,8 @@ const title = css`
   padding: 24px;
   height: 20%;
   font-size: 18px;
-  border-bottom: 1px solid ${theme.colors.lightGray};
-  color: ${theme.colors.blackHost};
+  border-bottom: 1px solid ${theme.colors.gray200};
+  color: ${theme.colors.gray800};
 `;
 
 const jobListWrapper = css`
@@ -33,7 +33,7 @@ const jobListWrapper = css`
     width: 4px;
   }
   ::-webkit-scrollbar-thumb {
-    background-color: ${theme.colors.lightGrayHost};
+    background-color: ${theme.colors.gray100};
     height: 4px;
     border: 100%;
   }
@@ -52,9 +52,9 @@ const jobList = css`
   justify-content: space-between;
   width: 100%;
   padding: 12px 16px;
-  background-color: ${theme.colors.lightGrayHost};
+  background-color: ${theme.colors.gray100};
   border-radius: 8px;
-  color: ${theme.colors.blackHost};
+  color: ${theme.colors.gray800};
 `;
 
 const slackButton = css`
@@ -65,7 +65,7 @@ const slackButton = css`
   margin: 0 12px;
   background-color: ${theme.colors.white};
   color: ${theme.colors.black};
-  border: 1px solid ${theme.colors.gray};
+  border: 1px solid ${theme.colors.gray400};
 
   img {
     height: 10px;
@@ -95,7 +95,7 @@ const deleteButton = css`
   padding: 8px 12px;
   font-size: 12px;
   margin: 0;
-  background-color: tomato;
+  background-color: ${theme.colors.red};
 `;
 
 const styles = { layout, title, jobListWrapper, jobList, slackButton, newJobButton, updateButton, deleteButton };

@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import { CgHomeAlt, CgGirl } from 'react-icons/cg';
 
 import navigationLogo from '@/assets/navigationLogo.png';

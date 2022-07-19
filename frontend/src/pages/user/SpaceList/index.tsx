@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 
-import SpaceCard from '@/components/SpaceCard';
+import SpaceCard from '@/components/user/SpaceCard';
 
 import apis from '@/apis';
 
