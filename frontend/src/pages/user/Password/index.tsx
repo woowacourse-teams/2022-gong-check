@@ -7,7 +7,7 @@ import homeCover from '@/assets/homeCover.png';
 import styles from './styles';
 
 const Password: React.FC = () => {
-  const { isActiveSubmit, onSubmit, onChange } = usePassword();
+  const { isActiveSubmit, onSubmit, onChangeInput } = usePassword();
 
   return (
     <div css={styles.layout}>
@@ -23,7 +23,7 @@ const Password: React.FC = () => {
         </p>
       </div>
       <form css={styles.form({ isActiveSubmit })} onSubmit={onSubmit}>
-        <input onChange={onChange} placeholder="비밀번호를 입력해주세요." required />
+        <input onChange={onChangeInput} placeholder="비밀번호를 입력해주세요." required />
         <Button type="submit">확인</Button>
       </form>
     </div>
