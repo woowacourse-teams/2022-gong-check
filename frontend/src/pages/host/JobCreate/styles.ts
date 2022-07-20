@@ -16,11 +16,25 @@ const contents = css`
   background-color: ${theme.colors.white};
 `;
 
-const pageTitle = css`
+const header = css`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   border-bottom: 1px solid ${theme.colors.gray300};
-  padding: 8px 32px;
-  font-size: 28px;
+  padding: 16px 32px;
+
+  h1 {
+    font-size: 28px;
+    font-weight: 500;
+  }
+
+  button {
+    margin: 0;
+    font-size: 20px;
+    width: auto;
+    padding: 0 16px;
+  }
 `;
 
 const grid = css`
@@ -46,6 +60,6 @@ const createCard = css`
   }
 `;
 
-const styles = { layout, contents, pageTitle, grid, createCard };
+const styles = { layout, contents, header, grid, createCard };
 
 export default styles;

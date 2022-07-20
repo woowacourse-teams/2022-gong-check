@@ -4,10 +4,10 @@ import { Outlet } from 'react-router-dom';
 
 import Navigation from '@/components/host/Navigation';
 
-import apis from '@/apis';
+import apiSpace from '@/apis/space';
 
 const ManageLayout = () => {
-  const { data } = useQuery(['spaces'], apis.getSpaces, { suspense: true });
+  const { data } = useQuery(['spaces'], apiSpace.getSpaces, { suspense: true });
 
   return (
     <>
