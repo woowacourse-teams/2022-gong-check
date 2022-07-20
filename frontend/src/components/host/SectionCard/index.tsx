@@ -3,11 +3,9 @@ import { useState } from 'react';
 import Button from '@/components/common/Button';
 import TaskBox from '@/components/host/TaskBox';
 
+import { SectionType } from '@/types';
+
 import styles from './styles';
-
-type TaskType = { id: number | string; name: string }[];
-
-type SectionType = { id: number | string; name: string; tasks: TaskType };
 
 interface SectionCardProps {
   section: SectionType;

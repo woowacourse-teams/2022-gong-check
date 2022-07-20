@@ -23,7 +23,7 @@ const JobCreate: React.FC = () => {
   const { sections, createSection, editSection, deleteSection, createTask, editTask, deleteTask } = useSections();
 
   const onClick = () => {
-    alert('생성되었습니다.');
+    alert('작업 생성 API 호출');
   };
 
   return (
