@@ -44,6 +44,14 @@ public class JobController {
         return ResponseEntity.created(URI.create("/api/spaces/" + savedJobId + "/jobs")).build();
     }
 
+    @PutMapping("/jobs/{jobId}")
+    public ResponseEntity<Void> updateJob(@AuthenticationPrincipal final Long hostId,
+                                          @PathVariable final Long jobId,
+                                          @Valid @RequestBody final JobCreateRequest request) {
+        jobService.updateJob(hostId, jobId, request);
+        return ResponseEntity.noContent().build();
+    }
+
     @DeleteMapping("/jobs/{jobId}")
     public ResponseEntity<Void> removeJob(@AuthenticationPrincipal final Long hostId, @PathVariable final Long jobId) {
         jobService.removeJob(hostId, jobId);

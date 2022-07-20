@@ -134,6 +134,24 @@ class JobDocumentation extends DocumentationTest {
     }
 
     @Test
+    void Job을_수정한다() {
+        List<TaskCreateRequest> tasks1 = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
+        List<TaskCreateRequest> tasks2 = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
+        List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks1), new SectionCreateRequest("소강의실", tasks2));
+        when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+        JobCreateRequest request = new JobCreateRequest("청소", sections);
+
+        docsGiven
+                .header("Authorization", "Bearer jwt.token.here")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
+                .when().put("/api/jobs/1")
+                .then().log().all()
+                .apply(document("jobs/list"))
+                .statusCode(HttpStatus.NO_CONTENT.value());
+    }
+
+    @Test
     void Job을_삭제한다() {
         doNothing().when(jobService).removeJob(anyLong(), anyLong());
         when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));

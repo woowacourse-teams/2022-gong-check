@@ -116,7 +116,7 @@ class TaskRepositoryTest {
         Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
         Task task = taskRepository.save(Task_생성(section, "책상 청소"));
 
-        taskRepository.deleteAllBySection(section);
+        taskRepository.deleteAllBySectionIn(List.of(section));
 
         assertThat(taskRepository.findById(task.getId())).isEmpty();
     }

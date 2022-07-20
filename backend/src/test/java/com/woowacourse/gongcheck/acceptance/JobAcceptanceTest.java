@@ -127,6 +127,48 @@ class JobAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
+    void Job을_수정한다() {
+        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
+        String token = 토큰을_요청한다(guestEnterRequest);
+
+        List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
+        List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
+        JobCreateRequest request = new JobCreateRequest("청소", sections);
+
+        ExtractableResponse<Response> response = RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
+                .auth().oauth2(token)
+                .when().put("/api/jobs/1")
+                .then().log().all()
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+    }
+
+    @Test
+    void 존재하지_않는_Job을_수정할_경우_예외가_발생한다() {
+        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
+        String token = 토큰을_요청한다(guestEnterRequest);
+
+        List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
+        List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
+        JobCreateRequest request = new JobCreateRequest("청소", sections);
+
+        ExtractableResponse<Response> response = RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
+                .auth().oauth2(token)
+                .when().put("/api/jobs/0")
+                .then().log().all()
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value());
+    }
+
+    @Test
     void Job을_삭제한다() {
         //Host 인증 구현 전까지 임시로 사용
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
