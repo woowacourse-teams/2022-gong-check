@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 
+import keyframe from '@/styles/keyframes';
 import theme from '@/styles/theme';
 
 const container = css`
@@ -10,6 +11,7 @@ const container = css`
   overflow-y: scroll;
   padding: 32px;
   background-color: ${theme.colors.gray200};
+  animation: ${keyframe.fadeIn} 1s;
 
   ::-webkit-scrollbar {
     width: 0.4em;

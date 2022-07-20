@@ -1,11 +1,23 @@
+import { nanoid } from 'nanoid';
 import { useState } from 'react';
 
+type SectionType = {
+  id: number | string;
+  name: string;
+  tasks: TaskType[];
+};
+
+type TaskType = {
+  id: number | string;
+  name: string;
+};
+
 const useSections = () => {
-  const [sections, setSections] = useState<{ name: string; tasks: { name: string }[] }[]>([]);
+  const [sections, setSections] = useState<SectionType[]>([]);
 
   const createSection = () => {
     setSections(prev => {
-      return [...prev, { name: `새 구역 ${prev.length + 1}`, tasks: [] }];
+      return [...prev, { id: nanoid(), name: `새 구역 ${prev.length + 1}`, tasks: [] }];
     });
   };
 
@@ -28,11 +40,15 @@ const useSections = () => {
 
   const createTask = (sectionIndex: number) => {
     setSections(prev =>
-      prev.map((section, index) => {
-        if (index === sectionIndex) {
+      prev.map((section, targetIndex) => {
+        if (targetIndex === sectionIndex) {
           return {
+            id: prev[sectionIndex].id,
             name: prev[sectionIndex].name,
-            tasks: [...prev[sectionIndex].tasks, { name: `새 작업 ${prev[sectionIndex].tasks.length + 1}` }],
+            tasks: [
+              ...prev[sectionIndex].tasks,
+              { id: nanoid(), name: `새 작업 ${prev[sectionIndex].tasks.length + 1}` },
+            ],
           };
         }
         return section;

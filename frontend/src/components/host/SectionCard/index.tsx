@@ -1,4 +1,3 @@
-import { nanoid } from 'nanoid';
 import { useState } from 'react';
 
 import Button from '@/components/common/Button';
@@ -6,9 +5,9 @@ import TaskBox from '@/components/host/TaskBox';
 
 import styles from './styles';
 
-type TaskType = { name: string }[];
+type TaskType = { id: number | string; name: string }[];
 
-type SectionType = { name: string; tasks: TaskType };
+type SectionType = { id: number | string; name: string; tasks: TaskType };
 
 interface SectionCardProps {
   section: SectionType;
@@ -84,7 +83,7 @@ const SectionCard: React.FC<SectionCardProps> = ({
           taskIndex={taskIndex}
           editTask={editTask}
           deleteTask={deleteTask}
-          key={nanoid()}
+          key={task.id}
         />
       ))}
       <button css={styles.newTaskButton} onClick={handleClickCreate}>
