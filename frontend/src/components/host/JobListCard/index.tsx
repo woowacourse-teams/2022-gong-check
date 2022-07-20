@@ -35,7 +35,12 @@ const JobListCard: React.FC<JobListCardProps> = ({ jobs }) => {
           <div css={styles.jobList} key={job.id}>
             <span>{job.name}</span>
             <div>
-              <Button css={styles.updateButton} onClick={onClickUpdateJobButton}>
+              <Button
+                css={styles.updateButton}
+                onClick={() => {
+                  onClickUpdateJobButton(job.id);
+                }}
+              >
                 수정
               </Button>
               <Button

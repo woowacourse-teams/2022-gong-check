@@ -24,8 +24,8 @@ const useJobListCard = (jobs: JobType[]) => {
     navigate('jobCreate');
   };
 
-  const onClickUpdateJobButton = () => {
-    navigate('jobCreate');
+  const onClickUpdateJobButton = (jobId: ID) => {
+    navigate(`jobUpdate/${jobId}`);
   };
 
   const onClickDeleteJobButton = (jobId: ID) => {

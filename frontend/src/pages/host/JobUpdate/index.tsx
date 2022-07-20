@@ -1,30 +1,21 @@
+import useJobUpdate from './useJobUpdate';
+
+import JobControl from '@/components/host/JobControl';
 import SectionCard from '@/components/host/SectionCard';
 
 import useSections from '@/hooks/useSections';
 
 import styles from './styles';
 
-const DATA = {
-  name: '청소',
-  sections: [
-    {
-      name: '대강의실',
-      tasks: [{ name: '책상 닦기' }, { name: '칠판 닦기' }],
-    },
-    {
-      name: '소강의실',
-      tasks: [{ name: '책상 닦기' }, { name: '칠판 닦기' }],
-    },
-  ],
-};
-
 const JobUpdate: React.FC = () => {
   const { sections, createSection, editSection, deleteSection, createTask, editTask, deleteTask } = useSections();
+
+  const { newJobName, onChangeJobName, onClickCreateNewJob } = useJobUpdate(sections);
 
   return (
     <div css={styles.layout}>
       <div css={styles.contents}>
-        <p css={styles.pageTitle}>{DATA.name}</p>
+        <JobControl jobName={newJobName} onChangeJobName={onChangeJobName} onClickCreateNewJob={onClickCreateNewJob} />
         <div css={styles.grid}>
           {sections.map((section, sectionIndex) => (
             <SectionCard

@@ -83,7 +83,7 @@ const routes = [
                 element: <JobCreatePage />,
               },
               {
-                path: ':spaceId/jobUpdate',
+                path: ':spaceId/jobUpdate/:jobId',
                 element: <JobUpdatePage />,
               },
               // 공간 정보 수정 페이지 <SpaceUpdatePage/>
