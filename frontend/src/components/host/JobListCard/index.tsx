@@ -1,14 +1,8 @@
-import { useMutation } from 'react-query';
-import { useNavigate } from 'react-router-dom';
+import useJobListCard from './useJobListCard';
 
 import Button from '@/components/common/Button';
-import SlackUrlModal from '@/components/host/SlackUrlModal';
 
-import useModal from '@/hooks/useModal';
-
-import apiJobs from '@/apis/job';
-
-import { ID, JobType } from '@/types';
+import { JobType } from '@/types';
 
 import slackIcon from '@/assets/slackIcon.svg';
 
@@ -19,28 +13,8 @@ interface JobListCardProps {
 }
 
 const JobListCard: React.FC<JobListCardProps> = ({ jobs }) => {
-  const navigate = useNavigate();
-  const { openModal } = useModal();
-
-  const { mutate: deleteJob } = useMutation((jobId: ID) => apiJobs.deleteJob(jobId));
-
-  const onClickSlackButton = () => {
-    openModal(<SlackUrlModal jobs={jobs} />);
-  };
-
-  const onClickNewJobButton = () => {
-    navigate('jobCreate');
-  };
-
-  const onClickUpdateJobButton = () => {
-    navigate('jobCreate');
-  };
-
-  const onClickDeleteJobButton = (jobId: ID) => {
-    if (confirm('해당 업무를 삭제하시겠습니까?')) {
-      deleteJob(jobId);
-    }
-  };
+  const { onClickSlackButton, onClickNewJobButton, onClickUpdateJobButton, onClickDeleteJobButton } =
+    useJobListCard(jobs);
 
   return (
     <div css={styles.layout}>
