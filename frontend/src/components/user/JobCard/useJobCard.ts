@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 import apis from '@/apis';
 
-const useJobCard = (id: number) => {
+const useJobCard = (id: number | string) => {
   const navigate = useNavigate();
 
   const onClickJobCard = async () => {

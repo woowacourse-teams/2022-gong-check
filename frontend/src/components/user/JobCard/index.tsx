@@ -6,7 +6,7 @@ import styles from './styles';
 
 interface JobCardProps {
   jobName: string;
-  id: number;
+  id: number | string;
 }
 
 const JobCard: React.FC<JobCardProps> = ({ jobName, id }) => {
