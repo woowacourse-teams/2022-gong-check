@@ -14,6 +14,7 @@ const SpaceCreate: React.FC = () => {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
+
     // TODO: SpaceInfo submit시, API 호출 등 제어권을 페이지 컴포넌트가 가진다.
     // 추후 API 연동 로직을 구현해야 한다.
 
