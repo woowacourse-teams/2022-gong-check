@@ -4,6 +4,7 @@ import com.woowacourse.gongcheck.application.AlertService;
 import com.woowacourse.gongcheck.application.SubmissionService;
 import com.woowacourse.gongcheck.application.response.JobSubmissionsResponse;
 import com.woowacourse.gongcheck.application.response.SubmissionResponse;
+import com.woowacourse.gongcheck.presentation.aop.HostOnly;
 import com.woowacourse.gongcheck.presentation.request.SubmissionRequest;
 import javax.validation.Valid;
 import org.springframework.core.task.TaskRejectedException;
@@ -42,6 +43,7 @@ public class SubmissionController {
     }
 
     @GetMapping("/spaces/{spaceId}/submissions")
+    @HostOnly
     public ResponseEntity<JobSubmissionsResponse> showSubmissions(@AuthenticationPrincipal final Long hostId,
                                                                   @PathVariable final Long spaceId,
                                                                   final Pageable pageable) {

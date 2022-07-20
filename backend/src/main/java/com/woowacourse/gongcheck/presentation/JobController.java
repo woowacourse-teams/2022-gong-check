@@ -3,6 +3,7 @@ package com.woowacourse.gongcheck.presentation;
 import com.woowacourse.gongcheck.application.JobService;
 import com.woowacourse.gongcheck.application.response.JobsResponse;
 import com.woowacourse.gongcheck.application.response.SlackUrlResponse;
+import com.woowacourse.gongcheck.presentation.aop.HostOnly;
 import com.woowacourse.gongcheck.presentation.request.JobCreateRequest;
 import com.woowacourse.gongcheck.presentation.request.SlackUrlChangeRequest;
 import java.net.URI;
@@ -37,6 +38,7 @@ public class JobController {
     }
 
     @PostMapping("/spaces/{spaceId}/jobs")
+    @HostOnly
     public ResponseEntity<Void> createJob(@AuthenticationPrincipal final Long hostId,
                                           @PathVariable final Long spaceId,
                                           @Valid @RequestBody final JobCreateRequest request) {
@@ -45,6 +47,7 @@ public class JobController {
     }
 
     @PutMapping("/jobs/{jobId}")
+    @HostOnly
     public ResponseEntity<Void> updateJob(@AuthenticationPrincipal final Long hostId,
                                           @PathVariable final Long jobId,
                                           @Valid @RequestBody final JobCreateRequest request) {
@@ -53,12 +56,14 @@ public class JobController {
     }
 
     @DeleteMapping("/jobs/{jobId}")
+    @HostOnly
     public ResponseEntity<Void> removeJob(@AuthenticationPrincipal final Long hostId, @PathVariable final Long jobId) {
         jobService.removeJob(hostId, jobId);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/jobs/{jobId}/slack")
+    @HostOnly
     public ResponseEntity<SlackUrlResponse> findSlackUrl(@AuthenticationPrincipal final Long hostId,
                                                          @PathVariable final Long jobId) {
         SlackUrlResponse response = jobService.findSlackUrl(hostId, jobId);
@@ -66,6 +71,7 @@ public class JobController {
     }
 
     @PutMapping("/jobs/{jobId}/slack")
+    @HostOnly
     public ResponseEntity<Void> changeSlackUrl(@AuthenticationPrincipal final Long hostId,
                                                @PathVariable final Long jobId,
                                                @Valid @RequestBody final SlackUrlChangeRequest request) {
