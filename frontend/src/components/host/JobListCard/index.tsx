@@ -2,7 +2,9 @@ import useJobListCard from './useJobListCard';
 
 import Button from '@/components/common/Button';
 
-import { JobType } from '@/types';
+import apiJobs from '@/apis/job';
+
+import { ID, JobType } from '@/types';
 
 import slackIcon from '@/assets/slackIcon.svg';
 
