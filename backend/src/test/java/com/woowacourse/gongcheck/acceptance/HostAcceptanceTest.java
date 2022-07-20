@@ -15,7 +15,7 @@ import org.springframework.http.MediaType;
 class HostAcceptanceTest extends AcceptanceTest {
 
     @Test
-    void 공간_비밀번호를_변경한다() {
+    void Space_비밀번호를_변경한다() {
         // 호스트 로그인 구현 전까지 토큰 입력용으로 사용
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);

@@ -67,7 +67,7 @@ class SubmissionServiceTest {
     private SubmissionRepository submissionRepository;
 
     @Nested
-    class Submission_시도_시 {
+    class Submission_생성_시 {
 
         private final SubmissionRequest request = new SubmissionRequest("제출자");
 
@@ -92,21 +92,21 @@ class SubmissionServiceTest {
         }
 
         @Test
-        void 호스트가_존재하지_않는_경우_예외가_발생한다() {
+        void Host가_존재하지_않는_경우_예외가_발생한다() {
             assertThatThrownBy(() -> submissionService.submitJobCompletion(0L, 1L, request))
                     .isInstanceOf(NotFoundException.class)
                     .hasMessage("존재하지 않는 호스트입니다.");
         }
 
         @Test
-        void 작업이_존재하지_않는_경우_예외가_발생한다() {
+        void Job이_존재하지_않는_경우_예외가_발생한다() {
             assertThatThrownBy(() -> submissionService.submitJobCompletion(hostWithTasks.getId(), 0L, request))
                     .isInstanceOf(NotFoundException.class)
                     .hasMessage("존재하지 않는 작업입니다.");
         }
 
         @Test
-        void 다른_호스트의_작업으로_제출을_시도할_경우_예외가_발생한다() {
+        void 다른_Host의_Job으로_Submission을_생성하려는_경우_예외가_발생한다() {
             assertThatThrownBy(
                     () -> submissionService.submitJobCompletion(hostWithoutTasks.getId(), job.getId(), request))
                     .isInstanceOf(NotFoundException.class)
@@ -114,14 +114,14 @@ class SubmissionServiceTest {
         }
 
         @Test
-        void 현재_진행중인_작업이_없는데_제출을_시도할_경우_예외가_발생한다() {
+        void RunningTask가_존재하지_않는_경우_Submission을_생성할_때_예외가_발생한다() {
             assertThatThrownBy(() -> submissionService.submitJobCompletion(hostWithTasks.getId(), job.getId(), request))
                     .isInstanceOf(BusinessException.class)
                     .hasMessage("현재 제출할 수 있는 진행중인 작업이 존재하지 않습니다.");
         }
 
         @Test
-        void 현재_진행중인_작업을_미완료_상태로_제출을_시도할_경우_예외가_발생한다() {
+        void 모든_RunningTask가_체크상태가_아니면_Submission을_생성할_때_예외가_발생한다() {
             checkAllRunningTasks(false);
 
             assertThatThrownBy(() -> submissionService.submitJobCompletion(hostWithTasks.getId(), job.getId(), request))
@@ -130,7 +130,7 @@ class SubmissionServiceTest {
         }
 
         @Test
-        void 현재_진행중인_작업이_모두_완료된_상태로_제출한다() {
+        void Submission을_생성한다() {
             checkAllRunningTasks(true);
 
             SubmissionResponse submissionResponse = submissionService.submitJobCompletion(hostWithTasks.getId(),
