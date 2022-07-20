@@ -73,7 +73,7 @@ class JobDocumentation extends DocumentationTest {
                     .body(request)
                     .when().post("/api/spaces/1/jobs")
                     .then().log().all()
-                    .apply(document("jobs/list"))
+                    .apply(document("jobs/create/success"))
                     .statusCode(HttpStatus.CREATED.value());
         }
 
@@ -88,7 +88,7 @@ class JobDocumentation extends DocumentationTest {
                     .body(wrongRequest)
                     .when().post("/api/spaces/1/jobs")
                     .then().log().all()
-                    .apply(document("jobs/list"))
+                    .apply(document("jobs/create/fail/job_name_length"))
                     .extract();
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
@@ -106,7 +106,7 @@ class JobDocumentation extends DocumentationTest {
                     .body(wrongRequest)
                     .when().post("/api/spaces/1/jobs")
                     .then().log().all()
-                    .apply(document("jobs/list"))
+                    .apply(document("jobs/create/fail/section_name_length"))
                     .extract();
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
@@ -126,7 +126,7 @@ class JobDocumentation extends DocumentationTest {
                     .body(wrongRequest)
                     .when().post("/api/spaces/1/jobs")
                     .then().log().all()
-                    .apply(document("jobs/list"))
+                    .apply(document("jobs/fail/task_name_length"))
                     .extract();
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
