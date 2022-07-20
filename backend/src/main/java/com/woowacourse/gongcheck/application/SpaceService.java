@@ -57,6 +57,7 @@ public class SpaceService {
         return SpacesResponse.from(spaces);
     }
 
+    @Transactional
     public Long createSpace(final Long hostId, final SpaceCreateRequest request) {
         Host host = hostRepository.getById(hostId);
         checkDuplicateName(request, host);
@@ -73,6 +74,7 @@ public class SpaceService {
                 .getId();
     }
 
+    @Transactional
     public void removeSpace(final Long hostId, final Long spaceId) {
         Host host = hostRepository.getById(hostId);
         Space space = spaceRepository.getByHostAndId(host, spaceId);
