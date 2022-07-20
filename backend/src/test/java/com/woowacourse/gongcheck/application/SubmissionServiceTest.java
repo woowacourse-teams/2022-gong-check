@@ -206,7 +206,7 @@ class SubmissionServiceTest {
                     PageRequest.of(0, 2));
 
             assertAll(
-                    () -> assertThat(response.getSubmissions().size()).isEqualTo(2),
+                    () -> assertThat(response.getSubmissions()).hasSize(2),
                     () -> assertThat(response.isHasNext()).isTrue()
             );
         }
