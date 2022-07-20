@@ -19,10 +19,10 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     List<Task> findAllBySectionIn(final List<Section> sections);
 
+    void deleteAllBySectionIn(final List<Section> sections);
+
     default Task getBySectionJobSpaceHostAndId(final Host host, final Long id) throws NotFoundException {
         return findBySectionJobSpaceHostAndId(host, id)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 작업입니다."));
     }
-
-    void deleteAllBySectionIn(final List<Section> sections);
 }
