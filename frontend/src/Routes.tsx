@@ -14,6 +14,7 @@ const HomePage = lazy(() => import('@/pages/host/Home'));
 const AuthCallBackPage = lazy(() => import('@/pages/host/AuthCallBack'));
 const DashBoardPage = lazy(() => import('@/pages/host/DashBoard'));
 const SpaceCreatePage = lazy(() => import('@/pages/host/SpaceCreate'));
+const SpaceModifyPage = lazy(() => import('@/pages/host/SpaceModify'));
 const SpaceRecordPage = lazy(() => import('@/pages/host/SpaceRecord'));
 const JobCreatePage = lazy(() => import('@/pages/host/JobCreate'));
 const JobUpdatePage = lazy(() => import('@/pages/host/JobUpdate'));
@@ -62,23 +63,27 @@ const routes = [
             element: <ManageLayout />,
             children: [
               {
-                path: '',
-                element: <DashBoardPage />,
-              },
-              {
                 path: 'spaceCreate',
                 element: <SpaceCreatePage />,
               },
               {
-                path: 'spaceRecord',
+                path: ':spaceId',
+                element: <DashBoardPage />,
+              },
+              {
+                path: ':spaceId/spaceModify',
+                element: <SpaceModifyPage />,
+              },
+              {
+                path: ':spaceId/spaceRecord',
                 element: <SpaceRecordPage />,
               },
               {
-                path: 'jobCreate',
+                path: ':spaceId/jobCreate',
                 element: <JobCreatePage />,
               },
               {
-                path: 'jobUpdate',
+                path: ':spaceId/jobUpdate',
                 element: <JobUpdatePage />,
               },
               // 공간 정보 수정 페이지 <SpaceUpdatePage/>

@@ -19,6 +19,8 @@ spring:
     init:
       schema-locations: classpath:schema.sql
       data-locations: classpath:dummy_data.sql
+  profiles:
+    include: oauth
 security:
   jwt:
     token:

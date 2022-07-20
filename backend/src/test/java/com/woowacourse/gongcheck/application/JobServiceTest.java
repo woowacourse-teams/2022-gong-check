@@ -15,6 +15,9 @@ import com.woowacourse.gongcheck.domain.job.JobRepository;
 import com.woowacourse.gongcheck.domain.space.Space;
 import com.woowacourse.gongcheck.domain.space.SpaceRepository;
 import com.woowacourse.gongcheck.exception.NotFoundException;
+import com.woowacourse.gongcheck.presentation.request.JobCreateRequest;
+import com.woowacourse.gongcheck.presentation.request.SectionCreateRequest;
+import com.woowacourse.gongcheck.presentation.request.TaskCreateRequest;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +42,8 @@ class JobServiceTest {
     private JobRepository jobRepository;
 
     @Test
-    void 작업_목록을_조회한다() {
-        Host host = hostRepository.save(Host_생성("1234"));
+    void Job_목록을_조회한다() {
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
         Job job1 = Job_생성(space, "오픈");
         Job job2 = Job_생성(space, "청소");
@@ -56,15 +59,15 @@ class JobServiceTest {
     }
 
     @Test
-    void 존재하지_않는_호스트로_작업_목록을_조회할_경우_예외를_던진다() {
+    void 존재하지_않는_Host로_Job_목록을_조회할_경우_예외를_던진다() {
         assertThatThrownBy(() -> jobService.findPage(0L, 1L, PageRequest.of(0, 1)))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("존재하지 않는 호스트입니다.");
     }
 
     @Test
-    void 존재하지_않는_공간의_작업_목록을_조회할_경우_예외를_던진다() {
-        Host host = hostRepository.save(Host_생성("1234"));
+    void 존재하지_않는_Space의_Job_목록을_조회할_경우_예외를_던진다() {
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
 
         assertThatThrownBy(() -> jobService.findPage(host.getId(), 0L, PageRequest.of(0, 1)))
                 .isInstanceOf(NotFoundException.class)
@@ -72,12 +75,52 @@ class JobServiceTest {
     }
 
     @Test
-    void 다른_호스트의_공간의_작업_목록을_조회할_경우_예외를_던진다() {
-        Host host1 = hostRepository.save(Host_생성("1234"));
-        Host host2 = hostRepository.save(Host_생성("1234"));
+    void 다른_Host의_Space의_Job_목록을_조회할_경우_예외를_던진다() {
+        Host host1 = hostRepository.save(Host_생성("1234", 1234L));
+        Host host2 = hostRepository.save(Host_생성("1234", 2345L));
         Space space = spaceRepository.save(Space_생성(host2, "잠실"));
 
         assertThatThrownBy(() -> jobService.findPage(host1.getId(), space.getId(), PageRequest.of(0, 1)))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("존재하지 않는 공간입니다.");
+    }
+
+    @Test
+    void Job과_Section들과_Task들을_한_번에_생성한다() {
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
+        Space space = spaceRepository.save(Space_생성(host, "잠실"));
+        List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
+        List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
+        JobCreateRequest jobCreateRequest = new JobCreateRequest("청소", sections);
+
+        Long savedJobId = jobService.createJob(host.getId(), space.getId(), jobCreateRequest);
+
+        assertThat(savedJobId).isNotNull();
+    }
+
+    @Test
+    void Host가_존재하지_않는데_Job_생성_시_예외가_발생한다() {
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
+        Space space = spaceRepository.save(Space_생성(host, "잠실"));
+
+        List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
+        List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
+        JobCreateRequest jobCreateRequest = new JobCreateRequest("청소", sections);
+
+        assertThatThrownBy(() -> jobService.createJob(0L, space.getId(), jobCreateRequest))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("존재하지 않는 호스트입니다.");
+    }
+
+    @Test
+    void Space가_존재하지_않는데_Job_생성_시_예외가_발생한다() {
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
+
+        List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
+        List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
+        JobCreateRequest jobCreateRequest = new JobCreateRequest("청소", sections);
+
+        assertThatThrownBy(() -> jobService.createJob(host.getId(), 0L, jobCreateRequest))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("존재하지 않는 공간입니다.");
     }

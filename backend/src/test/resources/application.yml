@@ -18,7 +18,8 @@ spring:
         show_sql: true
         format_sql: true
     open-in-view: false
-
+  profiles:
+    include: test
 security:
   jwt:
     token:

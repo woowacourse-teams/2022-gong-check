@@ -10,6 +10,7 @@ const layout = css`
   width: 224px;
   background-color: ${theme.colors.white};
   box-shadow: 6px 0 8px ${theme.colors.gray350};
+  z-index: 1;
 `;
 
 const logo = css`

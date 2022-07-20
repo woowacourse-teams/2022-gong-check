@@ -1,5 +1,8 @@
 package com.woowacourse.gongcheck.documentation;
 
+import static com.woowacourse.gongcheck.fixture.FixtureFactory.Host_생성;
+import static com.woowacourse.gongcheck.fixture.FixtureFactory.Job_아이디_지정_생성;
+import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_아이디_지정_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
@@ -10,6 +13,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 
 import com.woowacourse.gongcheck.application.response.SubmissionResponse;
+import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.job.Job;
 import com.woowacourse.gongcheck.domain.space.Space;
 import com.woowacourse.gongcheck.exception.BusinessException;
@@ -30,8 +34,10 @@ class SubmissionDocumentation extends DocumentationTest {
 
         @Test
         void 현재_진행중인_작업이_모두_완료된_상태로_제출하면_제출에_성공한다() {
-            SubmissionResponse response = SubmissionResponse.of("author",
-                    Job.builder().space(Space.builder().build()).build());
+            Host host = Host_생성("1234", 1234L);
+            Space space = Space_아이디_지정_생성(1L, host, "잠실");
+            Job job = Job_아이디_지정_생성(1L, space, "청소");
+            SubmissionResponse response = SubmissionResponse.of("author", job);
             when(submissionService.submitJobCompletion(anyLong(), anyLong(), any())).thenReturn(response);
             doNothing().when(alertService).sendMessage(response);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));

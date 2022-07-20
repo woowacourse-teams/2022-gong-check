@@ -1,28 +1,13 @@
-type SpaceType = {
+import { JobType, SectionType, SpaceType } from '@/types';
+
+export type ApiSpaceData = {
   name: string;
   imageUrl: string;
   id: number;
 };
 
-type JobType = {
-  id: number;
-  name: string;
-};
-
-type SectionType = {
-  id: number;
-  name: string;
-  tasks: TaskType[];
-};
-
-type TaskType = {
-  id: number;
-  name: string;
-  checked: boolean;
-};
-
 export type ApiSpacesData = {
-  spaces: SpaceType[];
+  spaces: ApiSpaceData[];
   hasNext: boolean;
 };
 
@@ -41,4 +26,17 @@ export type ApiJobActiveData = {
 
 export type ApiTokenData = {
   token: string;
+};
+
+type SubmissionType = {
+  submissionId: number;
+  jobId: number;
+  jobName: string;
+  author: string;
+  createdAt: string;
+};
+
+export type ApiSubmissionData = {
+  spaces: SubmissionType[];
+  hasNext: boolean;
 };

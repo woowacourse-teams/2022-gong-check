@@ -1,8 +1,11 @@
 package com.woowacourse.gongcheck.application;
 
+import static com.woowacourse.gongcheck.presentation.Authority.GUEST;
+
 import com.woowacourse.gongcheck.application.response.GuestTokenResponse;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
+import com.woowacourse.gongcheck.domain.host.SpacePassword;
 import com.woowacourse.gongcheck.presentation.request.GuestEnterRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,9 +24,9 @@ public class GuestAuthService {
 
     public GuestTokenResponse createToken(final long hostId, final GuestEnterRequest request) {
         Host host = hostRepository.getById(hostId);
-        host.checkPassword(request.getPassword());
+        host.checkPassword(new SpacePassword(request.getPassword()));
 
-        String token = jwtTokenProvider.createToken(String.valueOf(hostId));
+        String token = jwtTokenProvider.createToken(String.valueOf(hostId), GUEST);
         return GuestTokenResponse.from(token);
     }
 }

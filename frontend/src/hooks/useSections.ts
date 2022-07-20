@@ -1,16 +1,7 @@
 import { nanoid } from 'nanoid';
 import { useState } from 'react';
 
-type SectionType = {
-  id: number | string;
-  name: string;
-  tasks: TaskType[];
-};
-
-type TaskType = {
-  id: number | string;
-  name: string;
-};
+import { SectionType } from '@/types';
 
 const useSections = () => {
   const [sections, setSections] = useState<SectionType[]>([]);

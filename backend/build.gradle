@@ -57,6 +57,13 @@ dependencies {
     implementation 'com.slack.api:slack-api-model:1.22.2'
 }
 
+processResources.dependsOn('copySecret')
+
+task copySecret(type: Copy) {
+    from '../backend/submodule/application-oauth.yml'
+    into 'src/main/resources'
+}
+
 tasks.named('test') {
     outputs.dir snippetsDir
     useJUnitPlatform()
@@ -65,8 +72,8 @@ tasks.named('test') {
 
 tasks.named('asciidoctor') {
     configurations 'asciidoctorExtensions'
-    sources{
-        include("**/index.adoc","**/common/*.adoc")
+    sources {
+        include("**/index.adoc", "**/common/*.adoc")
     }
     baseDirFollowsSourceFile()
     inputs.dir snippetsDir

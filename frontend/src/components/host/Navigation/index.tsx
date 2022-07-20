@@ -1,15 +1,31 @@
 import { CgHomeAlt, CgGirl } from 'react-icons/cg';
+import { useNavigate } from 'react-router-dom';
 
 import navigationLogo from '@/assets/navigationLogo.png';
 
 import styles from './styles';
 
-const SPACE_DATA = [
-  { id: 1, name: '잠실 캠퍼스' },
-  { id: 2, name: '선릉 캠퍼스' },
-];
+type SpaceType = {
+  name: string;
+  imageUrl: string;
+  id: number;
+};
 
-const Navigation: React.FC = () => {
+interface NavigationProps {
+  spaces: SpaceType[] | undefined;
+}
+
+const Navigation: React.FC<NavigationProps> = ({ spaces }) => {
+  const navigate = useNavigate();
+
+  const onClickSpace = (spaceId: number) => {
+    navigate(`${spaceId}`);
+  };
+
+  const onClickNewSpace = () => {
+    navigate('/host/manage/spaceCreate');
+  };
+
   return (
     <div css={styles.layout}>
       <div id="로고 들어가는 위치" css={styles.logo}>
@@ -29,13 +45,13 @@ const Navigation: React.FC = () => {
       <div id="나의 공간 목록" css={styles.category}>
         <span css={styles.categoryTitle}>나의 공간 목록</span>
         <div css={styles.categoryList}>
-          {SPACE_DATA.map(space => (
-            <div css={styles.categoryTextWrapper} key={space.id}>
+          {spaces?.map(space => (
+            <div css={styles.categoryTextWrapper} key={space.id} onClick={() => onClickSpace(space.id)}>
               <CgHomeAlt size={20} />
               <span>{space.name}</span>
             </div>
           ))}
-          <div css={styles.addNewSpace}>
+          <div css={styles.addNewSpace} onClick={onClickNewSpace}>
             <span>+ 새로운 공간 추가</span>
           </div>
         </div>

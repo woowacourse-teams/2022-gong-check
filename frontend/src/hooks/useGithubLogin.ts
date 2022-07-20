@@ -1,23 +1,22 @@
 import { useEffect } from 'react';
 import { useQuery } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 
-import githubAuth from '@/apis/githubAuth';
+import apiAuth from '@/apis/githubAuth';
 
 const useGitHubLogin = () => {
   const code = new URL(location.href).searchParams.get('code');
 
-  const navigate = useNavigate();
-
-  const { data } = useQuery(['hostToken'], () => githubAuth.getToken(code), { suspense: true });
+  const { isSuccess: isSuccessGithubLogin, data } = useQuery(['hostToken'], () => apiAuth.getToken(code), {
+    suspense: true,
+  });
 
   useEffect(() => {
     if (data) {
-      localStorage.setItem('host', data.token);
-
-      data.existHost ? navigate('/manage') : navigate('/enter/1');
+      localStorage.setItem('token', data.token);
     }
   }, [data]);
+
+  return { isSuccessGithubLogin };
 };
 
 export default useGitHubLogin;
