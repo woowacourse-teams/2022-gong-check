@@ -165,9 +165,20 @@ class JobServiceTest {
     void Job이_존재하지_않는데_Job_제거_시_예외가_발생한다() {
         Host host = hostRepository.save(Host_생성("1234", 1234L));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
-        Job job = jobRepository.save(Job_생성(space, "청소"));
 
         assertThatThrownBy(() -> jobService.removeJob(host.getId(), 0L))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("존재하지 않는 작업입니다.");
+    }
+
+    @Test
+    void 다른_Host의_Job_제거_시_예외가_발생한다() {
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
+        Host anotherHost = hostRepository.save(Host_생성("1234", 2345L));
+        Space space = spaceRepository.save(Space_생성(host, "잠실"));
+        Job job = jobRepository.save(Job_생성(space, "청소"));
+
+        assertThatThrownBy(() -> jobService.removeJob(anotherHost.getId(), job.getId()))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("존재하지 않는 작업입니다.");
     }
