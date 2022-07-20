@@ -1,7 +1,5 @@
-import { css } from '@emotion/react';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import useSpaceInfo from './useSpaceInfo';
 import { HiPlus } from 'react-icons/hi';
-import { useNavigate } from 'react-router-dom';
 
 import Button from '@/components/common/Button';
 
@@ -15,36 +13,8 @@ interface SpaceInfoProps {
 }
 
 const SpaceInfo: React.FC<SpaceInfoProps> = ({ onSubmit, inputText = '', isEditMode = true, data }) => {
-  const navigate = useNavigate();
-  const labelRef = useRef(null);
-  const [imageUrl, setImageUrl] = useState('');
-  const [isActiveSubmit, setIsActiveSubmit] = useState(false);
-
-  const isExistimageUrl = useMemo(() => !!imageUrl, [imageUrl]);
-
-  const onChangeImg = (e: React.FormEvent<HTMLInputElement>) => {
-    const input = e.target as HTMLInputElement;
-
-    if (!input.files?.length || !labelRef.current) {
-      return;
-    }
-
-    const file = input.files[0];
-    const src = URL.createObjectURL(file);
-
-    setImageUrl(src);
-  };
-
-  const onChangeSpaceName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target as HTMLInputElement;
-
-    const isExistValue = input.value.length > 0;
-    setIsActiveSubmit(isExistValue);
-  };
-
-  const onClickEditSpaceInfo = () => {
-    navigate(`/host/manage/${data?.id}/spaceModify`);
-  };
+  const { imageUrl, labelRef, isActiveSubmit, isExistimageUrl, onChangeImg, onChangeSpaceName, onClickEditSpaceInfo } =
+    useSpaceInfo(data);
 
   if (isEditMode) {
     return (
