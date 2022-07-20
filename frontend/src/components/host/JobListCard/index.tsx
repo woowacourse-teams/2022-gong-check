@@ -8,7 +8,7 @@ import useModal from '@/hooks/useModal';
 
 import apiJobs from '@/apis/job';
 
-import { JobType } from '@/types';
+import { ID, JobType } from '@/types';
 
 import slackIcon from '@/assets/slackIcon.svg';
 
@@ -22,7 +22,7 @@ const JobListCard: React.FC<JobListCardProps> = ({ jobs }) => {
   const navigate = useNavigate();
   const { openModal } = useModal();
 
-  const { mutate: deleteJob } = useMutation((jobId: number | string) => apiJobs.deleteJob(jobId));
+  const { mutate: deleteJob } = useMutation((jobId: ID) => apiJobs.deleteJob(jobId));
 
   const onClickSlackButton = () => {
     openModal(<SlackUrlModal jobs={jobs} />);
@@ -36,7 +36,7 @@ const JobListCard: React.FC<JobListCardProps> = ({ jobs }) => {
     navigate('jobCreate');
   };
 
-  const onClickDeleteJobButton = (jobId: number | string) => {
+  const onClickDeleteJobButton = (jobId: ID) => {
     if (confirm('해당 업무를 삭제하시겠습니까?')) {
       deleteJob(jobId);
     }

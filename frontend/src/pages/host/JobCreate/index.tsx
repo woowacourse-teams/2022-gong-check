@@ -28,7 +28,10 @@ const JobCreate: React.FC = () => {
   const { mutate: createNewJob } = useMutation(
     ({ spaceId, newJobName, sections }: MutationParams) => apiJobs.postNewJob(spaceId, newJobName, sections),
     {
-      onError(err: ApiError) {
+      onSuccess: () => {
+        navigate(`/host/manage/${spaceId}`);
+      },
+      onError: (err: ApiError) => {
         alert(err.response?.data.message);
         navigate('/host/manage/spaceCreate');
       },
