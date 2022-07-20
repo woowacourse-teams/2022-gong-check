@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 
+import { SectionType } from '@/types';
 import { ApiJobActiveData, ApiJobData } from '@/types/apis';
 
 import { axiosInstanceToken } from './config';
@@ -26,7 +27,7 @@ const getJobActive = async ({ jobId }: any) => {
 
 // job 생성
 // Location : /api/jobs/{jobId}
-const postNewJob = ({ spaceId, name, sections }: any) => {
+const postNewJob = (spaceId: number | string | undefined, name: string, sections: SectionType[]) => {
   return axiosInstanceToken({
     method: 'POST',
     url: `/api/spaces/${spaceId}/jobs`,
