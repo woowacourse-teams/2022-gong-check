@@ -13,12 +13,12 @@ type SpaceCardProps = {
 const SpaceCard: React.FC<SpaceCardProps> = ({ spaceName, imageUrl, id }) => {
   const navigate = useNavigate();
 
-  const handleClick = () => {
+  const onClick = () => {
     navigate(id.toString());
   };
 
   return (
-    <div css={styles.spaceCard({ imageUrl })} onClick={handleClick}>
+    <div css={styles.spaceCard({ imageUrl })} onClick={onClick}>
       <span css={styles.title}>{spaceName}</span>
       <img css={styles.arrow} src={frontArrow} alt="" />
     </div>

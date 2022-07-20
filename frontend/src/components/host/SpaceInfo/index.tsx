@@ -22,7 +22,7 @@ const SpaceInfo: React.FC<SpaceInfoProps> = ({ onSubmit, inputText = '', isEditM
 
   const isExistimageUrl = useMemo(() => !!imageUrl, [imageUrl]);
 
-  const handleChangeImg = (e: React.FormEvent<HTMLInputElement>) => {
+  const onChangeImg = (e: React.FormEvent<HTMLInputElement>) => {
     const input = e.target as HTMLInputElement;
 
     if (!input.files?.length || !labelRef.current) {
@@ -35,7 +35,7 @@ const SpaceInfo: React.FC<SpaceInfoProps> = ({ onSubmit, inputText = '', isEditM
     setImageUrl(src);
   };
 
-  const handleChangeSpaceName = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeSpaceName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target as HTMLInputElement;
 
     const isExistValue = input.value.length > 0;
@@ -63,7 +63,7 @@ const SpaceInfo: React.FC<SpaceInfoProps> = ({ onSubmit, inputText = '', isEditM
                 type="file"
                 id="file"
                 accept="image/*"
-                onChange={handleChangeImg}
+                onChange={onChangeImg}
               />
               {!isExistimageUrl && (
                 <div css={styles.iconBox}>
@@ -82,7 +82,7 @@ const SpaceInfo: React.FC<SpaceInfoProps> = ({ onSubmit, inputText = '', isEditM
               placeholder="이름을 입력하세요"
               type="text"
               defaultValue={inputText || ''}
-              onChange={handleChangeSpaceName}
+              onChange={onChangeSpaceName}
               required
             />
           }

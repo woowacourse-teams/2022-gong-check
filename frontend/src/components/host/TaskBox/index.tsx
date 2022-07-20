@@ -17,20 +17,20 @@ const TaskBox: React.FC<TaskBoxProps> = ({ task, sectionIndex, taskIndex, editTa
   const [taskName, setTaskName] = useState(task.name);
   const [isEditing, setIsEditing] = useState(false);
 
-  const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTaskName(e.target.value);
   };
 
-  const handleClickConfirmButton = () => {
+  const onClickConfirmButton = () => {
     setIsEditing(false);
     editTask(sectionIndex, taskIndex, taskName);
   };
 
-  const handleClickEditButton = () => {
+  const onClickEditButton = () => {
     setIsEditing(true);
   };
 
-  const handleClickDeleteButton = () => {
+  const onClickDeleteButton = () => {
     deleteTask(sectionIndex, taskIndex);
   };
 
@@ -38,8 +38,8 @@ const TaskBox: React.FC<TaskBoxProps> = ({ task, sectionIndex, taskIndex, editTa
     <div css={styles.taskBox}>
       {isEditing ? (
         <>
-          <input value={taskName} onChange={handleChangeInput} />
-          <Button css={styles.editButton} onClick={handleClickConfirmButton}>
+          <input value={taskName} onChange={onChangeInput} />
+          <Button css={styles.editButton} onClick={onClickConfirmButton}>
             수정 확인
           </Button>
         </>
@@ -47,8 +47,8 @@ const TaskBox: React.FC<TaskBoxProps> = ({ task, sectionIndex, taskIndex, editTa
         <>
           <span>∙ {task.name}</span>
           <div>
-            <BiPencil css={styles.pencil} size={20} onClick={handleClickEditButton} />
-            <BiTrash css={styles.trash} size={20} onClick={handleClickDeleteButton} />
+            <BiPencil css={styles.pencil} size={20} onClick={onClickEditButton} />
+            <BiTrash css={styles.trash} size={20} onClick={onClickDeleteButton} />
           </div>
         </>
       )}

@@ -49,7 +49,7 @@ const TaskList: React.FC = () => {
     suspense: true,
   });
 
-  const handleClickButton = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const onClickButton = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     openModal(
       <NameModal
@@ -121,7 +121,7 @@ const TaskList: React.FC = () => {
               width: 256px;
               background: ${isAllChecked(data.sections) ? theme.colors.primary : theme.colors.gray400};
             `}
-            onClick={handleClickButton}
+            onClick={onClickButton}
             disabled={!isAllChecked(data.sections)}
           >
             제출

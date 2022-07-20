@@ -4,7 +4,7 @@ import theme from '@/styles/theme';
 
 const layout = css`
   width: 36rem;
-  min-height: 25rem;
+  height: 30rem;
   background-color: ${theme.colors.white};
   box-shadow: 2px 2px 2px 2px ${theme.colors.shadow10};
   border-radius: 8px;
@@ -16,7 +16,7 @@ const title = css`
   justify-content: space-between;
   padding: 1rem 1.25rem;
   font-size: 1.4rem;
-  border-bottom: 1px solid ${theme.colors.gray200};
+  border-bottom: 1px solid ${theme.colors.gray300};
 `;
 
 const jobListWrapper = css`
@@ -26,20 +26,6 @@ const jobListWrapper = css`
   align-items: center;
   padding: 24px;
   overflow-y: scroll;
-  -ms-overflow-style: none;
-
-  ::-webkit-scrollbar {
-    display: hidden;
-    width: 4px;
-  }
-  ::-webkit-scrollbar-thumb {
-    background-color: ${theme.colors.gray100};
-    height: 4px;
-    border: 100%;
-  }
-  ::-webkit-scrollbar-track {
-    display: none;
-  }
 
   div + div {
     margin-top: 16px;
@@ -54,7 +40,9 @@ const jobList = css`
   padding: 12px 16px;
   background-color: ${theme.colors.gray100};
   border-radius: 8px;
-  color: ${theme.colors.gray800};
+  color: ${theme.colors.black};
+  font-size: 500;
+  font-size: 18px;
 `;
 
 const slackButton = css`

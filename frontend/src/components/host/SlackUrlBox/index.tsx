@@ -1,6 +1,5 @@
-import { css } from '@emotion/react';
-import { useState } from 'react';
-import { useQuery } from 'react-query';
+import React, { useEffect, useState } from 'react';
+import { useMutation, useQuery } from 'react-query';
 
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
@@ -9,24 +8,45 @@ import slackApi from '@/apis/slack';
 
 import styles from './styles';
 
-const SlackUrlBox: React.FC<{ jobName: string; jobId: number }> = ({ jobName, jobId }) => {
-  // const { data } = useQuery(['slackUrl', jobId], () => slackApi.getSlackUrl(jobId), { suspense: true });
+const SLACK_URL_DATA = {
+  slackUrl: 'https://slackUrl.com',
+};
 
-  const [url, setUrl] = useState('');
+interface SlackUrlBoxProps {
+  jobName: string;
+  jobId: number | string;
+}
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUrl(e.target.value);
+const SlackUrlBox: React.FC<SlackUrlBoxProps> = ({ jobName, jobId }) => {
+  // const { data } = useQuery(['slackUrl', jobId], () => slackApi.getSlackUrl(jobId), {
+  //   suspense: true,
+  // });
+
+  const { mutate: putSlackUrl } = useMutation((url: string) => slackApi.putSlackUrl(jobId, url));
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const form = e.target as HTMLFormElement;
+    const { value: slackUrl } = form['slackUrl'];
+
+    putSlackUrl(slackUrl);
   };
 
-  // if (data) {
-  //   setUrl(data.slackUrl);
-  // }
+  // if (!data) return <div />;
+  // <Input css={styles.input} value={data.slackUrl} placeholder="Slack URL" />;
 
   return (
     <div css={styles.slackUrlBox}>
-      <span css={styles.jobName}>{jobName}</span>
-      <Input css={styles.input} defaultValue={url} placeholder="Slack URL" onChange={handleChange} />
-      <Button css={styles.button}>편집</Button>
+      <label htmlFor="slackUrl" css={styles.label}>
+        {jobName}
+      </label>
+      <form css={styles.form} onSubmit={onSubmit}>
+        <Input css={styles.input} name="slackUrl" defaultValue={SLACK_URL_DATA.slackUrl} placeholder="Slack URL" />
+        <Button type="submit" css={styles.button}>
+          수정
+        </Button>
+      </form>
     </div>
   );
 };

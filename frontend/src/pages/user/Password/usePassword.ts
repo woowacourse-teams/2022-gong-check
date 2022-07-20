@@ -14,7 +14,7 @@ const usePassword = () => {
     localStorage.setItem('token', token);
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!isActiveSubmit) return;
 
@@ -30,7 +30,7 @@ const usePassword = () => {
     }
   };
 
-  const handelChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target as HTMLInputElement;
 
     const isExistValue = value.length > 0;
@@ -39,8 +39,8 @@ const usePassword = () => {
 
   return {
     isActiveSubmit,
-    onSubmit: handleSubmit,
-    onChange: handelChangeInput,
+    onSubmit,
+    onChangeInput,
   };
 };
 
