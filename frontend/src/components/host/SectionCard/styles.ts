@@ -42,14 +42,16 @@ const titleWrapper = css`
   margin-bottom: 8px;
   padding-bottom: 16px;
   border-bottom: 1px solid gray;
+  height: 56px;
 
-  input {
+  span {
     font-size: 18px;
+    line-height: 38px;
   }
 `;
 
 const confirmButton = css`
-  background-color: ${theme.colors.green};
+  background-color: ${theme.colors.primary};
   width: fit-content;
   height: fit-content;
   padding: 8px 12px;
@@ -87,6 +89,17 @@ const newTaskButton = css`
   }
 `;
 
-const styles = { container, titleWrapper, confirmButton, editButton, deleteButton, newTaskButton };
+const input = css`
+  border: 1px solid ${theme.colors.shadow30};
+  border-radius: 12px;
+  padding: 0 16px;
+  font-size: 18px;
+  background-color: ${theme.colors.white};
+
+  :focus {
+    outline: 2px solid ${theme.colors.shadow30};
+  }
+`;
+const styles = { container, titleWrapper, confirmButton, editButton, deleteButton, newTaskButton, input };
 
 export default styles;

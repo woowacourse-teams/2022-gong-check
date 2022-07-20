@@ -1,4 +1,8 @@
+import { AxiosError } from 'axios';
+
 import { JobType, SectionType, SpaceType } from '@/types';
+
+export type ApiError = AxiosError<{ message: string }>;
 
 export type ApiSpaceData = {
   name: string;
@@ -39,4 +43,9 @@ type SubmissionType = {
 export type ApiSubmissionData = {
   submissions: SubmissionType[] | undefined;
   hasNext: boolean;
+};
+
+export type ApiHostTokenData = {
+  token: string;
+  alreadyJoin: boolean;
 };

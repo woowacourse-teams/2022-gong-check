@@ -1,14 +1,11 @@
 import { AxiosResponse } from 'axios';
 
+import { ApiHostTokenData } from '@/types/apis';
+
 import { axiosInstance } from './config';
 
 const getToken = async (code: string | null) => {
-  const {
-    data,
-  }: AxiosResponse<{
-    token: string;
-    alreadyJoin: boolean;
-  }> = await axiosInstance({
+  const { data }: AxiosResponse<ApiHostTokenData> = await axiosInstance({
     method: 'POST',
     url: '/api/login',
     data: {

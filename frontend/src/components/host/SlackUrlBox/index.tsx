@@ -6,6 +6,8 @@ import Input from '@/components/common/Input';
 
 import slackApi from '@/apis/slack';
 
+import { ID } from '@/types';
+
 import styles from './styles';
 
 const SLACK_URL_DATA = {
@@ -14,7 +16,7 @@ const SLACK_URL_DATA = {
 
 interface SlackUrlBoxProps {
   jobName: string;
-  jobId: number | string;
+  jobId: ID;
 }
 
 const SlackUrlBox: React.FC<SlackUrlBoxProps> = ({ jobName, jobId }) => {

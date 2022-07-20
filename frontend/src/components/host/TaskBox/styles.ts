@@ -8,11 +8,7 @@ const taskBox = css`
   justify-content: space-between;
   align-items: center;
   padding: 6px 12px;
-
-  input {
-    font-size: 16px;
-    width: 70%;
-  }
+  height: 40px;
 
   span {
     margin-right: 8px;
@@ -20,7 +16,7 @@ const taskBox = css`
 `;
 
 const editButton = css`
-  background-color: ${theme.colors.green};
+  background-color: ${theme.colors.primary};
   width: fit-content;
   height: fit-content;
   padding: 4px 8px;
@@ -46,6 +42,19 @@ const trash = css`
   }
 `;
 
-const styles = { taskBox, editButton, pencil, trash };
+const input = css`
+  border: 1px solid ${theme.colors.shadow30};
+  border-radius: 12px;
+  padding: 4px 16px;
+  width: 50%;
+  font-size: 16px;
+  background-color: ${theme.colors.white};
+
+  :focus {
+    outline: 2px solid ${theme.colors.shadow30};
+  }
+`;
+
+const styles = { taskBox, editButton, pencil, trash, input };
 
 export default styles;

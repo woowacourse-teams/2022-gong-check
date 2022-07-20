@@ -1,22 +1,24 @@
+export type ID = number | string;
+
 export type SpaceType = {
   name: string;
   imageUrl: string;
-  id: number | string;
+  id: ID;
 };
 
 export type JobType = {
-  id: number | string;
+  id: ID;
   name: string;
 };
 
 export type SectionType = {
-  id: number | string;
+  id: ID | undefined;
   name: string;
   tasks: TaskType[];
 };
 
 export type TaskType = {
-  id: number | string;
+  id: ID;
   name: string;
   checked?: boolean;
 };

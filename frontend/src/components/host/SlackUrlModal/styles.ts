@@ -61,6 +61,17 @@ const contents = css`
   }
 `;
 
-const styles = { title, detail, container, icon, contents };
+const noJobsInfo = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+
+  font-size: 24px;
+  font-weight: 500;
+`;
+
+const styles = { title, detail, container, icon, contents, noJobsInfo };
 
 export default styles;
