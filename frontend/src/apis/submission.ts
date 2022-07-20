@@ -14,8 +14,6 @@ const postJobComplete = ({ jobId, author }: any) => {
   });
 };
 
-// Sprint 2------
-
 // submission 목록 조회
 const getSubmission = async ({ spaceId }: any) => {
   const { data }: AxiosResponse<ApiSubmissionData> = await axiosInstanceToken({

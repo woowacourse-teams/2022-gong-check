@@ -2,11 +2,14 @@ package com.woowacourse.gongcheck.presentation;
 
 import com.woowacourse.gongcheck.application.AlertService;
 import com.woowacourse.gongcheck.application.SubmissionService;
+import com.woowacourse.gongcheck.application.response.JobSubmissionsResponse;
 import com.woowacourse.gongcheck.application.response.SubmissionResponse;
 import com.woowacourse.gongcheck.presentation.request.SubmissionRequest;
 import javax.validation.Valid;
 import org.springframework.core.task.TaskRejectedException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,5 +39,13 @@ public class SubmissionController {
             throw new RuntimeException(e);
         }
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/spaces/{spaceId}/submissions")
+    public ResponseEntity<JobSubmissionsResponse> showSubmissions(@AuthenticationPrincipal final Long hostId,
+                                                                  @PathVariable final Long spaceId,
+                                                                  final Pageable pageable) {
+        JobSubmissionsResponse response = submissionService.findPage(hostId, spaceId, pageable);
+        return ResponseEntity.ok(response);
     }
 }

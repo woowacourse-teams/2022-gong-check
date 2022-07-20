@@ -15,7 +15,7 @@ public class SubmissionResponse {
     }
 
     private SubmissionResponse(final String slackUrl, final String author, final String spaceName,
-                              final String jobName) {
+                               final String jobName) {
         this.slackUrl = slackUrl;
         this.author = author;
         this.spaceName = spaceName;
