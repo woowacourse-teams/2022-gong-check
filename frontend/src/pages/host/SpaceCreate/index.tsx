@@ -11,7 +11,7 @@ const SpaceCreate: React.FC = () => {
 
   const [isCreateSpace, setIsCreateSpace] = useState(true);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
 
@@ -31,18 +31,18 @@ const SpaceCreate: React.FC = () => {
     // navigate(`/host/manage/${spaceId}`);
   };
 
-  const handleCreateSpace = () => {
+  const onCreateSpace = () => {
     setIsCreateSpace(true);
   };
 
   return (
     <div css={styles.layout}>
       {isCreateSpace ? (
-        <SpaceInfo onSubmit={handleSubmit} />
+        <SpaceInfo onSubmit={onSubmit} />
       ) : (
         <div css={styles.contents}>
           <p css={styles.text}>등록된 공간이 없습니다.</p>
-          <Button onClick={handleCreateSpace}>새로운 공간 추가</Button>
+          <Button onClick={onCreateSpace}>새로운 공간 추가</Button>
         </div>
       )}
     </div>

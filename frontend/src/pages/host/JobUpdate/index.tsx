@@ -1,5 +1,3 @@
-import { nanoid } from 'nanoid';
-
 import SectionCard from '@/components/host/SectionCard';
 
 import useSections from '@/hooks/useSections';
@@ -37,7 +35,7 @@ const JobUpdate: React.FC = () => {
               editTask={editTask}
               deleteTask={deleteTask}
               deleteSection={deleteSection}
-              key={nanoid()}
+              key={section.id}
             />
           ))}
           <div css={styles.createCard} onClick={createSection}>

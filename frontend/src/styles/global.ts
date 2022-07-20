@@ -37,6 +37,7 @@ const globalStyle = css`
     justify-content: center;
     position: fixed;
     top: 0;
+    z-index: 1;
   }
 `;
 
