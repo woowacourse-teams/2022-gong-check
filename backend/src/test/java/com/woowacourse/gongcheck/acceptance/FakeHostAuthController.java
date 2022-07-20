@@ -43,7 +43,28 @@ public class FakeHostAuthController {
                         .body(objectMapper.writeValueAsString(new GithubAccessTokenResponse("token"))));
 
         GithubProfileResponse githubProfileResponse = new GithubProfileResponse("nickname", "loginName",
-                "1234", "test.com");
+                "2", "test.com");
+        mockRestServiceServer.expect(requestTo("https://api.github.com/user"))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(objectMapper.writeValueAsString(githubProfileResponse)));
+
+        TokenResponse result = hostAuthService.createToken(new TokenRequest("code"));
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/fake/signup")
+    public ResponseEntity<TokenResponse> signup() throws JsonProcessingException {
+        MockRestServiceServer mockRestServiceServer = MockRestServiceServer.createServer(restTemplate);
+        mockRestServiceServer.expect(requestTo("https://github.com/login/oauth/access_token"))
+                .andExpect(method(HttpMethod.POST))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(objectMapper.writeValueAsString(new GithubAccessTokenResponse("token"))));
+
+        GithubProfileResponse githubProfileResponse = new GithubProfileResponse("nickname", "loginName",
+                "3", "test.com");
         mockRestServiceServer.expect(requestTo("https://api.github.com/user"))
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withStatus(HttpStatus.OK)
