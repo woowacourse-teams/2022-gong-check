@@ -128,6 +128,13 @@ const percentText = css`
   font-size: 1.2rem;
 `;
 
+const button = (isAllChecked: boolean) =>
+  css`
+    margin-bottom: 0;
+    width: 256px;
+    background: ${isAllChecked ? theme.colors.primary : theme.colors.gray400};
+  `;
+
 const styles = {
   layout,
   contents,
@@ -140,6 +147,7 @@ const styles = {
   progressBarWrapper,
   progressBar,
   percentText,
+  button,
 };
 
 export default styles;
