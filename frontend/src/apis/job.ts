@@ -13,7 +13,7 @@ const getJobs = async (spaceId: number | string | undefined) => {
   return data;
 };
 
-const getJobActive = async ({ jobId }: any) => {
+const getJobActive = async (jobId: number) => {
   const { data }: AxiosResponse<ApiJobActiveData> = await axiosInstanceToken({
     method: 'GET',
     url: `/api/jobs/${jobId}/active`,

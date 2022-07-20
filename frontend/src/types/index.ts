@@ -5,7 +5,7 @@ export type SpaceType = {
 };
 
 export type JobType = {
-  id: number | string;
+  id: number;
   name: string;
 };
 
