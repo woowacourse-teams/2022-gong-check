@@ -88,6 +88,15 @@ public class FixtureFactory {
                 .build();
     }
 
+    public static Task Task_아이디_지정_생성(final Long id, final Section section, final String name) {
+        return Task.builder()
+                .id(id)
+                .section(section)
+                .name(name)
+                .createdAt(LocalDateTime.now())
+                .build();
+    }
+
     public static Task RunningTask로_Task_아이디_지정_생성(final Long id, final RunningTask runningTask, final Section section,
                                                    final String name) {
         return Task.builder()

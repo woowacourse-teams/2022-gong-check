@@ -7,6 +7,7 @@ import static com.woowacourse.gongcheck.fixture.FixtureFactory.RunningTask로_Ta
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Section_아이디_지정_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Task_생성;
+import static com.woowacourse.gongcheck.fixture.FixtureFactory.Task_아이디_지정_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -17,6 +18,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 
 import com.woowacourse.gongcheck.application.response.JobActiveResponse;
 import com.woowacourse.gongcheck.application.response.RunningTasksResponse;
+import com.woowacourse.gongcheck.application.response.TasksResponse;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.job.Job;
 import com.woowacourse.gongcheck.domain.section.Section;
@@ -198,5 +200,27 @@ class TaskDocumentation extends DocumentationTest {
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value());
         }
+    }
+
+    @Test
+    void Task를_조회한다() {
+        Host host = Host_생성("1234", 1234L);
+        Space space = Space_생성(host, "잠실");
+        Job job = Job_생성(space, "청소");
+        Section section1 = Section_아이디_지정_생성(1L, job, "트랙룸");
+        Section section2 = Section_아이디_지정_생성(2L, job, "굿샷강의장");
+        Task task1 = Task_아이디_지정_생성(1L, section1, "책상 청소");
+        Task task2 = Task_아이디_지정_생성(2L, section2, "책상 청소");
+        when(taskService.findTasks(anyLong(), any())).thenReturn(
+                TasksResponse.from(new Tasks(List.of(task1, task2)))
+        );
+        when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
+        docsGiven
+                .header("Authorization", "Bearer jwt.token.here")
+                .when().get("/api/jobs/1/tasks")
+                .then().log().all()
+                .apply(document("tasks/find/success"))
+                .statusCode(HttpStatus.OK.value());
     }
 }

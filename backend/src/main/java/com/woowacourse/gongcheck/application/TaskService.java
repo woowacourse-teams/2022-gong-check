@@ -2,6 +2,7 @@ package com.woowacourse.gongcheck.application;
 
 import com.woowacourse.gongcheck.application.response.JobActiveResponse;
 import com.woowacourse.gongcheck.application.response.RunningTasksResponse;
+import com.woowacourse.gongcheck.application.response.TasksResponse;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.domain.job.Job;
@@ -59,6 +60,11 @@ public class TaskService {
                 .orElseThrow(() -> new BusinessException("현재 진행 중인 작업이 아닙니다."));
 
         runningTask.flipCheckedStatus();
+    }
+
+    public TasksResponse findTasks(final Long hostId, final Long jobId) {
+        Tasks tasks = createTasksByHostIdAndJobId(hostId, jobId);
+        return TasksResponse.from(tasks);
     }
 
     private Tasks createTasksByHostIdAndJobId(final Long hostId, final Long jobId) {

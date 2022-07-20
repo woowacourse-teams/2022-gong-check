@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.gongcheck.application.response.RunningTasksResponse;
+import com.woowacourse.gongcheck.application.response.TasksResponse;
 import com.woowacourse.gongcheck.presentation.request.GuestEnterRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -162,5 +163,24 @@ class TaskAcceptanceTest extends AcceptanceTest {
                 .extract();
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    void Task를_조회한다() {
+        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
+        String token = 토큰을_요청한다(guestEnterRequest);
+
+        ExtractableResponse<Response> response = RestAssured
+                .given().log().all()
+                .auth().oauth2(token)
+                .when().get("/api/jobs/1/tasks")
+                .then().log().all()
+                .extract();
+        TasksResponse taskResponse = response.as(TasksResponse.class);
+
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
+                () -> assertThat(taskResponse.getSections()).hasSize(2)
+        );
     }
 }
