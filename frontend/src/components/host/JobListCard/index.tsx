@@ -12,7 +12,7 @@ import slackIcon from '@/assets/slackIcon.svg';
 import styles from './styles';
 
 interface JobListCardProps {
-  jobs: JobType[];
+  jobs: JobType[] | [];
 }
 
 const JobListCard: React.FC<JobListCardProps> = ({ jobs }) => {
