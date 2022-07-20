@@ -37,6 +37,6 @@ type SubmissionType = {
 };
 
 export type ApiSubmissionData = {
-  spaces: SubmissionType[];
+  submissions: SubmissionType[] | undefined;
   hasNext: boolean;
 };
