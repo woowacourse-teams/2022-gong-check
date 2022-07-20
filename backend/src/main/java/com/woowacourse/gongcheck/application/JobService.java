@@ -72,6 +72,7 @@ public class JobService {
         return SlackUrlResponse.from(job);
     }
 
+    @Transactional
     public void changeSlackUrl(final Long hostId, final Long jobId, final SlackUrlChangeRequest request) {
         Host host = hostRepository.getById(hostId);
         Job job = jobRepository.getBySpaceHostAndId(host, jobId);
