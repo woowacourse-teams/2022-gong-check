@@ -10,7 +10,7 @@ export type JobType = {
 };
 
 export type SectionType = {
-  id: number | string;
+  id: number | string | undefined;
   name: string;
   tasks: TaskType[];
 };

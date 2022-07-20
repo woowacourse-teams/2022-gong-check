@@ -1,4 +1,8 @@
+import { AxiosError } from 'axios';
+
 import { JobType, SectionType, SpaceType } from '@/types';
+
+export type ApiError = AxiosError<{ message: string }>;
 
 export type ApiSpaceData = {
   name: string;
