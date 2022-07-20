@@ -19,7 +19,7 @@ const SPACE_DATA = {
 const JobList: React.FC = () => {
   const { spaceId } = useParams();
 
-  const { data } = useQuery(['jobs', spaceId], () => apis.getJobs({ spaceId }), { suspense: true });
+  const { data } = useQuery(['jobs', spaceId], () => apis.getJobs(spaceId), { suspense: true });
 
   const { goPreviousPage } = useGoPreviousPage();
 
