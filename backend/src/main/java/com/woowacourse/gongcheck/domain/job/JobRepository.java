@@ -21,4 +21,9 @@ public interface JobRepository extends JpaRepository<Job, Long> {
         return findBySpaceHostAndId(host, id)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 작업입니다."));
     }
+
+    default Job getById(final Long id) throws NotFoundException {
+        return findById(id)
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 작업입니다."));
+    }
 }

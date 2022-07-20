@@ -127,6 +127,23 @@ class JobAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
+    void Job을_삭제한다() {
+        //Host 인증 구현 전까지 임시로 사용
+        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
+        String token = 토큰을_요청한다(guestEnterRequest);
+
+        ExtractableResponse<Response> response = RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(token)
+                .when().delete("/api/jobs/1")
+                .then().log().all()
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+    }
+
+    @Test
     void Job의_Slack_Url을_조회한다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
@@ -173,22 +190,5 @@ class JobAcceptanceTest extends AcceptanceTest {
                 .extract();
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-    }
-
-    @Test
-    void Job을_삭제한다() {
-        //Host 인증 구현 전까지 임시로 사용
-        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
-        String token = 토큰을_요청한다(guestEnterRequest);
-
-        ExtractableResponse<Response> response = RestAssured
-                .given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .auth().oauth2(token)
-                .when().delete("/api/jobs/1")
-                .then().log().all()
-                .extract();
-
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
     }
 }

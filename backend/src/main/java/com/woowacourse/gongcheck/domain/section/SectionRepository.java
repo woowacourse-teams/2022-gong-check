@@ -1,6 +1,7 @@
 package com.woowacourse.gongcheck.domain.section;
 
 import com.woowacourse.gongcheck.domain.job.Job;
+import com.woowacourse.gongcheck.exception.NotFoundException;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 

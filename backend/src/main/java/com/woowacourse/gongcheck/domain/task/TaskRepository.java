@@ -23,4 +23,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
         return findBySectionJobSpaceHostAndId(host, id)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 작업입니다."));
     }
+
+    void deleteAllBySection(final Section section);
 }

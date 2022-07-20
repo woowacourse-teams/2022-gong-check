@@ -2,6 +2,9 @@ package com.woowacourse.gongcheck.application;
 
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Host_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Job_생성;
+import static com.woowacourse.gongcheck.fixture.FixtureFactory.Section_생성;
+import static com.woowacourse.gongcheck.fixture.FixtureFactory.RunningTask_생성;
+import static com.woowacourse.gongcheck.fixture.FixtureFactory.Section_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.RunningTask_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Section_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_생성;
@@ -150,6 +153,54 @@ class JobServiceTest {
                 .hasMessage("존재하지 않는 공간입니다.");
     }
 
+    @Nested
+    class Job을_수정한다 {
+        Host host;
+        Space space;
+        List<TaskCreateRequest> tasks;
+        List<SectionCreateRequest> sections;
+        JobCreateRequest jobCreateRequest;
+        Long savedJobId;
+
+        @BeforeEach
+        void init() {
+            host = hostRepository.save(Host_생성("1234", 1234L));
+            space = spaceRepository.save(Space_생성(host, "잠실"));
+            tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
+            sections = List.of(new SectionCreateRequest("대강의실", tasks));
+            jobCreateRequest = new JobCreateRequest("청소", sections);
+            savedJobId = jobService.createJob(host.getId(), space.getId(), jobCreateRequest);
+        }
+
+        @Test
+        void 기존의_존재하는_Job을_삭제한_후_새로운_Job을_생성하여_수정한다() {
+            Long updateJobId = jobService.updateJob(host.getId(), savedJobId, jobCreateRequest);
+
+            assertThat(updateJobId).isNotNull();
+        }
+
+        @Test
+        void host가_존재하지_않을_경우_예외가_발생한다() {
+            assertThatThrownBy(() -> jobService.updateJob(0L, savedJobId, jobCreateRequest))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 호스트입니다.");
+        }
+
+        @Test
+        void host에_해당하는_jobId가_아닐_경우_예외가_발생한다() {
+            assertThatThrownBy(() -> jobService.updateJob(1L, savedJobId, jobCreateRequest))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 작업입니다.");
+        }
+
+        @Test
+        void 존재하지_않는_Job을_수정할_경우_예외가_발생한다() {
+            assertThatThrownBy(() -> jobService.updateJob(host.getId(), 0L, jobCreateRequest))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 작업입니다.");
+        }
+    }
+
     @Test
     void Host가_존재하지_않는데_Job_제거_시_예외가_발생한다() {
         Host host = hostRepository.save(Host_생성("1234", 1234L));
@@ -202,90 +253,5 @@ class JobServiceTest {
                 () -> assertThat(taskRepository.findById(task.getId())).isEmpty(),
                 () -> assertThat(runningTaskRepository.findById(runningTask.getTaskId())).isEmpty()
         );
-    }
-
-    @Test
-    void Host가_존재하지_않는데_Slack_Url_조회_시_예외가_발생한다() {
-        assertThatThrownBy(() -> jobService.findSlackUrl(0L, 0L))
-                .isInstanceOf(NotFoundException.class)
-                .hasMessage("존재하지 않는 호스트입니다.");
-    }
-
-    @Test
-    void Job이_존재하지_않는데_Slack_Url_조회_시_예외가_발생한다() {
-        Host host = hostRepository.save(Host_생성("1234", 1234L));
-
-        assertThatThrownBy(() -> jobService.findSlackUrl(host.getId(), 0L))
-                .isInstanceOf(NotFoundException.class)
-                .hasMessage("존재하지 않는 작업입니다.");
-    }
-
-    @Test
-    void Job이_존재하는데_다른_Host의_Job의_Slack_Url_조회_시_예외가_발생한다() {
-        Host myHost = hostRepository.save(Host_생성("1234", 1234L));
-        Host otherHost = hostRepository.save(Host_생성("1234", 2456L));
-        Space otherSpace = spaceRepository.save(Space_생성(otherHost, "잠실"));
-        Job otherJob = jobRepository.save(Job_생성(otherSpace, "톱오브스윙방"));
-
-        assertThatThrownBy(() -> jobService.findSlackUrl(myHost.getId(), otherJob.getId()))
-                .isInstanceOf(NotFoundException.class)
-                .hasMessage("존재하지 않는 작업입니다.");
-    }
-
-    @Test
-    void Job의_Slack_Url을_정상적으로_조회한다() {
-        Host host = hostRepository.save(Host_생성("1234", 1234L));
-        Space space = spaceRepository.save(Space_생성(host, "잠실"));
-        Job job = jobRepository.save(Job_생성(space, "톱오브스윙방", "http://slackurl.com"));
-
-        assertThat(jobService.findSlackUrl(host.getId(), job.getId()).getSlackUrl()).isEqualTo("http://slackurl.com");
-    }
-
-    @Nested
-    class Job_Slack_Url_수정_시 {
-
-        private Host host;
-        private SlackUrlChangeRequest request;
-
-        @BeforeEach
-        void setUp() {
-            host = hostRepository.save(Host_생성("1234", 1234L));
-            request = new SlackUrlChangeRequest("https://newslackurl.com");
-        }
-
-        @Test
-        void Host가_존재하지_않으면_예외가_발생한다() {
-            assertThatThrownBy(() -> jobService.changeSlackUrl(0L, 0L, request))
-                    .isInstanceOf(NotFoundException.class)
-                    .hasMessage("존재하지 않는 호스트입니다.");
-        }
-
-        @Test
-        void Job이_존재하지_않으면_예외가_발생한다() {
-            assertThatThrownBy(() -> jobService.changeSlackUrl(host.getId(), 0L, request))
-                    .isInstanceOf(NotFoundException.class)
-                    .hasMessage("존재하지 않는 작업입니다.");
-        }
-
-        @Test
-        void 다른_Host의_것을_수정할_시_예외가_발생한다() {
-            Host otherHost = hostRepository.save(Host_생성("1234", 2456L));
-            Space otherSpace = spaceRepository.save(Space_생성(otherHost, "잠실"));
-            Job otherJob = jobRepository.save(Job_생성(otherSpace, "톱오브스윙방"));
-
-            assertThatThrownBy(() -> jobService.changeSlackUrl(host.getId(), otherJob.getId(), request))
-                    .isInstanceOf(NotFoundException.class)
-                    .hasMessage("존재하지 않는 작업입니다.");
-        }
-
-        @Test
-        void 정상적으로_수정한다() {
-            Space space = spaceRepository.save(Space_생성(host, "잠실"));
-            Job job = jobRepository.save(Job_생성(space, "톱오브스윙방", "http://slackurl.com"));
-
-            jobService.changeSlackUrl(host.getId(), job.getId(), request);
-
-            assertThat(job.getSlackUrl()).isEqualTo("https://newslackurl.com");
-        }
     }
 }
