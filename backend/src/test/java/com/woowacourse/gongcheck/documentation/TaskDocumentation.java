@@ -37,10 +37,10 @@ import org.springframework.http.MediaType;
 class TaskDocumentation extends DocumentationTest {
 
     @Nested
-    class 진행_작업을_생성한다 {
+    class RunningTask를_생성한다 {
 
         @Test
-        void 새_진행_작업_생성에_성공한다() {
+        void RunningTask_생성에_성공한다() {
             doNothing().when(taskService).createNewRunningTasks(anyLong(), any());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
@@ -53,7 +53,7 @@ class TaskDocumentation extends DocumentationTest {
         }
 
         @Test
-        void 이미_존재하는_진행작업이_있는데_생성하는_경우_예외가_발생한다() {
+        void 이미_RunningTask가_존재하는데_새로운_RunningTask를_생성하려는_경우_예외가_발생한다() {
             doThrow(new BusinessException("현재 진행중인 작업이 존재하여 새로운 작업을 생성할 수 없습니다.")).when(taskService)
                     .createNewRunningTasks(anyLong(), anyLong());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
@@ -71,10 +71,10 @@ class TaskDocumentation extends DocumentationTest {
     }
 
     @Nested
-    class 작업의_진행_여부를_확인한다 {
+    class RunningTask_생성_여부를_확인한다 {
 
         @Test
-        void 작업_진행_여부_확인() {
+        void RunningTask_생성_여부_확인() {
             when(taskService.isJobActivated(anyLong(), any())).thenReturn(JobActiveResponse.from(true));
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
@@ -88,10 +88,10 @@ class TaskDocumentation extends DocumentationTest {
     }
 
     @Nested
-    class 진행중인_작업을_조회한다 {
+    class Running_Task를_조회한다 {
 
         @Test
-        void 진행중인_작업이_있으면_조회에_성공한다() {
+        void RunningTask가_존재하면_성공적으로_조회한다() {
             Host host = Host_생성("1234", 1234L);
             Space space = Space_생성(host, "잠실");
             Job job = Job_생성(space, "청소");
@@ -115,7 +115,7 @@ class TaskDocumentation extends DocumentationTest {
         }
 
         @Test
-        void 존재하는_진행작업이_없는데_조회하는_경우_예외가_발생한다() {
+        void RunningTask가_존재하지_않는_상태에서_조회하려는_경우_예외가_발생한다() {
             doThrow(new BusinessException("현재 진행중인 작업이 존재하지 않아 조회할 수 없습니다")).when(taskService)
                     .findRunningTasks(anyLong(), anyLong());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
@@ -133,10 +133,10 @@ class TaskDocumentation extends DocumentationTest {
     }
 
     @Nested
-    class 단일_작업을_체크한다 {
+    class RunningTask의_체크상태를_변경한다 {
 
         @Test
-        void 진행중인_단일_작업이라면_체크에_성공한다() {
+        void 체크상태_변경에_성공한다() {
             doNothing().when(taskService).flipRunningTask(anyLong(), any());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
@@ -149,7 +149,7 @@ class TaskDocumentation extends DocumentationTest {
         }
 
         @Test
-        void 진행중인_작업이_아니라면_예외가_발생한다() {
+        void 존재하지_않는_RunningTask의_체크상태를_변경하려는_경우_예외가_발생한다() {
             doThrow(new BusinessException("현재 진행 중인 작업이 아닙니다.")).when(taskService)
                     .flipRunningTask(anyLong(), anyLong());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
@@ -166,7 +166,7 @@ class TaskDocumentation extends DocumentationTest {
         }
 
         @Test
-        void 진행중인_작업과_hostId가_일치하지_않는_경우_예외가_발생한다() {
+        void RunningTask의_아이디와_Host_아이디가_연관되지_않는_경우_예외가_발생한다() {
             doThrow(new NotFoundException("진행중인 작업이 존재하지 않습니다.")).when(taskService)
                     .flipRunningTask(anyLong(), anyLong());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
@@ -183,7 +183,7 @@ class TaskDocumentation extends DocumentationTest {
         }
 
         @Test
-        void 호스트가_존재하지_않는_경우_예외가_발생한다() {
+        void RunningTask와_연관된_Host가_존재하지_않는_경우_예외가_발생한다() {
             doThrow(new NotFoundException("진행중인 작업이 존재하지 않습니다.")).when(taskService)
                     .flipRunningTask(anyLong(), anyLong());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));

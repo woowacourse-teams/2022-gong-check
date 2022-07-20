@@ -15,7 +15,7 @@ import org.springframework.http.MediaType;
 class GuestAuthAcceptanceTest extends AcceptanceTest {
 
     @Test
-    void 올바른_공간_비밀번호를_입력하면_토큰을_반환한다() {
+    void 올바른_Space_비밀번호를_입력하면_토큰을_반환한다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
 
         ExtractableResponse<Response> response = RestAssured.given().log().all()

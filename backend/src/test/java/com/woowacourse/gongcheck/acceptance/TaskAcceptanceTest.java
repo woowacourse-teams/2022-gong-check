@@ -15,7 +15,7 @@ import org.springframework.http.HttpStatus;
 class TaskAcceptanceTest extends AcceptanceTest {
 
     @Test
-    void 새로운_진행작업을_생성한다() {
+    void RunningTask를_생성한다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 
@@ -30,7 +30,7 @@ class TaskAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void 이미_존재하는_진행작업이_있는데_생성하는_경우_실패한다() {
+    void 이미_RunningTask가_존재하는_경우_생성에_실패한다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 
@@ -52,7 +52,7 @@ class TaskAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void 진행중인_작업을_조회한다() {
+    void RunningTask를_조회한다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
         RestAssured
@@ -77,7 +77,7 @@ class TaskAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void 진행_작업을_생성하고_작업의_진행여부를_확인한다() {
+    void RunningTask를_생성하고_존재_여부를_확인한다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 
@@ -99,7 +99,7 @@ class TaskAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void 진행_작업이_없는_경우에_작업의_진행여부를_확인한다() {
+    void RunningTask의_존재여부를_확인한다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 
@@ -114,7 +114,7 @@ class TaskAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void 진행중인_작업이_존재하지_않는데_조회할_경우_예외가_발생한다() {
+    void 존재하지_않는_RunningTask를_조회하려는_경우_예외가_발생한다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 
@@ -129,7 +129,7 @@ class TaskAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void 진행중인_작업의_체크_상태를_변환한다() {
+    void RunningTask의_체크상태를_변경한다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
         RestAssured
@@ -150,7 +150,7 @@ class TaskAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void 진행중이지_않은_작업을_체크시도할_경우_예외가_발생한다() {
+    void 존재하지_않는_RunningTask의_체크상태를_변경하려는_경우_예외가_발생한다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 

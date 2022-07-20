@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 class RunningTasksTest {
 
     @Test
-    void 모든_테스크가_완료되었는지_확인한다() {
+    void 모든_RunningTask가_체크상태인지_확인한다() {
         RunningTask runningTask1 = RunningTask_생성(1L, true);
         RunningTask runningTask2 = RunningTask_생성(2L, true);
         RunningTasks runningTasks = new RunningTasks(List.of(runningTask1, runningTask2));
@@ -20,7 +20,7 @@ class RunningTasksTest {
     }
 
     @Test
-    void 테스크가_하나라도_미완료상태인지_확인한다() {
+    void 하나의_RunningTask라도_체크상태가_아니면_예외가_발생한다() {
         RunningTask runningTask1 = RunningTask_생성(1L, true);
         RunningTask runningTask2 = RunningTask_생성(2L, false);
         RunningTasks runningTasks = new RunningTasks(List.of(runningTask1, runningTask2));

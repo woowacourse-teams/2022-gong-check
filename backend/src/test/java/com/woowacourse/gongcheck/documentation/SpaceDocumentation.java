@@ -118,7 +118,7 @@ class SpaceDocumentation extends DocumentationTest {
     }
 
     @Test
-    void 공간을_삭제한다() {
+    void Space를_삭제한다() {
         doNothing().when(spaceService).removeSpace(anyLong(), anyLong());
         when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
