@@ -48,7 +48,7 @@ const SpaceInfo: React.FC<SpaceInfoProps> = ({ onSubmit, inputText = '', isEditM
 
   if (isEditMode) {
     return (
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} encType="multipart/form-data">
         <SpaceInfoTemplate
           buttonComponent={
             <Button type="submit" css={styles.button({ isActive: isActiveSubmit })}>
