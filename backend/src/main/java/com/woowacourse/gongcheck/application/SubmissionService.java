@@ -46,11 +46,20 @@ public class SubmissionService {
     }
 
     @Transactional
-    public SubmissionResponse submitJobCompletion(final Long hostId, final Long jobId, final SubmissionRequest request) {
+    public SubmissionResponse submitJobCompletion(final Long hostId, final Long jobId,
+                                                  final SubmissionRequest request) {
         Host host = hostRepository.getById(hostId);
         Job job = jobRepository.getBySpaceHostAndId(host, jobId);
         saveSubmissionAndClearRunningTasks(request, job);
         return SubmissionResponse.of(request.getAuthor(), job);
+    }
+
+    public JobSubmissionsResponse findPage(final Long hostId, final Long spaceId, final Pageable pageable) {
+        Host host = hostRepository.getById(hostId);
+        Space space = spaceRepository.getByHostAndId(host, spaceId);
+        List<Job> jobs = jobRepository.findAllBySpace(space);
+        Slice<Submission> submissions = submissionRepository.findAllByJobIn(jobs, pageable);
+        return JobSubmissionsResponse.from(submissions);
     }
 
     private void saveSubmissionAndClearRunningTasks(final SubmissionRequest request, final Job job) {
@@ -66,13 +75,5 @@ public class SubmissionService {
         if (!runningTaskRepository.existsByTaskIdIn(tasks.getTaskIds())) {
             throw new BusinessException("현재 제출할 수 있는 진행중인 작업이 존재하지 않습니다.");
         }
-    }
-
-    public JobSubmissionsResponse findPage(final Long hostId, final Long spaceId, final Pageable pageable) {
-        Host host = hostRepository.getById(hostId);
-        Space space = spaceRepository.getByHostAndId(host, spaceId);
-        List<Job> jobs = jobRepository.findAllBySpace(space);
-        Slice<Submission> submissions = submissionRepository.findAllByJobIn(jobs, pageable);
-        return JobSubmissionsResponse.from(submissions);
     }
 }

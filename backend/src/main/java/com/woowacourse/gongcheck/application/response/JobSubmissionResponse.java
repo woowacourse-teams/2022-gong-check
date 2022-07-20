@@ -32,9 +32,4 @@ public class JobSubmissionResponse {
         return new JobSubmissionResponse(submission.getId(), submission.getJob().getId(), submission.getJob().getName(),
                 submission.getAuthor(), submission.getCreatedAt());
     }
-
-    private LocalDateTime formatTime(final LocalDateTime time) {
-        return LocalDateTime.of(time.getYear(), time.getMonth(), time.getDayOfMonth(),
-                time.getHour(), time.getMinute(), time.getSecond());
-    }
 }
