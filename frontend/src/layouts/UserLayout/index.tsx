@@ -1,4 +1,4 @@
-import ErrorUserToken from '@/errorBoundary/ErrorUserToken';
+import ErrorUserToken from '@/boundary/ErrorUserToken';
 import { Global } from '@emotion/react';
 import { Suspense, useEffect } from 'react';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
