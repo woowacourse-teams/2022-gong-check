@@ -1,12 +1,14 @@
 import useJobCard from './useJobCard';
 
+import { ID } from '@/types';
+
 import checklistImage from '@/assets/checklistImage.svg';
 
 import styles from './styles';
 
 interface JobCardProps {
   jobName: string;
-  id: number;
+  id: ID;
 }
 
 const JobCard: React.FC<JobCardProps> = ({ jobName, id }) => {

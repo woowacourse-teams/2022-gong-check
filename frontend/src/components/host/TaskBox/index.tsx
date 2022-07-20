@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { BiPencil, BiTrash } from 'react-icons/bi';
 
 import Button from '@/components/common/Button';
@@ -14,6 +14,8 @@ interface TaskBoxProps {
 }
 
 const TaskBox: React.FC<TaskBoxProps> = ({ task, sectionIndex, taskIndex, editTask, deleteTask }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const [taskName, setTaskName] = useState(task.name);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -34,11 +36,15 @@ const TaskBox: React.FC<TaskBoxProps> = ({ task, sectionIndex, taskIndex, editTa
     deleteTask(sectionIndex, taskIndex);
   };
 
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [isEditing]);
+
   return (
     <div css={styles.taskBox}>
       {isEditing ? (
         <>
-          <input value={taskName} onChange={onChangeInput} />
+          <input css={styles.input} ref={inputRef} value={taskName} onChange={onChangeInput} />
           <Button css={styles.editButton} onClick={onClickConfirmButton}>
             수정 확인
           </Button>

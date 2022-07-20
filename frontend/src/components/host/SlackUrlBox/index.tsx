@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 
 import Button from '@/components/common/Button';
@@ -6,21 +5,19 @@ import Input from '@/components/common/Input';
 
 import slackApi from '@/apis/slack';
 
-import styles from './styles';
+import { ID } from '@/types';
 
-const SLACK_URL_DATA = {
-  slackUrl: 'https://slackUrl.com',
-};
+import styles from './styles';
 
 interface SlackUrlBoxProps {
   jobName: string;
-  jobId: number | string;
+  jobId: ID;
 }
 
 const SlackUrlBox: React.FC<SlackUrlBoxProps> = ({ jobName, jobId }) => {
-  // const { data } = useQuery(['slackUrl', jobId], () => slackApi.getSlackUrl(jobId), {
-  //   suspense: true,
-  // });
+  const { data: slackUrlData } = useQuery(['slackUrl', jobId], () => slackApi.getSlackUrl(jobId), {
+    suspense: true,
+  });
 
   const { mutate: putSlackUrl } = useMutation((url: string) => slackApi.putSlackUrl(jobId, url));
 
@@ -33,8 +30,7 @@ const SlackUrlBox: React.FC<SlackUrlBoxProps> = ({ jobName, jobId }) => {
     putSlackUrl(slackUrl);
   };
 
-  // if (!data) return <div />;
-  // <Input css={styles.input} value={data.slackUrl} placeholder="Slack URL" />;
+  if (!slackUrlData) return <></>;
 
   return (
     <div css={styles.slackUrlBox}>
@@ -42,7 +38,7 @@ const SlackUrlBox: React.FC<SlackUrlBoxProps> = ({ jobName, jobId }) => {
         {jobName}
       </label>
       <form css={styles.form} onSubmit={onSubmit}>
-        <Input css={styles.input} name="slackUrl" defaultValue={SLACK_URL_DATA.slackUrl} placeholder="Slack URL" />
+        <Input name="slackUrl" css={styles.input} defaultValue={slackUrlData.slackUrl ?? ''} placeholder="Slack URL" />
         <Button type="submit" css={styles.button}>
           수정
         </Button>

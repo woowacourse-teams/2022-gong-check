@@ -1,38 +1,21 @@
-import Button from '@/components/common/Button';
+import useJobCreate from './useJobCreate';
+
+import JobControl from '@/components/host/JobControl';
 import SectionCard from '@/components/host/SectionCard';
 
 import useSections from '@/hooks/useSections';
 
 import styles from './styles';
 
-const DATA = {
-  name: '청소',
-  sections: [
-    {
-      name: '대강의실',
-      tasks: [{ name: '책상 닦기' }, { name: '칠판 닦기' }],
-    },
-    {
-      name: '소강의실',
-      tasks: [{ name: '책상 닦기' }, { name: '칠판 닦기' }],
-    },
-  ],
-};
-
 const JobCreate: React.FC = () => {
   const { sections, createSection, editSection, deleteSection, createTask, editTask, deleteTask } = useSections();
 
-  const onClick = () => {
-    alert('작업 생성 API 호출');
-  };
+  const { newJobName, onChangeJobName, onClickCreateNewJob } = useJobCreate(sections);
 
   return (
     <div css={styles.layout}>
       <div css={styles.contents}>
-        <div css={styles.header}>
-          <h1>{DATA.name}</h1>
-          <Button onClick={onClick}>생성 완료</Button>
-        </div>
+        <JobControl jobName={newJobName} onChangeJobName={onChangeJobName} onClickCreateNewJob={onClickCreateNewJob} />
         <div css={styles.grid}>
           {sections.map((section, sectionIndex) => (
             <SectionCard

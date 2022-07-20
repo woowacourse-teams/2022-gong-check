@@ -1,40 +1,22 @@
-import { useNavigate } from 'react-router-dom';
+import useJobListCard from './useJobListCard';
 
 import Button from '@/components/common/Button';
-import SlackUrlModal from '@/components/host/SlackUrlModal';
 
-import useModal from '@/hooks/useModal';
+import apiJobs from '@/apis/job';
 
-import { JobType } from '@/types';
+import { ID, JobType } from '@/types';
 
 import slackIcon from '@/assets/slackIcon.svg';
 
 import styles from './styles';
 
 interface JobListCardProps {
-  jobs: JobType[];
+  jobs: JobType[] | [];
 }
 
 const JobListCard: React.FC<JobListCardProps> = ({ jobs }) => {
-  const navigate = useNavigate();
-
-  const { openModal } = useModal();
-
-  const onClickSlackButton = () => {
-    openModal(<SlackUrlModal jobs={jobs} />);
-  };
-
-  const onClickNewJobButton = () => {
-    navigate('jobCreate');
-  };
-
-  const onClickUpdateJobButton = () => {
-    navigate('jobCreate');
-  };
-
-  const onClickDeleteJobButton = (jobId: number | string) => {
-    alert(`작업 삭제 버튼 클릭! jobId:${jobId}`);
-  };
+  const { onClickSlackButton, onClickNewJobButton, onClickUpdateJobButton, onClickDeleteJobButton } =
+    useJobListCard(jobs);
 
   return (
     <div css={styles.layout}>
@@ -55,7 +37,12 @@ const JobListCard: React.FC<JobListCardProps> = ({ jobs }) => {
           <div css={styles.jobList} key={job.id}>
             <span>{job.name}</span>
             <div>
-              <Button css={styles.updateButton} onClick={onClickUpdateJobButton}>
+              <Button
+                css={styles.updateButton}
+                onClick={() => {
+                  onClickUpdateJobButton(job.id);
+                }}
+              >
                 수정
               </Button>
               <Button

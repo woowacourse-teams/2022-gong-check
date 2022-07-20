@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import Button from '@/components/common/Button';
 import TaskBox from '@/components/host/TaskBox';
@@ -26,6 +26,8 @@ const SectionCard: React.FC<SectionCardProps> = ({
   deleteTask,
   deleteSection,
 }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const [sectionName, setSectionName] = useState(section.name);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -50,14 +52,18 @@ const SectionCard: React.FC<SectionCardProps> = ({
     createTask(sectionIndex);
   };
 
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [isEditing]);
+
   return (
     <div css={styles.container}>
       <div css={styles.titleWrapper}>
         {isEditing ? (
           <>
-            <input value={sectionName} onChange={onChange} />
+            <input css={styles.input} ref={inputRef} value={sectionName} onChange={onChange} />
             <Button css={styles.confirmButton} onClick={onClickConfirm}>
-              수정 완료
+              수정 확인
             </Button>
           </>
         ) : (
@@ -65,7 +71,7 @@ const SectionCard: React.FC<SectionCardProps> = ({
             <span>{sectionName}</span>
             <div>
               <Button css={styles.editButton} onClick={onClickEdit}>
-                이름 수정
+                이름 변경
               </Button>
               <Button css={styles.deleteButton} onClick={onClickDelete}>
                 삭제
