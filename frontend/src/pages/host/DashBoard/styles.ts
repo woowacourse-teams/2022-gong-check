@@ -1,9 +1,7 @@
 import { css } from '@emotion/react';
 
-import theme from '@/styles/theme';
-
 const layout = css`
-  padding: 16px 48px;
+  padding: 32px 48px;
   display: flex;
   flex-direction: column;
 `;

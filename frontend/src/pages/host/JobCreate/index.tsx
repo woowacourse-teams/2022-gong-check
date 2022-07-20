@@ -1,5 +1,4 @@
-import { nanoid } from 'nanoid';
-
+import Button from '@/components/common/Button';
 import SectionCard from '@/components/host/SectionCard';
 
 import useSections from '@/hooks/useSections';
@@ -23,10 +22,17 @@ const DATA = {
 const JobCreate: React.FC = () => {
   const { sections, createSection, editSection, deleteSection, createTask, editTask, deleteTask } = useSections();
 
+  const onClick = () => {
+    alert('작업 생성 API 호출');
+  };
+
   return (
     <div css={styles.layout}>
       <div css={styles.contents}>
-        <p css={styles.pageTitle}>{DATA.name}</p>
+        <div css={styles.header}>
+          <h1>{DATA.name}</h1>
+          <Button onClick={onClick}>생성 완료</Button>
+        </div>
         <div css={styles.grid}>
           {sections.map((section, sectionIndex) => (
             <SectionCard
@@ -37,7 +43,7 @@ const JobCreate: React.FC = () => {
               editTask={editTask}
               deleteTask={deleteTask}
               deleteSection={deleteSection}
-              key={nanoid()}
+              key={section.id}
             />
           ))}
           <div css={styles.createCard} onClick={createSection}>

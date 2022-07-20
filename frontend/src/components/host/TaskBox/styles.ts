@@ -1,18 +1,7 @@
-import { css, keyframes } from '@emotion/react';
+import { css } from '@emotion/react';
 
+import animation from '@/styles/animation';
 import theme from '@/styles/theme';
-
-const shake = keyframes`
-  0%, 50%{
-    transform: rotate(0deg);
-	}
-  5%, 15%, 25%, 35%, 45% {
-    transform: rotate(13deg);
-  }
-  10%, 20%, 30%, 40% {
-    transform: rotate(-13deg);
-  }
-`;
 
 const taskBox = css`
   display: flex;
@@ -44,7 +33,7 @@ const pencil = css`
   cursor: pointer;
   color: ${theme.colors.primary};
   :hover {
-    animation: ${shake} 2s infinite linear alternate;
+    animation: ${animation.shake} 2s infinite linear alternate;
   }
 `;
 
@@ -53,7 +42,7 @@ const trash = css`
   cursor: pointer;
   color: ${theme.colors.red};
   :hover {
-    animation: ${shake} 2s infinite linear alternate;
+    animation: ${animation.shake} 2s infinite linear alternate;
   }
 `;
 

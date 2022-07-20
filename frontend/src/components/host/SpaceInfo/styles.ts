@@ -7,12 +7,13 @@ const contentWith = css`
   margin: 0 auto;
 `;
 
-const button = css`
+const button = ({ isActive }: { isActive?: boolean }) => css`
   width: 5rem;
   height: 2rem;
   margin: 0;
   font-size: 1rem;
   padding: 8px 0;
+  background: ${isActive ? theme.colors.primary : theme.colors.gray400};
 `;
 
 const spaceInfo = css`
@@ -53,17 +54,19 @@ const imageWrapper = css`
   padding-bottom: 1.25rem;
 `;
 
-const imageBox = css`
+const imageBox = (imageUrl: string | undefined, borderStyle?: string) => css`
   display: block;
   background: ${theme.colors.gray300};
   background-size: cover;
   background-repeat: no-repeat;
   border: 2px ${theme.colors.gray400};
   border-radius: 8px;
+  border-style: ${borderStyle};
   width: 15rem;
   height: 15rem;
   position: relative;
   margin: 0 1.5rem;
+  background-image: url(${imageUrl});
   cursor: pointer;
 `;
 

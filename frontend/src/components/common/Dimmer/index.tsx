@@ -13,7 +13,7 @@ interface DimmerProps {
 const Dimmer: React.FC<DimmerProps> = ({ children, isAbleClick = true, mode = 'full' }) => {
   const { closeModal } = useModal();
 
-  const handleClickDimmed = (e: React.MouseEvent<HTMLElement>) => {
+  const onClickDimmed = (e: React.MouseEvent<HTMLElement>) => {
     if (e.currentTarget === e.target && isAbleClick) closeModal();
   };
 
@@ -27,7 +27,7 @@ const Dimmer: React.FC<DimmerProps> = ({ children, isAbleClick = true, mode = 'f
         justify-content: center;
         align-items: center;
       `}
-      onClick={handleClickDimmed}
+      onClick={onClickDimmed}
     >
       {children}
     </div>
