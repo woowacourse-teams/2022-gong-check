@@ -59,15 +59,7 @@ public class JobService {
     public Long createJob(final Long hostId, final Long spaceId, final JobCreateRequest request) {
         Host host = hostRepository.getById(hostId);
         Space space = spaceRepository.getByHostAndId(host, spaceId);
-
-        Job job = Job.builder()
-                .space(space)
-                .name(request.getName())
-                .createdAt(LocalDateTime.now())
-                .build();
-        jobRepository.save(job);
-        createSectionsAndTasks(request.getSections(), job);
-        return job.getId();
+        return saveJob(request, space);
     }
 
     @Transactional
@@ -77,12 +69,19 @@ public class JobService {
         List<Section> sections = sectionRepository.findAllByJob(job);
         List<Task> tasks = taskRepository.findAllBySectionIn(sections);
 
-        runningTaskRepository.deleteAllByIdInBatch(tasks.stream()
-                .map(Task::getId)
-                .collect(toList()));
-        taskRepository.deleteAllInBatch(tasks);
-        sectionRepository.deleteAllInBatch(sections);
-        jobRepository.deleteById(jobId);
+        deleteJob(jobId, sections, tasks);
+    }
+
+    @Transactional
+    public Long updateJob(final Long hostId, final Long jobId, final JobCreateRequest request) {
+        Host host = hostRepository.getById(hostId);
+        Job job = jobRepository.getBySpaceHostAndId(host, jobId);
+        Space space = job.getSpace();
+        List<Section> sections = sectionRepository.findAllByJob(job);
+        List<Task> tasks = taskRepository.findAllBySectionIn(sections);
+
+        deleteJob(jobId, sections, tasks);
+        return saveJob(request, space);
     }
 
     public SlackUrlResponse findSlackUrl(final Long hostId, final Long jobId) {
@@ -96,6 +95,17 @@ public class JobService {
         Host host = hostRepository.getById(hostId);
         Job job = jobRepository.getBySpaceHostAndId(host, jobId);
         job.changeSlackUrl(request.getSlackUrl());
+    }
+
+    private Long saveJob(final JobCreateRequest request, final Space space) {
+        Job job = Job.builder()
+                .space(space)
+                .name(request.getName())
+                .createdAt(LocalDateTime.now())
+                .build();
+        jobRepository.save(job);
+        createSectionsAndTasks(request.getSections(), job);
+        return job.getId();
     }
 
     private void createSectionsAndTasks(final List<SectionCreateRequest> sectionCreateRequests, final Job job) {
@@ -127,5 +137,14 @@ public class JobService {
                 .name(taskCreateRequest.getName())
                 .createdAt(LocalDateTime.now())
                 .build();
+    }
+
+    private void deleteJob(final Long jobId, final List<Section> sections, final List<Task> tasks) {
+        runningTaskRepository.deleteAllByIdInBatch(tasks.stream()
+                .map(Task::getId)
+                .collect(toList()));
+        taskRepository.deleteAllInBatch(tasks);
+        sectionRepository.deleteAllInBatch(sections);
+        jobRepository.deleteById(jobId);
     }
 }

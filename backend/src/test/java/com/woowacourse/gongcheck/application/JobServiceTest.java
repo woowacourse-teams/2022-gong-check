@@ -2,6 +2,9 @@ package com.woowacourse.gongcheck.application;
 
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Host_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Job_생성;
+import static com.woowacourse.gongcheck.fixture.FixtureFactory.Section_생성;
+import static com.woowacourse.gongcheck.fixture.FixtureFactory.RunningTask_생성;
+import static com.woowacourse.gongcheck.fixture.FixtureFactory.Section_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.RunningTask_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Section_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_생성;
@@ -29,6 +32,8 @@ import com.woowacourse.gongcheck.presentation.request.SectionCreateRequest;
 import com.woowacourse.gongcheck.presentation.request.SlackUrlChangeRequest;
 import com.woowacourse.gongcheck.presentation.request.TaskCreateRequest;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -148,6 +153,54 @@ class JobServiceTest {
         assertThatThrownBy(() -> jobService.createJob(host.getId(), 0L, jobCreateRequest))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("존재하지 않는 공간입니다.");
+    }
+
+    @Nested
+    class Job을_수정한다 {
+        Host host;
+        Space space;
+        List<TaskCreateRequest> tasks;
+        List<SectionCreateRequest> sections;
+        JobCreateRequest jobCreateRequest;
+        Long savedJobId;
+
+        @BeforeEach
+        void init() {
+            host = hostRepository.save(Host_생성("1234", 1234L));
+            space = spaceRepository.save(Space_생성(host, "잠실"));
+            tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
+            sections = List.of(new SectionCreateRequest("대강의실", tasks));
+            jobCreateRequest = new JobCreateRequest("청소", sections);
+            savedJobId = jobService.createJob(host.getId(), space.getId(), jobCreateRequest);
+        }
+
+        @Test
+        void 기존의_존재하는_Job을_삭제한_후_새로운_Job을_생성하여_수정한다() {
+            Long updateJobId = jobService.updateJob(host.getId(), savedJobId, jobCreateRequest);
+
+            assertThat(updateJobId).isNotNull();
+        }
+
+        @Test
+        void host가_존재하지_않을_경우_예외가_발생한다() {
+            assertThatThrownBy(() -> jobService.updateJob(0L, savedJobId, jobCreateRequest))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 호스트입니다.");
+        }
+
+        @Test
+        void host에_해당하는_jobId가_아닐_경우_예외가_발생한다() {
+            assertThatThrownBy(() -> jobService.updateJob(1L, savedJobId, jobCreateRequest))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 작업입니다.");
+        }
+
+        @Test
+        void 존재하지_않는_Job을_수정할_경우_예외가_발생한다() {
+            assertThatThrownBy(() -> jobService.updateJob(host.getId(), 0L, jobCreateRequest))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 작업입니다.");
+        }
     }
 
     @Test

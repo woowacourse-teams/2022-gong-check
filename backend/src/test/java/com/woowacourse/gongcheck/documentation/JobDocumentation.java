@@ -133,6 +133,88 @@ class JobDocumentation extends DocumentationTest {
         }
     }
 
+    @Nested
+    class Job을_수정_시 {
+        List<TaskCreateRequest> tasks1 = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
+        List<TaskCreateRequest> tasks2 = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
+        List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks1),
+                new SectionCreateRequest("소강의실", tasks2));
+
+        @Test
+        void Job을_수정한다() {
+            List<TaskCreateRequest> tasks1 = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
+            List<TaskCreateRequest> tasks2 = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
+            List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks1),
+                    new SectionCreateRequest("소강의실", tasks2));
+            when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+            JobCreateRequest request = new JobCreateRequest("청소", sections);
+
+            docsGiven
+                    .header("Authorization", "Bearer jwt.token.here")
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .body(request)
+                    .when().put("/api/jobs/1")
+                    .then().log().all()
+                    .apply(document("jobs/list"))
+                    .statusCode(HttpStatus.NO_CONTENT.value());
+        }
+
+        @Test
+        void Job의_이름_길이가_올바르지_않을_경우_예외가_발생한다() {
+            when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+            JobCreateRequest wrongRequest = new JobCreateRequest("작업의 이름이 20글자 초과한다면 예외", sections);
+
+            ExtractableResponse<MockMvcResponse> response = docsGiven
+                    .header("Authorization", "Bearer jwt.token.here")
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .body(wrongRequest)
+                    .when().post("/api/spaces/1/jobs")
+                    .then().log().all()
+                    .apply(document("jobs/list"))
+                    .extract();
+
+            assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        }
+
+        @Test
+        void Section_이름_길이가_올바르지_않을_경우_예외가_발생한다() {
+            when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+            List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("Section의 name이 20자 초과", tasks1));
+            JobCreateRequest wrongRequest = new JobCreateRequest("청소", sections);
+
+            ExtractableResponse<MockMvcResponse> response = docsGiven
+                    .header("Authorization", "Bearer jwt.token.here")
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .body(wrongRequest)
+                    .when().post("/api/spaces/1/jobs")
+                    .then().log().all()
+                    .apply(document("jobs/list"))
+                    .extract();
+
+            assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        }
+
+        @Test
+        void Task_이름_길이가_올바르지_않을_경우_예외가_발생한다() {
+            when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+            List<TaskCreateRequest> tasks1 = List.of(
+                    new TaskCreateRequest("Task의 이름이 1글자 미만 50글자 초과일 경우, Status Code 404를 반환한다"));
+            List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks1));
+            JobCreateRequest wrongRequest = new JobCreateRequest("청소", sections);
+
+            ExtractableResponse<MockMvcResponse> response = docsGiven
+                    .header("Authorization", "Bearer jwt.token.here")
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .body(wrongRequest)
+                    .when().post("/api/spaces/1/jobs")
+                    .then().log().all()
+                    .apply(document("jobs/list"))
+                    .extract();
+
+            assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        }
+    }
+
     @Test
     void Job을_삭제한다() {
         doNothing().when(jobService).removeJob(anyLong(), anyLong());
