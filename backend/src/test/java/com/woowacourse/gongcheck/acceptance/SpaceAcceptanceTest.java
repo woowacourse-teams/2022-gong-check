@@ -16,7 +16,7 @@ import org.springframework.http.MediaType;
 class SpaceAcceptanceTest extends AcceptanceTest {
 
     @Test
-    void 공간을_조회한다() {
+    void Space를_조회한다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 
@@ -31,7 +31,7 @@ class SpaceAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void 공간을_생성한다() throws IOException {
+    void Space를_생성한다() throws IOException {
         File fakeImage = File.createTempFile("temp", ".jpg");
 
         // 호스트 로그인 구현 전까지 토큰 입력용으로 사용
@@ -52,7 +52,7 @@ class SpaceAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void 한_호스트가_이미_존재하는_이름의_공간을_생성하면_에러_응답을_반환한다() throws IOException {
+    void 한_Host가_이미_존재하는_이름의_Space를_생성하면_에러_응답을_반환한다() throws IOException {
         File fakeImage = File.createTempFile("temp", ".jpg");
 
         // 호스트 로그인 구현 전까지 토큰 입력용으로 사용
@@ -82,7 +82,23 @@ class SpaceAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void 공간을_삭제한다() {
+    void 단일_Space를_조회한다() {
+        // 호스트 로그인 구현 전까지 토큰 입력용으로 사용
+        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
+        String token = 토큰을_요청한다(guestEnterRequest);
+
+        ExtractableResponse<Response> response = RestAssured
+                .given().log().all()
+                .auth().oauth2(token)
+                .when().get("/api/spaces/1")
+                .then().log().all()
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    void Space를_삭제한다() {
         // 호스트 로그인 구현 전까지 토큰 입력용으로 사용
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);

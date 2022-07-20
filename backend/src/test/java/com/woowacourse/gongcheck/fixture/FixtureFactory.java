@@ -44,6 +44,15 @@ public class FixtureFactory {
                 .build();
     }
 
+    public static Job Job_생성(final Space space, final String name, final String slackUrl) {
+        return Job.builder()
+                .space(space)
+                .name(name)
+                .slackUrl(slackUrl)
+                .createdAt(LocalDateTime.now())
+                .build();
+    }
+
     public static Job Job_아이디_지정_생성(final Long id, final Space space, final String name) {
         return Job.builder()
                 .id(id)

@@ -47,4 +47,17 @@ class SectionRepositoryTest {
 
         assertThat(result).containsExactly(section1, section2, section3, section4);
     }
+
+    @Test
+    void Job에_해당하는_모든_Section을_조회한다() {
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
+        Space space = spaceRepository.save(Space_생성(host, "잠실"));
+        Job job = jobRepository.save(Job_생성(space, "청소"));
+        Section section1 = sectionRepository.save(Section_생성(job, "트랙룸"));
+        Section section2 = sectionRepository.save(Section_생성(job, "굿샷 강의장"));
+
+        List<Section> result = sectionRepository.findAllByJob(job);
+
+        assertThat(result).containsExactly(section1, section2);
+    }
 }

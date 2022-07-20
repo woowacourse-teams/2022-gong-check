@@ -13,21 +13,15 @@ const getSpaces = async () => {
   return data;
 };
 
-// Sprint 2----------
-
 // space 생성
-// Location : /api/spaces/{spaceId}
-// TODO: type이 multipart/form-data, name, image 생각 하고 다시 만들어
-// const postNewSpace = ({}) => {
-//   return axiosInstanceToken({
-//     method: 'POST',
-//     url: `/api/spaces`,
-//     data: {
-//       name,
-//       image,
-//     },
-//   });
-// };
+const postNewSpace = ({ formData }: any) => {
+  return axiosInstanceToken({
+    method: 'POST',
+    url: `/api/spaces`,
+    headers: { 'Content-Type': 'multipart/form-data' },
+    data: formData,
+  });
+};
 
 // space 삭제
 const deleteSpace = ({ spaceId }: any) => {
@@ -47,6 +41,6 @@ const getSpace = async ({ spaceId }: any) => {
   return data;
 };
 
-const apiSpace = { getSpaces, deleteSpace, getSpace };
+const apiSpace = { getSpaces, postNewSpace, deleteSpace, getSpace };
 
 export default apiSpace;

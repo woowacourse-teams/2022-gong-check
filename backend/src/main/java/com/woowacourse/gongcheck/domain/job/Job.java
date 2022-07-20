@@ -65,6 +65,10 @@ public class Job {
                 .build();
     }
 
+    public void changeSlackUrl(final String slackUrl) {
+        this.slackUrl = slackUrl;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

@@ -1,6 +1,9 @@
 package com.woowacourse.gongcheck.application;
 
+import static java.util.stream.Collectors.toList;
+
 import com.woowacourse.gongcheck.application.response.JobsResponse;
+import com.woowacourse.gongcheck.application.response.SlackUrlResponse;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.domain.job.Job;
@@ -9,14 +12,15 @@ import com.woowacourse.gongcheck.domain.section.Section;
 import com.woowacourse.gongcheck.domain.section.SectionRepository;
 import com.woowacourse.gongcheck.domain.space.Space;
 import com.woowacourse.gongcheck.domain.space.SpaceRepository;
+import com.woowacourse.gongcheck.domain.task.RunningTaskRepository;
 import com.woowacourse.gongcheck.domain.task.Task;
 import com.woowacourse.gongcheck.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.presentation.request.JobCreateRequest;
 import com.woowacourse.gongcheck.presentation.request.SectionCreateRequest;
+import com.woowacourse.gongcheck.presentation.request.SlackUrlChangeRequest;
 import com.woowacourse.gongcheck.presentation.request.TaskCreateRequest;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -31,15 +35,17 @@ public class JobService {
     private final JobRepository jobRepository;
     private final SectionRepository sectionRepository;
     private final TaskRepository taskRepository;
+    private final RunningTaskRepository runningTaskRepository;
 
     public JobService(final HostRepository hostRepository, final SpaceRepository spaceRepository,
                       final JobRepository jobRepository, final SectionRepository sectionRepository,
-                      final TaskRepository taskRepository) {
+                      final TaskRepository taskRepository, final RunningTaskRepository runningTaskRepository) {
         this.hostRepository = hostRepository;
         this.spaceRepository = spaceRepository;
         this.jobRepository = jobRepository;
         this.sectionRepository = sectionRepository;
         this.taskRepository = taskRepository;
+        this.runningTaskRepository = runningTaskRepository;
     }
 
     public JobsResponse findPage(final Long hostId, final Long spaceId, final Pageable pageable) {
@@ -64,6 +70,34 @@ public class JobService {
         return job.getId();
     }
 
+    @Transactional
+    public void removeJob(final Long hostId, final Long jobId) {
+        Host host = hostRepository.getById(hostId);
+        Job job = jobRepository.getBySpaceHostAndId(host, jobId);
+        List<Section> sections = sectionRepository.findAllByJob(job);
+        List<Task> tasks = taskRepository.findAllBySectionIn(sections);
+
+        runningTaskRepository.deleteAllByIdInBatch(tasks.stream()
+                .map(Task::getId)
+                .collect(toList()));
+        taskRepository.deleteAllInBatch(tasks);
+        sectionRepository.deleteAllInBatch(sections);
+        jobRepository.deleteById(jobId);
+    }
+
+    public SlackUrlResponse findSlackUrl(final Long hostId, final Long jobId) {
+        Host host = hostRepository.getById(hostId);
+        Job job = jobRepository.getBySpaceHostAndId(host, jobId);
+        return SlackUrlResponse.from(job);
+    }
+
+    @Transactional
+    public void changeSlackUrl(final Long hostId, final Long jobId, final SlackUrlChangeRequest request) {
+        Host host = hostRepository.getById(hostId);
+        Job job = jobRepository.getBySpaceHostAndId(host, jobId);
+        job.changeSlackUrl(request.getSlackUrl());
+    }
+
     private void createSectionsAndTasks(final List<SectionCreateRequest> sectionCreateRequests, final Job job) {
         sectionCreateRequests.forEach(sectionRequest -> createSectionAndTasks(sectionRequest, job));
     }
@@ -83,7 +117,7 @@ public class JobService {
         List<Task> tasks = taskCreateRequests
                 .stream()
                 .map(taskRequest -> createTask(taskRequest, section))
-                .collect(Collectors.toList());
+                .collect(toList());
         taskRepository.saveAll(tasks);
     }
 

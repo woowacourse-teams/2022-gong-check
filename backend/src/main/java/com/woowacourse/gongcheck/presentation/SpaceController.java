@@ -1,6 +1,7 @@
 package com.woowacourse.gongcheck.presentation;
 
 import com.woowacourse.gongcheck.application.SpaceService;
+import com.woowacourse.gongcheck.application.response.SpaceResponse;
 import com.woowacourse.gongcheck.application.response.SpacesResponse;
 import com.woowacourse.gongcheck.presentation.request.SpaceCreateRequest;
 import java.net.URI;
@@ -37,6 +38,13 @@ public class SpaceController {
                                             @Valid @ModelAttribute final SpaceCreateRequest request) {
         Long spaceId = spaceService.createSpace(hostId, request);
         return ResponseEntity.created(URI.create("/api/spaces/" + spaceId)).build();
+    }
+
+    @GetMapping("/spaces/{spaceId}")
+    public ResponseEntity<SpaceResponse> showSpace(@AuthenticationPrincipal final Long hostId,
+                                                   @PathVariable final Long spaceId) {
+        SpaceResponse response = spaceService.findSpace(hostId, spaceId);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/spaces/{spaceId}")

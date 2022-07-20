@@ -64,7 +64,7 @@ class SubmissionServiceTest {
     private SubmissionRepository submissionRepository;
 
     @Nested
-    class 제출_시도_시 {
+    class Submission_시도_시 {
 
         private final SubmissionRequest request = new SubmissionRequest("제출자");
 
