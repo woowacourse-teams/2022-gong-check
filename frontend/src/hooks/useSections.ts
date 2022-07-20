@@ -34,7 +34,7 @@ const useSections = () => {
       prev.map((section, targetIndex) => {
         if (targetIndex === sectionIndex) {
           return {
-            id: nanoid(),
+            id: prev[sectionIndex].id,
             name: prev[sectionIndex].name,
             tasks: [
               ...prev[sectionIndex].tasks,

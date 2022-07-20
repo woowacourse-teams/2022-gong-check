@@ -1,14 +1,16 @@
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
+
+import { axiosInstance } from './config';
 
 const getToken = async (code: string | null) => {
   const {
     data,
   }: AxiosResponse<{
     token: string;
-    existHost: boolean;
-  }> = await axios({
+    alreadyJoin: boolean;
+  }> = await axiosInstance({
     method: 'POST',
-    url: `http://192.168.6.158:8080/api/login`,
+    url: '/api/login',
     data: {
       code,
     },
@@ -17,6 +19,6 @@ const getToken = async (code: string | null) => {
   return data;
 };
 
-const githubAuth = { getToken };
+const apiAuth = { getToken };
 
-export default githubAuth;
+export default apiAuth;

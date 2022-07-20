@@ -4,7 +4,7 @@ import { ApiJobActiveData, ApiJobData } from '@/types/apis';
 
 import { axiosInstanceToken } from './config';
 
-const getJobs = async ({ spaceId }: any) => {
+const getJobs = async (spaceId: number | string | undefined) => {
   const { data }: AxiosResponse<ApiJobData> = await axiosInstanceToken({
     method: 'GET',
     url: `/api/spaces/${spaceId}/jobs`,

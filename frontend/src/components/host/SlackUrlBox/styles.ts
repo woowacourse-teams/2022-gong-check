@@ -1,13 +1,27 @@
 import { css } from '@emotion/react';
 
-const jobName = css`
-  font-size: 20px;
-  line-height: 48px;
-  vertical-align: middle;
+import theme from '@/styles/theme';
+
+const slackUrlBox = css`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
+
+const form = css`
+  display: flex;
+  justify-content: center;
+`;
+
+const label = css`
+  font-size: 18px;
+  margin: 20px 0 8px 0;
+  font-weight: 600;
+  color: ${theme.colors.gray800};
 `;
 
 const input = css`
-  margin-left: 8px;
+  width: 100%;
 `;
 
 const button = css`
@@ -15,13 +29,6 @@ const button = css`
   width: 58px;
 `;
 
-const slackUrlBox = css`
-  display: flex;
-  justify-content: center;
-  height: 48px;
-  margin: 8px 0;
-`;
-
-const styles = { slackUrlBox, jobName, input, button };
+const styles = { slackUrlBox, form, label, input, button };
 
 export default styles;
