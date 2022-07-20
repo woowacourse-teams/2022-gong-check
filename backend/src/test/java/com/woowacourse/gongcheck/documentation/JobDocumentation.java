@@ -8,6 +8,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 
 import com.woowacourse.gongcheck.application.response.JobsResponse;
@@ -130,6 +131,19 @@ class JobDocumentation extends DocumentationTest {
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         }
+    }
+
+    @Test
+    void Job을_삭제한다() {
+        doNothing().when(jobService).removeJob(anyLong(), anyLong());
+        when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
+        docsGiven
+                .header(AUTHORIZATION, "Bearer jwt.token.here")
+                .when().delete("/api/jobs/1")
+                .then().log().all()
+                .apply(document("jobs/delete"))
+                .statusCode(HttpStatus.NO_CONTENT.value());
     }
 
     @Test
