@@ -48,7 +48,7 @@ class TaskDocumentation extends DocumentationTest {
                     .header("Authorization", "Bearer jwt.token.here")
                     .when().post("/api/jobs/1/runningTasks/new")
                     .then().log().all()
-                    .apply(document("tasks/create/success"))
+                    .apply(document("runningTasks/create/success"))
                     .statusCode(HttpStatus.CREATED.value());
         }
 
@@ -63,7 +63,7 @@ class TaskDocumentation extends DocumentationTest {
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .when().post("/api/jobs/1/runningTasks/new")
                     .then().log().all()
-                    .apply(document("tasks/create/fail/active"))
+                    .apply(document("runningTasks/create/fail/active"))
                     .extract();
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
@@ -110,7 +110,7 @@ class TaskDocumentation extends DocumentationTest {
                     .header("Authorization", "Bearer jwt.token.here")
                     .when().get("/api/jobs/1/runningTasks")
                     .then().log().all()
-                    .apply(document("tasks/find/success"))
+                    .apply(document("runningTasks/find/success"))
                     .statusCode(HttpStatus.OK.value());
         }
 
@@ -125,7 +125,7 @@ class TaskDocumentation extends DocumentationTest {
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .when().get("/api/jobs/1/runningTasks")
                     .then().log().all()
-                    .apply(document("tasks/find/fail/active"))
+                    .apply(document("runningTasks/find/fail/active"))
                     .extract();
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());

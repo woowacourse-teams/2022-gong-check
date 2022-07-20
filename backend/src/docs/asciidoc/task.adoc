@@ -2,10 +2,17 @@
 == task
 
 === tasks 정보 조회
-operation::tasks/find/success[snippets='http-request,http-response']
+
+operation::runningTasks/find/success[snippets='http-request,http-response']
+
 === task 완료 여부 확인
+
 operation::tasks/active/success[snippets='http-request,http-response']
+
 === task check 상태 변환
+
 operation::tasks/check/success[snippets='http-request,http-response']
+
 === runningtask 생성
-operation::tasks/create/success[snippets='http-request,http-response']
+
+operation::runningTasks/create/success[snippets='http-request,http-response']
