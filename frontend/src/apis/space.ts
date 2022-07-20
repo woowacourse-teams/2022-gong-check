@@ -7,7 +7,7 @@ import { axiosInstanceToken } from './config';
 const getSpaces = async () => {
   const { data }: AxiosResponse<ApiSpacesData> = await axiosInstanceToken({
     method: 'GET',
-    url: `api/spaces`,
+    url: `/api/spaces`,
   });
 
   return data;

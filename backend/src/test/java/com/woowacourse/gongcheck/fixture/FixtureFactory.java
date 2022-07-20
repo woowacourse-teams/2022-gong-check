@@ -5,6 +5,7 @@ import com.woowacourse.gongcheck.domain.host.SpacePassword;
 import com.woowacourse.gongcheck.domain.job.Job;
 import com.woowacourse.gongcheck.domain.section.Section;
 import com.woowacourse.gongcheck.domain.space.Space;
+import com.woowacourse.gongcheck.domain.submission.Submission;
 import com.woowacourse.gongcheck.domain.task.RunningTask;
 import com.woowacourse.gongcheck.domain.task.Task;
 import java.time.LocalDateTime;
@@ -102,6 +103,23 @@ public class FixtureFactory {
         return RunningTask.builder()
                 .taskId(taskId)
                 .isChecked(isChecked)
+                .createdAt(LocalDateTime.now())
+                .build();
+    }
+
+    public static Submission Submission_생성(final Job job) {
+        return Submission.builder()
+                .job(job)
+                .author("어썸오")
+                .createdAt(LocalDateTime.now())
+                .build();
+    }
+
+    public static Submission Submission_아이디_지정_생성(final Long id, final Job job) {
+        return Submission.builder()
+                .id(id)
+                .job(job)
+                .author("어썸오")
                 .createdAt(LocalDateTime.now())
                 .build();
     }
