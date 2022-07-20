@@ -21,7 +21,6 @@ import com.woowacourse.gongcheck.presentation.request.SlackUrlChangeRequest;
 import com.woowacourse.gongcheck.presentation.request.TaskCreateRequest;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
