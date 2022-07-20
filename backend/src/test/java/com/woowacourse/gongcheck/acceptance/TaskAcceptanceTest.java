@@ -22,7 +22,7 @@ class TaskAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()
                 .auth().oauth2(token)
-                .when().post("/api/jobs/1/tasks/new")
+                .when().post("/api/jobs/1/runningTasks/new")
                 .then().log().all()
                 .extract();
 
@@ -37,14 +37,14 @@ class TaskAcceptanceTest extends AcceptanceTest {
         RestAssured
                 .given().log().all()
                 .auth().oauth2(token)
-                .when().post("/api/jobs/1/tasks/new")
+                .when().post("/api/jobs/1/runningTasks/new")
                 .then().log().all()
                 .extract();
 
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()
                 .auth().oauth2(token)
-                .when().post("/api/jobs/1/tasks/new")
+                .when().post("/api/jobs/1/runningTasks/new")
                 .then().log().all()
                 .extract();
 
@@ -58,14 +58,14 @@ class TaskAcceptanceTest extends AcceptanceTest {
         RestAssured
                 .given().log().all()
                 .auth().oauth2(token)
-                .when().post("/api/jobs/1/tasks/new")
+                .when().post("/api/jobs/1/runningTasks/new")
                 .then().log().all()
                 .extract();
 
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()
                 .auth().oauth2(token)
-                .when().get("/api/jobs/1/tasks")
+                .when().get("/api/jobs/1/runningTasks")
                 .then().log().all()
                 .extract();
         RunningTasksResponse runningTasksResponse = response.as(RunningTasksResponse.class);
@@ -84,7 +84,7 @@ class TaskAcceptanceTest extends AcceptanceTest {
         RestAssured
                 .given().log().all()
                 .auth().oauth2(token)
-                .when().post("/api/jobs/1/tasks/new")
+                .when().post("/api/jobs/1/runningTasks/new")
                 .then().log().all()
                 .extract();
 
@@ -121,7 +121,7 @@ class TaskAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()
                 .auth().oauth2(token)
-                .when().get("/api/jobs/1/tasks")
+                .when().get("/api/jobs/1/runningTasks")
                 .then().log().all()
                 .extract();
 
@@ -135,7 +135,7 @@ class TaskAcceptanceTest extends AcceptanceTest {
         RestAssured
                 .given().log().all()
                 .auth().oauth2(token)
-                .when().post("/api/jobs/1/tasks/new")
+                .when().post("/api/jobs/1/runningTasks/new")
                 .then().log().all()
                 .extract();
 

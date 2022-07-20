@@ -21,7 +21,7 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @PostMapping("/jobs/{jobId}/tasks/new")
+    @PostMapping("/jobs/{jobId}/runningTasks/new")
     public ResponseEntity<Void> createNewTasks(@AuthenticationPrincipal final Long hostId,
                                                @PathVariable final Long jobId) {
         taskService.createNewRunningTasks(hostId, jobId);
@@ -35,7 +35,7 @@ public class TaskController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/jobs/{jobId}/tasks")
+    @GetMapping("/jobs/{jobId}/runningTasks")
     public ResponseEntity<RunningTasksResponse> showRunningTasks(@AuthenticationPrincipal final Long hostId,
                                                                  @PathVariable final Long jobId) {
         RunningTasksResponse response = taskService.findRunningTasks(hostId, jobId);

@@ -61,7 +61,7 @@ class SubmissionAcceptanceTest extends AcceptanceTest {
         RestAssured
                 .given().log().all()
                 .auth().oauth2(token)
-                .when().post("/api/jobs/1/tasks/new")
+                .when().post("/api/jobs/1/runningTasks/new")
                 .then().log().all();
     }
 

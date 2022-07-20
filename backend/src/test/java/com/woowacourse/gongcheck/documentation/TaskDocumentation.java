@@ -46,7 +46,7 @@ class TaskDocumentation extends DocumentationTest {
 
             docsGiven
                     .header("Authorization", "Bearer jwt.token.here")
-                    .when().post("/api/jobs/1/tasks/new")
+                    .when().post("/api/jobs/1/runningTasks/new")
                     .then().log().all()
                     .apply(document("tasks/create/success"))
                     .statusCode(HttpStatus.CREATED.value());
@@ -61,7 +61,7 @@ class TaskDocumentation extends DocumentationTest {
             ExtractableResponse<MockMvcResponse> response = docsGiven
                     .header("Authorization", "Bearer jwt.token.here")
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .when().post("/api/jobs/1/tasks/new")
+                    .when().post("/api/jobs/1/runningTasks/new")
                     .then().log().all()
                     .apply(document("tasks/create/fail/active"))
                     .extract();
@@ -108,7 +108,7 @@ class TaskDocumentation extends DocumentationTest {
 
             docsGiven
                     .header("Authorization", "Bearer jwt.token.here")
-                    .when().get("/api/jobs/1/tasks")
+                    .when().get("/api/jobs/1/runningTasks")
                     .then().log().all()
                     .apply(document("tasks/find/success"))
                     .statusCode(HttpStatus.OK.value());
@@ -123,7 +123,7 @@ class TaskDocumentation extends DocumentationTest {
             ExtractableResponse<MockMvcResponse> response = docsGiven
                     .header("Authorization", "Bearer jwt.token.here")
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .when().get("/api/jobs/1/tasks")
+                    .when().get("/api/jobs/1/runningTasks")
                     .then().log().all()
                     .apply(document("tasks/find/fail/active"))
                     .extract();
