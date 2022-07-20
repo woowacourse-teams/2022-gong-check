@@ -13,7 +13,6 @@ public class JobSubmissionsResponse {
     private List<JobSubmissionResponse> submissions;
     private boolean hasNext;
 
-
     private JobSubmissionsResponse() {
     }
 

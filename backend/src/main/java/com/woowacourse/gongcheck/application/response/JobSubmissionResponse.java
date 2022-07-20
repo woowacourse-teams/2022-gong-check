@@ -1,5 +1,6 @@
 package com.woowacourse.gongcheck.application.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.woowacourse.gongcheck.domain.submission.Submission;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -11,22 +12,25 @@ public class JobSubmissionResponse {
     private Long jobId;
     private String jobName;
     private String author;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
 
     private JobSubmissionResponse() {
     }
 
-    private JobSubmissionResponse(final Submission submission) {
-        this.submissionId = submission.getId();
-        this.jobId = submission.getJob().getId();
-        this.jobName = submission.getJob().getName();
-        this.author = submission.getAuthor();
-        this.createdAt = formatTime(submission.getCreatedAt());
-
+    private JobSubmissionResponse(final Long submissionId, final Long jobId, final String jobName, final String author,
+                                  final LocalDateTime createdAt) {
+        this.submissionId = submissionId;
+        this.jobId = jobId;
+        this.jobName = jobName;
+        this.author = author;
+        this.createdAt = createdAt;
     }
 
     public static JobSubmissionResponse from(final Submission submission) {
-        return new JobSubmissionResponse(submission);
+        return new JobSubmissionResponse(submission.getId(), submission.getJob().getId(), submission.getJob().getName(),
+                submission.getAuthor(), submission.getCreatedAt());
     }
 
     private LocalDateTime formatTime(final LocalDateTime time) {
