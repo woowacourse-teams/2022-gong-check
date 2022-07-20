@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 const DEV_URL = 'http://localhost:8080';
-const PROD_URL = 'http://15.164.216.196:8080';
 const API_URL = DEV_URL;
 
 export const axiosInstance = axios.create({

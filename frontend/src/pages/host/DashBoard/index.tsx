@@ -33,7 +33,7 @@ const DashBoard: React.FC = () => {
       <div css={styles.contents}>
         <div css={styles.cardWrapper}>
           <SpaceInfo isEditMode={false} data={spaceData} />
-          <JobListCard jobs={jobsData.jobs} />;
+          <JobListCard jobs={jobsData.jobs} />
         </div>
         <Submissions submissions={submissions} onClick={onClickSubmissionsDetail} />
       </div>

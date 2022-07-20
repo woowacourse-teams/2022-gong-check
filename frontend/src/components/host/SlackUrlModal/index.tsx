@@ -28,7 +28,9 @@ const SlackUrlModal: React.FC<SlackUrlModalProps> = ({ jobs }) => {
           <div css={styles.contents}>
             <Suspense fallback={<div>슬랙 URL API 로딩 중...</div>}>
               {jobs.length === 0 ? (
-                <div>생성해주세요.</div>
+                <div css={styles.noJobsInfo}>
+                  <span>생성된 업무가 없어요 😂</span>
+                </div>
               ) : (
                 jobs.map((job, index) => <SlackUrlBox key={index} jobName={job.name} jobId={job.id} />)
               )}
