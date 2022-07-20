@@ -17,7 +17,7 @@ const SpaceCreatePage = lazy(() => import('@/pages/host/SpaceCreate'));
 const SpaceModifyPage = lazy(() => import('@/pages/host/SpaceModify'));
 const SpaceRecordPage = lazy(() => import('@/pages/host/SpaceRecord'));
 const JobCreatePage = lazy(() => import('@/pages/host/JobCreate'));
-const JobUpdatePage = lazy(() => import('@/pages/host/JobUpdate'));
+const JobUpdatePage = lazy(() => import('@/pages/host/JobCreate'));
 
 const routes = [
   {
