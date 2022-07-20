@@ -1,38 +1,52 @@
-import Button from '@/components/common/Button';
+import { useState } from 'react';
+import { useMutation } from 'react-query';
+import { useNavigate, useParams } from 'react-router-dom';
+
+import JobControl from '@/components/host/JobControl';
 import SectionCard from '@/components/host/SectionCard';
 
 import useSections from '@/hooks/useSections';
 
+import apiJobs from '@/apis/job';
+
+import { SectionType } from '@/types';
+import { ApiError } from '@/types/apis';
+
 import styles from './styles';
 
-const DATA = {
-  name: '청소',
-  sections: [
-    {
-      name: '대강의실',
-      tasks: [{ name: '책상 닦기' }, { name: '칠판 닦기' }],
-    },
-    {
-      name: '소강의실',
-      tasks: [{ name: '책상 닦기' }, { name: '칠판 닦기' }],
-    },
-  ],
-};
+type MutationParams = { spaceId: string | number | undefined; newJobName: string; sections: SectionType[] };
 
 const JobCreate: React.FC = () => {
+  const navigate = useNavigate();
+
+  const { spaceId } = useParams();
+
+  const [newJobName, setNewJobName] = useState('새 업무');
+
   const { sections, createSection, editSection, deleteSection, createTask, editTask, deleteTask } = useSections();
 
-  const onClick = () => {
-    alert('작업 생성 API 호출');
+  const { mutate: createNewJob } = useMutation(
+    ({ spaceId, newJobName, sections }: MutationParams) => apiJobs.postNewJob(spaceId, newJobName, sections),
+    {
+      onError(err: ApiError) {
+        alert(err.response?.data.message);
+        navigate('/host/manage/spaceCreate');
+      },
+    }
+  );
+
+  const onChangeJobName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewJobName(e.target.value);
+  };
+
+  const onClickCreateNewJob = () => {
+    createNewJob({ spaceId, newJobName, sections });
   };
 
   return (
     <div css={styles.layout}>
       <div css={styles.contents}>
-        <div css={styles.header}>
-          <h1>{DATA.name}</h1>
-          <Button onClick={onClick}>생성 완료</Button>
-        </div>
+        <JobControl jobName={newJobName} onChangeJobName={onChangeJobName} onClickCreateNewJob={onClickCreateNewJob} />
         <div css={styles.grid}>
           {sections.map((section, sectionIndex) => (
             <SectionCard
