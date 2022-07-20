@@ -177,6 +177,7 @@ class JobAcceptanceTest extends AcceptanceTest {
 
     @Test
     void Job을_삭제한다() {
+        //Host 인증 구현 전까지 임시로 사용
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 
