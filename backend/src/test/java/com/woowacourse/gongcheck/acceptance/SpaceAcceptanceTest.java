@@ -94,7 +94,7 @@ class SpaceAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void Guest_토큰으로_Space를_조회한다() {
+    void Guest_토큰으로_Space를_조회_시_예외가_발생한다() {
         String token = 토큰을_요청한다(new GuestEnterRequest("1234"));
 
         RestAssured
@@ -106,7 +106,7 @@ class SpaceAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void Guest_토큰으로_Space를_생성한다() throws IOException {
+    void Guest_토큰으로_Space를_생성_시_예외가_발생한다() throws IOException {
         File fakeImage = File.createTempFile("temp", ".jpg");
 
         String token = 토큰을_요청한다(new GuestEnterRequest("1234"));
@@ -123,7 +123,7 @@ class SpaceAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void Guest_토큰으로_단일_Space를_조회한다() {
+    void Guest_토큰으로_단일_Space를_조회_시_예외가_발생한다() {
         String token = 토큰을_요청한다(new GuestEnterRequest("1234"));
 
         RestAssured
@@ -135,7 +135,7 @@ class SpaceAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void Guest_토큰으로_Space를_삭제한다() {
+    void Guest_토큰으로_Space를_삭제_시_예외가_발생한다() {
         String token = 토큰을_요청한다(new GuestEnterRequest("1234"));
 
         RestAssured

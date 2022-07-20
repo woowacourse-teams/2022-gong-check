@@ -1,5 +1,6 @@
 package com.woowacourse.gongcheck.acceptance;
 
+import static com.woowacourse.gongcheck.acceptance.AuthSupport.Host_토큰을_요청한다;
 import static com.woowacourse.gongcheck.acceptance.AuthSupport.토큰을_요청한다;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -8,6 +9,7 @@ import com.woowacourse.gongcheck.presentation.request.JobCreateRequest;
 import com.woowacourse.gongcheck.presentation.request.SectionCreateRequest;
 import com.woowacourse.gongcheck.presentation.request.SlackUrlChangeRequest;
 import com.woowacourse.gongcheck.presentation.request.TaskCreateRequest;
+import com.woowacourse.gongcheck.presentation.request.TokenRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -22,7 +24,7 @@ import org.springframework.http.MediaType;
 class JobAcceptanceTest extends AcceptanceTest {
 
     @Test
-    void Job을_조회한다() {
+    void Host_토큰으로_Job을_조회한다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 
@@ -37,9 +39,8 @@ class JobAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void Job을_생성한다() {
-        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
-        String token = 토큰을_요청한다(guestEnterRequest);
+    void Host_토큰으로_Job을_생성한다() {
+        String token = Host_토큰을_요청한다(new TokenRequest("code")).getToken();
 
         List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
         List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
@@ -60,7 +61,7 @@ class JobAcceptanceTest extends AcceptanceTest {
     @ParameterizedTest
     @NullSource
     @ValueSource(strings = {"", "Job 이름이 20글자 이상일 경우 예외"})
-    void Job의_이름이_1글자_미만_20글자_초과하거나_null일_경우_예외가_발생한다(final String input) {
+    void Host_토큰으로_Job의_이름이_1글자_미만_20글자_초과하거나_null일_경우_예외가_발생한다(final String input) {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 
@@ -83,7 +84,7 @@ class JobAcceptanceTest extends AcceptanceTest {
     @ParameterizedTest
     @NullSource
     @ValueSource(strings = {"", "Section의 name이 20자 초과"})
-    void Section의_이름이_1글자_미만_20글자_초과하거나_null일_경우_예외가_발생한다(String input) {
+    void Host_토큰으로_Section의_이름이_1글자_미만_20글자_초과하거나_null일_경우_예외가_발생한다(String input) {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 
@@ -106,7 +107,7 @@ class JobAcceptanceTest extends AcceptanceTest {
     @ParameterizedTest
     @NullSource
     @ValueSource(strings = {"", "Task의 이름이 1글자 미만 50글자 초과일 경우, Status Code 404를 반환한다"})
-    void Task의_이름이_1글자_미만_50글자_초과하거나_null일_경우_예외가_발생한다(String input) {
+    void Host_토큰으로_Task의_이름이_1글자_미만_50글자_초과하거나_null일_경우_예외가_발생한다(String input) {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 
@@ -127,9 +128,8 @@ class JobAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void Job을_수정한다() {
-        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
-        String token = 토큰을_요청한다(guestEnterRequest);
+    void Host_토큰으로_Job을_수정한다() {
+        String token = Host_토큰을_요청한다(new TokenRequest("code")).getToken();
 
         List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
         List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
@@ -148,9 +148,8 @@ class JobAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void 존재하지_않는_Job을_수정할_경우_예외가_발생한다() {
-        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
-        String token = 토큰을_요청한다(guestEnterRequest);
+    void Host_토큰으로_존재하지_않는_Job을_수정할_경우_예외가_발생한다() {
+        String token = Host_토큰을_요청한다(new TokenRequest("code")).getToken();
 
         List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
         List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
@@ -169,10 +168,8 @@ class JobAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void Job을_삭제한다() {
-        //Host 인증 구현 전까지 임시로 사용
-        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
-        String token = 토큰을_요청한다(guestEnterRequest);
+    void Host_토큰으로_Job을_삭제한다() {
+        String token = Host_토큰을_요청한다(new TokenRequest("code")).getToken();
 
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()
@@ -186,9 +183,8 @@ class JobAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void Job의_Slack_Url을_조회한다() {
-        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
-        String token = 토큰을_요청한다(guestEnterRequest);
+    void Host_토큰으로_Job의_Slack_Url을_조회한다() {
+        String token = Host_토큰을_요청한다(new TokenRequest("code")).getToken();
 
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()
@@ -201,9 +197,8 @@ class JobAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void Job의_Slack_Url을_수정한다() {
-        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
-        String token = 토큰을_요청한다(guestEnterRequest);
+    void Host_토큰으로_Job의_Slack_Url을_수정한다() {
+        String token = Host_토큰을_요청한다(new TokenRequest("code")).getToken();
 
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()
@@ -218,7 +213,7 @@ class JobAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void Job의_Slack_Url을_null로_수정할_경우_예외가_발생한다() {
+    void Host_토큰으로_Job의_Slack_Url을_null로_수정할_경우_예외가_발생한다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 
@@ -232,5 +227,94 @@ class JobAcceptanceTest extends AcceptanceTest {
                 .extract();
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    void Guest_토큰으로_Job을_생성_시_예외가_발생한다() {
+        String token = 토큰을_요청한다(new GuestEnterRequest("1234"));
+
+        List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
+        List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
+        JobCreateRequest request = new JobCreateRequest("청소", sections);
+
+        ExtractableResponse<Response> response = RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
+                .auth().oauth2(token)
+                .when().post("/api/spaces/1/jobs")
+                .then().log().all()
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+    }
+
+    @Test
+    void Guest_토큰으로_Job을_수정_시_예외가_발생한다() {
+        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
+        String token = 토큰을_요청한다(guestEnterRequest);
+
+        List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
+        List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
+        JobCreateRequest request = new JobCreateRequest("청소", sections);
+
+        ExtractableResponse<Response> response = RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
+                .auth().oauth2(token)
+                .when().put("/api/jobs/1")
+                .then().log().all()
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+    }
+
+    @Test
+    void Guest_토큰으로_Job을_삭제_시_예외가_발생한다() {
+        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
+        String token = 토큰을_요청한다(guestEnterRequest);
+
+        ExtractableResponse<Response> response = RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(token)
+                .when().delete("/api/jobs/1")
+                .then().log().all()
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+    }
+
+    @Test
+    void Guest_토큰으로_Job의_Slack_Url을_조회_시_예외가_발생한다() {
+        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
+        String token = 토큰을_요청한다(guestEnterRequest);
+
+        ExtractableResponse<Response> response = RestAssured
+                .given().log().all()
+                .auth().oauth2(token)
+                .when().get("/api/jobs/1/slack")
+                .then().log().all()
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+    }
+
+    @Test
+    void Guest_토큰으로_Job의_Slack_Url을_수정_시_예외가_발생한다() {
+        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
+        String token = 토큰을_요청한다(guestEnterRequest);
+
+        ExtractableResponse<Response> response = RestAssured
+                .given().log().all()
+                .auth().oauth2(token)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(new SlackUrlChangeRequest("https://newslackurl.com"))
+                .when().put("/api/jobs/1/slack")
+                .then().log().all()
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
     }
 }
