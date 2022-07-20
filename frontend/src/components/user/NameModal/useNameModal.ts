@@ -1,16 +1,15 @@
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import useModal from '@/hooks/useModal';
 
 import apis from '@/apis';
 
-const useNameModal = (jobId: string | undefined) => {
+const useNameModal = (jobId: string | undefined, hostId: string | undefined) => {
   const navigate = useNavigate();
 
   const [name, setName] = useState('');
   const [isDisabledButton, setIsDisabledButton] = useState(true);
-  const { hostId } = useParams();
 
   const { closeModal } = useModal();
 
