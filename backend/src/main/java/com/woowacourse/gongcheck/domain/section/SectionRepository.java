@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SectionRepository extends JpaRepository<Section, Long> {
     List<Section> findAllByJobIn(final List<Job> jobs);
+
+    List<Section> findAllByJob(final Job job);
 }

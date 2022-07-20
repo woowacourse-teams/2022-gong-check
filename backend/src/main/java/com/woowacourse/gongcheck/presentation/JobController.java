@@ -9,6 +9,7 @@ import java.net.URI;
 import javax.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,6 +42,12 @@ public class JobController {
                                           @Valid @RequestBody final JobCreateRequest request) {
         Long savedJobId = jobService.createJob(hostId, spaceId, request);
         return ResponseEntity.created(URI.create("/api/spaces/" + savedJobId + "/jobs")).build();
+    }
+
+    @DeleteMapping("/jobs/{jobId}")
+    public ResponseEntity<Void> removeJob(@AuthenticationPrincipal final Long hostId, @PathVariable final Long jobId) {
+        jobService.removeJob(hostId, jobId);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/jobs/{jobId}/slack")
