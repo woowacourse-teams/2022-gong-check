@@ -171,6 +171,7 @@ class JobDocumentation extends DocumentationTest {
         void null이_전달될_경우_예외가_발생한다() {
             doNothing().when(jobService).changeSlackUrl(anyLong(), anyLong(), any());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
             SlackUrlChangeRequest wrongRequest = new SlackUrlChangeRequest(null);
 
             docsGiven
