@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 
 import theme from '@/styles/theme';
 
-type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
+type InputProps = React.ClassAttributes<HTMLInputElement> & React.InputHTMLAttributes<HTMLInputElement>;
 
 const Input: React.FC<InputProps> = ({ placeholder, onChange, ...props }) => {
   return (
