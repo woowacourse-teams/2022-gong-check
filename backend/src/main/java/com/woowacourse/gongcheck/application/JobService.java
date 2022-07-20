@@ -63,6 +63,41 @@ public class JobService {
         return saveJob(request, space);
     }
 
+    @Transactional
+    public void removeJob(final Long hostId, final Long jobId) {
+        Host host = hostRepository.getById(hostId);
+        Job job = jobRepository.getBySpaceHostAndId(host, jobId);
+        List<Section> sections = sectionRepository.findAllByJob(job);
+        List<Task> tasks = taskRepository.findAllBySectionIn(sections);
+
+        deleteJob(jobId, sections, tasks);
+    }
+
+    @Transactional
+    public Long updateJob(final Long hostId, final Long jobId, final JobCreateRequest request) {
+        Host host = hostRepository.getById(hostId);
+        Job job = jobRepository.getBySpaceHostAndId(host, jobId);
+        Space space = job.getSpace();
+        List<Section> sections = sectionRepository.findAllByJob(job);
+        List<Task> tasks = taskRepository.findAllBySectionIn(sections);
+
+        deleteJob(jobId, sections, tasks);
+        return saveJob(request, space);
+    }
+
+    public SlackUrlResponse findSlackUrl(final Long hostId, final Long jobId) {
+        Host host = hostRepository.getById(hostId);
+        Job job = jobRepository.getBySpaceHostAndId(host, jobId);
+        return SlackUrlResponse.from(job);
+    }
+
+    @Transactional
+    public void changeSlackUrl(final Long hostId, final Long jobId, final SlackUrlChangeRequest request) {
+        Host host = hostRepository.getById(hostId);
+        Job job = jobRepository.getBySpaceHostAndId(host, jobId);
+        job.changeSlackUrl(request.getSlackUrl());
+    }
+
     private Long saveJob(final JobCreateRequest request, final Space space) {
         Job job = Job.builder()
                 .space(space)
@@ -105,16 +140,6 @@ public class JobService {
                 .build();
     }
 
-    @Transactional
-    public void removeJob(final Long hostId, final Long jobId) {
-        Host host = hostRepository.getById(hostId);
-        Job job = jobRepository.getBySpaceHostAndId(host, jobId);
-        List<Section> sections = sectionRepository.findAllByJob(job);
-        List<Task> tasks = taskRepository.findAllBySectionIn(sections);
-
-        deleteJob(jobId, sections, tasks);
-    }
-
     private void deleteJob(final Long jobId, final List<Section> sections, final List<Task> tasks) {
         runningTaskRepository.deleteAllByIdInBatch(tasks.stream()
                 .map(Task::getId)
@@ -122,30 +147,5 @@ public class JobService {
         taskRepository.deleteAllInBatch(tasks);
         sectionRepository.deleteAllInBatch(sections);
         jobRepository.deleteById(jobId);
-    }
-
-    @Transactional
-    public Long updateJob(final Long hostId, final Long jobId, final JobCreateRequest request) {
-        Host host = hostRepository.getById(hostId);
-        Job job = jobRepository.getBySpaceHostAndId(host, jobId);
-        List<Section> sections = sectionRepository.findAllByJob(job);
-        List<Task> tasks = taskRepository.findAllBySectionIn(sections);
-
-        deleteJob(jobId, sections, tasks);
-        Space space = job.getSpace();
-        return saveJob(request, space);
-    }
-
-    public SlackUrlResponse findSlackUrl(final Long hostId, final Long jobId) {
-        Host host = hostRepository.getById(hostId);
-        Job job = jobRepository.getBySpaceHostAndId(host, jobId);
-        return SlackUrlResponse.from(job);
-    }
-
-    @Transactional
-    public void changeSlackUrl(final Long hostId, final Long jobId, final SlackUrlChangeRequest request) {
-        Host host = hostRepository.getById(hostId);
-        Job job = jobRepository.getBySpaceHostAndId(host, jobId);
-        job.changeSlackUrl(request.getSlackUrl());
     }
 }
