@@ -5,7 +5,6 @@ import static com.woowacourse.gongcheck.fixture.FixtureFactory.Job_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.gongcheck.config.JpaConfig;
 import com.woowacourse.gongcheck.domain.host.Host;
@@ -19,8 +18,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Slice;
 
 @DataJpaTest
 @Import(JpaConfig.class)
@@ -57,12 +54,9 @@ class JobRepositoryTest {
         Job job3 = Job_생성(space, "마감");
         jobRepository.saveAll(List.of(job1, job2, job3));
 
-        Slice<Job> result = jobRepository.findBySpaceHostAndSpace(host, space, PageRequest.of(0, 2));
+        List<Job> result = jobRepository.findAllBySpaceHostAndSpace(host, space);
 
-        assertAll(
-                () -> assertThat(result.getSize()).isEqualTo(2),
-                () -> assertThat(result.hasNext()).isTrue()
-        );
+        assertThat(result).hasSize(3);
     }
 
     @Test
