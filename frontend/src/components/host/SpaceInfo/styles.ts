@@ -17,8 +17,9 @@ const button = ({ isActive }: { isActive?: boolean }) => css`
 `;
 
 const spaceInfo = css`
-  min-height: 25rem;
-  min-width: 18.2rem;
+  height: 100%;
+  min-height: 28rem;
+  min-width: 21rem;
   background: ${theme.colors.white};
   border-radius: 8px;
   box-shadow: 2px 2px 2px 2px ${theme.colors.shadow10};
@@ -28,11 +29,12 @@ const titleWrapper = css`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 1.25rem;
+  padding: 0 1.25rem;
   border-bottom: 1px solid ${theme.colors.gray300};
 `;
 
 const title = css`
+  margin: 19px;
   font-size: 1.4rem;
 `;
 

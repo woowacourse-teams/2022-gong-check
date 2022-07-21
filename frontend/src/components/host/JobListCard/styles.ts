@@ -3,8 +3,9 @@ import { css } from '@emotion/react';
 import theme from '@/styles/theme';
 
 const layout = css`
-  width: 36rem;
-  height: 34rem;
+  min-width: 320px;
+  width: 100%;
+  height: 29.8rem;
   background-color: ${theme.colors.white};
   box-shadow: 2px 2px 2px 2px ${theme.colors.shadow10};
   border-radius: 8px;
@@ -43,24 +44,6 @@ const jobList = css`
   color: ${theme.colors.black};
   font-size: 500;
   font-size: 18px;
-`;
-
-const slackButton = css`
-  width: auto;
-  height: 2rem;
-  padding: 0 12px;
-  font-weight: 500;
-  font-size: 1rem;
-  margin: 0 12px;
-  background-color: ${theme.colors.white};
-  color: ${theme.colors.black};
-  border: 1px solid ${theme.colors.gray400};
-
-  img {
-    height: 12px;
-    width: 12px;
-    margin-right: 6px;
-  }
 `;
 
 const newJobButton = css`
@@ -104,6 +87,6 @@ const empty = css`
     margin-bottom: 12px;
   }
 `;
-const styles = { layout, title, jobListWrapper, jobList, slackButton, newJobButton, updateButton, deleteButton, empty };
+const styles = { layout, title, jobListWrapper, jobList, newJobButton, updateButton, deleteButton, empty };
 
 export default styles;

@@ -6,6 +6,7 @@ const layout = css`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0 40px;
 `;
 
 const styles = { layout };
