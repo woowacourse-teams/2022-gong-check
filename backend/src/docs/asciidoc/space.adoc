@@ -3,3 +3,12 @@
 
 === space 목록 조회
 operation::spaces/list[snippets='http-request,http-response']
+
+=== 단일 space 조회
+operation::spaces/find[snippets='http-request,http-response']
+
+=== 새로운 space 생성
+operation::spaces/create[snippets='http-request,http-response']
+
+=== space 삭제
+operation::spaces/delete[snippets='http-request,http-response']
