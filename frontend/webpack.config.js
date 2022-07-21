@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 const isProduction = process.env.NODE_ENV == 'production';
 
@@ -25,6 +26,7 @@ const config = {
     new CleanWebpackPlugin({
       cleanAfterEveryBuildPatterns: ['dist'],
     }),
+    new Dotenv(),
   ],
   module: {
     rules: [
