@@ -14,7 +14,7 @@ operation::jobs/change_slack_url/success[snippets='http-request,http-response']
 operation::jobs/create/success[snippets='http-request,http-response']
 
 === job 수정
-==== empty
+operation::jobs/change/success[snippets='http-request,http-response']
 
 === job 삭제
 operation::jobs/delete[snippets='http-request,http-response']
