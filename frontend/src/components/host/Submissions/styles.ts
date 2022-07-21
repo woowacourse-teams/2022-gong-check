@@ -43,13 +43,16 @@ const table = ({ isFullSize }: { isFullSize: boolean }) => css`
     color: ${theme.colors.shadow30};
     box-shadow: 0 1px 4px 0px ${theme.colors.shadow30};
     width: 100%;
+    display: block;
   }
 
   tbody {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
     width: 100%;
-    display: block;
-    overflow-y: scroll;
-    height: ${isFullSize ? '100%' : '12.5em'};
+    overflow-y: ${isFullSize ? 'scroll' : 'hidden'};
+    height: ${isFullSize ? '50vh' : '12.5em'};
 
     ::-webkit-scrollbar {
       width: 0.3em;
@@ -84,13 +87,14 @@ const table = ({ isFullSize }: { isFullSize: boolean }) => css`
   th,
   td {
     padding: 1em;
-    min-width: ${isFullSize ? '20em' : '18.8em'};
-    max-width: ${isFullSize ? '20em' : '18.8em'};
+    height: 10px;
+    width: 28vw;
+    min-width: 160px;
     word-wrap: break-word;
     text-align: left;
     &:nth-of-type(3) {
-      min-width: ${isFullSize ? '20em' : '15em'};
-      max-width: ${isFullSize ? '20em' : '15em'};
+      width: 60vw;
+      min-width: 320px;
     }
   }
 `;
