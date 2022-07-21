@@ -7,7 +7,6 @@ import com.woowacourse.gongcheck.presentation.aop.HostOnly;
 import com.woowacourse.gongcheck.presentation.request.SpaceCreateRequest;
 import java.net.URI;
 import javax.validation.Valid;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,11 +25,10 @@ public class SpaceController {
     public SpaceController(final SpaceService spaceService) {
         this.spaceService = spaceService;
     }
-
+    
     @GetMapping("/spaces")
-    public ResponseEntity<SpacesResponse> showSpaces(@AuthenticationPrincipal final Long hostId,
-                                                     final Pageable pageable) {
-        SpacesResponse response = spaceService.findPage(hostId, pageable);
+    public ResponseEntity<SpacesResponse> showSpaces(@AuthenticationPrincipal final Long hostId) {
+        SpacesResponse response = spaceService.findSpaces(hostId);
         return ResponseEntity.ok(response);
     }
 

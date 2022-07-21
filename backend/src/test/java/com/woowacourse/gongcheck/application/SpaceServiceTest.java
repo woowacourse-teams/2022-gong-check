@@ -34,7 +34,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -77,17 +76,14 @@ class SpaceServiceTest {
             Space space3 = Space_생성(host, "양평같은방");
             spaceRepository.saveAll(List.of(space1, space2, space3));
 
-            SpacesResponse result = spaceService.findPage(host.getId(), PageRequest.of(0, 2));
+            SpacesResponse result = spaceService.findSpaces(host.getId());
 
-            assertAll(
-                    () -> assertThat(result.getSpaces()).hasSize(2),
-                    () -> assertThat(result.isHasNext()).isTrue()
-            );
+            assertThat(result.getSpaces()).hasSize(3);
         }
 
         @Test
         void 존재하지_않는_Host로_Space를_조회할_경우_예외가_발생한다() {
-            assertThatThrownBy(() -> spaceService.findPage(0L, PageRequest.of(0, 1)))
+            assertThatThrownBy(() -> spaceService.findSpaces(0L))
                     .isInstanceOf(NotFoundException.class)
                     .hasMessage("존재하지 않는 호스트입니다.");
         }

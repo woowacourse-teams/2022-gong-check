@@ -39,18 +39,16 @@ class JobDocumentation extends DocumentationTest {
         void Job_조회에_성공한다() {
             Host host = Host_생성("1234", 1234L);
             Space space = Space_생성(host, "잠실");
-            when(jobService.findPage(anyLong(), anyLong(), any())).thenReturn(
-                    JobsResponse.of(List.of(
-                                    Job_아이디_지정_생성(1L, space, "청소"),
-                                    Job_아이디_지정_생성(2L, space, "마감")),
-                            true)
+            when(jobService.findJobs(anyLong(), anyLong())).thenReturn(
+                    JobsResponse.from(List.of(
+                            Job_아이디_지정_생성(1L, space, "청소"),
+                            Job_아이디_지정_생성(2L, space, "마감"))
+                    )
             );
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             docsGiven
                     .header("Authorization", "Bearer jwt.token.here")
-                    .queryParam("page", 0)
-                    .queryParam("size", 2)
                     .when().get("/api/spaces/1/jobs")
                     .then().log().all()
                     .apply(document("jobs/list"))
