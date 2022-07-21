@@ -26,5 +26,13 @@ security:
       secret-key: Z29uZy1jaGVjay1nb25nLWNoZWNrLWdvbmctY2hlY2stZ29uZy1jaGVjay1nb25nLWNoZWNrLWdvbmctY2hlY2stZ29uZy1jaGVjay1nb25nLWNoZWNrCg==
       expire-time: 3600000
 
+github:
+  client:
+    id: client_id
+    secret: client_secret
+  url:
+    token: https://github.com/login/oauth/access_token
+    profile: https://api.github.com/user
+
 server:
   port: 7070

@@ -17,6 +17,7 @@ import lombok.Getter;
 
 @Entity
 @Table(name = "section")
+@Builder
 @Getter
 public class Section {
 
@@ -42,7 +43,6 @@ public class Section {
     protected Section() {
     }
 
-    @Builder
     public Section(final Long id, final Job job, final String name, final LocalDateTime createdAt,
                    final LocalDateTime updatedAt) {
         this.id = id;

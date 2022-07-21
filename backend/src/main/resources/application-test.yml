@@ -1,7 +1,0 @@
-github:
-  client:
-    id: client_id
-    secret: client_secret
-  url:
-    token: https://github.com/login/oauth/access_token
-    profile: https://api.github.com/user
