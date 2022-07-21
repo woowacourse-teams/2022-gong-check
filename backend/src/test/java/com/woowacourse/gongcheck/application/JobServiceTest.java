@@ -2,9 +2,6 @@ package com.woowacourse.gongcheck.application;
 
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Host_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Job_생성;
-import static com.woowacourse.gongcheck.fixture.FixtureFactory.Section_생성;
-import static com.woowacourse.gongcheck.fixture.FixtureFactory.RunningTask_생성;
-import static com.woowacourse.gongcheck.fixture.FixtureFactory.Section_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.RunningTask_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Section_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_생성;
@@ -32,8 +29,6 @@ import com.woowacourse.gongcheck.presentation.request.SectionCreateRequest;
 import com.woowacourse.gongcheck.presentation.request.SlackUrlChangeRequest;
 import com.woowacourse.gongcheck.presentation.request.TaskCreateRequest;
 import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;

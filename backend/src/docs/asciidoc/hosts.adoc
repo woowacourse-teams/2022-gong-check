@@ -1,0 +1,9 @@
+[[Hosts]]
+== 호스트
+
+=== 호스트 비밀번호 변경
+operation::hosts/spacePassword_update/success[snippets='http-request,http-response']
+
+
+=== 호스트 아이디 조회
+operation::hosts/find[snippets='http-request,http-response']
