@@ -84,7 +84,7 @@ class TaskDocumentation extends DocumentationTest {
                     .header("Authorization", "Bearer jwt.token.here")
                     .when().get("/api/jobs/1/active")
                     .then().log().all()
-                    .apply(document("tasks/active/success"))
+                    .apply(document("runningTasks/active/success"))
                     .statusCode(HttpStatus.OK.value());
         }
     }
@@ -146,7 +146,7 @@ class TaskDocumentation extends DocumentationTest {
                     .header("Authorization", "Bearer jwt.token.here")
                     .when().post("/api/tasks/1/flip")
                     .then().log().all()
-                    .apply(document("tasks/check/success"))
+                    .apply(document("runningTasks/check/success"))
                     .statusCode(HttpStatus.OK.value());
         }
 
@@ -161,7 +161,7 @@ class TaskDocumentation extends DocumentationTest {
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .when().post("/api/tasks/1/flip")
                     .then().log().all()
-                    .apply(document("tasks/check/fail/active"))
+                    .apply(document("runningTasks/check/fail/active"))
                     .extract();
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
@@ -178,7 +178,7 @@ class TaskDocumentation extends DocumentationTest {
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .when().post("/api/tasks/1/flip")
                     .then().log().all()
-                    .apply(document("tasks/check/fail/match"))
+                    .apply(document("runningTasks/check/fail/match"))
                     .extract();
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value());
@@ -195,7 +195,7 @@ class TaskDocumentation extends DocumentationTest {
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .when().post("/api/tasks/1/flip")
                     .then().log().all()
-                    .apply(document("tasks/check/fail/notfound"))
+                    .apply(document("runningTasks/check/fail/notfound"))
                     .extract();
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value());
