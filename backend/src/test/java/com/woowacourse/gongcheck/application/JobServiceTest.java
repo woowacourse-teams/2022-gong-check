@@ -160,7 +160,7 @@ class JobServiceTest {
         Long savedJobId;
 
         @BeforeEach
-        void init() {
+        void setUp() {
             host = hostRepository.save(Host_생성("1234", 1234L));
             space = spaceRepository.save(Space_생성(host, "잠실"));
             tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
