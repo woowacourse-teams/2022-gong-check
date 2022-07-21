@@ -39,7 +39,6 @@ const useJobCreate = (sections: SectionType[]) => {
 
   const onClickCreateNewJob = () => {
     createNewJob({ spaceId, newJobName, sections });
-    alert('새로운 업무가 생성되었습니다.');
   };
 
   return { newJobName, onChangeJobName, onClickCreateNewJob };
