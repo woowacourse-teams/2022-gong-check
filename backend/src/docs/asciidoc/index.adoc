@@ -7,8 +7,9 @@
 == Gong-Check
 
 include::guest.adoc[]
-include::host.adoc[]
+include::hosts.adoc[]
 include::space.adoc[]
 include::job.adoc[]
 include::task.adoc[]
+include::runningTask.adoc[]
 include::submission.adoc[]

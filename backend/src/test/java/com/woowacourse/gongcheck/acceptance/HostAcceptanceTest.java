@@ -2,13 +2,13 @@ package com.woowacourse.gongcheck.acceptance;
 
 import static com.woowacourse.gongcheck.acceptance.AuthSupport.Host_토큰을_요청한다;
 import static com.woowacourse.gongcheck.acceptance.AuthSupport.토큰을_요청한다;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.gongcheck.presentation.request.GuestEnterRequest;
 import com.woowacourse.gongcheck.presentation.request.SpacePasswordChangeRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,7 +28,7 @@ class HostAcceptanceTest extends AcceptanceTest {
                 .then().log().all()
                 .extract();
 
-        Assertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
     }
 
     @Test
@@ -44,6 +44,20 @@ class HostAcceptanceTest extends AcceptanceTest {
                 .then().log().all()
                 .extract();
 
-        Assertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+    }
+
+    @Test
+    void Host_토큰으로_호스트_아이디를_조회한다() {
+        String token = Host_토큰을_요청한다().getToken();
+
+        ExtractableResponse<Response> response = RestAssured
+                .given().log().all()
+                .auth().oauth2(token)
+                .when().get("/api/hosts/me")
+                .then().log().all()
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 }

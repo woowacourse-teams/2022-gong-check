@@ -30,7 +30,7 @@ class HostDocumentation extends DocumentationTest {
                     .body(new SpacePasswordChangeRequest("1234"))
                     .when().patch("/api/spacePassword")
                     .then().log().all()
-                    .apply(document("host/spacePassword_update/success"))
+                    .apply(document("hosts/spacePassword_update/success"))
                     .statusCode(HttpStatus.NO_CONTENT.value());
         }
 
@@ -47,7 +47,7 @@ class HostDocumentation extends DocumentationTest {
                     .body(new SpacePasswordChangeRequest("12345"))
                     .when().patch("/api/spacePassword")
                     .then().log().all()
-                    .apply(document("host/spacePassword_update/fail/password_length"))
+                    .apply(document("hosts/spacePassword_update/fail/password_length"))
                     .statusCode(HttpStatus.BAD_REQUEST.value());
         }
 
@@ -64,8 +64,21 @@ class HostDocumentation extends DocumentationTest {
                     .body(new SpacePasswordChangeRequest("가나다라"))
                     .when().patch("/api/spacePassword")
                     .then().log().all()
-                    .apply(document("host/spacePassword_update/fail/password_pattern"))
+                    .apply(document("hosts/spacePassword_update/fail/password_pattern"))
                     .statusCode(HttpStatus.BAD_REQUEST.value());
         }
+    }
+
+    @Test
+    void 호스트_아이디를_조회한다() {
+        when(hostService.getHostId(anyLong())).thenReturn(1L);
+        when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
+        docsGiven
+                .header("Authorization", "Bearer jwt.token.here")
+                .when().get("/api/hosts/me")
+                .then().log().all()
+                .apply(document("hosts/find"))
+                .statusCode(HttpStatus.OK.value());
     }
 }

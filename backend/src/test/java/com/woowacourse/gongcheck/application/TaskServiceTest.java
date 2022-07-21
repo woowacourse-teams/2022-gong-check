@@ -11,6 +11,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.gongcheck.application.response.JobActiveResponse;
 import com.woowacourse.gongcheck.application.response.RunningTasksResponse;
+import com.woowacourse.gongcheck.application.response.TasksResponse;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.domain.job.Job;
@@ -210,7 +211,7 @@ class TaskServiceTest {
         }
 
         @Test
-        void 존재하지_않는_호스트로_RunningTask를_조회하려하는_경우_예외가_발생한다() {
+        void 존재하지_않는_Host로_RunningTask를_조회하려하는_경우_예외가_발생한다() {
             assertThatThrownBy(() -> taskService.findRunningTasks(0L, 1L))
                     .isInstanceOf(NotFoundException.class)
                     .hasMessage("존재하지 않는 호스트입니다.");
@@ -226,7 +227,7 @@ class TaskServiceTest {
         }
 
         @Test
-        void 다른_호스트의_Task의_RunningTask를_조회하려는_경우_예외가_발생한다() {
+        void 다른_Host의_Task의_RunningTask를_조회하려는_경우_예외가_발생한다() {
             Host differentHost = hostRepository.save(Host_생성("1234", 2345L));
             taskRepository.saveAll(List.of(task1, task2));
             RunningTask runningTask1 = RunningTask_생성(task1.getId(), false);
@@ -331,5 +332,58 @@ class TaskServiceTest {
 
         RunningTask runningTask = runningTaskRepository.findByTaskId(task.getId()).get();
         assertThat(runningTask.isChecked()).isEqualTo(expected);
+    }
+
+    @Nested
+    class Task를_조회한다 {
+
+        private Host host;
+        private Space space;
+        private Job job;
+        private Section section;
+        private Task task1, task2;
+
+        @BeforeEach
+        void init() {
+            host = hostRepository.save(Host_생성("1234", 1234L));
+            space = spaceRepository.save(Space_생성(host, "잠실"));
+            job = jobRepository.save(Job_생성(space, "청소"));
+            section = sectionRepository.save(Section_생성(job, "트랙룸"));
+            task1 = Task_생성(section, "책상 청소");
+            task2 = Task_생성(section, "의자 넣기");
+        }
+
+        @Test
+        void 존재하지_않는_Host로_Task를_조회하려는_경우_예외가_발생한다() {
+            assertThatThrownBy(() -> taskService.findTasks(0L, 1L))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 호스트입니다.");
+        }
+
+        @Test
+        void 존재하지_않는_Job으로_Task를_조회하려는_경우_예외가_발생한다() {
+            assertThatThrownBy(() -> taskService.findTasks(host.getId(), 0L))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 작업입니다.");
+        }
+
+        @Test
+        void 다른_Host의_Job으로_Task를_조회하려는_경우_예외가_발생한다() {
+            Host anotherHost = hostRepository.save(Host_생성("1234", 2345L));
+            taskRepository.saveAll(List.of(task1, task2));
+
+            assertThatThrownBy(() -> taskService.findTasks(anotherHost.getId(), job.getId()))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 작업입니다.");
+        }
+
+        @Test
+        void 조회에_성공한다() {
+            taskRepository.saveAll(List.of(task1, task2));
+
+            TasksResponse result = taskService.findTasks(host.getId(), job.getId());
+
+            assertThat(result.getSections()).hasSize(1);
+        }
     }
 }
