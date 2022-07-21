@@ -20,6 +20,11 @@ const text = css`
   margin-bottom: 24px;
 `;
 
-const styles = { layout, logo, text };
+const empty = css`
+  margin-top: 56px;
+  font-size: 24px;
+  font-weight: 500;
+`;
+const styles = { layout, logo, text, empty };
 
 export default styles;

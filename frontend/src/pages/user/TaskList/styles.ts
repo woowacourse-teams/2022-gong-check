@@ -68,6 +68,11 @@ const arrowBackIconWrapper = css`
   position: absolute;
   top: 20px;
   left: 20px;
+
+  svg {
+    color: ${theme.colors.black};
+    cursor: pointer;
+  }
 `;
 
 const progressBarWrapper = css`
@@ -137,6 +142,12 @@ const button = (isAllChecked: boolean) =>
     background: ${isAllChecked ? theme.colors.primary : theme.colors.gray400};
   `;
 
+const form = css`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const styles = {
   layout,
   contents,
@@ -150,6 +161,7 @@ const styles = {
   progressBar,
   percentText,
   button,
+  form,
 };
 
 export default styles;
