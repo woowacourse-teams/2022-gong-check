@@ -4,5 +4,6 @@ logs
 **/*.backup.*
 **/*.back.*
 dist
+.env
 
 node_modules
