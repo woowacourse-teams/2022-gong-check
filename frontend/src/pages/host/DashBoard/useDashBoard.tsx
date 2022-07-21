@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import SlackUrlModal from '@/components/host/SlackUrlModal';
 
 import useModal from '@/hooks/useModal';
+import useToast from '@/hooks/useToast';
 
 import apiJobs from '@/apis/job';
 import apiSpace from '@/apis/space';
@@ -15,6 +16,7 @@ const useDashBoard = () => {
   const { spaceId } = useParams();
 
   const { openModal } = useModal();
+  const { openToast } = useToast();
 
   const { data: spaceData } = useQuery(['space', spaceId], () => apiSpace.getSpace({ spaceId }), { suspense: true });
   const { data: jobsData } = useQuery(['jobs', spaceId], () => apiJobs.getJobs(spaceId), { suspense: true });
@@ -31,7 +33,8 @@ const useDashBoard = () => {
   };
 
   const onClickLinkButton = () => {
-    alert('공간 입장 링크가 복사되었습니다.');
+    navigator.clipboard.writeText('http://localhost:3000/enter/1/spaces');
+    openToast('SUCCESS', '공간 입장 링크가 복사되었습니다.');
   };
 
   return {
