@@ -16,10 +16,12 @@ const useTaskList = () => {
 
   const { data, refetch: getSections } = useQuery(['sections', jobId], () => apis.getRunningTasks(jobId), {
     suspense: true,
+    retry: false,
   });
 
   const { data: spaceData } = useQuery(['space', jobId], () => apis.getSpace(spaceId), {
     suspense: true,
+    retry: false,
   });
 
   const onClickButton = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
