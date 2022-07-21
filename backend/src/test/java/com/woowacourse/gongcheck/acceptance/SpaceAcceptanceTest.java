@@ -94,7 +94,7 @@ class SpaceAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void Guest_토큰으로_Space를_조회_시_예외가_발생한다() {
+    void Guest_토큰으로_Space를_조회한다() {
         String token = 토큰을_요청한다(new GuestEnterRequest("1234"));
 
         RestAssured
