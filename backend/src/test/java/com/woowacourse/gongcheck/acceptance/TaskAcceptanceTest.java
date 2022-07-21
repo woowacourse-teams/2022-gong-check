@@ -1,5 +1,6 @@
 package com.woowacourse.gongcheck.acceptance;
 
+import static com.woowacourse.gongcheck.acceptance.AuthSupport.Host_토큰을_요청한다;
 import static com.woowacourse.gongcheck.acceptance.AuthSupport.토큰을_요청한다;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -167,8 +168,7 @@ class TaskAcceptanceTest extends AcceptanceTest {
 
     @Test
     void Task를_조회한다() {
-        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
-        String token = 토큰을_요청한다(guestEnterRequest);
+        String token = Host_토큰을_요청한다().getToken();
 
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()

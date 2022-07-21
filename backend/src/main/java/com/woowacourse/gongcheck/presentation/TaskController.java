@@ -4,6 +4,7 @@ import com.woowacourse.gongcheck.application.TaskService;
 import com.woowacourse.gongcheck.application.response.JobActiveResponse;
 import com.woowacourse.gongcheck.application.response.RunningTasksResponse;
 import com.woowacourse.gongcheck.application.response.TasksResponse;
+import com.woowacourse.gongcheck.presentation.aop.HostOnly;
 import java.net.URI;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,6 +52,7 @@ public class TaskController {
     }
 
     @GetMapping("/jobs/{jobId}/tasks")
+    @HostOnly
     public ResponseEntity<TasksResponse> showTasks(@AuthenticationPrincipal final Long hostId,
                                                    @PathVariable final Long jobId) {
         TasksResponse response = taskService.findTasks(hostId, jobId);
