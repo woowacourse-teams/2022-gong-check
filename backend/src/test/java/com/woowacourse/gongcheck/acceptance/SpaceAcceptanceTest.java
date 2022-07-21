@@ -4,7 +4,6 @@ import static com.woowacourse.gongcheck.acceptance.AuthSupport.Host_토큰을_�
 import static com.woowacourse.gongcheck.acceptance.AuthSupport.토큰을_요청한다;
 
 import com.woowacourse.gongcheck.presentation.request.GuestEnterRequest;
-import com.woowacourse.gongcheck.presentation.request.TokenRequest;
 import io.restassured.RestAssured;
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +15,7 @@ class SpaceAcceptanceTest extends AcceptanceTest {
 
     @Test
     void Host_토큰으로_Space를_조회한다() {
-        String token = Host_토큰을_요청한다(new TokenRequest("code")).getToken();
+        String token = Host_토큰을_요청한다().getToken();
 
         RestAssured
                 .given().log().all()
@@ -30,7 +29,7 @@ class SpaceAcceptanceTest extends AcceptanceTest {
     void Host_토큰으로_Space를_생성한다() throws IOException {
         File fakeImage = File.createTempFile("temp", ".jpg");
 
-        String token = Host_토큰을_요청한다(new TokenRequest("code")).getToken();
+        String token = Host_토큰을_요청한다().getToken();
 
         RestAssured
                 .given().log().all()
@@ -47,7 +46,7 @@ class SpaceAcceptanceTest extends AcceptanceTest {
     void Host_토큰으로_한_Host가_이미_존재하는_이름의_Space를_생성하면_에러_응답을_반환한다() throws IOException {
         File fakeImage = File.createTempFile("temp", ".jpg");
 
-        String token = Host_토큰을_요청한다(new TokenRequest("code")).getToken();
+        String token = Host_토큰을_요청한다().getToken();
 
         RestAssured
                 .given().log().all()
@@ -71,7 +70,7 @@ class SpaceAcceptanceTest extends AcceptanceTest {
 
     @Test
     void Host_토큰으로_단일_Space를_조회한다() {
-        String token = Host_토큰을_요청한다(new TokenRequest("code")).getToken();
+        String token = Host_토큰을_요청한다().getToken();
 
         RestAssured
                 .given().log().all()
@@ -83,7 +82,7 @@ class SpaceAcceptanceTest extends AcceptanceTest {
 
     @Test
     void Host_토큰으로_Space를_삭제한다() {
-        String token = Host_토큰을_요청한다(new TokenRequest("code")).getToken();
+        String token = Host_토큰을_요청한다().getToken();
 
         RestAssured
                 .given().log().all()

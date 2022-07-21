@@ -9,7 +9,6 @@ import com.woowacourse.gongcheck.presentation.request.JobCreateRequest;
 import com.woowacourse.gongcheck.presentation.request.SectionCreateRequest;
 import com.woowacourse.gongcheck.presentation.request.SlackUrlChangeRequest;
 import com.woowacourse.gongcheck.presentation.request.TaskCreateRequest;
-import com.woowacourse.gongcheck.presentation.request.TokenRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -40,7 +39,7 @@ class JobAcceptanceTest extends AcceptanceTest {
 
     @Test
     void Host_토큰으로_Job을_생성한다() {
-        String token = Host_토큰을_요청한다(new TokenRequest("code")).getToken();
+        String token = Host_토큰을_요청한다().getToken();
 
         List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
         List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
@@ -129,7 +128,7 @@ class JobAcceptanceTest extends AcceptanceTest {
 
     @Test
     void Host_토큰으로_Job을_수정한다() {
-        String token = Host_토큰을_요청한다(new TokenRequest("code")).getToken();
+        String token = Host_토큰을_요청한다().getToken();
 
         List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
         List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
@@ -149,7 +148,7 @@ class JobAcceptanceTest extends AcceptanceTest {
 
     @Test
     void Host_토큰으로_존재하지_않는_Job을_수정할_경우_예외가_발생한다() {
-        String token = Host_토큰을_요청한다(new TokenRequest("code")).getToken();
+        String token = Host_토큰을_요청한다().getToken();
 
         List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
         List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
@@ -169,7 +168,7 @@ class JobAcceptanceTest extends AcceptanceTest {
 
     @Test
     void Host_토큰으로_Job을_삭제한다() {
-        String token = Host_토큰을_요청한다(new TokenRequest("code")).getToken();
+        String token = Host_토큰을_요청한다().getToken();
 
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()
@@ -184,7 +183,7 @@ class JobAcceptanceTest extends AcceptanceTest {
 
     @Test
     void Host_토큰으로_Job의_Slack_Url을_조회한다() {
-        String token = Host_토큰을_요청한다(new TokenRequest("code")).getToken();
+        String token = Host_토큰을_요청한다().getToken();
 
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()
@@ -198,7 +197,7 @@ class JobAcceptanceTest extends AcceptanceTest {
 
     @Test
     void Host_토큰으로_Job의_Slack_Url을_수정한다() {
-        String token = Host_토큰을_요청한다(new TokenRequest("code")).getToken();
+        String token = Host_토큰을_요청한다().getToken();
 
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()

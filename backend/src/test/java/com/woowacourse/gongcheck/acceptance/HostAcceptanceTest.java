@@ -5,7 +5,6 @@ import static com.woowacourse.gongcheck.acceptance.AuthSupport.토큰을_요청�
 
 import com.woowacourse.gongcheck.presentation.request.GuestEnterRequest;
 import com.woowacourse.gongcheck.presentation.request.SpacePasswordChangeRequest;
-import com.woowacourse.gongcheck.presentation.request.TokenRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -18,7 +17,7 @@ class HostAcceptanceTest extends AcceptanceTest {
 
     @Test
     void Host_토큰으로_Space_비밀번호를_변경한다() {
-        String token = Host_토큰을_요청한다(new TokenRequest("code")).getToken();
+        String token = Host_토큰을_요청한다().getToken();
 
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()
