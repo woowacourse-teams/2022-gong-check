@@ -8,7 +8,7 @@ const layout = css`
   align-items: center;
 `;
 
-const cover = (imageUrl: string) => css`
+const cover = (imageUrl: string | undefined) => css`
   display: flex;
   flex-direction: column;
   justify-content: space-between;

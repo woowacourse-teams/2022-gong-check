@@ -9,21 +9,19 @@ import useGoPreviousPage from '@/hooks/useGoPreviousPage';
 import apiJobs from '@/apis/job';
 import apiSpace from '@/apis/space';
 
-import { DEFAULT_IMAGE } from '@/constants/user';
-
 import styles from './styles';
 
 const JobList: React.FC = () => {
   const { spaceId } = useParams();
 
   const { data: jobsData } = useQuery(['jobs', spaceId], () => apiJobs.getJobs(spaceId), { suspense: true });
-  const { data: spaceData } = useQuery(['jobs', spaceId], () => apiSpace.getSpace(spaceId), { suspense: true });
+  const { data: spaceData } = useQuery(['spaces', spaceId], () => apiSpace.getSpace(spaceId), { suspense: true });
 
   const { goPreviousPage } = useGoPreviousPage();
 
   return (
     <div css={styles.layout}>
-      <div css={styles.cover(spaceData?.imageUrl || DEFAULT_IMAGE)}>
+      <div css={styles.cover(spaceData?.imageUrl)}>
         <IoIosArrowBack css={styles.arrow} size={40} onClick={goPreviousPage} />
         <span css={styles.coverText}>{spaceData?.name}</span>
       </div>

@@ -19,7 +19,7 @@ const useDashBoard = () => {
   const { openModal } = useModal();
   const { openToast } = useToast();
 
-  const { data: spaceData } = useQuery(['space', spaceId], () => apiSpace.getSpace({ spaceId }), { suspense: true });
+  const { data: spaceData } = useQuery(['space', spaceId], () => apiSpace.getSpace(spaceId), { suspense: true });
   const { data: jobsData } = useQuery(['jobs', spaceId], () => apiJobs.getJobs(spaceId), { suspense: true });
   const { data: submissionData } = useQuery(['submissions', spaceId], () => apiSubmission.getSubmission({ spaceId }), {
     suspense: true,
@@ -27,7 +27,6 @@ const useDashBoard = () => {
   const { refetch: getHostId } = useQuery(['hostData'], () => apiHost.getHostId(), {
     retry: false,
     enabled: false,
-    suspense: true,
     onSuccess: data => {
       navigator.clipboard.writeText(`http://localhost:3000/enter/${data.id}/spaces`);
       openToast('SUCCESS', '공간 입장 링크가 복사되었습니다.');
