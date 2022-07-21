@@ -3,6 +3,8 @@ package com.woowacourse.gongcheck.presentation;
 import com.woowacourse.gongcheck.application.TaskService;
 import com.woowacourse.gongcheck.application.response.JobActiveResponse;
 import com.woowacourse.gongcheck.application.response.RunningTasksResponse;
+import com.woowacourse.gongcheck.application.response.TasksResponse;
+import com.woowacourse.gongcheck.presentation.aop.HostOnly;
 import java.net.URI;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +23,7 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @PostMapping("/jobs/{jobId}/tasks/new")
+    @PostMapping("/jobs/{jobId}/runningTasks/new")
     public ResponseEntity<Void> createNewTasks(@AuthenticationPrincipal final Long hostId,
                                                @PathVariable final Long jobId) {
         taskService.createNewRunningTasks(hostId, jobId);
@@ -35,7 +37,7 @@ public class TaskController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/jobs/{jobId}/tasks")
+    @GetMapping("/jobs/{jobId}/runningTasks")
     public ResponseEntity<RunningTasksResponse> showRunningTasks(@AuthenticationPrincipal final Long hostId,
                                                                  @PathVariable final Long jobId) {
         RunningTasksResponse response = taskService.findRunningTasks(hostId, jobId);
@@ -47,5 +49,13 @@ public class TaskController {
                                                 @PathVariable final Long taskId) {
         taskService.flipRunningTask(hostId, taskId);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/jobs/{jobId}/tasks")
+    @HostOnly
+    public ResponseEntity<TasksResponse> showTasks(@AuthenticationPrincipal final Long hostId,
+                                                   @PathVariable final Long jobId) {
+        TasksResponse response = taskService.findTasks(hostId, jobId);
+        return ResponseEntity.ok(response);
     }
 }

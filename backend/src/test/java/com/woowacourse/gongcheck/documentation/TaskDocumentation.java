@@ -7,6 +7,7 @@ import static com.woowacourse.gongcheck.fixture.FixtureFactory.RunningTask로_Ta
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Section_아이디_지정_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Task_생성;
+import static com.woowacourse.gongcheck.fixture.FixtureFactory.Task_아이디_지정_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -17,6 +18,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 
 import com.woowacourse.gongcheck.application.response.JobActiveResponse;
 import com.woowacourse.gongcheck.application.response.RunningTasksResponse;
+import com.woowacourse.gongcheck.application.response.TasksResponse;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.job.Job;
 import com.woowacourse.gongcheck.domain.section.Section;
@@ -46,9 +48,9 @@ class TaskDocumentation extends DocumentationTest {
 
             docsGiven
                     .header("Authorization", "Bearer jwt.token.here")
-                    .when().post("/api/jobs/1/tasks/new")
+                    .when().post("/api/jobs/1/runningTasks/new")
                     .then().log().all()
-                    .apply(document("tasks/create/success"))
+                    .apply(document("runningTasks/create/success"))
                     .statusCode(HttpStatus.CREATED.value());
         }
 
@@ -61,9 +63,9 @@ class TaskDocumentation extends DocumentationTest {
             ExtractableResponse<MockMvcResponse> response = docsGiven
                     .header("Authorization", "Bearer jwt.token.here")
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .when().post("/api/jobs/1/tasks/new")
+                    .when().post("/api/jobs/1/runningTasks/new")
                     .then().log().all()
-                    .apply(document("tasks/create/fail/active"))
+                    .apply(document("runningTasks/create/fail/active"))
                     .extract();
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
@@ -82,7 +84,7 @@ class TaskDocumentation extends DocumentationTest {
                     .header("Authorization", "Bearer jwt.token.here")
                     .when().get("/api/jobs/1/active")
                     .then().log().all()
-                    .apply(document("tasks/active/success"))
+                    .apply(document("runningTasks/active/success"))
                     .statusCode(HttpStatus.OK.value());
         }
     }
@@ -108,9 +110,9 @@ class TaskDocumentation extends DocumentationTest {
 
             docsGiven
                     .header("Authorization", "Bearer jwt.token.here")
-                    .when().get("/api/jobs/1/tasks")
+                    .when().get("/api/jobs/1/runningTasks")
                     .then().log().all()
-                    .apply(document("tasks/find/success"))
+                    .apply(document("runningTasks/find/success"))
                     .statusCode(HttpStatus.OK.value());
         }
 
@@ -123,9 +125,9 @@ class TaskDocumentation extends DocumentationTest {
             ExtractableResponse<MockMvcResponse> response = docsGiven
                     .header("Authorization", "Bearer jwt.token.here")
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .when().get("/api/jobs/1/tasks")
+                    .when().get("/api/jobs/1/runningTasks")
                     .then().log().all()
-                    .apply(document("tasks/find/fail/active"))
+                    .apply(document("runningTasks/find/fail/active"))
                     .extract();
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
@@ -144,7 +146,7 @@ class TaskDocumentation extends DocumentationTest {
                     .header("Authorization", "Bearer jwt.token.here")
                     .when().post("/api/tasks/1/flip")
                     .then().log().all()
-                    .apply(document("tasks/check/success"))
+                    .apply(document("runningTasks/check/success"))
                     .statusCode(HttpStatus.OK.value());
         }
 
@@ -159,7 +161,7 @@ class TaskDocumentation extends DocumentationTest {
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .when().post("/api/tasks/1/flip")
                     .then().log().all()
-                    .apply(document("tasks/check/fail/active"))
+                    .apply(document("runningTasks/check/fail/active"))
                     .extract();
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
@@ -176,7 +178,7 @@ class TaskDocumentation extends DocumentationTest {
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .when().post("/api/tasks/1/flip")
                     .then().log().all()
-                    .apply(document("tasks/check/fail/match"))
+                    .apply(document("runningTasks/check/fail/match"))
                     .extract();
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value());
@@ -193,10 +195,32 @@ class TaskDocumentation extends DocumentationTest {
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .when().post("/api/tasks/1/flip")
                     .then().log().all()
-                    .apply(document("tasks/check/fail/notfound"))
+                    .apply(document("runningTasks/check/fail/notfound"))
                     .extract();
 
             assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value());
         }
+    }
+
+    @Test
+    void Task를_조회한다() {
+        Host host = Host_생성("1234", 1234L);
+        Space space = Space_생성(host, "잠실");
+        Job job = Job_생성(space, "청소");
+        Section section1 = Section_아이디_지정_생성(1L, job, "트랙룸");
+        Section section2 = Section_아이디_지정_생성(2L, job, "굿샷강의장");
+        Task task1 = Task_아이디_지정_생성(1L, section1, "책상 청소");
+        Task task2 = Task_아이디_지정_생성(2L, section2, "책상 청소");
+        when(taskService.findTasks(anyLong(), any())).thenReturn(
+                TasksResponse.from(new Tasks(List.of(task1, task2)))
+        );
+        when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
+        docsGiven
+                .header("Authorization", "Bearer jwt.token.here")
+                .when().get("/api/jobs/1/tasks")
+                .then().log().all()
+                .apply(document("tasks/find/success"))
+                .statusCode(HttpStatus.OK.value());
     }
 }

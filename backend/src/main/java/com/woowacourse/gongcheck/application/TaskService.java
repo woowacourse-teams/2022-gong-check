@@ -2,6 +2,7 @@ package com.woowacourse.gongcheck.application;
 
 import com.woowacourse.gongcheck.application.response.JobActiveResponse;
 import com.woowacourse.gongcheck.application.response.RunningTasksResponse;
+import com.woowacourse.gongcheck.application.response.TasksResponse;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.domain.job.Job;
@@ -34,7 +35,7 @@ public class TaskService {
 
     @Transactional
     public void createNewRunningTasks(final Long hostId, final Long jobId) {
-        Tasks tasks = createTasksByHostIdAndJobId(hostId, jobId);
+        Tasks tasks = findTasksByHostIdAndJobId(hostId, jobId);
         if (existsAnyRunningTaskIn(tasks)) {
             throw new BusinessException("현재 진행중인 작업이 존재하여 새로운 작업을 생성할 수 없습니다.");
         }
@@ -42,12 +43,12 @@ public class TaskService {
     }
 
     public JobActiveResponse isJobActivated(final Long hostId, final Long jobId) {
-        Tasks tasks = createTasksByHostIdAndJobId(hostId, jobId);
+        Tasks tasks = findTasksByHostIdAndJobId(hostId, jobId);
         return JobActiveResponse.from(existsAnyRunningTaskIn(tasks));
     }
 
     public RunningTasksResponse findRunningTasks(final Long hostId, final Long jobId) {
-        Tasks tasks = createTasksByHostIdAndJobId(hostId, jobId);
+        Tasks tasks = findTasksByHostIdAndJobId(hostId, jobId);
         return findExistingRunningTasks(tasks);
     }
 
@@ -61,7 +62,12 @@ public class TaskService {
         runningTask.flipCheckedStatus();
     }
 
-    private Tasks createTasksByHostIdAndJobId(final Long hostId, final Long jobId) {
+    public TasksResponse findTasks(final Long hostId, final Long jobId) {
+        Tasks tasks = findTasksByHostIdAndJobId(hostId, jobId);
+        return TasksResponse.from(tasks);
+    }
+
+    private Tasks findTasksByHostIdAndJobId(final Long hostId, final Long jobId) {
         Host host = hostRepository.getById(hostId);
         Job job = jobRepository.getBySpaceHostAndId(host, jobId);
         return new Tasks(taskRepository.findAllBySectionJob(job));
