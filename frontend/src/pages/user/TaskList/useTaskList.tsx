@@ -11,7 +11,7 @@ import apis from '@/apis';
 
 const useTaskList = () => {
   const { openModal } = useModal();
-  const { spaceId, jobId } = useParams();
+  const { spaceId, jobId, hostId } = useParams();
   const { goPreviousPage } = useGoPreviousPage();
 
   const { data, refetch: getSections } = useQuery(['sections', jobId], () => apis.getTasks({ jobId }), {
@@ -31,6 +31,7 @@ const useTaskList = () => {
         placeholder="이름을 입력해주세요."
         buttonText="확인"
         jobId={jobId}
+        hostId={hostId}
       />
     );
   };
