@@ -4,7 +4,6 @@ import static com.woowacourse.gongcheck.fixture.FixtureFactory.Host_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.gongcheck.config.JpaConfig;
 import com.woowacourse.gongcheck.domain.host.Host;
@@ -20,8 +19,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Slice;
 
 @DataJpaTest
 @Import(JpaConfig.class)
@@ -53,12 +50,9 @@ class SpaceRepositoryTest {
         Space space3 = Space_생성(host, "양평같은방");
         spaceRepository.saveAll(List.of(space1, space2, space3));
 
-        Slice<Space> result = spaceRepository.findByHost(host, PageRequest.of(0, 2));
+        List<Space> result = spaceRepository.findAllByHost(host);
 
-        assertAll(
-                () -> assertThat(result.getSize()).isEqualTo(2),
-                () -> assertThat(result.hasNext()).isTrue()
-        );
+        assertThat(result).hasSize(3);
     }
 
     @Nested
