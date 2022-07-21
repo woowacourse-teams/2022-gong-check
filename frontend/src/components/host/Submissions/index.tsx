@@ -3,6 +3,8 @@ import React from 'react';
 
 import Button from '@/components/common/Button';
 
+import emptyFolder from '@/assets/emptyFolder.png';
+
 import theme from '@/styles/theme';
 
 import styles from './styles';
@@ -46,19 +48,42 @@ const Submissions: React.FC<SubmissionsProps> = ({ submissions, isFullSize = fal
           </thead>
 
           <tbody>
-            {submissions.map(({ submissionId, author, jobName, createdAt }) => (
-              <tr key={submissionId}>
-                <td>{author}</td>
-                <td>{jobName}</td>
-                <td
-                  css={css`
-                    color: ${theme.colors.green};
-                  `}
-                >
-                  {createdAt}
+            {submissions.length === 0 ? (
+              <tr
+                css={css`
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                `}
+              >
+                <td>
+                  <img
+                    css={css`
+                      max-width: 100px;
+                    `}
+                    src={emptyFolder}
+                    alt=""
+                  />
+                  <span>데이터가 없습니다.</span>
                 </td>
               </tr>
-            ))}
+            ) : (
+              <>
+                {submissions.map(({ submissionId, author, jobName, createdAt }) => (
+                  <tr key={submissionId}>
+                    <td>{author}</td>
+                    <td>{jobName}</td>
+                    <td
+                      css={css`
+                        color: ${theme.colors.green};
+                      `}
+                    >
+                      {createdAt}
+                    </td>
+                  </tr>
+                ))}
+              </>
+            )}
           </tbody>
         </table>
       </div>
