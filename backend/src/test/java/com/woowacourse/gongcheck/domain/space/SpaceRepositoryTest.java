@@ -6,9 +6,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.gongcheck.config.JpaConfig;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.exception.NotFoundException;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -17,10 +19,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 
 @DataJpaTest
+@Import(JpaConfig.class)
 class SpaceRepositoryTest {
 
     @Autowired
@@ -28,6 +32,18 @@ class SpaceRepositoryTest {
 
     @Autowired
     private SpaceRepository spaceRepository;
+
+    @Test
+    void Space_저장_시_생성시간이_저장된다() {
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
+
+        LocalDateTime nowLocalDateTime = LocalDateTime.now();
+        Space space = spaceRepository.save(Space.builder()
+                .host(host)
+                .name("잠실")
+                .build());
+        assertThat(space.getCreatedAt()).isAfter(nowLocalDateTime);
+    }
 
     @Test
     void Host의_Space를_조회한다() {
