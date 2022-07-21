@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useMutation } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import useToast from '@/hooks/useToast';
+
 import apiJobs from '@/apis/job';
 
 import { SectionType } from '@/types';
@@ -11,6 +13,7 @@ type MutationParams = { spaceId: string | number | undefined; newJobName: string
 
 const useJobCreate = (sections: SectionType[]) => {
   const navigate = useNavigate();
+  const { openToast } = useToast();
 
   const { spaceId } = useParams();
 
@@ -20,10 +23,11 @@ const useJobCreate = (sections: SectionType[]) => {
     ({ spaceId, newJobName, sections }: MutationParams) => apiJobs.postNewJob(spaceId, newJobName, sections),
     {
       onSuccess: () => {
+        openToast('SUCCESS', '업무가 생성 되었습니다.');
         navigate(`/host/manage/${spaceId}`);
       },
       onError: (err: ApiError) => {
-        alert(err.response?.data.message);
+        openToast('ERROR', `${err.response?.data.message}`);
         navigate('/host/manage/spaceCreate');
       },
     }

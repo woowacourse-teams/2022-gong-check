@@ -3,10 +3,13 @@ import { useState } from 'react';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
+import useToast from '@/hooks/useToast';
+
 import apiSpace from '@/apis/space';
 
 const useSpaceCreate = () => {
   const navigate = useNavigate();
+  const { openToast } = useToast();
 
   const [isCreateSpace, setIsCreateSpace] = useState(true);
 
@@ -15,10 +18,11 @@ const useSpaceCreate = () => {
       const locationSplited = res.headers.location.split('/');
       const spaceId: string = locationSplited[locationSplited.length - 1];
 
+      openToast('SUCCESS', '공간이 생성 되었습니다.');
       navigate(`/host/manage/${spaceId}`);
     },
     onError: (err: AxiosError<{ message: string }>) => {
-      alert(err.response?.data.message);
+      openToast('ERROR', `${err.response?.data.message}`);
     },
   });
 
