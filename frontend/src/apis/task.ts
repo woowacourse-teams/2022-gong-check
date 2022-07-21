@@ -24,7 +24,7 @@ const getRunningTasks = async (jobId: ID | undefined) => {
 const getTasks = async (jobId: ID | undefined) => {
   const { data }: AxiosResponse<ApiTaskData> = await axiosInstanceToken({
     method: 'GET',
-    url: `/api/jobs/${jobId}/tasks`,
+    url: `/api/jobs/${jobId}/runningTasks`,
   });
 
   return data;
