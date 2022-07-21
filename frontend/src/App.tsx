@@ -7,7 +7,8 @@ import Transitions from '@/components/common/Transitions';
 
 import useTransitionSelect from '@/hooks/useTransitionSelect';
 
-import { isShowModalState, isShowToastState, modalComponentState } from '@/recoil/modal';
+import { isShowModalState, modalComponentState } from '@/recoil/modal';
+import { isShowToastState } from '@/recoil/toast';
 
 const App = () => {
   const content = useRoutes(routes, location);

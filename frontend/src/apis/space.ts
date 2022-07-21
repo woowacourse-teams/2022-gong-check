@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 
+import { ID } from '@/types';
 import { ApiSpacesData, ApiSpaceData } from '@/types/apis';
 
 import { axiosInstanceToken } from './config';
@@ -32,7 +33,7 @@ const deleteSpace = ({ spaceId }: any) => {
 };
 
 // space 단건 조회
-const getSpace = async ({ spaceId }: any) => {
+const getSpace = async (spaceId: ID | undefined) => {
   const { data }: AxiosResponse<ApiSpaceData> = await axiosInstanceToken({
     method: 'GET',
     url: `/api/spaces/${spaceId}`,

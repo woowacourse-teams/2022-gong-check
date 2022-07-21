@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 
 import theme from '@/styles/theme';
 
-const layout = (type: 'SUCCESS' | 'ERROR') => css`
+const layout = (type: 'SUCCESS' | 'ERROR' | '') => css`
   position: fixed;
   box-shadow: 0px 2px 14px -3px ${theme.colors.black};
   color: ${theme.colors.white};

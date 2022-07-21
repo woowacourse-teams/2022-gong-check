@@ -1,6 +1,6 @@
 import { useSetRecoilState } from 'recoil';
 
-import { isShowToastState, toastState } from '@/recoil/modal';
+import { isShowToastState, toastState } from '@/recoil/toast';
 
 const useToast = () => {
   const setState = useSetRecoilState(toastState);

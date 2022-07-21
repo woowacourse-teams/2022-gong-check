@@ -20,7 +20,7 @@ const SpaceCard: React.FC<SpaceCardProps> = ({ spaceName, imageUrl, id }) => {
   };
 
   return (
-    <div css={styles.spaceCard(imageUrl || DEFAULT_IMAGE)} onClick={onClick}>
+    <div css={styles.spaceCard(imageUrl)} onClick={onClick}>
       <span css={styles.title}>{spaceName}</span>
       <img css={styles.arrow} src={frontArrow} alt="" />
     </div>
