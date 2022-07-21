@@ -22,4 +22,8 @@ public class HostService {
         Host host = hostRepository.getById(hostId);
         host.changeSpacePassword(new SpacePassword(request.getPassword()));
     }
+
+    public Long getHostId(final Long hostId) {
+        return hostRepository.getById(hostId).getId();
+    }
 }
