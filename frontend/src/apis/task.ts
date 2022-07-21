@@ -30,7 +30,7 @@ const getTasks = async (jobId: ID | undefined) => {
   return data;
 };
 
-const postCheckTask = ({ taskId }: any) => {
+const postCheckTask = (taskId: ID | undefined) => {
   return axiosInstanceToken({
     method: 'POST',
     url: `/api/tasks/${taskId}/flip`,

@@ -1,4 +1,4 @@
-import useJobCreate from './useJobCreate';
+import useJobUpdate from './useJobUpdate';
 
 import JobControl from '@/components/host/JobControl';
 import SectionCard from '@/components/host/SectionCard';
@@ -7,19 +7,20 @@ import useSections from '@/hooks/useSections';
 
 import styles from './styles';
 
-const JobCreate: React.FC = () => {
-  const { sections, createSection, editSection, deleteSection, createTask, editTask, deleteTask } = useSections();
+const JobUpdate: React.FC = () => {
+  const { sections, updateSection, createSection, editSection, deleteSection, createTask, editTask, deleteTask } =
+    useSections();
 
-  const { newJobName, onChangeJobName, onClickCreateNewJob } = useJobCreate(sections);
+  const { jobName, onChangeJobName, onClickUpdateJob } = useJobUpdate(sections, updateSection);
 
   return (
     <div css={styles.layout}>
       <div css={styles.contents}>
         <JobControl
-          mode="create"
-          jobName={newJobName}
+          mode="update"
+          jobName={jobName || ''}
           onChangeJobName={onChangeJobName}
-          onClickControlJob={onClickCreateNewJob}
+          onClickControlJob={onClickUpdateJob}
         />
         <div css={styles.grid}>
           {sections.map((section, sectionIndex) => (
@@ -42,4 +43,4 @@ const JobCreate: React.FC = () => {
     </div>
   );
 };
-export default JobCreate;
+export default JobUpdate;

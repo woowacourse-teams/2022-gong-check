@@ -21,7 +21,7 @@ const JobBox: React.FC<JobBoxProps> = ({ job }) => {
           <Button
             css={styles.updateButton}
             onClick={() => {
-              onClickUpdateJobButton(job.id);
+              onClickUpdateJobButton(job.id, job.name);
             }}
           >
             수정

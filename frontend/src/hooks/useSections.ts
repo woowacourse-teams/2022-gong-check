@@ -6,6 +6,10 @@ import { SectionType } from '@/types';
 const useSections = () => {
   const [sections, setSections] = useState<SectionType[]>([]);
 
+  const updateSection = (sections: SectionType[]) => {
+    setSections(sections);
+  };
+
   const createSection = () => {
     setSections(prev => {
       return [...prev, { id: nanoid(), name: `새 구역 ${prev.length + 1}`, tasks: [] }];
@@ -67,7 +71,7 @@ const useSections = () => {
     }
   };
 
-  return { sections, createSection, editSection, deleteSection, createTask, editTask, deleteTask };
+  return { sections, updateSection, createSection, editSection, deleteSection, createTask, editTask, deleteTask };
 };
 
 export default useSections;
