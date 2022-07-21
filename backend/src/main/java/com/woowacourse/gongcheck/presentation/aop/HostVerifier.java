@@ -19,8 +19,8 @@ public class HostVerifier {
 
     @Before("@annotation(com.woowacourse.gongcheck.presentation.aop.HostOnly)")
     public void checkHost() {
-        final Authority authority = authenticationContext.getAuthority();
-        if (!authority.equals(Authority.HOST)) {
+        Authority authority = authenticationContext.getAuthority();
+        if (!authority.isHost()) {
             throw new UnauthorizedException("호스트만 입장 가능합니다.");
         }
     }
