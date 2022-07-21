@@ -91,6 +91,19 @@ const deleteButton = css`
   background-color: ${theme.colors.red};
 `;
 
-const styles = { layout, title, jobListWrapper, jobList, slackButton, newJobButton, updateButton, deleteButton };
+const empty = css`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    max-width: 100px;
+    margin-bottom: 12px;
+  }
+`;
+const styles = { layout, title, jobListWrapper, jobList, slackButton, newJobButton, updateButton, deleteButton, empty };
 
 export default styles;

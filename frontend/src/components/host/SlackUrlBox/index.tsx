@@ -19,7 +19,11 @@ const SlackUrlBox: React.FC<SlackUrlBoxProps> = ({ jobName, jobId }) => {
     suspense: true,
   });
 
-  const { mutate: putSlackUrl } = useMutation((url: string) => slackApi.putSlackUrl(jobId, url));
+  const { mutate: putSlackUrl } = useMutation((url: string) => slackApi.putSlackUrl(jobId, url), {
+    onSuccess: () => {
+      alert('URL이 수정되었습니다.');
+    },
+  });
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

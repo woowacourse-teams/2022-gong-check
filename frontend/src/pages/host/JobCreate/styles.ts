@@ -41,7 +41,7 @@ const header = css`
 
 const grid = css`
   display: grid;
-  grid-template-columns: repeat(2, calc(100vw / 3));
+  grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(1fr);
   grid-gap: 32px;
   justify-items: center;
@@ -52,7 +52,8 @@ const createCard = css`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 480px;
+  width: 100%;
+  max-width: 480px;
   height: 360px;
   background-color: ${theme.colors.gray200};
   font-size: 64px;

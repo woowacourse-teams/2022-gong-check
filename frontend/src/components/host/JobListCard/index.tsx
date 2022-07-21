@@ -2,10 +2,9 @@ import useJobListCard from './useJobListCard';
 
 import Button from '@/components/common/Button';
 
-import apiJobs from '@/apis/job';
+import { JobType } from '@/types';
 
-import { ID, JobType } from '@/types';
-
+import emptyFolder from '@/assets/emptyFolder.png';
 import slackIcon from '@/assets/slackIcon.svg';
 
 import styles from './styles';
@@ -33,29 +32,36 @@ const JobListCard: React.FC<JobListCardProps> = ({ jobs }) => {
         </div>
       </div>
       <div css={styles.jobListWrapper}>
-        {jobs.map(job => (
-          <div css={styles.jobList} key={job.id}>
-            <span>{job.name}</span>
-            <div>
-              <Button
-                css={styles.updateButton}
-                onClick={() => {
-                  onClickUpdateJobButton(job.id);
-                }}
-              >
-                수정
-              </Button>
-              <Button
-                css={styles.deleteButton}
-                onClick={() => {
-                  onClickDeleteJobButton(job.id);
-                }}
-              >
-                삭제
-              </Button>
-            </div>
+        {jobs.length === 0 ? (
+          <div css={styles.empty}>
+            <img src={emptyFolder} alt="" />
+            <div>생성된 업무가 없어요.</div>
           </div>
-        ))}
+        ) : (
+          jobs.map(job => (
+            <div css={styles.jobList} key={job.id}>
+              <span>{job.name}</span>
+              <div>
+                <Button
+                  css={styles.updateButton}
+                  onClick={() => {
+                    onClickUpdateJobButton(job.id);
+                  }}
+                >
+                  수정
+                </Button>
+                <Button
+                  css={styles.deleteButton}
+                  onClick={() => {
+                    onClickDeleteJobButton(job.id);
+                  }}
+                >
+                  삭제
+                </Button>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

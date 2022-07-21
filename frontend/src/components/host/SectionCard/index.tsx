@@ -35,7 +35,8 @@ const SectionCard: React.FC<SectionCardProps> = ({
     setSectionName(e.target.value);
   };
 
-  const onClickConfirm = () => {
+  const onConfirmInput = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     editSection(sectionIndex, sectionName);
     setIsEditing(false);
   };
@@ -58,11 +59,11 @@ const SectionCard: React.FC<SectionCardProps> = ({
 
   return (
     <div css={styles.container}>
-      <div css={styles.titleWrapper}>
+      <form css={styles.titleWrapper} onSubmit={onConfirmInput}>
         {isEditing ? (
           <>
             <input css={styles.input} ref={inputRef} value={sectionName} onChange={onChange} />
-            <Button css={styles.confirmButton} onClick={onClickConfirm}>
+            <Button type="submit" css={styles.confirmButton}>
               수정 확인
             </Button>
           </>
@@ -79,7 +80,7 @@ const SectionCard: React.FC<SectionCardProps> = ({
             </div>
           </>
         )}
-      </div>
+      </form>
       {section.tasks.map((task, taskIndex) => (
         <TaskBox
           task={task}
