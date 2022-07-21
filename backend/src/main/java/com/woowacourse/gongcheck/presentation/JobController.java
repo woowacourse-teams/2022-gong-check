@@ -8,7 +8,6 @@ import com.woowacourse.gongcheck.presentation.request.JobCreateRequest;
 import com.woowacourse.gongcheck.presentation.request.SlackUrlChangeRequest;
 import java.net.URI;
 import javax.validation.Valid;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,9 +30,8 @@ public class JobController {
 
     @GetMapping("/spaces/{spaceId}/jobs")
     public ResponseEntity<JobsResponse> showJobs(@AuthenticationPrincipal final Long hostId,
-                                                 @PathVariable final Long spaceId,
-                                                 final Pageable pageable) {
-        JobsResponse response = jobService.findPage(hostId, spaceId, pageable);
+                                                 @PathVariable final Long spaceId) {
+        JobsResponse response = jobService.findJobs(hostId, spaceId);
         return ResponseEntity.ok(response);
     }
 

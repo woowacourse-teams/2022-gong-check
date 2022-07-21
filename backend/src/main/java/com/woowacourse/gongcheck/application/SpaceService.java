@@ -19,8 +19,6 @@ import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.presentation.request.SpaceCreateRequest;
 import java.util.List;
 import java.util.Objects;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,9 +48,9 @@ public class SpaceService {
         this.imageUploader = imageUploader;
     }
 
-    public SpacesResponse findPage(final Long hostId, final Pageable pageable) {
+    public SpacesResponse findSpaces(final Long hostId) {
         Host host = hostRepository.getById(hostId);
-        Slice<Space> spaces = spaceRepository.findByHost(host, pageable);
+        List<Space> spaces = spaceRepository.findAllByHost(host);
         return SpacesResponse.from(spaces);
     }
 

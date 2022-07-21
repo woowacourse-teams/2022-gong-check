@@ -23,7 +23,7 @@ class JobAcceptanceTest extends AcceptanceTest {
         RestAssured
                 .given().log().all()
                 .auth().oauth2(token)
-                .when().get("/api/spaces/1/jobs?page=0&size=5")
+                .when().get("/api/spaces/1/jobs")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value());
     }
@@ -128,7 +128,7 @@ class JobAcceptanceTest extends AcceptanceTest {
         RestAssured
                 .given().log().all()
                 .auth().oauth2(token)
-                .when().get("/api/spaces/1/jobs?page=0&size=5")
+                .when().get("/api/spaces/1/jobs")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value());
     }

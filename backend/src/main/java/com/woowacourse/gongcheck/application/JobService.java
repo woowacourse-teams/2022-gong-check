@@ -20,8 +20,6 @@ import com.woowacourse.gongcheck.presentation.request.SectionCreateRequest;
 import com.woowacourse.gongcheck.presentation.request.SlackUrlChangeRequest;
 import com.woowacourse.gongcheck.presentation.request.TaskCreateRequest;
 import java.util.List;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,10 +45,10 @@ public class JobService {
         this.runningTaskRepository = runningTaskRepository;
     }
 
-    public JobsResponse findPage(final Long hostId, final Long spaceId, final Pageable pageable) {
+    public JobsResponse findJobs(final Long hostId, final Long spaceId) {
         Host host = hostRepository.getById(hostId);
         Space space = spaceRepository.getByHostAndId(host, spaceId);
-        Slice<Job> jobs = jobRepository.findBySpaceHostAndSpace(host, space, pageable);
+        List<Job> jobs = jobRepository.findAllBySpaceHostAndSpace(host, space);
         return JobsResponse.from(jobs);
     }
 

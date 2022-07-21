@@ -28,18 +28,16 @@ class SpaceDocumentation extends DocumentationTest {
         @Test
         void Space_조회에_성공한다() {
             Host host = Host_생성("1234", 1234L);
-            when(spaceService.findPage(anyLong(), any())).thenReturn(
-                    SpacesResponse.of(List.of(
-                                    Space_아이디_지정_생성(1L, host, "잠실"),
-                                    Space_아이디_지정_생성(2L, host, "선릉")),
-                            true)
+            when(spaceService.findSpaces(anyLong())).thenReturn(
+                    SpacesResponse.from(List.of(
+                            Space_아이디_지정_생성(1L, host, "잠실"),
+                            Space_아이디_지정_생성(2L, host, "선릉"))
+                    )
             );
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             docsGiven
                     .header(AUTHORIZATION, "Bearer jwt.token.here")
-                    .queryParam("page", 0)
-                    .queryParam("size", 2)
                     .when().get("/api/spaces")
                     .then().log().all()
                     .apply(document("spaces/list"))

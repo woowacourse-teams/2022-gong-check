@@ -35,7 +35,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
@@ -75,17 +74,14 @@ class JobServiceTest {
         Job job3 = Job_생성(space, "마감");
         jobRepository.saveAll(List.of(job1, job2, job3));
 
-        JobsResponse result = jobService.findPage(host.getId(), space.getId(), PageRequest.of(0, 2));
+        JobsResponse result = jobService.findJobs(host.getId(), space.getId());
 
-        assertAll(
-                () -> assertThat(result.getJobs()).hasSize(2),
-                () -> assertThat(result.isHasNext()).isTrue()
-        );
+        assertThat(result.getJobs()).hasSize(3);
     }
 
     @Test
     void 존재하지_않는_Host로_Job_목록을_조회할_경우_예외를_던진다() {
-        assertThatThrownBy(() -> jobService.findPage(0L, 1L, PageRequest.of(0, 1)))
+        assertThatThrownBy(() -> jobService.findJobs(0L, 1L))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("존재하지 않는 호스트입니다.");
     }
@@ -94,7 +90,7 @@ class JobServiceTest {
     void 존재하지_않는_Space의_Job_목록을_조회할_경우_예외를_던진다() {
         Host host = hostRepository.save(Host_생성("1234", 1234L));
 
-        assertThatThrownBy(() -> jobService.findPage(host.getId(), 0L, PageRequest.of(0, 1)))
+        assertThatThrownBy(() -> jobService.findJobs(host.getId(), 0L))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("존재하지 않는 공간입니다.");
     }
@@ -105,7 +101,7 @@ class JobServiceTest {
         Host host2 = hostRepository.save(Host_생성("1234", 2345L));
         Space space = spaceRepository.save(Space_생성(host2, "잠실"));
 
-        assertThatThrownBy(() -> jobService.findPage(host1.getId(), space.getId(), PageRequest.of(0, 1)))
+        assertThatThrownBy(() -> jobService.findJobs(host1.getId(), space.getId()))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("존재하지 않는 공간입니다.");
     }
