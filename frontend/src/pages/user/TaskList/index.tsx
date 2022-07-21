@@ -5,6 +5,8 @@ import { IoIosArrowBack } from 'react-icons/io';
 import Button from '@/components/common/Button';
 import TaskCard from '@/components/user/TaskCard';
 
+import { DEFAULT_IMAGE } from '@/constants/user';
+
 import theme from '@/styles/theme';
 
 import styles from './styles';
@@ -38,14 +40,14 @@ const TaskList: React.FC = () => {
             onClick={goPreviousPage}
           />
         </div>
-        <div css={styles.thumbnail(spaceData.imageUrl)} />
+        <div css={styles.thumbnail(spaceData?.imageUrl || DEFAULT_IMAGE)} />
         <div css={styles.infoWrapper}>
           <p>잠실 캠퍼스</p>
           <p>청소 체크리스트</p>
         </div>
       </div>
       <div css={styles.progressBarWrapper}>
-        <div css={styles.progressBar(percent)} />
+        <div css={styles.progressBar(percent || 0)} />
         <span css={styles.percentText}>{`${checkCount}/${totalCount}`}</span>
       </div>
       <div css={styles.contents}>
@@ -56,13 +58,18 @@ const TaskList: React.FC = () => {
             align-items: center;
           `}
         >
-          {data?.sections.map(({ id, name, tasks }) => (
-            <section css={styles.location} key={id}>
-              <p css={styles.locationName}>{name}</p>
-              <TaskCard tasks={tasks} getSections={getSections} />
+          {data?.sections.map(section => (
+            <section css={styles.location} key={section.id}>
+              <p css={styles.locationName}>{section.name}</p>
+              <TaskCard tasks={section.tasks} getSections={getSections} />
             </section>
           ))}
-          <Button type="submit" css={styles.button(isAllChecked)} onClick={onClickButton} disabled={!isAllChecked}>
+          <Button
+            type="submit"
+            css={styles.button(isAllChecked || false)}
+            onClick={onClickButton}
+            disabled={!isAllChecked}
+          >
             제출
           </Button>
         </form>
