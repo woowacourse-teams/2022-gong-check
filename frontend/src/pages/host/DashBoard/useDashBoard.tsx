@@ -28,7 +28,7 @@ const useDashBoard = () => {
     retry: false,
     enabled: false,
     onSuccess: data => {
-      navigator.clipboard.writeText(`http://localhost:3000/enter/${data.id}/spaces`);
+      navigator.clipboard.writeText(`${location.origin}/enter/${data.id}/spaces`);
       openToast('SUCCESS', '공간 입장 링크가 복사되었습니다.');
     },
     onError: () => {
