@@ -1,10 +1,14 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import useToast from '@/hooks/useToast';
+
 import apis from '@/apis';
 
 const usePassword = () => {
   const navigate = useNavigate();
+
+  const { openToast } = useToast();
 
   const [isActiveSubmit, setIsActiveSubmit] = useState(false);
   const { hostId } = useParams();
@@ -26,7 +30,7 @@ const usePassword = () => {
         navigate(`/enter/${hostId}/spaces`);
       });
     } catch (err) {
-      alert('비밀번호를 확인해주세요.');
+      openToast('ERROR', '비밀번호를 확인해주세요.');
     }
   };
 

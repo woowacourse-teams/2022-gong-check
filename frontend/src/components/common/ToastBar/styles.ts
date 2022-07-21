@@ -10,7 +10,7 @@ const layout = (type: 'SUCCESS' | 'ERROR') => css`
   bottom: 20px;
   left: 50%;
   transform: translate(-50%, 0);
-  width: 200px;
+  min-width: 200px;
   min-height: 60px;
   padding: 16px;
   border-radius: 8px;

@@ -15,7 +15,10 @@ export const isShowToastState = atom({
   default: false,
 });
 
-export const toastComponentState = atom<React.ReactElement | ''>({
-  key: 'toast/toastComponentState',
-  default: '',
+export const toastState = atom({
+  key: 'toast/toastState',
+  default: {
+    type: '',
+    text: '',
+  },
 });

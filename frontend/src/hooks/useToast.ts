@@ -1,16 +1,17 @@
-import React from 'react';
 import { useSetRecoilState } from 'recoil';
 
-import { isShowToastState, toastComponentState } from '@/recoil/modal';
+import { isShowToastState, toastState } from '@/recoil/modal';
 
 const useToast = () => {
+  const setState = useSetRecoilState(toastState);
   const setIsShowToast = useSetRecoilState(isShowToastState);
-  const setToast = useSetRecoilState(toastComponentState);
 
-  const openToast = (Component: React.ReactElement | '') => {
+  const openToast = (type: 'SUCCESS' | 'ERROR', text: string) => {
     setIsShowToast(true);
-    setToast(Component);
-
+    setState({
+      type,
+      text,
+    });
     setTimeout(() => {
       setIsShowToast(false);
     }, 2000);
@@ -18,7 +19,6 @@ const useToast = () => {
 
   const closeToast = () => {
     setIsShowToast(false);
-    setToast('');
   };
 
   return { openToast, closeToast };
