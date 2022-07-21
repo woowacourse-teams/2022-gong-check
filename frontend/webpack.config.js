@@ -26,7 +26,9 @@ const config = {
     new CleanWebpackPlugin({
       cleanAfterEveryBuildPatterns: ['dist'],
     }),
-    new Dotenv(),
+    new Dotenv({
+      path: `./frontend-security/.env`,
+    }),
   ],
   module: {
     rules: [
