@@ -18,6 +18,7 @@ import lombok.Getter;
 
 @Entity
 @Table(name = "task")
+@Builder
 @Getter
 public class Task {
 
@@ -46,7 +47,6 @@ public class Task {
     protected Task() {
     }
 
-    @Builder
     public Task(final Long id, final Section section, final RunningTask runningTask, final String name,
                 final LocalDateTime createdAt, final LocalDateTime updatedAt) {
         this.id = id;

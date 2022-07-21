@@ -17,6 +17,7 @@ import lombok.Getter;
 
 @Entity
 @Table(name = "space")
+@Builder
 @Getter
 public class Space {
 
@@ -45,7 +46,6 @@ public class Space {
     protected Space() {
     }
 
-    @Builder
     public Space(final Long id, final Host host, final String name, final String imageUrl,
                  final LocalDateTime createdAt, final LocalDateTime updatedAt) {
         checkNameLength(name);
