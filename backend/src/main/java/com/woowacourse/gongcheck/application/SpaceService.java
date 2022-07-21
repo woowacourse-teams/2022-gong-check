@@ -17,7 +17,6 @@ import com.woowacourse.gongcheck.domain.task.Task;
 import com.woowacourse.gongcheck.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.presentation.request.SpaceCreateRequest;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.data.domain.Pageable;
@@ -68,7 +67,6 @@ public class SpaceService {
                 .host(host)
                 .name(request.getName())
                 .imageUrl(imageUrl)
-                .createdAt(LocalDateTime.now())
                 .build();
         return spaceRepository.save(space)
                 .getId();

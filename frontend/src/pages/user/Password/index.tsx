@@ -23,7 +23,7 @@ const Password: React.FC = () => {
         </p>
       </div>
       <form css={styles.form({ isActiveSubmit })} onSubmit={onSubmit}>
-        <input onChange={onChangeInput} placeholder="비밀번호를 입력해주세요." required />
+        <input type="password" onChange={onChangeInput} placeholder="비밀번호를 입력해주세요." required />
         <Button type="submit">확인</Button>
       </form>
     </div>

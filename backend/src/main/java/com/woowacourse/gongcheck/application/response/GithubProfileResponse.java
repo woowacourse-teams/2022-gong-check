@@ -2,7 +2,6 @@ package com.woowacourse.gongcheck.application.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.woowacourse.gongcheck.domain.host.Host;
-import java.time.LocalDateTime;
 import lombok.Getter;
 
 @Getter
@@ -32,7 +31,6 @@ public class GithubProfileResponse {
         return Host.builder()
                 .githubId(getGithubId())
                 .imageUrl(imageUrl)
-                .createdAt(LocalDateTime.now())
                 .build();
     }
 

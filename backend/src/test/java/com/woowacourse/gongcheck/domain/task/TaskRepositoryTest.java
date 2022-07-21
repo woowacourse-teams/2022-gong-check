@@ -8,6 +8,7 @@ import static com.woowacourse.gongcheck.fixture.FixtureFactory.Task_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.woowacourse.gongcheck.config.JpaConfig;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.domain.job.Job;
@@ -17,12 +18,15 @@ import com.woowacourse.gongcheck.domain.section.SectionRepository;
 import com.woowacourse.gongcheck.domain.space.Space;
 import com.woowacourse.gongcheck.domain.space.SpaceRepository;
 import com.woowacourse.gongcheck.exception.NotFoundException;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 
 @DataJpaTest
+@Import(JpaConfig.class)
 class TaskRepositoryTest {
 
     @Autowired
@@ -39,6 +43,21 @@ class TaskRepositoryTest {
 
     @Autowired
     private TaskRepository taskRepository;
+
+    @Test
+    void Task_저장_시_생성시간이_저장된다() {
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
+        Space space = spaceRepository.save(Space_생성(host, "잠실"));
+        Job job = jobRepository.save(Job_생성(space, "청소"));
+        Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
+
+        LocalDateTime nowLocalDateTime = LocalDateTime.now();
+        Task task = taskRepository.save(Task.builder()
+                .section(section)
+                .name("책상 청소")
+                .build());
+        assertThat(task.getCreatedAt()).isAfter(nowLocalDateTime);
+    }
 
     @Test
     void Job이_가진_모든_Task를_조회한다() {

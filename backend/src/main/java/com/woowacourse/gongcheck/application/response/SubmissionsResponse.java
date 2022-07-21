@@ -8,33 +8,33 @@ import lombok.Getter;
 import org.springframework.data.domain.Slice;
 
 @Getter
-public class JobSubmissionsResponse {
+public class SubmissionsResponse {
 
-    private List<JobSubmissionResponse> submissions;
+    private List<SubmissionResponse> submissions;
     private boolean hasNext;
 
-    private JobSubmissionsResponse() {
+    private SubmissionsResponse() {
     }
 
-    public JobSubmissionsResponse(final List<JobSubmissionResponse> submissions, final boolean hasNext) {
+    public SubmissionsResponse(final List<SubmissionResponse> submissions, final boolean hasNext) {
         this.submissions = submissions;
         this.hasNext = hasNext;
     }
 
-    public static JobSubmissionsResponse from(final Slice<Submission> submissions) {
-        return new JobSubmissionsResponse(
+    public static SubmissionsResponse from(final Slice<Submission> submissions) {
+        return new SubmissionsResponse(
                 submissions.getContent()
                         .stream()
-                        .map(JobSubmissionResponse::from)
+                        .map(SubmissionResponse::from)
                         .collect(toList()),
                 submissions.hasNext()
         );
     }
 
-    public static JobSubmissionsResponse of(final List<Submission> submissions, final boolean hasNext) {
-        return new JobSubmissionsResponse(
+    public static SubmissionsResponse of(final List<Submission> submissions, final boolean hasNext) {
+        return new SubmissionsResponse(
                 submissions.stream()
-                        .map(JobSubmissionResponse::from)
+                        .map(SubmissionResponse::from)
                         .collect(toList()),
                 hasNext
         );

@@ -1,28 +1,35 @@
 package com.woowacourse.gongcheck.application.response;
 
-import com.woowacourse.gongcheck.domain.job.Job;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.woowacourse.gongcheck.domain.submission.Submission;
+import java.time.LocalDateTime;
 import lombok.Getter;
 
 @Getter
 public class SubmissionResponse {
 
-    private String slackUrl;
-    private String author;
-    private String spaceName;
+    private Long submissionId;
+    private Long jobId;
     private String jobName;
+    private String author;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime createdAt;
 
     private SubmissionResponse() {
     }
 
-    private SubmissionResponse(final String slackUrl, final String author, final String spaceName,
-                               final String jobName) {
-        this.slackUrl = slackUrl;
-        this.author = author;
-        this.spaceName = spaceName;
+    private SubmissionResponse(final Long submissionId, final Long jobId, final String jobName, final String author,
+                               final LocalDateTime createdAt) {
+        this.submissionId = submissionId;
+        this.jobId = jobId;
         this.jobName = jobName;
+        this.author = author;
+        this.createdAt = createdAt;
     }
 
-    public static SubmissionResponse of(final String author, final Job job) {
-        return new SubmissionResponse(job.getSlackUrl(), author, job.getSpace().getName(), job.getName());
+    public static SubmissionResponse from(final Submission submission) {
+        return new SubmissionResponse(submission.getId(), submission.getJob().getId(), submission.getJob().getName(),
+                submission.getAuthor(), submission.getCreatedAt());
     }
 }

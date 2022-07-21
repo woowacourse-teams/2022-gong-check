@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,9 +16,13 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "task")
+@EntityListeners(AuditingEntityListener.class)
 @Builder
 @Getter
 public class Task {
@@ -38,9 +43,11 @@ public class Task {
     @Column(name = "name", length = NAME_MAX_LENGTH, nullable = false)
     private String name;
 
+    @CreatedDate
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
@@ -61,7 +68,6 @@ public class Task {
         return RunningTask.builder()
                 .taskId(id)
                 .isChecked(false)
-                .createdAt(LocalDateTime.now())
                 .build();
     }
 

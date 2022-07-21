@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -13,9 +14,12 @@ import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "running_task")
+@EntityListeners(AuditingEntityListener.class)
 @Builder
 @Getter
 public class RunningTask {
@@ -33,6 +37,7 @@ public class RunningTask {
     @ColumnDefault("false")
     private boolean isChecked;
 
+    @CreatedDate
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
