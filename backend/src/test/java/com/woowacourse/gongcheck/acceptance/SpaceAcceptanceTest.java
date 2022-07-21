@@ -69,8 +69,8 @@ class SpaceAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void Host_토큰으로_단일_Space를_조회한다() {
-        String token = Host_토큰을_요청한다().getToken();
+    void Guest_토큰으로_단일_Space를_조회한다() {
+        String token = 토큰을_요청한다(new GuestEnterRequest("1234"));
 
         RestAssured
                 .given().log().all()
@@ -117,18 +117,6 @@ class SpaceAcceptanceTest extends AcceptanceTest {
                 .multiPart("image", fakeImage)
                 .auth().oauth2(token)
                 .when().post("/api/spaces")
-                .then().log().all()
-                .statusCode(HttpStatus.UNAUTHORIZED.value());
-    }
-
-    @Test
-    void Guest_토큰으로_단일_Space를_조회_시_예외가_발생한다() {
-        String token = 토큰을_요청한다(new GuestEnterRequest("1234"));
-
-        RestAssured
-                .given().log().all()
-                .auth().oauth2(token)
-                .when().get("/api/spaces/1")
                 .then().log().all()
                 .statusCode(HttpStatus.UNAUTHORIZED.value());
     }
