@@ -201,7 +201,7 @@ class TaskServiceTest {
         private Task task1, task2;
 
         @BeforeEach
-        void init() {
+        void setUp() {
             host = hostRepository.save(Host_생성("1234", 1234L));
             space = spaceRepository.save(Space_생성(host, "잠실"));
             job = jobRepository.save(Job_생성(space, "청소"));
@@ -344,7 +344,7 @@ class TaskServiceTest {
         private Task task1, task2;
 
         @BeforeEach
-        void init() {
+        void setUp() {
             host = hostRepository.save(Host_생성("1234", 1234L));
             space = spaceRepository.save(Space_생성(host, "잠실"));
             job = jobRepository.save(Job_생성(space, "청소"));
