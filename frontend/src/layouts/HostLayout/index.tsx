@@ -1,3 +1,4 @@
+import ErrorHostToken from '@/ErrorBoundary/ErrorHostToken';
 import { Suspense, useMemo } from 'react';
 import { Outlet } from 'react-router-dom';
 
@@ -11,11 +12,13 @@ const HostLayout: React.FC = () => {
   const isManagePath = useMemo(() => location.pathname.includes(MANAGE_PATH), []);
 
   return (
-    <Suspense fallback={<Loading />}>
-      <div css={styles.layout(isManagePath)}>
-        <Outlet />
-      </div>
-    </Suspense>
+    <ErrorHostToken>
+      <Suspense fallback={<Loading />}>
+        <div css={styles.layout(isManagePath)}>
+          <Outlet />
+        </div>
+      </Suspense>
+    </ErrorHostToken>
   );
 };
 
