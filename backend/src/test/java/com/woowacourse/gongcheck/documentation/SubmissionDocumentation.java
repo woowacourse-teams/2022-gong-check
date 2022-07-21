@@ -14,8 +14,8 @@ import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 
-import com.woowacourse.gongcheck.application.response.JobSubmissionsResponse;
-import com.woowacourse.gongcheck.application.response.SubmissionResponse;
+import com.woowacourse.gongcheck.application.response.SubmissionCreatedResponse;
+import com.woowacourse.gongcheck.application.response.SubmissionsResponse;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.job.Job;
 import com.woowacourse.gongcheck.domain.space.Space;
@@ -42,7 +42,7 @@ class SubmissionDocumentation extends DocumentationTest {
             Host host = Host_생성("1234", 1234L);
             Space space = Space_아이디_지정_생성(1L, host, "잠실");
             Job job = Job_아이디_지정_생성(1L, space, "청소");
-            SubmissionResponse response = SubmissionResponse.of("author", job);
+            SubmissionCreatedResponse response = SubmissionCreatedResponse.of("author", job);
             when(submissionService.submitJobCompletion(anyLong(), anyLong(), any())).thenReturn(response);
             doNothing().when(alertService).sendMessage(response);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
@@ -160,7 +160,7 @@ class SubmissionDocumentation extends DocumentationTest {
             Job job2 = Job_아이디_지정_생성(2L, space, "마감");
             Submission submission1 = Submission_아이디_지정_생성(1L, job1);
             Submission submission2 = Submission_아이디_지정_생성(2L, job2);
-            JobSubmissionsResponse response = JobSubmissionsResponse.of(List.of(submission1, submission2), true);
+            SubmissionsResponse response = SubmissionsResponse.of(List.of(submission1, submission2), true);
 
             when(submissionService.findPage(anyLong(), anyLong(), any())).thenReturn(response);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));

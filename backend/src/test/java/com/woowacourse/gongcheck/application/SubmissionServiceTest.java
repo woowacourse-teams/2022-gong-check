@@ -11,8 +11,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.gongcheck.application.response.JobSubmissionsResponse;
-import com.woowacourse.gongcheck.application.response.SubmissionResponse;
+import com.woowacourse.gongcheck.application.response.SubmissionCreatedResponse;
+import com.woowacourse.gongcheck.application.response.SubmissionsResponse;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.domain.job.Job;
@@ -133,15 +133,15 @@ class SubmissionServiceTest {
         void Submission을_생성한다() {
             checkAllRunningTasks(true);
 
-            SubmissionResponse submissionResponse = submissionService.submitJobCompletion(hostWithTasks.getId(),
+            SubmissionCreatedResponse submissionCreatedResponse = submissionService.submitJobCompletion(hostWithTasks.getId(),
                     job.getId(), request);
 
             assertAll(
                     () -> assertThat(submissionRepository.findAll().size()).isOne(),
                     () -> assertThat(runningTaskRepository.findAll().size()).isZero(),
-                    () -> assertThat(submissionResponse.getAuthor()).isEqualTo(request.getAuthor()),
-                    () -> assertThat(submissionResponse.getSpaceName()).isEqualTo(space.getName()),
-                    () -> assertThat(submissionResponse.getJobName()).isEqualTo(job.getName())
+                    () -> assertThat(submissionCreatedResponse.getAuthor()).isEqualTo(request.getAuthor()),
+                    () -> assertThat(submissionCreatedResponse.getSpaceName()).isEqualTo(space.getName()),
+                    () -> assertThat(submissionCreatedResponse.getJobName()).isEqualTo(job.getName())
             );
         }
 
@@ -202,7 +202,7 @@ class SubmissionServiceTest {
 
         @Test
         void 입력받은_Space에_해당하는_Submission_응답을_반환한다() {
-            JobSubmissionsResponse response = submissionService.findPage(host.getId(), space.getId(),
+            SubmissionsResponse response = submissionService.findPage(host.getId(), space.getId(),
                     PageRequest.of(0, 2));
 
             assertAll(
