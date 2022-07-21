@@ -95,6 +95,20 @@ const table = ({ isFullSize }: { isFullSize: boolean }) => css`
   }
 `;
 
-const styles = { layout, header, detailButton, table };
+const empty = css`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    max-width: 100px;
+    margin-bottom: 12px;
+  }
+`;
+
+const styles = { layout, header, detailButton, table, empty };
 
 export default styles;

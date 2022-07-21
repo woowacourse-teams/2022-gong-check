@@ -4,8 +4,8 @@ import animation from '@/styles/animation';
 import theme from '@/styles/theme';
 
 const layout = css`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
 `;
 
 const spinner = css`

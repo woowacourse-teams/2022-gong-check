@@ -49,23 +49,9 @@ const Submissions: React.FC<SubmissionsProps> = ({ submissions, isFullSize = fal
 
           <tbody>
             {submissions.length === 0 ? (
-              <tr
-                css={css`
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                `}
-              >
-                <td>
-                  <img
-                    css={css`
-                      max-width: 100px;
-                    `}
-                    src={emptyFolder}
-                    alt=""
-                  />
-                  <span>데이터가 없습니다.</span>
-                </td>
+              <tr css={styles.empty}>
+                <img src={emptyFolder} alt="" />
+                <div>제출된 내역이 없어요.</div>
               </tr>
             ) : (
               <>

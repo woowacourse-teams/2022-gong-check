@@ -15,7 +15,8 @@ const JobControl: React.FC<JobControlProps> = ({ jobName, onChangeJobName, onCli
 
   const [isEditing, setIsEditing] = useState(false);
 
-  const onClickConfirm = () => {
+  const onConfirmInput = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setIsEditing(false);
   };
 
@@ -28,11 +29,11 @@ const JobControl: React.FC<JobControlProps> = ({ jobName, onChangeJobName, onCli
   }, [isEditing]);
 
   return (
-    <div css={styles.header}>
+    <form css={styles.header} onSubmit={onConfirmInput}>
       {isEditing ? (
         <>
           <input css={styles.jobNameInput} ref={inputRef} defaultValue={jobName} onChange={onChangeJobName} />
-          <Button onClick={onClickConfirm}>수정 확인</Button>
+          <Button type="submit">수정 확인</Button>
         </>
       ) : (
         <>
@@ -45,7 +46,7 @@ const JobControl: React.FC<JobControlProps> = ({ jobName, onChangeJobName, onCli
           </div>
         </>
       )}
-    </div>
+    </form>
   );
 };
 

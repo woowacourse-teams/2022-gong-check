@@ -23,7 +23,8 @@ const TaskBox: React.FC<TaskBoxProps> = ({ task, sectionIndex, taskIndex, editTa
     setTaskName(e.target.value);
   };
 
-  const onClickConfirmButton = () => {
+  const onConfirmInput = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setIsEditing(false);
     editTask(sectionIndex, taskIndex, taskName);
   };
@@ -41,11 +42,11 @@ const TaskBox: React.FC<TaskBoxProps> = ({ task, sectionIndex, taskIndex, editTa
   }, [isEditing]);
 
   return (
-    <div css={styles.taskBox}>
+    <form css={styles.taskBox} onSubmit={onConfirmInput}>
       {isEditing ? (
         <>
           <input css={styles.input} ref={inputRef} value={taskName} onChange={onChangeInput} />
-          <Button css={styles.editButton} onClick={onClickConfirmButton}>
+          <Button type="submit" css={styles.editButton}>
             수정 확인
           </Button>
         </>
@@ -58,7 +59,7 @@ const TaskBox: React.FC<TaskBoxProps> = ({ task, sectionIndex, taskIndex, editTa
           </div>
         </>
       )}
-    </div>
+    </form>
   );
 };
 

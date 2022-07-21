@@ -9,6 +9,7 @@ const taskBox = css`
   align-items: center;
   padding: 6px 12px;
   height: 40px;
+  animation: ${animation.fadeIn} 1s;
 
   span {
     margin-right: 8px;

@@ -55,6 +55,17 @@ const spinnerEye = keyframes`
   }
 `;
 
-const animation = { fadeIn, fadeOut, shake, spinnerFace, spinnerEye };
+const moveUp = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const animation = { fadeIn, fadeOut, shake, spinnerFace, spinnerEye, moveUp };
 
 export default animation;

@@ -6,12 +6,13 @@ import theme from '@/styles/theme';
 const container = css`
   display: flex;
   flex-direction: column;
-  width: 480px;
+  width: 100%;
+  max-width: 480px;
   height: 360px;
   overflow-y: scroll;
   padding: 32px;
   background-color: ${theme.colors.gray200};
-  animation: ${animation.fadeIn} 1s;
+  animation: ${animation.moveUp} 2s;
 
   ::-webkit-scrollbar {
     width: 0.4em;
