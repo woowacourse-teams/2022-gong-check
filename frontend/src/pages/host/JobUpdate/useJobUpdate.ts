@@ -50,7 +50,6 @@ const useJobUpdate = (sections: SectionType[], updateSection: (sections: Section
   };
 
   const onClickUpdateJob = () => {
-    console.log(sections);
     updateJob({ jobId, jobName, sections });
   };
 
