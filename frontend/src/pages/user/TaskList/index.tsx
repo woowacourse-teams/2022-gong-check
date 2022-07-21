@@ -6,14 +6,12 @@ import TaskCard from '@/components/user/TaskCard';
 
 import useSectionCheck from '@/hooks/useSectionCheck';
 
-import { DEFAULT_IMAGE } from '@/constants/user';
-
 import styles from './styles';
 
 const TaskList: React.FC = () => {
-  const { sectionsData, spaceData, getSections, onClickButton, goPreviousPage } = useTaskList();
+  const { jobName, sectionsData, spaceData, getSections, onClickButton, goPreviousPage } = useTaskList();
 
-  if (!sectionsData) return <></>;
+  if (!sectionsData || !spaceData) return <></>;
 
   const { totalCount, checkCount, percent, isAllChecked } = useSectionCheck(sectionsData.sections);
 
@@ -23,10 +21,10 @@ const TaskList: React.FC = () => {
         <div css={styles.arrowBackIconWrapper}>
           <IoIosArrowBack size={30} onClick={goPreviousPage} />
         </div>
-        <div css={styles.thumbnail(spaceData?.imageUrl || DEFAULT_IMAGE)} />
+        <div css={styles.thumbnail(spaceData.imageUrl)} />
         <div css={styles.infoWrapper}>
-          <p>잠실 캠퍼스</p>
-          <p>청소 체크리스트</p>
+          <p>{spaceData.name}</p>
+          <p>{jobName}</p>
         </div>
       </div>
       <div css={styles.progressBarWrapper}>

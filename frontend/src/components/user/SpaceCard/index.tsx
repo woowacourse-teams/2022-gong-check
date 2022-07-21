@@ -1,7 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 
-import { DEFAULT_IMAGE } from '@/constants/user';
-
 import frontArrow from '@/assets/frontArrow.svg';
 
 import styles from './styles';

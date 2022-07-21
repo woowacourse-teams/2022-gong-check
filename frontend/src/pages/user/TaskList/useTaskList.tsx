@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 import NameModal from '@/components/user/NameModal';
 
@@ -11,6 +11,8 @@ import apis from '@/apis';
 
 const useTaskList = () => {
   const { spaceId, jobId, hostId } = useParams();
+  const location = useLocation();
+  const { jobName } = location.state as { jobName: string };
 
   const { openModal } = useModal();
 
@@ -45,6 +47,7 @@ const useTaskList = () => {
   };
 
   return {
+    jobName,
     sectionsData,
     spaceData,
     getSections,
