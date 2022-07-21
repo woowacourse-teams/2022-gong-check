@@ -24,6 +24,9 @@ import io.restassured.response.ExtractableResponse;
 import java.util.List;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
@@ -159,10 +162,12 @@ class JobDocumentation extends DocumentationTest {
                     .statusCode(HttpStatus.NO_CONTENT.value());
         }
 
-        @Test
-        void Job의_이름_길이가_올바르지_않을_경우_예외가_발생한다() {
+        @ParameterizedTest
+        @NullSource
+        @ValueSource(strings = {"", "Job 이름이 20글자 이상일 경우 예외"})
+        void Job_생성할때_이름이_1글자_미만_20글자_초과하거나_null일_경우_예외가_발생한다(final String input) {
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
-            JobCreateRequest wrongRequest = new JobCreateRequest("작업의 이름이 20글자 초과한다면 예외", sections);
+            JobCreateRequest wrongRequest = new JobCreateRequest(input, sections);
 
             ExtractableResponse<MockMvcResponse> response = docsGiven
                     .header("Authorization", "Bearer jwt.token.here")
@@ -176,10 +181,12 @@ class JobDocumentation extends DocumentationTest {
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         }
 
-        @Test
-        void Section_이름_길이가_올바르지_않을_경우_예외가_발생한다() {
+        @ParameterizedTest
+        @NullSource
+        @ValueSource(strings = {"", "Section의 name이 20자 초과"})
+        void Section_생성할때_이름이_1글자_미만_20글자_초과하거나_null일_경우_예외가_발생한다(final String input) {
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
-            List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("Section의 name이 20자 초과", tasks1));
+            List<SectionCreateRequest> sections = List.of(new SectionCreateRequest(input, tasks1));
             JobCreateRequest wrongRequest = new JobCreateRequest("청소", sections);
 
             ExtractableResponse<MockMvcResponse> response = docsGiven
@@ -194,11 +201,13 @@ class JobDocumentation extends DocumentationTest {
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         }
 
-        @Test
-        void Task_이름_길이가_올바르지_않을_경우_예외가_발생한다() {
+        @ParameterizedTest
+        @NullSource
+        @ValueSource(strings = {"", "Task의 이름이 1글자 미만 50글자 초과일 경우, Status Code 404를 반환한다"})
+        void Task_생성할때_이름이_1글자_미만_50글자_초과하거나_null일_경우_예외가_발생한다(final String input) {
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
             List<TaskCreateRequest> tasks1 = List.of(
-                    new TaskCreateRequest("Task의 이름이 1글자 미만 50글자 초과일 경우, Status Code 404를 반환한다"));
+                    new TaskCreateRequest(input));
             List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks1));
             JobCreateRequest wrongRequest = new JobCreateRequest("청소", sections);
 
