@@ -8,6 +8,7 @@ import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Task_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.woowacourse.gongcheck.config.JpaConfig;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.domain.job.Job;
@@ -16,6 +17,7 @@ import com.woowacourse.gongcheck.domain.section.Section;
 import com.woowacourse.gongcheck.domain.section.SectionRepository;
 import com.woowacourse.gongcheck.domain.space.Space;
 import com.woowacourse.gongcheck.domain.space.SpaceRepository;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,8 +25,10 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 
 @DataJpaTest
+@Import(JpaConfig.class)
 class RunningTaskRepositoryTest {
 
     @Autowired
@@ -44,6 +48,21 @@ class RunningTaskRepositoryTest {
 
     @Autowired
     private RunningTaskRepository runningTaskRepository;
+
+    @Test
+    void RunningTask_저장_시_생성시간이_저장된다() {
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
+        Space space = spaceRepository.save(Space_생성(host, "잠실"));
+        Job job = jobRepository.save(Job_생성(space, "청소"));
+        Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
+        Task task = taskRepository.save(Task_생성(section, "책상 청소"));
+
+        LocalDateTime nowLocalDateTime = LocalDateTime.now();
+        RunningTask runningTask = runningTaskRepository.save(RunningTask.builder()
+                .taskId(task.getId())
+                .build());
+        assertThat(runningTask.getCreatedAt()).isAfter(nowLocalDateTime);
+    }
 
     @Nested
     class RunningTask_조회_및_존재_확인 {

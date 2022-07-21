@@ -19,7 +19,6 @@ import com.woowacourse.gongcheck.presentation.request.JobCreateRequest;
 import com.woowacourse.gongcheck.presentation.request.SectionCreateRequest;
 import com.woowacourse.gongcheck.presentation.request.SlackUrlChangeRequest;
 import com.woowacourse.gongcheck.presentation.request.TaskCreateRequest;
-import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -101,7 +100,6 @@ public class JobService {
         Job job = Job.builder()
                 .space(space)
                 .name(request.getName())
-                .createdAt(LocalDateTime.now())
                 .build();
         jobRepository.save(job);
         createSectionsAndTasks(request.getSections(), job);
@@ -116,7 +114,6 @@ public class JobService {
         Section section = Section.builder()
                 .job(job)
                 .name(sectionCreateRequest.getName())
-                .createdAt(LocalDateTime.now())
                 .build();
         sectionRepository.save(section);
         createTasks(sectionCreateRequest.getTasks(), section);
@@ -135,7 +132,6 @@ public class JobService {
         return Task.builder()
                 .section(section)
                 .name(taskCreateRequest.getName())
-                .createdAt(LocalDateTime.now())
                 .build();
     }
 

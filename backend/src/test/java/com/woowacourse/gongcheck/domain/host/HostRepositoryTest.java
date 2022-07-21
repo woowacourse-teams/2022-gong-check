@@ -4,18 +4,32 @@ import static com.woowacourse.gongcheck.fixture.FixtureFactory.Host_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.woowacourse.gongcheck.config.JpaConfig;
 import com.woowacourse.gongcheck.exception.NotFoundException;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 
 @DataJpaTest
+@Import(JpaConfig.class)
 class HostRepositoryTest {
 
     @Autowired
     private HostRepository hostRepository;
+
+    @Test
+    void 호스트_저장_시_생성시간이_저장된다() {
+        LocalDateTime nowLocalDateTime = LocalDateTime.now();
+        Host host = hostRepository.save(Host.builder()
+                .githubId(1L)
+                .imageUrl("http://image.com")
+                .build());
+        assertThat(host.getCreatedAt()).isAfter(nowLocalDateTime);
+    }
 
     @Test
     void 아이디로_호스트를_조회한다() {
