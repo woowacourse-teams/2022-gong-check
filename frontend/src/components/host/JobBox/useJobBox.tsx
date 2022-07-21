@@ -13,8 +13,8 @@ const useJobBox = () => {
 
   const [isClicked, setIsClicked] = useState(false);
 
-  const onClickUpdateJobButton = (jobId: ID) => {
-    navigate(`jobUpdate/${jobId}`);
+  const onClickUpdateJobButton = (jobId: ID, jobName: string) => {
+    navigate(`jobUpdate/${jobId}`, { state: { jobName } });
   };
 
   const onClickDeleteJobButton = (jobId: ID) => {

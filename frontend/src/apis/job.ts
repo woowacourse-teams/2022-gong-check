@@ -39,7 +39,7 @@ const postNewJob = (spaceId: ID | undefined, name: string, sections: SectionType
 };
 
 // job 수정
-const putJob = ({ jobId, name, sections }: any) => {
+const putJob = (jobId: ID | undefined, name: string, sections: SectionType[]) => {
   return axiosInstanceToken({
     method: 'PUT',
     url: `/api/jobs/${jobId}`,
