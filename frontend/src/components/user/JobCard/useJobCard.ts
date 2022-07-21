@@ -10,7 +10,7 @@ const useJobCard = (id: ID) => {
   const onClickJobCard = async () => {
     const { active } = await apis.getJobActive(id);
     if (!active) {
-      await apis.postNewTasks({ jobId: id });
+      await apis.postNewRunningTasks(id);
     }
     navigate(id.toString());
   };

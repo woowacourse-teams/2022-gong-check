@@ -14,11 +14,11 @@ const useTaskList = () => {
   const { spaceId, jobId, hostId } = useParams();
   const { goPreviousPage } = useGoPreviousPage();
 
-  const { data, refetch: getSections } = useQuery(['sections', jobId], () => apis.getTasks({ jobId }), {
+  const { data, refetch: getSections } = useQuery(['sections', jobId], () => apis.getRunningTasks(jobId), {
     suspense: true,
   });
 
-  const { data: spaceData } = useQuery(['space', jobId], () => apis.getSpace({ spaceId }), {
+  const { data: spaceData } = useQuery(['space', jobId], () => apis.getSpace(spaceId), {
     suspense: true,
   });
 
