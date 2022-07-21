@@ -17,7 +17,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ tasks, getSections }) => {
     id: ID
   ) => {
     e.preventDefault();
-    await apis.postCheckTask({ taskId: id });
+    await apis.postCheckTask(id);
     getSections();
   };
 
