@@ -18,6 +18,7 @@ import lombok.Getter;
 
 @Entity
 @Table(name = "job")
+@Builder
 @Getter
 public class Job {
 
@@ -46,7 +47,6 @@ public class Job {
     protected Job() {
     }
 
-    @Builder
     public Job(final Long id, final Space space, final String name, final String slackUrl,
                final LocalDateTime createdAt, final LocalDateTime updatedAt) {
         this.id = id;

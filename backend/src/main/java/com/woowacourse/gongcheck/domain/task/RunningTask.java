@@ -16,6 +16,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "running_task")
+@Builder
 @Getter
 public class RunningTask {
 
@@ -38,7 +39,6 @@ public class RunningTask {
     protected RunningTask() {
     }
 
-    @Builder
     public RunningTask(final Long taskId, final Task task, final boolean isChecked, final LocalDateTime createdAt) {
         this.taskId = taskId;
         this.task = task;
