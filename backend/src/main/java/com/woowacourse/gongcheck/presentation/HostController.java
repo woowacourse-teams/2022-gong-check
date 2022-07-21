@@ -1,6 +1,7 @@
 package com.woowacourse.gongcheck.presentation;
 
 import com.woowacourse.gongcheck.application.HostService;
+import com.woowacourse.gongcheck.presentation.aop.HostOnly;
 import com.woowacourse.gongcheck.presentation.request.SpacePasswordChangeRequest;
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ public class HostController {
     }
 
     @PatchMapping("/spacePassword")
+    @HostOnly
     public ResponseEntity<Void> changeSpacePassword(@AuthenticationPrincipal final Long hostId,
                                                     @Valid @RequestBody final SpacePasswordChangeRequest request) {
         hostService.changeSpacePassword(hostId, request);
