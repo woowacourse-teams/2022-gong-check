@@ -1,7 +1,7 @@
 package com.woowacourse.gongcheck.application;
 
-import com.woowacourse.gongcheck.application.response.JobSubmissionsResponse;
 import com.woowacourse.gongcheck.application.response.SubmissionCreatedResponse;
+import com.woowacourse.gongcheck.application.response.SubmissionsResponse;
 import com.woowacourse.gongcheck.domain.host.Host;
 import com.woowacourse.gongcheck.domain.host.HostRepository;
 import com.woowacourse.gongcheck.domain.job.Job;
@@ -54,12 +54,12 @@ public class SubmissionService {
         return SubmissionCreatedResponse.of(request.getAuthor(), job);
     }
 
-    public JobSubmissionsResponse findPage(final Long hostId, final Long spaceId, final Pageable pageable) {
+    public SubmissionsResponse findPage(final Long hostId, final Long spaceId, final Pageable pageable) {
         Host host = hostRepository.getById(hostId);
         Space space = spaceRepository.getByHostAndId(host, spaceId);
         List<Job> jobs = jobRepository.findAllBySpace(space);
         Slice<Submission> submissions = submissionRepository.findAllByJobIn(jobs, pageable);
-        return JobSubmissionsResponse.from(submissions);
+        return SubmissionsResponse.from(submissions);
     }
 
     private void saveSubmissionAndClearRunningTasks(final SubmissionRequest request, final Job job) {

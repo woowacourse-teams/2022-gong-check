@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 
 @Getter
-public class JobSubmissionResponse {
+public class SubmissionResponse {
 
     private Long submissionId;
     private Long jobId;
@@ -16,11 +16,11 @@ public class JobSubmissionResponse {
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
 
-    private JobSubmissionResponse() {
+    private SubmissionResponse() {
     }
 
-    private JobSubmissionResponse(final Long submissionId, final Long jobId, final String jobName, final String author,
-                                  final LocalDateTime createdAt) {
+    private SubmissionResponse(final Long submissionId, final Long jobId, final String jobName, final String author,
+                               final LocalDateTime createdAt) {
         this.submissionId = submissionId;
         this.jobId = jobId;
         this.jobName = jobName;
@@ -28,8 +28,8 @@ public class JobSubmissionResponse {
         this.createdAt = createdAt;
     }
 
-    public static JobSubmissionResponse from(final Submission submission) {
-        return new JobSubmissionResponse(submission.getId(), submission.getJob().getId(), submission.getJob().getName(),
+    public static SubmissionResponse from(final Submission submission) {
+        return new SubmissionResponse(submission.getId(), submission.getJob().getId(), submission.getJob().getName(),
                 submission.getAuthor(), submission.getCreatedAt());
     }
 }

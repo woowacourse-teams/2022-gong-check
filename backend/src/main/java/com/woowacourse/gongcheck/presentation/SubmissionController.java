@@ -2,8 +2,8 @@ package com.woowacourse.gongcheck.presentation;
 
 import com.woowacourse.gongcheck.application.AlertService;
 import com.woowacourse.gongcheck.application.SubmissionService;
-import com.woowacourse.gongcheck.application.response.JobSubmissionsResponse;
 import com.woowacourse.gongcheck.application.response.SubmissionCreatedResponse;
+import com.woowacourse.gongcheck.application.response.SubmissionsResponse;
 import com.woowacourse.gongcheck.presentation.aop.HostOnly;
 import com.woowacourse.gongcheck.presentation.request.SubmissionRequest;
 import javax.validation.Valid;
@@ -44,10 +44,10 @@ public class SubmissionController {
 
     @GetMapping("/spaces/{spaceId}/submissions")
     @HostOnly
-    public ResponseEntity<JobSubmissionsResponse> showSubmissions(@AuthenticationPrincipal final Long hostId,
-                                                                  @PathVariable final Long spaceId,
-                                                                  final Pageable pageable) {
-        JobSubmissionsResponse response = submissionService.findPage(hostId, spaceId, pageable);
+    public ResponseEntity<SubmissionsResponse> showSubmissions(@AuthenticationPrincipal final Long hostId,
+                                                               @PathVariable final Long spaceId,
+                                                               final Pageable pageable) {
+        SubmissionsResponse response = submissionService.findPage(hostId, spaceId, pageable);
         return ResponseEntity.ok(response);
     }
 }
