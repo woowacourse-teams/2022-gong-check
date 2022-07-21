@@ -6,13 +6,16 @@ import Transitions from '@/components/common/Transitions';
 
 import useTransitionSelect from '@/hooks/useTransitionSelect';
 
-import { isShowModalState, modalComponentState } from '@/recoil/modal';
+import { isShowModalState, isShowToastState, modalComponentState, toastComponentState } from '@/recoil/modal';
 
 const App = () => {
   const content = useRoutes(routes, location);
 
   const isShowModal = useRecoilValue(isShowModalState);
   const modalComponent = useRecoilValue(modalComponentState);
+
+  const isShowToast = useRecoilValue(isShowToastState);
+  const ToastComponent = useRecoilValue(toastComponentState);
 
   const transition = useTransitionSelect();
 
@@ -22,6 +25,7 @@ const App = () => {
         {content}
       </Transitions>
       {isShowModal && modalComponent}
+      {isShowToast && ToastComponent}
     </>
   );
 };
