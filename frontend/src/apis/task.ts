@@ -1,17 +1,27 @@
 import { AxiosResponse } from 'axios';
 
+import { ID } from '@/types';
 import { ApiTaskData } from '@/types/apis';
 
 import { axiosInstanceToken } from './config';
 
-const postNewTasks = async ({ jobId }: any) => {
+const postNewRunningTasks = async (jobId: ID | undefined) => {
   return axiosInstanceToken({
     method: 'POST',
-    url: `/api/jobs/${jobId}/tasks/new`,
+    url: `/api/jobs/${jobId}/runningTasks/new`,
   });
 };
 
-const getTasks = async ({ jobId }: any) => {
+const getRunningTasks = async (jobId: ID | undefined) => {
+  const { data }: AxiosResponse<ApiTaskData> = await axiosInstanceToken({
+    method: 'GET',
+    url: `/api/jobs/${jobId}/runningTasks`,
+  });
+
+  return data;
+};
+
+const getTasks = async (jobId: ID | undefined) => {
   const { data }: AxiosResponse<ApiTaskData> = await axiosInstanceToken({
     method: 'GET',
     url: `/api/jobs/${jobId}/tasks`,
@@ -27,6 +37,6 @@ const postCheckTask = ({ taskId }: any) => {
   });
 };
 
-const apiTask = { postCheckTask, getTasks, postNewTasks };
+const apiTask = { postCheckTask, getRunningTasks, getTasks, postNewRunningTasks };
 
 export default apiTask;
