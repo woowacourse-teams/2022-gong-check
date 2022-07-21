@@ -6,6 +6,7 @@ import SlackUrlModal from '@/components/host/SlackUrlModal';
 import useModal from '@/hooks/useModal';
 import useToast from '@/hooks/useToast';
 
+import apiHost from '@/apis/host';
 import apiJobs from '@/apis/job';
 import apiSpace from '@/apis/space';
 import apiSubmission from '@/apis/submission';
@@ -23,6 +24,18 @@ const useDashBoard = () => {
   const { data: submissionData } = useQuery(['submissions', spaceId], () => apiSubmission.getSubmission({ spaceId }), {
     suspense: true,
   });
+  const { refetch: getHostId } = useQuery(['hostData'], () => apiHost.getHostId(), {
+    retry: false,
+    enabled: false,
+    suspense: true,
+    onSuccess: data => {
+      navigator.clipboard.writeText(`http://localhost:3000/enter/${data.id}/spaces`);
+      openToast('SUCCESS', '공간 입장 링크가 복사되었습니다.');
+    },
+    onError: () => {
+      openToast('ERROR', '잠시 후 다시 시도해주세요.');
+    },
+  });
 
   const onClickSubmissionsDetail = () => {
     navigate('spaceRecord');
@@ -33,8 +46,7 @@ const useDashBoard = () => {
   };
 
   const onClickLinkButton = () => {
-    navigator.clipboard.writeText('http://localhost:3000/enter/1/spaces');
-    openToast('SUCCESS', '공간 입장 링크가 복사되었습니다.');
+    getHostId();
   };
 
   return {

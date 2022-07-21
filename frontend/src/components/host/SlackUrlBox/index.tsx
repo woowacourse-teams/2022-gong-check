@@ -3,6 +3,8 @@ import { useMutation, useQuery } from 'react-query';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 
+import useToast from '@/hooks/useToast';
+
 import slackApi from '@/apis/slack';
 
 import { ID } from '@/types';
@@ -15,13 +17,15 @@ interface SlackUrlBoxProps {
 }
 
 const SlackUrlBox: React.FC<SlackUrlBoxProps> = ({ jobName, jobId }) => {
+  const { openToast } = useToast();
+
   const { data: slackUrlData } = useQuery(['slackUrl', jobId], () => slackApi.getSlackUrl(jobId), {
     suspense: true,
   });
 
   const { mutate: putSlackUrl } = useMutation((url: string) => slackApi.putSlackUrl(jobId, url), {
     onSuccess: () => {
-      alert('URL이 수정되었습니다.');
+      openToast('SUCCESS', 'URL이 수정되었습니다.');
     },
   });
 

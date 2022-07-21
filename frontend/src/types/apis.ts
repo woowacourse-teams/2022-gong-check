@@ -49,3 +49,7 @@ export type ApiHostTokenData = {
   token: string;
   alreadyJoin: boolean;
 };
+
+export type ApiHostIdData = {
+  id: number;
+};
