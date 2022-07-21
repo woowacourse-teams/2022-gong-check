@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,6 +11,8 @@ const useJobBox = () => {
 
   const { mutate: deleteJob } = useMutation((jobId: ID) => apiJobs.deleteJob(jobId));
 
+  const [isClicked, setIsClicked] = useState(false);
+
   const onClickUpdateJobButton = (jobId: ID) => {
     navigate(`jobUpdate/${jobId}`);
   };
@@ -20,7 +23,11 @@ const useJobBox = () => {
     }
   };
 
-  return { onClickUpdateJobButton, onClickDeleteJobButton };
+  const onClickJobBox = () => {
+    setIsClicked(prev => !prev);
+  };
+
+  return { isClicked, onClickUpdateJobButton, onClickDeleteJobButton, onClickJobBox };
 };
 
 export default useJobBox;

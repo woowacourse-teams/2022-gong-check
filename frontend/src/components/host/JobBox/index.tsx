@@ -1,5 +1,4 @@
 import useJobBox from './useJobBox';
-import { useState } from 'react';
 
 import Button from '@/components/common/Button';
 
@@ -12,16 +11,10 @@ interface JobBoxProps {
 }
 
 const JobBox: React.FC<JobBoxProps> = ({ job }) => {
-  const { onClickUpdateJobButton, onClickDeleteJobButton } = useJobBox();
-  const [isClicked, setIsClicked] = useState(false);
+  const { isClicked, onClickUpdateJobButton, onClickDeleteJobButton, onClickJobBox } = useJobBox();
 
   return (
-    <div
-      css={styles.jobBox}
-      onClick={() => {
-        setIsClicked(prev => !prev);
-      }}
-    >
+    <div css={styles.jobBox} onClick={onClickJobBox}>
       <span>{job.name}</span>
       {isClicked && (
         <div>
