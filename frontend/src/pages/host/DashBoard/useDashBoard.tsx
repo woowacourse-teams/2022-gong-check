@@ -1,3 +1,4 @@
+import { clip } from '@/copy';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -28,7 +29,7 @@ const useDashBoard = () => {
     retry: false,
     enabled: false,
     onSuccess: data => {
-      navigator.clipboard.writeText(`${location.origin}/enter/${data.id}/spaces`);
+      clip(`${location.origin}/enter/${data.id}/spaces`);
       openToast('SUCCESS', '공간 입장 링크가 복사되었습니다.');
     },
     onError: () => {
