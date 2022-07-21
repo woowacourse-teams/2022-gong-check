@@ -67,14 +67,14 @@ class TaskServiceTest {
     private EntityManager entityManager;
 
     @Test
-    void 존재하지_않는_호스트로_새로운_작업을_진행하려하는_경우_예외가_발생한다() {
+    void 존재하지_않는_Host로_RunningTask를_생성하려하는_경우_예외가_발생한다() {
         assertThatThrownBy(() -> taskService.createNewRunningTasks(0L, 1L))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessage("존재하지 않는 호스트입니다.");
     }
 
     @Test
-    void 존재하지_않는_작업의_새로운_작업을_진행하려는_경우_예외가_발생한다() {
+    void 존재하지_않는_Task로_RunningTask를_생성하려는_경우_예외가_발생한다() {
         Host host = hostRepository.save(Host_생성("1234", 1234L));
 
         assertThatThrownBy(() -> taskService.createNewRunningTasks(host.getId(), 0L))
@@ -83,7 +83,7 @@ class TaskServiceTest {
     }
 
     @Test
-    void 다른_호스트의_작업의_새로운_작업을_진행하려는_경우_예외가_발생한다() {
+    void 다른_Host의_Task로_RunningTask를_생성하려는_경우_예외가_발생한다() {
         Host host1 = hostRepository.save(Host_생성("1234", 1234L));
         Host host2 = hostRepository.save(Host_생성("1234", 2345L));
         Space space = spaceRepository.save(Space_생성(host2, "잠실"));
@@ -95,7 +95,7 @@ class TaskServiceTest {
     }
 
     @Test
-    void 이미_진행중인_작업이_존재하는데_새로운_작업을_진행하려는_경우_예외가_발생한다() {
+    void RunningTask가_이미_존재하는_경우_새로운_RunningTask를_생성하려는_경우_예외가_발생한다() {
         Host host = hostRepository.save(Host_생성("1234", 1234L));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
         Job job = jobRepository.save(Job_생성(space, "청소"));
@@ -113,7 +113,7 @@ class TaskServiceTest {
     }
 
     @Test
-    void 정상적으로_새로운_진행_작업을_생성한다() {
+    void 정상적으로_RunningTask를_생성한다() {
         Host host = hostRepository.save(Host_생성("1234", 1234L));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
         Job job = jobRepository.save(Job_생성(space, "청소"));
@@ -131,7 +131,7 @@ class TaskServiceTest {
     }
 
     @Nested
-    class 작업의_진행_여부는 {
+    class RuningTask_존재_여부는 {
         private Host host;
         private Space space;
         private Job job;
@@ -147,14 +147,14 @@ class TaskServiceTest {
         }
 
         @Test
-        void 존재하지_않는_호스트로_확인하려는_경우_예외가_발생한다() {
+        void 존재하지_않는_Host로_확인하려는_경우_예외가_발생한다() {
             assertThatThrownBy(() -> taskService.isJobActivated(0L, 1L))
                     .isInstanceOf(NotFoundException.class)
                     .hasMessage("존재하지 않는 호스트입니다.");
         }
 
         @Test
-        void 존재하지_않는_작업으로_확인하려는_경우_예외가_발생한다() {
+        void 존재하지_않는_Task로_확인하려는_경우_예외가_발생한다() {
             Host host = hostRepository.save(Host_생성("1234", 2345L));
 
             assertThatThrownBy(() -> taskService.isJobActivated(host.getId(), 0L))
@@ -163,7 +163,7 @@ class TaskServiceTest {
         }
 
         @Test
-        void 다른_호스트의_작업으로_확인하려는_경우_예외가_발생한다() {
+        void 다른_Host의_Task로_확인하려는_경우_예외가_발생한다() {
             Host host1 = hostRepository.save(Host_생성("1234", 2345L));
             Space space = spaceRepository.save(Space_생성(host1, "잠실"));
             Job job = jobRepository.save(Job_생성(space, "청소"));
@@ -174,7 +174,7 @@ class TaskServiceTest {
         }
 
         @Test
-        void 진행_작업이_존재하는_경우_참을_반환한다() {
+        void RunningTask가_존재하는_경우_참을_반환한다() {
             taskService.createNewRunningTasks(host.getId(), job.getId());
 
             JobActiveResponse result = taskService.isJobActivated(host.getId(), job.getId());
@@ -183,7 +183,7 @@ class TaskServiceTest {
         }
 
         @Test
-        void 진행_작업이_존재하지_않는_경우_거짓을_반환한다() {
+        void RunningTask가_존재하지_않는_경우_거짓을_반환한다() {
             JobActiveResponse result = taskService.isJobActivated(host.getId(), job.getId());
 
             assertThat(result.isActive()).isFalse();
@@ -191,7 +191,7 @@ class TaskServiceTest {
     }
 
     @Nested
-    class 진행_작업_조회 {
+    class RunningTask_조회 {
 
         private Host host;
         private Space space;
@@ -210,14 +210,14 @@ class TaskServiceTest {
         }
 
         @Test
-        void 존재하지_않는_호스트로_진행중인_작업을_조회하려하는_경우_예외가_발생한다() {
+        void 존재하지_않는_호스트로_RunningTask를_조회하려하는_경우_예외가_발생한다() {
             assertThatThrownBy(() -> taskService.findRunningTasks(0L, 1L))
                     .isInstanceOf(NotFoundException.class)
                     .hasMessage("존재하지 않는 호스트입니다.");
         }
 
         @Test
-        void 존재하지_않는_작업의_진행중인_작업을_조회하려는_경우_예외가_발생한다() {
+        void 존재하지_않는_Task로_RunningTask를_조회하려는_경우_예외가_발생한다() {
             Host host = hostRepository.save(Host_생성("1234", 2345L));
 
             assertThatThrownBy(() -> taskService.findRunningTasks(host.getId(), 0L))
@@ -226,7 +226,7 @@ class TaskServiceTest {
         }
 
         @Test
-        void 다른_호스트의_작업의_진행중인_작업을_조회하려는_경우_예외가_발생한다() {
+        void 다른_호스트의_Task의_RunningTask를_조회하려는_경우_예외가_발생한다() {
             Host differentHost = hostRepository.save(Host_생성("1234", 2345L));
             taskRepository.saveAll(List.of(task1, task2));
             RunningTask runningTask1 = RunningTask_생성(task1.getId(), false);
@@ -241,7 +241,7 @@ class TaskServiceTest {
         }
 
         @Test
-        void 진행중인_작업이_없는데_진행중인_작업을_조회하려는_경우_예외가_발생한다() {
+        void 존재하지_않는_RunningTask를_조회하려는_경우_예외가_발생한다() {
             taskRepository.saveAll(List.of(task1, task2));
 
             assertThatThrownBy(() -> taskService.findRunningTasks(host.getId(), job.getId()))
@@ -250,7 +250,7 @@ class TaskServiceTest {
         }
 
         @Test
-        void 정상적으로_진행중인_작업을_조회한다() {
+        void 정상적으로_RunningTask를_조회한다() {
             taskRepository.saveAll(List.of(task1, task2));
             RunningTask runningTask1 = RunningTask_생성(task1.getId(), false);
             RunningTask runningTask2 = RunningTask_생성(task2.getId(), false);
@@ -264,7 +264,7 @@ class TaskServiceTest {
     }
 
     @Test
-    void 진행_작업_체크_시_진행_작업이_존재하지_않을_경우_예외가_발생한다() {
+    void 존재하지_않는_RunningTask의_체크상태를_변경하려는_경우_예외가_발생한다() {
         Host host = hostRepository.save(Host_생성("1234", 1234L));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
         Job job = jobRepository.save(Job_생성(space, "청소"));
@@ -278,7 +278,7 @@ class TaskServiceTest {
     }
 
     @Test
-    void 진행_작업_체크_시_입력한_host의_진행_작업이_아닐_경우_예외가_발생한다() {
+    void 입력받은_Host와_RunningTask가_연관되지_않는_경우_체크상태를_변경할_수_없다() {
         Host host = hostRepository.save(Host_생성("1234", 1234L));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
         Job job = jobRepository.save(Job_생성(space, "청소"));
@@ -302,7 +302,7 @@ class TaskServiceTest {
     }
 
     @Test
-    void 진행_작업_체크_시_Host가_존재하지_않는_경우_예외가_발생한다() {
+    void RunningTask의_check_상태를_변경할_때_Host가_존재하지_않는_경우_예외가_발생한다() {
         Host host = hostRepository.save(Host_생성("1234", 1234L));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
         Job job = jobRepository.save(Job_생성(space, "청소"));
@@ -318,7 +318,7 @@ class TaskServiceTest {
 
     @ParameterizedTest
     @CsvSource(value = {"false:true", "true:false"}, delimiter = ':')
-    void 진행_작업의_상태를_변경한다(final boolean input, final boolean expected) {
+    void RunningTask의_체크상태를_변경한다(final boolean input, final boolean expected) {
         Host host = hostRepository.save(Host_생성("1234", 1234L));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
         Job job = jobRepository.save(Job_생성(space, "청소"));

@@ -35,10 +35,10 @@ import org.springframework.http.MediaType;
 class SubmissionDocumentation extends DocumentationTest {
 
     @Nested
-    class 작업을_제출한다 {
+    class Submission을_생성한다 {
 
         @Test
-        void 현재_진행중인_작업이_모두_완료된_상태로_제출하면_제출에_성공한다() {
+        void RunningTaks가_모두_체크상태이면_성공한다() {
             Host host = Host_생성("1234", 1234L);
             Space space = Space_아이디_지정_생성(1L, host, "잠실");
             Job job = Job_아이디_지정_생성(1L, space, "청소");
@@ -59,7 +59,7 @@ class SubmissionDocumentation extends DocumentationTest {
         }
 
         @Test
-        void 제출자_이름의_길이가_올바르지_않을_경우_예외가_발생한다() {
+        void author_길이가_올바르지_않은_경우_예외가_발생한다() {
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             SubmissionRequest submissionRequest = new SubmissionRequest("123456789123456789123");
@@ -80,7 +80,7 @@ class SubmissionDocumentation extends DocumentationTest {
         }
 
         @Test
-        void 제출자_이름이_null_일_경우_예외가_발생한다() {
+        void author가_null_일_경우_예외가_발생한다() {
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             SubmissionRequest submissionRequest = new SubmissionRequest(null);
@@ -101,7 +101,7 @@ class SubmissionDocumentation extends DocumentationTest {
         }
 
         @Test
-        void 현재_진행중인_작업이_없는데_제출을_시도할_경우_예외가_발생한다() {
+        void RunningTask가_존재하지_않으면_예외가_발생한다() {
             doThrow(new BusinessException("현재 제출할 수 있는 진행중인 작업이 존재하지 않습니다."))
                     .when(submissionService)
                     .submitJobCompletion(anyLong(), anyLong(), any());
@@ -125,7 +125,7 @@ class SubmissionDocumentation extends DocumentationTest {
         }
 
         @Test
-        void 현재_진행중인_작업을_미완료_상태로_제출을_시도할_경우_예외가_발생한다() {
+        void 모든_RunningTask가_체크상태가_아니면_예외가_발생한다() {
             doThrow(new BusinessException("모든 작업이 완료되지않아 제출이 불가합니다."))
                     .when(submissionService)
                     .submitJobCompletion(anyLong(), anyLong(), any());

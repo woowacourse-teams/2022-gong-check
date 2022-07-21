@@ -8,7 +8,7 @@ const useJobCard = (id: ID) => {
   const navigate = useNavigate();
 
   const onClickJobCard = async () => {
-    const { active } = await apis.getJobActive({ jobId: id });
+    const { active } = await apis.getJobActive(id);
     if (!active) {
       await apis.postNewTasks({ jobId: id });
     }

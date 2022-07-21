@@ -1,0 +1,5 @@
+[[Host]]
+== 호스트
+
+=== 호스트 비밀번호 변경
+operation::host/spacePassword_update/success[snippets='http-request,http-response']

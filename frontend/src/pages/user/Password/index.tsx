@@ -12,7 +12,7 @@ const Password: React.FC = () => {
   return (
     <div css={styles.layout}>
       <div>
-        <img src={homeCover} alt="" />
+        <img css={styles.homeCoverImage} src={homeCover} alt="공책 아이콘" />
       </div>
       <div css={styles.textWrapper}>
         <p>비밀번호를 입력해주세요.</p>

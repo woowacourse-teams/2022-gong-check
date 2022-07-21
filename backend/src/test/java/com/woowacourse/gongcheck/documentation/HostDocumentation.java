@@ -30,7 +30,7 @@ class HostDocumentation extends DocumentationTest {
                     .body(new SpacePasswordChangeRequest("1234"))
                     .when().patch("/api/spacePassword")
                     .then().log().all()
-                    .apply(document("host/update"))
+                    .apply(document("host/spacePassword_update/success"))
                     .statusCode(HttpStatus.NO_CONTENT.value());
         }
 
@@ -47,7 +47,7 @@ class HostDocumentation extends DocumentationTest {
                     .body(new SpacePasswordChangeRequest("12345"))
                     .when().patch("/api/spacePassword")
                     .then().log().all()
-                    .apply(document("host/update"))
+                    .apply(document("host/spacePassword_update/fail/password_length"))
                     .statusCode(HttpStatus.BAD_REQUEST.value());
         }
 
@@ -64,7 +64,7 @@ class HostDocumentation extends DocumentationTest {
                     .body(new SpacePasswordChangeRequest("가나다라"))
                     .when().patch("/api/spacePassword")
                     .then().log().all()
-                    .apply(document("host/update"))
+                    .apply(document("host/spacePassword_update/fail/password_pattern"))
                     .statusCode(HttpStatus.BAD_REQUEST.value());
         }
     }

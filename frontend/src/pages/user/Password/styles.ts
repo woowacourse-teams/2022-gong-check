@@ -9,6 +9,9 @@ const layout = css`
   align-items: center;
   font-size: 16px;
 `;
+const homeCoverImage = css`
+  width: 100%;
+`;
 
 const textWrapper = css`
   display: flex;
@@ -65,6 +68,6 @@ const form = ({ isActiveSubmit }: { isActiveSubmit: boolean }) => css`
   }
 `;
 
-const styles = { layout, textWrapper, form };
+const styles = { layout, textWrapper, form, homeCoverImage };
 
 export default styles;

@@ -20,7 +20,7 @@ const JobCard: React.FC<JobCardProps> = ({ jobName, id }) => {
         <span>{jobName}</span>
         <span>체크리스트</span>
       </div>
-      <img src={checklistImage} alt="" />
+      <img src={checklistImage} alt="체크리스트 아이콘" />
     </div>
   );
 };

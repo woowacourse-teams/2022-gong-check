@@ -32,7 +32,7 @@ class JobRepositoryTest {
     private JobRepository jobRepository;
 
     @Test
-    void 멤버와_Space으로_조회한다() {
+    void Host와_Space를_입력받아_연관되는_Job을_조회한다() {
         Host host = hostRepository.save(Host_생성("1234", 1234L));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
         Job job1 = Job_생성(space, "오픈");
@@ -49,7 +49,7 @@ class JobRepositoryTest {
     }
 
     @Test
-    void 멤버와_아이디로_작업을_조회한다() {
+    void Host와_JobId를_입력받아_Job을_조회한다() {
         Host host = hostRepository.save(Host_생성("1234", 1234L));
         Space space = spaceRepository.save(Space_생성(host, "잠실"));
         Job job = jobRepository.save(Job_생성(space, "청소"));
@@ -60,7 +60,7 @@ class JobRepositoryTest {
     }
 
     @Test
-    void 다른_Host의_Job을_조회할_경우_예외가_발생한다() {
+    void 입력받은_Host와_JobId가_연관되지_않은_경우_예외가_발생한다() {
         Host host1 = hostRepository.save(Host_생성("1234", 1234L));
         Host host2 = hostRepository.save(Host_생성("1234", 2345L));
         Space space = spaceRepository.save(Space_생성(host2, "잠실"));
@@ -81,5 +81,23 @@ class JobRepositoryTest {
         List<Job> result = jobRepository.findAllBySpace(space);
 
         assertThat(result).containsExactly(job1, job2);
+    }
+
+    @Test
+    void jobId로_Job을_조회한다() {
+        Host host = hostRepository.save(Host_생성("1234", 1234L));
+        Space space = spaceRepository.save(Space_생성(host, "잠실"));
+        Job job = jobRepository.save(Job_생성(space, "청소"));
+
+        Job savedJob = jobRepository.getById(job.getId());
+
+        assertThat(savedJob).isNotNull();
+    }
+
+    @Test
+    void 존재하지_않는_jobId로_Job을_조회_시_예외가_발생한다() {
+        assertThatThrownBy(() -> jobRepository.getById(0L))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("존재하지 않는 작업입니다.");
     }
 }

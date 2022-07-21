@@ -2,10 +2,10 @@ INSERT INTO host (space_password, github_id, image_url, created_at)
 VALUES ('1234', 1, 'test.com', current_timestamp());
 
 INSERT INTO space (host_id, name, img_url, created_at)
-VALUES (1, '잠실', 'https://velog.velcdn.com/images/cks3066/post/258f92c1-32be-4acb-be30-1eb64635c013/image.jpg',
+VALUES (1, '잠실 캠퍼스', 'https://velog.velcdn.com/images/cks3066/post/258f92c1-32be-4acb-be30-1eb64635c013/image.jpg',
         current_timestamp());
 INSERT INTO space (host_id, name, img_url, created_at)
-VALUES (1, '선릉', 'https://velog.velcdn.com/images/cks3066/post/28a9d0e5-d585-42e4-bc9e-458e439e2f4f/image.jpg',
+VALUES (1, '선릉 캠퍼스', 'https://velog.velcdn.com/images/cks3066/post/28a9d0e5-d585-42e4-bc9e-458e439e2f4f/image.jpg',
         current_timestamp());
 
 INSERT INTO job (space_id, name, created_at)
