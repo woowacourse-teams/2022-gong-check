@@ -43,7 +43,6 @@ public class SpaceController {
     }
 
     @GetMapping("/spaces/{spaceId}")
-    @HostOnly
     public ResponseEntity<SpaceResponse> showSpace(@AuthenticationPrincipal final Long hostId,
                                                    @PathVariable final Long spaceId) {
         SpaceResponse response = spaceService.findSpace(hostId, spaceId);
