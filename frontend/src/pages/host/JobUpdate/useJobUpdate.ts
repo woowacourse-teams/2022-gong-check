@@ -24,6 +24,7 @@ const useJobUpdate = (sections: SectionType[], updateSection: (sections: Section
   const [jobName, setJobName] = useState('');
 
   useQuery(['taskData', jobId], () => apiTask.getTasks(jobId), {
+    retry: false,
     onSuccess: data => {
       updateSection(data.sections);
     },

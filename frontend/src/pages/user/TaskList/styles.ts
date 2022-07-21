@@ -8,6 +8,7 @@ const layout = css`
   width: 100%;
   align-items: center;
   font-size: 16px;
+  padding: 0 0 32px 0;
 `;
 
 const contents = css`
@@ -18,13 +19,13 @@ const contents = css`
 `;
 
 const location = css`
-  margin: 16px;
+  margin: 8px;
 `;
 
 const locationName = css`
   font-size: 20px;
   font-weight: 600;
-  margin: 16px 8px 0;
+  margin: 12px 8px 0 0;
 `;
 
 const header = css`
@@ -76,6 +77,7 @@ const progressBarWrapper = css`
   height: 30px;
   width: 80%;
   position: relative;
+  margin-bottom: 16px;
 `;
 
 const progressBar = (percent: number) => css`

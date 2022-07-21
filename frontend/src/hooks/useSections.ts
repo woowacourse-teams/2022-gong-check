@@ -7,7 +7,6 @@ const useSections = () => {
   const [sections, setSections] = useState<SectionType[]>([]);
 
   const updateSection = (sections: SectionType[]) => {
-    console.log(sections);
     setSections(sections);
   };
 
