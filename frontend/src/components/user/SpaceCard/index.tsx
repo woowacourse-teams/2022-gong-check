@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
+import { DEFAULT_IMAGE } from '@/constants/user';
+
 import frontArrow from '@/assets/frontArrow.svg';
 
 import styles from './styles';
@@ -18,7 +20,7 @@ const SpaceCard: React.FC<SpaceCardProps> = ({ spaceName, imageUrl, id }) => {
   };
 
   return (
-    <div css={styles.spaceCard({ imageUrl })} onClick={onClick}>
+    <div css={styles.spaceCard(imageUrl || DEFAULT_IMAGE)} onClick={onClick}>
       <span css={styles.title}>{spaceName}</span>
       <img css={styles.arrow} src={frontArrow} alt="" />
     </div>

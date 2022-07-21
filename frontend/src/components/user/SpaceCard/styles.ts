@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 
 import theme from '@/styles/theme';
 
-const spaceCard = ({ imageUrl }: { imageUrl: string }) => css`
+const spaceCard = (imageUrl: string) => css`
   display: flex;
   justify-content: flex-start;
   align-items: flex-end;

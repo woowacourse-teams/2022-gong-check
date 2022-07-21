@@ -2,23 +2,19 @@ import CheckBox from '@/components/common/Checkbox';
 
 import apis from '@/apis';
 
+import { ID, TaskType } from '@/types';
+
 import styles from './styles';
 
-type TaskType = {
-  id: number;
-  name: string;
-  checked: boolean;
-};
-
 type TaskCardProps = {
-  tasks: Array<TaskType>;
+  tasks: TaskType[];
   getSections: () => void;
 };
 
 const TaskCard: React.FC<TaskCardProps> = ({ tasks, getSections }) => {
   const onClickCheckBox = async (
     e: React.MouseEvent<HTMLElement, MouseEvent> | React.ChangeEvent<HTMLElement>,
-    id: number
+    id: ID
   ) => {
     e.preventDefault();
     await apis.postCheckTask({ taskId: id });
@@ -29,7 +25,11 @@ const TaskCard: React.FC<TaskCardProps> = ({ tasks, getSections }) => {
     <div css={styles.taskCard}>
       {tasks.map((task, id) => (
         <div key={id} css={styles.task}>
-          <CheckBox onChange={e => onClickCheckBox(e, task.id)} checked={task.checked} id={JSON.stringify(task.id)} />
+          <CheckBox
+            onChange={e => onClickCheckBox(e, task.id)}
+            checked={task.checked || false}
+            id={JSON.stringify(task.id)}
+          />
           <span>{task.name}</span>
         </div>
       ))}
