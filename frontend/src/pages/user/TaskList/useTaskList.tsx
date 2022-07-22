@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 import NameModal from '@/components/user/NameModal';
 
@@ -10,14 +10,22 @@ import useModal from '@/hooks/useModal';
 import apis from '@/apis';
 
 const useTaskList = () => {
-  const { openModal } = useModal();
   const { spaceId, jobId, hostId } = useParams();
+  const location = useLocation();
+  const { jobName } = location.state as { jobName: string };
+
+  const { openModal } = useModal();
+
   const { goPreviousPage } = useGoPreviousPage();
 
-  const { data, refetch: getSections } = useQuery(['sections', jobId], () => apis.getRunningTasks(jobId), {
-    suspense: true,
-    retry: false,
-  });
+  const { data: sectionsData, refetch: getSections } = useQuery(
+    ['sections', jobId],
+    () => apis.getRunningTasks(jobId),
+    {
+      suspense: true,
+      retry: false,
+    }
+  );
 
   const { data: spaceData } = useQuery(['space', jobId], () => apis.getSpace(spaceId), {
     suspense: true,
@@ -38,23 +46,14 @@ const useTaskList = () => {
     );
   };
 
-  if (!data?.sections.length) return { isNotData: true };
-
-  const { sections } = data;
-  const tasks = useMemo(() => sections.map(section => section.tasks.map(task => task.checked)), [sections]);
-  const checkList = useMemo(
-    () =>
-      tasks.reduce((prev, curv) => {
-        return prev.concat(...curv);
-      }, []),
-    [tasks]
-  );
-  const totalCount = useMemo(() => checkList.length, [checkList]);
-  const checkCount = useMemo(() => checkList.filter(check => check === true).length, [checkList]);
-  const percent = useMemo(() => Math.ceil((checkCount / totalCount) * 100), [checkCount, totalCount]);
-  const isAllChecked = totalCount === checkCount;
-
-  return { data, spaceData, getSections, onClickButton, goPreviousPage, totalCount, checkCount, percent, isAllChecked };
+  return {
+    jobName,
+    sectionsData,
+    spaceData,
+    getSections,
+    onClickButton,
+    goPreviousPage,
+  };
 };
 
 export default useTaskList;

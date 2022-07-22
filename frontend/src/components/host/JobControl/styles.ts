@@ -38,7 +38,7 @@ const jobNameInput = css`
   font-size: 28px;
   font-weight: 500;
   margin: 12px 0;
-  background-color: ${theme.colors.shadow20};
+  background-color: ${theme.colors.white};
 
   :focus {
     outline: 2px solid ${theme.colors.shadow30};

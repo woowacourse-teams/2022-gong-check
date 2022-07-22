@@ -4,7 +4,7 @@ import apis from '@/apis';
 
 import { ID } from '@/types';
 
-const useJobCard = (id: ID) => {
+const useJobCard = (jobName: string, id: ID) => {
   const navigate = useNavigate();
 
   const onClickJobCard = async () => {
@@ -12,7 +12,7 @@ const useJobCard = (id: ID) => {
     if (!active) {
       await apis.postNewRunningTasks(id);
     }
-    navigate(id.toString());
+    navigate(id.toString(), { state: { jobName } });
   };
   return { onClickJobCard };
 };

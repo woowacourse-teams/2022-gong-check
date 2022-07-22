@@ -26,8 +26,8 @@ const ErrorUserToken: React.FC<ErrorUserTokenProps> = ({ children }) => {
     }
 
     if (message === '현재 진행중인 작업이 존재하지 않아 조회할 수 없습니다') {
-      navigate(`/enter/${hostId}/spaces/${spaceId}`);
-      openToast('ERROR', message);
+      navigate(`/enter/${hostId}/spaces`);
+      // openToast('ERROR', message);
     }
   }, [message]);
 

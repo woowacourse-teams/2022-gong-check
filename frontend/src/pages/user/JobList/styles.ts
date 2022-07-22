@@ -39,6 +39,12 @@ const arrow = css`
   cursor: pointer;
 `;
 
-const styles = { layout, cover, coverText, text, arrow };
+const empty = css`
+  margin-top: 56px;
+  font-size: 24px;
+  font-weight: 500;
+`;
+
+const styles = { layout, cover, coverText, text, arrow, empty };
 
 export default styles;
