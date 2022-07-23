@@ -2,8 +2,16 @@ import theme from './theme';
 import { css } from '@emotion/react';
 
 const globalStyle = css`
+  @font-face {
+    font-family: '지마켓';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: 0;
+    font-style: normal;
+  }
+
   * {
     box-sizing: border-box;
+    font-family: '지마켓';
   }
 
   a {
