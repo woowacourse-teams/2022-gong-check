@@ -15,6 +15,7 @@ import com.woowacourse.gongcheck.core.domain.space.SpaceRepository;
 import com.woowacourse.gongcheck.core.domain.task.RunningTaskRepository;
 import com.woowacourse.gongcheck.core.domain.task.Task;
 import com.woowacourse.gongcheck.core.domain.task.TaskRepository;
+import com.woowacourse.gongcheck.core.presentation.request.SpaceChangeRequest;
 import com.woowacourse.gongcheck.core.presentation.request.SpaceCreateRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import java.util.List;
@@ -74,6 +75,12 @@ public class SpaceService {
         Host host = hostRepository.getById(hostId);
         Space space = spaceRepository.getByHostAndId(host, spaceId);
         return SpaceResponse.from(space);
+    }
+
+    @Transactional
+    public void changeSpace(final Long hostId, final Long spaceId, final SpaceChangeRequest request,
+                            final MultipartFile image) {
+        Host host = hostRepository.getById(hostId);
     }
 
     @Transactional

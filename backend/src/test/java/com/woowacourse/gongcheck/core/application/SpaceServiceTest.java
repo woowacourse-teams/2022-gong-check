@@ -24,6 +24,7 @@ import com.woowacourse.gongcheck.core.domain.task.RunningTask;
 import com.woowacourse.gongcheck.core.domain.task.RunningTaskRepository;
 import com.woowacourse.gongcheck.core.domain.task.Task;
 import com.woowacourse.gongcheck.core.domain.task.TaskRepository;
+import com.woowacourse.gongcheck.core.presentation.request.SpaceChangeRequest;
 import com.woowacourse.gongcheck.core.presentation.request.SpaceCreateRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.NotFoundException;
@@ -36,6 +37,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @SpringBootTest
 @Transactional
@@ -171,6 +173,31 @@ class SpaceServiceTest {
             assertThatThrownBy(() -> spaceService.findSpace(host.getId(), 0L))
                     .isInstanceOf(NotFoundException.class)
                     .hasMessage("존재하지 않는 공간입니다.");
+        }
+    }
+
+    @Nested
+    class Space_수정 {
+
+        private final MultipartFile image = new MockMultipartFile("선릉 캠퍼스 사진", new byte[]{});
+
+        private Host host;
+        private Space space;
+
+        @BeforeEach
+        void setUp() {
+            host = hostRepository.save(Host_생성("1234", 1234L));
+            space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
+        }
+
+        @Test
+        void 존재하지_않는_Host로_수정하려는_경우_예외가_발생한다() {
+            SpaceChangeRequest request = new SpaceChangeRequest("선릉 캠퍼스");
+
+
+            assertThatThrownBy(() -> spaceService.changeSpace(0L, space.getId(), request, image))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 호스트입니다.");
         }
     }
 
