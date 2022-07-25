@@ -23,6 +23,6 @@ public class SubmissionCreatedResponse {
     }
 
     public static SubmissionCreatedResponse of(final String author, final Job job) {
-        return new SubmissionCreatedResponse(job.getSlackUrl(), author, job.getSpace().getName(), job.getName());
+        return new SubmissionCreatedResponse(job.getSlackUrl(), author, job.getSpace().getName().getValue(), job.getName());
     }
 }

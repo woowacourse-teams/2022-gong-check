@@ -20,6 +20,6 @@ public class SpaceResponse {
     }
 
     public static SpaceResponse from(final Space space) {
-        return new SpaceResponse(space.getId(), space.getName(), space.getImageUrl());
+        return new SpaceResponse(space.getId(), space.getName().getValue(), space.getImageUrl());
     }
 }

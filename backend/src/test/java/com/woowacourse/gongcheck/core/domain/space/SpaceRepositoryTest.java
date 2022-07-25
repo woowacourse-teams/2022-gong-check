@@ -38,7 +38,7 @@ class SpaceRepositoryTest {
         LocalDateTime nowLocalDateTime = LocalDateTime.now();
         Space space = spaceRepository.save(Space.builder()
                 .host(host)
-                .name("잠실")
+                .name(new Name("잠실"))
                 .build());
         assertThat(space.getCreatedAt()).isAfter(nowLocalDateTime);
     }
@@ -124,7 +124,7 @@ class SpaceRepositoryTest {
             Host host = hostRepository.save(Host_생성("1234", 1234L));
             Space space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
 
-            boolean actual = spaceRepository.existsByHostAndNameAndIdNot(host, space.getName(), 0L);
+            boolean actual = spaceRepository.existsByHostAndNameAndIdNot(host, space.getName().getValue(), 0L);
 
             assertThat(actual).isTrue();
         }

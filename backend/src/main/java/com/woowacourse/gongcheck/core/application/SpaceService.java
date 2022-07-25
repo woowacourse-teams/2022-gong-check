@@ -10,6 +10,7 @@ import com.woowacourse.gongcheck.core.domain.job.Job;
 import com.woowacourse.gongcheck.core.domain.job.JobRepository;
 import com.woowacourse.gongcheck.core.domain.section.Section;
 import com.woowacourse.gongcheck.core.domain.section.SectionRepository;
+import com.woowacourse.gongcheck.core.domain.space.Name;
 import com.woowacourse.gongcheck.core.domain.space.Space;
 import com.woowacourse.gongcheck.core.domain.space.SpaceRepository;
 import com.woowacourse.gongcheck.core.domain.task.RunningTaskRepository;
@@ -64,7 +65,7 @@ public class SpaceService {
 
         Space space = Space.builder()
                 .host(host)
-                .name(request.getName())
+                .name(new Name(request.getName()))
                 .imageUrl(imageUrl)
                 .build();
         return spaceRepository.save(space)
