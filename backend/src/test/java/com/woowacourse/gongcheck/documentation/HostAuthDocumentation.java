@@ -4,8 +4,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 
-import com.woowacourse.gongcheck.application.response.TokenResponse;
-import com.woowacourse.gongcheck.presentation.request.TokenRequest;
+import com.woowacourse.gongcheck.auth.application.response.TokenResponse;
+import com.woowacourse.gongcheck.auth.presentation.request.TokenRequest;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;

@@ -1,7 +1,7 @@
 package com.woowacourse.gongcheck.config;
 
-import com.woowacourse.gongcheck.presentation.AuthenticationInterceptor;
-import com.woowacourse.gongcheck.presentation.AuthenticationPrincipalArgumentResolver;
+import com.woowacourse.gongcheck.auth.presentation.AuthenticationInterceptor;
+import com.woowacourse.gongcheck.auth.presentation.AuthenticationPrincipalArgumentResolver;
 import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

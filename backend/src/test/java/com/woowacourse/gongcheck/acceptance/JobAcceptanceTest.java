@@ -3,11 +3,11 @@ package com.woowacourse.gongcheck.acceptance;
 import static com.woowacourse.gongcheck.acceptance.AuthSupport.Host_토큰을_요청한다;
 import static com.woowacourse.gongcheck.acceptance.AuthSupport.토큰을_요청한다;
 
-import com.woowacourse.gongcheck.presentation.request.GuestEnterRequest;
-import com.woowacourse.gongcheck.presentation.request.JobCreateRequest;
-import com.woowacourse.gongcheck.presentation.request.SectionCreateRequest;
-import com.woowacourse.gongcheck.presentation.request.SlackUrlChangeRequest;
-import com.woowacourse.gongcheck.presentation.request.TaskCreateRequest;
+import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
+import com.woowacourse.gongcheck.core.presentation.request.JobCreateRequest;
+import com.woowacourse.gongcheck.core.presentation.request.SectionCreateRequest;
+import com.woowacourse.gongcheck.core.presentation.request.SlackUrlChangeRequest;
+import com.woowacourse.gongcheck.core.presentation.request.TaskCreateRequest;
 import io.restassured.RestAssured;
 import java.util.List;
 import org.junit.jupiter.api.Test;

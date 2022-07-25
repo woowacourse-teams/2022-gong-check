@@ -6,11 +6,11 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.woowacourse.gongcheck.application.HostAuthService;
-import com.woowacourse.gongcheck.application.response.GithubAccessTokenResponse;
-import com.woowacourse.gongcheck.application.response.GithubProfileResponse;
-import com.woowacourse.gongcheck.application.response.TokenResponse;
-import com.woowacourse.gongcheck.presentation.request.TokenRequest;
+import com.woowacourse.gongcheck.auth.application.HostAuthService;
+import com.woowacourse.gongcheck.auth.application.response.GithubAccessTokenResponse;
+import com.woowacourse.gongcheck.auth.application.response.GithubProfileResponse;
+import com.woowacourse.gongcheck.auth.application.response.TokenResponse;
+import com.woowacourse.gongcheck.auth.presentation.request.TokenRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;

@@ -3,8 +3,8 @@ package com.woowacourse.gongcheck.acceptance;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.gongcheck.application.response.GuestTokenResponse;
-import com.woowacourse.gongcheck.presentation.request.GuestEnterRequest;
+import com.woowacourse.gongcheck.auth.application.response.GuestTokenResponse;
+import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;

@@ -5,9 +5,9 @@ import static com.woowacourse.gongcheck.acceptance.AuthSupport.토큰을_요청�
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.gongcheck.application.response.RunningTasksResponse;
-import com.woowacourse.gongcheck.application.response.TasksResponse;
-import com.woowacourse.gongcheck.presentation.request.GuestEnterRequest;
+import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
+import com.woowacourse.gongcheck.core.application.response.RunningTasksResponse;
+import com.woowacourse.gongcheck.core.application.response.TasksResponse;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
