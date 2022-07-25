@@ -230,6 +230,18 @@ class SpaceServiceTest {
 
             assertDoesNotThrow(() -> spaceService.changeSpace(host.getId(), space.getId(), existingRequest, image));
         }
+
+        @Test
+        void Space의_이름과_이미지_주소가_정상적으로_수정된다() {
+            spaceService.changeSpace(host.getId(), space.getId(), request, image);
+
+            Space actual = spaceRepository.getById(space.getId());
+
+            assertAll(
+                    () -> assertThat(actual.getName().getValue()).isEqualTo("선릉 캠퍼스"),
+                    () -> assertThat(actual.getImageUrl()).isEqualTo("https://user-images.githubusercontent.com/48307960/178979416-449c8a6e-5c8b-4d14-91e6-c19718024206.png")
+            );
+        }
     }
 
     @Test

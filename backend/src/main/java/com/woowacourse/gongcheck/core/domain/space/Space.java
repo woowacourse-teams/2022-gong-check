@@ -64,6 +64,14 @@ public class Space {
         this.updatedAt = updatedAt;
     }
 
+    public void changeName(final Name name) {
+        this.name = name;
+    }
+
+    public void changeImageUrl(final String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

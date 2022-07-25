@@ -86,6 +86,11 @@ public class SpaceService {
         Space space = spaceRepository.getByHostAndId(host, spaceId);
         Name changeName = new Name(request.getName());
         checkDuplicateSpaceName(changeName, host, space);
+
+        String imageUrl = uploadImageAndGetUrlOrNull(image);
+
+        space.changeName(changeName);
+        space.changeImageUrl(imageUrl);
     }
 
     @Transactional
