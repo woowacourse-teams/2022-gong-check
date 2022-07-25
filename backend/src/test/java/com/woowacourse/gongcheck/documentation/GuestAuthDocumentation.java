@@ -8,10 +8,10 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 
-import com.woowacourse.gongcheck.application.response.GuestTokenResponse;
+import com.woowacourse.gongcheck.auth.application.response.GuestTokenResponse;
+import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.ErrorResponse;
-import com.woowacourse.gongcheck.presentation.request.GuestEnterRequest;
 import io.restassured.module.mockmvc.response.MockMvcResponse;
 import io.restassured.response.ExtractableResponse;
 import org.junit.jupiter.api.Nested;

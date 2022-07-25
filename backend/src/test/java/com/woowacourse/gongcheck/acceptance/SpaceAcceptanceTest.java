@@ -3,7 +3,7 @@ package com.woowacourse.gongcheck.acceptance;
 import static com.woowacourse.gongcheck.acceptance.AuthSupport.Host_토큰을_요청한다;
 import static com.woowacourse.gongcheck.acceptance.AuthSupport.토큰을_요청한다;
 
-import com.woowacourse.gongcheck.presentation.request.GuestEnterRequest;
+import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
 import io.restassured.RestAssured;
 import java.io.File;
 import java.io.IOException;

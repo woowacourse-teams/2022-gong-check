@@ -1,8 +1,8 @@
 package com.woowacourse.gongcheck.acceptance;
 
-import com.woowacourse.gongcheck.application.response.GuestTokenResponse;
-import com.woowacourse.gongcheck.application.response.TokenResponse;
-import com.woowacourse.gongcheck.presentation.request.GuestEnterRequest;
+import com.woowacourse.gongcheck.auth.application.response.GuestTokenResponse;
+import com.woowacourse.gongcheck.auth.application.response.TokenResponse;
+import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
 import io.restassured.RestAssured;
 import org.springframework.http.MediaType;
 

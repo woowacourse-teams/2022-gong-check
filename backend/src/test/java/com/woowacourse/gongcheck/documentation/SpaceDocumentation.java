@@ -9,9 +9,9 @@ import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 
-import com.woowacourse.gongcheck.application.response.SpaceResponse;
-import com.woowacourse.gongcheck.application.response.SpacesResponse;
-import com.woowacourse.gongcheck.domain.host.Host;
+import com.woowacourse.gongcheck.core.application.response.SpaceResponse;
+import com.woowacourse.gongcheck.core.application.response.SpacesResponse;
+import com.woowacourse.gongcheck.core.domain.host.Host;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;

@@ -1,13 +1,13 @@
 package com.woowacourse.gongcheck.fixture;
 
-import com.woowacourse.gongcheck.domain.host.Host;
-import com.woowacourse.gongcheck.domain.host.SpacePassword;
-import com.woowacourse.gongcheck.domain.job.Job;
-import com.woowacourse.gongcheck.domain.section.Section;
-import com.woowacourse.gongcheck.domain.space.Space;
-import com.woowacourse.gongcheck.domain.submission.Submission;
-import com.woowacourse.gongcheck.domain.task.RunningTask;
-import com.woowacourse.gongcheck.domain.task.Task;
+import com.woowacourse.gongcheck.core.domain.host.Host;
+import com.woowacourse.gongcheck.core.domain.host.SpacePassword;
+import com.woowacourse.gongcheck.core.domain.job.Job;
+import com.woowacourse.gongcheck.core.domain.section.Section;
+import com.woowacourse.gongcheck.core.domain.space.Space;
+import com.woowacourse.gongcheck.core.domain.submission.Submission;
+import com.woowacourse.gongcheck.core.domain.task.RunningTask;
+import com.woowacourse.gongcheck.core.domain.task.Task;
 import java.time.LocalDateTime;
 
 public class FixtureFactory {
