@@ -58,7 +58,7 @@ public class SpaceService {
     @Transactional
     public Long createSpace(final Long hostId, final SpaceCreateRequest request) {
         Host host = hostRepository.getById(hostId);
-        checkDuplicateName(request, host);
+        checkDuplicateSpaceName(request.getName(), host);
 
         String imageUrl = uploadImageAndGetUrlOrNull(request.getImage());
 
@@ -101,8 +101,8 @@ public class SpaceService {
         spaceRepository.deleteById(spaceId);
     }
 
-    private void checkDuplicateName(final SpaceCreateRequest request, final Host host) {
-        if (spaceRepository.existsByHostAndName(host, request.getName())) {
+    private void checkDuplicateSpaceName(final String spaceName, final Host host) {
+        if (spaceRepository.existsByHostAndName(host, spaceName)) {
             throw new BusinessException("이미 존재하는 이름입니다.");
         }
     }
