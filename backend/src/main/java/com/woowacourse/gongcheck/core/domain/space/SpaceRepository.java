@@ -12,9 +12,9 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
 
     Optional<Space> findByHostAndId(final Host host, final Long id);
 
-    boolean existsByHostAndName(final Host host, final String name);
+    boolean existsByHostAndName(final Host host, final Name name);
 
-    boolean existsByHostAndNameAndIdNot(final Host host, final String name, final Long id);
+    boolean existsByHostAndNameAndIdNot(final Host host, final Name name, final Long id);
 
     default Space getByHostAndId(final Host host, final Long id) throws NotFoundException {
         return findByHostAndId(host, id)

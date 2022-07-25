@@ -140,7 +140,7 @@ class SubmissionServiceTest {
                     () -> assertThat(submissionRepository.findAll().size()).isOne(),
                     () -> assertThat(runningTaskRepository.findAll().size()).isZero(),
                     () -> assertThat(submissionCreatedResponse.getAuthor()).isEqualTo(request.getAuthor()),
-                    () -> assertThat(submissionCreatedResponse.getSpaceName()).isEqualTo(space.getName()),
+                    () -> assertThat(submissionCreatedResponse.getSpaceName()).isEqualTo(space.getName().getValue()),
                     () -> assertThat(submissionCreatedResponse.getJobName()).isEqualTo(job.getName())
             );
         }

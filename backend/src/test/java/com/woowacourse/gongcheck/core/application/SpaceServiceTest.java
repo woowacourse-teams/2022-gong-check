@@ -150,7 +150,7 @@ class SpaceServiceTest {
         void HostId와_SpaceId로_단일_Space를_조회한다() {
             SpaceResponse response = spaceService.findSpace(host.getId(), space1.getId());
 
-            assertThat(response.getName()).isEqualTo(space1.getName());
+            assertThat(response.getName()).isEqualTo(space1.getName().getValue());
         }
 
         @Test

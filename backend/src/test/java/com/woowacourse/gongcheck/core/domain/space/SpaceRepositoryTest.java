@@ -100,7 +100,7 @@ class SpaceRepositoryTest {
         Host host = hostRepository.save(Host_생성("1234", 1234L));
         spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
 
-        boolean actual = spaceRepository.existsByHostAndName(host, spaceName);
+        boolean actual = spaceRepository.existsByHostAndName(host, new Name(spaceName));
 
         assertThat(actual).isEqualTo(expected);
     }
@@ -114,7 +114,7 @@ class SpaceRepositoryTest {
             Host host = hostRepository.save(Host_생성("1234", 1234L));
             Space space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
 
-            boolean actual = spaceRepository.existsByHostAndNameAndIdNot(host, spaceName, space.getId());
+            boolean actual = spaceRepository.existsByHostAndNameAndIdNot(host, new Name(spaceName), space.getId());
 
             assertThat(actual).isFalse();
         }
@@ -124,7 +124,7 @@ class SpaceRepositoryTest {
             Host host = hostRepository.save(Host_생성("1234", 1234L));
             Space space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
 
-            boolean actual = spaceRepository.existsByHostAndNameAndIdNot(host, space.getName().getValue(), 0L);
+            boolean actual = spaceRepository.existsByHostAndNameAndIdNot(host, space.getName(), 0L);
 
             assertThat(actual).isTrue();
         }

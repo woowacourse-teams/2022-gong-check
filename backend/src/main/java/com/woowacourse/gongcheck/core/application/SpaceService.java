@@ -59,13 +59,14 @@ public class SpaceService {
     @Transactional
     public Long createSpace(final Long hostId, final SpaceCreateRequest request) {
         Host host = hostRepository.getById(hostId);
-        checkDuplicateSpaceName(request.getName(), host);
+        Name spaceName = new Name(request.getName());
+        checkDuplicateSpaceName(spaceName, host);
 
         String imageUrl = uploadImageAndGetUrlOrNull(request.getImage());
 
         Space space = Space.builder()
                 .host(host)
-                .name(new Name(request.getName()))
+                .name(spaceName)
                 .imageUrl(imageUrl)
                 .build();
         return spaceRepository.save(space)
@@ -83,7 +84,8 @@ public class SpaceService {
                             final MultipartFile image) {
         Host host = hostRepository.getById(hostId);
         Space space = spaceRepository.getByHostAndId(host, spaceId);
-        checkDuplicateSpaceName(request.getName(), host, space);
+        Name changeName = new Name(request.getName());
+        checkDuplicateSpaceName(changeName, host, space);
     }
 
     @Transactional
@@ -103,13 +105,13 @@ public class SpaceService {
         spaceRepository.deleteById(spaceId);
     }
 
-    private void checkDuplicateSpaceName(final String spaceName, final Host host) {
+    private void checkDuplicateSpaceName(final Name spaceName, final Host host) {
         if (spaceRepository.existsByHostAndName(host, spaceName)) {
             throw new BusinessException("이미 존재하는 이름입니다.");
         }
     }
 
-    private void checkDuplicateSpaceName(final String spaceName, final Host host, final Space space) {
+    private void checkDuplicateSpaceName(final Name spaceName, final Host host, final Space space) {
         if (spaceRepository.existsByHostAndNameAndIdNot(host, spaceName, space.getId())) {
             throw new BusinessException("이미 존재하는 이름입니다.");
         }
