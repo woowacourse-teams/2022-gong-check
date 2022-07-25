@@ -9,6 +9,7 @@ import static com.woowacourse.gongcheck.fixture.FixtureFactory.Task_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.woowacourse.gongcheck.core.application.response.SpaceResponse;
 import com.woowacourse.gongcheck.core.application.response.SpacesResponse;
@@ -214,6 +215,21 @@ class SpaceServiceTest {
                     .hasMessage("존재하지 않는 공간입니다.");
         }
 
+        @Test
+        void 이미_존재하는_Space_이름을_입력할_경우_예외가_발생한다() {
+            spaceRepository.save(Space_생성(host, "선릉 캠퍼스"));
+
+            assertThatThrownBy(() -> spaceService.changeSpace(host.getId(), space.getId(), request, image))
+                    .isInstanceOf(BusinessException.class)
+                    .hasMessage("이미 존재하는 이름입니다.");
+        }
+
+        @Test
+        void 기존의_Space_이름을_입력할_경우_그대로_수정된다() {
+            SpaceChangeRequest existingRequest = new SpaceChangeRequest("잠실 캠퍼스");
+
+            assertDoesNotThrow(() -> spaceService.changeSpace(host.getId(), space.getId(), existingRequest, image));
+        }
     }
 
     @Test

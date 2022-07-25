@@ -82,6 +82,7 @@ public class SpaceService {
                             final MultipartFile image) {
         Host host = hostRepository.getById(hostId);
         Space space = spaceRepository.getByHostAndId(host, spaceId);
+        checkDuplicateSpaceName(request.getName(), host, space);
     }
 
     @Transactional
@@ -103,6 +104,12 @@ public class SpaceService {
 
     private void checkDuplicateSpaceName(final String spaceName, final Host host) {
         if (spaceRepository.existsByHostAndName(host, spaceName)) {
+            throw new BusinessException("이미 존재하는 이름입니다.");
+        }
+    }
+
+    private void checkDuplicateSpaceName(final String spaceName, final Host host, final Space space) {
+        if (spaceRepository.existsByHostAndNameAndIdNot(host, spaceName, space.getId())) {
             throw new BusinessException("이미 존재하는 이름입니다.");
         }
     }
