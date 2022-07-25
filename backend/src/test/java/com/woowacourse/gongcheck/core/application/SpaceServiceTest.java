@@ -180,6 +180,7 @@ class SpaceServiceTest {
     class Space_수정 {
 
         private final MultipartFile image = new MockMultipartFile("선릉 캠퍼스 사진", new byte[]{});
+        private final SpaceChangeRequest request = new SpaceChangeRequest("선릉 캠퍼스");
 
         private Host host;
         private Space space;
@@ -192,13 +193,27 @@ class SpaceServiceTest {
 
         @Test
         void 존재하지_않는_Host로_수정하려는_경우_예외가_발생한다() {
-            SpaceChangeRequest request = new SpaceChangeRequest("선릉 캠퍼스");
-
-
             assertThatThrownBy(() -> spaceService.changeSpace(0L, space.getId(), request, image))
                     .isInstanceOf(NotFoundException.class)
                     .hasMessage("존재하지 않는 호스트입니다.");
         }
+
+        @Test
+        void 다른_HostId로_Space를_수정할_경우_예외가_발생한다() {
+            Host anotherHost = hostRepository.save(Host_생성("1234", 2345L));
+
+            assertThatThrownBy(() -> spaceService.changeSpace(anotherHost.getId(), space.getId(), request, image))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 공간입니다.");
+        }
+
+        @Test
+        void 존재하지_않는_SpaceId로_Space를_수정할_경우_예외가_발생한다() {
+            assertThatThrownBy(() -> spaceService.changeSpace(host.getId(), 0L, request, image))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 공간입니다.");
+        }
+
     }
 
     @Test

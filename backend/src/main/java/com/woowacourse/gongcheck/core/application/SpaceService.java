@@ -81,6 +81,7 @@ public class SpaceService {
     public void changeSpace(final Long hostId, final Long spaceId, final SpaceChangeRequest request,
                             final MultipartFile image) {
         Host host = hostRepository.getById(hostId);
+        Space space = spaceRepository.getByHostAndId(host, spaceId);
     }
 
     @Transactional
