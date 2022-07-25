@@ -14,6 +14,8 @@ public interface SpaceRepository extends JpaRepository<Space, Long> {
 
     boolean existsByHostAndName(final Host host, final String name);
 
+    boolean existsByHostAndNameAndIdNot(final Host host, final String name, final Long id);
+
     default Space getByHostAndId(final Host host, final Long id) throws NotFoundException {
         return findByHostAndId(host, id)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 공간입니다."));
