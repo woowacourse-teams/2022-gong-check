@@ -4,6 +4,7 @@ import com.woowacourse.gongcheck.core.domain.host.Host;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
@@ -36,8 +37,8 @@ public class Space {
     @JoinColumn(name = "host_id", nullable = false)
     private Host host;
 
-    @Column(name = "name", length = NAME_MAX_LENGTH, nullable = false)
-    private String name;
+    @Embedded
+    private Name name;
 
     @Column(name = "img_url")
     private String imageUrl;
@@ -53,9 +54,8 @@ public class Space {
     protected Space() {
     }
 
-    public Space(final Long id, final Host host, final String name, final String imageUrl,
-                 final LocalDateTime createdAt, final LocalDateTime updatedAt) {
-        checkNameLength(name);
+    public Space(final Long id, final Host host, final Name name, final String imageUrl, final LocalDateTime createdAt,
+                 final LocalDateTime updatedAt) {
         this.id = id;
         this.host = host;
         this.name = name;
@@ -64,14 +64,12 @@ public class Space {
         this.updatedAt = updatedAt;
     }
 
-    private void checkNameLength(final String name) {
-        if (name.isBlank()) {
-            throw new IllegalArgumentException("공간의 이름은 공백일 수 없습니다.");
-        }
+    public void changeName(final Name name) {
+        this.name = name;
+    }
 
-        if (name.length() > NAME_MAX_LENGTH) {
-            throw new IllegalArgumentException("공간의 이름은 " + NAME_MAX_LENGTH + "자 이하여야합니다.");
-        }
+    public void changeImageUrl(final String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     @Override

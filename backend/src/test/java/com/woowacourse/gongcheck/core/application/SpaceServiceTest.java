@@ -9,6 +9,7 @@ import static com.woowacourse.gongcheck.fixture.FixtureFactory.Task_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.woowacourse.gongcheck.core.application.response.SpaceResponse;
 import com.woowacourse.gongcheck.core.application.response.SpacesResponse;
@@ -24,6 +25,7 @@ import com.woowacourse.gongcheck.core.domain.task.RunningTask;
 import com.woowacourse.gongcheck.core.domain.task.RunningTaskRepository;
 import com.woowacourse.gongcheck.core.domain.task.Task;
 import com.woowacourse.gongcheck.core.domain.task.TaskRepository;
+import com.woowacourse.gongcheck.core.presentation.request.SpaceChangeRequest;
 import com.woowacourse.gongcheck.core.presentation.request.SpaceCreateRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.NotFoundException;
@@ -36,6 +38,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @SpringBootTest
 @Transactional
@@ -147,7 +150,7 @@ class SpaceServiceTest {
         void HostId와_SpaceId로_단일_Space를_조회한다() {
             SpaceResponse response = spaceService.findSpace(host.getId(), space1.getId());
 
-            assertThat(response.getName()).isEqualTo(space1.getName());
+            assertThat(response.getName()).isEqualTo(space1.getName().getValue());
         }
 
         @Test
@@ -171,6 +174,73 @@ class SpaceServiceTest {
             assertThatThrownBy(() -> spaceService.findSpace(host.getId(), 0L))
                     .isInstanceOf(NotFoundException.class)
                     .hasMessage("존재하지 않는 공간입니다.");
+        }
+    }
+
+    @Nested
+    class Space_수정 {
+
+        private final MultipartFile image = new MockMultipartFile("선릉 캠퍼스 사진", new byte[]{});
+        private final SpaceChangeRequest request = new SpaceChangeRequest("선릉 캠퍼스");
+
+        private Host host;
+        private Space space;
+
+        @BeforeEach
+        void setUp() {
+            host = hostRepository.save(Host_생성("1234", 1234L));
+            space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
+        }
+
+        @Test
+        void 존재하지_않는_Host로_수정하려는_경우_예외가_발생한다() {
+            assertThatThrownBy(() -> spaceService.changeSpace(0L, space.getId(), request, image))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 호스트입니다.");
+        }
+
+        @Test
+        void 다른_HostId로_Space를_수정할_경우_예외가_발생한다() {
+            Host anotherHost = hostRepository.save(Host_생성("1234", 2345L));
+
+            assertThatThrownBy(() -> spaceService.changeSpace(anotherHost.getId(), space.getId(), request, image))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 공간입니다.");
+        }
+
+        @Test
+        void 존재하지_않는_SpaceId로_Space를_수정할_경우_예외가_발생한다() {
+            assertThatThrownBy(() -> spaceService.changeSpace(host.getId(), 0L, request, image))
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessage("존재하지 않는 공간입니다.");
+        }
+
+        @Test
+        void 이미_존재하는_Space_이름을_입력할_경우_예외가_발생한다() {
+            spaceRepository.save(Space_생성(host, "선릉 캠퍼스"));
+
+            assertThatThrownBy(() -> spaceService.changeSpace(host.getId(), space.getId(), request, image))
+                    .isInstanceOf(BusinessException.class)
+                    .hasMessage("이미 존재하는 이름입니다.");
+        }
+
+        @Test
+        void 기존의_Space_이름을_입력할_경우_그대로_수정된다() {
+            SpaceChangeRequest existingRequest = new SpaceChangeRequest("잠실 캠퍼스");
+
+            assertDoesNotThrow(() -> spaceService.changeSpace(host.getId(), space.getId(), existingRequest, image));
+        }
+
+        @Test
+        void Space의_이름과_이미지_주소가_정상적으로_수정된다() {
+            spaceService.changeSpace(host.getId(), space.getId(), request, image);
+
+            Space actual = spaceRepository.getById(space.getId());
+
+            assertAll(
+                    () -> assertThat(actual.getName().getValue()).isEqualTo("선릉 캠퍼스"),
+                    () -> assertThat(actual.getImageUrl()).isEqualTo("https://user-images.githubusercontent.com/48307960/178979416-449c8a6e-5c8b-4d14-91e6-c19718024206.png")
+            );
         }
     }
 

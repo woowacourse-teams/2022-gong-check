@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
@@ -37,7 +38,7 @@ class SpaceRepositoryTest {
         LocalDateTime nowLocalDateTime = LocalDateTime.now();
         Space space = spaceRepository.save(Space.builder()
                 .host(host)
-                .name("잠실")
+                .name(new Name("잠실"))
                 .build());
         assertThat(space.getCreatedAt()).isAfter(nowLocalDateTime);
     }
@@ -99,8 +100,33 @@ class SpaceRepositoryTest {
         Host host = hostRepository.save(Host_생성("1234", 1234L));
         spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
 
-        boolean actual = spaceRepository.existsByHostAndName(host, spaceName);
+        boolean actual = spaceRepository.existsByHostAndName(host, new Name(spaceName));
 
         assertThat(actual).isEqualTo(expected);
+    }
+
+    @Nested
+    class 특정_id를_제외하고_이미_존재하는_Space이름인지_확인한다 {
+
+        @ParameterizedTest
+        @ValueSource(strings = {"잠실 캠퍼스", "선릉 캠퍼스"})
+        void 존재하지_않는_경우_false반환(final String spaceName) {
+            Host host = hostRepository.save(Host_생성("1234", 1234L));
+            Space space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
+
+            boolean actual = spaceRepository.existsByHostAndNameAndIdNot(host, new Name(spaceName), space.getId());
+
+            assertThat(actual).isFalse();
+        }
+
+        @Test
+        void 존재하는_경우_true반환() {
+            Host host = hostRepository.save(Host_생성("1234", 1234L));
+            Space space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
+
+            boolean actual = spaceRepository.existsByHostAndNameAndIdNot(host, space.getName(), 0L);
+
+            assertThat(actual).isTrue();
+        }
     }
 }

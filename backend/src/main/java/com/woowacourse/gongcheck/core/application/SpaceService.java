@@ -10,11 +10,13 @@ import com.woowacourse.gongcheck.core.domain.job.Job;
 import com.woowacourse.gongcheck.core.domain.job.JobRepository;
 import com.woowacourse.gongcheck.core.domain.section.Section;
 import com.woowacourse.gongcheck.core.domain.section.SectionRepository;
+import com.woowacourse.gongcheck.core.domain.space.Name;
 import com.woowacourse.gongcheck.core.domain.space.Space;
 import com.woowacourse.gongcheck.core.domain.space.SpaceRepository;
 import com.woowacourse.gongcheck.core.domain.task.RunningTaskRepository;
 import com.woowacourse.gongcheck.core.domain.task.Task;
 import com.woowacourse.gongcheck.core.domain.task.TaskRepository;
+import com.woowacourse.gongcheck.core.presentation.request.SpaceChangeRequest;
 import com.woowacourse.gongcheck.core.presentation.request.SpaceCreateRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import java.util.List;
@@ -57,13 +59,14 @@ public class SpaceService {
     @Transactional
     public Long createSpace(final Long hostId, final SpaceCreateRequest request) {
         Host host = hostRepository.getById(hostId);
-        checkDuplicateName(request, host);
+        Name spaceName = new Name(request.getName());
+        checkDuplicateSpaceName(spaceName, host);
 
         String imageUrl = uploadImageAndGetUrlOrNull(request.getImage());
 
         Space space = Space.builder()
                 .host(host)
-                .name(request.getName())
+                .name(spaceName)
                 .imageUrl(imageUrl)
                 .build();
         return spaceRepository.save(space)
@@ -74,6 +77,20 @@ public class SpaceService {
         Host host = hostRepository.getById(hostId);
         Space space = spaceRepository.getByHostAndId(host, spaceId);
         return SpaceResponse.from(space);
+    }
+
+    @Transactional
+    public void changeSpace(final Long hostId, final Long spaceId, final SpaceChangeRequest request,
+                            final MultipartFile image) {
+        Host host = hostRepository.getById(hostId);
+        Space space = spaceRepository.getByHostAndId(host, spaceId);
+        Name changeName = new Name(request.getName());
+        checkDuplicateSpaceName(changeName, host, space);
+
+        String imageUrl = uploadImageAndGetUrlOrNull(image);
+
+        space.changeName(changeName);
+        space.changeImageUrl(imageUrl);
     }
 
     @Transactional
@@ -93,8 +110,14 @@ public class SpaceService {
         spaceRepository.deleteById(spaceId);
     }
 
-    private void checkDuplicateName(final SpaceCreateRequest request, final Host host) {
-        if (spaceRepository.existsByHostAndName(host, request.getName())) {
+    private void checkDuplicateSpaceName(final Name spaceName, final Host host) {
+        if (spaceRepository.existsByHostAndName(host, spaceName)) {
+            throw new BusinessException("이미 존재하는 이름입니다.");
+        }
+    }
+
+    private void checkDuplicateSpaceName(final Name spaceName, final Host host, final Space space) {
+        if (spaceRepository.existsByHostAndNameAndIdNot(host, spaceName, space.getId())) {
             throw new BusinessException("이미 존재하는 이름입니다.");
         }
     }

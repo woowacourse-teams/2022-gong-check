@@ -12,9 +12,11 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import com.woowacourse.gongcheck.core.application.response.SpaceResponse;
 import com.woowacourse.gongcheck.core.application.response.SpacesResponse;
 import com.woowacourse.gongcheck.core.domain.host.Host;
+import com.woowacourse.gongcheck.core.presentation.request.SpaceChangeRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -61,7 +63,7 @@ class SpaceDocumentation extends DocumentationTest {
                     .multiPart("image", fakeImage)
                     .when().post("/api/spaces")
                     .then().log().all()
-                    .apply(document("spaces/create"))
+                    .apply(document("spaces/create/success"))
                     .statusCode(HttpStatus.CREATED.value());
         }
 
@@ -75,7 +77,7 @@ class SpaceDocumentation extends DocumentationTest {
                     .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
                     .when().post("/api/spaces")
                     .then().log().all()
-                    .apply(document("spaces/create"))
+                    .apply(document("spaces/create/fail/name_null"))
                     .statusCode(HttpStatus.BAD_REQUEST.value());
         }
 
@@ -90,7 +92,7 @@ class SpaceDocumentation extends DocumentationTest {
                     .param("name", "")
                     .when().post("/api/spaces")
                     .then().log().all()
-                    .apply(document("spaces/create"))
+                    .apply(document("spaces/create/fail/name_blank"))
                     .statusCode(HttpStatus.BAD_REQUEST.value());
         }
     }
@@ -112,6 +114,51 @@ class SpaceDocumentation extends DocumentationTest {
                     .then().log().all()
                     .apply(document("spaces/find"))
                     .statusCode(HttpStatus.OK.value());
+        }
+    }
+
+    @Nested
+    class Space를_수정한다 {
+
+        public File fakeImage;
+
+        @BeforeEach
+        void setUp() throws IOException {
+            fakeImage = File.createTempFile("temp", ".jpg");
+        }
+
+        @Test
+        void Space_수정에_성공한다() {
+            SpaceChangeRequest request = new SpaceChangeRequest("잠실 캠퍼스");
+            doNothing().when(spaceService).changeSpace(anyLong(), anyLong(), any(), any());
+            when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
+            docsGiven
+                    .header(AUTHORIZATION, "Bearer jwt.token.here")
+                    .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
+                    .multiPart("request", request, MediaType.APPLICATION_JSON_VALUE)
+                    .multiPart("image", fakeImage)
+                    .when().put("/api/spaces/1")
+                    .then().log().all()
+                    .apply(document("spaces/change/success"))
+                    .statusCode(HttpStatus.NO_CONTENT.value());
+        }
+
+        @Test
+        void Space_이름이_null_인_경우_수정에_실패한다() {
+            SpaceChangeRequest request = new SpaceChangeRequest(null);
+            doNothing().when(spaceService).changeSpace(anyLong(), anyLong(), any(), any());
+            when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
+            docsGiven
+                    .header(AUTHORIZATION, "Bearer jwt.token.here")
+                    .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
+                    .multiPart("request", request, MediaType.APPLICATION_JSON_VALUE)
+                    .multiPart("image", fakeImage)
+                    .when().put("/api/spaces/1")
+                    .then().log().all()
+                    .apply(document("spaces/change/fail/name_null"))
+                    .statusCode(HttpStatus.BAD_REQUEST.value());
         }
     }
 

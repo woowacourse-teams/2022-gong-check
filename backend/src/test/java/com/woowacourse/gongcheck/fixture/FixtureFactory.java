@@ -4,6 +4,7 @@ import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.domain.host.SpacePassword;
 import com.woowacourse.gongcheck.core.domain.job.Job;
 import com.woowacourse.gongcheck.core.domain.section.Section;
+import com.woowacourse.gongcheck.core.domain.space.Name;
 import com.woowacourse.gongcheck.core.domain.space.Space;
 import com.woowacourse.gongcheck.core.domain.submission.Submission;
 import com.woowacourse.gongcheck.core.domain.task.RunningTask;
@@ -23,7 +24,7 @@ public class FixtureFactory {
     public static Space Space_생성(final Host host, final String name) {
         return Space.builder()
                 .host(host)
-                .name(name)
+                .name(new Name(name))
                 .createdAt(LocalDateTime.now())
                 .build();
     }
@@ -32,7 +33,7 @@ public class FixtureFactory {
         return Space.builder()
                 .id(id)
                 .host(host)
-                .name(name)
+                .name(new Name(name))
                 .createdAt(LocalDateTime.now())
                 .build();
     }
