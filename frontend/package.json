@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "Gong Check Project",
   "scripts": {
-    "start": "webpack serve",
+    "start": "webpack serve --mode=development --node-env=development",
     "build": "webpack --mode=production --node-env=production",
+    "build_dev": "webpack --mode=development --node-env=development",
+    "build_prod": "webpack --mode=production --node-env=production",
     "prettier": "npx prettier --write 'src/**/*.{tsx,ts,css,html,json}'"
   },
   "repository": {
