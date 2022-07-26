@@ -50,6 +50,7 @@ const useDashBoard = () => {
   };
 
   return {
+    spaceId,
     spaceData,
     jobsData,
     submissionData,

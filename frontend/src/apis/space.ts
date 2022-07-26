@@ -25,7 +25,7 @@ const postNewSpace = ({ formData }: any) => {
 };
 
 // space 삭제
-const deleteSpace = ({ spaceId }: any) => {
+const deleteSpace = (spaceId: string | undefined) => {
   return axiosInstanceToken({
     method: 'DELETE',
     url: `/api/spaces/${spaceId}`,

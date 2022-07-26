@@ -3,6 +3,7 @@ import { GoLinkExternal } from 'react-icons/go';
 
 import Button from '@/components/common/Button';
 import JobListCard from '@/components/host/JobListCard';
+import SpaceDeleteButton from '@/components/host/SpaceDeleteButton';
 import SpaceInfo from '@/components/host/SpaceInfo';
 import Submissions from '@/components/host/Submissions';
 
@@ -11,8 +12,15 @@ import slackIcon from '@/assets/slackIcon.svg';
 import styles from './styles';
 
 const DashBoard: React.FC = () => {
-  const { spaceData, jobsData, submissionData, onClickSubmissionsDetail, onClickSlackButton, onClickLinkButton } =
-    useDashBoard();
+  const {
+    spaceId,
+    spaceData,
+    jobsData,
+    submissionData,
+    onClickSubmissionsDetail,
+    onClickSlackButton,
+    onClickLinkButton,
+  } = useDashBoard();
 
   return (
     <div css={styles.layout}>
@@ -32,6 +40,9 @@ const DashBoard: React.FC = () => {
           <JobListCard jobs={jobsData?.jobs || []} />
         </div>
         <Submissions submissions={submissionData?.submissions || []} onClick={onClickSubmissionsDetail} />
+      </div>
+      <div css={styles.deleteButtonWrapper}>
+        <SpaceDeleteButton spaceId={spaceId} />
       </div>
     </div>
   );
