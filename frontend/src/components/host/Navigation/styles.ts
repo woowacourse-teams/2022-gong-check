@@ -68,7 +68,15 @@ const categoryTextWrapper = css`
   }
 
   :hover {
-    background-color: ${theme.colors.lightSkyBlue};
+    background-color: ${theme.colors.gray200};
+  }
+`;
+const selectedTextWrapper = css`
+  background-color: ${theme.colors.blue300};
+  color: ${theme.colors.white};
+
+  :hover {
+    background-color: ${theme.colors.blue200};
   }
 `;
 
@@ -86,6 +94,16 @@ const addNewSpace = css`
   }
 `;
 
-const styles = { layout, logo, logoImage, category, categoryTitle, categoryList, categoryTextWrapper, addNewSpace };
+const styles = {
+  layout,
+  logo,
+  logoImage,
+  category,
+  categoryTitle,
+  categoryList,
+  categoryTextWrapper,
+  selectedTextWrapper,
+  addNewSpace,
+};
 
 export default styles;
