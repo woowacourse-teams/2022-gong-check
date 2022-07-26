@@ -63,7 +63,7 @@ class SpaceDocumentation extends DocumentationTest {
                     .multiPart("image", fakeImage)
                     .when().post("/api/spaces")
                     .then().log().all()
-                    .apply(document("spaces/create"))
+                    .apply(document("spaces/create/success"))
                     .statusCode(HttpStatus.CREATED.value());
         }
 
@@ -77,7 +77,7 @@ class SpaceDocumentation extends DocumentationTest {
                     .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
                     .when().post("/api/spaces")
                     .then().log().all()
-                    .apply(document("spaces/create"))
+                    .apply(document("spaces/create/fail/name_null"))
                     .statusCode(HttpStatus.BAD_REQUEST.value());
         }
 
@@ -92,7 +92,7 @@ class SpaceDocumentation extends DocumentationTest {
                     .param("name", "")
                     .when().post("/api/spaces")
                     .then().log().all()
-                    .apply(document("spaces/create"))
+                    .apply(document("spaces/create/fail/name_blank"))
                     .statusCode(HttpStatus.BAD_REQUEST.value());
         }
     }
