@@ -8,16 +8,27 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
 import com.woowacourse.gongcheck.core.application.response.RunningTasksResponse;
 import com.woowacourse.gongcheck.core.application.response.TasksResponse;
+import com.woowacourse.gongcheck.core.domain.host.Host;
+import com.woowacourse.gongcheck.core.domain.host.HostRepository;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 class TaskAcceptanceTest extends AcceptanceTest {
 
+    @Autowired
+    private HostRepository hostRepository;
+
     @Test
     void RunningTask를_생성한다() {
+        List<Host> all = hostRepository.findAll();
+        for (Host host : all) {
+            System.out.println(host.getId());
+        }
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
 

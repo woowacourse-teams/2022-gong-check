@@ -181,7 +181,8 @@ class JobServiceTest {
 
         @Test
         void host에_해당하는_jobId가_아닐_경우_예외가_발생한다() {
-            assertThatThrownBy(() -> jobService.updateJob(1L, savedJobId, jobCreateRequest))
+            Host anotherHost = hostRepository.save(Host_생성("1234", 2345L));
+            assertThatThrownBy(() -> jobService.updateJob(anotherHost.getId(), savedJobId, jobCreateRequest))
                     .isInstanceOf(NotFoundException.class)
                     .hasMessage("존재하지 않는 작업입니다.");
         }
