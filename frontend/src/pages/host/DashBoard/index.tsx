@@ -42,7 +42,7 @@ const DashBoard: React.FC = () => {
         <Submissions submissions={submissionData?.submissions || []} onClick={onClickSubmissionsDetail} />
       </div>
       <div css={styles.deleteButtonWrapper}>
-        <SpaceDeleteButton spaceId={spaceId} />
+        <SpaceDeleteButton spaceId={spaceId} spaceName={spaceData?.name} />
       </div>
     </div>
   );

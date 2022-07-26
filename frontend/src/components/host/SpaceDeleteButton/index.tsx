@@ -1,8 +1,11 @@
+import SpaceDeleteModal from '../SpaceDeleteModal';
+import { useMemo } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
 import Button from '@/components/common/Button';
 
+import useModal from '@/hooks/useModal';
 import useToast from '@/hooks/useToast';
 
 import apiSpace from '@/apis/space';
@@ -11,12 +14,16 @@ import styles from './styles';
 
 interface SpaceDeleteButtonProps {
   spaceId: string | undefined;
+  spaceName: string | undefined;
 }
 
-const SpaceDeleteButton: React.FC<SpaceDeleteButtonProps> = ({ spaceId }) => {
+const SpaceDeleteButton: React.FC<SpaceDeleteButtonProps> = ({ spaceId, spaceName }) => {
   const navigate = useNavigate();
 
+  const { openModal, closeModal } = useModal();
   const { openToast } = useToast();
+
+  const text = useMemo(() => `${spaceName} 공간을 삭제합니다`, [spaceName]);
 
   const { refetch } = useQuery(['deleteSpaces'], apiSpace.getSpaces, {
     suspense: true,
@@ -36,13 +43,14 @@ const SpaceDeleteButton: React.FC<SpaceDeleteButtonProps> = ({ spaceId }) => {
 
   const { mutate: deleteSpace } = useMutation((spaceId: string | undefined) => apiSpace.deleteSpace(spaceId), {
     onSuccess: () => {
-      openToast('SUCCESS', '공간이 삭제되었습니다.');
       refetch();
+      closeModal();
+      openToast('SUCCESS', '공간이 삭제되었습니다.');
     },
   });
 
   const onClickDeleteSpace = () => {
-    deleteSpace(spaceId);
+    openModal(<SpaceDeleteModal text={text} onClick={() => deleteSpace(spaceId)} />);
   };
 
   return (
