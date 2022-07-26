@@ -4,8 +4,8 @@ import static com.woowacourse.gongcheck.acceptance.AuthSupport.Host_토큰을_�
 import static com.woowacourse.gongcheck.acceptance.AuthSupport.토큰을_요청한다;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.woowacourse.gongcheck.presentation.request.GuestEnterRequest;
-import com.woowacourse.gongcheck.presentation.request.SpacePasswordChangeRequest;
+import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
+import com.woowacourse.gongcheck.core.presentation.request.SpacePasswordChangeRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;

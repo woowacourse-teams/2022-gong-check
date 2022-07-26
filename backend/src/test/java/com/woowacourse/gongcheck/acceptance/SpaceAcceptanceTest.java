@@ -3,7 +3,8 @@ package com.woowacourse.gongcheck.acceptance;
 import static com.woowacourse.gongcheck.acceptance.AuthSupport.Host_토큰을_요청한다;
 import static com.woowacourse.gongcheck.acceptance.AuthSupport.토큰을_요청한다;
 
-import com.woowacourse.gongcheck.presentation.request.GuestEnterRequest;
+import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
+import com.woowacourse.gongcheck.core.presentation.request.SpaceChangeRequest;
 import io.restassured.RestAssured;
 import java.io.File;
 import java.io.IOException;
@@ -66,6 +67,24 @@ class SpaceAcceptanceTest extends AcceptanceTest {
                 .when().post("/api/spaces")
                 .then().log().all()
                 .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    void Host_토큰으로_Space를_수정한다() throws IOException {
+        File fakeImage = File.createTempFile("temp", ".jpg");
+        SpaceChangeRequest request = new SpaceChangeRequest("잠실 캠퍼스");
+
+        String token = Host_토큰을_요청한다().getToken();
+
+        RestAssured
+                .given().log().all()
+                .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
+                .multiPart("request", request, MediaType.APPLICATION_JSON_VALUE)
+                .multiPart("image", fakeImage)
+                .auth().oauth2(token)
+                .when().put("/api/spaces/1")
+                .then().log().all()
+                .statusCode(HttpStatus.NO_CONTENT.value());
     }
 
     @Test

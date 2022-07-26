@@ -1,6 +1,6 @@
 package com.woowacourse.gongcheck.acceptance;
 
-import com.woowacourse.gongcheck.application.AlertService;
+import com.woowacourse.gongcheck.core.application.AlertService;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { useQuery } from 'react-query';
 import { useLocation, useParams } from 'react-router-dom';
 
@@ -8,6 +7,8 @@ import useGoPreviousPage from '@/hooks/useGoPreviousPage';
 import useModal from '@/hooks/useModal';
 
 import apis from '@/apis';
+
+const RE_FETCH_INTERVAL_TIME = 1000;
 
 const useTaskList = () => {
   const { spaceId, jobId, hostId } = useParams();
@@ -24,6 +25,7 @@ const useTaskList = () => {
     {
       suspense: true,
       retry: false,
+      refetchInterval: RE_FETCH_INTERVAL_TIME,
     }
   );
 
