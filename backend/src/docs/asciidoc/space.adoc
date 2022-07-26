@@ -10,5 +10,8 @@ operation::spaces/find[snippets='http-request,http-response']
 === 새로운 space 생성
 operation::spaces/create[snippets='http-request,http-response']
 
+=== space 수정
+operation::spaces/change/success[snippets='http-request,http-response']
+
 === space 삭제
 operation::spaces/delete[snippets='http-request,http-response']
