@@ -57,7 +57,7 @@ public class SpaceController {
     public ResponseEntity<Void> changeSpace(@AuthenticationPrincipal final Long hostId,
                                             @PathVariable final Long spaceId,
                                             @Valid @RequestPart(value = "request") final SpaceChangeRequest request,
-                                            @RequestPart(required = false) MultipartFile image) {
+                                            @RequestPart(required = false) final MultipartFile image) {
         spaceService.changeSpace(hostId, spaceId, request, image);
         return ResponseEntity.noContent().build();
     }
