@@ -30,8 +30,6 @@ class AcceptanceTest {
             RestAssured.port = port;
             databaseInitializer.afterPropertiesSet();
         }
-
-        databaseInitializer.truncateTables();
         databaseInitializer.initTable();
     }
 

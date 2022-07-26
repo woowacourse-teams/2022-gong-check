@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 class HostAuthAcceptanceTest extends AcceptanceTest {
+    
     @Test
     void 첫_로그인한_Host이면_회원가입하고_토큰을_발급한다() {
         TokenRequest tokenRequest = new TokenRequest("code");
