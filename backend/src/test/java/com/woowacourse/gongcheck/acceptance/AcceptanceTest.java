@@ -25,10 +25,9 @@ class AcceptanceTest {
     private int port;
 
     @BeforeEach
-    void setPort() {
+    void setUp() {
         if (RestAssured.port == UNDEFINED_PORT) {
             RestAssured.port = port;
-            databaseInitializer.afterPropertiesSet();
         }
         databaseInitializer.initTable();
     }

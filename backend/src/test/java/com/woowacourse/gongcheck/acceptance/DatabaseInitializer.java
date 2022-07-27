@@ -4,15 +4,18 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
-public class DatabaseInitializer implements InitializingBean {
+public class DatabaseInitializer {
+
+    private static final String TRUNCATE_QUERY = "TRUNCATE TABLE %s";
+    private static final String ALTER_COLUMN_QUERY = "ALTER TABLE %s ALTER COLUMN id RESTART WITH 1";
 
     @Autowired
     private EntityManager entityManager;
@@ -20,9 +23,9 @@ public class DatabaseInitializer implements InitializingBean {
     @Autowired
     private DataSource dataSource;
 
-    private List<String> tableNames = new ArrayList<>();
+    private final List<String> tableNames = new ArrayList<>();
 
-    @Override
+    @PostConstruct
     public void afterPropertiesSet() {
         try {
             DatabaseMetaData metaData = dataSource.getConnection().getMetaData();
@@ -32,13 +35,12 @@ public class DatabaseInitializer implements InitializingBean {
                 tableNames.add(tableName);
             }
         } catch (Exception e) {
-            throw new RuntimeException();
+            throw new RuntimeException("테이블 이름을 불러올 수 없습니다.");
         }
     }
 
     @Transactional
     public void truncateTables() {
-        entityManager.flush();
         entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY FALSE").executeUpdate();
         for (String tableName : tableNames) {
             truncateTable(tableName);
@@ -69,12 +71,10 @@ public class DatabaseInitializer implements InitializingBean {
     }
 
     private void truncateTable(final String tableName) {
-        entityManager.createNativeQuery("TRUNCATE TABLE " + tableName).executeUpdate();
+        entityManager.createNativeQuery(String.format(TRUNCATE_QUERY, tableName)).executeUpdate();
         if (tableName.equals("RUNNING_TASK")) {
             return;
         }
-        entityManager.createNativeQuery("ALTER TABLE " + tableName + " ALTER COLUMN "
-                + "id RESTART WITH 1").executeUpdate();
+        entityManager.createNativeQuery(String.format(ALTER_COLUMN_QUERY, tableName)).executeUpdate();
     }
 }
-

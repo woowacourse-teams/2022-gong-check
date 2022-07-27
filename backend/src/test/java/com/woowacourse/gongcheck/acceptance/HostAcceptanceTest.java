@@ -5,20 +5,15 @@ import static com.woowacourse.gongcheck.acceptance.AuthSupport.토큰을_요청�
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
-import com.woowacourse.gongcheck.core.domain.host.HostRepository;
 import com.woowacourse.gongcheck.core.presentation.request.SpacePasswordChangeRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 class HostAcceptanceTest extends AcceptanceTest {
-
-    @Autowired
-    private HostRepository hostRepository;
     
     @Test
     void Host_토큰으로_Space_비밀번호를_변경한다() {
