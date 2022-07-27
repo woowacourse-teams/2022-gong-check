@@ -9,6 +9,7 @@ import com.woowacourse.gongcheck.config.JpaConfig;
 import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.domain.host.HostRepository;
 import com.woowacourse.gongcheck.exception.NotFoundException;
+import com.woowacourse.gongcheck.fixture.FixtureFactory;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,10 +52,7 @@ class SpaceRepositoryTest {
 
             @BeforeEach
             void setUp() {
-                space = Space.builder()
-                        .host(host)
-                        .name(new Name("잠실"))
-                        .build();
+                space = FixtureFactory.Space_생성(host, "잠실");
             }
 
             @Test
