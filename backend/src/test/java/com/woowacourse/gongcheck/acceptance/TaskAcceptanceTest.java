@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 class TaskAcceptanceTest extends AcceptanceTest {
-
+    
     @Test
     void RunningTask를_생성한다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");

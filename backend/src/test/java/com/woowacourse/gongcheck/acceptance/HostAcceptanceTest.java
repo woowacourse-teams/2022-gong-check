@@ -14,7 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 class HostAcceptanceTest extends AcceptanceTest {
-
+    
     @Test
     void Host_토큰으로_Space_비밀번호를_변경한다() {
         String token = Host_토큰을_요청한다().getToken();

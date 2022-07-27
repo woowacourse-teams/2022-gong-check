@@ -1,26 +1,39 @@
 package com.woowacourse.gongcheck.acceptance;
 
+import static io.restassured.RestAssured.UNDEFINED_PORT;
+
 import com.woowacourse.gongcheck.core.application.AlertService;
 import io.restassured.RestAssured;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.annotation.DirtiesContext;
 
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class AcceptanceTest {
 
     @MockBean
     private AlertService alertService;
 
+    @Autowired
+    private DatabaseInitializer databaseInitializer;
+
     @LocalServerPort
     private int port;
 
     @BeforeEach
-    void setPort() {
-        RestAssured.port = port;
+    void setUp() {
+        if (RestAssured.port == UNDEFINED_PORT) {
+            RestAssured.port = port;
+        }
+        databaseInitializer.initTable();
+    }
+
+    @AfterEach
+    void clean() {
+        databaseInitializer.truncateTables();
     }
 }
