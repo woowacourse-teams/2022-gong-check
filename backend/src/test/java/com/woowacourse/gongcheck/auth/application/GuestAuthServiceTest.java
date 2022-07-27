@@ -37,7 +37,7 @@ class GuestAuthServiceTest {
         private static final String CORRECT_PASSWORD = "1234";
 
         @Nested
-        class 존재하는_Host의_id와_정확한_비밀번호를_입력하는_경우 {
+        class 존재하는_Host의_id와_정확한_password를_입력하는_경우 {
 
             private Long hostId;
             private GuestEnterRequest guestEnterRequest;
@@ -50,7 +50,7 @@ class GuestAuthServiceTest {
             }
 
             @Test
-            void Space_사용을_위한_토큰을_발행한다() {
+            void Space_사용을_위한_token을_발행한다() {
                 GuestTokenResponse token = guestAuthService.createToken(hostId, guestEnterRequest);
 
                 assertThat(token.getToken()).isNotNull();
@@ -76,7 +76,7 @@ class GuestAuthServiceTest {
         }
 
         @Nested
-        class 잘못된_비밀번호를_입력하는_경우 {
+        class 잘못된_password를_입력하는_경우 {
 
             private static final String ERROR_PASSWORD = "4567";
 

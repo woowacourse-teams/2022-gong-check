@@ -48,7 +48,7 @@ class GithubOauthClientTest {
     class requestGithubProfileByCode_메소드는 {
 
         @Nested
-        class 깃허브에서_access_token_반환이_불가능한_경우 {
+        class Github에서_access_token_반환이_불가능한_경우 {
 
             @BeforeEach
             void setUp() {
@@ -68,7 +68,7 @@ class GithubOauthClientTest {
         }
 
         @Nested
-        class 권한이_없는_code을_입력하여_깃허브_access_Token를_요청할_경우 {
+        class 권한이_없는_code을_입력하여_Github_access_Token를_요청할_경우 {
 
             @BeforeEach
             void setUp() throws JsonProcessingException {
@@ -89,7 +89,7 @@ class GithubOauthClientTest {
         }
 
         @Nested
-        class 깃허브에서_프로필_반환이_불가능한_경우 {
+        class Github에서_프로필_반환이_불가능한_경우 {
 
             @BeforeEach
             void setUp() throws JsonProcessingException {
@@ -116,7 +116,7 @@ class GithubOauthClientTest {
         }
 
         @Nested
-        class 권한이_있는_code로_정상적으로_깃허브에_프로필접근이_가능한_경우 {
+        class 권한이_있는_code로_정상적으로_Github에_프로필접근이_가능한_경우 {
 
             private GithubProfileResponse githubProfileResponse;
 
@@ -138,7 +138,7 @@ class GithubOauthClientTest {
             }
 
             @Test
-            void 깃허브_프로필정보를_반환한다() {
+            void Github_프로필정보를_반환한다() {
                 GithubProfileResponse actual = githubOauthClient.requestGithubProfileByCode("access_token");
 
                 assertThat(actual)
