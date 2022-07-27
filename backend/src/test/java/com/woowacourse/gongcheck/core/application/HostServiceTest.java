@@ -4,12 +4,12 @@ import static com.woowacourse.gongcheck.fixture.FixtureFactory.Host_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.domain.host.HostRepository;
 import com.woowacourse.gongcheck.core.domain.host.SpacePassword;
 import com.woowacourse.gongcheck.core.presentation.request.SpacePasswordChangeRequest;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @Transactional
+@DisplayName("HostService 클래스")
 class HostServiceTest {
 
     @Autowired
@@ -26,47 +27,88 @@ class HostServiceTest {
     @Autowired
     private HostRepository hostRepository;
 
-    @Test
-    void SpacePassword를_변경한다() {
-        Host host = hostRepository.save(Host_생성("1234", 1234L));
+    @Nested
+    class changeSpacePassword_메소드는 {
 
-        String changedPassword = "4567";
-        hostService.changeSpacePassword(host.getId(), new SpacePasswordChangeRequest(changedPassword));
+        @Nested
+        class 존재하는_Host의_id와_수정할_패스워드를_받는_경우 {
 
-        assertThat(hostRepository.getById(host.getId()).getSpacePassword())
-                .isEqualTo(new SpacePassword(changedPassword));
-    }
+            private static final String ORIGIN_PASSWORD = "1234";
+            private static final String CHANGING_PASSWORD = "4567";
 
-    @Test
-    void 존재하지_않는_Host의_SpacePassword를_변경하려는_경우_예외가_발생한다() {
-        SpacePasswordChangeRequest request = new SpacePasswordChangeRequest("1234");
-        assertThatThrownBy(() -> hostService.changeSpacePassword(0L, request))
-                .isInstanceOf(NotFoundException.class)
-                .hasMessage("존재하지 않는 호스트입니다.");
+            private SpacePasswordChangeRequest spacePasswordChangeRequest;
+            private Long hostId;
+
+            @BeforeEach
+            void setUp() {
+                spacePasswordChangeRequest = new SpacePasswordChangeRequest(CHANGING_PASSWORD);
+                hostId = hostRepository.save(Host_생성(ORIGIN_PASSWORD, 1234L))
+                        .getId();
+            }
+
+            @Test
+            void 패스워드를_수정한다() {
+                hostService.changeSpacePassword(hostId, spacePasswordChangeRequest);
+                SpacePassword actual = hostRepository.getById(hostId)
+                        .getSpacePassword();
+
+                assertThat(actual.getValue()).isEqualTo(CHANGING_PASSWORD);
+            }
+        }
+
+        @Nested
+        class 존재하지_않는_Host의_id를_받는_경우 {
+
+            private static final String CHANGING_PASSWORD = "4567";
+
+            private SpacePasswordChangeRequest spacePasswordChangeRequest;
+            private Long hostId;
+
+            @BeforeEach
+            void setUp() {
+                spacePasswordChangeRequest = new SpacePasswordChangeRequest(CHANGING_PASSWORD);
+                hostId = 0L;
+            }
+
+            @Test
+            void 예외를_발생시킨다() {
+                assertThatThrownBy(() -> hostService.changeSpacePassword(hostId, spacePasswordChangeRequest))
+                        .isInstanceOf(NotFoundException.class)
+                        .hasMessage("존재하지 않는 호스트입니다.");
+            }
+        }
     }
 
     @Nested
-    class Host_아이디_조회 {
+    class getHostId_메소드는 {
 
-        private Host host;
+        @Nested
+        class 존재하는_Host의_id를_받는_경우 {
 
-        @BeforeEach
-        void setUp() {
-            host = hostRepository.save(Host_생성("1234", 1111L));
+            private Long hostId;
+
+            @BeforeEach
+            void setUp() {
+                hostId = hostRepository.save(Host_생성("1234", 1111L))
+                        .getId();
+            }
+
+            @Test
+            void Host의_id를_반환한다() {
+                Long actual = hostService.getHostId(hostId);
+                assertThat(actual).isEqualTo(hostId);
+            }
         }
 
-        @Test
-        void 정상적으로_조회한다() {
-            Long hostId = host.getId();
-            Long result = hostService.getHostId(hostId);
-            assertThat(result).isEqualTo(hostId);
-        }
+        @Nested
+        class 존재하지_않는_Host의_id를_받는_경우 {
 
-        @Test
-        void Host가_존재하지_않는_경우_예외를_발생시킨다() {
-            assertThatThrownBy(() -> hostService.getHostId(0L))
-                    .isInstanceOf(NotFoundException.class)
-                    .hasMessage("존재하지 않는 호스트입니다.");
+            @Test
+            void 예외를_발생시킨다() {
+                assertThatThrownBy(() -> hostService.getHostId(0L))
+                        .isInstanceOf(NotFoundException.class)
+                        .hasMessage("존재하지 않는 호스트입니다.");
+            }
         }
     }
 }
