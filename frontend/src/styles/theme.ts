@@ -7,6 +7,8 @@ const theme = Object.freeze({
     skyblue: '#68c1f8',
     lightSkyBlue: '#f1f8fe',
     black: '#272727',
+    blue200: '#85f4ff',
+    blue300: '#00d7ff',
     gray100: '#f9fbfd',
     gray200: '#f5f5f5',
     gray300: '#d9d9d9',
