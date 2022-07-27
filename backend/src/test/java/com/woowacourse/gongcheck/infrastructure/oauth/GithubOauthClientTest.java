@@ -116,7 +116,7 @@ class GithubOauthClientTest {
         }
 
         @Nested
-        class 권한이_있는_code로_정상적으로_Github에_프로필접근이_가능한_경우 {
+        class 권한이_있는_code로_Github에_프로필접근이_가능한_경우 {
 
             private GithubProfileResponse githubProfileResponse;
 
