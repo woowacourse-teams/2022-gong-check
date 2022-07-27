@@ -17,6 +17,9 @@ import com.woowacourse.gongcheck.core.domain.space.SpaceRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,8 @@ import org.springframework.data.domain.Slice;
 
 @DataJpaTest
 @Import(JpaConfig.class)
+@DisplayName("SubmissionRepository 클래스")
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 public class SubmissionRepositoryTest {
 
     @Autowired
