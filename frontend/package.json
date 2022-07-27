@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "Gong Check Project",
   "scripts": {
-    "start": "webpack serve --mode=development --node-env=development",
-    "build": "webpack --mode=production --node-env=production",
-    "build_dev": "webpack --mode=development --node-env=development",
-    "build_prod": "webpack --mode=production --node-env=production",
+    "start": "cross-env NODE_ENV=development webpack serve",
+    "build": "cross-env NODE_ENV=production webpack",
+    "build-local": "cross-env NODE_ENV=development webpack",
+    "build-staging": "cross-env NODE_ENV=staging webpack",
+    "build-release": "cross-env NODE_ENV=production webpack",
     "prettier": "npx prettier --write 'src/**/*.{tsx,ts,css,html,json}'"
   },
   "repository": {
@@ -47,6 +48,7 @@
     "babel-loader": "^8.2.5",
     "babel-plugin-module-resolver": "^4.1.0",
     "clean-webpack-plugin": "^4.0.0",
+    "cross-env": "^7.0.3",
     "dotenv-webpack": "^8.0.0",
     "eslint": "^8.19.0",
     "eslint-plugin-react": "^7.30.1",
