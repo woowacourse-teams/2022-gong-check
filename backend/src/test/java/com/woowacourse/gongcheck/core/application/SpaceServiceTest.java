@@ -28,7 +28,6 @@ import com.woowacourse.gongcheck.core.presentation.request.SpaceCreateRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -86,7 +85,7 @@ class SpaceServiceTest {
         }
 
         @Nested
-        class 입력받은_Host가_존재하는_경우 {
+        class 존재하는_Host의_id를_입력받은_경우 {
 
             private Host host;
             private SpacesResponse expected;
@@ -116,23 +115,17 @@ class SpaceServiceTest {
     @Nested
     class createSpace_메서드는 {
 
-        private Host host;
-        private Space spaceOwnByHost;
-
-        @BeforeEach
-        void setUp() {
-            host = hostRepository.save(Host_생성("1234", 1234L));
-            spaceOwnByHost = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
-        }
-
         @Nested
-        class 입력받은_Host가_입력받은_Space_이름과_같은_Space를_이미_가지고_있는_경우 {
+        class Host가_입력받은_Space_이름과_같은_Space를_이미_가지고_있는_경우 {
 
+            private Host host;
             private SpaceCreateRequest request;
 
             @BeforeEach
             void setUp() {
-                request = new SpaceCreateRequest(spaceOwnByHost.getName().getValue(),
+                host = hostRepository.save(Host_생성("1234", 1234L));
+                Space space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
+                request = new SpaceCreateRequest(space.getName().getValue(),
                         new MockMultipartFile("잠실 캠퍼스 사진", new byte[]{}));
             }
 
@@ -147,6 +140,8 @@ class SpaceServiceTest {
         @Nested
         class 존재하지_않는_Host_id를_입력받은_경우 {
 
+            private static final long NON_EXIST_HOST_ID = 0L;
+
             private SpaceCreateRequest request;
 
             @BeforeEach
@@ -157,7 +152,7 @@ class SpaceServiceTest {
 
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> spaceService.createSpace(0L, request))
+                assertThatThrownBy(() -> spaceService.createSpace(NON_EXIST_HOST_ID, request))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessage("존재하지 않는 호스트입니다.");
             }
@@ -166,10 +161,13 @@ class SpaceServiceTest {
         @Nested
         class 입력받은_Host가_존재하는_경우 {
 
+            private Host host;
+
             private SpaceCreateRequest request;
 
             @BeforeEach
             void setUp() {
+                host = hostRepository.save(Host_생성("1234", 1234L));
                 request = new SpaceCreateRequest("이것은 유일한 Space이름",
                         new MockMultipartFile("잠실 캠퍼스 사진", new byte[]{}));
             }
@@ -185,30 +183,22 @@ class SpaceServiceTest {
     @Nested
     class findSpace_메서드는 {
 
-        private Host host;
-        private Space space1, space2;
-
-        @BeforeEach
-        void setUp() {
-            host = hostRepository.save(Host_생성("1234", 1234L));
-            space1 = Space_생성(host, "잠실 캠퍼스");
-            space2 = Space_생성(host, "선릉 캠퍼스");
-            spaceRepository.saveAll(List.of(space1, space2));
-        }
-
         @Nested
-        class 다른_Host가_소유한_Space를_조회하려는_경우 {
+        class 입력받은_Host가_입력받은_Space를_가지고_있지_않은_경우 {
 
+            private Space space;
             private Host anotherHost;
 
             @BeforeEach
             void setUp() {
+                Host host = hostRepository.save(Host_생성("1234", 1234L));
+                space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
                 anotherHost = hostRepository.save(Host_생성("1234", 2345L));
             }
 
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> spaceService.findSpace(anotherHost.getId(), space1.getId()))
+                assertThatThrownBy(() -> spaceService.findSpace(anotherHost.getId(), space.getId()))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessage("존재하지 않는 공간입니다.");
             }
@@ -217,9 +207,19 @@ class SpaceServiceTest {
         @Nested
         class 존재하지_않는_Host_id를_입력받은_경우 {
 
+            private static final long NON_EXIST_HOST_ID = 0L;
+
+            private Space space;
+
+            @BeforeEach
+            void setUp() {
+                Host host = hostRepository.save(Host_생성("1234", 1234L));
+                space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
+            }
+
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> spaceService.findSpace(0L, space1.getId()))
+                assertThatThrownBy(() -> spaceService.findSpace(NON_EXIST_HOST_ID, space.getId()))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessage("존재하지 않는 호스트입니다.");
             }
@@ -227,6 +227,13 @@ class SpaceServiceTest {
 
         @Nested
         class 존재하지_않는_Space_id를_입력받은_경우 {
+
+            private Host host;
+
+            @BeforeEach
+            void setUp() {
+                host = hostRepository.save(Host_생성("1234", 1234L));
+            }
 
             @Test
             void 예외를_발생시킨다() {
@@ -237,13 +244,22 @@ class SpaceServiceTest {
         }
 
         @Nested
-        class 입력받은_Host_id가_입력받은_Space를_소유하고_있는_경우 {
+        class 입력받은_Host가_입력받은_Space를_소유하고_있는_경우 {
+
+            private Host host;
+            private Space space;
+
+            @BeforeEach
+            void setUp() {
+                host = hostRepository.save(Host_생성("1234", 1234L));
+                space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
+            }
 
             @Test
             void Space_응답을_반환한다() {
-                SpaceResponse result = spaceService.findSpace(host.getId(), space1.getId());
+                SpaceResponse result = spaceService.findSpace(host.getId(), space.getId());
 
-                assertThat(result.getName()).isEqualTo(space1.getName().getValue());
+                assertThat(result.getName()).isEqualTo(space.getName().getValue());
             }
         }
     }

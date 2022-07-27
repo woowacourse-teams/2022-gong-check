@@ -75,15 +75,17 @@ class SpaceRepositoryTest {
             @BeforeEach
             void setUp() {
                 host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space_1 = Space_생성(host, "잠실 캠퍼스");
-                Space space_2 = Space_생성(host, "선릉 캠퍼스");
-                Space space_3 = Space_생성(host, "양평같은방");
-                expected = spaceRepository.saveAll(List.of(space_1, space_2, space_3));
+                expected = spaceRepository.saveAll(List.of(
+                        Space_생성(host, "잠실 캠퍼스"),
+                        Space_생성(host, "선릉 캠퍼스"),
+                        Space_생성(host, "양평같은방"))
+                );
             }
 
             @Test
             void 가지고_있는_Space를_모두_조회한다() {
                 List<Space> result = spaceRepository.findAllByHost(host);
+
                 assertThat(result).isEqualTo(expected);
             }
         }
@@ -101,14 +103,12 @@ class SpaceRepositoryTest {
         @Nested
         class 다른_Host가_소유한_Space_id를_입력받은_경우 {
 
-            private Space space;
             private Long spaceId;
             private Host anotherHost;
 
             @BeforeEach
             void setUp() {
-                space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
-                spaceId = space.getId();
+                spaceId = spaceRepository.save(Space_생성(host, "잠실 캠퍼스")).getId();
                 anotherHost = hostRepository.save(Host_생성("4567", 4567L));
             }
 
