@@ -26,16 +26,18 @@ class HostRepositoryTest {
     @Autowired
     private HostRepository hostRepository;
 
-    private final String password = "1234";
-    private final Long githubId = 1234567L;
-
     @Nested
     class save_메소드는 {
 
         @Nested
         class 저장할_호스트를_받는_경우 {
 
-            private final Host host = Host_생성(password, githubId);
+            private Host host;
+
+            @BeforeEach
+            void setUp() {
+                host = Host_생성("1234", 1234567L);
+            }
 
             @Test
             void 생성시간이_같이_저장된다() {
@@ -57,7 +59,7 @@ class HostRepositoryTest {
 
             @BeforeEach
             void setUp() {
-                hostId = hostRepository.save(Host_생성(password, githubId))
+                hostId = hostRepository.save(Host_생성("1234", 1234567L))
                         .getId();
             }
 
@@ -86,11 +88,12 @@ class HostRepositoryTest {
         @Nested
         class 존재하는_Host의_githubId를_입력받는_경우 {
 
+            private final Long githubId = 1234567L;
             private Host host;
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성(password, githubId));
+                host = hostRepository.save(Host_생성("1234", githubId));
             }
 
             @Test

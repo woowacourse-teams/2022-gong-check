@@ -56,16 +56,16 @@ class HostAuthServiceTest {
         @Nested
         class 새로_가입한_Host의_oauth_토큰_코드가_입력될_경우 {
 
-            private static final String CORRECT_OAUTH_CODE = "1234";
+            private static final String OAUTH_CODE = "1234";
             private static final String JWT_ACCESS_TOKEN = "jwt.token.here";
 
             @BeforeEach
             void setUp() {
-                when(githubOauthClient.requestGithubProfileByCode(CORRECT_OAUTH_CODE))
+                when(githubOauthClient.requestGithubProfileByCode(OAUTH_CODE))
                         .thenReturn(new GithubProfileResponse(GITHUB_NICKNAME, GITHUB_LOGIN_NAME, GITHUB_ID,
                                 GITHUB_IMAGE_URL));
                 when(jwtTokenProvider.createToken(any(), eq(HOST))).thenReturn(JWT_ACCESS_TOKEN);
-                tokenRequest = new TokenRequest(CORRECT_OAUTH_CODE);
+                tokenRequest = new TokenRequest(OAUTH_CODE);
             }
 
             @Test
@@ -81,17 +81,17 @@ class HostAuthServiceTest {
         @Nested
         class 기존에_가입한_Host의_oauth_토큰_코드가_입력될_경우 {
 
-            private static final String CORRECT_OAUTH_CODE = "1234";
+            private static final String OAUTH_CODE = "1234";
             private static final String JWT_ACCESS_TOKEN = "jwt.token.here";
 
             @BeforeEach
             void setUp() {
-                when(githubOauthClient.requestGithubProfileByCode(CORRECT_OAUTH_CODE))
+                when(githubOauthClient.requestGithubProfileByCode(OAUTH_CODE))
                         .thenReturn(new GithubProfileResponse(GITHUB_NICKNAME, GITHUB_LOGIN_NAME, GITHUB_ID,
                                 GITHUB_IMAGE_URL));
                 when(jwtTokenProvider.createToken(any(), eq(HOST))).thenReturn(JWT_ACCESS_TOKEN);
                 hostRepository.save(Host_생성("1234", Long.parseLong(GITHUB_ID)));
-                tokenRequest = new TokenRequest(CORRECT_OAUTH_CODE);
+                tokenRequest = new TokenRequest(OAUTH_CODE);
             }
 
             @Test
@@ -108,7 +108,6 @@ class HostAuthServiceTest {
         class 잘못된_oauth_토큰_코드가_입력될_경우 {
 
             private static final String ERROR_OAUTH_CODE = "1234";
-            private TokenRequest tokenRequest;
 
             @BeforeEach
             void setUp() {
