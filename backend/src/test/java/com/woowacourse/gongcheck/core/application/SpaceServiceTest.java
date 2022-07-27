@@ -268,6 +268,27 @@ class SpaceServiceTest {
     class removeSpace_메서드는 {
 
         @Nested
+        class 입력받은_Host_id가_존재하지_않는_경우 {
+
+            private static final long NON_EXIST_HOST_ID = 0L;
+
+            private Space space;
+
+            @BeforeEach
+            void setUp() {
+                Host host = hostRepository.save(Host_생성("1234", 1234L));
+                space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
+            }
+
+            @Test
+            void 예외를_발생시킨다() {
+                assertThatThrownBy(() -> spaceService.removeSpace(NON_EXIST_HOST_ID, space.getId()))
+                        .isInstanceOf(NotFoundException.class)
+                        .hasMessage("존재하지 않는 호스트입니다.");
+            }
+        }
+
+        @Nested
         class 입력받은_Space_id가_존재하면 {
 
             private Host host;
