@@ -14,6 +14,11 @@ import com.woowacourse.gongcheck.core.domain.space.SpaceRepository;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -21,6 +26,8 @@ import org.springframework.context.annotation.Import;
 
 @DataJpaTest
 @Import(JpaConfig.class)
+@DisplayName("JobRepositoryTest 클래스")
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class JobRepositoryTest {
 
     @Autowired
@@ -32,83 +39,166 @@ class JobRepositoryTest {
     @Autowired
     private JobRepository jobRepository;
 
-    @Test
-    void Job_저장_시_생성시간이_저장된다() {
-        Host host = hostRepository.save(Host_생성("1234", 1234L));
-        Space space = spaceRepository.save(Space_생성(host, "잠실"));
+    @Nested
+    class save_메소드는 {
 
-        LocalDateTime nowLocalDateTime = LocalDateTime.now();
-        Job job = jobRepository.save(Job.builder()
-                .space(space)
-                .name("청소")
-                .build());
-        assertThat(job.getCreatedAt()).isAfter(nowLocalDateTime);
+        @Nested
+        class Job_저장할_경우 {
+
+            private LocalDateTime nowLocalDateTime;
+            private Job job;
+
+            @BeforeEach
+            void setUp() {
+                Host host = hostRepository.save(Host_생성("1234", 1234L));
+                Space space = spaceRepository.save(Space_생성(host, "잠실"));
+
+                nowLocalDateTime = LocalDateTime.now();
+                job = jobRepository.save(Job.builder()
+                        .space(space)
+                        .name("청소")
+                        .build());
+            }
+
+            @Test
+            void 생성시간이_저장된다() {
+                assertThat(job.getCreatedAt()).isAfter(nowLocalDateTime);
+            }
+        }
     }
 
-    @Test
-    void Host와_Space를_입력받아_연관되는_Job을_조회한다() {
-        Host host = hostRepository.save(Host_생성("1234", 1234L));
-        Space space = spaceRepository.save(Space_생성(host, "잠실"));
-        Job job1 = Job_생성(space, "오픈");
-        Job job2 = Job_생성(space, "청소");
-        Job job3 = Job_생성(space, "마감");
-        jobRepository.saveAll(List.of(job1, job2, job3));
+    @Nested
+    class findAllBySpaceHostAndSpace_메소드는 {
 
-        List<Job> result = jobRepository.findAllBySpaceHostAndSpace(host, space);
+        @Nested
+        class Host와_Space를_입력받은_경우 {
 
-        assertThat(result).hasSize(3);
+            private Host host;
+            private Space space;
+
+            @BeforeEach
+            void setUp() {
+                host = hostRepository.save(Host_생성("1234", 1234L));
+                space = spaceRepository.save(Space_생성(host, "잠실"));
+                Job job1 = Job_생성(space, "오픈");
+                Job job2 = Job_생성(space, "청소");
+                Job job3 = Job_생성(space, "마감");
+                jobRepository.saveAll(List.of(job1, job2, job3));
+            }
+
+            @Test
+            void 연관된_Job_목록을_조회한다() {
+                List<Job> result = jobRepository.findAllBySpaceHostAndSpace(host, space);
+
+                assertThat(result).hasSize(3);
+            }
+        }
     }
 
-    @Test
-    void Host와_JobId를_입력받아_Job을_조회한다() {
-        Host host = hostRepository.save(Host_생성("1234", 1234L));
-        Space space = spaceRepository.save(Space_생성(host, "잠실"));
-        Job job = jobRepository.save(Job_생성(space, "청소"));
+    @Nested
+    class getBySpaceHostAndId_메소드는 {
 
-        Job result = jobRepository.getBySpaceHostAndId(host, job.getId());
+        @Nested
+        class Host와_JobId를_입력받는_경우 {
+            private Host host;
+            private Job job;
 
-        assertThat(result).isEqualTo(job);
+            @BeforeEach
+            void setUp() {
+                host = hostRepository.save(Host_생성("1234", 1234L));
+                Space space = spaceRepository.save(Space_생성(host, "잠실"));
+                job = jobRepository.save(Job_생성(space, "청소"));
+            }
+
+            @Test
+            void 해당되는_Job을_조회한다() {
+                Job result = jobRepository.getBySpaceHostAndId(host, job.getId());
+
+                assertThat(result).isEqualTo(job);
+            }
+        }
+
+        @Nested
+        class 입력받은_Host와_JobId가_연관되지_않은_경우 {
+
+            private Host otherHost;
+            private Job job;
+
+            @BeforeEach
+            void setUp() {
+                Host host = hostRepository.save(Host_생성("1234", 1234L));
+                otherHost = hostRepository.save(Host_생성("1234", 2345L));
+                Space space = spaceRepository.save(Space_생성(host, "잠실"));
+                job = jobRepository.save(Job_생성(space, "청소"));
+            }
+
+            @Test
+            void 예외가_발생한다() {
+                assertThatThrownBy(() -> jobRepository.getBySpaceHostAndId(otherHost, job.getId()))
+                        .isInstanceOf(NotFoundException.class)
+                        .hasMessage("존재하지 않는 작업입니다.");
+            }
+        }
     }
 
-    @Test
-    void 입력받은_Host와_JobId가_연관되지_않은_경우_예외가_발생한다() {
-        Host host1 = hostRepository.save(Host_생성("1234", 1234L));
-        Host host2 = hostRepository.save(Host_생성("1234", 2345L));
-        Space space = spaceRepository.save(Space_생성(host2, "잠실"));
-        Job job = jobRepository.save(Job_생성(space, "청소"));
+    @Nested
+    class findAllBySpace_메소드는 {
 
-        assertThatThrownBy(() -> jobRepository.getBySpaceHostAndId(host1, job.getId()))
-                .isInstanceOf(NotFoundException.class)
-                .hasMessage("존재하지 않는 작업입니다.");
+        @Nested
+        class Space를_입력_받는_경우 {
+
+            private Space space;
+            private Job job_1, job_2;
+
+            @BeforeEach
+            void setUp() {
+                Host host = hostRepository.save(Host_생성("1234", 1234L));
+                space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
+                job_1 = jobRepository.save(Job_생성(space, "청소"));
+                job_2 = jobRepository.save(Job_생성(space, "마감"));
+            }
+
+            @Test
+            void 연관된_모든_Job_목록을_조회한다() {
+                List<Job> result = jobRepository.findAllBySpace(space);
+
+                assertThat(result).containsExactly(job_1, job_2);
+            }
+        }
     }
 
-    @Test
-    void 입력된_Space에_등록된_모든_Job을_조회한다() {
-        Host host = hostRepository.save(Host_생성("1234", 1234L));
-        Space space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
-        Job job1 = jobRepository.save(Job_생성(space, "청소"));
-        Job job2 = jobRepository.save(Job_생성(space, "마감"));
+    @Nested
+    class getById_메소드는 {
 
-        List<Job> result = jobRepository.findAllBySpace(space);
+        @Nested
+        class jobId를_입력_받는_경우 {
 
-        assertThat(result).containsExactly(job1, job2);
-    }
+            private Job job;
 
-    @Test
-    void jobId로_Job을_조회한다() {
-        Host host = hostRepository.save(Host_생성("1234", 1234L));
-        Space space = spaceRepository.save(Space_생성(host, "잠실"));
-        Job job = jobRepository.save(Job_생성(space, "청소"));
+            @BeforeEach
+            void setUp() {
+                Host host = hostRepository.save(Host_생성("1234", 1234L));
+                Space space = spaceRepository.save(Space_생성(host, "잠실"));
+                job = jobRepository.save(Job_생성(space, "청소"));
+            }
 
-        Job savedJob = jobRepository.getById(job.getId());
+            @Test
+            void Job을_조회한다() {
+                Job savedJob = jobRepository.getById(job.getId());
 
-        assertThat(savedJob).isNotNull();
-    }
+                assertThat(savedJob).isNotNull();
+            }
+        }
 
-    @Test
-    void 존재하지_않는_jobId로_Job을_조회_시_예외가_발생한다() {
-        assertThatThrownBy(() -> jobRepository.getById(0L))
-                .isInstanceOf(NotFoundException.class)
-                .hasMessage("존재하지 않는 작업입니다.");
+        @Nested
+        class 존재하지_않는_jobId를_입력_받는_경우 {
+
+            @Test
+            void 예외가_발생한다() {
+                assertThatThrownBy(() -> jobRepository.getById(0L))
+                        .isInstanceOf(NotFoundException.class)
+                        .hasMessage("존재하지 않는 작업입니다.");
+            }
+        }
     }
 }

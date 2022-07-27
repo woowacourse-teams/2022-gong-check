@@ -32,6 +32,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 @Transactional
 @DisplayName("JobService 클래스")
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class JobServiceTest {
 
     @Autowired
@@ -127,19 +130,19 @@ class JobServiceTest {
         @Nested
         class 다른_Host의_Space의_Job_목록을_조회할_경우 {
 
-            private Host anotherHost;
+            private Host otherHost;
             private Space space;
 
             @BeforeEach
             void setUp() {
                 Host host = hostRepository.save(Host_생성("1234", 1234L));
-                anotherHost = hostRepository.save(Host_생성("1234", 2345L));
+                otherHost = hostRepository.save(Host_생성("1234", 2345L));
                 space = spaceRepository.save(Space_생성(host, "잠실"));
             }
 
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> jobService.findJobs(anotherHost.getId(), space.getId()))
+                assertThatThrownBy(() -> jobService.findJobs(otherHost.getId(), space.getId()))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessage("존재하지 않는 공간입니다.");
             }
@@ -154,7 +157,7 @@ class JobServiceTest {
 
             private Host host;
             private Space space;
-            private JobCreateRequest jobCreateRequest;
+            private JobCreateRequest request;
 
             @BeforeEach
             void setUp() {
@@ -162,12 +165,12 @@ class JobServiceTest {
                 space = spaceRepository.save(Space_생성(host, "잠실"));
                 List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
                 List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
-                jobCreateRequest = new JobCreateRequest("청소", sections);
+                request = new JobCreateRequest("청소", sections);
             }
 
             @Test
             void 한_번에_생성한다() {
-                Long savedJobId = jobService.createJob(host.getId(), space.getId(), jobCreateRequest);
+                Long savedJobId = jobService.createJob(host.getId(), space.getId(), request);
 
                 assertThat(savedJobId).isNotNull();
             }
@@ -177,7 +180,7 @@ class JobServiceTest {
         class Host가_존재하지_않는데_Job을_생성하려는_경우 {
 
             private Space space;
-            private JobCreateRequest jobCreateRequest;
+            private JobCreateRequest request;
 
             @BeforeEach
             void setUp() {
@@ -185,12 +188,12 @@ class JobServiceTest {
                 space = spaceRepository.save(Space_생성(host, "잠실"));
                 List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
                 List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
-                jobCreateRequest = new JobCreateRequest("청소", sections);
+                request = new JobCreateRequest("청소", sections);
             }
 
             @Test
             void 예외가_발생한다() {
-                assertThatThrownBy(() -> jobService.createJob(0L, space.getId(), jobCreateRequest))
+                assertThatThrownBy(() -> jobService.createJob(0L, space.getId(), request))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessage("존재하지 않는 호스트입니다.");
             }
@@ -200,19 +203,19 @@ class JobServiceTest {
         class Space가_존재하지_않는데_Job을_생성하려는_경우 {
 
             private Host host;
-            private JobCreateRequest jobCreateRequest;
+            private JobCreateRequest request;
 
             @BeforeEach
             void setUp() {
                 host = hostRepository.save(Host_생성("1234", 1234L));
                 List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
                 List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
-                jobCreateRequest = new JobCreateRequest("청소", sections);
+                request = new JobCreateRequest("청소", sections);
             }
 
             @Test
             void 예외가_발생한다() {
-                assertThatThrownBy(() -> jobService.createJob(host.getId(), 0L, jobCreateRequest))
+                assertThatThrownBy(() -> jobService.createJob(host.getId(), 0L, request))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessage("존재하지 않는 공간입니다.");
             }
@@ -227,7 +230,7 @@ class JobServiceTest {
         class 기존의_Job이_존재하는_경우 {
 
             private Host host;
-            private JobCreateRequest jobCreateRequest;
+            private JobCreateRequest request;
             private Long savedJobId;
 
             @BeforeEach
@@ -236,13 +239,13 @@ class JobServiceTest {
                 Space space = spaceRepository.save(Space_생성(host, "잠실"));
                 List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
                 List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
-                jobCreateRequest = new JobCreateRequest("청소", sections);
-                savedJobId = jobService.createJob(host.getId(), space.getId(), jobCreateRequest);
+                request = new JobCreateRequest("청소", sections);
+                savedJobId = jobService.createJob(host.getId(), space.getId(), request);
             }
 
             @Test
             void 기존의_존재하는_Job을_삭제한_후_새로운_Job을_생성하여_수정한다() {
-                Long updateJobId = jobService.updateJob(host.getId(), savedJobId, jobCreateRequest);
+                Long updateJobId = jobService.updateJob(host.getId(), savedJobId, request);
 
                 assertThat(updateJobId).isNotNull();
             }
@@ -251,7 +254,7 @@ class JobServiceTest {
         @Nested
         class host가_존재하지_않는_경우 {
 
-            private JobCreateRequest jobCreateRequest;
+            private JobCreateRequest request;
             private Long savedJobId;
 
             @BeforeEach
@@ -260,13 +263,13 @@ class JobServiceTest {
                 Space space = spaceRepository.save(Space_생성(host, "잠실"));
                 List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
                 List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
-                jobCreateRequest = new JobCreateRequest("청소", sections);
-                savedJobId = jobService.createJob(host.getId(), space.getId(), jobCreateRequest);
+                request = new JobCreateRequest("청소", sections);
+                savedJobId = jobService.createJob(host.getId(), space.getId(), request);
             }
 
             @Test
             void 예외가_발생한다() {
-                assertThatThrownBy(() -> jobService.updateJob(0L, savedJobId, jobCreateRequest))
+                assertThatThrownBy(() -> jobService.updateJob(0L, savedJobId, request))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessage("존재하지 않는 호스트입니다.");
             }
@@ -275,7 +278,7 @@ class JobServiceTest {
         @Nested
         class host에_해당하는_jobId가_아닐_경우 {
 
-            private JobCreateRequest jobCreateRequest;
+            private JobCreateRequest request;
             private Long savedJobId;
 
             @BeforeEach
@@ -284,13 +287,14 @@ class JobServiceTest {
                 Space space = spaceRepository.save(Space_생성(host, "잠실"));
                 List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
                 List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
-                jobCreateRequest = new JobCreateRequest("청소", sections);
-                savedJobId = jobService.createJob(host.getId(), space.getId(), jobCreateRequest);
+                request = new JobCreateRequest("청소", sections);
+                savedJobId = jobService.createJob(host.getId(), space.getId(), request);
             }
 
             @Test
             void 예외가_발생한다() {
-                assertThatThrownBy(() -> jobService.updateJob(1L, savedJobId, jobCreateRequest))
+                Host anotherHost = hostRepository.save(Host_생성("1234", 2345L));
+                assertThatThrownBy(() -> jobService.updateJob(anotherHost.getId(), savedJobId, request))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessage("존재하지 않는 작업입니다.");
             }
@@ -300,19 +304,19 @@ class JobServiceTest {
         class 존재하지_않는_Job을_수정할_경우 {
 
             private Host host;
-            private JobCreateRequest jobCreateRequest;
+            private JobCreateRequest request;
 
             @BeforeEach
             void setUp() {
                 host = hostRepository.save(Host_생성("1234", 1234L));
                 List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
                 List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
-                jobCreateRequest = new JobCreateRequest("청소", sections);
+                request = new JobCreateRequest("청소", sections);
             }
 
             @Test
             void 예외가_발생한다() {
-                assertThatThrownBy(() -> jobService.updateJob(host.getId(), 0L, jobCreateRequest))
+                assertThatThrownBy(() -> jobService.updateJob(host.getId(), 0L, request))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessage("존재하지 않는 작업입니다.");
             }
@@ -364,19 +368,19 @@ class JobServiceTest {
         class 다른_Host의_Job_제거할_경우 {
 
             private Job job;
-            private Host anotherHost;
+            private Host otherHost;
 
             @BeforeEach
             void setUp() {
                 Host host = hostRepository.save(Host_생성("1234", 1234L));
-                anotherHost = hostRepository.save(Host_생성("1234", 2345L));
+                otherHost = hostRepository.save(Host_생성("1234", 2345L));
                 Space space = spaceRepository.save(Space_생성(host, "잠실"));
                 job = jobRepository.save(Job_생성(space, "청소"));
             }
 
             @Test
             void 예외가_발생한다() {
-                assertThatThrownBy(() -> jobService.removeJob(anotherHost.getId(), job.getId()))
+                assertThatThrownBy(() -> jobService.removeJob(otherHost.getId(), job.getId()))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessage("존재하지 않는 작업입니다.");
             }
