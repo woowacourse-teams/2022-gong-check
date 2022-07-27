@@ -123,9 +123,11 @@ class HostRepositoryTest {
         @Nested
         class 존재하는_Host의_githubId를_입력받는_경우 {
 
+            private final Long githubId = 1234567L;
+
             @BeforeEach
             void setUp() {
-                hostRepository.save(Host_생성(password, githubId));
+                hostRepository.save(Host_생성("1234", githubId));
             }
 
             @Test
@@ -138,11 +140,9 @@ class HostRepositoryTest {
         @Nested
         class 존재하지않는_Host의_githubId를_입력받는_경우 {
 
-            private final Long errorGithubId = 987654L;
-
             @Test
             void False를_발환한다() {
-                boolean actual = hostRepository.existsByGithubId(errorGithubId);
+                boolean actual = hostRepository.existsByGithubId(987654L);
                 assertThat(actual).isFalse();
             }
         }
