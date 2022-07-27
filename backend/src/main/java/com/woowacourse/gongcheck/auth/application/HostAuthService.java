@@ -28,8 +28,7 @@ public class HostAuthService {
 
     @Transactional
     public TokenResponse createToken(final TokenRequest request) {
-        String accessToken = githubOauthClient.requestAccessToken(request.getCode());
-        GithubProfileResponse githubProfileResponse = githubOauthClient.requestGithubProfile(accessToken);
+        GithubProfileResponse githubProfileResponse = githubOauthClient.requestGithubProfileByCode(request.getCode());
         boolean alreadyJoin = hostRepository.existsByGithubId(githubProfileResponse.getGithubId());
         Host host = findOrCreateHost(alreadyJoin, githubProfileResponse);
         String token = jwtTokenProvider.createToken(String.valueOf(host.getId()), HOST);
