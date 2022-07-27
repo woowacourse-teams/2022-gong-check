@@ -16,6 +16,8 @@ import com.woowacourse.gongcheck.core.domain.space.Space;
 import com.woowacourse.gongcheck.core.domain.space.SpaceRepository;
 import java.time.LocalDateTime;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -25,7 +27,7 @@ import org.springframework.data.domain.Slice;
 
 @DataJpaTest
 @Import(JpaConfig.class)
-class SubmissionRepositoryTest {
+public class SubmissionRepositoryTest {
 
     @Autowired
     private HostRepository hostRepository;
@@ -39,37 +41,64 @@ class SubmissionRepositoryTest {
     @Autowired
     private SubmissionRepository submissionRepository;
 
-    @Test
-    void Submission_저장_시_생성시간이_저장된다() {
-        Host host = hostRepository.save(Host_생성("1234", 1234L));
-        Space space = spaceRepository.save(Space_생성(host, "잠실"));
-        Job job = jobRepository.save(Job_생성(space, "청소"));
+    @Nested
+    class save_메소드는 {
 
-        LocalDateTime nowLocalDateTime = LocalDateTime.now();
-        Submission submission = submissionRepository.save(Submission.builder()
-                .job(job)
-                .author("어썸오")
-                .build());
-        assertThat(submission.getCreatedAt()).isAfter(nowLocalDateTime);
+        @Nested
+        class 호출_되는_경우 {
+
+            private Submission submission;
+            private LocalDateTime expected;
+
+            @BeforeEach
+            void setUp() {
+                Host host = hostRepository.save(Host_생성("1234", 1234L));
+                Space space = spaceRepository.save(Space_생성(host, "잠실"));
+                Job job = jobRepository.save(Job_생성(space, "청소"));
+                submission = submissionRepository.save(Submission.builder()
+                        .job(job)
+                        .author("어썸오")
+                        .build());
+                expected = LocalDateTime.now();
+            }
+
+            @Test
+            void 생성시간을_저장한다() {
+                assertThat(submission.getCreatedAt()).isBefore(expected);
+            }
+        }
     }
 
-    @Test
-    void 입력받은_Job_목록에_해당하는_Submission_목록을_조회한다() {
-        Host host = hostRepository.save(Host_생성("1234", 1234L));
-        Space space = spaceRepository.save(Space_생성(host, "잠실"));
-        Job job1 = jobRepository.save(Job_생성(space, "오픈"));
-        Job job2 = jobRepository.save(Job_생성(space, "마감"));
-        submissionRepository.save(Submission_생성(job1));
-        submissionRepository.save(Submission_생성(job1));
-        submissionRepository.save(Submission_생성(job1));
-        submissionRepository.save(Submission_생성(job1));
+    @Nested
+    class findAllByJobIn_메소드는 {
 
-        Slice<Submission> submissions = submissionRepository
-                .findAllByJobIn(List.of(job1, job2), PageRequest.of(0, 3));
+        @Nested
+        class Job들의_리스트를_입력받는_경우 {
 
-        assertAll(
-                () -> assertThat(submissions.getSize()).isEqualTo(3),
-                () -> assertThat(submissions.hasNext()).isTrue()
-        );
+            private List<Job> jobs;
+            private PageRequest request;
+
+            @BeforeEach
+            void setUp() {
+                Host host = hostRepository.save(Host_생성("1234", 1234L));
+                Space space = spaceRepository.save(Space_생성(host, "잠실"));
+                Job job_1 = jobRepository.save(Job_생성(space, "청소"));
+                Job job_2 = jobRepository.save(Job_생성(space, "마감"));
+                jobs = jobRepository.saveAll(List.of(job_1, job_2));
+                submissionRepository.saveAll(List.of(Submission_생성(job_1), Submission_생성(job_1),
+                        Submission_생성(job_2), Submission_생성(job_2)));
+                request = PageRequest.of(0, 2);
+            }
+
+            @Test
+            void 입력받은_Job들의_Submission들을_반환한다() {
+                Slice<Submission> result = submissionRepository.findAllByJobIn(jobs, request);
+
+                assertAll(
+                        () -> assertThat(result.getContent()).hasSize(2),
+                        () -> assertThat(result.hasNext()).isTrue()
+                );
+            }
+        }
     }
 }
