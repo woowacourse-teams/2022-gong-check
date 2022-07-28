@@ -162,16 +162,17 @@ class SpaceRepositoryTest {
             private static final String EXIST_SPACE_NAME = "잠실 캠퍼스";
 
             private Host host;
+            private Name name;
 
             @BeforeEach
             void setUp() {
                 host = hostRepository.save(Host_생성("1234", 1234L));
                 spaceRepository.save(Space_생성(host, EXIST_SPACE_NAME));
+                name = new Name(EXIST_SPACE_NAME);
             }
 
             @Test
             void 참을_반환한다() {
-                Name name = new Name(EXIST_SPACE_NAME);
                 boolean actual = spaceRepository.existsByHostAndName(host, name);
                 assertThat(actual).isTrue();
             }
@@ -181,15 +182,16 @@ class SpaceRepositoryTest {
         class 입력받은_이름과_같은_이름을_가진_Space를_가지고_있지_않은_경우 {
 
             private Host host;
+            private Name name;
 
             @BeforeEach
             void setUp() {
                 host = hostRepository.save(Host_생성("1234", 1234L));
+                name = new Name("존재하지 않는 Space 이름");
             }
 
             @Test
             void 거짓을_반환한다() {
-                Name name = new Name("존재하지 않는 Space 이름");
                 boolean actual = spaceRepository.existsByHostAndName(host, name);
                 assertThat(actual).isFalse();
             }

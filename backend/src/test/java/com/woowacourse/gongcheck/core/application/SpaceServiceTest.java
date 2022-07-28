@@ -106,7 +106,8 @@ class SpaceServiceTest {
             void 해당_Host가_소유한_Space를_응답으로_반환한다() {
                 SpacesResponse actual = spaceService.findSpaces(host.getId());
 
-                assertThat(actual.getSpaces()).usingRecursiveFieldByFieldElementComparator()
+                assertThat(actual.getSpaces())
+                        .usingRecursiveFieldByFieldElementComparator()
                         .isEqualTo(expected.getSpaces());
             }
         }
