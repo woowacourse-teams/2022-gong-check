@@ -75,7 +75,7 @@ public class SubmissionServiceTest {
         @Nested
         class 입력받은_Host가_존재하지_않는_경우 {
 
-            private static final long NOT_EXIST_HOST_ID = 0L;
+            private static final long NON_EXIST_HOST_ID = 0L;
 
             private Long jobId;
             private SubmissionRequest request;
@@ -88,7 +88,7 @@ public class SubmissionServiceTest {
 
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> submissionService.submitJobCompletion(NOT_EXIST_HOST_ID, jobId, request))
+                assertThatThrownBy(() -> submissionService.submitJobCompletion(NON_EXIST_HOST_ID, jobId, request))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessage("존재하지 않는 호스트입니다.");
             }
@@ -97,7 +97,7 @@ public class SubmissionServiceTest {
         @Nested
         class 입력받은_Job이_존재하지_않는_경우 {
 
-            private static final long NOT_EXIST_JOB_ID = 0L;
+            private static final long NON_EXIST_JOB_ID = 0L;
 
             private Host host;
             private SubmissionRequest request;
@@ -110,7 +110,7 @@ public class SubmissionServiceTest {
 
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> submissionService.submitJobCompletion(host.getId(), NOT_EXIST_JOB_ID, request))
+                assertThatThrownBy(() -> submissionService.submitJobCompletion(host.getId(), NON_EXIST_JOB_ID, request))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessage("존재하지 않는 작업입니다.");
             }
@@ -240,7 +240,7 @@ public class SubmissionServiceTest {
         @Nested
         class 입력받은_Host가_존재하지_않는_경우 {
 
-            private static final long NOT_EXIST_HOST_ID = 0L;
+            private static final long NON_EXIST_HOST_ID = 0L;
 
             private Long spaceId;
             private PageRequest request;
@@ -253,7 +253,7 @@ public class SubmissionServiceTest {
 
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> submissionService.findPage(NOT_EXIST_HOST_ID, spaceId, request))
+                assertThatThrownBy(() -> submissionService.findPage(NON_EXIST_HOST_ID, spaceId, request))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessage("존재하지 않는 호스트입니다.");
             }
@@ -262,7 +262,7 @@ public class SubmissionServiceTest {
         @Nested
         class 입력받은_Space가_존재하지_않는_경우 {
 
-            private static final long NOT_EXIST_SPACE_ID = 0L;
+            private static final long NON_EXIST_SPACE_ID = 0L;
 
             private Host host;
             private PageRequest request;
@@ -275,7 +275,7 @@ public class SubmissionServiceTest {
 
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> submissionService.findPage(host.getId(), NOT_EXIST_SPACE_ID, request))
+                assertThatThrownBy(() -> submissionService.findPage(host.getId(), NON_EXIST_SPACE_ID, request))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessage("존재하지 않는 공간입니다.");
             }
