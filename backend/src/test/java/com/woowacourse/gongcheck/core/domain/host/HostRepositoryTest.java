@@ -73,9 +73,11 @@ class HostRepositoryTest {
         @Nested
         class 존재하지않는_Host의_id를_입력받는_경우 {
 
+            private static final long NON_EXIST_ID = 0L;
+
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> hostRepository.getById(0L))
+                assertThatThrownBy(() -> hostRepository.getById(NON_EXIST_ID))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessage("존재하지 않는 호스트입니다.");
             }
@@ -88,17 +90,17 @@ class HostRepositoryTest {
         @Nested
         class 존재하는_Host의_githubId를_입력받는_경우 {
 
-            private final Long githubId = 1234567L;
+            private static final long EXIST_GITHUB_ID = 1234567L;
             private Host host;
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", githubId));
+                host = hostRepository.save(Host_생성("1234", EXIST_GITHUB_ID));
             }
 
             @Test
             void Host를_반환한다() {
-                Host actual = hostRepository.getByGithubId(githubId);
+                Host actual = hostRepository.getByGithubId(EXIST_GITHUB_ID);
                 assertThat(actual).isEqualTo(host);
             }
         }
@@ -106,11 +108,11 @@ class HostRepositoryTest {
         @Nested
         class 존재하지않는_Host의_githubId를_입력받는_경우 {
 
-            private final Long errorGithubId = 987654L;
+            private static final long NON_EXIST_ID = 987654L;
 
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> hostRepository.getByGithubId(errorGithubId))
+                assertThatThrownBy(() -> hostRepository.getByGithubId(NON_EXIST_ID))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessage("존재하지 않는 호스트입니다.");
             }
@@ -123,16 +125,16 @@ class HostRepositoryTest {
         @Nested
         class 존재하는_Host의_githubId를_입력받는_경우 {
 
-            private final Long githubId = 1234567L;
+            private static final long EXIST_GITHUB_ID = 1234567L;
 
             @BeforeEach
             void setUp() {
-                hostRepository.save(Host_생성("1234", githubId));
+                hostRepository.save(Host_생성("1234", EXIST_GITHUB_ID));
             }
 
             @Test
             void True를_반환한다() {
-                boolean actual = hostRepository.existsByGithubId(githubId);
+                boolean actual = hostRepository.existsByGithubId(EXIST_GITHUB_ID);
                 assertThat(actual).isTrue();
             }
         }
@@ -140,9 +142,11 @@ class HostRepositoryTest {
         @Nested
         class 존재하지않는_Host의_githubId를_입력받는_경우 {
 
+            private static final long NON_EXIST_GITHUB_ID = 0L;
+
             @Test
             void False를_발환한다() {
-                boolean actual = hostRepository.existsByGithubId(987654L);
+                boolean actual = hostRepository.existsByGithubId(NON_EXIST_GITHUB_ID);
                 assertThat(actual).isFalse();
             }
         }

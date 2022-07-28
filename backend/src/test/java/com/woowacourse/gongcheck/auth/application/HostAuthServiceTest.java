@@ -51,13 +51,12 @@ class HostAuthServiceTest {
         private static final String GITHUB_ID = "1234567";
         private static final String GITHUB_IMAGE_URL = "https://github.com";
 
-        private TokenRequest tokenRequest;
-
         @Nested
         class 새로_가입한_Host의_oauth_토큰_코드가_입력될_경우 {
 
             private static final String OAUTH_CODE = "1234";
             private static final String JWT_ACCESS_TOKEN = "jwt.token.here";
+            private TokenRequest tokenRequest;
 
             @BeforeEach
             void setUp() {
@@ -83,6 +82,7 @@ class HostAuthServiceTest {
 
             private static final String OAUTH_CODE = "1234";
             private static final String JWT_ACCESS_TOKEN = "jwt.token.here";
+            private TokenRequest tokenRequest;
 
             @BeforeEach
             void setUp() {
@@ -108,6 +108,7 @@ class HostAuthServiceTest {
         class 잘못된_oauth_토큰_코드가_입력될_경우 {
 
             private static final String ERROR_OAUTH_CODE = "1234";
+            private TokenRequest tokenRequest;
 
             @BeforeEach
             void setUp() {

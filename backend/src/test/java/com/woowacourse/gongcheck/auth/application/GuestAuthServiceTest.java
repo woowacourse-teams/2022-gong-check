@@ -34,11 +34,10 @@ class GuestAuthServiceTest {
     @Nested
     class createToken_메소드는 {
 
-        private static final String CORRECT_PASSWORD = "1234";
-
         @Nested
         class 존재하는_Host의_id와_정확한_password를_입력하는_경우 {
 
+            private static final String CORRECT_PASSWORD = "1234";
             private Long hostId;
             private GuestEnterRequest guestEnterRequest;
 
@@ -60,6 +59,8 @@ class GuestAuthServiceTest {
         @Nested
         class 존재하지_않는_Host의_id를_받는_경우 {
 
+            private static final String CORRECT_PASSWORD = "1234";
+            private static final long NON_EXIST_ID = 0L;
             private GuestEnterRequest guestEnterRequest;
 
             @BeforeEach
@@ -69,7 +70,7 @@ class GuestAuthServiceTest {
 
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> guestAuthService.createToken(0L, guestEnterRequest))
+                assertThatThrownBy(() -> guestAuthService.createToken(NON_EXIST_ID, guestEnterRequest))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessage("존재하지 않는 호스트입니다.");
             }
@@ -78,8 +79,8 @@ class GuestAuthServiceTest {
         @Nested
         class 잘못된_password를_입력하는_경우 {
 
+            private static final String CORRECT_PASSWORD = "1234";
             private static final String ERROR_PASSWORD = "4567";
-
             private Long hostId;
             private GuestEnterRequest errorGuestEnterRequest;
 
