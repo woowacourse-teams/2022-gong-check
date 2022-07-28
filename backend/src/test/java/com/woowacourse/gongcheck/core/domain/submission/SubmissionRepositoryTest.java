@@ -53,7 +53,6 @@ public class SubmissionRepositoryTest {
         class 입력받은_Submission을_저장하는_경우 {
 
             private Job job;
-            private Submission submission;
             private LocalDateTime expected;
 
             @BeforeEach
@@ -66,11 +65,11 @@ public class SubmissionRepositoryTest {
 
             @Test
             void 생성시간을_저장한다() {
-                submission = submissionRepository.save(Submission.builder()
+                Submission actual = submissionRepository.save(Submission.builder()
                         .job(job)
                         .author("어썸오")
                         .build());
-                assertThat(submission.getCreatedAt()).isAfter(expected);
+                assertThat(actual.getCreatedAt()).isAfter(expected);
             }
         }
     }
@@ -98,11 +97,11 @@ public class SubmissionRepositoryTest {
 
             @Test
             void 입력받은_Job들의_Submission들을_반환한다() {
-                Slice<Submission> result = submissionRepository.findAllByJobIn(jobs, request);
+                Slice<Submission> actual = submissionRepository.findAllByJobIn(jobs, request);
 
                 assertAll(
-                        () -> assertThat(result.getContent()).hasSize(2),
-                        () -> assertThat(result.hasNext()).isTrue()
+                        () -> assertThat(actual.getContent()).hasSize(2),
+                        () -> assertThat(actual.hasNext()).isTrue()
                 );
             }
         }
