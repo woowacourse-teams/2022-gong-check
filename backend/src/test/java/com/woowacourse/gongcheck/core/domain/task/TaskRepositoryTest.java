@@ -139,6 +139,7 @@ class TaskRepositoryTest {
         class 존재하지_않는_TaskId를_받으면 {
 
             private static final long NON_EXIST_TASK_ID = 0L;
+
             private Host host;
 
             @BeforeEach

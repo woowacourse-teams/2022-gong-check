@@ -119,6 +119,7 @@ class TaskServiceTest {
         class 존재하지_않는_Task로_RunningTask를_생성할_경우 {
 
             private static final long NON_EXIST_JOB_ID = 0L;
+
             private Long hostId;
 
             @BeforeEach
@@ -260,6 +261,7 @@ class TaskServiceTest {
         class 존재하지_않는_Task로_확인하려는_경우 {
 
             private static final long NON_EXIST_JOB_ID = 1L;
+
             private Long hostId;
 
             @BeforeEach
@@ -351,6 +353,7 @@ class TaskServiceTest {
         class 존재하지_않는_Job을_입력받은_경우 {
 
             private static final long NON_EXIST_JOB_ID = 0L;
+
             private Long hostId;
 
             @BeforeEach
@@ -490,6 +493,7 @@ class TaskServiceTest {
         class 존재하지_않는_Task를_입력받은_경우 {
 
             private static final long NON_EXIST_TASK_ID = 0L;
+
             private Long hostId;
 
             @BeforeEach
@@ -600,6 +604,7 @@ class TaskServiceTest {
         class 존재하지_않는_Job을_입력하는_경우 {
 
             private static final long NON_EXIST_JOB_ID = 0L;
+
             private long hostId;
 
             @BeforeEach
