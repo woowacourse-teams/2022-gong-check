@@ -30,7 +30,7 @@ class HostRepositoryTest {
     class save_메소드는 {
 
         @Nested
-        class 저장할_호스트를_받는_경우 {
+        class 저장할_Host를_받는_경우 {
 
             private Host host;
 
@@ -145,7 +145,7 @@ class HostRepositoryTest {
             private static final long NON_EXIST_GITHUB_ID = 0L;
 
             @Test
-            void False를_발환한다() {
+            void False를_반환한다() {
                 boolean actual = hostRepository.existsByGithubId(NON_EXIST_GITHUB_ID);
                 assertThat(actual).isFalse();
             }
