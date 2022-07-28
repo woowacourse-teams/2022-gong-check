@@ -7,7 +7,6 @@ import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Task_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.gongcheck.config.JpaConfig;
 import com.woowacourse.gongcheck.core.domain.host.Host;
@@ -56,29 +55,24 @@ class TaskRepositoryTest {
     class save_메소드는 {
 
         @Nested
-        class 존재하는_Host의_Space의_Job의_Section에 {
+        class 입력받은_Task를_저장할_떄 {
 
-            private static final String TASK_NAME = "책상 청소";
-
-            private Section section;
+            private Task task;
 
             @BeforeEach
             void setUp() {
                 Host host = hostRepository.save(Host_생성("1234", 1234L));
                 Space space = spaceRepository.save(Space_생성(host, "잠실"));
                 Job job = jobRepository.save(Job_생성(space, "청소"));
-                section = sectionRepository.save(Section_생성(job, "트랙룸"));
+                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
+                task = Task_생성(section, "책상 청소");
             }
 
             @Test
-            void Task를_저장한다() {
-                Task task = taskRepository.save(Task_생성(section, TASK_NAME));
-
-                assertAll(
-                        () -> assertThat(task.getId()).isNotNull(),
-                        () -> assertThat(task.getName()).isEqualTo(TASK_NAME),
-                        () -> assertThat(task.getCreatedAt()).isBefore(LocalDateTime.now())
-                );
+            void 생성_시간도_함께_저장한다() {
+                LocalDateTime timeThatBeforeSave = LocalDateTime.now();
+                Task actual = taskRepository.save(task);
+                assertThat(actual.getCreatedAt()).isAfter(timeThatBeforeSave);
             }
         }
     }
@@ -87,10 +81,10 @@ class TaskRepositoryTest {
     class findAllBySectionJob_메소드는 {
 
         @Nested
-        class 존재하는_Host의_Space의_Job의_Task를_조회할_때 {
+        class 입력받은_Job이_Task를_가지고_있는_경우 {
 
             private Job job;
-            private List<Task> tasks;
+            private List<Task> expected;
 
             @BeforeEach
             void setUp() {
@@ -99,20 +93,18 @@ class TaskRepositoryTest {
                 job = jobRepository.save(Job_생성(space, "청소"));
                 Section section1 = sectionRepository.save(Section_생성(job, "트랙룸"));
                 Section section2 = sectionRepository.save(Section_생성(job, "굿샷 강의장"));
-                tasks = List.of(
-                        Task_생성(section1, "책상 청소"),
-                        Task_생성(section1, "빈백 정리"),
-                        Task_생성(section2, "책상 청소"),
-                        Task_생성(section2, "의자 넣기")
+                expected = List.of(
+                        Task_생성(section1, "책상 청소"), Task_생성(section1, "빈백 정리"),
+                        Task_생성(section2, "책상 청소"), Task_생성(section2, "의자 넣기")
                 );
-                taskRepository.saveAll(tasks);
+                taskRepository.saveAll(expected);
             }
 
             @Test
-            void 모든_Task를_조회한다() {
-                List<Task> result = taskRepository.findAllBySectionJob(job);
+            void 가지고_있는_모든_Task를_반환한다() {
+                List<Task> actual = taskRepository.findAllBySectionJob(job);
 
-                assertThat(result).hasSize(tasks.size());
+                assertThat(actual).hasSize(expected.size());
             }
         }
     }
@@ -124,7 +116,7 @@ class TaskRepositoryTest {
         class 존재하는_Host와_TaskId를_받으면 {
 
             private Host host;
-            private Task task;
+            private Task expected;
 
             @BeforeEach
             void setUp() {
@@ -132,20 +124,21 @@ class TaskRepositoryTest {
                 Space space = spaceRepository.save(Space_생성(host, "잠실"));
                 Job job = jobRepository.save(Job_생성(space, "청소"));
                 Section section1 = sectionRepository.save(Section_생성(job, "트랙룸"));
-                task = taskRepository.save(Task_생성(section1, "책상 청소"));
+                expected = taskRepository.save(Task_생성(section1, "책상 청소"));
             }
 
             @Test
-            void 해당_Host의_Task를_조회한다() {
-                Task result = taskRepository.getBySectionJobSpaceHostAndId(host, task.getId());
+            void Task를_반환한다() {
+                Task actual = taskRepository.getBySectionJobSpaceHostAndId(host, expected.getId());
 
-                assertThat(result).isEqualTo(task);
+                assertThat(actual).isEqualTo(expected);
             }
         }
 
         @Nested
         class 존재하지_않는_TaskId를_받으면 {
 
+            private static final long NON_EXIST_TASK_ID = 0L;
             private Host host;
 
             @BeforeEach
@@ -155,7 +148,7 @@ class TaskRepositoryTest {
 
             @Test
             void 예외가_발생한다() {
-                assertThatThrownBy(() -> taskRepository.getBySectionJobSpaceHostAndId(host, 0L))
+                assertThatThrownBy(() -> taskRepository.getBySectionJobSpaceHostAndId(host, NON_EXIST_TASK_ID))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessage("존재하지 않는 작업입니다.");
             }
@@ -165,7 +158,7 @@ class TaskRepositoryTest {
         class 해당_Host의_Task가_아닌_TaskId를_받으면 {
 
             private Host anotherHost;
-            private Task task;
+            private Long taskId;
 
             @BeforeEach
             void setUp() {
@@ -174,12 +167,13 @@ class TaskRepositoryTest {
                 Space space = spaceRepository.save(Space_생성(host, "잠실"));
                 Job job = jobRepository.save(Job_생성(space, "청소"));
                 Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                task = taskRepository.save(Task_생성(section, "책상 청소"));
+                taskId = taskRepository.save(Task_생성(section, "책상 청소"))
+                        .getId();
             }
 
             @Test
             void 예외가_발생한다() {
-                assertThatThrownBy(() -> taskRepository.getBySectionJobSpaceHostAndId(anotherHost, task.getId()))
+                assertThatThrownBy(() -> taskRepository.getBySectionJobSpaceHostAndId(anotherHost, taskId))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessage("존재하지 않는 작업입니다.");
             }
@@ -194,7 +188,7 @@ class TaskRepositoryTest {
 
             private Section section1;
             private Section section2;
-            private List<Task> tasks;
+            private List<Task> expected;
 
             @BeforeEach
             void setUp() {
@@ -203,20 +197,17 @@ class TaskRepositoryTest {
                 Job job = jobRepository.save(Job_생성(space, "청소"));
                 section1 = sectionRepository.save(Section_생성(job, "트랙룸"));
                 section2 = sectionRepository.save(Section_생성(job, "트랙룸"));
-                tasks = List.of(
-                        Task_생성(section1, "책상 청소"),
-                        Task_생성(section1, "빈백 정리"),
-                        Task_생성(section2, "책상 청소"),
-                        Task_생성(section2, "의자 넣기")
-                );
-                taskRepository.saveAll(tasks);
+                expected = List.of(
+                        Task_생성(section1, "책상 청소"), Task_생성(section1, "빈백 정리"),
+                        Task_생성(section2, "책상 청소"), Task_생성(section2, "의자 넣기"));
+                taskRepository.saveAll(expected);
             }
 
             @Test
-            void 해당하는_모든_Task를_조회한다() {
-                List<Task> result = taskRepository.findAllBySectionIn(List.of(section1, section2));
+            void Section에_해당하는_모든_Task를_조회한다() {
+                List<Task> actual = taskRepository.findAllBySectionIn(List.of(section1, section2));
 
-                assertThat(result).containsAll(tasks);
+                assertThat(actual).hasSize(expected.size());
             }
         }
     }
@@ -228,7 +219,7 @@ class TaskRepositoryTest {
         class Section_목록을_받으면 {
 
             private Section section;
-            private Task task;
+            private Long taskId;
 
             @BeforeEach
             void setUp() {
@@ -236,14 +227,15 @@ class TaskRepositoryTest {
                 Space space = spaceRepository.save(Space_생성(host, "잠실"));
                 Job job = jobRepository.save(Job_생성(space, "청소"));
                 section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                task = taskRepository.save(Task_생성(section, "책상 청소"));
+                taskId = taskRepository.save(Task_생성(section, "책상 청소"))
+                        .getId();
             }
 
             @Test
-            void 해당하는_모든_Task를_삭제한다() {
+            void Section에_해당하는_모든_Task를_삭제한다() {
                 taskRepository.deleteAllBySectionIn(List.of(section));
 
-                assertThat(taskRepository.findById(task.getId())).isEmpty();
+                assertThat(taskRepository.findById(taskId)).isEmpty();
             }
         }
     }
