@@ -162,7 +162,6 @@ class SpaceServiceTest {
         class 입력받은_Host가_존재하는_경우 {
 
             private Host host;
-
             private SpaceCreateRequest request;
 
             @BeforeEach

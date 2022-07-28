@@ -69,6 +69,7 @@ class SpaceRepositoryTest {
 
         @Nested
         class 입력받은_Host가_Space를_가지고_있을_때 {
+
             private Host host;
             private List<Space> expected;
 
