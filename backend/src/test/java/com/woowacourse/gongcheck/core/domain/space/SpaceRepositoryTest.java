@@ -94,12 +94,6 @@ class SpaceRepositoryTest {
 
     @Nested
     class getByHostAndId_메서드는 {
-        private Host host;
-
-        @BeforeEach
-        void setUp() {
-            host = hostRepository.save(Host_생성("1234", 1234L));
-        }
 
         @Nested
         class 다른_Host가_소유한_Space_id를_입력받은_경우 {
@@ -109,8 +103,10 @@ class SpaceRepositoryTest {
 
             @BeforeEach
             void setUp() {
+                Host host = hostRepository.save(Host_생성("1234", 1234L));
                 spaceId = spaceRepository.save(Space_생성(host, "잠실 캠퍼스")).getId();
                 anotherHost = hostRepository.save(Host_생성("4567", 4567L));
+
             }
 
             @Test
@@ -127,6 +123,13 @@ class SpaceRepositoryTest {
 
             private static final long NON_EXIST_SPACE_ID = 0L;
 
+            private Host host;
+
+            @BeforeEach
+            void setUp() {
+                host = hostRepository.save(Host_생성("1234", 1234L));
+            }
+
             @Test
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() ->
@@ -141,9 +144,11 @@ class SpaceRepositoryTest {
 
             private Space space;
             private Long spaceId;
+            private Host host;
 
             @BeforeEach
             void setUp() {
+                host = hostRepository.save(Host_생성("1234", 1234L));
                 space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
                 spaceId = space.getId();
             }
