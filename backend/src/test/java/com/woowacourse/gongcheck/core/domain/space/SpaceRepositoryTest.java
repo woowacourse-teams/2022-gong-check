@@ -9,7 +9,6 @@ import com.woowacourse.gongcheck.config.JpaConfig;
 import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.domain.host.HostRepository;
 import com.woowacourse.gongcheck.exception.NotFoundException;
-import com.woowacourse.gongcheck.fixture.FixtureFactory;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,13 +37,6 @@ class SpaceRepositoryTest {
     @Nested
     class save_메서드는 {
 
-        private Host host;
-
-        @BeforeEach
-        void setUp() {
-            host = hostRepository.save(Host_생성("1234", 1234L));
-        }
-
         @Nested
         class 입력받은_Space를_저장할_때 {
 
@@ -52,7 +44,8 @@ class SpaceRepositoryTest {
 
             @BeforeEach
             void setUp() {
-                space = FixtureFactory.Space_생성(host, "잠실");
+                Host host = hostRepository.save(Host_생성("1234", 1234L));
+                space = Space_생성(host, "잠실");
             }
 
             @Test
@@ -85,9 +78,9 @@ class SpaceRepositoryTest {
 
             @Test
             void 가지고_있는_Space를_모두_조회한다() {
-                List<Space> result = spaceRepository.findAllByHost(host);
+                List<Space> actual = spaceRepository.findAllByHost(host);
 
-                assertThat(result).isEqualTo(expected);
+                assertThat(actual).isEqualTo(expected);
             }
         }
     }
@@ -155,47 +148,50 @@ class SpaceRepositoryTest {
 
             @Test
             void Space를_반환한다() {
-                Space result = spaceRepository.getByHostAndId(host, spaceId);
-                assertThat(result).isEqualTo(space);
+                Space actual = spaceRepository.getByHostAndId(host, spaceId);
+                assertThat(actual).isEqualTo(space);
             }
         }
     }
 
     @Nested
     class existsByHostAndName_메서드는 {
-
-        private Host host;
-
-        @BeforeEach
-        void setUp() {
-            host = hostRepository.save(Host_생성("1234", 1234L));
-        }
-
         @Nested
         class 입력받은_이름과_같은_이름을_가진_Space를_가지고_있는_경우 {
 
             private static final String EXIST_SPACE_NAME = "잠실 캠퍼스";
 
+            private Host host;
+
             @BeforeEach
             void setUp() {
+                host = hostRepository.save(Host_생성("1234", 1234L));
                 spaceRepository.save(Space_생성(host, EXIST_SPACE_NAME));
             }
 
             @Test
             void 참을_반환한다() {
                 Name name = new Name(EXIST_SPACE_NAME);
-                boolean result = spaceRepository.existsByHostAndName(host, name);
-                assertThat(result).isTrue();
+                boolean actual = spaceRepository.existsByHostAndName(host, name);
+                assertThat(actual).isTrue();
             }
         }
 
         @Nested
         class 입력받은_이름과_같은_이름을_가진_Space를_가지고_있지_않은_경우 {
 
+            private Host host;
+
+            @BeforeEach
+            void setUp() {
+                host = hostRepository.save(Host_생성("1234", 1234L));
+            }
+
             @Test
             void 거짓을_반환한다() {
-                boolean result = spaceRepository.existsByHostAndName(host, new Name("존재하지 않는 Space 이름"));
-                assertThat(result).isFalse();
+                Name name = new Name("존재하지 않는 Space 이름");
+                boolean actual = spaceRepository.existsByHostAndName(host, name);
+                assertThat(actual).isFalse();
             }
         }
     }
