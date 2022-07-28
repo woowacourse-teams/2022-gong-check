@@ -11,7 +11,7 @@ public class TokenResponse {
     private TokenResponse() {
     }
 
-    private TokenResponse(final String token, final boolean alreadyJoin) {
+    public TokenResponse(final String token, final boolean alreadyJoin) {
         this.token = token;
         this.alreadyJoin = alreadyJoin;
     }

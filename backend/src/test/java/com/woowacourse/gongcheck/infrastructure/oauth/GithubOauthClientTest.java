@@ -13,6 +13,7 @@ import com.woowacourse.gongcheck.auth.application.response.GithubProfileResponse
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import com.woowacourse.gongcheck.exception.UnauthorizedException;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -43,76 +44,108 @@ class GithubOauthClientTest {
         mockRestServiceServer = MockRestServiceServer.createServer(restTemplate);
     }
 
-    @Test
-    void code를_받아_access_token을_반환한다() throws JsonProcessingException {
-        GithubAccessTokenResponse token = new GithubAccessTokenResponse("access_token");
-        mockRestServiceServer.expect(requestTo("https://github.com/login/oauth/access_token"))
-                .andExpect(method(HttpMethod.POST))
-                .andRespond(withStatus(HttpStatus.OK)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(objectMapper.writeValueAsString(token)));
+    @Nested
+    class requestGithubProfileByCode_메소드는 {
 
-        String result = githubOauthClient.requestAccessToken("code");
-        mockRestServiceServer.verify();
+        @Nested
+        class Github에서_access_token_반환이_불가능한_경우 {
 
-        assertThat(token.getAccessToken()).isEqualTo(result);
-    }
+            @BeforeEach
+            void setUp() {
+                mockRestServiceServer.expect(requestTo("https://github.com/login/oauth/access_token"))
+                        .andExpect(method(HttpMethod.POST))
+                        .andRespond(withStatus(HttpStatus.NOT_FOUND)
+                                .contentType(MediaType.APPLICATION_JSON));
+            }
 
-    @Test
-    void 깃허브_access_Token_요청에_실패하면_예외가_발생한다() {
-        mockRestServiceServer.expect(requestTo("https://github.com/login/oauth/access_token"))
-                .andExpect(method(HttpMethod.POST))
-                .andRespond(withStatus(HttpStatus.NOT_FOUND)
-                        .contentType(MediaType.APPLICATION_JSON));
+            @Test
+            void 예외를_발생시킨다() {
+                assertThatThrownBy(() -> githubOauthClient.requestGithubProfileByCode("code"))
+                        .isInstanceOf(NotFoundException.class)
+                        .hasMessage("해당 사용자의 프로필을 요청할 수 없습니다.");
+                mockRestServiceServer.verify();
+            }
+        }
 
-        assertThatThrownBy(() -> githubOauthClient.requestAccessToken("code"))
-                .isInstanceOf(NotFoundException.class)
-                .hasMessage("해당 사용자의 프로필을 요청할 수 없습니다.");
-        mockRestServiceServer.verify();
-    }
+        @Nested
+        class 권한이_없는_code을_입력하여_Github_access_Token를_요청할_경우 {
 
-    @Test
-    void 올바르지_않은_code이면_예외가_발생한다() throws JsonProcessingException {
-        mockRestServiceServer.expect(requestTo("https://github.com/login/oauth/access_token"))
-                .andExpect(method(HttpMethod.POST))
-                .andRespond(withStatus(HttpStatus.OK)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(objectMapper.writeValueAsString(null)));
+            @BeforeEach
+            void setUp() throws JsonProcessingException {
+                mockRestServiceServer.expect(requestTo("https://github.com/login/oauth/access_token"))
+                        .andExpect(method(HttpMethod.POST))
+                        .andRespond(withStatus(HttpStatus.OK)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .body(objectMapper.writeValueAsString(null)));
+            }
 
-        assertThatThrownBy(() -> githubOauthClient.requestAccessToken("code"))
-                .isInstanceOf(UnauthorizedException.class)
-                .hasMessage("잘못된 요청입니다.");
-        mockRestServiceServer.verify();
-    }
+            @Test
+            void 예외를_발생시킨다() {
+                assertThatThrownBy(() -> githubOauthClient.requestGithubProfileByCode("code"))
+                        .isInstanceOf(UnauthorizedException.class)
+                        .hasMessage("잘못된 요청입니다.");
+                mockRestServiceServer.verify();
+            }
+        }
 
-    @Test
-    void 깃허브_프로필을_요청한다() throws JsonProcessingException {
-        GithubProfileResponse githubProfileResponse = new GithubProfileResponse("nickname", "loginName", "1",
-                "test.com");
-        mockRestServiceServer.expect(requestTo("https://api.github.com/user"))
-                .andExpect(method(HttpMethod.GET))
-                .andRespond(withStatus(HttpStatus.OK)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(objectMapper.writeValueAsString(githubProfileResponse)));
+        @Nested
+        class Github에서_프로필_반환이_불가능한_경우 {
 
-        GithubProfileResponse result = githubOauthClient.requestGithubProfile("access_token");
-        mockRestServiceServer.verify();
+            @BeforeEach
+            void setUp() throws JsonProcessingException {
+                GithubAccessTokenResponse token = new GithubAccessTokenResponse("access_token");
+                mockRestServiceServer.expect(requestTo("https://github.com/login/oauth/access_token"))
+                        .andExpect(method(HttpMethod.POST))
+                        .andRespond(withStatus(HttpStatus.OK)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .body(objectMapper.writeValueAsString(token)));
 
-        assertThat(githubProfileResponse).usingRecursiveComparison()
-                .isEqualTo(result);
-    }
+                mockRestServiceServer.expect(requestTo("https://api.github.com/user"))
+                        .andExpect(method(HttpMethod.GET))
+                        .andRespond(withStatus(HttpStatus.NOT_FOUND)
+                                .contentType(MediaType.APPLICATION_JSON));
+            }
 
-    @Test
-    void 깃허브_프로필_요청에_실패하면_예외가_발생한다() throws JsonProcessingException {
-        mockRestServiceServer.expect(requestTo("https://api.github.com/user"))
-                .andExpect(method(HttpMethod.GET))
-                .andRespond(withStatus(HttpStatus.NOT_FOUND)
-                        .contentType(MediaType.APPLICATION_JSON));
+            @Test
+            void 예외를_발생시킨다() {
+                assertThatThrownBy(() -> githubOauthClient.requestGithubProfileByCode("code"))
+                        .isInstanceOf(NotFoundException.class)
+                        .hasMessage("해당 사용자의 프로필을 요청할 수 없습니다.");
+                mockRestServiceServer.verify();
+            }
+        }
 
-        assertThatThrownBy(() -> githubOauthClient
-                .requestGithubProfile("access_token"))
-                .isInstanceOf(NotFoundException.class)
-                .hasMessage("해당 사용자의 프로필을 요청할 수 없습니다.");
-        mockRestServiceServer.verify();
+        @Nested
+        class 권한이_있는_code로_Github에_프로필접근이_가능한_경우 {
+
+            private GithubProfileResponse githubProfileResponse;
+
+            @BeforeEach
+            void setUp() throws JsonProcessingException {
+                GithubAccessTokenResponse token = new GithubAccessTokenResponse("access_token");
+                mockRestServiceServer.expect(requestTo("https://github.com/login/oauth/access_token"))
+                        .andExpect(method(HttpMethod.POST))
+                        .andRespond(withStatus(HttpStatus.OK)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .body(objectMapper.writeValueAsString(token)));
+
+                githubProfileResponse = new GithubProfileResponse("nickname", "loginName", "1", "test.com");
+                mockRestServiceServer.expect(requestTo("https://api.github.com/user"))
+                        .andExpect(method(HttpMethod.GET))
+                        .andRespond(withStatus(HttpStatus.OK)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .body(objectMapper.writeValueAsString(githubProfileResponse)));
+            }
+
+            @Test
+            void Github_프로필정보를_반환한다() {
+                GithubProfileResponse actual = githubOauthClient.requestGithubProfileByCode("access_token");
+
+                assertThat(actual)
+                        .usingRecursiveComparison()
+                        .isEqualTo(githubProfileResponse);
+                mockRestServiceServer.verify();
+            }
+        }
     }
 }
