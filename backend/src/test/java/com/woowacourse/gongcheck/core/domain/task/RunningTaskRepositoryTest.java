@@ -20,6 +20,7 @@ import com.woowacourse.gongcheck.core.domain.space.SpaceRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -58,9 +59,9 @@ class RunningTaskRepositoryTest {
     class save_메소드는 {
 
         @Nested
-        class 존재하는_Host의_Space의_Job의_Section의_Task로 {
+        class 입력받은_RunningTask를_저장할_때 {
 
-            private Task task;
+            private RunningTask runningTask;
 
             @BeforeEach
             void setUp() {
@@ -68,14 +69,16 @@ class RunningTaskRepositoryTest {
                 Space space = spaceRepository.save(Space_생성(host, "잠실"));
                 Job job = jobRepository.save(Job_생성(space, "청소"));
                 Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                task = taskRepository.save(Task_생성(section, "책상 청소"));
+                Task task = taskRepository.save(Task_생성(section, "책상 청소"));
+                runningTask = RunningTask_생성(task.getId(), false);
             }
 
             @Test
             void RunningTask를_저장한다() {
-                RunningTask runningTask = runningTaskRepository.save(RunningTask_생성(task.getId(), false));
+                LocalDateTime timeThatBeforeSave = LocalDateTime.now();
+                RunningTask actual = runningTaskRepository.save(runningTask);
 
-                assertThat(runningTask.getCreatedAt()).isBefore(LocalDateTime.now());
+                assertThat(actual.getCreatedAt()).isAfter(timeThatBeforeSave);
             }
         }
     }
@@ -83,40 +86,52 @@ class RunningTaskRepositoryTest {
     @Nested
     class existsByTaskIdIn_메소드는 {
 
-        private Task task;
-
-        @BeforeEach
-        void setUp() {
-            Host host = hostRepository.save(Host_생성("1234", 1234L));
-            Space space = spaceRepository.save(Space_생성(host, "잠실"));
-            Job job = jobRepository.save(Job_생성(space, "청소"));
-            Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-            task = taskRepository.save(Task_생성(section, "책상 청소"));
-        }
-
         @Nested
-        class TaskId에_해당하는_RunningTask가_존재할_때 {
+        class RunningTask가_존재하는_TaskIds를_입력받는_경우 {
+
+            private List<Long> taskIds;
 
             @BeforeEach
             void setUp() {
-                runningTaskRepository.save(RunningTask_생성(task.getId(), false));
+                Host host = hostRepository.save(Host_생성("1234", 1234L));
+                Space space = spaceRepository.save(Space_생성(host, "잠실"));
+                Job job = jobRepository.save(Job_생성(space, "청소"));
+                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
+                Task task = Task_생성(section, "책상 청소");
+                taskIds = taskRepository.saveAll(List.of(task))
+                        .stream()
+                        .map(Task::getId)
+                        .collect(Collectors.toList());
+                runningTaskRepository.save(RunningTask_생성(task.getId(), true));
             }
 
             @Test
             void True를_반환한다() {
-                boolean result = runningTaskRepository.existsByTaskIdIn(List.of(task.getId()));
-
-                assertThat(result).isTrue();
+                boolean actual = runningTaskRepository.existsByTaskIdIn(taskIds);
+                assertThat(actual).isTrue();
             }
         }
 
         @Nested
-        class TaskId에_해당하는_RunningTask가_존재하지_않는_경우 {
+        class RunningTask가_존재하지_않는_TaskIds를_입력받는_경우 {
+
+            private List<Long> taskIds;
+
+            @BeforeEach
+            void setUp() {
+                Host host = hostRepository.save(Host_생성("1234", 1234L));
+                Space space = spaceRepository.save(Space_생성(host, "잠실"));
+                Job job = jobRepository.save(Job_생성(space, "청소"));
+                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
+                taskIds = taskRepository.saveAll(List.of(Task_생성(section, "책상 청소")))
+                        .stream()
+                        .map(Task::getId)
+                        .collect(Collectors.toList());
+            }
 
             @Test
             void False를_반환한다() {
-                boolean result = runningTaskRepository.existsByTaskIdIn(List.of(task.getId()));
-
+                boolean result = runningTaskRepository.existsByTaskIdIn(taskIds);
                 assertThat(result).isFalse();
             }
         }
@@ -125,40 +140,49 @@ class RunningTaskRepositoryTest {
     @Nested
     class findByTaskId_메소드는 {
 
-        private Task task;
-
-        @BeforeEach
-        void setUp() {
-            Host host = hostRepository.save(Host_생성("1234", 1234L));
-            Space space = spaceRepository.save(Space_생성(host, "잠실"));
-            Job job = jobRepository.save(Job_생성(space, "청소"));
-            Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-            task = taskRepository.save(Task_생성(section, "책상 청소"));
-        }
-
         @Nested
-        class RunningTask가_존재하면 {
+        class 존재하는_RunningTask의_taskId를_입력받은_경우 {
+
+            private Long taskId;
 
             @BeforeEach
             void setUp() {
-                runningTaskRepository.save(RunningTask_생성(task.getId(), false));
+                Host host = hostRepository.save(Host_생성("1234", 1234L));
+                Space space = spaceRepository.save(Space_생성(host, "잠실"));
+                Job job = jobRepository.save(Job_생성(space, "청소"));
+                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
+                taskId = taskRepository.save(Task_생성(section, "책상 청소"))
+                    .getId();
+                runningTaskRepository.save(RunningTask_생성(taskId, false));
             }
 
             @Test
-            void RunningTask를_조회한다() {
-                Optional<RunningTask> result = runningTaskRepository.findByTaskId(task.getId());
+            void RunningTask를_반환한다() {
+                Optional<RunningTask> actual = runningTaskRepository.findByTaskId(taskId);
 
-                assertThat(result).isNotEmpty();
+                assertThat(actual).isNotEmpty();
             }
 
         }
 
         @Nested
-        class RunningTask가_존재하지_않을_때 {
+        class 존재하지_않는_RunningTask의_taskId를_입력받은_경우 {
+
+            private Long taskId;
+
+            @BeforeEach
+            void setUp() {
+                Host host = hostRepository.save(Host_생성("1234", 1234L));
+                Space space = spaceRepository.save(Space_생성(host, "잠실"));
+                Job job = jobRepository.save(Job_생성(space, "청소"));
+                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
+                taskId = taskRepository.save(Task_생성(section, "책상 청소"))
+                        .getId();
+            }
 
             @Test
-            void 조회_시_빈_값이_반환된다() {
-                Optional<RunningTask> result = runningTaskRepository.findByTaskId(task.getId());
+            void 빈_값이_반환된다() {
+                Optional<RunningTask> result = runningTaskRepository.findByTaskId(taskId);
 
                 assertThat(result).isEmpty();
             }
