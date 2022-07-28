@@ -104,9 +104,9 @@ class SpaceServiceTest {
 
             @Test
             void 해당_Host가_소유한_Space를_응답으로_반환한다() {
-                SpacesResponse result = spaceService.findSpaces(host.getId());
+                SpacesResponse actual = spaceService.findSpaces(host.getId());
 
-                assertThat(result.getSpaces()).usingRecursiveFieldByFieldElementComparator()
+                assertThat(actual.getSpaces()).usingRecursiveFieldByFieldElementComparator()
                         .isEqualTo(expected.getSpaces());
             }
         }
@@ -256,9 +256,9 @@ class SpaceServiceTest {
 
             @Test
             void Space_응답을_반환한다() {
-                SpaceResponse result = spaceService.findSpace(host.getId(), space.getId());
+                SpaceResponse actual = spaceService.findSpace(host.getId(), space.getId());
 
-                assertThat(result.getName()).isEqualTo(space.getName().getValue());
+                assertThat(actual.getName()).isEqualTo(space.getName().getValue());
             }
         }
     }
@@ -284,6 +284,27 @@ class SpaceServiceTest {
                 assertThatThrownBy(() -> spaceService.removeSpace(NON_EXIST_HOST_ID, space.getId()))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessage("존재하지 않는 호스트입니다.");
+            }
+        }
+
+        @Nested
+        class 입력받은_Host가_입력받은_Space를_소유하고_있지_않은_경우 {
+
+            private Host anotherHost;
+            private Space space;
+
+            @BeforeEach
+            void setUp() {
+                Host host = hostRepository.save(Host_생성("1234", 1234L));
+                anotherHost = hostRepository.save(Host_생성("1234", 4567L));
+                space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
+            }
+
+            @Test
+            void 예외를_발생시킨다() {
+                assertThatThrownBy(() -> spaceService.removeSpace(anotherHost.getId(), space.getId()))
+                        .isInstanceOf(NotFoundException.class)
+                        .hasMessage("존재하지 않는 공간입니다.");
             }
         }
 
