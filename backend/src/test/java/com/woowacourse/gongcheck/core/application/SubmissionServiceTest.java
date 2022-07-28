@@ -75,20 +75,20 @@ public class SubmissionServiceTest {
         @Nested
         class 입력받은_Host가_존재하지_않는_경우 {
 
-            private Long hostId;
+            private static final long NOT_EXIST_HOST_ID = 0L;
+
             private Long jobId;
             private SubmissionRequest request;
 
             @BeforeEach
             void setUp() {
-                hostId = 0L;
                 jobId = 1L;
                 request = new SubmissionRequest("제출자");
             }
 
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> submissionService.submitJobCompletion(hostId, jobId, request))
+                assertThatThrownBy(() -> submissionService.submitJobCompletion(NOT_EXIST_HOST_ID, jobId, request))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessage("존재하지 않는 호스트입니다.");
             }
@@ -97,20 +97,20 @@ public class SubmissionServiceTest {
         @Nested
         class 입력받은_Job이_존재하지_않는_경우 {
 
+            private static final long NOT_EXIST_JOB_ID = 0L;
+
             private Host host;
-            private Long jobId;
             private SubmissionRequest request;
 
             @BeforeEach
             void setUp() {
                 host = hostRepository.save(Host_생성("1234", 1234L));
-                jobId = 0L;
                 request = new SubmissionRequest("제출자");
             }
 
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> submissionService.submitJobCompletion(host.getId(), jobId, request))
+                assertThatThrownBy(() -> submissionService.submitJobCompletion(host.getId(), NOT_EXIST_JOB_ID, request))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessage("존재하지 않는 작업입니다.");
             }

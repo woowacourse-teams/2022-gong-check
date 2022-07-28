@@ -50,8 +50,9 @@ public class SubmissionRepositoryTest {
     class save_메소드는 {
 
         @Nested
-        class 호출_되는_경우 {
+        class 입력받은_Submission을_저장하는_경우 {
 
+            private Job job;
             private Submission submission;
             private LocalDateTime expected;
 
@@ -59,17 +60,17 @@ public class SubmissionRepositoryTest {
             void setUp() {
                 Host host = hostRepository.save(Host_생성("1234", 1234L));
                 Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                Job job = jobRepository.save(Job_생성(space, "청소"));
-                submission = submissionRepository.save(Submission.builder()
-                        .job(job)
-                        .author("어썸오")
-                        .build());
+                job = jobRepository.save(Job_생성(space, "청소"));
                 expected = LocalDateTime.now();
             }
 
             @Test
             void 생성시간을_저장한다() {
-                assertThat(submission.getCreatedAt()).isBefore(expected);
+                submission = submissionRepository.save(Submission.builder()
+                        .job(job)
+                        .author("어썸오")
+                        .build());
+                assertThat(submission.getCreatedAt()).isAfter(expected);
             }
         }
     }
