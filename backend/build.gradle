@@ -92,8 +92,15 @@ task createDocument(type: Copy) {
     into file("src/main/resources/static")
 }
 
+task displaceDocument(type: Copy) {
+    dependsOn asciidoctor
+
+    from ("${asciidoctor.outputDir}")
+    into ("build/resources/main/static")
+}
+
 bootJar {
-    dependsOn createDocument
+    dependsOn displaceDocument
 }
 
 jacocoTestReport {
