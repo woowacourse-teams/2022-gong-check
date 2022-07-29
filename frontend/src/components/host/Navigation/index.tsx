@@ -1,25 +1,29 @@
+import { useState } from 'react';
 import { CgHomeAlt, CgGirl } from 'react-icons/cg';
+import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
+
+import apiSpace from '@/apis/space';
+
+import { ID } from '@/types';
 
 import navigationLogo from '@/assets/navigationLogo.png';
 
 import styles from './styles';
 
-type SpaceType = {
-  name: string;
-  imageUrl: string;
-  id: number;
-};
-
-interface NavigationProps {
-  spaces: SpaceType[] | undefined;
-}
-
-const Navigation: React.FC<NavigationProps> = ({ spaces }) => {
+const Navigation: React.FC = () => {
   const navigate = useNavigate();
+
   const { spaceId } = useParams();
 
+  const [selectedSpaceId, setSelectedSpaceId] = useState<ID | undefined>(spaceId);
+
+  const { data: spaceData } = useQuery(['spaces'], apiSpace.getSpaces, {
+    suspense: true,
+  });
+
   const onClickSpace = (spaceId: number) => {
+    setSelectedSpaceId(spaceId);
     navigate(`${spaceId}`);
   };
 
@@ -46,8 +50,8 @@ const Navigation: React.FC<NavigationProps> = ({ spaces }) => {
       <div id="나의 공간 목록" css={styles.category}>
         <span css={styles.categoryTitle}>나의 공간 목록</span>
         <div css={styles.categoryList}>
-          {spaces?.map(space => {
-            const isSelectedSpace = space.id === Number(spaceId);
+          {spaceData?.spaces.map(space => {
+            const isSelectedSpace = space.id === Number(selectedSpaceId);
 
             return (
               <div
