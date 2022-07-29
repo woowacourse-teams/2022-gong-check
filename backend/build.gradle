@@ -60,7 +60,7 @@ dependencies {
 processResources.dependsOn('copySecret')
 
 task copySecret(type: Copy) {
-    from '../backend/submodule/application-oauth.yml'
+    from '../backend/submodule'
     into 'src/main/resources'
 }
 

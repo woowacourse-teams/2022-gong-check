@@ -43,7 +43,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @DisplayName("SubmissionService 클래스")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-public class SubmissionServiceTest {
+class SubmissionServiceTest {
 
     @Autowired
     private SubmissionService submissionService;
