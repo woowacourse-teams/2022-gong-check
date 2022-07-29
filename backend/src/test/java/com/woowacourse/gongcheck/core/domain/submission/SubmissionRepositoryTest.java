@@ -32,7 +32,7 @@ import org.springframework.data.domain.Slice;
 @Import(JpaConfig.class)
 @DisplayName("SubmissionRepository 클래스")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-public class SubmissionRepositoryTest {
+class SubmissionRepositoryTest {
 
     @Autowired
     private HostRepository hostRepository;
