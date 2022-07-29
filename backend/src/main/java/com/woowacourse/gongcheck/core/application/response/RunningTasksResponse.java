@@ -12,8 +12,7 @@ public class RunningTasksResponse {
     private RunningTasksResponse() {
     }
 
-    private RunningTasksResponse(
-            final List<RunningTasksWithSectionResponse> sections) {
+    private RunningTasksResponse(final List<RunningTasksWithSectionResponse> sections) {
         this.sections = sections;
     }
 
