@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BiPencil, BiTrash } from 'react-icons/bi';
 
 import Button from '@/components/common/Button';
+
+import useEditInput from '@/hooks/useEditInput';
 
 import styles from './styles';
 
@@ -14,10 +16,9 @@ interface TaskBoxProps {
 }
 
 const TaskBox: React.FC<TaskBoxProps> = ({ task, sectionIndex, taskIndex, editTask, deleteTask }) => {
-  const inputRef = useRef<HTMLInputElement>(null);
-
   const [taskName, setTaskName] = useState(task.name);
-  const [isEditing, setIsEditing] = useState(false);
+
+  const { isEditing, inputRef, confirmInput, editInput: onClickEdit } = useEditInput();
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTaskName(e.target.value);
@@ -25,21 +26,13 @@ const TaskBox: React.FC<TaskBoxProps> = ({ task, sectionIndex, taskIndex, editTa
 
   const onConfirmInput = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsEditing(false);
+    confirmInput();
     editTask(sectionIndex, taskIndex, taskName);
-  };
-
-  const onClickEditButton = () => {
-    setIsEditing(true);
   };
 
   const onClickDeleteButton = () => {
     deleteTask(sectionIndex, taskIndex);
   };
-
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, [isEditing]);
 
   return (
     <form css={styles.taskBox} onSubmit={onConfirmInput}>
@@ -54,7 +47,7 @@ const TaskBox: React.FC<TaskBoxProps> = ({ task, sectionIndex, taskIndex, editTa
         <>
           <span>∙ {task.name}</span>
           <div>
-            <BiPencil css={styles.pencil} size={20} onClick={onClickEditButton} />
+            <BiPencil css={styles.pencil} size={20} onClick={onClickEdit} />
             <BiTrash css={styles.trash} size={20} onClick={onClickDeleteButton} />
           </div>
         </>

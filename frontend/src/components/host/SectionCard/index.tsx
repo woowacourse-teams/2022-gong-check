@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
 import Button from '@/components/common/Button';
 import TaskBox from '@/components/host/TaskBox';
+
+import useEditInput from '@/hooks/useEditInput';
 
 import { SectionType } from '@/types';
 
@@ -26,23 +28,18 @@ const SectionCard: React.FC<SectionCardProps> = ({
   deleteTask,
   deleteSection,
 }) => {
-  const inputRef = useRef<HTMLInputElement>(null);
-
   const [sectionName, setSectionName] = useState(section.name);
-  const [isEditing, setIsEditing] = useState(false);
+
+  const { isEditing, inputRef, confirmInput, editInput: onClickEdit } = useEditInput();
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    confirmInput();
+    editSection(sectionIndex, sectionName);
+  };
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSectionName(e.target.value);
-  };
-
-  const onConfirmInput = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    editSection(sectionIndex, sectionName);
-    setIsEditing(false);
-  };
-
-  const onClickEdit = () => {
-    setIsEditing(true);
   };
 
   const onClickDelete = () => {
@@ -53,13 +50,9 @@ const SectionCard: React.FC<SectionCardProps> = ({
     createTask(sectionIndex);
   };
 
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, [isEditing]);
-
   return (
     <div css={styles.container}>
-      <form css={styles.titleWrapper} onSubmit={onConfirmInput}>
+      <form css={styles.titleWrapper} onSubmit={onSubmit}>
         {isEditing ? (
           <>
             <input css={styles.input} ref={inputRef} value={sectionName} onChange={onChange} />

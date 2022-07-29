@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
-
 import Button from '@/components/common/Button';
+
+import useEditInput from '@/hooks/useEditInput';
 
 import styles from './styles';
 
@@ -12,22 +12,12 @@ interface JobControlProps {
 }
 
 const JobControl: React.FC<JobControlProps> = ({ mode, jobName, onChangeJobName, onClickControlJob }) => {
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const [isEditing, setIsEditing] = useState(false);
+  const { isEditing, inputRef, confirmInput, editInput: onClickEdit } = useEditInput();
 
   const onConfirmInput = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsEditing(false);
+    confirmInput();
   };
-
-  const onClickEdit = () => {
-    setIsEditing(true);
-  };
-
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, [isEditing]);
 
   return (
     <form css={styles.header} onSubmit={onConfirmInput}>
