@@ -57,12 +57,12 @@ const SectionCard: React.FC<SectionCardProps> = ({
           <>
             <input css={styles.input} ref={inputRef} value={sectionName} onChange={onChange} />
             <Button type="submit" css={styles.confirmButton}>
-              수정 확인
+              확인
             </Button>
           </>
         ) : (
           <>
-            <span>{sectionName}</span>
+            <span onClick={onClickEdit}>{sectionName}</span>
             <div>
               <Button css={styles.editButton} onClick={onClickEdit}>
                 이름 변경

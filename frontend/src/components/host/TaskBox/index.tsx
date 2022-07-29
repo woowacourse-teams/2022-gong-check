@@ -40,12 +40,12 @@ const TaskBox: React.FC<TaskBoxProps> = ({ task, sectionIndex, taskIndex, editTa
         <>
           <input css={styles.input} ref={inputRef} value={taskName} onChange={onChangeInput} />
           <Button type="submit" css={styles.editButton}>
-            수정 확인
+            확인
           </Button>
         </>
       ) : (
         <>
-          <span>∙ {task.name}</span>
+          <span onClick={onClickEdit}>∙ {task.name}</span>
           <div>
             <BiPencil css={styles.pencil} size={20} onClick={onClickEdit} />
             <BiTrash css={styles.trash} size={20} onClick={onClickDeleteButton} />

@@ -45,6 +45,7 @@ const titleWrapper = css`
   span {
     font-size: 18px;
     line-height: 38px;
+    cursor: pointer;
   }
 `;
 
@@ -93,9 +94,10 @@ const input = css`
   padding: 0 16px;
   font-size: 18px;
   background-color: ${theme.colors.white};
+  width: 50%;
 
   :focus {
-    outline: 2px solid ${theme.colors.shadow30};
+    outline: 2px solid ${theme.colors.primary};
   }
 `;
 const styles = { container, titleWrapper, confirmButton, editButton, deleteButton, newTaskButton, input };

@@ -13,6 +13,7 @@ const taskBox = css`
 
   span {
     margin-right: 8px;
+    cursor: pointer;
   }
 `;
 
@@ -52,7 +53,7 @@ const input = css`
   background-color: ${theme.colors.white};
 
   :focus {
-    outline: 2px solid ${theme.colors.shadow30};
+    outline: 2px solid ${theme.colors.primary};
   }
 `;
 
