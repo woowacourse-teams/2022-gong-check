@@ -1,0 +1,7 @@
+github:
+  client:
+    id: e78f7565dee502d18ca2
+    secret: 9c65a1ec0bab97abd312d22d8878a093a6bd6377
+  url:
+    token: https://github.com/login/oauth/access_token
+    profile: https://api.github.com/user
