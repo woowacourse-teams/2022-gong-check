@@ -11,7 +11,7 @@ const container = css`
   overflow-y: scroll;
   padding: 16px 32px;
   background-color: ${theme.colors.white};
-  box-shadow: 0px 0px 2px 2px ${theme.colors.shadow10};
+  box-shadow: 2px 2px 2px 2px ${theme.colors.shadow20};
   border-radius: 8px;
   ::-webkit-scrollbar {
     width: 0.4em;

@@ -57,6 +57,7 @@ const createCard = css`
   height: 360px;
   background-color: ${theme.colors.gray200};
   font-size: 64px;
+  border-radius: 8px;
   cursor: pointer;
   :hover {
     background-color: ${theme.colors.shadow20};
