@@ -1,7 +1,7 @@
-import TaskBox from '../TaskBox';
 import useSectionCardDefault from './useSectionCardDefault';
 
 import Button from '@/components/common/Button';
+import TaskBox from '@/components/host/TaskBox';
 
 import { SectionType } from '@/types';
 
