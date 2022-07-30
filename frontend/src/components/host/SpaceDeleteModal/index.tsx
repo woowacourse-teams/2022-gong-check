@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Button from '@/components/common/Button';
 import Dimmer from '@/components/common/Dimmer';
 
-import ModalPortal from '@/ModalPortal';
+import ModalPortal from '@/portals/ModalPortal';
 
 import styles from './styles';
 
@@ -26,7 +26,7 @@ const SpaceDeleteModal: React.FC<SpaceDeleteModalProps> = ({ text, onClick }) =>
       <Dimmer mode="full">
         <div css={styles.container}>
           <div css={styles.textWrapper}>
-            <span>다음 내용을 타이핑 하시면 공간을 삭제 할 수 있습니다.</span>
+            <span>다음 내용을 입력하시면 공간을 삭제 할 수 있습니다.</span>
             <span>{text}</span>
           </div>
           <input css={styles.input} onChange={onChange} type="text" />

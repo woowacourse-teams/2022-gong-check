@@ -5,7 +5,7 @@ import Button from '@/components/common/Button';
 import Dimmer from '@/components/common/Dimmer';
 import Input from '@/components/common/Input';
 
-import ModalPortal from '@/ModalPortal';
+import ModalPortal from '@/portals/ModalPortal';
 
 import theme from '@/styles/theme';
 

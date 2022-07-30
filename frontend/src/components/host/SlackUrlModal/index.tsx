@@ -8,7 +8,7 @@ import { JobType } from '@/types';
 
 import slackIcon from '@/assets/slackIcon.svg';
 
-import ModalPortal from '@/ModalPortal';
+import ModalPortal from '@/portals/ModalPortal';
 
 import styles from './styles';
 

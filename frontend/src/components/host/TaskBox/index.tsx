@@ -33,8 +33,8 @@ const TaskBox: React.FC<TaskBoxProps> = ({ task, taskIndex, sectionIndex }) => {
         <>
           <span onClick={onClickEdit}>∙ {task.name}</span>
           <div>
-            <BiPencil css={styles.pencil} size={20} onClick={onClickEdit} />
-            <BiTrash css={styles.trash} size={20} onClick={onClickDeleteButton} />
+            <BiPencil css={styles.pencil} size={22} onClick={onClickEdit} />
+            <BiTrash css={styles.trash} size={22} onClick={onClickDeleteButton} />
           </div>
         </>
       )}
