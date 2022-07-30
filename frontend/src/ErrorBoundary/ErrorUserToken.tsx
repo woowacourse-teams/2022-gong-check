@@ -15,19 +15,13 @@ interface ErrorUserTokenProps {
 
 const ErrorUserToken: React.FC<ErrorUserTokenProps> = ({ children }) => {
   const navigate = useNavigate();
-  const { hostId, spaceId } = useParams();
+  const { hostId } = useParams();
   const [message, setMessage] = useState<string | undefined>('');
-  const { openToast } = useToast();
 
   useEffect(() => {
     if (message === EXPIRED_TOKEN_TEXT || message === NOT_TOKEN_TEXT) {
       localStorage.removeItem('token');
       navigate(`/enter/${hostId}/pwd`);
-    }
-
-    if (message === '현재 진행중인 작업이 존재하지 않아 조회할 수 없습니다') {
-      navigate(`/enter/${hostId}/spaces`);
-      // openToast('ERROR', message);
     }
   }, [message]);
 

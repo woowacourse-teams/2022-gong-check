@@ -6,8 +6,8 @@ const useSectionCheck = (sections: SectionType[]) => {
   const tasks = useMemo(() => sections.map(section => section.tasks.map(task => task.checked)), [sections]);
   const checkList = useMemo(
     () =>
-      tasks.reduce((prev, curv) => {
-        return prev.concat(...curv);
+      tasks.reduce((prev, cur) => {
+        return prev.concat(...cur);
       }, []),
     [tasks]
   );
