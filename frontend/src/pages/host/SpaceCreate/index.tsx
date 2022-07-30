@@ -3,15 +3,20 @@ import useSpaceCreate from './useSpaceCreate';
 import Button from '@/components/common/Button';
 import SpaceInfo from '@/components/host/SpaceInfo';
 
+import useSpaceForm from '@/hooks/useSpaceForm';
+
 import styles from './styles';
 
 const SpaceCreate: React.FC = () => {
-  const { isCreateSpace, onSubmitMultiPartFormData, onCreateSpace } = useSpaceCreate();
+  const { isCreateSpace, onCreateSpace } = useSpaceCreate();
+  const { onSubmitCreateSpace } = useSpaceForm();
 
   return (
     <div css={styles.layout}>
       {isCreateSpace ? (
-        <SpaceInfo onSubmit={onSubmitMultiPartFormData} />
+        <form onSubmit={onSubmitCreateSpace} encType="multipart/form-data">
+          <SpaceInfo type={'create'} />
+        </form>
       ) : (
         <div css={styles.contents}>
           <p css={styles.text}>등록된 공간이 없습니다.</p>

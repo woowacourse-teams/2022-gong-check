@@ -37,7 +37,7 @@ const DashBoard: React.FC = () => {
           <SpaceDeleteButton spaceId={spaceId} spaceName={spaceData?.name} />
         </div>
         <div css={styles.cardWrapper}>
-          <SpaceInfo isEditMode={false} data={spaceData} />
+          <SpaceInfo type={'read'} data={spaceData} />
           <JobListCard jobs={jobsData?.jobs || []} />
         </div>
         <Submissions submissions={submissionData?.submissions || []} onClick={onClickSubmissionsDetail} />
