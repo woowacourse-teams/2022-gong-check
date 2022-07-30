@@ -68,11 +68,6 @@ const buttons = css`
   justify-content: end;
 `;
 
-const deleteButtonWrapper = css`
-  display: flex;
-  justify-content: end;
-`;
-
-const styles = { layout, contents, cardWrapper, slackButton, linkButton, buttons, deleteButtonWrapper };
+const styles = { layout, contents, cardWrapper, slackButton, linkButton, buttons };
 
 export default styles;

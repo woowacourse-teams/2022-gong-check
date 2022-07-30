@@ -12,7 +12,9 @@ const taskBox = css`
   animation: ${animation.fadeIn} 1s;
 
   span {
+    font-size: 14px;
     margin-right: 8px;
+    cursor: pointer;
   }
 `;
 
@@ -48,11 +50,11 @@ const input = css`
   border-radius: 12px;
   padding: 4px 16px;
   width: 50%;
-  font-size: 16px;
+  font-size: 14px;
   background-color: ${theme.colors.white};
 
   :focus {
-    outline: 2px solid ${theme.colors.shadow30};
+    outline: 2px solid ${theme.colors.primary};
   }
 `;
 

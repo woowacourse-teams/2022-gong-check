@@ -107,6 +107,14 @@ const empty = css`
   justify-content: center;
   align-items: center;
 
+  td {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
   img {
     max-width: 100px;
     margin-bottom: 12px;

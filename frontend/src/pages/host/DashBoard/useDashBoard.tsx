@@ -1,4 +1,4 @@
-import { clip } from '@/copy';
+import { clip } from '@/utils/copy';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 

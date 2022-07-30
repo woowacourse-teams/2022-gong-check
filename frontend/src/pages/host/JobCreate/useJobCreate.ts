@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import useSections from '@/hooks/useSections';
 import useToast from '@/hooks/useToast';
 
 import apiJobs from '@/apis/job';
@@ -11,13 +12,16 @@ import { ApiError } from '@/types/apis';
 
 type MutationParams = { spaceId: string | number | undefined; newJobName: string; sections: SectionType[] };
 
-const useJobCreate = (sections: SectionType[]) => {
+const useJobCreate = () => {
   const navigate = useNavigate();
-  const { openToast } = useToast();
 
   const { spaceId } = useParams();
 
   const [newJobName, setNewJobName] = useState('새 업무');
+
+  const { sections, createSection, resetSections } = useSections();
+
+  const { openToast } = useToast();
 
   const { mutate: createNewJob } = useMutation(
     ({ spaceId, newJobName, sections }: MutationParams) => apiJobs.postNewJob(spaceId, newJobName, sections),
@@ -41,7 +45,11 @@ const useJobCreate = (sections: SectionType[]) => {
     createNewJob({ spaceId, newJobName, sections });
   };
 
-  return { newJobName, onChangeJobName, onClickCreateNewJob };
+  useEffect(() => {
+    resetSections();
+  }, []);
+
+  return { sections, createSection, newJobName, onChangeJobName, onClickCreateNewJob };
 };
 
 export default useJobCreate;

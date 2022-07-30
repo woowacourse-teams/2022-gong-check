@@ -71,12 +71,12 @@ const categoryTextWrapper = css`
     background-color: ${theme.colors.gray200};
   }
 `;
+
 const selectedTextWrapper = css`
-  background-color: ${theme.colors.blue300};
-  color: ${theme.colors.white};
+  background-color: ${theme.colors.skyblue100};
 
   :hover {
-    background-color: ${theme.colors.blue200};
+    background-color: ${theme.colors.skyblue200};
   }
 `;
 

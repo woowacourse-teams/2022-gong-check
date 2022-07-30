@@ -20,7 +20,7 @@
     "^(@/types)(.*|$)",
     "^(@/constants/)(.*|$)",
     "^(@/assets/)(.*|$)",
-    "@/ModalPortal",
+    "^(@/portals/)(.*|$)",
     "^(@/styles)(.*|$)",
     "^(./styles)(.*|$)",
     "^(./config)(.*|$)"

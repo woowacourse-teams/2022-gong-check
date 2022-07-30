@@ -14,6 +14,7 @@ const header = css`
   h1 {
     font-size: 28px;
     font-weight: 500;
+    cursor: pointer;
   }
 
   button {
@@ -39,9 +40,10 @@ const jobNameInput = css`
   font-weight: 500;
   margin: 12px 0;
   background-color: ${theme.colors.white};
+  outline: 1px solid ${theme.colors.gray400};
 
   :focus {
-    outline: 2px solid ${theme.colors.shadow30};
+    outline: 2px solid ${theme.colors.primary};
   }
 `;
 
