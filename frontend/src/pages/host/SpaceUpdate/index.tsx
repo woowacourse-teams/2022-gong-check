@@ -66,7 +66,9 @@ const SpaceUpdate: React.FC = () => {
 
   return (
     <div css={styles.layout}>
-      <SpaceInfo data={data} onSubmit={onSubmitUpdateMultiPartFormData} />
+      <form onSubmit={onSubmitUpdateMultiPartFormData} encType="multipart/form-data">
+        <SpaceInfo type={'update'} data={data} />
+      </form>
     </div>
   );
 };

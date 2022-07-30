@@ -1,11 +1,11 @@
 import { useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const useSpaceInfo = (data?: { name: string; imageUrl: string; id: number }) => {
+const useSpaceInfo = (data?: { name: string; imageUrl: string; id: number }, type?: 'read' | 'create' | 'update') => {
   const navigate = useNavigate();
   const labelRef = useRef(null);
   const [imageUrl, setImageUrl] = useState(data?.imageUrl);
-  const [isActiveSubmit, setIsActiveSubmit] = useState(false);
+  const [isActiveSubmit, setIsActiveSubmit] = useState(type === 'update');
 
   const isExistImageUrl = useMemo(() => !!imageUrl, [imageUrl]);
 

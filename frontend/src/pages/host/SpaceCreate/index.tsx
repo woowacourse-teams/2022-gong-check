@@ -11,7 +11,9 @@ const SpaceCreate: React.FC = () => {
   return (
     <div css={styles.layout}>
       {isCreateSpace ? (
-        <SpaceInfo onSubmit={onSubmitMultiPartFormData} />
+        <form onSubmit={onSubmitMultiPartFormData} encType="multipart/form-data">
+          <SpaceInfo type={'create'} />
+        </form>
       ) : (
         <div css={styles.contents}>
           <p css={styles.text}>등록된 공간이 없습니다.</p>
