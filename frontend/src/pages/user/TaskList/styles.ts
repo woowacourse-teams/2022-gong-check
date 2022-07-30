@@ -20,10 +20,20 @@ const contents = css`
 
 const location = css`
   margin: 8px;
+  padding: 16px;
+  border: 1px solid ${theme.colors.shadow30};
+  border-radius: 10px;
+  box-shadow: 2px 2px 2px 0px ${theme.colors.shadow30};
+`;
+
+const locationHeader = css`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const locationName = css`
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 600;
   margin: 12px 8px 0 0;
 `;
@@ -152,6 +162,7 @@ const styles = {
   layout,
   contents,
   location,
+  locationHeader,
   locationName,
   arrowBackIconWrapper,
   header,
