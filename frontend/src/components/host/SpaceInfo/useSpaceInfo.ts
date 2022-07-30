@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom';
 const useSpaceInfo = (data?: { name: string; imageUrl: string; id: number }) => {
   const navigate = useNavigate();
   const labelRef = useRef(null);
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageUrl, setImageUrl] = useState(data?.imageUrl);
   const [isActiveSubmit, setIsActiveSubmit] = useState(false);
 
-  const isExistimageUrl = useMemo(() => !!imageUrl, [imageUrl]);
+  const isExistImageUrl = useMemo(() => !!imageUrl, [imageUrl]);
 
   const onChangeImg = (e: React.FormEvent<HTMLInputElement>) => {
     const input = e.target as HTMLInputElement;
@@ -30,10 +30,10 @@ const useSpaceInfo = (data?: { name: string; imageUrl: string; id: number }) => 
   };
 
   const onClickEditSpaceInfo = () => {
-    navigate(`/host/manage/${data?.id}/spaceModify`);
+    navigate(`/host/manage/${data?.id}/spaceUpdate`);
   };
 
-  return { imageUrl, labelRef, isActiveSubmit, isExistimageUrl, onChangeImg, onChangeSpaceName, onClickEditSpaceInfo };
+  return { imageUrl, labelRef, isActiveSubmit, isExistImageUrl, onChangeImg, onChangeSpaceName, onClickEditSpaceInfo };
 };
 
 export default useSpaceInfo;

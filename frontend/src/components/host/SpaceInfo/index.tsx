@@ -13,7 +13,7 @@ interface SpaceInfoProps {
 }
 
 const SpaceInfo: React.FC<SpaceInfoProps> = ({ onSubmit, inputText = '', isEditMode = true, data }) => {
-  const { imageUrl, labelRef, isActiveSubmit, isExistimageUrl, onChangeImg, onChangeSpaceName, onClickEditSpaceInfo } =
+  const { imageUrl, labelRef, isActiveSubmit, isExistImageUrl, onChangeImg, onChangeSpaceName, onClickEditSpaceInfo } =
     useSpaceInfo(data);
 
   if (isEditMode) {
@@ -26,7 +26,7 @@ const SpaceInfo: React.FC<SpaceInfoProps> = ({ onSubmit, inputText = '', isEditM
             </Button>
           }
           imageComponent={
-            <label css={styles.imageBox(imageUrl, isExistimageUrl ? 'none' : 'dashed')} htmlFor="file" ref={labelRef}>
+            <label css={styles.imageBox(imageUrl, isExistImageUrl ? 'none' : 'dashed')} htmlFor="file" ref={labelRef}>
               <input
                 css={styles.imageInput}
                 name="imageInput"
@@ -35,13 +35,13 @@ const SpaceInfo: React.FC<SpaceInfoProps> = ({ onSubmit, inputText = '', isEditM
                 accept="image/*"
                 onChange={onChangeImg}
               />
-              {!isExistimageUrl && (
+              {!isExistImageUrl && (
                 <div css={styles.iconBox}>
                   <HiPlus size={50} />
                 </div>
               )}
               <p css={styles.imageCoverText}>
-                {isExistimageUrl ? '이미지 수정 시 클릭해 주세요.' : '이미지를 추가해 주세요.'}
+                {isExistImageUrl ? '이미지 수정 시 클릭해 주세요.' : '이미지를 추가해 주세요.'}
               </p>
             </label>
           }
@@ -51,7 +51,7 @@ const SpaceInfo: React.FC<SpaceInfoProps> = ({ onSubmit, inputText = '', isEditM
               name="nameInput"
               placeholder="이름을 입력하세요"
               type="text"
-              defaultValue={inputText || ''}
+              defaultValue={data?.name || inputText || ''}
               onChange={onChangeSpaceName}
               required
             />

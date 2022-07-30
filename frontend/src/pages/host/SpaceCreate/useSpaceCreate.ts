@@ -15,8 +15,8 @@ const useSpaceCreate = () => {
 
   const { mutate: submitFormData } = useMutation((formData: any) => apiSpace.postNewSpace({ formData }), {
     onSuccess: res => {
-      const locationSplited = res.headers.location.split('/');
-      const spaceId: string = locationSplited[locationSplited.length - 1];
+      const locationSplitted = res.headers.location.split('/');
+      const spaceId: string = locationSplitted[locationSplitted.length - 1];
 
       openToast('SUCCESS', '공간이 생성 되었습니다.');
       navigate(`/host/manage/${spaceId}`);
