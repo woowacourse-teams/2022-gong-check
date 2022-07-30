@@ -13,6 +13,7 @@ import com.woowacourse.gongcheck.core.domain.task.Task;
 import com.woowacourse.gongcheck.core.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.core.domain.task.Tasks;
 import com.woowacourse.gongcheck.exception.BusinessException;
+import com.woowacourse.gongcheck.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +37,9 @@ public class TaskService {
     @Transactional
     public void createNewRunningTasks(final Long hostId, final Long jobId) {
         Tasks tasks = findTasksByHostIdAndJobId(hostId, jobId);
+        if (tasks.isEmpty()) {
+            throw new NotFoundException("작업이 존재하지 않습니다.");
+        }
         if (existsAnyRunningTaskIn(tasks)) {
             throw new BusinessException("현재 진행중인 작업이 존재하여 새로운 작업을 생성할 수 없습니다.");
         }

@@ -102,6 +102,28 @@ class TaskServiceTest {
         }
 
         @Nested
+        class Task가_존재하지_않는_경우 {
+
+            private Host host;
+            private Job job;
+
+            @BeforeEach
+            void setUp() {
+                host = hostRepository.save(Host_생성("1234", 1234L));
+                Space space = spaceRepository.save(Space_생성(host, "잠실"));
+                job = jobRepository.save(Job_생성(space, "청소"));
+                sectionRepository.save(Section_생성(job, "트랙룸"));
+            }
+
+            @Test
+            void 예외가_발생한다() {
+                assertThatThrownBy(() -> taskService.createNewRunningTasks(host.getId(), job.getId()))
+                        .isInstanceOf(NotFoundException.class)
+                        .hasMessage("작업이 존재하지 않습니다.");
+            }
+        }
+
+        @Nested
         class 존재하지_않는_Host로_RunningTask를_생성할_경우 {
 
             private static final long NON_EXIST_HOST_ID = 0L;
