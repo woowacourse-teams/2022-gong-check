@@ -30,8 +30,10 @@ const JobControl: React.FC<JobControlProps> = ({ mode, jobName, onChangeJobName,
         <>
           <h1 onClick={onClickEdit}>{jobName}</h1>
           <div>
-            <Button onClick={onClickEdit}>이름 수정</Button>
-            <Button css={styles.createButton} onClick={onClickControlJob}>
+            <Button type="button" onClick={onClickEdit}>
+              이름 수정
+            </Button>
+            <Button css={styles.createButton} type="button" onClick={onClickControlJob}>
               {mode === 'create' ? '업무 생성' : '업무 수정'}
             </Button>
           </div>

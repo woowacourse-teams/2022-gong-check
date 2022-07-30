@@ -5,7 +5,7 @@ import theme from '@/styles/theme';
 const layout = css`
   min-width: 320px;
   width: 100%;
-  height: 29.8rem;
+  height: 30.2rem;
   background-color: ${theme.colors.white};
   box-shadow: 2px 2px 2px 2px ${theme.colors.shadow10};
   border-radius: 8px;

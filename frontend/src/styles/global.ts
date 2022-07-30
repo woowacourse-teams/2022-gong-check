@@ -24,6 +24,7 @@ const globalStyle = css`
     margin: 0;
     display: flex;
     justify-content: center;
+    overflow: scroll;
     overflow-x: hidden;
   }
 
