@@ -10,8 +10,10 @@ import useSectionCheck from '@/hooks/useSectionCheck';
 import styles from './styles';
 
 const TaskList: React.FC = () => {
+
   const { locationState, sectionsData, spaceData, getSections, onClickButton, goPreviousPage, onClickSectionDetail } =
     useTaskList();
+
 
   if (!sectionsData || !spaceData) return <></>;
 
