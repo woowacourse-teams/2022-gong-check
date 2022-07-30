@@ -19,14 +19,14 @@ interface SectionCardProps {
 const SectionCard: React.FC<SectionCardProps> = ({ section, sectionIndex }) => {
   const { toggle, onClickToggle } = useToggleSwitch();
 
-  const firstToggle = !toggle;
+  const toggleLeft = !toggle;
 
   return (
     <div css={styles.container}>
       <div css={styles.switchWrapper}>
-        <ToggleSwitch toggle={toggle} onClickSwitch={onClickToggle} first="기본" second="상세정보" />
+        <ToggleSwitch toggle={toggle} onClickSwitch={onClickToggle} left="기본" right="상세정보" />
       </div>
-      {firstToggle ? (
+      {toggleLeft ? (
         <SectionCardDefault section={section} sectionIndex={sectionIndex} />
       ) : (
         <SectionCardDetail section={section} sectionIndex={sectionIndex} />

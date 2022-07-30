@@ -1,9 +1,10 @@
-import ToastPortal from '@/ToastPortal';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
 import { BiError } from 'react-icons/bi';
 import { useRecoilValue } from 'recoil';
 
 import { toastState } from '@/recoil/toast';
+
+import ToastPortal from '@/portals/ToastPortal';
 
 import styles from './styles';
 
