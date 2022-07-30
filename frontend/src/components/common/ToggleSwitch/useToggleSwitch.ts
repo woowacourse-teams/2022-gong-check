@@ -3,11 +3,11 @@ import { useState } from 'react';
 const useToggleSwitch = () => {
   const [toggle, setToggle] = useState(false);
 
-  const onClickSwitch = () => {
+  const onClickToggle = () => {
     setToggle(prev => !prev);
   };
 
-  return { toggle, onClickSwitch };
+  return { toggle, onClickToggle };
 };
 
 export default useToggleSwitch;
