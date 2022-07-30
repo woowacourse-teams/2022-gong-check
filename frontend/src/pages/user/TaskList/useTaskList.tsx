@@ -1,6 +1,7 @@
 import { useQuery } from 'react-query';
 import { useLocation, useParams } from 'react-router-dom';
 
+import DetailedInfoCardModal from '@/components/user/DetailedInfoCardModal';
 import NameModal from '@/components/user/NameModal';
 
 import useGoPreviousPage from '@/hooks/useGoPreviousPage';
@@ -48,6 +49,18 @@ const useTaskList = () => {
     );
   };
 
+  const onClickSectionDetail = ({
+    name,
+    imageUrl,
+    description,
+  }: {
+    name: string;
+    imageUrl: string;
+    description: string;
+  }) => {
+    openModal(<DetailedInfoCardModal name={name} imageUrl={imageUrl} description={description} />);
+  };
+
   return {
     locationState,
     sectionsData,
@@ -55,6 +68,7 @@ const useTaskList = () => {
     getSections,
     onClickButton,
     goPreviousPage,
+    onClickSectionDetail,
   };
 };
 
