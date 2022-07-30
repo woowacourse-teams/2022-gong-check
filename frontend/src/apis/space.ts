@@ -42,6 +42,16 @@ const getSpace = async (spaceId: ID | undefined) => {
   return data;
 };
 
-const apiSpace = { getSpaces, postNewSpace, deleteSpace, getSpace };
+// space 수정
+const putSpace = (formData: any, spaceId: ID | undefined) => {
+  return axiosInstanceToken({
+    method: 'PUT',
+    url: `/api/spaces/${spaceId}`,
+    headers: { 'Content-Type': 'multipart/form-data' },
+    data: formData,
+  });
+};
+
+const apiSpace = { getSpaces, postNewSpace, deleteSpace, getSpace, putSpace };
 
 export default apiSpace;

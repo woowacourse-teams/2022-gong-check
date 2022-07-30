@@ -1,26 +1,10 @@
-import { useMemo, useRef, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const useSpaceInfo = (data?: { name: string; imageUrl: string; id: number }) => {
+const useSpaceInfo = (data?: { name: string; imageUrl: string; id: number }, type?: 'read' | 'create' | 'update') => {
   const navigate = useNavigate();
-  const labelRef = useRef(null);
-  const [imageUrl, setImageUrl] = useState('');
-  const [isActiveSubmit, setIsActiveSubmit] = useState(false);
 
-  const isExistimageUrl = useMemo(() => !!imageUrl, [imageUrl]);
-
-  const onChangeImg = (e: React.FormEvent<HTMLInputElement>) => {
-    const input = e.target as HTMLInputElement;
-
-    if (!input.files?.length || !labelRef.current) {
-      return;
-    }
-
-    const file = input.files[0];
-    const src = URL.createObjectURL(file);
-
-    setImageUrl(src);
-  };
+  const [isActiveSubmit, setIsActiveSubmit] = useState(type === 'update');
 
   const onChangeSpaceName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target as HTMLInputElement;
@@ -30,10 +14,10 @@ const useSpaceInfo = (data?: { name: string; imageUrl: string; id: number }) => 
   };
 
   const onClickEditSpaceInfo = () => {
-    navigate(`/host/manage/${data?.id}/spaceModify`);
+    navigate(`/host/manage/${data?.id}/spaceUpdate`);
   };
 
-  return { imageUrl, labelRef, isActiveSubmit, isExistimageUrl, onChangeImg, onChangeSpaceName, onClickEditSpaceInfo };
+  return { isActiveSubmit, onChangeSpaceName, onClickEditSpaceInfo };
 };
 
 export default useSpaceInfo;

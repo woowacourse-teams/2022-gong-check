@@ -14,7 +14,7 @@ const HomePage = lazy(() => import('@/pages/host/Home'));
 const AuthCallBackPage = lazy(() => import('@/pages/host/AuthCallBack'));
 const DashBoardPage = lazy(() => import('@/pages/host/DashBoard'));
 const SpaceCreatePage = lazy(() => import('@/pages/host/SpaceCreate'));
-const SpaceModifyPage = lazy(() => import('@/pages/host/SpaceModify'));
+const SpaceUpdatePage = lazy(() => import('@/pages/host/SpaceUpdate'));
 const SpaceRecordPage = lazy(() => import('@/pages/host/SpaceRecord'));
 const JobCreatePage = lazy(() => import('@/pages/host/JobCreate'));
 const JobUpdatePage = lazy(() => import('@/pages/host/JobUpdate'));
@@ -71,8 +71,8 @@ const routes = [
                 element: <DashBoardPage />,
               },
               {
-                path: ':spaceId/spaceModify',
-                element: <SpaceModifyPage />,
+                path: ':spaceId/spaceUpdate',
+                element: <SpaceUpdatePage />,
               },
               {
                 path: ':spaceId/spaceRecord',
