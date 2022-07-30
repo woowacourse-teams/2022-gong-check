@@ -14,6 +14,7 @@ const useJobCard = (jobName: string, jobId: ID) => {
   const { openToast } = useToast();
 
   const { refetch: getJobActive } = useQuery(['jobActive', jobId], () => apis.getJobActive(jobId), {
+    retry: false,
     enabled: false,
     onSuccess: data => {
       if (data.active) {
@@ -28,6 +29,7 @@ const useJobCard = (jobName: string, jobId: ID) => {
     ['newRunningTask', jobId],
     () => apis.postNewRunningTasks(jobId),
     {
+      retry: false,
       onSuccess: () => navigate(jobId.toString(), { state: { jobName } }),
       onError: (err: ApiError) => {
         openToast('ERROR', `${err.response?.data.message}`);
