@@ -22,13 +22,9 @@ const SpaceInfo: React.FC<SpaceInfoProps> = ({ type = 'read', inputText = '', da
           <Button type="button" css={styles.button({ isActive: true })} onClick={onClickEditSpaceInfo}>
             수정하기
           </Button>
-        ) : type === 'create' ? (
-          <Button type="submit" css={styles.button({ isActive: isActiveSubmit })}>
-            생성하기
-          </Button>
         ) : (
           <Button type="submit" css={styles.button({ isActive: isActiveSubmit })}>
-            수정완료
+            {type === 'create' ? '생성하기' : '수정완료'}
           </Button>
         )}
       </div>

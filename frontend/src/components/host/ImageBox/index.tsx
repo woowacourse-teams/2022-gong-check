@@ -5,7 +5,7 @@ import styles from './styles';
 
 interface ImageBoxProps {
   type: 'read' | 'create' | 'update';
-  data?: { name: string; imageUrl: string; id: number } | undefined;
+  data?: { name: string; imageUrl: string; id: number };
   imageUrl: string | undefined;
 }
 

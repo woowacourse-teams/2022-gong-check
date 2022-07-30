@@ -1,4 +1,5 @@
 import useToast from './useToast';
+import { convertURLtoFile } from '@/utils/convertURLtoFile';
 import { AxiosError } from 'axios';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
@@ -38,16 +39,6 @@ const useSpaceForm = () => {
       },
     }
   );
-
-  const convertURLtoFile = async (url: string) => {
-    const response = await fetch(url);
-    const data = await response.blob();
-    const ext = url.split('.').pop();
-    const filename = url.split('/').pop() || '';
-    const metadata = { type: `image/${ext}` };
-
-    return new File([data], filename, metadata);
-  };
 
   const onSubmitCreateSpace = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
