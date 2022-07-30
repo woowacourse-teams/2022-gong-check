@@ -3,15 +3,18 @@ import useSpaceCreate from './useSpaceCreate';
 import Button from '@/components/common/Button';
 import SpaceInfo from '@/components/host/SpaceInfo';
 
+import useSpaceForm from '@/hooks/useSpaceForm';
+
 import styles from './styles';
 
 const SpaceCreate: React.FC = () => {
-  const { isCreateSpace, onSubmitMultiPartFormData, onCreateSpace } = useSpaceCreate();
+  const { isCreateSpace, onCreateSpace } = useSpaceCreate();
+  const { onSubmitCreateSpace } = useSpaceForm();
 
   return (
     <div css={styles.layout}>
       {isCreateSpace ? (
-        <form onSubmit={onSubmitMultiPartFormData} encType="multipart/form-data">
+        <form onSubmit={onSubmitCreateSpace} encType="multipart/form-data">
           <SpaceInfo type={'create'} />
         </form>
       ) : (

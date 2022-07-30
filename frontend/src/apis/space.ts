@@ -43,7 +43,7 @@ const getSpace = async (spaceId: ID | undefined) => {
 };
 
 // space 수정
-const putSpace = (formData: any, spaceId: string | undefined) => {
+const putSpace = (formData: any, spaceId: ID | undefined) => {
   return axiosInstanceToken({
     method: 'PUT',
     url: `/api/spaces/${spaceId}`,
