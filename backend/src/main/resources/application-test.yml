@@ -1,0 +1,40 @@
+spring:
+  sql:
+    init:
+      schema-locations: classpath:schema.sql
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:gong-check-test;MODE=MYSQL;
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: true
+  output:
+    ansi:
+      enabled: always
+
+security:
+  jwt:
+    token:
+      secret-key: Z29uZy1jaGVjay1nb25nLWNoZWNrLWdvbmctY2hlY2stZ29uZy1jaGVjay1nb25nLWNoZWNrLWdvbmctY2hlY2stZ29uZy1jaGVjay1nb25nLWNoZWNrCg==
+      expire-time: 3600000
+
+github:
+  client:
+    id: client_id
+    secret: client_secret
+  url:
+    token: https://github.com/login/oauth/access_token
+    profile: https://api.github.com/user
+
+server:
+  port: 7070

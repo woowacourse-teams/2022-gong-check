@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+    <appender name="console-logger" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>${CONSOLE_LOG_CHARSET}</charset>
+        </encoder>
+    </appender>
+
+    <appender name="console-db-logger" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>
+                %blue(> %msg%n)
+            </Pattern>
+            <charset>${CONSOLE_LOG_CHARSET}</charset>
+        </encoder>
+    </appender>
+
+    <appender name="console-query-logger" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>
+                %blue(> [query] %msg%n)
+            </Pattern>
+            <charset>${CONSOLE_LOG_CHARSET}</charset>
+        </encoder>
+    </appender>
+</included>
