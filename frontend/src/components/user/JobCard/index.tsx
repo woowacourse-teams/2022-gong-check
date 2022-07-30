@@ -8,11 +8,11 @@ import styles from './styles';
 
 interface JobCardProps {
   jobName: string;
-  id: ID;
+  jobId: ID;
 }
 
-const JobCard: React.FC<JobCardProps> = ({ jobName, id }) => {
-  const { onClickJobCard } = useJobCard(jobName, id);
+const JobCard: React.FC<JobCardProps> = ({ jobName, jobId }) => {
+  const { onClickJobCard } = useJobCard(jobName, jobId);
 
   return (
     <div css={styles.jobCard} onClick={onClickJobCard}>
