@@ -26,6 +26,10 @@ public class Tasks {
                 .collect(Collectors.toList());
     }
 
+    public boolean isEmpty() {
+        return tasks.isEmpty();
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -41,9 +45,5 @@ public class Tasks {
     @Override
     public int hashCode() {
         return Objects.hash(tasks);
-    }
-
-    public boolean isEmpty() {
-        return tasks.isEmpty();
     }
 }
