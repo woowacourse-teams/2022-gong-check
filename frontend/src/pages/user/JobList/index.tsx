@@ -1,29 +1,12 @@
+import useJobList from './useJobList';
 import { IoIosArrowBack } from 'react-icons/io';
-import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
 
 import JobCard from '@/components/user/JobCard';
-
-import useGoPreviousPage from '@/hooks/useGoPreviousPage';
-
-import apiJobs from '@/apis/job';
-import apiSpace from '@/apis/space';
 
 import styles from './styles';
 
 const JobList: React.FC = () => {
-  const { spaceId } = useParams();
-
-  const { goPreviousPage } = useGoPreviousPage();
-
-  const { data: jobsData } = useQuery(['jobs', spaceId], () => apiJobs.getJobs(spaceId), {
-    suspense: true,
-    retry: false,
-  });
-  const { data: spaceData } = useQuery(['spaces', spaceId], () => apiSpace.getSpace(spaceId), {
-    suspense: true,
-    retry: false,
-  });
+  const { jobsData, spaceData, goPreviousPage } = useJobList();
 
   if (!jobsData || !spaceData) return <></>;
 
@@ -37,7 +20,7 @@ const JobList: React.FC = () => {
       {jobsData.jobs.length === 0 ? (
         <div css={styles.empty}>관리자가 생성한 업무가 없어요</div>
       ) : (
-        jobsData?.jobs.map(job => <JobCard jobName={job.name} key={job.id} id={job.id} />)
+        jobsData?.jobs.map(job => <JobCard jobName={job.name} key={job.id} jobId={job.id} />)
       )}
     </div>
   );
