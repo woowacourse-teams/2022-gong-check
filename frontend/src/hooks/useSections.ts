@@ -1,10 +1,13 @@
 import { nanoid } from 'nanoid';
-import { useState } from 'react';
+import { useRecoilState, useResetRecoilState } from 'recoil';
+
+import { sectionsState } from '@/recoil/sections';
 
 import { SectionType } from '@/types';
 
 const useSections = () => {
-  const [sections, setSections] = useState<SectionType[]>([]);
+  const [sections, setSections] = useRecoilState(sectionsState);
+  const resetSections = useResetRecoilState(sectionsState);
 
   const updateSection = (sections: SectionType[]) => {
     setSections(sections);
@@ -18,7 +21,7 @@ const useSections = () => {
 
   const editSection = (sectionIndex: number, value: string) => {
     setSections(prev => {
-      const previousSection = [...prev];
+      const previousSection = JSON.parse(JSON.stringify(prev)) as SectionType[];
       previousSection[sectionIndex].name = value;
       return previousSection;
     });
@@ -27,7 +30,7 @@ const useSections = () => {
   const deleteSection = (sectionIndex: number) => {
     if (confirm('해당 구역을 삭제하시겠습니까?')) {
       setSections(prev => {
-        const previousSection = [...prev];
+        const previousSection = JSON.parse(JSON.stringify(prev)) as SectionType[];
         return previousSection.filter((section, targetIndex) => targetIndex !== sectionIndex);
       });
     }
@@ -53,7 +56,7 @@ const useSections = () => {
 
   const editTask = (sectionIndex: number, taskIndex: number, value: string) => {
     setSections(prev => {
-      const previousSection = [...prev];
+      const previousSection = JSON.parse(JSON.stringify(prev)) as SectionType[];
       previousSection[sectionIndex].tasks[taskIndex].name = value;
       return previousSection;
     });
@@ -62,7 +65,7 @@ const useSections = () => {
   const deleteTask = (sectionIndex: number, taskIndex: number) => {
     if (confirm('해당 작업을 삭제하시겠습니까?')) {
       setSections(prev => {
-        const previousSection = [...prev];
+        const previousSection = JSON.parse(JSON.stringify(prev)) as SectionType[];
         previousSection[sectionIndex].tasks = previousSection[sectionIndex].tasks.filter((task, targetIndex) => {
           return targetIndex !== taskIndex;
         });
@@ -71,7 +74,17 @@ const useSections = () => {
     }
   };
 
-  return { sections, updateSection, createSection, editSection, deleteSection, createTask, editTask, deleteTask };
+  return {
+    sections,
+    resetSections,
+    updateSection,
+    createSection,
+    editSection,
+    deleteSection,
+    createTask,
+    editTask,
+    deleteTask,
+  };
 };
 
 export default useSections;

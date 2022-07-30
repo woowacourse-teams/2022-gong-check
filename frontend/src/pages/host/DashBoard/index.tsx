@@ -34,15 +34,13 @@ const DashBoard: React.FC = () => {
             <img src={slackIcon} alt="슬랙" />
             <span>URL 편집</span>
           </Button>
+          <SpaceDeleteButton spaceId={spaceId} spaceName={spaceData?.name} />
         </div>
         <div css={styles.cardWrapper}>
           <SpaceInfo isEditMode={false} data={spaceData} />
           <JobListCard jobs={jobsData?.jobs || []} />
         </div>
         <Submissions submissions={submissionData?.submissions || []} onClick={onClickSubmissionsDetail} />
-      </div>
-      <div css={styles.deleteButtonWrapper}>
-        <SpaceDeleteButton spaceId={spaceId} spaceName={spaceData?.name} />
       </div>
     </div>
   );
