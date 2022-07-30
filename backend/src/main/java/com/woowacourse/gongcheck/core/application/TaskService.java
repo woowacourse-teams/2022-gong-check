@@ -37,7 +37,7 @@ public class TaskService {
     @Transactional
     public void createNewRunningTasks(final Long hostId, final Long jobId) {
         Tasks tasks = findTasksByHostIdAndJobId(hostId, jobId);
-        if (tasks.getTasks().isEmpty()) {
+        if (tasks.isEmpty()) {
             throw new NotFoundException("작업이 존재하지 않습니다.");
         }
         if (existsAnyRunningTaskIn(tasks)) {

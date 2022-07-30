@@ -42,4 +42,8 @@ public class Tasks {
     public int hashCode() {
         return Objects.hash(tasks);
     }
+
+    public boolean isEmpty() {
+        return tasks.isEmpty();
+    }
 }
