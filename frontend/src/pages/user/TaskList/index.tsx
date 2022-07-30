@@ -10,7 +10,7 @@ import useSectionCheck from '@/hooks/useSectionCheck';
 import styles from './styles';
 
 const TaskList: React.FC = () => {
-  const { jobName, sectionsData, spaceData, getSections, onClickButton, goPreviousPage, onClickSectionDetail } =
+  const { locationState, sectionsData, spaceData, getSections, onClickButton, goPreviousPage, onClickSectionDetail } =
     useTaskList();
 
   if (!sectionsData || !spaceData) return <></>;
@@ -26,7 +26,7 @@ const TaskList: React.FC = () => {
         <div css={styles.thumbnail(spaceData.imageUrl)} />
         <div css={styles.infoWrapper}>
           <p>{spaceData.name}</p>
-          <p>{jobName}</p>
+          <p>{locationState?.jobName}</p>
         </div>
       </div>
       <div css={styles.progressBarWrapper}>

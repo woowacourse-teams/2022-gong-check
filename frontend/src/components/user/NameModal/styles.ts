@@ -22,6 +22,12 @@ const detail = css`
   margin: 16px 0;
 `;
 
-const styles = { title, detail, container };
+const submitButton = (isDisabledButton: boolean) => css`
+  margin-bottom: 0;
+  width: 256px;
+  background: ${isDisabledButton ? theme.colors.gray400 : theme.colors.primary};
+`;
+
+const styles = { title, detail, container, submitButton };
 
 export default styles;

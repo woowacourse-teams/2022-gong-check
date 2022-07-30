@@ -14,7 +14,7 @@ const RE_FETCH_INTERVAL_TIME = 1000;
 const useTaskList = () => {
   const { spaceId, jobId, hostId } = useParams();
   const location = useLocation();
-  const { jobName } = location.state as { jobName: string };
+  const locationState = location.state as { jobName: string } | undefined;
 
   const { openModal } = useModal();
 
@@ -62,7 +62,7 @@ const useTaskList = () => {
   };
 
   return {
-    jobName,
+    locationState,
     sectionsData,
     spaceData,
     getSections,
