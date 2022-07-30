@@ -1,11 +1,7 @@
-import SectionCardDefault from '../SectionCardDefault';
-import SectionCardDetail from '../SectionCardDetail';
-import React from 'react';
-import { BiPencil } from 'react-icons/bi';
-
-import Button from '@/components/common/Button';
 import ToggleSwitch from '@/components/common/ToggleSwitch';
 import useToggleSwitch from '@/components/common/ToggleSwitch/useToggleSwitch';
+import SectionCardDefault from '@/components/host/SectionCardDefault';
+import SectionCardDetail from '@/components/host/SectionCardDetail';
 
 import { SectionType } from '@/types';
 

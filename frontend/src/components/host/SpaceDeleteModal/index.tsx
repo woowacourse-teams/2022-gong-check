@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import Button from '@/components/common/Button';
 import Dimmer from '@/components/common/Dimmer';

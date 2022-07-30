@@ -1,9 +1,9 @@
-import SpaceDeleteModal from '../SpaceDeleteModal';
 import { useMemo } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
 import Button from '@/components/common/Button';
+import SpaceDeleteModal from '@/components/host/SpaceDeleteModal';
 
 import useModal from '@/hooks/useModal';
 import useToast from '@/hooks/useToast';
