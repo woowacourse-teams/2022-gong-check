@@ -9,18 +9,14 @@
 
     <appender name="console-db-logger" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <Pattern>
-                %blue(> %msg%n)
-            </Pattern>
+            <pattern>${CONSOLE_DB_LOG_PATTERN}</pattern>
             <charset>${CONSOLE_LOG_CHARSET}</charset>
         </encoder>
     </appender>
 
     <appender name="console-query-logger" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <Pattern>
-                %blue(> [query] %msg%n)
-            </Pattern>
+            <pattern>${CONSOLE_QUERY_LOG_PATTERN}</pattern>
             <charset>${CONSOLE_LOG_CHARSET}</charset>
         </encoder>
     </appender>
