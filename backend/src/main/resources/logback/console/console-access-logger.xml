@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+    <include resource="logback/properties/default-properties.xml"/>
+    <appender name="console-access-logger" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${ACCESS_LOG_PATTERN}</pattern>
+            <charset>${UTF8_LOG_CHARSET}</charset>
+        </encoder>
+    </appender>
+</included>

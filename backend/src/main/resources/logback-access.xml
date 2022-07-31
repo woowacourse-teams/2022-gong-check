@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="logback/file/file-access-logger.xml"/>
+    <include resource="logback/console/console-access-logger.xml"/>
+
+    <springProfile name="prod, dev">
+        <appender-ref ref="file-access-logger"/>
+    </springProfile>
+
+    <springProfile name="local">
+        <appender-ref ref="console-access-logger"/>
+    </springProfile>
+</configuration>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <included>
+    <include resource="logback/properties/default-properties.xml"/>
     <property name="home" value="logs/warn/"/>
     <appender name="file-warn-logger" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${home}warn.log</file>

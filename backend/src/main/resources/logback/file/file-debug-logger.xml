@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <included>
+    <include resource="logback/properties/default-properties.xml"/>
     <property name="home" value="logs/debug/"/>
     <appender name="file-debug-logger" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${home}debug.log</file>
