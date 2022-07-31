@@ -2,7 +2,7 @@
 <included>
     <include resource="logback/properties/default-properties.xml"/>
     <property name="home" value="logs/access/"/>
-    <appender name="file-access-logger" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="file-access-appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${home}access.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${home}access-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
