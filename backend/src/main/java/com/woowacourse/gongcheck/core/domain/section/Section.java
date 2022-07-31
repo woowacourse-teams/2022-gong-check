@@ -4,6 +4,7 @@ import com.woowacourse.gongcheck.core.domain.job.Job;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
@@ -39,6 +40,9 @@ public class Section {
     @Column(name = "name", length = NAME_MAX_LENGTH, nullable = false)
     private String name;
 
+    @Embedded
+    private SectionDescription sectionDescription;
+
     @CreatedDate
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
@@ -50,11 +54,12 @@ public class Section {
     protected Section() {
     }
 
-    public Section(final Long id, final Job job, final String name, final LocalDateTime createdAt,
-                   final LocalDateTime updatedAt) {
+    public Section(final Long id, final Job job, final String name, final SectionDescription sectionDescription,
+                   final LocalDateTime createdAt, final LocalDateTime updatedAt) {
         this.id = id;
         this.job = job;
         this.name = name;
+        this.sectionDescription = sectionDescription;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
