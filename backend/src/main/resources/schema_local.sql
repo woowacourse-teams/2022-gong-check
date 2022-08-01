@@ -1,3 +1,11 @@
+DROP TABLE host IF EXISTS;
+DROP TABLE space IF EXISTS;
+DROP TABLE job IF EXISTS;
+DROP TABLE running_task IF EXISTS;
+DROP TABLE task IF EXISTS;
+DROP TABLE section IF EXISTS;
+DROP TABLE submission IF EXISTS;
+
 CREATE TABLE host
 (
     id             BIGINT     NOT NULL AUTO_INCREMENT,
@@ -25,7 +33,7 @@ CREATE TABLE job
     id         BIGINT      NOT NULL AUTO_INCREMENT,
     space_id   BIGINT      NOT NULL,
     name       VARCHAR(20) NOT NULL,
-    slack_url  VARCHAR     NULL,
+    slack_url  VARCHAR NULL,
     created_at TIMESTAMP   NOT NULL,
     updated_at TIMESTAMP NULL,
     PRIMARY KEY (id)
