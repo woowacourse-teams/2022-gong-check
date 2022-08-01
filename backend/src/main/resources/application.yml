@@ -3,10 +3,6 @@ spring:
     hibernate:
       ddl-auto: validate
     open-in-view: false
-  sql:
-    init:
-      schema-locations: classpath:schema.sql
-      data-locations: classpath:dummy_data.sql
   output:
     ansi:
       enabled: always
