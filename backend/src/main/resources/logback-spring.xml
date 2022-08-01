@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="logback/console/console-appender.xml"/>
+    <include resource="logback/file/file-error-appender.xml"/>
+    <include resource="logback/file/file-warn-appender.xml"/>
+    <include resource="logback/file/file-info-appender.xml"/>
+    <include resource="logback/file/file-debug-appender.xml"/>
+
+    <springProfile name="prod">
+        <logger name="com.woowacourse.gongcheck" level="INFO">
+            <appender-ref ref="file-error-appender"/>
+            <appender-ref ref="file-warn-appender"/>
+            <appender-ref ref="file-info-appender"/>
+        </logger>
+
+        <logger name="org.springframework" level="INFO">
+            <appender-ref ref="file-error-appender"/>
+            <appender-ref ref="file-warn-appender"/>
+            <appender-ref ref="file-info-appender"/>
+        </logger>
+    </springProfile>
+
+    <springProfile name="dev">
+        <logger name="com.woowacourse.gongcheck" level="DEBUG">
+            <appender-ref ref="file-error-appender"/>
+            <appender-ref ref="file-warn-appender"/>
+            <appender-ref ref="file-info-appender"/>
+            <appender-ref ref="file-debug-appender"/>
+        </logger>
+
+        <logger name="org.springframework" level="DEBUG">
+            <appender-ref ref="file-error-appender"/>
+            <appender-ref ref="file-warn-appender"/>
+            <appender-ref ref="file-info-appender"/>
+            <appender-ref ref="file-debug-appender"/>
+        </logger>
+    </springProfile>
+
+    <springProfile name="local">
+        <logger name="com.woowacourse.gongcheck" level="DEBUG">
+            <appender-ref ref="console-appender"/>
+        </logger>
+
+        <logger name="org.springframework" level="INFO">
+            <appender-ref ref="console-appender"/>
+        </logger>
+    </springProfile>
+
+    <springProfile name="test">
+        <logger name="com.woowacourse.gongcheck" level="DEBUG">
+            <appender-ref ref="console-appender"/>
+        </logger>
+
+        <logger name="org.springframework" level="INFO">
+            <appender-ref ref="console-appender"/>
+        </logger>
+
+        <!--sql 구문 출력-->
+        <logger name="org.hibernate.SQL" level="DEBUG">
+            <appender-ref ref="console-query-appender"/>
+        </logger>
+
+        <!--insert, update, delete문 파라미터 바인딩-->
+        <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" additivity="false">
+            <appender-ref ref="console-db-appender"/>
+        </logger>
+
+        <!--select 문에서 가져온 값 바인딩-->
+        <logger name="org.hibernate.type.descriptor.sql.BasicExtractor" level="TRACE" additivity="false">
+            <appender-ref ref="console-db-appender"/>
+        </logger>
+
+        <!--DB slow query 로깅-->
+        <logger name="org.hibernate.SQL_SLOW" level="INFO">
+            <appender-ref ref="console-db-appender"/>
+        </logger>
+    </springProfile>
+</configuration>

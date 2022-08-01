@@ -41,3 +41,6 @@ application-prod.yml
 
 ### Rest docs ###
 /src/main/resources/static/index.html
+
+### logging ###
+/logs/**

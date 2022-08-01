@@ -2,14 +2,13 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
-    properties:
-      hibernate:
-        show_sql: true
-        format_sql: true
     open-in-view: false
   sql:
     init:
       schema-locations: classpath:schema.sql
       data-locations: classpath:dummy_data.sql
+  output:
+    ansi:
+      enabled: always
   profiles:
     default: local
