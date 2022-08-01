@@ -25,7 +25,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+    "types": ["cypress", "node"]
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["cypress", "**/*.cy.ts"]
 }
