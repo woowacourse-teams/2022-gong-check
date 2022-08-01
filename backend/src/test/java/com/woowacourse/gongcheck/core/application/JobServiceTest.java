@@ -187,7 +187,8 @@ class JobServiceTest {
                 host = hostRepository.save(Host_생성("1234", 1234L));
                 space = spaceRepository.save(Space_생성(host, "잠실"));
                 List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
-                List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
+                List<SectionCreateRequest> sections = List.of(
+                        new SectionCreateRequest("대강의실", "대강의실 설명", "https://image.gongcheck.shop/degang123", tasks));
                 sectionCreateRequestNames = sections.stream()
                         .map(SectionCreateRequest::getName)
                         .collect(Collectors.toList());
@@ -230,7 +231,8 @@ class JobServiceTest {
                 Host host = hostRepository.save(Host_생성("1234", 1234L));
                 space = spaceRepository.save(Space_생성(host, "잠실"));
                 List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
-                List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
+                List<SectionCreateRequest> sections = List.of(
+                        new SectionCreateRequest("대강의실", "대강의실 설명", "https://image.gongcheck.shop/degang123", tasks));
                 request = new JobCreateRequest("청소", sections);
             }
 
@@ -254,7 +256,8 @@ class JobServiceTest {
             void setUp() {
                 host = hostRepository.save(Host_생성("1234", 1234L));
                 List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
-                List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
+                List<SectionCreateRequest> sections = List.of(
+                        new SectionCreateRequest("대강의실", "대강의실 설명", "https://image.gongcheck.shop/degang123", tasks));
                 request = new JobCreateRequest("청소", sections);
             }
 
@@ -280,7 +283,8 @@ class JobServiceTest {
                 Host otherHost = hostRepository.save(Host_생성("5678", 5678L));
                 otherSpace = spaceRepository.save(Space_생성(otherHost, "잠실"));
                 List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
-                List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
+                List<SectionCreateRequest> sections = List.of(
+                        new SectionCreateRequest("대강의실", "대강의실 설명", "https://image.gongcheck.shop/degang123", tasks));
                 request = new JobCreateRequest("청소", sections);
             }
 
@@ -317,7 +321,8 @@ class JobServiceTest {
                 originTask = taskRepository.save(Task_생성(originSection, "불 끄기"));
 
                 List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"));
-                List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
+                List<SectionCreateRequest> sections = List.of(
+                        new SectionCreateRequest("대강의실", "대강의실 설명", "https://image.gongcheck.shop/degang123", tasks));
                 request = new JobCreateRequest("청소", sections);
                 List<SectionCreateRequest> requestSections = request.getSections();
                 requestSectionNames = requestSections.stream()
@@ -366,7 +371,8 @@ class JobServiceTest {
                 Host host = hostRepository.save(Host_생성("1234", 1234L));
                 Space space = spaceRepository.save(Space_생성(host, "잠실"));
                 List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
-                List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
+                List<SectionCreateRequest> sections = List.of(
+                        new SectionCreateRequest("대강의실", "대강의실 설명", "https://image.gongcheck.shop/degang123", tasks));
                 request = new JobCreateRequest("청소", sections);
                 savedJobId = jobService.createJob(host.getId(), space.getId(), request);
             }
@@ -390,7 +396,8 @@ class JobServiceTest {
                 Host host = hostRepository.save(Host_생성("1234", 1234L));
                 Space space = spaceRepository.save(Space_생성(host, "잠실"));
                 List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
-                List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
+                List<SectionCreateRequest> sections = List.of(
+                        new SectionCreateRequest("대강의실", "대강의실 설명", "https://image.gongcheck.shop/degang123", tasks));
                 request = new JobCreateRequest("청소", sections);
                 savedJobId = jobService.createJob(host.getId(), space.getId(), request);
             }
@@ -416,7 +423,8 @@ class JobServiceTest {
             void setUp() {
                 host = hostRepository.save(Host_생성("1234", 1234L));
                 List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
-                List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
+                List<SectionCreateRequest> sections = List.of(
+                        new SectionCreateRequest("대강의실", "대강의실 설명", "https://image.gongcheck.shop/degang123", tasks));
                 request = new JobCreateRequest("청소", sections);
             }
 

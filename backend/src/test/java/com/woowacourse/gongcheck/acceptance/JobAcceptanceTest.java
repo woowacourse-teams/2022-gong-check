@@ -33,7 +33,8 @@ class JobAcceptanceTest extends AcceptanceTest {
         String token = Host_토큰을_요청한다().getToken();
 
         List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
-        List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
+        List<SectionCreateRequest> sections = List
+                .of(new SectionCreateRequest("대강의실", "대강의실 설명", "https://image.gongcheck.shop/degang123", tasks));
         JobCreateRequest request = new JobCreateRequest("청소", sections);
 
         RestAssured
@@ -51,7 +52,8 @@ class JobAcceptanceTest extends AcceptanceTest {
         String token = Host_토큰을_요청한다().getToken();
 
         List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
-        List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
+        List<SectionCreateRequest> sections = List
+                .of(new SectionCreateRequest("대강의실", "대강의실 설명", "https://image.gongcheck.shop/degang123", tasks));
         JobCreateRequest request = new JobCreateRequest("청소", sections);
 
         RestAssured
@@ -69,7 +71,8 @@ class JobAcceptanceTest extends AcceptanceTest {
         String token = Host_토큰을_요청한다().getToken();
 
         List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
-        List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
+        List<SectionCreateRequest> sections = List
+                .of(new SectionCreateRequest("대강의실", "대강의실 설명", "https://image.gongcheck.shop/degang123", tasks));
         JobCreateRequest request = new JobCreateRequest("청소", sections);
 
         RestAssured
@@ -138,7 +141,8 @@ class JobAcceptanceTest extends AcceptanceTest {
         String token = 토큰을_요청한다(new GuestEnterRequest("1234"));
 
         List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
-        List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
+        List<SectionCreateRequest> sections = List
+                .of(new SectionCreateRequest("대강의실", "대강의실 설명", "https://image.gongcheck.shop/degang123", tasks));
         JobCreateRequest request = new JobCreateRequest("청소", sections);
 
         RestAssured
@@ -156,7 +160,8 @@ class JobAcceptanceTest extends AcceptanceTest {
         String token = 토큰을_요청한다(new GuestEnterRequest("1234"));
 
         List<TaskCreateRequest> tasks = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
-        List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks));
+        List<SectionCreateRequest> sections = List
+                .of(new SectionCreateRequest("대강의실", "대강의실 설명", "https://image.gongcheck.shop/degang123", tasks));
         JobCreateRequest request = new JobCreateRequest("청소", sections);
 
         RestAssured

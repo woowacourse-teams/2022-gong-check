@@ -1,5 +1,6 @@
 package com.woowacourse.gongcheck.core.presentation.request;
 
+import com.woowacourse.gongcheck.core.domain.section.SectionExplanation;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -13,14 +14,24 @@ public class SectionCreateRequest {
     @NotNull(message = "작업의 이름은 null 일 수 없습니다.")
     private String name;
 
+    private String description;
+
+    private String imageUrl;
+
     @Valid
     private List<TaskCreateRequest> tasks;
 
     private SectionCreateRequest() {
     }
 
-    public SectionCreateRequest(final String name, final List<TaskCreateRequest> tasks) {
+    public SectionCreateRequest(final String name, final String description, final String imageUrl, final List<TaskCreateRequest> tasks) {
         this.name = name;
+        this.description = description;
+        this.imageUrl = imageUrl;
         this.tasks = tasks;
+    }
+
+    public SectionExplanation toSectionExplanation() {
+        return new SectionExplanation(description, imageUrl);
     }
 }

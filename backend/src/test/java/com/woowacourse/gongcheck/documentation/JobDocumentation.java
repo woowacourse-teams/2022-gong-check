@@ -60,8 +60,9 @@ class JobDocumentation extends DocumentationTest {
     class Job을_생성_시 {
         List<TaskCreateRequest> tasks1 = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
         List<TaskCreateRequest> tasks2 = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
-        List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks1),
-                new SectionCreateRequest("소강의실", tasks2));
+        List<SectionCreateRequest> sections = List
+                .of(new SectionCreateRequest("대강의실", "대강의실 설명", "https://image.gongcheck.shop/degang123", tasks1),
+                        new SectionCreateRequest("소강의실", " 소강의실 설명", "https://image.gongcheck.shop/sogang123", tasks2));
 
         @Test
         void Job을_생성한다() {
@@ -98,7 +99,8 @@ class JobDocumentation extends DocumentationTest {
         @Test
         void Section_이름_길이가_올바르지_않을_경우_예외가_발생한다() {
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
-            List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("Section의 name이 20자 초과", tasks1));
+            List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("Section의 name이 20자 초과", "대강의실 설명",
+                    "https://image.gongcheck.shop/degang123", tasks1));
             JobCreateRequest wrongRequest = new JobCreateRequest("청소", sections);
 
             ExtractableResponse<MockMvcResponse> response = docsGiven
@@ -116,9 +118,10 @@ class JobDocumentation extends DocumentationTest {
         @Test
         void Task_이름_길이가_올바르지_않을_경우_예외가_발생한다() {
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
-            List<TaskCreateRequest> tasks1 = List.of(
-                    new TaskCreateRequest("Task의 이름이 1글자 미만 50글자 초과일 경우, Status Code 404를 반환한다"));
-            List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks1));
+            List<TaskCreateRequest> tasks1 = List
+                    .of(new TaskCreateRequest("Task의 이름이 1글자 미만 50글자 초과일 경우, Status Code 404를 반환한다"));
+            List<SectionCreateRequest> sections = List
+                    .of(new SectionCreateRequest("대강의실", "대강의실 설명", "https://image.gongcheck.shop/degang123", tasks1));
             JobCreateRequest wrongRequest = new JobCreateRequest("청소", sections);
 
             ExtractableResponse<MockMvcResponse> response = docsGiven
@@ -138,15 +141,18 @@ class JobDocumentation extends DocumentationTest {
     class Job을_수정_시 {
         List<TaskCreateRequest> tasks1 = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
         List<TaskCreateRequest> tasks2 = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
-        List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks1),
-                new SectionCreateRequest("소강의실", tasks2));
+        List<SectionCreateRequest> sections = List
+                .of(new SectionCreateRequest("대강의실", "대강의실 설명", "https://image.gongcheck.shop/degang123", tasks1),
+                        new SectionCreateRequest("소강의실", "소강의실 설명", "https://image.gongcheck.shop/sogang123", tasks2));
 
         @Test
         void Job을_수정한다() {
             List<TaskCreateRequest> tasks1 = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
             List<TaskCreateRequest> tasks2 = List.of(new TaskCreateRequest("책상 닦기"), new TaskCreateRequest("칠판 닦기"));
-            List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks1),
-                    new SectionCreateRequest("소강의실", tasks2));
+            List<SectionCreateRequest> sections = List
+                    .of(new SectionCreateRequest("대강의실", "대강의실 설명", "https://image.gongcheck.shop/degang123", tasks1),
+                            new SectionCreateRequest("소강의실", "소강의실 설명", "https://image.gongcheck.shop/sogang123",
+                                    tasks2));
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
             JobCreateRequest request = new JobCreateRequest("청소", sections);
 
@@ -184,7 +190,8 @@ class JobDocumentation extends DocumentationTest {
         @ValueSource(strings = {"", "Section의 name이 20자 초과"})
         void Section_생성할때_이름이_1글자_미만_20글자_초과하거나_null일_경우_예외가_발생한다(final String input) {
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
-            List<SectionCreateRequest> sections = List.of(new SectionCreateRequest(input, tasks1));
+            List<SectionCreateRequest> sections = List
+                    .of(new SectionCreateRequest(input, "대강의실 설명", "https://image.gongcheck.shop/degang123", tasks1));
             JobCreateRequest wrongRequest = new JobCreateRequest("청소", sections);
 
             ExtractableResponse<MockMvcResponse> response = docsGiven
@@ -206,7 +213,8 @@ class JobDocumentation extends DocumentationTest {
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
             List<TaskCreateRequest> tasks1 = List.of(
                     new TaskCreateRequest(input));
-            List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("대강의실", tasks1));
+            List<SectionCreateRequest> sections = List
+                    .of(new SectionCreateRequest("대강의실", "대강의실 설명", "https://image.gongcheck.shop/degang123", tasks1));
             JobCreateRequest wrongRequest = new JobCreateRequest("청소", sections);
 
             ExtractableResponse<MockMvcResponse> response = docsGiven
