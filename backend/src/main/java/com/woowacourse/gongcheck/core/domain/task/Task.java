@@ -45,7 +45,7 @@ public class Task {
     private String name;
 
     @Embedded
-    private TaskDescription taskDescription;
+    private TaskExplanation taskExplanation;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false)
@@ -59,12 +59,12 @@ public class Task {
     }
 
     public Task(final Long id, final Section section, final RunningTask runningTask, final String name,
-                final TaskDescription taskDescription, final LocalDateTime createdAt, final LocalDateTime updatedAt) {
+                final TaskExplanation taskExplanation, final LocalDateTime createdAt, final LocalDateTime updatedAt) {
         this.id = id;
         this.section = section;
         this.runningTask = runningTask;
         this.name = name;
-        this.taskDescription = taskDescription;
+        this.taskExplanation = taskExplanation;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }

@@ -41,7 +41,7 @@ public class Section {
     private String name;
 
     @Embedded
-    private SectionDescription sectionDescription;
+    private SectionExplanation sectionExplanation;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false)
@@ -54,12 +54,12 @@ public class Section {
     protected Section() {
     }
 
-    public Section(final Long id, final Job job, final String name, final SectionDescription sectionDescription,
+    public Section(final Long id, final Job job, final String name, final SectionExplanation sectionExplanation,
                    final LocalDateTime createdAt, final LocalDateTime updatedAt) {
         this.id = id;
         this.job = job;
         this.name = name;
-        this.sectionDescription = sectionDescription;
+        this.sectionExplanation = sectionExplanation;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }

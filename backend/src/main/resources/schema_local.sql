@@ -13,7 +13,7 @@ CREATE TABLE host
     github_id      BIGINT     NOT NULL UNIQUE,
     image_url      VARCHAR    NOT NULL,
     created_at     TIMESTAMP  NOT NULL,
-    updated_at     TIMESTAMP NULL,
+    updated_at     TIMESTAMP  NULL,
     PRIMARY KEY (id)
 );
 
@@ -22,9 +22,9 @@ CREATE TABLE space
     id         BIGINT      NOT NULL AUTO_INCREMENT,
     host_id    BIGINT      NOT NULL,
     name       VARCHAR(20) NOT NULL,
-    img_url    VARCHAR NULL,
+    img_url    VARCHAR     NULL,
     created_at TIMESTAMP   NOT NULL,
-    updated_at TIMESTAMP NULL,
+    updated_at TIMESTAMP   NULL,
     PRIMARY KEY (id)
 );
 
@@ -35,27 +35,31 @@ CREATE TABLE job
     name       VARCHAR(20) NOT NULL,
     slack_url  VARCHAR NULL,
     created_at TIMESTAMP   NOT NULL,
-    updated_at TIMESTAMP NULL,
-    PRIMARY KEY (id)
-);
-
-CREATE TABLE task
-(
-    id         BIGINT      NOT NULL AUTO_INCREMENT,
-    section_id BIGINT      NOT NULL,
-    name       VARCHAR(50) NOT NULL,
-    created_at TIMESTAMP   NOT NULL,
-    updated_at TIMESTAMP NULL,
+    updated_at TIMESTAMP   NULL,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE section
 (
-    id         BIGINT      NOT NULL AUTO_INCREMENT,
-    job_id     BIGINT      NOT NULL,
-    name       VARCHAR(20) NOT NULL,
-    created_at TIMESTAMP   NOT NULL,
-    updated_at TIMESTAMP NULL,
+    id          BIGINT      NOT NULL AUTO_INCREMENT,
+    job_id      BIGINT      NOT NULL,
+    name        VARCHAR(20) NOT NULL,
+    description VARCHAR(32) NULL,
+    image_url   VARCHAR     NULL,
+    created_at  TIMESTAMP   NOT NULL,
+    updated_at  TIMESTAMP   NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE task
+(
+    id          BIGINT      NOT NULL AUTO_INCREMENT,
+    section_id  BIGINT      NOT NULL,
+    name        VARCHAR(50) NOT NULL,
+    description VARCHAR(32) NULL,
+    image_url   VARCHAR     NULL,
+    created_at  TIMESTAMP   NOT NULL,
+    updated_at  TIMESTAMP   NULL,
     PRIMARY KEY (id)
 );
 
