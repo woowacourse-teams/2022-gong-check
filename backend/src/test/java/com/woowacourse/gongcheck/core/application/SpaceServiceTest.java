@@ -126,8 +126,7 @@ class SpaceServiceTest {
             void setUp() {
                 host = hostRepository.save(Host_생성("1234", 1234L));
                 Space space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
-                request = new SpaceCreateRequest(space.getName().getValue(),
-                        new MockMultipartFile("잠실 캠퍼스 사진", new byte[]{}));
+                request = new SpaceCreateRequest(space.getName().getValue(), "https://image.gongcheck.shop/123sdf5");
             }
 
             @Test
@@ -147,8 +146,7 @@ class SpaceServiceTest {
 
             @BeforeEach
             void setUp() {
-                request = new SpaceCreateRequest("이것은 유일한 Space이름",
-                        new MockMultipartFile("잠실 캠퍼스 사진", new byte[]{}));
+                request = new SpaceCreateRequest("이것은 유일한 Space이름", "https://image.gongcheck.shop/123sdf5");
             }
 
             @Test
@@ -168,8 +166,7 @@ class SpaceServiceTest {
             @BeforeEach
             void setUp() {
                 host = hostRepository.save(Host_생성("1234", 1234L));
-                request = new SpaceCreateRequest("이것은 유일한 Space이름",
-                        new MockMultipartFile("잠실 캠퍼스 사진", new byte[]{}));
+                request = new SpaceCreateRequest("이것은 유일한 Space이름", "https://image.gongcheck.shop/123sdf5");
             }
 
             @Test
