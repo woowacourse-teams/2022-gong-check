@@ -35,19 +35,16 @@ public class SpaceService {
     private final SectionRepository sectionRepository;
     private final TaskRepository taskRepository;
     private final RunningTaskRepository runningTaskRepository;
-    private final ImageUploader imageUploader;
 
     public SpaceService(final HostRepository hostRepository, final SpaceRepository spaceRepository,
                         final JobRepository jobRepository, final SectionRepository sectionRepository,
-                        final TaskRepository taskRepository, final RunningTaskRepository runningTaskRepository,
-                        final ImageUploader imageUploader) {
+                        final TaskRepository taskRepository, final RunningTaskRepository runningTaskRepository) {
         this.hostRepository = hostRepository;
         this.spaceRepository = spaceRepository;
         this.jobRepository = jobRepository;
         this.sectionRepository = sectionRepository;
         this.taskRepository = taskRepository;
         this.runningTaskRepository = runningTaskRepository;
-        this.imageUploader = imageUploader;
     }
 
     public SpacesResponse findSpaces(final Long hostId) {
@@ -62,12 +59,10 @@ public class SpaceService {
         Name spaceName = new Name(request.getName());
         checkDuplicateSpaceName(spaceName, host);
 
-        String imageUrl = uploadImageAndGetUrlOrNull(request.getImage());
-
         Space space = Space.builder()
                 .host(host)
                 .name(spaceName)
-                .imageUrl(imageUrl)
+                .imageUrl(request.getImageUrl())
                 .build();
         return spaceRepository.save(space)
                 .getId();
@@ -80,17 +75,14 @@ public class SpaceService {
     }
 
     @Transactional
-    public void changeSpace(final Long hostId, final Long spaceId, final SpaceChangeRequest request,
-                            final MultipartFile image) {
+    public void changeSpace(final Long hostId, final Long spaceId, final SpaceChangeRequest request) {
         Host host = hostRepository.getById(hostId);
         Space space = spaceRepository.getByHostAndId(host, spaceId);
         Name changeName = new Name(request.getName());
         checkDuplicateSpaceName(changeName, host, space);
 
-        String imageUrl = uploadImageAndGetUrlOrNull(image);
-
         space.changeName(changeName);
-        space.changeImageUrl(imageUrl);
+        space.changeImageUrl(request.getImageUrl());
     }
 
     @Transactional
@@ -120,12 +112,5 @@ public class SpaceService {
         if (spaceRepository.existsByHostAndNameAndIdNot(host, spaceName, space.getId())) {
             throw new BusinessException("이미 존재하는 이름입니다.");
         }
-    }
-
-    private String uploadImageAndGetUrlOrNull(final MultipartFile image) {
-        if (!Objects.isNull(image)) {
-            return imageUploader.upload(image, "spaces");
-        }
-        return null;
     }
 }

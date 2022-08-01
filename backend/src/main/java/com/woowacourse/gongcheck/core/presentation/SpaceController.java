@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,7 +42,7 @@ public class SpaceController {
     @PostMapping("/spaces")
     @HostOnly
     public ResponseEntity<Void> createSpace(@AuthenticationPrincipal final Long hostId,
-                                            @Valid @ModelAttribute final SpaceCreateRequest request) {
+                                            @Valid @RequestBody final SpaceCreateRequest request) {
         Long spaceId = spaceService.createSpace(hostId, request);
         return ResponseEntity.created(URI.create("/api/spaces/" + spaceId)).build();
     }
@@ -53,12 +54,11 @@ public class SpaceController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping(value = "/spaces/{spaceId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping("/spaces/{spaceId}")
     public ResponseEntity<Void> changeSpace(@AuthenticationPrincipal final Long hostId,
                                             @PathVariable final Long spaceId,
-                                            @Valid @RequestPart(value = "request") final SpaceChangeRequest request,
-                                            @RequestPart(required = false) final MultipartFile image) {
-        spaceService.changeSpace(hostId, spaceId, request, image);
+                                            @Valid @RequestBody final SpaceChangeRequest request) {
+        spaceService.changeSpace(hostId, spaceId, request);
         return ResponseEntity.noContent().build();
     }
 

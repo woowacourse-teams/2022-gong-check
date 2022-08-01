@@ -13,6 +13,7 @@ import com.woowacourse.gongcheck.core.application.response.SpaceResponse;
 import com.woowacourse.gongcheck.core.application.response.SpacesResponse;
 import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.presentation.request.SpaceChangeRequest;
+import com.woowacourse.gongcheck.core.presentation.request.SpaceCreateRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -51,16 +52,15 @@ class SpaceDocumentation extends DocumentationTest {
     class Space를_생성한다 {
 
         @Test
-        void Space_생성에_성공한다() throws IOException {
-            File fakeImage = File.createTempFile("temp", ".jpg");
+        void Space_생성에_성공한다() {
+            SpaceCreateRequest request = new SpaceCreateRequest("잠실 캠퍼스", "https://image.gongcheck.shop/123sdf5");
             when(spaceService.createSpace(anyLong(), any())).thenReturn(1L);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             docsGiven
                     .header(AUTHORIZATION, "Bearer jwt.token.here")
-                    .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
-                    .param("name", "잠실 캠퍼스")
-                    .multiPart("image", fakeImage)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .body(request)
                     .when().post("/api/spaces")
                     .then().log().all()
                     .apply(document("spaces/create/success"))
@@ -69,12 +69,14 @@ class SpaceDocumentation extends DocumentationTest {
 
         @Test
         void Space_이름이_null_인_경우_생성에_실패한다() {
+            SpaceCreateRequest request = new SpaceCreateRequest(null, "https://image.gongcheck.shop/123sdf5");
             when(spaceService.createSpace(anyLong(), any())).thenReturn(1L);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             docsGiven
                     .header(AUTHORIZATION, "Bearer jwt.token.here")
-                    .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .body(request)
                     .when().post("/api/spaces")
                     .then().log().all()
                     .apply(document("spaces/create/fail/name_null"))
@@ -83,13 +85,14 @@ class SpaceDocumentation extends DocumentationTest {
 
         @Test
         void Space_이름이_빈_값_인_경우_생성에_실패한다() {
+            SpaceCreateRequest request = new SpaceCreateRequest("", "https://image.gongcheck.shop/123sdf5");
             when(spaceService.createSpace(anyLong(), any())).thenReturn(1L);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             docsGiven
                     .header(AUTHORIZATION, "Bearer jwt.token.here")
-                    .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
-                    .param("name", "")
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .body(request)
                     .when().post("/api/spaces")
                     .then().log().all()
                     .apply(document("spaces/create/fail/name_blank"))
@@ -120,24 +123,16 @@ class SpaceDocumentation extends DocumentationTest {
     @Nested
     class Space를_수정한다 {
 
-        public File fakeImage;
-
-        @BeforeEach
-        void setUp() throws IOException {
-            fakeImage = File.createTempFile("temp", ".jpg");
-        }
-
         @Test
         void Space_수정에_성공한다() {
-            SpaceChangeRequest request = new SpaceChangeRequest("잠실 캠퍼스");
-            doNothing().when(spaceService).changeSpace(anyLong(), anyLong(), any(), any());
+            SpaceChangeRequest request = new SpaceChangeRequest("잠실 캠퍼스", "https://image.gongcheck.shop/123sdf5");
+            doNothing().when(spaceService).changeSpace(anyLong(), anyLong(), any());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             docsGiven
                     .header(AUTHORIZATION, "Bearer jwt.token.here")
-                    .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
-                    .multiPart("request", request, MediaType.APPLICATION_JSON_VALUE)
-                    .multiPart("image", fakeImage)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .body(request)
                     .when().put("/api/spaces/1")
                     .then().log().all()
                     .apply(document("spaces/change/success"))
@@ -146,15 +141,14 @@ class SpaceDocumentation extends DocumentationTest {
 
         @Test
         void Space_이름이_null_인_경우_수정에_실패한다() {
-            SpaceChangeRequest request = new SpaceChangeRequest(null);
-            doNothing().when(spaceService).changeSpace(anyLong(), anyLong(), any(), any());
+            SpaceChangeRequest request = new SpaceChangeRequest(null, "https://image.gongcheck.shop/123sdf5");
+            doNothing().when(spaceService).changeSpace(anyLong(), anyLong(), any());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             docsGiven
                     .header(AUTHORIZATION, "Bearer jwt.token.here")
-                    .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
-                    .multiPart("request", request, MediaType.APPLICATION_JSON_VALUE)
-                    .multiPart("image", fakeImage)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .body(request)
                     .when().put("/api/spaces/1")
                     .then().log().all()
                     .apply(document("spaces/change/fail/name_null"))
