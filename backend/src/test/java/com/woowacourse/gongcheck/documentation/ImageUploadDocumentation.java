@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-public class ImageUploadDocumentation extends DocumentationTest {
+class ImageUploadDocumentation extends DocumentationTest {
 
     @Test
     void 이미지를_업로드한다() throws IOException {
