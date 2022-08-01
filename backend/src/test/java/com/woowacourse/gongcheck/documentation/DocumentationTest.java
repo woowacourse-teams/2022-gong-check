@@ -16,6 +16,7 @@ import com.woowacourse.gongcheck.core.application.SpaceService;
 import com.woowacourse.gongcheck.core.application.SubmissionService;
 import com.woowacourse.gongcheck.core.application.TaskService;
 import com.woowacourse.gongcheck.core.presentation.HostController;
+import com.woowacourse.gongcheck.core.presentation.ImageUploadController;
 import com.woowacourse.gongcheck.core.presentation.JobController;
 import com.woowacourse.gongcheck.core.presentation.SpaceController;
 import com.woowacourse.gongcheck.core.presentation.SubmissionController;
@@ -39,7 +40,8 @@ import org.springframework.web.context.WebApplicationContext;
         JobController.class,
         TaskController.class,
         SubmissionController.class,
-        HostController.class
+        HostController.class,
+        ImageUploadController.class
 })
 @ExtendWith(RestDocumentationExtension.class)
 class DocumentationTest {
