@@ -13,20 +13,24 @@ interface SectionCardDetailProps {
 }
 
 const SectionCardDetail: React.FC<SectionCardDetailProps> = ({ section, sectionIndex }) => {
-  const { onClickSectionDetail, onClickTaskDetail } = useSectionCardDetail();
+  const { onClickSectionDetail, onClickTaskDetail, hasSectionDetailInfo, hasTaskDetailInfo } =
+    useSectionCardDetail(sectionIndex);
 
   return (
     <>
       <div css={styles.titleWrapper}>
         <span>{section.name}</span>
         <div>
-          <Button css={styles.detailButton} onClick={() => onClickSectionDetail(sectionIndex)}>
-            상제 정보 추가
+          <Button
+            css={styles.detailButton(hasSectionDetailInfo(sectionIndex))}
+            onClick={() => onClickSectionDetail(sectionIndex)}
+          >
+            {hasSectionDetailInfo(sectionIndex) ? '상제 정보 수정' : '상세 정보 추가'}
           </Button>
         </div>
       </div>
       {section.tasks.map((task, taskIndex) => (
-        <div css={styles.taskWrapper} key={task.id}>
+        <div css={styles.taskWrapper(hasTaskDetailInfo(sectionIndex, taskIndex))} key={task.id}>
           <span>∙ {task.name}</span>
           <BiNews size={22} onClick={() => onClickTaskDetail(taskIndex)} />
         </div>

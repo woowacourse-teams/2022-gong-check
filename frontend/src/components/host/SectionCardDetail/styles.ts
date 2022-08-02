@@ -19,8 +19,8 @@ const titleWrapper = css`
   }
 `;
 
-const detailButton = css`
-  background-color: ${theme.colors.green};
+const detailButton = (hasSectionDetailInfo: boolean) => css`
+  background-color: ${hasSectionDetailInfo ? theme.colors.green : theme.colors.gray400};
   width: fit-content;
   height: fit-content;
   padding: 8px 12px;
@@ -28,7 +28,7 @@ const detailButton = css`
   margin: 0 4px;
 `;
 
-const taskWrapper = css`
+const taskWrapper = (hasTaskDetailInfo: boolean) => css`
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -45,7 +45,7 @@ const taskWrapper = css`
   svg {
     margin: 0 4px;
     cursor: pointer;
-    color: ${theme.colors.green};
+    color: ${hasTaskDetailInfo ? theme.colors.green : theme.colors.gray400};
     :hover {
       animation: ${animation.shake} 2s infinite linear alternate;
     }
