@@ -48,22 +48,18 @@ const useSpaceForm = () => {
     }
   );
 
-  const createSpace = (formData: any, name: string, isExistImage: boolean) => {
+  const createSpace = async (formData: any, name: string, isExistImage: boolean) => {
     if (isExistImage) {
-      uploadImage(formData).then(res => {
-        const {
-          data: { imageUrl },
-        } = res;
+      const { imageUrl } = await uploadImage(formData);
+      newSpace({ name, imageUrl });
 
-        newSpace({ name, imageUrl });
-      });
       return;
     }
 
     newSpace({ name, imageUrl: undefined });
   };
 
-  const updateSpace = (
+  const updateSpace = async (
     formData: any,
     name: string,
     spaceId: ID | undefined,
@@ -71,13 +67,9 @@ const useSpaceForm = () => {
     imageUrl: string | undefined
   ) => {
     if (isExistImage) {
-      uploadImage(formData).then(res => {
-        const {
-          data: { imageUrl },
-        } = res;
+      const { imageUrl } = await uploadImage(formData);
+      updatePutSpace({ spaceId, name, imageUrl });
 
-        updatePutSpace({ spaceId, name, imageUrl });
-      });
       return;
     }
 
