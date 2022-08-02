@@ -1,5 +1,6 @@
 package com.woowacourse.gongcheck.core.domain.section;
 
+import com.woowacourse.gongcheck.exception.BusinessException;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -32,7 +33,7 @@ public class SectionExplanation {
         }
 
         if (description.length() > DESCRIPTION_MAX_LENTH) {
-            throw new IllegalArgumentException("section의 설명은 " + DESCRIPTION_MAX_LENTH + "자 이하여야합니다.");
+            throw new BusinessException("section의 설명은 " + DESCRIPTION_MAX_LENTH + "자 이하여야합니다.");
         }
     }
 
