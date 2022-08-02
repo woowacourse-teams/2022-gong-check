@@ -80,6 +80,8 @@ class SubmissionRepositoryTest {
         @Nested
         class Job들의_리스트를_입력받는_경우 {
 
+            private static final String SUBMISSION_AUTHOR = "어썸오";
+
             private List<Job> jobs;
             private PageRequest request;
 
@@ -90,8 +92,8 @@ class SubmissionRepositoryTest {
                 Job job_1 = jobRepository.save(Job_생성(space, "청소"));
                 Job job_2 = jobRepository.save(Job_생성(space, "마감"));
                 jobs = jobRepository.saveAll(List.of(job_1, job_2));
-                submissionRepository.saveAll(List.of(Submission_생성(job_1), Submission_생성(job_1),
-                        Submission_생성(job_2), Submission_생성(job_2)));
+                submissionRepository.saveAll(List.of(Submission_생성(job_1, SUBMISSION_AUTHOR), Submission_생성(job_1, SUBMISSION_AUTHOR),
+                        Submission_생성(job_2, SUBMISSION_AUTHOR), Submission_생성(job_2, SUBMISSION_AUTHOR)));
                 request = PageRequest.of(0, 2);
             }
 

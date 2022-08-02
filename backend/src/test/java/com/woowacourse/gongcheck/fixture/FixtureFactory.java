@@ -117,10 +117,10 @@ public class FixtureFactory {
                 .build();
     }
 
-    public static Submission Submission_생성(final Job job) {
+    public static Submission Submission_생성(final Job job, final String author) {
         return Submission.builder()
                 .job(job)
-                .author("어썸오")
+                .author(author)
                 .createdAt(LocalDateTime.now())
                 .build();
     }
