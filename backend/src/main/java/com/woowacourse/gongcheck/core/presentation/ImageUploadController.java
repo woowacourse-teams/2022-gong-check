@@ -22,7 +22,7 @@ public class ImageUploadController {
         this.imageUploader = imageUploader;
     }
 
-    @PostMapping(value = "/image-upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/imageUpload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @HostOnly
     public ResponseEntity<ImageUrlResponse> uploadImage(@AuthenticationPrincipal final Long hostId,
                                                         @RequestPart(required = false) final MultipartFile image) {

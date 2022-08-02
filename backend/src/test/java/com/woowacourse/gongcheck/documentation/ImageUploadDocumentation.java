@@ -25,7 +25,7 @@ class ImageUploadDocumentation extends DocumentationTest {
                 .header(AUTHORIZATION, "Bearer jwt.token.here")
                 .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
                 .multiPart("image", fakeImage)
-                .when().post("/api/image-upload")
+                .when().post("/api/imageUpload")
                 .then().log().all()
                 .apply(document("image-upload"))
                 .statusCode(HttpStatus.OK.value());
