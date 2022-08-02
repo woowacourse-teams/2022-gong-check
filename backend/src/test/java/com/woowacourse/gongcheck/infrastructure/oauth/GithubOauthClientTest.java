@@ -10,6 +10,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.gongcheck.auth.application.response.GithubAccessTokenResponse;
 import com.woowacourse.gongcheck.auth.application.response.GithubProfileResponse;
+import com.woowacourse.gongcheck.exception.InfrastructureException;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import com.woowacourse.gongcheck.exception.UnauthorizedException;
 import org.junit.jupiter.api.BeforeEach;
@@ -61,7 +62,7 @@ class GithubOauthClientTest {
             @Test
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> githubOauthClient.requestGithubProfileByCode("code"))
-                        .isInstanceOf(NotFoundException.class)
+                        .isInstanceOf(InfrastructureException.class)
                         .hasMessage("해당 사용자의 프로필을 요청할 수 없습니다.");
                 mockRestServiceServer.verify();
             }
@@ -109,7 +110,7 @@ class GithubOauthClientTest {
             @Test
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> githubOauthClient.requestGithubProfileByCode("code"))
-                        .isInstanceOf(NotFoundException.class)
+                        .isInstanceOf(InfrastructureException.class)
                         .hasMessage("해당 사용자의 프로필을 요청할 수 없습니다.");
                 mockRestServiceServer.verify();
             }
