@@ -31,24 +31,15 @@ const useSpaceForm = () => {
     }
   );
 
-  const { mutate: createImage } = useMutation(
-    ({ formData, name }: { formData: any; name: string }) => apiImage.postImageUpload(formData),
-    {
-      onSuccess: (res, { name }) => {
-        const {
-          data: { imageUrl },
-        } = res;
-
-        newSpace({ name, imageUrl });
-      },
-      onError: (err: AxiosError<{ message: string }>) => {
-        openToast('ERROR', `${err.response?.data.message}`);
-      },
-    }
-  );
+  const { mutateAsync: uploadImage } = useMutation((formData: any) => apiImage.postImageUpload(formData), {
+    onError: (err: AxiosError<{ message: string }>) => {
+      openToast('ERROR', `${err.response?.data.message}`);
+    },
+  });
 
   const { mutate: updateSpace } = useMutation(
-    ({ formData, spaceId }: { formData: any; spaceId: ID | undefined }) => apiSpace.putSpace(formData, spaceId),
+    ({ spaceId, name, imageUrl }: { spaceId: ID | undefined; name: string; imageUrl: string | undefined }) =>
+      apiSpace.putSpace(spaceId, name, imageUrl),
     {
       onSuccess: (_, { spaceId }) => {
         openToast('SUCCESS', '공간 정보가 수정 되었습니다.');
@@ -62,7 +53,13 @@ const useSpaceForm = () => {
 
   const createSpace = (formData: any, name: string, isExistImage: boolean) => {
     if (isExistImage) {
-      createImage({ formData, name });
+      uploadImage(formData).then(res => {
+        const {
+          data: { imageUrl },
+        } = res;
+
+        newSpace({ name, imageUrl });
+      });
       return;
     }
 
@@ -96,22 +93,18 @@ const useSpaceForm = () => {
     const form = e.target as HTMLFormElement;
     const formData = new FormData();
 
-    if (imageUrl) {
-      // TODO: S3 도입되면 data.imageUrl로 이미지 file 객체를 생성해야 한다.
-      // await convertURLtoFile(data?.imageUrl).then(file => {
-      await convertURLtoFile(DUMMY_LOCAL_IMAGE_URL).then(file => {
-        formData.append('image', file);
-      });
-    }
+    console.log('imageUrl', imageUrl);
 
-    const name = form['nameInput'].value;
+    // const name = form['nameInput'].value;
     const files = form['imageInput'].files;
     const file = files[0];
 
-    formData.append('request', new Blob([JSON.stringify({ name })], { type: 'application/json' }));
-    if (files.length) formData.append('image', file);
+    console.log(file);
 
-    updateSpace({ formData, spaceId });
+    // formData.append('request', new Blob([JSON.stringify({ name })], { type: 'application/json' }));
+    // if (files.length) formData.append('image', file);
+
+    // updateSpace({ formData, spaceId });
   };
 
   return { onSubmitCreateSpace, onSubmitUpdateSpace };

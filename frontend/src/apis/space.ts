@@ -42,12 +42,11 @@ const getSpace = async (spaceId: ID | undefined) => {
 };
 
 // space 수정
-const putSpace = (formData: any, spaceId: ID | undefined) => {
+const putSpace = (spaceId: ID | undefined, name: string, imageUrl: string | undefined) => {
   return axiosInstanceToken({
     method: 'PUT',
     url: `/api/spaces/${spaceId}`,
-    headers: { 'Content-Type': 'multipart/form-data' },
-    data: formData,
+    data: { name, imageUrl },
   });
 };
 
