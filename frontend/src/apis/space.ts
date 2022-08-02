@@ -15,12 +15,11 @@ const getSpaces = async () => {
 };
 
 // space 생성
-const postNewSpace = ({ formData }: any) => {
+const postNewSpace = (name: string, imageUrl: string | null) => {
   return axiosInstanceToken({
     method: 'POST',
     url: `/api/spaces`,
-    headers: { 'Content-Type': 'multipart/form-data' },
-    data: formData,
+    data: { name, imageUrl },
   });
 };
 
