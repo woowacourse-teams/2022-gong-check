@@ -15,12 +15,11 @@ const getSpaces = async () => {
 };
 
 // space 생성
-const postNewSpace = ({ formData }: any) => {
+const postNewSpace = (name: string, imageUrl: string | undefined) => {
   return axiosInstanceToken({
     method: 'POST',
     url: `/api/spaces`,
-    headers: { 'Content-Type': 'multipart/form-data' },
-    data: formData,
+    data: { name, imageUrl },
   });
 };
 
@@ -43,12 +42,11 @@ const getSpace = async (spaceId: ID | undefined) => {
 };
 
 // space 수정
-const putSpace = (formData: any, spaceId: ID | undefined) => {
+const putSpace = (spaceId: ID | undefined, name: string, imageUrl: string | undefined) => {
   return axiosInstanceToken({
     method: 'PUT',
     url: `/api/spaces/${spaceId}`,
-    headers: { 'Content-Type': 'multipart/form-data' },
-    data: formData,
+    data: { name, imageUrl },
   });
 };
 

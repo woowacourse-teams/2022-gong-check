@@ -1,34 +1,42 @@
 import useToast from './useToast';
-import { convertURLtoFile } from '@/utils/convertURLtoFile';
 import { AxiosError } from 'axios';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
+import apiImage from '@/apis/image';
 import apiSpace from '@/apis/space';
 
 import { ID } from '@/types';
-
-import DUMMY_LOCAL_IMAGE_URL from '@/assets/homeCover.png';
 
 const useSpaceForm = () => {
   const navigate = useNavigate();
   const { openToast } = useToast();
 
-  const { mutate: createSpace } = useMutation((formData: any) => apiSpace.postNewSpace({ formData }), {
-    onSuccess: res => {
-      const locationSplitted = res.headers.location.split('/');
-      const spaceId: ID = locationSplitted[locationSplitted.length - 1];
+  const { mutate: newSpace } = useMutation(
+    ({ name, imageUrl }: { name: string; imageUrl: string | undefined }) => apiSpace.postNewSpace(name, imageUrl),
+    {
+      onSuccess: res => {
+        const locationSplitted = res.headers.location.split('/');
+        const spaceId: ID = locationSplitted[locationSplitted.length - 1];
 
-      openToast('SUCCESS', '공간이 생성 되었습니다.');
-      navigate(`/host/manage/${spaceId}`);
-    },
+        openToast('SUCCESS', '공간이 생성 되었습니다.');
+        navigate(`/host/manage/${spaceId}`);
+      },
+      onError: (err: AxiosError<{ message: string }>) => {
+        openToast('ERROR', `${err.response?.data.message}`);
+      },
+    }
+  );
+
+  const { mutateAsync: uploadImage } = useMutation((formData: any) => apiImage.postImageUpload(formData), {
     onError: (err: AxiosError<{ message: string }>) => {
       openToast('ERROR', `${err.response?.data.message}`);
     },
   });
 
-  const { mutate: updateSpace } = useMutation(
-    ({ formData, spaceId }: { formData: any; spaceId: ID | undefined }) => apiSpace.putSpace(formData, spaceId),
+  const { mutate: updatePutSpace } = useMutation(
+    ({ spaceId, name, imageUrl }: { spaceId: ID | undefined; name: string; imageUrl: string | undefined }) =>
+      apiSpace.putSpace(spaceId, name, imageUrl),
     {
       onSuccess: (_, { spaceId }) => {
         openToast('SUCCESS', '공간 정보가 수정 되었습니다.');
@@ -40,6 +48,34 @@ const useSpaceForm = () => {
     }
   );
 
+  const createSpace = async (formData: any, name: string, isExistImage: boolean) => {
+    if (isExistImage) {
+      const { imageUrl: newImageUrl } = await uploadImage(formData);
+      newSpace({ name, imageUrl: newImageUrl });
+
+      return;
+    }
+
+    newSpace({ name, imageUrl: undefined });
+  };
+
+  const updateSpace = async (
+    formData: any,
+    name: string,
+    spaceId: ID | undefined,
+    isExistImage: boolean,
+    imageUrl: string | undefined
+  ) => {
+    if (isExistImage) {
+      const { imageUrl: newImageUrl } = await uploadImage(formData);
+      updatePutSpace({ spaceId, name, imageUrl: newImageUrl });
+
+      return;
+    }
+
+    updatePutSpace({ spaceId, name, imageUrl });
+  };
+
   const onSubmitCreateSpace = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
@@ -48,11 +84,14 @@ const useSpaceForm = () => {
     const name = form['nameInput'].value;
     const files = form['imageInput'].files;
     const file = files[0];
+    const isExistImage = files.length > 0;
 
-    formData.append('name', name);
-    if (files.length) formData.append('image', file);
+    if (isExistImage) {
+      formData.append('image', file);
+      formData.append('filename', file.name);
+    }
 
-    createSpace(formData);
+    createSpace(formData, name, isExistImage);
   };
 
   const onSubmitUpdateSpace = async (
@@ -64,22 +103,17 @@ const useSpaceForm = () => {
     const form = e.target as HTMLFormElement;
     const formData = new FormData();
 
-    if (imageUrl) {
-      // TODO: S3 도입되면 data.imageUrl로 이미지 file 객체를 생성해야 한다.
-      // await convertURLtoFile(data?.imageUrl).then(file => {
-      await convertURLtoFile(DUMMY_LOCAL_IMAGE_URL).then(file => {
-        formData.append('image', file);
-      });
-    }
-
     const name = form['nameInput'].value;
     const files = form['imageInput'].files;
     const file = files[0];
+    const isExistImage = files.length > 0;
 
-    formData.append('request', new Blob([JSON.stringify({ name })], { type: 'application/json' }));
-    if (files.length) formData.append('image', file);
+    if (isExistImage) {
+      formData.append('image', file);
+      formData.append('filename', file.name);
+    }
 
-    updateSpace({ formData, spaceId });
+    updateSpace(formData, name, spaceId, isExistImage, imageUrl);
   };
 
   return { onSubmitCreateSpace, onSubmitUpdateSpace };
