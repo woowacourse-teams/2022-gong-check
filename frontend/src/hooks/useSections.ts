@@ -9,20 +9,33 @@ const useSections = () => {
   const [sections, setSections] = useRecoilState(sectionsState);
   const resetSections = useResetRecoilState(sectionsState);
 
+  const getSectionInfo = (sectionIndex: number) => {
+    return sections[sectionIndex];
+  };
+
   const updateSection = (sections: SectionType[]) => {
     setSections(sections);
   };
 
   const createSection = () => {
     setSections(prev => {
-      return [...prev, { id: nanoid(), name: `새 구역 ${prev.length + 1}`, tasks: [] }];
+      return [...prev, { id: nanoid(), name: `새 구역 ${prev.length + 1}`, description: '', imageUrl: '', tasks: [] }];
     });
   };
 
-  const editSection = (sectionIndex: number, value: string) => {
+  const editSection = (sectionIndex: number, newName: string) => {
     setSections(prev => {
       const previousSection = JSON.parse(JSON.stringify(prev)) as SectionType[];
-      previousSection[sectionIndex].name = value;
+      previousSection[sectionIndex].name = newName;
+      return previousSection;
+    });
+  };
+
+  const editSectionDetail = (sectionIndex: number, newImageUrl: string, newDescription: string) => {
+    setSections(prev => {
+      const previousSection = JSON.parse(JSON.stringify(prev)) as SectionType[];
+      previousSection[sectionIndex].imageUrl = newImageUrl;
+      previousSection[sectionIndex].description = newDescription;
       return previousSection;
     });
   };
@@ -36,6 +49,10 @@ const useSections = () => {
     }
   };
 
+  const getTaskInfo = (sectionIndex: number, taskIndex: number) => {
+    return sections[sectionIndex].tasks[taskIndex];
+  };
+
   const createTask = (sectionIndex: number) => {
     setSections(prev =>
       prev.map((section, targetIndex) => {
@@ -43,9 +60,11 @@ const useSections = () => {
           return {
             id: prev[sectionIndex].id,
             name: prev[sectionIndex].name,
+            description: prev[sectionIndex].description,
+            imageUrl: prev[sectionIndex].imageUrl,
             tasks: [
               ...prev[sectionIndex].tasks,
-              { id: nanoid(), name: `새 작업 ${prev[sectionIndex].tasks.length + 1}` },
+              { id: nanoid(), name: `새 작업 ${prev[sectionIndex].tasks.length + 1}`, description: '', imageUrl: '' },
             ],
           };
         }
@@ -54,10 +73,19 @@ const useSections = () => {
     );
   };
 
-  const editTask = (sectionIndex: number, taskIndex: number, value: string) => {
+  const editTask = (sectionIndex: number, taskIndex: number, newName: string) => {
     setSections(prev => {
       const previousSection = JSON.parse(JSON.stringify(prev)) as SectionType[];
-      previousSection[sectionIndex].tasks[taskIndex].name = value;
+      previousSection[sectionIndex].tasks[taskIndex].name = newName;
+      return previousSection;
+    });
+  };
+
+  const editTaskDetail = (sectionIndex: number, taskIndex: number, newImageUrl: string, newDescription: string) => {
+    setSections(prev => {
+      const previousSection = JSON.parse(JSON.stringify(prev)) as SectionType[];
+      previousSection[sectionIndex].tasks[taskIndex].imageUrl = newImageUrl;
+      previousSection[sectionIndex].tasks[taskIndex].description = newDescription;
       return previousSection;
     });
   };
@@ -76,13 +104,17 @@ const useSections = () => {
 
   return {
     sections,
+    getSectionInfo,
     resetSections,
     updateSection,
     createSection,
     editSection,
+    editSectionDetail,
     deleteSection,
+    getTaskInfo,
     createTask,
     editTask,
+    editTaskDetail,
     deleteTask,
   };
 };

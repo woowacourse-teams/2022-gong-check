@@ -37,7 +37,7 @@ const image = css`
   cursor: pointer;
 `;
 
-const detailText = css`
+const description = css`
   width: 90%;
   margin: 20px 0;
   position: relative;
@@ -77,6 +77,6 @@ const saveButton = (isDisabledButton: boolean) => css`
   background-color: ${isDisabledButton ? theme.colors.gray400 : theme.colors.green};
 `;
 
-const styles = { container, image, detailText, saveButton };
+const styles = { container, image, description, saveButton };
 
 export default styles;
