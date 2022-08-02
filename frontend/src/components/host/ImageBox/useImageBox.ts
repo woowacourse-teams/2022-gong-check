@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const useImageBox = (imageUrl: string | undefined) => {
-  const [imageSrcUrl, setImageSrcUrl] = useState(imageUrl);
+  const [imageSrcUrl, setImageSrcUrl] = useState('');
 
   const onChangeImg = (e: React.FormEvent<HTMLInputElement>) => {
     const input = e.target as HTMLInputElement;
@@ -15,6 +15,12 @@ const useImageBox = (imageUrl: string | undefined) => {
 
     setImageSrcUrl(src);
   };
+
+  useEffect(() => {
+    if (imageUrl) {
+      setImageSrcUrl(imageUrl);
+    }
+  }, [imageUrl]);
 
   return { imageSrcUrl, onChangeImg };
 };
