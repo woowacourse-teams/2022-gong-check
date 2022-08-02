@@ -12,7 +12,7 @@ interface SpaceInfoProps {
 }
 
 const SpaceInfo: React.FC<SpaceInfoProps> = ({ type = 'read', inputText = '', data }) => {
-  const { isActiveSubmit, onChangeSpaceName, onClickEditSpaceInfo } = useSpaceInfo(data, type);
+  const { name, imageUrl, isActiveSubmit, onChangeSpaceName, onClickEditSpaceInfo } = useSpaceInfo(data, type);
 
   return (
     <div css={styles.spaceInfo}>
@@ -31,21 +31,21 @@ const SpaceInfo: React.FC<SpaceInfoProps> = ({ type = 'read', inputText = '', da
       <div css={styles.imageContainer}>
         <p css={styles.subTitle}>대표이미지</p>
         <div css={styles.imageWrapper}>
-          <ImageBox type={type} imageUrl={data?.imageUrl} />
+          <ImageBox type={type} imageUrl={imageUrl} />
         </div>
       </div>
       <div css={styles.inputContainer}>
         <div css={styles.inputWrapper}>
           <p css={styles.subTitle}>공간 이름</p>
           {type === 'read' ? (
-            <input css={styles.input} name="nameInput" type="text" defaultValue={data?.name} readOnly />
+            <input css={styles.input} name="nameInput" type="text" value={name} readOnly />
           ) : (
             <input
               css={styles.input}
               name="nameInput"
               placeholder="이름을 입력하세요"
               type="text"
-              defaultValue={data?.name || inputText || ''}
+              defaultValue={name || inputText || ''}
               onChange={onChangeSpaceName}
               required
             />
