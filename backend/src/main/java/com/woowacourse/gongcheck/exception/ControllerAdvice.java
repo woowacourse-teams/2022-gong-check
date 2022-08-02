@@ -44,12 +44,15 @@ public class ControllerAdvice {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleInternalServerError(final Exception e) {
+        log.error("Stack Trace : {}", extractStackTrace(e));
+        return ResponseEntity.internalServerError().body(ErrorResponse.from("서버 에러가 발생했습니다."));
+    }
+
+    private String extractStackTrace(final Exception e) {
         StringWriter stringWriter = new StringWriter();
         PrintWriter printWriter = new PrintWriter(stringWriter);
 
         e.printStackTrace(printWriter);
-        String stackTrace = stringWriter.toString();
-        log.error("Stack Trace : {}", stackTrace);
-        return ResponseEntity.internalServerError().body(ErrorResponse.from("서버 에러가 발생했습니다."));
+        return stringWriter.toString();
     }
 }
