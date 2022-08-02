@@ -23,8 +23,6 @@ const getJobActive = async (jobId: ID) => {
   return data;
 };
 
-// Sprint 2-----
-
 // job 생성
 // Location : /api/jobs/{jobId}
 const postNewJob = (spaceId: ID | undefined, name: string, sections: SectionType[]) => {

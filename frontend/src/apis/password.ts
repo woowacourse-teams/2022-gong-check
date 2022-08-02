@@ -16,11 +16,9 @@ const postPassword = async ({ hostId, password }: any) => {
   return data;
 };
 
-// Sprint 2------
-
 // /api/spacePassword
 // space password 수정
-const patchSpacePwassword = ({ password }: any) => {
+const patchSpacePassword = (password: number | string) => {
   return axiosInstanceToken({
     method: 'PATCH',
     url: `/api/spacePassword`,
@@ -30,6 +28,6 @@ const patchSpacePwassword = ({ password }: any) => {
   });
 };
 
-const apiPassword = { postPassword, patchSpacePwassword };
+const apiPassword = { postPassword, patchSpacePassword };
 
 export default apiPassword;
