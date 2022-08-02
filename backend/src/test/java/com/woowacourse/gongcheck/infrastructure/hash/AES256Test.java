@@ -2,17 +2,12 @@ package com.woowacourse.gongcheck.infrastructure.hash;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class AES256Test {
 
-    private AES256 aes256 = new AES256();
-
-    @BeforeEach
-    void setUp() {
-        aes256 = new AES256();
-    }
+    private final String key = "01234567890123456789012345678901";
+    private AES256 aes256 = new AES256(key);
 
     @Test
     void 문자열을_인코딩한다() {
