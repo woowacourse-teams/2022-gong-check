@@ -108,6 +108,7 @@ task displaceDocument(type: Copy) {
 }
 
 bootJar {
+    dependsOn createDocument
     dependsOn displaceDocument
 }
 
