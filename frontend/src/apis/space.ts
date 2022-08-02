@@ -15,7 +15,7 @@ const getSpaces = async () => {
 };
 
 // space 생성
-const postNewSpace = (name: string, imageUrl: string | null) => {
+const postNewSpace = (name: string, imageUrl: string | undefined) => {
   return axiosInstanceToken({
     method: 'POST',
     url: `/api/spaces`,

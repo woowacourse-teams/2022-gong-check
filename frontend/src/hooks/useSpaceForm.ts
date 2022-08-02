@@ -1,5 +1,4 @@
 import useToast from './useToast';
-import { convertURLtoFile } from '@/utils/convertURLtoFile';
 import { AxiosError } from 'axios';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
@@ -9,14 +8,12 @@ import apiSpace from '@/apis/space';
 
 import { ID } from '@/types';
 
-import DUMMY_LOCAL_IMAGE_URL from '@/assets/homeCover.png';
-
 const useSpaceForm = () => {
   const navigate = useNavigate();
   const { openToast } = useToast();
 
   const { mutate: newSpace } = useMutation(
-    ({ name, imageUrl }: { name: string; imageUrl: string | null }) => apiSpace.postNewSpace(name, imageUrl),
+    ({ name, imageUrl }: { name: string; imageUrl: string | undefined }) => apiSpace.postNewSpace(name, imageUrl),
     {
       onSuccess: res => {
         const locationSplitted = res.headers.location.split('/');
@@ -37,7 +34,7 @@ const useSpaceForm = () => {
     },
   });
 
-  const { mutate: updateSpace } = useMutation(
+  const { mutate: updatePutSpace } = useMutation(
     ({ spaceId, name, imageUrl }: { spaceId: ID | undefined; name: string; imageUrl: string | undefined }) =>
       apiSpace.putSpace(spaceId, name, imageUrl),
     {
@@ -63,7 +60,28 @@ const useSpaceForm = () => {
       return;
     }
 
-    newSpace({ name, imageUrl: null });
+    newSpace({ name, imageUrl: undefined });
+  };
+
+  const updateSpace = (
+    formData: any,
+    name: string,
+    spaceId: ID | undefined,
+    isExistImage: boolean,
+    imageUrl: string | undefined
+  ) => {
+    if (isExistImage) {
+      uploadImage(formData).then(res => {
+        const {
+          data: { imageUrl },
+        } = res;
+
+        updatePutSpace({ spaceId, name, imageUrl });
+      });
+      return;
+    }
+
+    updatePutSpace({ spaceId, name, imageUrl });
   };
 
   const onSubmitCreateSpace = (e: React.FormEvent<HTMLFormElement>) => {
@@ -93,18 +111,17 @@ const useSpaceForm = () => {
     const form = e.target as HTMLFormElement;
     const formData = new FormData();
 
-    console.log('imageUrl', imageUrl);
-
-    // const name = form['nameInput'].value;
+    const name = form['nameInput'].value;
     const files = form['imageInput'].files;
     const file = files[0];
+    const isExistImage = files.length > 0;
 
-    console.log(file);
+    if (isExistImage) {
+      formData.append('image', file);
+      formData.append('filename', file.name);
+    }
 
-    // formData.append('request', new Blob([JSON.stringify({ name })], { type: 'application/json' }));
-    // if (files.length) formData.append('image', file);
-
-    // updateSpace({ formData, spaceId });
+    updateSpace(formData, name, spaceId, isExistImage, imageUrl);
   };
 
   return { onSubmitCreateSpace, onSubmitUpdateSpace };
