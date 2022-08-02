@@ -19,7 +19,7 @@ interface SectionDetailModalProps {
 }
 
 const useSectionDetailModal = (props: SectionDetailModalProps) => {
-  const { target, sectionIndex, taskIndex = 0, previousImageUrl, previousDescription } = props;
+  const { target, sectionIndex, taskIndex, previousImageUrl, previousDescription } = props;
 
   const { closeModal } = useModal();
   const { openToast } = useToast();
@@ -65,7 +65,7 @@ const useSectionDetailModal = (props: SectionDetailModalProps) => {
 
   const onClickSaveButton = () => {
     if (target === 'section') editSectionDetail(sectionIndex, imageUrl, description);
-    if (target === 'task') editTaskDetail(sectionIndex, taskIndex, imageUrl, description);
+    if (target === 'task') editTaskDetail(sectionIndex, taskIndex as number, imageUrl, description);
 
     openToast('SUCCESS', '저장에 성공하였습니다.');
     closeModal();
