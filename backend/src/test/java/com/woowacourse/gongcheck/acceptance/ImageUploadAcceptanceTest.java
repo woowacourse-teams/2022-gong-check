@@ -24,7 +24,7 @@ class ImageUploadAcceptanceTest extends AcceptanceTest {
                 .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
                 .multiPart("image", fakeImage)
                 .auth().oauth2(token)
-                .when().post("/api/image-upload")
+                .when().post("/api/imageUpload")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value());
     }
@@ -40,7 +40,7 @@ class ImageUploadAcceptanceTest extends AcceptanceTest {
                 .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
                 .multiPart("image", fakeImage)
                 .auth().oauth2(token)
-                .when().post("/api/image-upload")
+                .when().post("/api/imageUpload")
                 .then().log().all()
                 .statusCode(HttpStatus.UNAUTHORIZED.value());
     }
