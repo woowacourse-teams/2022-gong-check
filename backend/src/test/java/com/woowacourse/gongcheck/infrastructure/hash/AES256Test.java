@@ -21,9 +21,12 @@ class AES256Test {
     }
 
     @Test
-    void 인코딩_전의_문자열로_디코딩한다() {
+    void 디코딩한_문자열은_인코딩한_문자열과_같다() {
         String expected = "1";
-        String actual = aes256.decode(aes256.encode(expected));
+        String encode = aes256.encode(expected);
+
+        String actual = aes256.decode(encode);
+
         assertThat(actual).isEqualTo(expected);
     }
 }
