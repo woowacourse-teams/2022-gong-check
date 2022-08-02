@@ -4,13 +4,21 @@ import theme from '@/styles/theme';
 
 const layout = css`
   width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   font-size: 16px;
 `;
 const homeCoverImage = css`
-  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 20em;
+  }
 `;
 
 const textWrapper = css`
@@ -39,7 +47,7 @@ const textWrapper = css`
 const form = ({ isActiveSubmit }: { isActiveSubmit: boolean }) => css`
   display: flex;
   flex-direction: column;
-  margin: 3rem 0;
+  margin-top: 2.4rem;
   width: 15em;
 
   input {
@@ -58,7 +66,7 @@ const form = ({ isActiveSubmit }: { isActiveSubmit: boolean }) => css`
   button {
     width: 100%;
     height: 3em;
-    margin: 1em 0;
+    margin: 0.6em 0;
     padding: 1em;
     border-radius: 12px;
   }
