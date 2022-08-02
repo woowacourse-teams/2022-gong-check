@@ -1,7 +1,5 @@
 package com.woowacourse.gongcheck.acceptance;
 
-import static com.woowacourse.gongcheck.acceptance.AuthSupport.Host_토큰을_요청한다;
-import static com.woowacourse.gongcheck.acceptance.AuthSupport.토큰을_요청한다;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
@@ -34,7 +32,6 @@ class HostAcceptanceTest extends AcceptanceTest {
     @Test
     void Guest_토큰으로_Space_비밀번호를_변경_요청_시_예외가_발생한다() {
         String token = 토큰을_요청한다(new GuestEnterRequest("1234"));
-
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()
                 .body(new SpacePasswordChangeRequest("4567"))

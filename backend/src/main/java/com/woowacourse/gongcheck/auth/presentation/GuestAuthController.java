@@ -24,8 +24,8 @@ public class GuestAuthController {
         this.enterCodeProvider = enterCodeProvider;
     }
 
-    @PostMapping("/hosts/enter/{*enterCode}")
-    public ResponseEntity<GuestTokenResponse> createGuestToken(@PathVariable("enterCode") final String enterCode,
+    @PostMapping("/hosts/{enterCode}/enter")
+    public ResponseEntity<GuestTokenResponse> createGuestToken(@PathVariable final String enterCode,
                                                                @Valid @RequestBody final GuestEnterRequest request) {
         Long hostId = enterCodeProvider.parseId(enterCode);
         GuestTokenResponse response = guestAuthService.createToken(hostId, request);
