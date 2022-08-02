@@ -8,9 +8,7 @@ import useSections from '@/hooks/useSections';
 import styles from './styles';
 
 const JobUpdate: React.FC = () => {
-  const { sections, updateSection, createSection } = useSections();
-
-  const { jobName, onChangeJobName, onClickUpdateJob } = useJobUpdate(sections, updateSection);
+  const { sections, createSection, jobName, onChangeJobName, onClickUpdateJob } = useJobUpdate();
 
   return (
     <div css={styles.layout}>

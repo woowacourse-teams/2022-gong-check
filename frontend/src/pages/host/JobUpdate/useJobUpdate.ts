@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
+import useSections from '@/hooks/useSections';
 import useToast from '@/hooks/useToast';
 
 import apiJobs from '@/apis/job';
@@ -12,9 +13,8 @@ import { ApiError } from '@/types/apis';
 
 type MutationParams = { jobId: string | number | undefined; jobName: string; sections: SectionType[] };
 
-const useJobUpdate = (sections: SectionType[], updateSection: (sections: SectionType[]) => void) => {
+const useJobUpdate = () => {
   const navigate = useNavigate();
-  const { openToast } = useToast();
 
   const { spaceId, jobId } = useParams();
 
@@ -22,6 +22,10 @@ const useJobUpdate = (sections: SectionType[], updateSection: (sections: Section
   const state = location.state as { jobName: string };
 
   const [jobName, setJobName] = useState('');
+
+  const { sections, createSection, updateSection } = useSections();
+
+  const { openToast } = useToast();
 
   useQuery(['taskData', jobId], () => apiTask.getTasks(jobId), {
     retry: false,
@@ -59,7 +63,7 @@ const useJobUpdate = (sections: SectionType[], updateSection: (sections: Section
     setJobName(state.jobName);
   }, []);
 
-  return { jobName, onChangeJobName, onClickUpdateJob };
+  return { sections, createSection, jobName, onChangeJobName, onClickUpdateJob };
 };
 
 export default useJobUpdate;
