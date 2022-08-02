@@ -3,9 +3,10 @@ package com.woowacourse.gongcheck.infrastructure.oauth;
 import com.woowacourse.gongcheck.auth.application.response.GithubAccessTokenResponse;
 import com.woowacourse.gongcheck.auth.application.response.GithubProfileResponse;
 import com.woowacourse.gongcheck.auth.presentation.request.GithubAccessTokenRequest;
-import com.woowacourse.gongcheck.exception.NotFoundException;
+import com.woowacourse.gongcheck.exception.InfrastructureException;
 import com.woowacourse.gongcheck.exception.UnauthorizedException;
 import java.util.Objects;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -16,6 +17,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Component
+@Slf4j
 public class GithubOauthClient {
 
     private static final String BEARER_TYPE = "Bearer ";
@@ -72,7 +74,8 @@ public class GithubOauthClient {
                     .exchange(url, httpMethod, httpEntity, exchangeType)
                     .getBody();
         } catch (HttpClientErrorException | NullPointerException e) {
-            throw new NotFoundException("해당 사용자의 프로필을 요청할 수 없습니다.");
+            log.error(e.getMessage());
+            throw new InfrastructureException("해당 사용자의 프로필을 요청할 수 없습니다.");
         }
     }
 }

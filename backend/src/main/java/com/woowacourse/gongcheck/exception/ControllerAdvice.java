@@ -2,7 +2,6 @@ package com.woowacourse.gongcheck.exception;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,14 +37,19 @@ public class ControllerAdvice {
         return ResponseEntity.badRequest().body(ErrorResponse.from(e));
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ErrorResponse> handleInternalServerError(RuntimeException e) {
+    @ExceptionHandler(InfrastructureException.class)
+    public ResponseEntity<ErrorResponse> handleInfrastructureException(final InfrastructureException e) {
+        return ResponseEntity.internalServerError().body(ErrorResponse.from(e));
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleInternalServerError(Exception e) {
         StringWriter stringWriter = new StringWriter();
         PrintWriter printWriter = new PrintWriter(stringWriter);
 
         e.printStackTrace(printWriter);
         String stackTrace = stringWriter.toString();
         log.error("Stack Trace : {}", stackTrace);
-        return ResponseEntity.internalServerError().body(ErrorResponse.from(e));
+        return ResponseEntity.internalServerError().body(ErrorResponse.from("서버 에러가 발생했습니다."));
     }
 }
