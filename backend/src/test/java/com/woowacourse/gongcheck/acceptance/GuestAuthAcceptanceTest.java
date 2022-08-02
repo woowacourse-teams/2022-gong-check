@@ -3,7 +3,7 @@ package com.woowacourse.gongcheck.acceptance;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.gongcheck.auth.application.EnterCodeProvider;
+import com.woowacourse.gongcheck.auth.application.EntranceCodeProvider;
 import com.woowacourse.gongcheck.auth.application.response.GuestTokenResponse;
 import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
 import io.restassured.RestAssured;
@@ -17,17 +17,17 @@ import org.springframework.http.MediaType;
 class GuestAuthAcceptanceTest extends AcceptanceTest {
 
     @Autowired
-    private EnterCodeProvider enterCodeProvider;
+    private EntranceCodeProvider entranceCodeProvider;
 
     @Test
     void 올바른_Space_비밀번호를_입력하면_토큰을_반환한다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
-        String enterCode = enterCodeProvider.createEnterCode(1L);
+        String entranceCode = entranceCodeProvider.createEntranceCode(1L);
 
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(guestEnterRequest)
-                .when().post("/api/hosts/{enterCode}/enter/", enterCode)
+                .when().post("/api/hosts/{entranceCode}/enter/", entranceCode)
                 .then().log().all()
                 .extract();
 

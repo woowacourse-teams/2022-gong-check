@@ -3,7 +3,7 @@ package com.woowacourse.gongcheck.core.presentation;
 import com.woowacourse.gongcheck.auth.presentation.AuthenticationPrincipal;
 import com.woowacourse.gongcheck.auth.presentation.aop.HostOnly;
 import com.woowacourse.gongcheck.core.application.HostService;
-import com.woowacourse.gongcheck.core.application.response.EnterCodeResponse;
+import com.woowacourse.gongcheck.core.application.response.EntranceCodeResponse;
 import com.woowacourse.gongcheck.core.presentation.request.SpacePasswordChangeRequest;
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +31,9 @@ public class HostController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/hosts/enterCode")
+    @GetMapping("/hosts/entranceCode")
     @HostOnly
-    public ResponseEntity<EnterCodeResponse> showEnterCode(@AuthenticationPrincipal final Long hostId) {
-        return ResponseEntity.ok(EnterCodeResponse.from(hostService.createEnterCode(hostId)));
+    public ResponseEntity<EntranceCodeResponse> showEntranceCode(@AuthenticationPrincipal final Long hostId) {
+        return ResponseEntity.ok(EntranceCodeResponse.from(hostService.createEntranceCode(hostId)));
     }
 }

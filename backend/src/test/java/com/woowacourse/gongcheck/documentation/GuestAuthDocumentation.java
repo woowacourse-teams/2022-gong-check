@@ -27,7 +27,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 
 class GuestAuthDocumentation extends DocumentationTest {
 
-    private static final String ENTER_CODE = "random_enter_code";
+    private static final String ENTRANCE_CODE = "random_entrance_code";
 
     @Nested
     class 게스트_토큰을_요청한다 {
@@ -40,7 +40,7 @@ class GuestAuthDocumentation extends DocumentationTest {
             docsGiven
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(guestEnterRequest)
-                    .when().post("/api/hosts/{enterCode}/enter", ENTER_CODE)
+                    .when().post("/api/hosts/{entranceCode}/enter", ENTRANCE_CODE)
                     .then().log().all()
                     .apply(document("guests/auth/success",
                             pathParameters(
@@ -63,7 +63,7 @@ class GuestAuthDocumentation extends DocumentationTest {
             ExtractableResponse<MockMvcResponse> response = docsGiven
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(guestEnterRequest)
-                    .when().post("/api/hosts/{enterCode}/enter", ENTER_CODE)
+                    .when().post("/api/hosts/{entranceCode}/enter", ENTRANCE_CODE)
                     .then().log().all()
                     .apply(document("guests/auth/fail/length"))
                     .extract();
@@ -84,7 +84,7 @@ class GuestAuthDocumentation extends DocumentationTest {
             ExtractableResponse<MockMvcResponse> response = docsGiven
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(guestEnterRequest)
-                    .when().post("/api/hosts/{enterCode}/enter", ENTER_CODE)
+                    .when().post("/api/hosts/{entranceCode}/enter", ENTRANCE_CODE)
                     .then().log().all()
                     .apply(document("guests/auth/fail/pattern"))
                     .extract();

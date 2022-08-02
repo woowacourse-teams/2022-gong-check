@@ -3,7 +3,7 @@ package com.woowacourse.gongcheck.documentation;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 
-import com.woowacourse.gongcheck.auth.application.EnterCodeProvider;
+import com.woowacourse.gongcheck.auth.application.EntranceCodeProvider;
 import com.woowacourse.gongcheck.auth.application.GuestAuthService;
 import com.woowacourse.gongcheck.auth.application.HostAuthService;
 import com.woowacourse.gongcheck.auth.domain.AuthenticationContext;
@@ -77,7 +77,7 @@ class DocumentationTest {
     protected JjwtTokenProvider jwtTokenProvider;
 
     @MockBean
-    protected EnterCodeProvider enterCodeProvider;
+    protected EntranceCodeProvider entranceCodeProvider;
 
     @MockBean
     protected AuthenticationContext authenticationContext;

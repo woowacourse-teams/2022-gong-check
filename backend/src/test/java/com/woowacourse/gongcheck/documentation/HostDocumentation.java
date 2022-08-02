@@ -74,12 +74,12 @@ class HostDocumentation extends DocumentationTest {
 
     @Test
     void 호스트_아이디를_조회한다() {
-        when(hostService.createEnterCode(anyLong())).thenReturn("random_entrance_code");
+        when(hostService.createEntranceCode(anyLong())).thenReturn("random_entrance_code");
         when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
         docsGiven
                 .header("Authorization", "Bearer jwt.token.here")
-                .when().get("/api/hosts/enterCode")
+                .when().get("/api/hosts/entranceCode")
                 .then().log().all()
                 .apply(document("hosts/entranceCode",
                         responseFields(

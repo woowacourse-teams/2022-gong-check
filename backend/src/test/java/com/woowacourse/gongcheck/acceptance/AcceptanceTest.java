@@ -2,7 +2,7 @@ package com.woowacourse.gongcheck.acceptance;
 
 import static io.restassured.RestAssured.UNDEFINED_PORT;
 
-import com.woowacourse.gongcheck.auth.application.EnterCodeProvider;
+import com.woowacourse.gongcheck.auth.application.EntranceCodeProvider;
 import com.woowacourse.gongcheck.auth.application.response.GuestTokenResponse;
 import com.woowacourse.gongcheck.auth.application.response.TokenResponse;
 import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
@@ -28,7 +28,7 @@ class AcceptanceTest {
     protected ImageUploader imageUploader;
 
     @Autowired
-    private EnterCodeProvider enterCodeProvider;
+    private EntranceCodeProvider entranceCodeProvider;
 
     @Autowired
     private DatabaseInitializer databaseInitializer;
@@ -49,12 +49,12 @@ class AcceptanceTest {
         databaseInitializer.truncateTables();
     }
     public String 토큰을_요청한다(final GuestEnterRequest guestEnterRequest) {
-        String enterCode = enterCodeProvider.createEnterCode(1L);
+        String entranceCode = entranceCodeProvider.createEntranceCode(1L);
         return RestAssured
                 .given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(guestEnterRequest)
-                .when().post("/api/hosts/{enterCode}/enter/", enterCode)
+                .when().post("/api/hosts/{entranceCode}/enter/", entranceCode)
                 .then().log().all()
                 .extract()
                 .as(GuestTokenResponse.class)

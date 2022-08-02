@@ -1,6 +1,6 @@
 package com.woowacourse.gongcheck.auth.presentation;
 
-import com.woowacourse.gongcheck.auth.application.EnterCodeProvider;
+import com.woowacourse.gongcheck.auth.application.EntranceCodeProvider;
 import com.woowacourse.gongcheck.auth.application.GuestAuthService;
 import com.woowacourse.gongcheck.auth.application.response.GuestTokenResponse;
 import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
@@ -17,17 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class GuestAuthController {
 
     private final GuestAuthService guestAuthService;
-    private final EnterCodeProvider enterCodeProvider;
+    private final EntranceCodeProvider entranceCodeProvider;
 
-    public GuestAuthController(GuestAuthService guestAuthService, EnterCodeProvider enterCodeProvider) {
+    public GuestAuthController(final GuestAuthService guestAuthService,
+                               final EntranceCodeProvider entranceCodeProvider) {
         this.guestAuthService = guestAuthService;
-        this.enterCodeProvider = enterCodeProvider;
+        this.entranceCodeProvider = entranceCodeProvider;
     }
 
-    @PostMapping("/hosts/{enterCode}/enter")
-    public ResponseEntity<GuestTokenResponse> createGuestToken(@PathVariable final String enterCode,
+    @PostMapping("/hosts/{entranceCode}/enter")
+    public ResponseEntity<GuestTokenResponse> createGuestToken(@PathVariable final String entranceCode,
                                                                @Valid @RequestBody final GuestEnterRequest request) {
-        Long hostId = enterCodeProvider.parseId(enterCode);
+        Long hostId = entranceCodeProvider.parseId(entranceCode);
         GuestTokenResponse response = guestAuthService.createToken(hostId, request);
         return ResponseEntity.ok(response);
     }

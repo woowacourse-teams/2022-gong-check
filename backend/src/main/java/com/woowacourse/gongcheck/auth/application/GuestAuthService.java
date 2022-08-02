@@ -22,7 +22,7 @@ public class GuestAuthService {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    public GuestTokenResponse createToken(final long hostId, final GuestEnterRequest request) {
+    public GuestTokenResponse createToken(final Long hostId, final GuestEnterRequest request) {
         Host host = hostRepository.getById(hostId);
         host.checkPassword(new SpacePassword(request.getPassword()));
 

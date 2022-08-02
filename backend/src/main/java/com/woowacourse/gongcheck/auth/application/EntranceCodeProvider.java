@@ -4,21 +4,21 @@ import com.woowacourse.gongcheck.exception.BusinessException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EnterCodeProvider {
+public class EntranceCodeProvider {
 
     private final Hashable hashable;
 
-    public EnterCodeProvider(Hashable hashable) {
+    public EntranceCodeProvider(final Hashable hashable) {
         this.hashable = hashable;
     }
 
-    public String createEnterCode(final Long id) {
+    public String createEntranceCode(final Long id) {
         validateIdFormat(id);
         return hashable.encode(String.valueOf(id));
     }
 
-    public Long parseId(final String enterCode) {
-        String result = hashable.decode(enterCode);
+    public Long parseId(final String entranceCode) {
+        String result = hashable.decode(entranceCode);
         try {
             Long id = Long.parseLong(result);
             validateIdFormat(id);
@@ -28,7 +28,7 @@ public class EnterCodeProvider {
         }
     }
 
-    private void validateIdFormat(Long id) {
+    private void validateIdFormat(final Long id) {
         if (id <= 0) {
             throw new BusinessException("유효하지 않은 id입니다.");
         }

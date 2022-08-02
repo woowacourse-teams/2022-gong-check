@@ -51,7 +51,7 @@ class HostAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()
                 .auth().oauth2(token)
-                .when().get("/api/hosts/enterCode")
+                .when().get("/api/hosts/entranceCode")
                 .then().log().all()
                 .extract();
 

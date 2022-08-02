@@ -28,7 +28,6 @@ out/
 application-dev.yml
 application-local.yml
 application-prod.yml
-application-security.yml
 
 ### NetBeans ###
 /nbproject/private/
