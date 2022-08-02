@@ -5,11 +5,13 @@ import HostLayout from '@/layouts/HostLayout';
 import ManageLayout from '@/layouts/ManageLayout';
 import UserLayout from '@/layouts/UserLayout';
 
+// user
 const SpaceListPage = lazy(() => import('@/pages/user/SpaceList'));
 const JobListPage = lazy(() => import('@/pages/user/JobList'));
 const TaskListPage = lazy(() => import('@/pages/user/TaskList'));
 const PasswordPage = lazy(() => import('@/pages/user/Password'));
 
+// host
 const HomePage = lazy(() => import('@/pages/host/Home'));
 const AuthCallBackPage = lazy(() => import('@/pages/host/AuthCallBack'));
 const DashBoardPage = lazy(() => import('@/pages/host/DashBoard'));
@@ -18,6 +20,7 @@ const SpaceUpdatePage = lazy(() => import('@/pages/host/SpaceUpdate'));
 const SpaceRecordPage = lazy(() => import('@/pages/host/SpaceRecord'));
 const JobCreatePage = lazy(() => import('@/pages/host/JobCreate'));
 const JobUpdatePage = lazy(() => import('@/pages/host/JobUpdate'));
+const PasswordUpdatePage = lazy(() => import('@/pages/host/PasswordUpdate'));
 
 const routes = [
   {
@@ -63,6 +66,10 @@ const routes = [
             element: <ManageLayout />,
             children: [
               {
+                path: 'passwordUpdate',
+                element: <PasswordUpdatePage />,
+              },
+              {
                 path: 'spaceCreate',
                 element: <SpaceCreatePage />,
               },
@@ -86,8 +93,6 @@ const routes = [
                 path: ':spaceId/jobUpdate/:jobId',
                 element: <JobUpdatePage />,
               },
-              // 공간 정보 수정 페이지 <SpaceUpdatePage/>
-              // 회원 정보 수정 페이지 <ProfileUpdatePage />
             ],
           },
         ],
