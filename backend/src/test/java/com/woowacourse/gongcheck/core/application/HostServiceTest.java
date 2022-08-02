@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.gongcheck.auth.application.EnterCodeProvider;
 import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.domain.host.HostRepository;
 import com.woowacourse.gongcheck.core.presentation.request.SpacePasswordChangeRequest;
@@ -30,6 +31,9 @@ class HostServiceTest {
 
     @Autowired
     private HostRepository hostRepository;
+
+    @Autowired
+    private EnterCodeProvider enterCodeProvider;
 
     @Nested
     class changeSpacePassword_메소드는 {
@@ -88,23 +92,25 @@ class HostServiceTest {
     }
 
     @Nested
-    class getHostId_메소드는 {
+    class createEnterCode_메소드는 {
 
         @Nested
         class 존재하는_Host의_id를_받는_경우 {
 
             private Long hostId;
+            private String expected;
 
             @BeforeEach
             void setUp() {
                 hostId = hostRepository.save(Host_생성("1234", 1111L))
                         .getId();
+                expected = enterCodeProvider.createEnterCode(hostId);
             }
 
             @Test
-            void Host의_id를_반환한다() {
-                Long actual = hostService.getHostId(hostId);
-                assertThat(actual).isEqualTo(hostId);
+            void 입장코드를_반환한다() {
+                String actual = hostService.createEnterCode(hostId);
+                assertThat(actual).isEqualTo(expected);
             }
         }
 
@@ -113,7 +119,7 @@ class HostServiceTest {
 
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> hostService.getHostId(0L))
+                assertThatThrownBy(() -> hostService.createEnterCode(0L))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessage("존재하지 않는 호스트입니다.");
             }

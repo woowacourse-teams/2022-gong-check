@@ -48,8 +48,6 @@ class AcceptanceTest {
     void clean() {
         databaseInitializer.truncateTables();
     }
-
-
     public String 토큰을_요청한다(final GuestEnterRequest guestEnterRequest) {
         String enterCode = enterCodeProvider.createEnterCode(1L);
         return RestAssured

@@ -1,5 +1,6 @@
 package com.woowacourse.gongcheck.core.application;
 
+import com.woowacourse.gongcheck.auth.application.EnterCodeProvider;
 import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.domain.host.HostRepository;
 import com.woowacourse.gongcheck.core.domain.host.SpacePassword;
@@ -12,9 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class HostService {
 
     private final HostRepository hostRepository;
+    private final EnterCodeProvider enterCodeProvider;
 
-    public HostService(final HostRepository hostRepository) {
+    public HostService(HostRepository hostRepository, EnterCodeProvider enterCodeProvider) {
         this.hostRepository = hostRepository;
+        this.enterCodeProvider = enterCodeProvider;
     }
 
     @Transactional
@@ -23,7 +26,8 @@ public class HostService {
         host.changeSpacePassword(new SpacePassword(request.getPassword()));
     }
 
-    public Long getHostId(final Long hostId) {
-        return hostRepository.getById(hostId).getId();
+    public String createEnterCode(final Long hostId) {
+        Host host = hostRepository.getById(hostId);
+        return enterCodeProvider.createEnterCode(host.getId());
     }
 }
