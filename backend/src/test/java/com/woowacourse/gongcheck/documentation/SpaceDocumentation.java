@@ -8,20 +8,23 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 
 import com.woowacourse.gongcheck.core.application.response.SpaceResponse;
 import com.woowacourse.gongcheck.core.application.response.SpacesResponse;
 import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.presentation.request.SpaceChangeRequest;
 import com.woowacourse.gongcheck.core.presentation.request.SpaceCreateRequest;
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.payload.JsonFieldType;
 
 class SpaceDocumentation extends DocumentationTest {
 
@@ -43,7 +46,15 @@ class SpaceDocumentation extends DocumentationTest {
                     .header(AUTHORIZATION, "Bearer jwt.token.here")
                     .when().get("/api/spaces")
                     .then().log().all()
-                    .apply(document("spaces/list"))
+                    .apply(document("spaces/list",
+                            responseFields(
+                                    fieldWithPath("spaces.[].id").type(JsonFieldType.NUMBER)
+                                            .description("Space Id"),
+                                    fieldWithPath("spaces.[].name").type(JsonFieldType.STRING)
+                                            .description("Space 이름"),
+                                    fieldWithPath("spaces.[].imageUrl").type(JsonFieldType.STRING)
+                                            .description("Space Image Url")
+                            )))
                     .statusCode(HttpStatus.OK.value());
         }
     }
@@ -63,7 +74,14 @@ class SpaceDocumentation extends DocumentationTest {
                     .body(request)
                     .when().post("/api/spaces")
                     .then().log().all()
-                    .apply(document("spaces/create/success"))
+                    .apply(document("spaces/create/success",
+                            requestFields(
+                                    fieldWithPath("name").type(JsonFieldType.STRING)
+                                            .description("Space 이름"),
+                                    fieldWithPath("imageUrl").type(JsonFieldType.STRING)
+                                            .description("Space Image Url")
+                            )
+                    ))
                     .statusCode(HttpStatus.CREATED.value());
         }
 
@@ -113,9 +131,20 @@ class SpaceDocumentation extends DocumentationTest {
 
             docsGiven
                     .header(AUTHORIZATION, "Bearer jwt.token.here")
-                    .when().get("/api/spaces/1")
+                    .when().get("/api/spaces/{spaceId}", 1)
                     .then().log().all()
-                    .apply(document("spaces/find"))
+                    .apply(document("spaces/find",
+                            pathParameters(
+                                    parameterWithName("spaceId").description("조회할 Space Id")),
+                            responseFields(
+                                    fieldWithPath("id").type(JsonFieldType.NUMBER)
+                                            .description("Space Id"),
+                                    fieldWithPath("name").type(JsonFieldType.STRING)
+                                            .description("Space 이름"),
+                                    fieldWithPath("imageUrl").type(JsonFieldType.STRING)
+                                            .description("Space Image Url")
+                            )
+                    ))
                     .statusCode(HttpStatus.OK.value());
         }
     }
@@ -133,9 +162,18 @@ class SpaceDocumentation extends DocumentationTest {
                     .header(AUTHORIZATION, "Bearer jwt.token.here")
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(request)
-                    .when().put("/api/spaces/1")
+                    .when().put("/api/spaces/{spaceId}", 1)
                     .then().log().all()
-                    .apply(document("spaces/change/success"))
+                    .apply(document("spaces/change/success",
+                            pathParameters(
+                                    parameterWithName("spaceId").description("수정할 Space Id")),
+                            requestFields(
+                                    fieldWithPath("name").type(JsonFieldType.STRING)
+                                            .description("Space 이름"),
+                                    fieldWithPath("imageUrl").type(JsonFieldType.STRING)
+                                            .description("Space Image Url")
+                            )
+                    ))
                     .statusCode(HttpStatus.NO_CONTENT.value());
         }
 
@@ -163,9 +201,12 @@ class SpaceDocumentation extends DocumentationTest {
 
         docsGiven
                 .header(AUTHORIZATION, "Bearer jwt.token.here")
-                .when().delete("/api/spaces/1")
+                .when().delete("/api/spaces/{spaceId}", 1)
                 .then().log().all()
-                .apply(document("spaces/delete"))
+                .apply(document("spaces/delete",
+                        pathParameters(
+                                parameterWithName("spaceId").description("삭제할 Space Id"))
+                ))
                 .statusCode(HttpStatus.NO_CONTENT.value());
     }
 }

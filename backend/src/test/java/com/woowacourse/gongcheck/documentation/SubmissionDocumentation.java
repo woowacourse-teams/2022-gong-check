@@ -13,6 +13,11 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 
 import com.woowacourse.gongcheck.core.application.response.SubmissionCreatedResponse;
 import com.woowacourse.gongcheck.core.application.response.SubmissionsResponse;
@@ -31,6 +36,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.payload.JsonFieldType;
 
 class SubmissionDocumentation extends DocumentationTest {
 
@@ -52,9 +58,16 @@ class SubmissionDocumentation extends DocumentationTest {
                     .header("Authorization", "Bearer jwt.token.here")
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(submissionRequest)
-                    .when().post("/api/jobs/1/complete")
+                    .when().post("/api/jobs/{jobId}/complete", 1)
                     .then().log().all()
-                    .apply(document("submissions/submit/success"))
+                    .apply(document("submissions/submit/success",
+                            pathParameters(
+                                    parameterWithName("jobId").description("Submission을 제출할 Job Id")),
+                            requestFields(
+                                    fieldWithPath("author").type(JsonFieldType.STRING)
+                                            .description("제출자")
+                            )
+                    ))
                     .statusCode(HttpStatus.OK.value());
         }
 
@@ -169,9 +182,25 @@ class SubmissionDocumentation extends DocumentationTest {
                     .header(AUTHORIZATION, "Bearer jwt.token.here")
                     .queryParam("page", 0)
                     .queryParam("size", 2)
-                    .when().get("/api/spaces/1/submissions")
+                    .when().get("/api/spaces/{spaceId}/submissions", 1)
                     .then().log().all()
-                    .apply(document("submissions/list"))
+                    .apply(document("submissions/list",
+                            pathParameters(
+                                    parameterWithName("spaceId").description("Submission 목록을 조회할 Space Id")),
+                            responseFields(
+                                    fieldWithPath("submissions.[].submissionId").type(JsonFieldType.NUMBER)
+                                            .description("Submission Id"),
+                                    fieldWithPath("submissions.[].jobId").type(JsonFieldType.NUMBER)
+                                            .description("Job Id"),
+                                    fieldWithPath("submissions.[].jobName").type(JsonFieldType.STRING)
+                                            .description("Job 이름"),
+                                    fieldWithPath("submissions.[].author").type(JsonFieldType.STRING)
+                                            .description("제출자"),
+                                    fieldWithPath("submissions.[].createdAt").type(JsonFieldType.STRING)
+                                            .description("제출 날짜"),
+                                    fieldWithPath("hasNext").type(JsonFieldType.BOOLEAN)
+                                            .description("다음 페이지 존재 여부")
+                            )))
                     .statusCode(HttpStatus.OK.value());
         }
     }

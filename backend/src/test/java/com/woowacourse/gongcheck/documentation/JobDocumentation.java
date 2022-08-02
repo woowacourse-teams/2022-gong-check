@@ -10,6 +10,11 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 
 import com.woowacourse.gongcheck.core.application.response.JobsResponse;
 import com.woowacourse.gongcheck.core.application.response.SlackUrlResponse;
@@ -29,6 +34,7 @@ import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.payload.JsonFieldType;
 
 class JobDocumentation extends DocumentationTest {
 
@@ -49,9 +55,17 @@ class JobDocumentation extends DocumentationTest {
 
             docsGiven
                     .header("Authorization", "Bearer jwt.token.here")
-                    .when().get("/api/spaces/1/jobs")
+                    .when().get("/api/spaces/{spaceId}/jobs", 1)
                     .then().log().all()
-                    .apply(document("jobs/list"))
+                    .apply(document("jobs/list",
+                            pathParameters(
+                                    parameterWithName("spaceId").description("Job 목록을 조회할 Space Id")),
+                            responseFields(
+                                    fieldWithPath("jobs.[].id").type(JsonFieldType.NUMBER).description("Job id"),
+                                    fieldWithPath("jobs.[].name").type(JsonFieldType.STRING).description("Job 이름")
+
+                            )
+                    ))
                     .statusCode(HttpStatus.OK.value());
         }
     }
@@ -72,9 +86,19 @@ class JobDocumentation extends DocumentationTest {
                     .header("Authorization", "Bearer jwt.token.here")
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(request)
-                    .when().post("/api/spaces/1/jobs")
+                    .when().post("/api/spaces/{spaceId}/jobs", 1)
                     .then().log().all()
-                    .apply(document("jobs/create/success"))
+                    .apply(document("jobs/create/success",
+                            pathParameters(
+                                    parameterWithName("spaceId").description("Job을 생성할 Space Id")),
+                            requestFields(
+                                    fieldWithPath("name").type(JsonFieldType.STRING).description("Job 이름"),
+                                    fieldWithPath("sections.[].name").type(JsonFieldType.STRING)
+                                            .description("Section 이름"),
+                                    fieldWithPath("sections.[].tasks.[].name").type(JsonFieldType.STRING)
+                                            .description("Task 이름")
+                            )
+                    ))
                     .statusCode(HttpStatus.CREATED.value());
         }
 
@@ -154,9 +178,19 @@ class JobDocumentation extends DocumentationTest {
                     .header("Authorization", "Bearer jwt.token.here")
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(request)
-                    .when().put("/api/jobs/1")
+                    .when().put("/api/jobs/{jobId}", 1)
                     .then().log().all()
-                    .apply(document("jobs/change/success"))
+                    .apply(document("jobs/change/success",
+                            pathParameters(
+                                    parameterWithName("jobId").description("수정할 Job Id")),
+                            requestFields(
+                                    fieldWithPath("name").type(JsonFieldType.STRING).description("Job 이름"),
+                                    fieldWithPath("sections.[].name").type(JsonFieldType.STRING)
+                                            .description("Section 이름"),
+                                    fieldWithPath("sections.[].tasks.[].name").type(JsonFieldType.STRING)
+                                            .description("Task 이름")
+                            )
+                    ))
                     .statusCode(HttpStatus.NO_CONTENT.value());
         }
 
@@ -229,9 +263,12 @@ class JobDocumentation extends DocumentationTest {
 
         docsGiven
                 .header(AUTHORIZATION, "Bearer jwt.token.here")
-                .when().delete("/api/jobs/1")
+                .when().delete("/api/jobs/{jobId}", 1)
                 .then().log().all()
-                .apply(document("jobs/delete"))
+                .apply(document("jobs/delete",
+                        pathParameters(
+                                parameterWithName("jobId").description("삭제할 Job Id"))
+                ))
                 .statusCode(HttpStatus.NO_CONTENT.value());
     }
 
@@ -242,9 +279,14 @@ class JobDocumentation extends DocumentationTest {
 
         ExtractableResponse<MockMvcResponse> response = docsGiven
                 .header("Authorization", "Bearer jwt.token.here")
-                .when().get("/api/jobs/1/slack")
+                .when().get("/api/jobs/{jobId}/slack", 1)
                 .then().log().all()
-                .apply(document("jobs/slack_url"))
+                .apply(document("jobs/slack_url",
+                        pathParameters(
+                                parameterWithName("jobId").description("Slack Url을 조회할 Job Id")),
+                        responseFields(
+                                fieldWithPath("slackUrl").type(JsonFieldType.STRING).description("Slack Url")
+                        )))
                 .extract();
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
@@ -264,9 +306,15 @@ class JobDocumentation extends DocumentationTest {
                     .header("Authorization", "Bearer jwt.token.here")
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(request)
-                    .when().put("/api/jobs/1/slack")
+                    .when().put("/api/jobs/{jobId}/slack", 1)
                     .then().log().all()
-                    .apply(document("jobs/change_slack_url/success"))
+                    .apply(document("jobs/change_slack_url/success",
+                            pathParameters(
+                                    parameterWithName("jobId").description("Slack Url을 수정할 Job Id")),
+                            requestFields(
+                                    fieldWithPath("slackUrl").type(JsonFieldType.STRING).description("수정할 Slack Url")
+                            )
+                    ))
                     .statusCode(HttpStatus.NO_CONTENT.value());
         }
 

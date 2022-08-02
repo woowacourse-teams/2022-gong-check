@@ -6,4 +6,4 @@ operation::hosts/spacePassword_update/success[snippets='http-request,http-respon
 
 
 === 호스트 아이디 조회
-operation::hosts/find[snippets='http-request,http-response']
+operation::hosts/find[snippets='http-request,http-response,response-fields']

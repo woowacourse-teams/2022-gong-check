@@ -7,6 +7,11 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 
 import com.woowacourse.gongcheck.auth.application.response.GuestTokenResponse;
 import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
@@ -18,6 +23,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.payload.JsonFieldType;
 
 class GuestAuthDocumentation extends DocumentationTest {
 
@@ -32,9 +38,17 @@ class GuestAuthDocumentation extends DocumentationTest {
             docsGiven
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(guestEnterRequest)
-                    .when().post("/api/hosts/1/enter")
+                    .when().post("/api/hosts/{hostId}/enter", 1)
                     .then().log().all()
-                    .apply(document("guests/auth/success"))
+                    .apply(document("guests/auth/success",
+                            pathParameters(
+                                    parameterWithName("hostId").description("입장할 host의 Id")),
+                            requestFields(
+                                    fieldWithPath("password").type(JsonFieldType.STRING).description("공간 비밀번호")),
+                            responseFields(
+                                    fieldWithPath("token").type(JsonFieldType.STRING).description("Access Token")
+                            )
+                    ))
                     .statusCode(HttpStatus.OK.value());
         }
 

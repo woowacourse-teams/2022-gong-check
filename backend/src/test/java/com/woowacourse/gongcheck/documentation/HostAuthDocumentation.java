@@ -3,6 +3,9 @@ package com.woowacourse.gongcheck.documentation;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 
 import com.woowacourse.gongcheck.auth.application.response.TokenResponse;
 import com.woowacourse.gongcheck.auth.presentation.request.TokenRequest;
@@ -10,6 +13,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.payload.JsonFieldType;
 
 public class HostAuthDocumentation extends DocumentationTest {
 
@@ -27,7 +31,14 @@ public class HostAuthDocumentation extends DocumentationTest {
                     .body(tokenRequest)
                     .when().post("api/login")
                     .then().log().all()
-                    .apply(document("hosts/auth/success"))
+                    .apply(document("hosts/auth/success",
+                            requestFields(
+                                    fieldWithPath("code").type(JsonFieldType.STRING).description("Authorization Code")),
+                            responseFields(
+                                    fieldWithPath("token").type(JsonFieldType.STRING).description("Access Token"),
+                                    fieldWithPath("alreadyJoin").type(JsonFieldType.BOOLEAN).description("가입 여부")
+                            )
+                    ))
                     .statusCode(HttpStatus.OK.value());
         }
     }

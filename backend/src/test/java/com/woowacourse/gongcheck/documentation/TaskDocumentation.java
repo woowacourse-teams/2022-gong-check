@@ -15,6 +15,10 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 
 import com.woowacourse.gongcheck.core.application.response.JobActiveResponse;
 import com.woowacourse.gongcheck.core.application.response.RunningTasksResponse;
@@ -35,6 +39,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.payload.JsonFieldType;
 
 class TaskDocumentation extends DocumentationTest {
 
@@ -48,9 +53,12 @@ class TaskDocumentation extends DocumentationTest {
 
             docsGiven
                     .header("Authorization", "Bearer jwt.token.here")
-                    .when().post("/api/jobs/1/runningTasks/new")
+                    .when().post("/api/jobs/{jobId}/runningTasks/new", 1)
                     .then().log().all()
-                    .apply(document("runningTasks/create/success"))
+                    .apply(document("runningTasks/create/success",
+                            pathParameters(
+                                    parameterWithName("jobId").description("RunningTask를 생성할 Job Id"))
+                    ))
                     .statusCode(HttpStatus.CREATED.value());
         }
 
@@ -82,9 +90,16 @@ class TaskDocumentation extends DocumentationTest {
 
             docsGiven
                     .header("Authorization", "Bearer jwt.token.here")
-                    .when().get("/api/jobs/1/active")
+                    .when().get("/api/jobs/{jobId}/active", 1)
                     .then().log().all()
-                    .apply(document("runningTasks/active/success"))
+                    .apply(document("runningTasks/active/success",
+                            pathParameters(
+                                    parameterWithName("jobId").description("RunningTask 생성 여부를 확인할 Job Id")),
+                            responseFields(
+                                    fieldWithPath("active").type(JsonFieldType.BOOLEAN)
+                                            .description("RunningTask 진행 여부")
+                            )
+                    ))
                     .statusCode(HttpStatus.OK.value());
         }
     }
@@ -110,9 +125,24 @@ class TaskDocumentation extends DocumentationTest {
 
             docsGiven
                     .header("Authorization", "Bearer jwt.token.here")
-                    .when().get("/api/jobs/1/runningTasks")
+                    .when().get("/api/jobs/{jobId}/runningTasks", 1)
                     .then().log().all()
-                    .apply(document("runningTasks/find/success"))
+                    .apply(document("runningTasks/find/success",
+                            pathParameters(
+                                    parameterWithName("jobId").description("해당 RunningTask를 조회할 Job Id")),
+                            responseFields(
+                                    fieldWithPath("sections.[].id").type(JsonFieldType.NUMBER)
+                                            .description("Section Id"),
+                                    fieldWithPath("sections.[].name").type(JsonFieldType.STRING)
+                                            .description("Section 이름"),
+                                    fieldWithPath("sections.[].tasks.[].id").type(JsonFieldType.NUMBER)
+                                            .description("Task Id"),
+                                    fieldWithPath("sections.[].tasks.[].name").type(JsonFieldType.STRING)
+                                            .description("Task 이름"),
+                                    fieldWithPath("sections.[].tasks.[].checked").type(JsonFieldType.BOOLEAN)
+                                            .description("완료 여부")
+                            )
+                    ))
                     .statusCode(HttpStatus.OK.value());
         }
 
@@ -144,9 +174,12 @@ class TaskDocumentation extends DocumentationTest {
 
             docsGiven
                     .header("Authorization", "Bearer jwt.token.here")
-                    .when().post("/api/tasks/1/flip")
+                    .when().post("/api/tasks/{taskId}/flip", 1)
                     .then().log().all()
-                    .apply(document("runningTasks/check/success"))
+                    .apply(document("runningTasks/check/success",
+                            pathParameters(
+                                    parameterWithName("taskId").description("체크 상태를 변경할 RunningTask Id"))
+                    ))
                     .statusCode(HttpStatus.OK.value());
         }
 
@@ -218,9 +251,22 @@ class TaskDocumentation extends DocumentationTest {
 
         docsGiven
                 .header("Authorization", "Bearer jwt.token.here")
-                .when().get("/api/jobs/1/tasks")
+                .when().get("/api/jobs/{jobId}/tasks", 1)
                 .then().log().all()
-                .apply(document("tasks/find/success"))
+                .apply(document("tasks/find/success",
+                        pathParameters(
+                                parameterWithName("jobId").description("해당 Task를 조회할 Job Id")),
+                        responseFields(
+                                fieldWithPath("sections.[].id").type(JsonFieldType.NUMBER)
+                                        .description("Section Id"),
+                                fieldWithPath("sections.[].name").type(JsonFieldType.STRING)
+                                        .description("Section 이름"),
+                                fieldWithPath("sections.[].tasks.[].id").type(JsonFieldType.NUMBER)
+                                        .description("Task Id"),
+                                fieldWithPath("sections.[].tasks.[].name").type(JsonFieldType.STRING)
+                                        .description("Task 이름")
+                        )
+                ))
                 .statusCode(HttpStatus.OK.value());
     }
 }

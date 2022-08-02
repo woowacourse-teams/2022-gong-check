@@ -2,4 +2,5 @@
 == 게스트
 
 === 공간 입장
-operation::guests/auth/success[snippets='http-request,http-response']
+
+operation::guests/auth/success[snippets='http-request,http-response,path-parameters,request-fields,response-fields']

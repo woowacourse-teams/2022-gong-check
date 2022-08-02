@@ -6,12 +6,17 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
 
 import java.io.File;
 import java.io.IOException;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.payload.JsonFieldType;
 
 class ImageUploadDocumentation extends DocumentationTest {
 
@@ -27,7 +32,13 @@ class ImageUploadDocumentation extends DocumentationTest {
                 .multiPart("image", fakeImage)
                 .when().post("/api/image-upload")
                 .then().log().all()
-                .apply(document("image-upload"))
+                .apply(document("image-upload",
+                        requestParts(partWithName("image")
+                                .description("The version of the image")),
+                        responseFields(
+                                fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("저장된 Image Url")
+                        )
+                ))
                 .statusCode(HttpStatus.OK.value());
     }
 }
