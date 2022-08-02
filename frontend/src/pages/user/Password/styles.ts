@@ -9,6 +9,9 @@ const layout = css`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 389px) {
+    font-size: 14px;
+  }
   font-size: 16px;
 `;
 const homeCoverImage = css`
@@ -17,7 +20,7 @@ const homeCoverImage = css`
   align-items: center;
 
   img {
-    width: 20em;
+    width: 22em;
   }
 `;
 
@@ -31,8 +34,9 @@ const textWrapper = css`
   }
 
   p:nth-of-type(1) {
+    margin-top: 12px;
     font-weight: bold;
-    font-size: 1.5em;
+    font-size: 1.4em;
   }
   p:nth-of-type(2) {
     font-size: 1em;
@@ -47,7 +51,7 @@ const textWrapper = css`
 const form = ({ isActiveSubmit }: { isActiveSubmit: boolean }) => css`
   display: flex;
   flex-direction: column;
-  margin-top: 2.4rem;
+  margin-top: 1.5rem;
   width: 15em;
 
   input {
@@ -64,6 +68,7 @@ const form = ({ isActiveSubmit }: { isActiveSubmit: boolean }) => css`
 
   input,
   button {
+    font-size: 1em;
     width: 100%;
     height: 3em;
     margin: 0.6em 0;
