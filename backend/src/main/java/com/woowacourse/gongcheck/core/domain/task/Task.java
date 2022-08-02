@@ -4,6 +4,7 @@ import com.woowacourse.gongcheck.core.domain.section.Section;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
@@ -43,6 +44,9 @@ public class Task {
     @Column(name = "name", length = NAME_MAX_LENGTH, nullable = false)
     private String name;
 
+    @Embedded
+    private TaskExplanation taskExplanation;
+
     @CreatedDate
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
@@ -55,11 +59,12 @@ public class Task {
     }
 
     public Task(final Long id, final Section section, final RunningTask runningTask, final String name,
-                final LocalDateTime createdAt, final LocalDateTime updatedAt) {
+                final TaskExplanation taskExplanation, final LocalDateTime createdAt, final LocalDateTime updatedAt) {
         this.id = id;
         this.section = section;
         this.runningTask = runningTask;
         this.name = name;
+        this.taskExplanation = taskExplanation;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }

@@ -11,10 +11,16 @@ public class TaskCreateRequest {
     @NotNull(message = "작업의 이름은 null 일 수 없습니다.")
     private String name;
 
+    private String description;
+
+    private String imageUrl;
+
     private TaskCreateRequest() {
     }
 
-    public TaskCreateRequest(final String name) {
+    public TaskCreateRequest(final String name, final String description, final String imageUrl) {
         this.name = name;
+        this.description = description;
+        this.imageUrl = imageUrl;
     }
 }
