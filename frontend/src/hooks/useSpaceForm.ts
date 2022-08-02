@@ -50,8 +50,8 @@ const useSpaceForm = () => {
 
   const createSpace = async (formData: any, name: string, isExistImage: boolean) => {
     if (isExistImage) {
-      const { imageUrl } = await uploadImage(formData);
-      newSpace({ name, imageUrl });
+      const { imageUrl: newImageUrl } = await uploadImage(formData);
+      newSpace({ name, imageUrl: newImageUrl });
 
       return;
     }
@@ -67,8 +67,8 @@ const useSpaceForm = () => {
     imageUrl: string | undefined
   ) => {
     if (isExistImage) {
-      const { imageUrl } = await uploadImage(formData);
-      updatePutSpace({ spaceId, name, imageUrl });
+      const { imageUrl: newImageUrl } = await uploadImage(formData);
+      updatePutSpace({ spaceId, name, imageUrl: newImageUrl });
 
       return;
     }
