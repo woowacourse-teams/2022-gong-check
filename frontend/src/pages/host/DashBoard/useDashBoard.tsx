@@ -20,8 +20,10 @@ const useDashBoard = () => {
   const { openModal } = useModal();
   const { openToast } = useToast();
 
-  const { data: spaceData } = useQuery(['spaceDashBoard', spaceId], () => apiSpace.getSpace(spaceId), {
+  const { data: spaceData } = useQuery(['space', spaceId], () => apiSpace.getSpace(spaceId), {
     suspense: true,
+    staleTime: 0,
+    cacheTime: 0,
   });
   const { data: jobsData } = useQuery(['jobs', spaceId], () => apiJobs.getJobs(spaceId), { suspense: true });
   const { data: submissionData } = useQuery(['submissions', spaceId], () => apiSubmission.getSubmission({ spaceId }), {
