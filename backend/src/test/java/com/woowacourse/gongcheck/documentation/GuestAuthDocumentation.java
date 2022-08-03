@@ -44,7 +44,7 @@ class GuestAuthDocumentation extends DocumentationTest {
                     .then().log().all()
                     .apply(document("guests/auth/success",
                             pathParameters(
-                                    parameterWithName("hostId").description("입장할 host의 Id")),
+                                    parameterWithName("entranceCode").description("호스트가 제공하는 입장코드")),
                             requestFields(
                                     fieldWithPath("password").type(JsonFieldType.STRING).description("공간 비밀번호")),
                             responseFields(

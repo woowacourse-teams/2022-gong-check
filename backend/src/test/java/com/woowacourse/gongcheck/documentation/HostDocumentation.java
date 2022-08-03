@@ -73,7 +73,7 @@ class HostDocumentation extends DocumentationTest {
     }
 
     @Test
-    void 호스트_아이디를_조회한다() {
+    void 호스트_입장코드를_조회한다() {
         when(hostService.createEntranceCode(anyLong())).thenReturn("random_entrance_code");
         when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
@@ -83,7 +83,7 @@ class HostDocumentation extends DocumentationTest {
                 .then().log().all()
                 .apply(document("hosts/entranceCode",
                         responseFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("내 아이디")
+                                fieldWithPath("entranceCode").type(JsonFieldType.STRING).description("입장코드")
                         )
                 ))
                 .statusCode(HttpStatus.OK.value());
