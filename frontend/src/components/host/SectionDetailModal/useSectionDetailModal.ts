@@ -47,8 +47,7 @@ const useSectionDetailModal = (props: SectionDetailModalProps) => {
     const imageFile = e.target.files[0];
 
     const formData = new FormData();
-    formData.append('name', imageFile);
-    formData.append('filename', imageFile.name);
+    formData.append('image', imageFile);
 
     uploadImage(formData);
 
