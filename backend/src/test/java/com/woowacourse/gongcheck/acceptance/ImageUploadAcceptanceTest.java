@@ -3,8 +3,12 @@ package com.woowacourse.gongcheck.acceptance;
 import static com.woowacourse.gongcheck.FakeImageFactory.createFakeImage;
 import static com.woowacourse.gongcheck.acceptance.AuthSupport.Host_토큰을_요청한다;
 import static com.woowacourse.gongcheck.acceptance.AuthSupport.토큰을_요청한다;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
+import com.woowacourse.gongcheck.core.application.response.ImageUrlResponse;
 import io.restassured.RestAssured;
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +22,9 @@ class ImageUploadAcceptanceTest extends AcceptanceTest {
     void Host_토큰으로_이미지를_업로드한다() throws IOException {
         File fakeImage = createFakeImage();
         String token = Host_토큰을_요청한다().getToken();
+
+        when(imageUploader.upload(any(), anyString()))
+                .thenReturn(ImageUrlResponse.from("https://localhost/images/cjnaskdcnljaskd.jpg"));
 
         RestAssured
                 .given().log().all()

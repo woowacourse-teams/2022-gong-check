@@ -3,12 +3,11 @@ package com.woowacourse.gongcheck.core.domain.image.imageFile;
 import static org.springframework.util.StringUtils.getFilenameExtension;
 
 import com.woowacourse.gongcheck.exception.BusinessException;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.regex.Pattern;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.web.multipart.MultipartFile;
 
 public class ImageFile {
@@ -69,19 +68,16 @@ public class ImageFile {
         }
     }
 
-    public InputStream inputStream() {
-        return new ByteArrayInputStream(imageBytes);
+    public ByteArrayResource inputStream() {
+        return new ByteArrayResource(imageBytes) {
+            @Override
+            public String getFilename() {
+                return randomName();
+            }
+        };
     }
 
-    public long length() {
-        return imageBytes.length;
-    }
-
-    public String randomName() {
+    private String randomName() {
         return UUID.randomUUID().toString() + "." + extension;
-    }
-
-    public String contentType() {
-        return contentType;
     }
 }

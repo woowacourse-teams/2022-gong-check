@@ -3,34 +3,36 @@ package com.woowacourse.gongcheck.infrastructure.imageuploader;
 import com.woowacourse.gongcheck.core.application.ImageUploader;
 import com.woowacourse.gongcheck.core.application.response.ImageUrlResponse;
 import com.woowacourse.gongcheck.core.domain.image.imageFile.ImageFile;
-import com.woowacourse.gongcheck.exception.BusinessException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
+import org.springframework.http.MediaType;
+import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
 
 public class OwnServerImageUploader implements ImageUploader {
 
-    private final Path storageLocation;
-    private final String imagePathPrefix;
+    private final WebClient webClient;
 
-    public OwnServerImageUploader(final Path storageLocation, final String imagePathPrefix) {
-        this.storageLocation = storageLocation;
-        this.imagePathPrefix = imagePathPrefix;
+    public OwnServerImageUploader(final WebClient webClient) {
+        this.webClient = webClient;
     }
 
     @Override
     public ImageUrlResponse upload(final MultipartFile image, final String directoryName) {
         ImageFile imageFile = ImageFile.from(image);
+        return ImageUrlResponse.from(postToImageServer(imageFile));
+    }
 
-        try {
-            String imageFileInputName = imageFile.randomName();
-            Path fileStorageLocation = storageLocation.resolve(imageFileInputName);
-            Files.copy(imageFile.inputStream(), fileStorageLocation, StandardCopyOption.REPLACE_EXISTING);
-            return ImageUrlResponse.from(imagePathPrefix + imageFileInputName);
-        } catch (IOException exception) {
-            throw new BusinessException("파일 업로드 시 문제가 발생했습니다.");
-        }
+    private String postToImageServer(final ImageFile imageFile) {
+        MultipartBodyBuilder builder = new MultipartBodyBuilder();
+        builder.part("file", imageFile.inputStream());
+
+        return webClient.post()
+                .uri("/api/image-upload")
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .body(BodyInserters.fromMultipartData(builder.build()))
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
     }
 }
