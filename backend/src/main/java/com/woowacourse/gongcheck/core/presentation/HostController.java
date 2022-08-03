@@ -34,6 +34,7 @@ public class HostController {
     @GetMapping("/hosts/entranceCode")
     @HostOnly
     public ResponseEntity<EntranceCodeResponse> showEntranceCode(@AuthenticationPrincipal final Long hostId) {
-        return ResponseEntity.ok(EntranceCodeResponse.from(hostService.createEntranceCode(hostId)));
+        String entranceCode = hostService.createEntranceCode(hostId);
+        return ResponseEntity.ok(EntranceCodeResponse.from(entranceCode));
     }
 }
