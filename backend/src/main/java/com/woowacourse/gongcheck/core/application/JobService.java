@@ -112,7 +112,8 @@ public class JobService {
         Section section = Section.builder()
                 .job(job)
                 .name(sectionCreateRequest.getName())
-                .sectionExplanation(sectionCreateRequest.toSectionExplanation())
+                .description(sectionCreateRequest.getDescription())
+                .imageUrl(sectionCreateRequest.getImageUrl())
                 .build();
         sectionRepository.save(section);
         createTasks(sectionCreateRequest.getTasks(), section);
@@ -131,6 +132,8 @@ public class JobService {
         return Task.builder()
                 .section(section)
                 .name(taskCreateRequest.getName())
+                .description(taskCreateRequest.getDescription())
+                .imageUrl(taskCreateRequest.getImageUrl())
                 .build();
     }
 

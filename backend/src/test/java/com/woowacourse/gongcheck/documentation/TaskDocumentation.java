@@ -135,10 +135,18 @@ class TaskDocumentation extends DocumentationTest {
                                             .description("Section Id"),
                                     fieldWithPath("sections.[].name").type(JsonFieldType.STRING)
                                             .description("Section 이름"),
+                                    fieldWithPath("sections.[].imageUrl").type(JsonFieldType.STRING)
+                                            .description("Section Image Url"),
+                                    fieldWithPath("sections.[].description").type(JsonFieldType.STRING)
+                                            .description("Section 설명"),
                                     fieldWithPath("sections.[].tasks.[].id").type(JsonFieldType.NUMBER)
                                             .description("Task Id"),
                                     fieldWithPath("sections.[].tasks.[].name").type(JsonFieldType.STRING)
                                             .description("Task 이름"),
+                                    fieldWithPath("sections.[].tasks.[].imageUrl").type(JsonFieldType.STRING)
+                                            .description("Task Image Url"),
+                                    fieldWithPath("sections.[].tasks.[].description").type(JsonFieldType.STRING)
+                                            .description("Task 설명"),
                                     fieldWithPath("sections.[].tasks.[].checked").type(JsonFieldType.BOOLEAN)
                                             .description("완료 여부")
                             )
@@ -261,10 +269,18 @@ class TaskDocumentation extends DocumentationTest {
                                         .description("Section Id"),
                                 fieldWithPath("sections.[].name").type(JsonFieldType.STRING)
                                         .description("Section 이름"),
+                                fieldWithPath("sections.[].imageUrl").type(JsonFieldType.STRING)
+                                        .description("Section Image Url"),
+                                fieldWithPath("sections.[].description").type(JsonFieldType.STRING)
+                                        .description("Section 설명"),
                                 fieldWithPath("sections.[].tasks.[].id").type(JsonFieldType.NUMBER)
                                         .description("Task Id"),
                                 fieldWithPath("sections.[].tasks.[].name").type(JsonFieldType.STRING)
-                                        .description("Task 이름")
+                                        .description("Task 이름"),
+                                fieldWithPath("sections.[].tasks.[].imageUrl").type(JsonFieldType.STRING)
+                                        .description("Task Image Url"),
+                                fieldWithPath("sections.[].tasks.[].description").type(JsonFieldType.STRING)
+                                        .description("Task 설명")
                         )
                 ))
                 .statusCode(HttpStatus.OK.value());
