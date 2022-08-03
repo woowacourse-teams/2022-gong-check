@@ -14,6 +14,8 @@ export type JobType = {
 export type SectionType = {
   id: ID | undefined;
   name: string;
+  description: string;
+  imageUrl: string;
   tasks: TaskType[];
 };
 
@@ -21,4 +23,6 @@ export type TaskType = {
   id: ID;
   name: string;
   checked?: boolean;
+  description: string;
+  imageUrl: string;
 };
