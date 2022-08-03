@@ -4,6 +4,7 @@ import static com.woowacourse.gongcheck.auth.domain.Authority.GUEST;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.woowacourse.gongcheck.exception.InfrastructureException;
 import com.woowacourse.gongcheck.exception.UnauthorizedException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -42,7 +43,7 @@ class JjwtTokenProviderTest {
         String invalidToken = "invalidToken";
 
         assertThatThrownBy(() -> tokenProvider.extractSubject(invalidToken))
-                .isInstanceOf(UnauthorizedException.class)
+                .isInstanceOf(InfrastructureException.class)
                 .hasMessage("올바르지 않은 토큰입니다.");
     }
 
@@ -73,7 +74,7 @@ class JjwtTokenProviderTest {
         String invalidToken = "invalidToken";
 
         assertThatThrownBy(() -> tokenProvider.extractAuthority(invalidToken))
-                .isInstanceOf(UnauthorizedException.class)
+                .isInstanceOf(InfrastructureException.class)
                 .hasMessage("올바르지 않은 토큰입니다.");
     }
 }

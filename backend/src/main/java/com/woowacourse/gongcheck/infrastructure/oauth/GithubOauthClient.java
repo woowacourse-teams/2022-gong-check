@@ -54,7 +54,7 @@ public class GithubOauthClient {
         GithubAccessTokenResponse githubAccessTokenResponse = exchangeRestTemplateBody(tokenUrl, HttpMethod.POST,
                 httpEntity, GithubAccessTokenResponse.class);
         if (Objects.isNull(githubAccessTokenResponse)) {
-            throw new UnauthorizedException("잘못된 요청입니다.");
+            throw new InfrastructureException("잘못된 요청입니다.");
         }
         return githubAccessTokenResponse.getAccessToken();
     }

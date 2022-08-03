@@ -83,7 +83,7 @@ class GithubOauthClientTest {
             @Test
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> githubOauthClient.requestGithubProfileByCode("code"))
-                        .isInstanceOf(UnauthorizedException.class)
+                        .isInstanceOf(InfrastructureException.class)
                         .hasMessage("잘못된 요청입니다.");
                 mockRestServiceServer.verify();
             }
