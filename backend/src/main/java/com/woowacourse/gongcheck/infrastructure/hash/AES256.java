@@ -25,7 +25,7 @@ public class AES256 implements Hashable {
     private static final String ALGORITHM = "AES";
     private static final String CIPHER_MODE = "CBC";
     private static final String PADDING = "PKCS5Padding";
-    private static final String transformation = String.format("%s/%s/%s", ALGORITHM, CIPHER_MODE, PADDING);
+    private static final String TRANSFORMATION = String.format("%s/%s/%s", ALGORITHM, CIPHER_MODE, PADDING);
 
     private final SecretKeySpec secretKeySpec;
     private final IvParameterSpec ivParamSpec;
@@ -42,7 +42,7 @@ public class AES256 implements Hashable {
     @Override
     public String encode(String input) {
         try {
-            Cipher cipher = Cipher.getInstance(transformation);
+            Cipher cipher = Cipher.getInstance(TRANSFORMATION);
             cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, ivParamSpec);
             byte[] encrypted = cipher.doFinal(input.getBytes(StandardCharsets.UTF_8));
             return Base64.encodeBase64URLSafeString(encrypted);
@@ -57,7 +57,7 @@ public class AES256 implements Hashable {
     @Override
     public String decode(String input) {
         try {
-            Cipher cipher = Cipher.getInstance(transformation);
+            Cipher cipher = Cipher.getInstance(TRANSFORMATION);
             cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivParamSpec);
             byte[] decodedBytes = Base64.decodeBase64URLSafe(input);
             byte[] decrypted = cipher.doFinal(decodedBytes);
