@@ -87,8 +87,7 @@ const useSpaceForm = () => {
     const isExistImage = files.length > 0;
 
     if (isExistImage) {
-      formData.append('name', file);
-      formData.append('filename', file.name);
+      formData.append('image', file);
     }
 
     createSpace(formData, name, isExistImage);
@@ -109,8 +108,7 @@ const useSpaceForm = () => {
     const isExistImage = files.length > 0;
 
     if (isExistImage) {
-      formData.append('name', file);
-      formData.append('filename', file.name);
+      formData.append('image', file);
     }
 
     updateSpace(formData, name, spaceId, isExistImage, imageUrl);
