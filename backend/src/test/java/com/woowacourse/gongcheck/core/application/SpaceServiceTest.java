@@ -177,7 +177,6 @@ class SpaceServiceTest {
                 Space actual = spaceRepository.getById(spaceId);
 
                 assertAll(
-                        () -> assertThat(actual.getId()).isEqualTo(spaceId),
                         () -> assertThat(actual.getName().getValue()).isEqualTo(SPACE_NAME),
                         () -> assertThat(actual.getImageUrl()).isEqualTo(SPACE_IMAGE_URL)
                 );

@@ -107,8 +107,7 @@ class TaskServiceTest {
                                 .containsExactly(false, false),
                         () -> assertThat(actual)
                                 .extracting(RunningTask::getTaskId)
-                                .containsAll(taskIds),
-                        () -> assertThat(actual).hasSize(2)
+                                .containsAll(taskIds)
                 );
             }
         }
@@ -378,7 +377,8 @@ class TaskServiceTest {
                                 .extracting(RunningTasksWithSectionResponse::getName)
                                 .containsExactly(SECTION_NAME),
                         () -> assertThat(actual).hasSize(1),
-                        () -> assertThat(actualTasks).extracting(RunningTaskResponse::getName)
+                        () -> assertThat(actualTasks)
+                                .extracting(RunningTaskResponse::getName)
                                 .containsExactly(TASK_NAME_1, TASK_NAME_2)
                 );
             }

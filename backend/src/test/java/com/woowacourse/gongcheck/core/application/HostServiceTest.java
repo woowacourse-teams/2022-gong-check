@@ -41,7 +41,6 @@ class HostServiceTest {
             private static final String CHANGING_PASSWORD = "4567";
             private static final long GITHUB_ID = 1234L;
 
-
             private SpacePasswordChangeRequest spacePasswordChangeRequest;
             private Long hostId;
 

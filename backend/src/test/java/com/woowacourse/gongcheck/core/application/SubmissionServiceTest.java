@@ -309,7 +309,8 @@ class SubmissionServiceTest {
         @Nested
         class 올바른_Host의_Space를_입력받는_경우 {
 
-            private static final String SUBMISSION_AUTHOR = "어썸오";
+            private static final String SUBMISSION_AUTHOR_1 = "어썸오";
+            private static final String SUBMISSION_AUTHOR_2 = "어썸오";
 
             private Host host;
             private Space space;
@@ -322,9 +323,9 @@ class SubmissionServiceTest {
                 space = spaceRepository.save(Space_생성(host, "잠실"));
                 job = jobRepository.save(Job_생성(space, "청소"));
                 request = PageRequest.of(0, 2);
-                submissionRepository.save(Submission_생성(job, SUBMISSION_AUTHOR));
-                submissionRepository.save(Submission_생성(job, SUBMISSION_AUTHOR));
-                submissionRepository.save(Submission_생성(job, SUBMISSION_AUTHOR));
+                submissionRepository.save(Submission_생성(job, SUBMISSION_AUTHOR_1));
+                submissionRepository.save(Submission_생성(job, SUBMISSION_AUTHOR_2));
+                submissionRepository.save(Submission_생성(job, SUBMISSION_AUTHOR_2));
             }
 
             @Test
@@ -334,13 +335,13 @@ class SubmissionServiceTest {
                 assertAll(
                         () -> assertThat(actual.getSubmissions())
                                 .extracting(SubmissionResponse::getJobId)
-                                        .containsExactly(job.getId(), job.getId()),
+                                .containsExactly(job.getId(), job.getId()),
                         () -> assertThat(actual.getSubmissions())
                                 .extracting(SubmissionResponse::getJobName)
                                 .containsExactly(job.getName(), job.getName()),
                         () -> assertThat(actual.getSubmissions())
                                 .extracting(SubmissionResponse::getAuthor)
-                                .containsExactly(SUBMISSION_AUTHOR, SUBMISSION_AUTHOR),
+                                .containsExactly(SUBMISSION_AUTHOR_1, SUBMISSION_AUTHOR_2),
                         () -> assertThat(actual.isHasNext()).isTrue()
                 );
             }
