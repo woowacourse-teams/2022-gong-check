@@ -1,5 +1,6 @@
 package com.woowacourse.gongcheck.documentation;
 
+import static com.woowacourse.gongcheck.FakeImageFactory.createFakeImage;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -23,9 +24,9 @@ class ImageUploadDocumentation extends DocumentationTest {
 
     @Test
     void 이미지를_업로드한다() throws IOException {
-        File fakeImage = File.createTempFile("temp", ".jpg");
+        File fakeImage = createFakeImage();
         when(imageUploader.upload(any(), anyString()))
-                .thenReturn(ImageUrlResponse.from("https://image.gongcheck.com/12sdf124sx"));
+                .thenReturn(ImageUrlResponse.from("https://image.gongcheck.com/12sdf124sx.jpg"));
         when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
         docsGiven

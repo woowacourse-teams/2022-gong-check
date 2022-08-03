@@ -3,8 +3,6 @@ package com.woowacourse.gongcheck.infrastructure.imageuploader;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.gongcheck.core.application.response.ImageUrlResponse;
-import java.io.File;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,15 +30,10 @@ class OwnServerImageUploaderTest {
     private OwnServerImageUploader ownServerImageUploader;
 
     @BeforeEach
-    void setUp() throws IOException {
-        String storageLocation = resourceLoader.getResource(uploadDir).getURI().getPath();
-        String imagePathPrefix = resourceLoader.getResource(serverPath).getURI().getPath();
+    void setUp() {
+        String storageLocation = this.getClass().getResource("").getPath();
+        String imagePathPrefix = this.getClass().getResource("").getPath();
         ownServerImageUploader = new OwnServerImageUploader(Paths.get(storageLocation), imagePathPrefix);
-    }
-
-    private void removeFile(final String fileUrl) {
-        File file = new File(fileUrl);
-        file.deleteOnExit();
     }
 
     @Nested
@@ -64,7 +57,6 @@ class OwnServerImageUploaderTest {
                 ImageUrlResponse actual = ownServerImageUploader.upload(image, "");
 
                 assertThat(actual.getImageUrl()).isNotNull();
-                removeFile(actual.getImageUrl());
             }
         }
     }

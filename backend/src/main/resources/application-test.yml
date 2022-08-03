@@ -37,8 +37,8 @@ github:
     profile: https://api.github.com/user
 
 file:
-  upload-dir: /
-  server-path: /
+  upload-dir: src/test/resources/static/images/
+  server-path: http://localhost:8080/images/
 
 server:
   port: 7070

@@ -25,9 +25,7 @@ public class ImageUploadController {
     @PostMapping(value = "/imageUpload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @HostOnly
     public ResponseEntity<ImageUrlResponse> uploadImage(@AuthenticationPrincipal final Long hostId,
-                                                        @RequestPart(required = false) final MultipartFile image) {
-//        String imageUrl = imageUploader.upload(image, "/images" + "/hostId");
-//        return ResponseEntity.ok(ImageUrlResponse.from(imageUrl));
-        return null;
+                                                        @RequestPart final MultipartFile image) {
+        return ResponseEntity.ok(imageUploader.upload(image, ""));
     }
 }
