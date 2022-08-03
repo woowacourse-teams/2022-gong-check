@@ -29,11 +29,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ tasks, getSections }) => {
   };
 
   const onClickTaskDetail = (task: any) => {
-    // TODO: api 명세서 나오면 알맞는 데이터를 넣을 생각입니다.
-    const imageUrl = 'https://velog.velcdn.com/images/cks3066/post/258f92c1-32be-4acb-be30-1eb64635c013/image.jpg';
-    const description = '어쩌고 저쩌고저쩌고............ㅇㅇㅇㅇ';
-
-    openModal(<DetailedInfoCardModal name={task.name} imageUrl={imageUrl} description={description} />);
+    openModal(<DetailedInfoCardModal name={task.name} imageUrl={task.imageUrl} description={task.description} />);
   };
 
   return (
@@ -47,7 +43,9 @@ const TaskCard: React.FC<TaskCardProps> = ({ tasks, getSections }) => {
           />
           <div css={styles.textWrapper}>
             <span>{task.name}</span>
-            <RiInformationLine css={styles.icon} size={20} onClick={() => onClickTaskDetail(task)} />
+            {(task.imageUrl || task.description) && (
+              <RiInformationLine css={styles.icon} size={20} onClick={() => onClickTaskDetail(task)} />
+            )}
           </div>
         </div>
       ))}
