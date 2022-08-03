@@ -10,10 +10,8 @@ import useSectionCheck from '@/hooks/useSectionCheck';
 import styles from './styles';
 
 const TaskList: React.FC = () => {
-
   const { locationState, sectionsData, spaceData, getSections, onClickButton, goPreviousPage, onClickSectionDetail } =
     useTaskList();
-
 
   if (!sectionsData || !spaceData) return <></>;
 
@@ -44,17 +42,18 @@ const TaskList: React.FC = () => {
               <section css={styles.location} key={section.id}>
                 <div css={styles.locationHeader}>
                   <p css={styles.locationName}>{section.name}</p>
-                  {/* TODO: 해당 section에 상세 정보 유무에 따라 SectionInfoPreviewBox 노출해야한다.*/}
-                  <SectionInfoPreviewBox
-                    imageUrl={spaceData.imageUrl}
-                    onClick={() =>
-                      onClickSectionDetail({
-                        name: section.name,
-                        imageUrl: spaceData.imageUrl,
-                        description: '어쩌고 저쩌고 이렇고 저렇고....아아아아콜라',
-                      })
-                    }
-                  />
+                  {(section.imageUrl || section.description) && (
+                    <SectionInfoPreviewBox
+                      imageUrl={section.imageUrl}
+                      onClick={() =>
+                        onClickSectionDetail({
+                          name: section.name,
+                          imageUrl: section.imageUrl,
+                          description: section.description,
+                        })
+                      }
+                    />
+                  )}
                 </div>
                 <TaskCard tasks={section.tasks} getSections={getSections} />
               </section>
