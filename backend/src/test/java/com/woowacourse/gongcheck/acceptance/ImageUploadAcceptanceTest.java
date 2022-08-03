@@ -22,7 +22,7 @@ class ImageUploadAcceptanceTest extends AcceptanceTest {
         RestAssured
                 .given().log().all()
                 .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
-                .multiPart("image", fakeImage)
+                .multiPart("images", fakeImage)
                 .auth().oauth2(token)
                 .when().post("/api/imageUpload")
                 .then().log().all()
@@ -38,7 +38,7 @@ class ImageUploadAcceptanceTest extends AcceptanceTest {
         RestAssured
                 .given().log().all()
                 .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
-                .multiPart("image", fakeImage)
+                .multiPart("images", fakeImage)
                 .auth().oauth2(token)
                 .when().post("/api/imageUpload")
                 .then().log().all()

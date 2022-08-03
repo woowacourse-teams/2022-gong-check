@@ -34,9 +34,9 @@ class ImageFileTest {
 
             @BeforeEach
             void setUp() {
-                emptyFile = new MockMultipartFile("image",
+                emptyFile = new MockMultipartFile("images",
                         "jamsil.jpg",
-                        "image/jpg",
+                        "images/jpg",
                         new byte[]{});
             }
 
@@ -55,9 +55,9 @@ class ImageFileTest {
 
             @BeforeEach
             void setUp() {
-                nullNameFile = new MockMultipartFile("image",
+                nullNameFile = new MockMultipartFile("images",
                         null,
-                        "image/jpg",
+                        "images/jpg",
                         "123".getBytes(StandardCharsets.UTF_8));
             }
 
@@ -76,9 +76,9 @@ class ImageFileTest {
 
             @BeforeEach
             void setUp() {
-                textFile = new MockMultipartFile("image",
+                textFile = new MockMultipartFile("images",
                         "jamsil.text",
-                        "image/jpg",
+                        "images/jpg",
                         "123".getBytes(StandardCharsets.UTF_8));
             }
 
@@ -97,9 +97,9 @@ class ImageFileTest {
 
             @BeforeEach
             void setUp() {
-                multipartFile = new MockMultipartFile("image",
+                multipartFile = new MockMultipartFile("images",
                         "jamsil.jpg",
-                        "image/jpg",
+                        "images/jpg",
                         "123".getBytes(StandardCharsets.UTF_8));
             }
 
