@@ -2,7 +2,9 @@
 == submission
 
 === submission 목록 조회
-operation::submissions/list[snippets='http-request,http-response']
+
+operation::submissions/list[snippets='http-request,http-response,path-parameters,response-fields']
 
 === 완료된 job tasks의 submission 제출
-operation::submissions/submit/success[snippets='http-request,http-response']
+
+operation::submissions/submit/success[snippets='http-request,http-response,path-parameters,request-fields']

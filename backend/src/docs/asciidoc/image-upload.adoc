@@ -1,3 +1,3 @@
 [[Image-upload]]
 == 이미지 업로드
-operation::image-upload[snippets='http-request,http-response']
+operation::image-upload[snippets='http-request,http-response,request-parts,response-fields']

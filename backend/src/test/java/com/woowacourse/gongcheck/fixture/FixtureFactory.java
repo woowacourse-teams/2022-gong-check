@@ -34,6 +34,7 @@ public class FixtureFactory {
                 .id(id)
                 .host(host)
                 .name(new Name(name))
+                .imageUrl("image.url")
                 .createdAt(LocalDateTime.now())
                 .build();
     }

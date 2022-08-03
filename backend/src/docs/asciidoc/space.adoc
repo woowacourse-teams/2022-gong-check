@@ -2,16 +2,21 @@
 == space
 
 === space 목록 조회
-operation::spaces/list[snippets='http-request,http-response']
+
+operation::spaces/list[snippets='http-request,http-response,response-fields']
 
 === 단일 space 조회
-operation::spaces/find[snippets='http-request,http-response']
+
+operation::spaces/find[snippets='http-request,path-parameters,http-response,response-fields']
 
 === 새로운 space 생성
-operation::spaces/create/success[snippets='http-request,http-response']
+
+operation::spaces/create/success[snippets='http-request,http-response,request-fields']
 
 === space 수정
-operation::spaces/change/success[snippets='http-request,http-response']
+
+operation::spaces/change/success[snippets='http-request,http-response,path-parameters,request-fields']
 
 === space 삭제
-operation::spaces/delete[snippets='http-request,http-response']
+
+operation::spaces/delete[snippets='http-request,http-response,path-parameters']

@@ -6,6 +6,8 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 
 import com.woowacourse.gongcheck.core.presentation.request.SpacePasswordChangeRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
@@ -13,6 +15,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.payload.JsonFieldType;
 
 class HostDocumentation extends DocumentationTest {
 
@@ -78,7 +81,11 @@ class HostDocumentation extends DocumentationTest {
                 .header("Authorization", "Bearer jwt.token.here")
                 .when().get("/api/hosts/me")
                 .then().log().all()
-                .apply(document("hosts/find"))
+                .apply(document("hosts/find",
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("내 아이디")
+                        )
+                ))
                 .statusCode(HttpStatus.OK.value());
     }
 }
