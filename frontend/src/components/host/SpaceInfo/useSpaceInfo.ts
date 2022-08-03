@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const useSpaceInfo = (data?: { name: string; imageUrl: string; id: number }, type?: 'read' | 'create' | 'update') => {
   const navigate = useNavigate();
+  const [name, setName] = useState<string | undefined>('');
 
   const [isActiveSubmit, setIsActiveSubmit] = useState(type === 'update');
 
@@ -17,7 +18,13 @@ const useSpaceInfo = (data?: { name: string; imageUrl: string; id: number }, typ
     navigate(`/host/manage/${data?.id}/spaceUpdate`);
   };
 
-  return { isActiveSubmit, onChangeSpaceName, onClickEditSpaceInfo };
+  useEffect(() => {
+    if (data?.name) {
+      setName(data?.name);
+    }
+  }, [data]);
+
+  return { name, imageUrl: data?.imageUrl, isActiveSubmit, onChangeSpaceName, onClickEditSpaceInfo };
 };
 
 export default useSpaceInfo;
