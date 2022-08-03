@@ -32,11 +32,11 @@ class ImageUploadDocumentation extends DocumentationTest {
         docsGiven
                 .header(AUTHORIZATION, "Bearer jwt.token.here")
                 .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
-                .multiPart("images", fakeImage)
+                .multiPart("image", fakeImage, "image/jpg")
                 .when().post("/api/imageUpload")
                 .then().log().all()
                 .apply(document("image-upload",
-                        requestParts(partWithName("images")
+                        requestParts(partWithName("image")
                                 .description("The version of the image")),
                         responseFields(
                                 fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("저장된 Image Url")
