@@ -100,8 +100,16 @@ class JobDocumentation extends DocumentationTest {
                                     fieldWithPath("name").type(JsonFieldType.STRING).description("Job 이름"),
                                     fieldWithPath("sections.[].name").type(JsonFieldType.STRING)
                                             .description("Section 이름"),
+                                    fieldWithPath("sections.[].description").type(JsonFieldType.STRING)
+                                            .description("Section 설명"),
+                                    fieldWithPath("sections.[].imageUrl").type(JsonFieldType.STRING)
+                                            .description("Section Image Url"),
                                     fieldWithPath("sections.[].tasks.[].name").type(JsonFieldType.STRING)
-                                            .description("Task 이름")
+                                            .description("Task 이름"),
+                                    fieldWithPath("sections.[].tasks.[].description").type(JsonFieldType.STRING)
+                                            .description("Task 설명"),
+                                    fieldWithPath("sections.[].tasks.[].imageUrl").type(JsonFieldType.STRING)
+                                            .description("Task Image Url")
                             )
                     ))
                     .statusCode(HttpStatus.CREATED.value());
@@ -206,8 +214,16 @@ class JobDocumentation extends DocumentationTest {
                                     fieldWithPath("name").type(JsonFieldType.STRING).description("Job 이름"),
                                     fieldWithPath("sections.[].name").type(JsonFieldType.STRING)
                                             .description("Section 이름"),
+                                    fieldWithPath("sections.[].description").type(JsonFieldType.STRING)
+                                            .description("Section 설명"),
+                                    fieldWithPath("sections.[].imageUrl").type(JsonFieldType.STRING)
+                                            .description("Section Image Url"),
                                     fieldWithPath("sections.[].tasks.[].name").type(JsonFieldType.STRING)
-                                            .description("Task 이름")
+                                            .description("Task 이름"),
+                                    fieldWithPath("sections.[].tasks.[].description").type(JsonFieldType.STRING)
+                                            .description("Task 설명"),
+                                    fieldWithPath("sections.[].tasks.[].imageUrl").type(JsonFieldType.STRING)
+                                            .description("Task Image Url")
                             )
                     ))
                     .statusCode(HttpStatus.NO_CONTENT.value());
