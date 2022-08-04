@@ -6,10 +6,10 @@ on:
     types: [opened, synchronize, reopened]
 defaults:
   run:
-    working-directory: backend
+    working-directory: imagestorage
 jobs:
   build:
-    name: sonar backend
+    name: sonar imagestorage
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
