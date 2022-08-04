@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class ImageFile {
 
-    private static final Pattern IMAGE_FILE_EXTENSION_PATTERN = Pattern.compile("^(png|jpeg|jpg|svg)$");
+    private static final Pattern IMAGE_FILE_EXTENSION_PATTERN = Pattern.compile("^(png|jpeg|jpg|svg|gif)$");
 
     private final String originFileName;
     private final String contentType;
