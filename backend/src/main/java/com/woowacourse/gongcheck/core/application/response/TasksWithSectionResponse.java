@@ -41,8 +41,8 @@ public class TasksWithSectionResponse {
     }
 
     private static TasksWithSectionResponse of(final Section section, final List<Task> tasks) {
-        return new TasksWithSectionResponse(section.getId(), section.getName(), section.getImageUrl(),
-                section.getDescription(), tasks.stream()
+        return new TasksWithSectionResponse(section.getId(), section.getName().getValue(), section.getImageUrl(),
+                section.getDescription().getValue(), tasks.stream()
                 .map(TaskResponse::from)
                 .collect(Collectors.toList()));
     }

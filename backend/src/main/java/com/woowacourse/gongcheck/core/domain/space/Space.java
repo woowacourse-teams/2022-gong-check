@@ -1,6 +1,7 @@
 package com.woowacourse.gongcheck.core.domain.space;
 
 import com.woowacourse.gongcheck.core.domain.host.Host;
+import com.woowacourse.gongcheck.core.domain.vo.Name;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -26,8 +27,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Builder
 @Getter
 public class Space {
-
-    private static final int NAME_MAX_LENGTH = 20;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

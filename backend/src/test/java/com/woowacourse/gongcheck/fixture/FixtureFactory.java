@@ -4,11 +4,12 @@ import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.domain.host.SpacePassword;
 import com.woowacourse.gongcheck.core.domain.job.Job;
 import com.woowacourse.gongcheck.core.domain.section.Section;
-import com.woowacourse.gongcheck.core.domain.space.Name;
 import com.woowacourse.gongcheck.core.domain.space.Space;
 import com.woowacourse.gongcheck.core.domain.submission.Submission;
 import com.woowacourse.gongcheck.core.domain.task.RunningTask;
 import com.woowacourse.gongcheck.core.domain.task.Task;
+import com.woowacourse.gongcheck.core.domain.vo.Description;
+import com.woowacourse.gongcheck.core.domain.vo.Name;
 import java.time.LocalDateTime;
 
 public class FixtureFactory {
@@ -42,7 +43,7 @@ public class FixtureFactory {
     public static Job Job_생성(final Space space, final String name) {
         return Job.builder()
                 .space(space)
-                .name(name)
+                .name(new Name(name))
                 .createdAt(LocalDateTime.now())
                 .build();
     }
@@ -50,7 +51,7 @@ public class FixtureFactory {
     public static Job Job_생성(final Space space, final String name, final String slackUrl) {
         return Job.builder()
                 .space(space)
-                .name(name)
+                .name(new Name(name))
                 .slackUrl(slackUrl)
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -60,7 +61,7 @@ public class FixtureFactory {
         return Job.builder()
                 .id(id)
                 .space(space)
-                .name(name)
+                .name(new Name(name))
                 .createdAt(LocalDateTime.now())
                 .build();
     }
@@ -68,8 +69,8 @@ public class FixtureFactory {
     public static Section Section_생성(final Job job, final String name) {
         return Section.builder()
                 .job(job)
-                .name(name)
-                .description("설명")
+                .name(new Name(name))
+                .description(new Description("설명"))
                 .imageUrl("image.url")
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -79,8 +80,8 @@ public class FixtureFactory {
         return Section.builder()
                 .id(id)
                 .job(job)
-                .name(name)
-                .description("설명")
+                .name(new Name(name))
+                .description(new Description("설명"))
                 .imageUrl("image.url")
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -89,8 +90,8 @@ public class FixtureFactory {
     public static Task Task_생성(final Section section, final String name) {
         return Task.builder()
                 .section(section)
-                .name(name)
-                .description("설명")
+                .name(new Name(name))
+                .description(new Description("설명"))
                 .imageUrl("image.url")
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -100,8 +101,8 @@ public class FixtureFactory {
         return Task.builder()
                 .id(id)
                 .section(section)
-                .name(name)
-                .description("설명")
+                .name(new Name(name))
+                .description(new Description("설명"))
                 .imageUrl("image.url")
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -113,8 +114,8 @@ public class FixtureFactory {
                 .id(id)
                 .section(section)
                 .runningTask(runningTask)
-                .name(name)
-                .description("설명")
+                .name(new Name(name))
+                .description(new Description("설명"))
                 .imageUrl("image.url")
                 .createdAt(LocalDateTime.now())
                 .build();

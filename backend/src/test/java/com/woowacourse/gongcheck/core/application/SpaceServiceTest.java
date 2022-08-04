@@ -159,7 +159,7 @@ class SpaceServiceTest {
         @Nested
         class 입력받은_Host가_존재하는_경우 {
 
-            private static final String SPACE_NAME = "이것은 유일한 Space이름";
+            private static final String SPACE_NAME = "잠실 캠퍼스";
             private static final String SPACE_IMAGE_URL = "https://image.gongcheck.shop/123sdf5";
 
             private Host host;

@@ -1,4 +1,4 @@
-package com.woowacourse.gongcheck.core.domain.space;
+package com.woowacourse.gongcheck.core.domain.vo;
 
 import com.woowacourse.gongcheck.exception.BusinessException;
 import java.util.Objects;
@@ -10,7 +10,7 @@ import lombok.Getter;
 @Getter
 public class Name {
 
-    private static final int NAME_MAX_LENGTH = 20;
+    private static final int NAME_MAX_LENGTH = 10;
 
     @Column(name = "name", length = NAME_MAX_LENGTH, nullable = false)
     private String value;
@@ -25,11 +25,11 @@ public class Name {
 
     private void checkNameLength(final String name) {
         if (name.isBlank()) {
-            throw new BusinessException("공간의 이름은 공백일 수 없습니다.");
+            throw new BusinessException("이름은 공백일 수 없습니다.");
         }
 
         if (name.length() > NAME_MAX_LENGTH) {
-            throw new BusinessException("공간의 이름은 " + NAME_MAX_LENGTH + "자 이하여야합니다.");
+            throw new BusinessException("이름은 " + NAME_MAX_LENGTH + "자 이하여야합니다.");
         }
     }
 

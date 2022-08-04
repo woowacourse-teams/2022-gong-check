@@ -10,20 +10,18 @@ import com.woowacourse.gongcheck.core.domain.job.Job;
 import com.woowacourse.gongcheck.core.domain.job.JobRepository;
 import com.woowacourse.gongcheck.core.domain.section.Section;
 import com.woowacourse.gongcheck.core.domain.section.SectionRepository;
-import com.woowacourse.gongcheck.core.domain.space.Name;
 import com.woowacourse.gongcheck.core.domain.space.Space;
 import com.woowacourse.gongcheck.core.domain.space.SpaceRepository;
 import com.woowacourse.gongcheck.core.domain.task.RunningTaskRepository;
 import com.woowacourse.gongcheck.core.domain.task.Task;
 import com.woowacourse.gongcheck.core.domain.task.TaskRepository;
+import com.woowacourse.gongcheck.core.domain.vo.Name;
 import com.woowacourse.gongcheck.core.presentation.request.SpaceChangeRequest;
 import com.woowacourse.gongcheck.core.presentation.request.SpaceCreateRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import java.util.List;
-import java.util.Objects;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Transactional(readOnly = true)

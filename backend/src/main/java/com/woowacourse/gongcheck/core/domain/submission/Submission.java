@@ -1,6 +1,7 @@
 package com.woowacourse.gongcheck.core.domain.submission;
 
 import com.woowacourse.gongcheck.core.domain.job.Job;
+import com.woowacourse.gongcheck.exception.BusinessException;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -25,7 +26,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Getter
 public class Submission {
 
-    private static final int AUTHOR_MAX_LENGTH = 20;
+    private static final int AUTHOR_MAX_LENGTH = 10;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,10 +47,21 @@ public class Submission {
     }
 
     public Submission(final Long id, final Job job, final String author, final LocalDateTime createdAt) {
+        validateAuthorLength(author);
         this.id = id;
         this.job = job;
         this.author = author;
         this.createdAt = createdAt;
+    }
+
+    private void validateAuthorLength(final String author) {
+        if (author.isBlank()) {
+            throw new BusinessException("제출자 이름은 공백일 수 없습니다.");
+        }
+
+        if (author.length() > AUTHOR_MAX_LENGTH) {
+            throw new BusinessException("제출자 이름은 " + AUTHOR_MAX_LENGTH + "자 이하여야 합니다.");
+        }
     }
 
     @Override

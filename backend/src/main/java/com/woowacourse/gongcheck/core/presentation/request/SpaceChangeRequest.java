@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public class SpaceChangeRequest {
 
-    @NotNull
+    @NotNull(message = "이름은 null일 수 없습니다.")
     private String name;
 
     private String imageUrl;

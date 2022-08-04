@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public class SpacePasswordChangeRequest {
 
-    @NotNull
+    @NotNull(message = "비밀번호는 null일 수 없습니다.")
     private String password;
 
     private SpacePasswordChangeRequest() {
