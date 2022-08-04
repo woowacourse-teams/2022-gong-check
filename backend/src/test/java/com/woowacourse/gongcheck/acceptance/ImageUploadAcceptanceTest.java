@@ -1,7 +1,10 @@
 package com.woowacourse.gongcheck.acceptance;
 
-import static com.woowacourse.gongcheck.acceptance.AuthSupport.Host_토큰을_요청한다;
-import static com.woowacourse.gongcheck.acceptance.AuthSupport.토큰을_요청한다;
+
+import static com.woowacourse.gongcheck.FakeImageFactory.createFakeImage;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
 import com.woowacourse.gongcheck.core.application.response.ImageUrlResponse;
