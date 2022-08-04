@@ -37,7 +37,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
@@ -160,25 +159,58 @@ class SpaceServiceTest {
         @Nested
         class 입력받은_Host가_존재하는_경우 {
 
+            private static final String SPACE_NAME = "이것은 유일한 Space이름";
+            private static final String SPACE_IMAGE_URL = "https://image.gongcheck.shop/123sdf5";
+
             private Host host;
             private SpaceCreateRequest request;
 
             @BeforeEach
             void setUp() {
                 host = hostRepository.save(Host_생성("1234", 1234L));
-                request = new SpaceCreateRequest("이것은 유일한 Space이름", "https://image.gongcheck.shop/123sdf5");
+                request = new SpaceCreateRequest(SPACE_NAME, SPACE_IMAGE_URL);
             }
 
             @Test
             void Space를_생성한다() {
                 Long spaceId = spaceService.createSpace(host.getId(), request);
-                assertThat(spaceId).isNotNull();
+                Space actual = spaceRepository.getById(spaceId);
+
+                assertAll(
+                        () -> assertThat(actual.getName().getValue()).isEqualTo(SPACE_NAME),
+                        () -> assertThat(actual.getImageUrl()).isEqualTo(SPACE_IMAGE_URL)
+                );
             }
         }
     }
 
     @Nested
     class findSpace_메서드는 {
+
+        @Nested
+        class Space_목록이_존재하는_경우 {
+
+            private static final String SPACE_NAME = "잠실 캠퍼스";
+
+            private Host host;
+            private Space space;
+
+            @BeforeEach
+            void setUp() {
+                host = hostRepository.save(Host_생성("1234", 2345L));
+                space = spaceRepository.save(Space_생성(host, SPACE_NAME));
+            }
+
+            @Test
+            void Job_목록을_조회한다() {
+                SpaceResponse actual = spaceService.findSpace(host.getId(), space.getId());
+
+                assertAll(
+                        () -> assertThat(actual.getId()).isEqualTo(space.getId()),
+                        () -> assertThat(actual.getName()).isEqualTo(SPACE_NAME)
+                );
+            }
+        }
 
         @Nested
         class 입력받은_Host가_입력받은_Space를_가지고_있지_않은_경우 {
@@ -243,20 +275,25 @@ class SpaceServiceTest {
         @Nested
         class 입력받은_Host가_입력받은_Space를_소유하고_있는_경우 {
 
+            private static final String SPACE_NAME = "잠실 캠퍼스";
+
             private Host host;
             private Space space;
 
             @BeforeEach
             void setUp() {
                 host = hostRepository.save(Host_생성("1234", 1234L));
-                space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
+                space = spaceRepository.save(Space_생성(host, SPACE_NAME));
             }
 
             @Test
             void Space_응답을_반환한다() {
                 SpaceResponse actual = spaceService.findSpace(host.getId(), space.getId());
 
-                assertThat(actual.getName()).isEqualTo(space.getName().getValue());
+                assertAll(
+                        () -> assertThat(actual.getId()).isEqualTo(space.getId()),
+                        () -> assertThat(actual.getName()).isEqualTo(SPACE_NAME)
+                );
             }
         }
     }
