@@ -30,7 +30,7 @@ const ErrorUserTask: React.FC<ErrorUserTaskProps> = ({ children }) => {
       navigate(`/enter/${hostId}/spaces`);
     }
 
-    if (message === NOT_JOB_TEXT || message === NOT_JOB_WORK) {
+    if (message === NOT_JOB_TEXT || message === NOT_JOB_WORK_TEXT) {
       openToast('ERROR', `다른 사용자가 체크리시트를 제출 했습니다. 공간 선택 페이지로 이동합니다.`);
       navigate(`/enter/${hostId}/spaces`);
     }
