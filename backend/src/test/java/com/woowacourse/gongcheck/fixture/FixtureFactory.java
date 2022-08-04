@@ -8,6 +8,7 @@ import com.woowacourse.gongcheck.core.domain.space.Space;
 import com.woowacourse.gongcheck.core.domain.submission.Submission;
 import com.woowacourse.gongcheck.core.domain.task.RunningTask;
 import com.woowacourse.gongcheck.core.domain.task.Task;
+import com.woowacourse.gongcheck.core.domain.vo.Description;
 import com.woowacourse.gongcheck.core.domain.vo.Name;
 import java.time.LocalDateTime;
 
@@ -69,7 +70,7 @@ public class FixtureFactory {
         return Section.builder()
                 .job(job)
                 .name(new Name(name))
-                .description("설명")
+                .description(new Description("설명"))
                 .imageUrl("image.url")
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -80,7 +81,7 @@ public class FixtureFactory {
                 .id(id)
                 .job(job)
                 .name(new Name(name))
-                .description("설명")
+                .description(new Description("설명"))
                 .imageUrl("image.url")
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -90,7 +91,7 @@ public class FixtureFactory {
         return Task.builder()
                 .section(section)
                 .name(new Name(name))
-                .description("설명")
+                .description(new Description("설명"))
                 .imageUrl("image.url")
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -101,7 +102,7 @@ public class FixtureFactory {
                 .id(id)
                 .section(section)
                 .name(new Name(name))
-                .description("설명")
+                .description(new Description("설명"))
                 .imageUrl("image.url")
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -114,7 +115,7 @@ public class FixtureFactory {
                 .section(section)
                 .runningTask(runningTask)
                 .name(new Name(name))
-                .description("설명")
+                .description(new Description("설명"))
                 .imageUrl("image.url")
                 .createdAt(LocalDateTime.now())
                 .build();

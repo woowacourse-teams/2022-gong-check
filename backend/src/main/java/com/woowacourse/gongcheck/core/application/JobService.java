@@ -15,6 +15,7 @@ import com.woowacourse.gongcheck.core.domain.space.SpaceRepository;
 import com.woowacourse.gongcheck.core.domain.task.RunningTaskRepository;
 import com.woowacourse.gongcheck.core.domain.task.Task;
 import com.woowacourse.gongcheck.core.domain.task.TaskRepository;
+import com.woowacourse.gongcheck.core.domain.vo.Description;
 import com.woowacourse.gongcheck.core.domain.vo.Name;
 import com.woowacourse.gongcheck.core.presentation.request.JobCreateRequest;
 import com.woowacourse.gongcheck.core.presentation.request.SectionCreateRequest;
@@ -113,7 +114,7 @@ public class JobService {
         Section section = Section.builder()
                 .job(job)
                 .name(new Name(sectionCreateRequest.getName()))
-                .description(sectionCreateRequest.getDescription())
+                .description(new Description(sectionCreateRequest.getDescription()))
                 .imageUrl(sectionCreateRequest.getImageUrl())
                 .build();
         sectionRepository.save(section);
@@ -133,7 +134,7 @@ public class JobService {
         return Task.builder()
                 .section(section)
                 .name(new Name(taskCreateRequest.getName()))
-                .description(taskCreateRequest.getDescription())
+                .description(new Description(taskCreateRequest.getDescription()))
                 .imageUrl(taskCreateRequest.getImageUrl())
                 .build();
     }

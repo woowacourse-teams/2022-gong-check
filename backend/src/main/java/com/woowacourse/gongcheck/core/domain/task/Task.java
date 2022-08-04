@@ -1,8 +1,8 @@
 package com.woowacourse.gongcheck.core.domain.task;
 
 import com.woowacourse.gongcheck.core.domain.section.Section;
+import com.woowacourse.gongcheck.core.domain.vo.Description;
 import com.woowacourse.gongcheck.core.domain.vo.Name;
-import com.woowacourse.gongcheck.exception.BusinessException;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -30,8 +30,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Getter
 public class Task {
 
-    private static final int DESCRIPTION_MAX_LENTH = 32;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -46,8 +44,8 @@ public class Task {
     @Embedded
     private Name name;
 
-    @Column(name = "description", length = DESCRIPTION_MAX_LENTH)
-    private String description;
+    @Embedded
+    private Description description;
 
     @Column(name = "image_url")
     private String imageUrl;
@@ -64,9 +62,8 @@ public class Task {
     }
 
     public Task(final Long id, final Section section, final RunningTask runningTask, final Name name,
-                final String description, final String imageUrl, final LocalDateTime createdAt,
+                final Description description, final String imageUrl, final LocalDateTime createdAt,
                 final LocalDateTime updatedAt) {
-        checkDescriptionLength(description);
         this.id = id;
         this.section = section;
         this.runningTask = runningTask;
@@ -75,16 +72,6 @@ public class Task {
         this.imageUrl = imageUrl;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-    }
-
-    private void checkDescriptionLength(final String description) {
-        if (Objects.isNull(description)) {
-            return;
-        }
-
-        if (description.length() > DESCRIPTION_MAX_LENTH) {
-            throw new BusinessException("task의 설명은 " + DESCRIPTION_MAX_LENTH + "자 이하여야합니다.");
-        }
     }
 
     public RunningTask createRunningTask() {
