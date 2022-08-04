@@ -1,6 +1,4 @@
 import useTaskList from './useTaskList';
-import { css } from '@emotion/react';
-import { useEffect } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 
 import Button from '@/components/common/Button';
