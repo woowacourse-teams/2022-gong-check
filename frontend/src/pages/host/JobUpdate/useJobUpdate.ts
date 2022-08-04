@@ -23,11 +23,12 @@ const useJobUpdate = () => {
 
   const [jobName, setJobName] = useState('');
 
-  const { sections, createSection, updateSection } = useSections();
+  const { sections, createSection, updateSection, resetSections } = useSections();
 
   const { openToast } = useToast();
 
-  useQuery(['taskData', jobId], () => apiTask.getTasks(jobId), {
+  const { refetch: getTaskData } = useQuery(['taskData', jobId], () => apiTask.getTasks(jobId), {
+    enabled: false,
     retry: false,
     staleTime: Infinity,
     onSuccess: data => {
@@ -57,10 +58,12 @@ const useJobUpdate = () => {
 
   const onClickUpdateJob = () => {
     updateJob({ jobId, jobName, sections });
+    resetSections();
   };
 
   useEffect(() => {
     setJobName(state.jobName);
+    getTaskData();
   }, []);
 
   return { sections, createSection, jobName, onChangeJobName, onClickUpdateJob };
