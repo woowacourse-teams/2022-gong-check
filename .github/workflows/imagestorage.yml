@@ -1,4 +1,4 @@
-name: sonar storage
+name: sonar imagestorage
 on:
   pull_request:
     branches: [dev]
