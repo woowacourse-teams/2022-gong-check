@@ -27,6 +27,8 @@ security:
     token:
       secret-key: Z29uZy1jaGVjay1nb25nLWNoZWNrLWdvbmctY2hlY2stZ29uZy1jaGVjay1nb25nLWNoZWNrLWdvbmctY2hlY2stZ29uZy1jaGVjay1nb25nLWNoZWNrCg==
       expire-time: 3600000
+  hash:
+    secret-key: 12345678901234567890123456789012
 
 github:
   client:

@@ -1,6 +1,5 @@
 package com.woowacourse.gongcheck.acceptance;
 
-import static com.woowacourse.gongcheck.acceptance.AuthSupport.토큰을_요청한다;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
