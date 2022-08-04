@@ -29,7 +29,8 @@ public class SubmissionResponse {
     }
 
     public static SubmissionResponse from(final Submission submission) {
-        return new SubmissionResponse(submission.getId(), submission.getJob().getId(), submission.getJob().getName(),
+        return new SubmissionResponse(submission.getId(), submission.getJob().getId(),
+                submission.getJob().getName().getValue(),
                 submission.getAuthor(), submission.getCreatedAt());
     }
 }

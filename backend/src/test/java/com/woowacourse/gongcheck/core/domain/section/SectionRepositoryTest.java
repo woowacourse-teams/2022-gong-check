@@ -13,6 +13,7 @@ import com.woowacourse.gongcheck.core.domain.job.Job;
 import com.woowacourse.gongcheck.core.domain.job.JobRepository;
 import com.woowacourse.gongcheck.core.domain.space.Space;
 import com.woowacourse.gongcheck.core.domain.space.SpaceRepository;
+import com.woowacourse.gongcheck.core.domain.vo.Name;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -45,7 +46,7 @@ class SectionRepositoryTest {
         LocalDateTime nowLocalDateTime = LocalDateTime.now();
         Section section = sectionRepository.save(Section.builder()
                 .job(job)
-                .name("트랙룸")
+                .name(new Name("트랙룸"))
                 .build());
         assertThat(section.getCreatedAt()).isAfter(nowLocalDateTime);
     }

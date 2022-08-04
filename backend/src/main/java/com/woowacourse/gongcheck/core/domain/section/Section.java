@@ -1,10 +1,12 @@
 package com.woowacourse.gongcheck.core.domain.section;
 
 import com.woowacourse.gongcheck.core.domain.job.Job;
+import com.woowacourse.gongcheck.core.domain.vo.Name;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
@@ -38,8 +40,8 @@ public class Section {
     @JoinColumn(name = "job_id", nullable = false)
     private Job job;
 
-    @Column(name = "name", length = NAME_MAX_LENGTH, nullable = false)
-    private String name;
+    @Embedded
+    private Name name;
 
     @Column(name = "description", length = DESCRIPTION_MAX_LENTH)
     private String description;
@@ -58,7 +60,7 @@ public class Section {
     protected Section() {
     }
 
-    public Section(final Long id, final Job job, final String name, final String description, final String imageUrl,
+    public Section(final Long id, final Job job, final Name name, final String description, final String imageUrl,
                    final LocalDateTime createdAt, final LocalDateTime updatedAt) {
         checkDescriptionLength(description);
         this.id = id;

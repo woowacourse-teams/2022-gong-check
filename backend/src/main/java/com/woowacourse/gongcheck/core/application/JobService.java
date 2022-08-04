@@ -15,6 +15,7 @@ import com.woowacourse.gongcheck.core.domain.space.SpaceRepository;
 import com.woowacourse.gongcheck.core.domain.task.RunningTaskRepository;
 import com.woowacourse.gongcheck.core.domain.task.Task;
 import com.woowacourse.gongcheck.core.domain.task.TaskRepository;
+import com.woowacourse.gongcheck.core.domain.vo.Name;
 import com.woowacourse.gongcheck.core.presentation.request.JobCreateRequest;
 import com.woowacourse.gongcheck.core.presentation.request.SectionCreateRequest;
 import com.woowacourse.gongcheck.core.presentation.request.SlackUrlChangeRequest;
@@ -97,7 +98,7 @@ public class JobService {
     private Long saveJob(final JobCreateRequest request, final Space space) {
         Job job = Job.builder()
                 .space(space)
-                .name(request.getName())
+                .name(new Name(request.getName()))
                 .build();
         jobRepository.save(job);
         createSectionsAndTasks(request.getSections(), job);
@@ -111,7 +112,7 @@ public class JobService {
     private Section createSectionAndTasks(final SectionCreateRequest sectionCreateRequest, final Job job) {
         Section section = Section.builder()
                 .job(job)
-                .name(sectionCreateRequest.getName())
+                .name(new Name(sectionCreateRequest.getName()))
                 .description(sectionCreateRequest.getDescription())
                 .imageUrl(sectionCreateRequest.getImageUrl())
                 .build();
@@ -131,7 +132,7 @@ public class JobService {
     private Task createTask(final TaskCreateRequest taskCreateRequest, final Section section) {
         return Task.builder()
                 .section(section)
-                .name(taskCreateRequest.getName())
+                .name(new Name(taskCreateRequest.getName()))
                 .description(taskCreateRequest.getDescription())
                 .imageUrl(taskCreateRequest.getImageUrl())
                 .build();

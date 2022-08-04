@@ -1,6 +1,7 @@
 package com.woowacourse.gongcheck.core.domain.space;
 
 import com.woowacourse.gongcheck.core.domain.host.Host;
+import com.woowacourse.gongcheck.core.domain.vo.Name;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import java.util.List;
 import java.util.Optional;

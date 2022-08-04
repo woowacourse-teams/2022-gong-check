@@ -1,6 +1,7 @@
 package com.woowacourse.gongcheck.core.domain.space;
 
 import com.woowacourse.gongcheck.core.domain.host.Host;
+import com.woowacourse.gongcheck.core.domain.vo.Name;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;

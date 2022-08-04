@@ -41,7 +41,7 @@ public class RunningTasksWithSectionResponse {
     }
 
     private static RunningTasksWithSectionResponse of(final Section section, final List<Task> tasks) {
-        return new RunningTasksWithSectionResponse(section.getId(), section.getName(),
+        return new RunningTasksWithSectionResponse(section.getId(), section.getName().getValue(),
                 section.getImageUrl(), section.getDescription(), tasks.stream()
                 .map(RunningTaskResponse::from)
                 .collect(Collectors.toList()));

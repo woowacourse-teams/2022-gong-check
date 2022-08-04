@@ -1,10 +1,12 @@
 package com.woowacourse.gongcheck.core.domain.task;
 
 import com.woowacourse.gongcheck.core.domain.section.Section;
+import com.woowacourse.gongcheck.core.domain.vo.Name;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
@@ -28,7 +30,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Getter
 public class Task {
 
-    private static final int NAME_MAX_LENGTH = 50;
     private static final int DESCRIPTION_MAX_LENTH = 32;
 
     @Id
@@ -42,8 +43,8 @@ public class Task {
     @OneToOne(mappedBy = "task", fetch = FetchType.LAZY)
     private RunningTask runningTask;
 
-    @Column(name = "name", length = NAME_MAX_LENGTH, nullable = false)
-    private String name;
+    @Embedded
+    private Name name;
 
     @Column(name = "description", length = DESCRIPTION_MAX_LENTH)
     private String description;
@@ -62,7 +63,7 @@ public class Task {
     protected Task() {
     }
 
-    public Task(final Long id, final Section section, final RunningTask runningTask, final String name,
+    public Task(final Long id, final Section section, final RunningTask runningTask, final Name name,
                 final String description, final String imageUrl, final LocalDateTime createdAt,
                 final LocalDateTime updatedAt) {
         checkDescriptionLength(description);

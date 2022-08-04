@@ -88,7 +88,7 @@ class JobServiceTest {
                 List<Job> jobs = jobRepository.saveAll(
                         List.of(Job_생성(space, "오픈"), Job_생성(space, "청소"), Job_생성(space, "마감")));
                 jobNames = jobs.stream()
-                        .map(Job::getName)
+                        .map(job -> job.getName().getValue())
                         .collect(Collectors.toList());
             }
 
@@ -211,10 +211,10 @@ class JobServiceTest {
                 assertAll(
                         () -> assertThat(savedJob.getId()).isEqualTo(savedJobId),
                         () -> assertThat(savedTasks)
-                                .extracting(Task::getName)
+                                .extracting(task -> task.getName().getValue())
                                 .containsAll(taskCreateRequestNames),
                         () -> assertThat(savedSections)
-                                .extracting(Section::getName)
+                                .extracting(section -> section.getName().getValue())
                                 .containsAll(sectionCreateRequestNames)
                 );
             }
@@ -355,14 +355,14 @@ class JobServiceTest {
                 List<Task> updateTasks = taskRepository.findAllBySectionIn(updateSections);
 
                 assertAll(
-                        () -> assertThat(updateJob.getName()).isEqualTo(request.getName()),
+                        () -> assertThat(updateJob.getName().getValue()).isEqualTo(request.getName()),
                         () -> assertThat(updateSections).doesNotContain(originSection),
                         () -> assertThat(updateTasks).doesNotContain(originTask),
                         () -> assertThat(updateSections)
-                                .extracting(Section::getName)
+                                .extracting(section -> section.getName().getValue())
                                 .containsAll(requestSectionNames),
                         () -> assertThat(updateTasks)
-                                .extracting(Task::getName)
+                                .extracting(task -> task.getName().getValue())
                                 .containsAll(requestTaskNames)
                 );
             }

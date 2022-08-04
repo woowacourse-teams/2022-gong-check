@@ -2,9 +2,11 @@ package com.woowacourse.gongcheck.core.domain.job;
 
 import com.woowacourse.gongcheck.core.domain.space.Space;
 import com.woowacourse.gongcheck.core.domain.submission.Submission;
+import com.woowacourse.gongcheck.core.domain.vo.Name;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
@@ -27,7 +29,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Getter
 public class Job {
 
-    private static final int NAME_MAX_LENGTH = 20;
+    private static final int NAME_MAX_LENGTH = 10;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,8 +39,8 @@ public class Job {
     @JoinColumn(name = "space_id", nullable = false)
     private Space space;
 
-    @Column(name = "name", length = NAME_MAX_LENGTH, nullable = false)
-    private String name;
+    @Embedded
+    private Name name;
 
     @Column(name = "slack_url")
     private String slackUrl;
@@ -54,7 +56,7 @@ public class Job {
     protected Job() {
     }
 
-    public Job(final Long id, final Space space, final String name, final String slackUrl,
+    public Job(final Long id, final Space space, final Name name, final String slackUrl,
                final LocalDateTime createdAt, final LocalDateTime updatedAt) {
         this.id = id;
         this.space = space;
