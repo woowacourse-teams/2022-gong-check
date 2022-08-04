@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import com.woowacourse.gongcheck.exception.UnauthorizedException;
+import com.woowacourse.gongcheck.exception.BusinessException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +29,7 @@ class HostTest {
             SpacePassword spacePassword = new SpacePassword("1234");
 
             assertThatThrownBy(() -> host.checkPassword(spacePassword))
-                    .isInstanceOf(UnauthorizedException.class)
+                    .isInstanceOf(BusinessException.class)
                     .hasMessage("공간 비밀번호와 입력하신 비밀번호가 일치하지 않습니다.");
         }
 

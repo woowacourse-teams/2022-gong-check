@@ -56,18 +56,18 @@ public class DatabaseInitializer {
                 + "VALUES (1, '잠실', current_timestamp())").executeUpdate();
         entityManager.createNativeQuery("INSERT INTO job (space_id, name, slack_url, created_at)\n"
                 + "VALUES (1, '청소', 'http://slackurl.com', current_timestamp())").executeUpdate();
-        entityManager.createNativeQuery("INSERT INTO section (job_id, name, created_at)\n"
-                + "VALUES (1, '트랙룸', current_timestamp())").executeUpdate();
-        entityManager.createNativeQuery("INSERT INTO task (section_id, name, created_at)\n"
-                + "VALUES (1, '책상 청소', current_timestamp())").executeUpdate();
-        entityManager.createNativeQuery("INSERT INTO task (section_id, name, created_at)\n"
-                + "VALUES (1, '빈백 털기', current_timestamp())").executeUpdate();
-        entityManager.createNativeQuery("INSERT INTO section (job_id, name, created_at)\n"
-                + "VALUES (1, '굿샷 강의장', current_timestamp())").executeUpdate();
-        entityManager.createNativeQuery("INSERT INTO task (section_id, name, created_at)\n"
-                + "VALUES (2, '책상 청소', current_timestamp())").executeUpdate();
-        entityManager.createNativeQuery("INSERT INTO task (section_id, name, created_at)\n"
-                + "VALUES (2, '의자 청소', current_timestamp())").executeUpdate();
+        entityManager.createNativeQuery("INSERT INTO section (job_id, name, created_at, image_url, description)\n"
+                + "VALUES (1, '트랙룸', current_timestamp(), 'image_url', '설명')").executeUpdate();
+        entityManager.createNativeQuery("INSERT INTO task (section_id, name, created_at, image_url, description)\n"
+                + "VALUES (1, '책상 청소', current_timestamp(), 'image_url', '설명')").executeUpdate();
+        entityManager.createNativeQuery("INSERT INTO task (section_id, name, created_at, image_url, description)\n"
+                + "VALUES (1, '빈백 털기', current_timestamp(), 'image_url', '설명')").executeUpdate();
+        entityManager.createNativeQuery("INSERT INTO section (job_id, name, created_at, image_url, description)\n"
+                + "VALUES (1, '굿샷 강의장', current_timestamp(), 'image_url', '설명')").executeUpdate();
+        entityManager.createNativeQuery("INSERT INTO task (section_id, name, created_at, image_url, description)\n"
+                + "VALUES (2, '책상 청소', current_timestamp(), 'image_url', '설명')").executeUpdate();
+        entityManager.createNativeQuery("INSERT INTO task (section_id, name, created_at, image_url, description)\n"
+                + "VALUES (2, '의자 청소', current_timestamp(), 'image_url', '설명')").executeUpdate();
     }
 
     private void truncateTable(final String tableName) {

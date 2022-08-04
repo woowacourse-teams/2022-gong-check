@@ -2,6 +2,7 @@ package com.woowacourse.gongcheck.infrastructure.jwt;
 
 import com.woowacourse.gongcheck.auth.application.JwtTokenProvider;
 import com.woowacourse.gongcheck.auth.domain.Authority;
+import com.woowacourse.gongcheck.exception.InfrastructureException;
 import com.woowacourse.gongcheck.exception.UnauthorizedException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -64,7 +65,7 @@ public class JjwtTokenProvider implements JwtTokenProvider {
         } catch (ExpiredJwtException e) {
             throw new UnauthorizedException("만료된 토큰입니다.");
         } catch (JwtException e) {
-            throw new UnauthorizedException("올바르지 않은 토큰입니다.");
+            throw new InfrastructureException("올바르지 않은 토큰입니다.");
         }
     }
 }

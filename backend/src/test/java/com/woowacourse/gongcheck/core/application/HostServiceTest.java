@@ -3,9 +3,10 @@ package com.woowacourse.gongcheck.core.application;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Host_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.domain.host.HostRepository;
-import com.woowacourse.gongcheck.core.domain.host.SpacePassword;
 import com.woowacourse.gongcheck.core.presentation.request.SpacePasswordChangeRequest;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,6 +39,7 @@ class HostServiceTest {
 
             private static final String ORIGIN_PASSWORD = "1234";
             private static final String CHANGING_PASSWORD = "4567";
+            private static final long GITHUB_ID = 1234L;
 
             private SpacePasswordChangeRequest spacePasswordChangeRequest;
             private Long hostId;
@@ -45,17 +47,20 @@ class HostServiceTest {
             @BeforeEach
             void setUp() {
                 spacePasswordChangeRequest = new SpacePasswordChangeRequest(CHANGING_PASSWORD);
-                hostId = hostRepository.save(Host_생성(ORIGIN_PASSWORD, 1234L))
+                hostId = hostRepository.save(Host_생성(ORIGIN_PASSWORD, GITHUB_ID))
                         .getId();
             }
 
             @Test
             void 패스워드를_수정한다() {
                 hostService.changeSpacePassword(hostId, spacePasswordChangeRequest);
-                SpacePassword actual = hostRepository.getById(hostId)
-                        .getSpacePassword();
+                Host actual = hostRepository.getById(hostId);
 
-                assertThat(actual.getValue()).isEqualTo(CHANGING_PASSWORD);
+                assertAll(
+                        () -> assertThat(actual.getSpacePassword().getValue()).isEqualTo(CHANGING_PASSWORD),
+                        () -> assertThat(actual.getGithubId()).isEqualTo(GITHUB_ID),
+                        () -> assertThat(actual.getId()).isEqualTo(hostId)
+                );
             }
         }
 

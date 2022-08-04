@@ -1,10 +1,10 @@
 package com.woowacourse.gongcheck.core.domain.task;
 
 import com.woowacourse.gongcheck.core.domain.section.Section;
+import com.woowacourse.gongcheck.exception.BusinessException;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
@@ -29,6 +29,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class Task {
 
     private static final int NAME_MAX_LENGTH = 50;
+    private static final int DESCRIPTION_MAX_LENTH = 32;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,8 +45,11 @@ public class Task {
     @Column(name = "name", length = NAME_MAX_LENGTH, nullable = false)
     private String name;
 
-    @Embedded
-    private TaskExplanation taskExplanation;
+    @Column(name = "description", length = DESCRIPTION_MAX_LENTH)
+    private String description;
+
+    @Column(name = "image_url")
+    private String imageUrl;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false)
@@ -59,14 +63,27 @@ public class Task {
     }
 
     public Task(final Long id, final Section section, final RunningTask runningTask, final String name,
-                final TaskExplanation taskExplanation, final LocalDateTime createdAt, final LocalDateTime updatedAt) {
+                final String description, final String imageUrl, final LocalDateTime createdAt,
+                final LocalDateTime updatedAt) {
+        checkDescriptionLength(description);
         this.id = id;
         this.section = section;
         this.runningTask = runningTask;
         this.name = name;
-        this.taskExplanation = taskExplanation;
+        this.description = description;
+        this.imageUrl = imageUrl;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    private void checkDescriptionLength(final String description) {
+        if (Objects.isNull(description)) {
+            return;
+        }
+
+        if (description.length() > DESCRIPTION_MAX_LENTH) {
+            throw new BusinessException("task의 설명은 " + DESCRIPTION_MAX_LENTH + "자 이하여야합니다.");
+        }
     }
 
     public RunningTask createRunningTask() {

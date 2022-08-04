@@ -12,6 +12,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.gongcheck.core.application.response.SubmissionCreatedResponse;
+import com.woowacourse.gongcheck.core.application.response.SubmissionResponse;
 import com.woowacourse.gongcheck.core.application.response.SubmissionsResponse;
 import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.domain.host.HostRepository;
@@ -308,19 +309,23 @@ class SubmissionServiceTest {
         @Nested
         class 올바른_Host의_Space를_입력받는_경우 {
 
+            private static final String SUBMISSION_AUTHOR_1 = "어썸오";
+            private static final String SUBMISSION_AUTHOR_2 = "어썸오";
+
             private Host host;
             private Space space;
             private PageRequest request;
+            private Job job;
 
             @BeforeEach
             void setUp() {
                 host = hostRepository.save(Host_생성("1234", 1234L));
                 space = spaceRepository.save(Space_생성(host, "잠실"));
-                Job job = jobRepository.save(Job_생성(space, "청소"));
+                job = jobRepository.save(Job_생성(space, "청소"));
                 request = PageRequest.of(0, 2);
-                submissionRepository.save(Submission_생성(job));
-                submissionRepository.save(Submission_생성(job));
-                submissionRepository.save(Submission_생성(job));
+                submissionRepository.save(Submission_생성(job, SUBMISSION_AUTHOR_1));
+                submissionRepository.save(Submission_생성(job, SUBMISSION_AUTHOR_2));
+                submissionRepository.save(Submission_생성(job, SUBMISSION_AUTHOR_2));
             }
 
             @Test
@@ -328,7 +333,15 @@ class SubmissionServiceTest {
                 SubmissionsResponse actual = submissionService.findPage(host.getId(), space.getId(), request);
 
                 assertAll(
-                        () -> assertThat(actual.getSubmissions()).hasSize(2),
+                        () -> assertThat(actual.getSubmissions())
+                                .extracting(SubmissionResponse::getJobId)
+                                .containsExactly(job.getId(), job.getId()),
+                        () -> assertThat(actual.getSubmissions())
+                                .extracting(SubmissionResponse::getJobName)
+                                .containsExactly(job.getName(), job.getName()),
+                        () -> assertThat(actual.getSubmissions())
+                                .extracting(SubmissionResponse::getAuthor)
+                                .containsExactly(SUBMISSION_AUTHOR_1, SUBMISSION_AUTHOR_2),
                         () -> assertThat(actual.isHasNext()).isTrue()
                 );
             }

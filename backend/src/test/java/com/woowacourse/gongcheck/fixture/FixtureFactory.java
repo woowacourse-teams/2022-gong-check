@@ -69,6 +69,8 @@ public class FixtureFactory {
         return Section.builder()
                 .job(job)
                 .name(name)
+                .description("설명")
+                .imageUrl("image.url")
                 .createdAt(LocalDateTime.now())
                 .build();
     }
@@ -78,6 +80,8 @@ public class FixtureFactory {
                 .id(id)
                 .job(job)
                 .name(name)
+                .description("설명")
+                .imageUrl("image.url")
                 .createdAt(LocalDateTime.now())
                 .build();
     }
@@ -86,6 +90,8 @@ public class FixtureFactory {
         return Task.builder()
                 .section(section)
                 .name(name)
+                .description("설명")
+                .imageUrl("image.url")
                 .createdAt(LocalDateTime.now())
                 .build();
     }
@@ -95,6 +101,8 @@ public class FixtureFactory {
                 .id(id)
                 .section(section)
                 .name(name)
+                .description("설명")
+                .imageUrl("image.url")
                 .createdAt(LocalDateTime.now())
                 .build();
     }
@@ -106,6 +114,8 @@ public class FixtureFactory {
                 .section(section)
                 .runningTask(runningTask)
                 .name(name)
+                .description("설명")
+                .imageUrl("image.url")
                 .createdAt(LocalDateTime.now())
                 .build();
     }
@@ -118,10 +128,10 @@ public class FixtureFactory {
                 .build();
     }
 
-    public static Submission Submission_생성(final Job job) {
+    public static Submission Submission_생성(final Job job, final String author) {
         return Submission.builder()
                 .job(job)
-                .author("어썸오")
+                .author(author)
                 .createdAt(LocalDateTime.now())
                 .build();
     }

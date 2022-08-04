@@ -59,6 +59,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.10.0'
     implementation 'com.slack.api:slack-app-backend:1.22.2'
     implementation 'com.slack.api:slack-api-model:1.22.2'
+    implementation "com.github.maricn:logback-slack-appender:1.6.1"
 }
 
 processResources.dependsOn('copySecret')
