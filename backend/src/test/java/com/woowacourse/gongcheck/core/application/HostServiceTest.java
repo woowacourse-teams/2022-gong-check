@@ -5,9 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.gongcheck.auth.application.EnterCodeProvider;
-import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.auth.application.EntranceCodeProvider;
+import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.domain.host.HostRepository;
 import com.woowacourse.gongcheck.core.presentation.request.SpacePasswordChangeRequest;
 import com.woowacourse.gongcheck.exception.NotFoundException;
