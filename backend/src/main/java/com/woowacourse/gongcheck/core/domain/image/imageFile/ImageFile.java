@@ -7,9 +7,11 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.regex.Pattern;
+import lombok.Getter;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.web.multipart.MultipartFile;
 
+@Getter
 public class ImageFile {
 
     private static final Pattern IMAGE_FILE_EXTENSION_PATTERN = Pattern.compile("^(png|jpeg|jpg|svg)$");
