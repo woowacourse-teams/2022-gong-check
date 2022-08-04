@@ -29,7 +29,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Getter
 public class Section {
 
-    private static final int NAME_MAX_LENGTH = 20;
     private static final int DESCRIPTION_MAX_LENTH = 32;
 
     @Id

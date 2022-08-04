@@ -29,8 +29,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Getter
 public class Job {
 
-    private static final int NAME_MAX_LENGTH = 10;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
