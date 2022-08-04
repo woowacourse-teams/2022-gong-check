@@ -73,6 +73,9 @@ class SubmissionDocumentation extends DocumentationTest {
 
         @Test
         void author_길이가_올바르지_않은_경우_예외가_발생한다() {
+            doThrow(new BusinessException("제출자 이름의 길이가 올바르지 않습니다."))
+                    .when(submissionService)
+                    .submitJobCompletion(anyLong(), anyLong(), any());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             SubmissionRequest submissionRequest = new SubmissionRequest("123456789123456789123");

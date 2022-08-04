@@ -5,6 +5,7 @@ import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_아이디_�
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -19,6 +20,7 @@ import com.woowacourse.gongcheck.core.application.response.SpacesResponse;
 import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.presentation.request.SpaceChangeRequest;
 import com.woowacourse.gongcheck.core.presentation.request.SpaceCreateRequest;
+import com.woowacourse.gongcheck.exception.BusinessException;
 import java.util.List;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -64,9 +66,10 @@ class SpaceDocumentation extends DocumentationTest {
 
         @Test
         void Space_생성에_성공한다() {
-            SpaceCreateRequest request = new SpaceCreateRequest("잠실 캠퍼스", "https://image.gongcheck.shop/123sdf5");
             when(spaceService.createSpace(anyLong(), any())).thenReturn(1L);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
+            SpaceCreateRequest request = new SpaceCreateRequest("잠실 캠퍼스", "https://image.gongcheck.shop/123sdf5");
 
             docsGiven
                     .header(AUTHORIZATION, "Bearer jwt.token.here")
@@ -87,9 +90,9 @@ class SpaceDocumentation extends DocumentationTest {
 
         @Test
         void Space_이름이_null_인_경우_생성에_실패한다() {
-            SpaceCreateRequest request = new SpaceCreateRequest(null, "https://image.gongcheck.shop/123sdf5");
-            when(spaceService.createSpace(anyLong(), any())).thenReturn(1L);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
+            SpaceCreateRequest request = new SpaceCreateRequest(null, "https://image.gongcheck.shop/123sdf5");
 
             docsGiven
                     .header(AUTHORIZATION, "Bearer jwt.token.here")
@@ -103,9 +106,12 @@ class SpaceDocumentation extends DocumentationTest {
 
         @Test
         void Space_이름이_빈_값_인_경우_생성에_실패한다() {
-            SpaceCreateRequest request = new SpaceCreateRequest("", "https://image.gongcheck.shop/123sdf5");
-            when(spaceService.createSpace(anyLong(), any())).thenReturn(1L);
+            doThrow(BusinessException.class)
+                    .when(spaceService)
+                    .createSpace(anyLong(), any());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
+            SpaceCreateRequest request = new SpaceCreateRequest("", "https://image.gongcheck.shop/123sdf5");
 
             docsGiven
                     .header(AUTHORIZATION, "Bearer jwt.token.here")
@@ -155,7 +161,7 @@ class SpaceDocumentation extends DocumentationTest {
         @Test
         void Space_수정에_성공한다() {
             SpaceChangeRequest request = new SpaceChangeRequest("잠실 캠퍼스", "https://image.gongcheck.shop/123sdf5");
-            doNothing().when(spaceService).changeSpace(anyLong(), anyLong(), any());
+//            doNothing().when(spaceService).changeSpace(anyLong(), anyLong(), any());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             docsGiven
@@ -179,9 +185,9 @@ class SpaceDocumentation extends DocumentationTest {
 
         @Test
         void Space_이름이_null_인_경우_수정에_실패한다() {
-            SpaceChangeRequest request = new SpaceChangeRequest(null, "https://image.gongcheck.shop/123sdf5");
-            doNothing().when(spaceService).changeSpace(anyLong(), anyLong(), any());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
+            SpaceChangeRequest request = new SpaceChangeRequest(null, "https://image.gongcheck.shop/123sdf5");
 
             docsGiven
                     .header(AUTHORIZATION, "Bearer jwt.token.here")

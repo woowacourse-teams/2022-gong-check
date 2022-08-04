@@ -7,6 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -24,6 +25,7 @@ import com.woowacourse.gongcheck.core.presentation.request.JobCreateRequest;
 import com.woowacourse.gongcheck.core.presentation.request.SectionCreateRequest;
 import com.woowacourse.gongcheck.core.presentation.request.SlackUrlChangeRequest;
 import com.woowacourse.gongcheck.core.presentation.request.TaskCreateRequest;
+import com.woowacourse.gongcheck.exception.BusinessException;
 import io.restassured.module.mockmvc.response.MockMvcResponse;
 import io.restassured.response.ExtractableResponse;
 import java.util.List;
@@ -117,8 +119,12 @@ class JobDocumentation extends DocumentationTest {
 
         @Test
         void Job의_이름_길이가_올바르지_않을_경우_예외가_발생한다() {
+            doThrow(BusinessException.class)
+                    .when(jobService)
+                    .createJob(anyLong(), anyLong(), any());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
-            JobCreateRequest wrongRequest = new JobCreateRequest("작업의 이름이 20글자 초과한다면 예외", sections);
+
+            JobCreateRequest wrongRequest = new JobCreateRequest("10자초과의이름은안돼", sections);
 
             ExtractableResponse<MockMvcResponse> response = docsGiven
                     .header("Authorization", "Bearer jwt.token.here")
@@ -134,8 +140,12 @@ class JobDocumentation extends DocumentationTest {
 
         @Test
         void Section_이름_길이가_올바르지_않을_경우_예외가_발생한다() {
+            doThrow(BusinessException.class)
+                    .when(jobService)
+                    .createJob(anyLong(), anyLong(), any());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
-            List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("Section의 name이 20자 초과", "대강의실 설명",
+
+            List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("10자초과의이름은안돼", "대강의실 설명",
                     "https://image.gongcheck.shop/degang123", tasks1));
             JobCreateRequest wrongRequest = new JobCreateRequest("청소", sections);
 
@@ -153,9 +163,13 @@ class JobDocumentation extends DocumentationTest {
 
         @Test
         void Task_이름_길이가_올바르지_않을_경우_예외가_발생한다() {
+            doThrow(BusinessException.class)
+                    .when(jobService)
+                    .createJob(anyLong(), anyLong(), any());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
             List<TaskCreateRequest> tasks1 = List
-                    .of(new TaskCreateRequest("Task의 이름이 1글자 미만 50글자 초과일 경우, Status Code 404를 반환한다", "책상 닦기 설명",
+                    .of(new TaskCreateRequest("10자초과의이름은안돼", "책상 닦기 설명",
                             "https://image.gongcheck.shop/checksang123"));
             List<SectionCreateRequest> sections = List
                     .of(new SectionCreateRequest("대강의실", "대강의실 설명", "https://image.gongcheck.shop/degang123", tasks1));
@@ -187,7 +201,7 @@ class JobDocumentation extends DocumentationTest {
                         new SectionCreateRequest("소강의실", "소강의실 설명", "https://image.gongcheck.shop/sogang123", tasks2));
 
         @Test
-        void Job을_수정한다() {
+        void 성공적으로_수정한다() {
             List<TaskCreateRequest> tasks1 = List
                     .of(new TaskCreateRequest("책상 닦기", "책상 닦기 설명", "https://image.gongcheck.shop/checksang123"),
                             new TaskCreateRequest("칠판 닦기", "칠판 닦기 설명", "https://image.gongcheck.shop/chilpan123"));
@@ -231,16 +245,20 @@ class JobDocumentation extends DocumentationTest {
 
         @ParameterizedTest
         @NullSource
-        @ValueSource(strings = {"", "Job 이름이 20글자 이상일 경우 예외"})
-        void Job_생성할때_이름이_1글자_미만_20글자_초과하거나_null일_경우_예외가_발생한다(final String input) {
+        @ValueSource(strings = {"", "10자초과의이름은안돼"})
+        void Job_이름이_1글자_미만_10글자_초과_nul_인_경우_예외가_발생한다(final String input) {
+            doThrow(BusinessException.class)
+                    .when(jobService)
+                    .updateJob(anyLong(), anyLong(), any());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
             JobCreateRequest wrongRequest = new JobCreateRequest(input, sections);
 
             ExtractableResponse<MockMvcResponse> response = docsGiven
                     .header("Authorization", "Bearer jwt.token.here")
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(wrongRequest)
-                    .when().post("/api/spaces/1/jobs")
+                    .when().put("/api/jobs/{jobId}", 1)
                     .then().log().all()
                     .apply(document("jobs/change/fail/job_name_length"))
                     .extract();
@@ -250,8 +268,11 @@ class JobDocumentation extends DocumentationTest {
 
         @ParameterizedTest
         @NullSource
-        @ValueSource(strings = {"", "Section의 name이 20자 초과"})
-        void Section_생성할때_이름이_1글자_미만_20글자_초과하거나_null일_경우_예외가_발생한다(final String input) {
+        @ValueSource(strings = {"", "10자초과의이름은안돼"})
+        void Section_이름이_1글자_미만_10글자_초과_null_일_경우_예외가_발생한다(final String input) {
+            doThrow(BusinessException.class)
+                    .when(jobService)
+                    .updateJob(anyLong(), anyLong(), any());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
             List<SectionCreateRequest> sections = List
                     .of(new SectionCreateRequest(input, "대강의실 설명", "https://image.gongcheck.shop/degang123", tasks1));
@@ -261,7 +282,7 @@ class JobDocumentation extends DocumentationTest {
                     .header("Authorization", "Bearer jwt.token.here")
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(wrongRequest)
-                    .when().post("/api/spaces/1/jobs")
+                    .when().put("/api/jobs/{jobId}", 1)
                     .then().log().all()
                     .apply(document("jobs/change/fail/section_name_length"))
                     .extract();
@@ -271,9 +292,13 @@ class JobDocumentation extends DocumentationTest {
 
         @ParameterizedTest
         @NullSource
-        @ValueSource(strings = {"", "Task의 이름이 1글자 미만 50글자 초과일 경우, Status Code 404를 반환한다"})
-        void Task_생성할때_이름이_1글자_미만_50글자_초과하거나_null일_경우_예외가_발생한다(final String input) {
+        @ValueSource(strings = {"", "10자초과의이름은안돼"})
+        void Task_이름이_1글자_미만_10글자_초과하거나_null일_경우_예외가_발생한다(final String input) {
+            doThrow(BusinessException.class)
+                    .when(jobService)
+                    .updateJob(anyLong(), anyLong(), any());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
             List<TaskCreateRequest> tasks1 = List.of(
                     new TaskCreateRequest(input, "책상 닦기 설명", "https://image.gongcheck.shop/checksang123"));
             List<SectionCreateRequest> sections = List
@@ -284,7 +309,7 @@ class JobDocumentation extends DocumentationTest {
                     .header("Authorization", "Bearer jwt.token.here")
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(wrongRequest)
-                    .when().post("/api/spaces/1/jobs")
+                    .when().put("/api/jobs/{jobId}", 1)
                     .then().log().all()
                     .apply(document("jobs/change/fail/task_name_length"))
                     .extract();
