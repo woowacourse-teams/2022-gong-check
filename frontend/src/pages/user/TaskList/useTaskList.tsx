@@ -10,7 +10,7 @@ import useModal from '@/hooks/useModal';
 
 import apis from '@/apis';
 
-const RE_FETCH_INTERVAL_TIME = 500;
+const RE_FETCH_INTERVAL_TIME = 100;
 
 const useTaskList = () => {
   const { spaceId, jobId, hostId } = useParams();
