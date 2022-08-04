@@ -85,6 +85,18 @@ const arrowBackIconWrapper = css`
   }
 `;
 
+const progressBarWrapperSticky = css`
+  position: sticky;
+  top: 0;
+  padding: 16px 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${theme.colors.white};
+`;
+
 const progressBarWrapper = css`
   box-shadow: 2px 2px 4px 0px ${theme.colors.shadow40};
   border: 1px solid ${theme.colors.green};
@@ -168,6 +180,7 @@ const styles = {
   header,
   thumbnail,
   infoWrapper,
+  progressBarWrapperSticky,
   progressBarWrapper,
   progressBar,
   percentText,
