@@ -6,22 +6,18 @@ import NameModal from '@/components/user/NameModal';
 
 import useGoPreviousPage from '@/hooks/useGoPreviousPage';
 import useModal from '@/hooks/useModal';
-import useToast from '@/hooks/useToast';
 
 import apis from '@/apis';
-
-import { ApiError } from '@/types/apis';
 
 const RE_FETCH_INTERVAL_TIME = 1000;
 
 const useTaskList = () => {
   const { spaceId, jobId, hostId } = useParams();
   const location = useLocation();
-  const navigate = useNavigate();
+
   const locationState = location.state as { jobName: string } | undefined;
 
   const { openModal } = useModal();
-  const { openToast } = useToast();
 
   const { goPreviousPage } = useGoPreviousPage();
 
