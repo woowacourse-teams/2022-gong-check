@@ -1,13 +1,10 @@
 import useNameModal from './useNameModal';
-import { css } from '@emotion/react';
 
 import Button from '@/components/common/Button';
 import Dimmer from '@/components/common/Dimmer';
 import Input from '@/components/common/Input';
 
 import ModalPortal from '@/portals/ModalPortal';
-
-import theme from '@/styles/theme';
 
 import styles from './styles';
 
