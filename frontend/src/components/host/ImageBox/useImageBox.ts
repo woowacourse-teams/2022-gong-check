@@ -1,3 +1,4 @@
+import checkFileSize from '@/utils/checkFileSize';
 import { useEffect, useState } from 'react';
 
 const useImageBox = (imageUrl: string | undefined) => {
@@ -13,7 +14,8 @@ const useImageBox = (imageUrl: string | undefined) => {
     const file = input.files[0];
     const src = URL.createObjectURL(file);
 
-    setImageSrcUrl(src);
+    const isOkayFileSize = checkFileSize(file);
+    isOkayFileSize ? setImageSrcUrl(src) : (input.value = '');
   };
 
   useEffect(() => {

@@ -21,7 +21,15 @@ const SectionCardDefault: React.FC<SectionCardDefaultProps> = ({ section, sectio
       <form css={styles.titleWrapper} onSubmit={onSubmit}>
         {isEditing ? (
           <>
-            <input css={styles.input} ref={inputRef} value={sectionName} max={20} onChange={onChange} />
+            <input
+              css={styles.input}
+              placeholder="새 업무"
+              ref={inputRef}
+              value={sectionName}
+              maxLength={10}
+              onChange={onChange}
+              required
+            />
             <Button type="submit" css={styles.confirmButton}>
               확인
             </Button>

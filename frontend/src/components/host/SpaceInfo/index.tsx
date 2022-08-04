@@ -43,9 +43,10 @@ const SpaceInfo: React.FC<SpaceInfoProps> = ({ type = 'read', inputText = '', da
             <input
               css={styles.input}
               name="nameInput"
-              placeholder="이름을 입력하세요"
+              placeholder="이름을 입력하세요."
               type="text"
               defaultValue={name || inputText || ''}
+              maxLength={10}
               onChange={onChangeSpaceName}
               required
             />

@@ -70,8 +70,8 @@ const input = css`
   font-size: 1.4rem;
   font-weight: bold;
   cursor: pointer;
-  max-width: 12.5rem;
 
+  width: 100%;
   &:focus {
     outline: none;
   }

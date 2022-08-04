@@ -29,7 +29,7 @@ const NameModal: React.FC<NameModalProps> = ({ title, detail, placeholder, butto
         <div css={styles.container}>
           <h1 css={styles.title}>{title}</h1>
           <span css={styles.detail}>{detail}</span>
-          <Input placeholder={placeholder} onChange={onChangeInput} value={name} />
+          <Input placeholder={placeholder} onChange={onChangeInput} value={name} required />
           <Button css={styles.submitButton(isDisabledButton)} onClick={onClickButton} disabled={isDisabledButton}>
             {buttonText}
           </Button>
