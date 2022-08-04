@@ -1,5 +1,5 @@
 const checkFileSize = (file: File) => {
-  const maxSize = 50 * 1024;
+  const maxSize = 50 * 1024 * 1024;
   const fileSize = file.size;
 
   if (fileSize > maxSize) {
