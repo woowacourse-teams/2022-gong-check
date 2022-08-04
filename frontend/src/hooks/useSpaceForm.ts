@@ -12,7 +12,7 @@ const useSpaceForm = () => {
   const navigate = useNavigate();
   const { openToast } = useToast();
 
-  const { mutate: newSpace } = useMutation(
+  const { mutate: createSpace } = useMutation(
     ({ name, imageUrl }: { name: string; imageUrl: string | undefined }) => apiSpace.postNewSpace(name, imageUrl),
     {
       onSuccess: res => {
@@ -34,7 +34,7 @@ const useSpaceForm = () => {
     },
   });
 
-  const { mutate: updatePutSpace } = useMutation(
+  const { mutate: updateSpace } = useMutation(
     ({ spaceId, name, imageUrl }: { spaceId: ID | undefined; name: string; imageUrl: string | undefined }) =>
       apiSpace.putSpace(spaceId, name, imageUrl),
     {
@@ -48,49 +48,12 @@ const useSpaceForm = () => {
     }
   );
 
-  const createSpace = async (formData: any, name: string, isExistImage: boolean) => {
-    if (isExistImage) {
-      const { imageUrl: newImageUrl } = await uploadImage(formData);
-      newSpace({ name, imageUrl: newImageUrl });
-
-      return;
-    }
-
-    newSpace({ name, imageUrl: undefined });
-  };
-
-  const updateSpace = async (
-    formData: any,
-    name: string,
-    spaceId: ID | undefined,
-    isExistImage: boolean,
-    imageUrl: string | undefined
-  ) => {
-    if (isExistImage) {
-      const { imageUrl: newImageUrl } = await uploadImage(formData);
-      updatePutSpace({ spaceId, name, imageUrl: newImageUrl });
-
-      return;
-    }
-
-    updatePutSpace({ spaceId, name, imageUrl });
-  };
-
-  const onSubmitCreateSpace = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitCreateSpace = (e: React.FormEvent<HTMLFormElement>, imageUrl: string | undefined) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
-    const formData = new FormData();
-
     const name = form['nameInput'].value;
-    const files = form['imageInput'].files;
-    const file = files[0];
-    const isExistImage = files.length > 0;
 
-    if (isExistImage) {
-      formData.append('image', file);
-    }
-
-    createSpace(formData, name, isExistImage);
+    createSpace({ name, imageUrl });
   };
 
   const onSubmitUpdateSpace = async (
@@ -100,18 +63,9 @@ const useSpaceForm = () => {
   ) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
-    const formData = new FormData();
-
     const name = form['nameInput'].value;
-    const files = form['imageInput'].files;
-    const file = files[0];
-    const isExistImage = files.length > 0;
 
-    if (isExistImage) {
-      formData.append('image', file);
-    }
-
-    updateSpace(formData, name, spaceId, isExistImage, imageUrl);
+    updateSpace({ spaceId, name, imageUrl });
   };
 
   return { onSubmitCreateSpace, onSubmitUpdateSpace };

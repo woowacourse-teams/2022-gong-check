@@ -2,6 +2,7 @@ import useDashBoard from './useDashBoard';
 import { GoLinkExternal } from 'react-icons/go';
 
 import Button from '@/components/common/Button';
+import ImageBox from '@/components/host/ImageBox';
 import JobListCard from '@/components/host/JobListCard';
 import SpaceDeleteButton from '@/components/host/SpaceDeleteButton';
 import SpaceInfo from '@/components/host/SpaceInfo';
@@ -37,7 +38,9 @@ const DashBoard: React.FC = () => {
           <SpaceDeleteButton spaceId={spaceId} spaceName={spaceData?.name} />
         </div>
         <div css={styles.cardWrapper}>
-          <SpaceInfo type={'read'} data={spaceData} />
+          <SpaceInfo type={'read'} data={spaceData}>
+            <ImageBox type={'read'} imageUrl={spaceData?.imageUrl} />
+          </SpaceInfo>
           <JobListCard jobs={jobsData?.jobs || []} />
         </div>
         <Submissions submissions={submissionData?.submissions || []} onClick={onClickSubmissionsDetail} />

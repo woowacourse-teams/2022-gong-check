@@ -1,7 +1,6 @@
 import useSpaceInfo from './useSpaceInfo';
 
 import Button from '@/components/common/Button';
-import ImageBox from '@/components/host/ImageBox';
 
 import styles from './styles';
 
@@ -9,10 +8,11 @@ interface SpaceInfoProps {
   type: 'read' | 'create' | 'update';
   inputText?: '' | string;
   data?: { name: string; imageUrl: string; id: number } | undefined;
+  children: React.ReactNode;
 }
 
-const SpaceInfo: React.FC<SpaceInfoProps> = ({ type = 'read', inputText = '', data }) => {
-  const { name, imageUrl, isActiveSubmit, onChangeSpaceName, onClickEditSpaceInfo } = useSpaceInfo(data, type);
+const SpaceInfo: React.FC<SpaceInfoProps> = ({ type = 'read', inputText = '', data, children }) => {
+  const { name, isActiveSubmit, onChangeSpaceName, onClickEditSpaceInfo } = useSpaceInfo(data, type);
 
   return (
     <div css={styles.spaceInfo}>
@@ -30,9 +30,7 @@ const SpaceInfo: React.FC<SpaceInfoProps> = ({ type = 'read', inputText = '', da
       </div>
       <div css={styles.imageContainer}>
         <p css={styles.subTitle}>대표이미지</p>
-        <div css={styles.imageWrapper}>
-          <ImageBox type={type} imageUrl={imageUrl} />
-        </div>
+        <div css={styles.imageWrapper}>{children}</div>
       </div>
       <div css={styles.inputContainer}>
         <div css={styles.inputWrapper}>
