@@ -1,18 +1,18 @@
 import { AxiosResponse } from 'axios';
 
-import { ApiHostIdData } from '@/types/apis';
+import { ApiEntranceCodedData } from '@/types/apis';
 
 import { axiosInstanceToken } from './config';
 
-const getHostId = async () => {
-  const { data }: AxiosResponse<ApiHostIdData> = await axiosInstanceToken({
+const getEntranceCode = async () => {
+  const { data }: AxiosResponse<ApiEntranceCodedData> = await axiosInstanceToken({
     method: 'GET',
-    url: `/api/hosts/me`,
+    url: `/api/hosts/entranceCode`,
   });
 
   return data;
 };
 
-const apiHost = { getHostId };
+const apiHost = { getEntranceCode };
 
 export default apiHost;

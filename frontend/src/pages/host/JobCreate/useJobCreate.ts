@@ -43,6 +43,7 @@ const useJobCreate = () => {
 
   const onClickCreateNewJob = () => {
     createNewJob({ spaceId, newJobName, sections });
+    resetSections();
   };
 
   useEffect(() => {

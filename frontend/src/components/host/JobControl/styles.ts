@@ -18,7 +18,7 @@ const header = css`
 
   h1 {
     font-size: 1.75em;
-    font-weight: 500;
+    font-weight: 400;
     cursor: pointer;
   }
 
@@ -40,7 +40,7 @@ const jobNameInput = css`
   border: none;
   border-radius: 12px;
   width: 50%;
-  height: 3em;
+  height: 2em;
   padding: 0.5em 1em;
   font-size: 1.75em;
   font-weight: 500;

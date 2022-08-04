@@ -29,11 +29,11 @@ const useDashBoard = () => {
   const { data: submissionData } = useQuery(['submissions', spaceId], () => apiSubmission.getSubmission({ spaceId }), {
     suspense: true,
   });
-  const { refetch: getHostId } = useQuery(['hostData'], () => apiHost.getHostId(), {
+  const { refetch: getEntranceCode } = useQuery(['entranceCode'], () => apiHost.getEntranceCode(), {
     retry: false,
     enabled: false,
     onSuccess: data => {
-      clip(`${location.origin}/enter/${data.id}/spaces`);
+      clip(`${location.origin}/enter/${data.entranceCode}/spaces`);
       openToast('SUCCESS', '공간 입장 링크가 복사되었습니다.');
     },
     onError: () => {
@@ -50,7 +50,7 @@ const useDashBoard = () => {
   };
 
   const onClickLinkButton = () => {
-    getHostId();
+    getEntranceCode();
   };
 
   return {

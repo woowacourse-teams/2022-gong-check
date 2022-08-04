@@ -21,7 +21,7 @@ const SectionCardDefault: React.FC<SectionCardDefaultProps> = ({ section, sectio
       <form css={styles.titleWrapper} onSubmit={onSubmit}>
         {isEditing ? (
           <>
-            <input css={styles.input} ref={inputRef} value={sectionName} onChange={onChange} />
+            <input css={styles.input} ref={inputRef} value={sectionName} max={20} onChange={onChange} />
             <Button type="submit" css={styles.confirmButton}>
               확인
             </Button>
@@ -31,7 +31,7 @@ const SectionCardDefault: React.FC<SectionCardDefaultProps> = ({ section, sectio
             <span onClick={onClickEdit}>{sectionName}</span>
             <div>
               <Button type="button" css={styles.editButton} onClick={onClickEdit}>
-                이름 수정
+                수정
               </Button>
               <Button type="button" css={styles.deleteButton} onClick={onClickDelete}>
                 삭제
