@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 public class EntranceCodeProvider {
 
     private static final int MINIMUM_ID_SIZE = 1;
+
     private final Hashable hashable;
 
     public EntranceCodeProvider(final Hashable hashable) {
