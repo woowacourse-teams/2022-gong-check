@@ -15,7 +15,7 @@ public class Description {
     @Column(name = "description", length = DESCRIPTION_MAX_LENGTH)
     private String value;
 
-    public Description() {
+    protected Description() {
     }
 
     public Description(final String value) {

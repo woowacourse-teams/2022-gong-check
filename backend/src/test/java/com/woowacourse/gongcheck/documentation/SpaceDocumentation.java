@@ -161,7 +161,6 @@ class SpaceDocumentation extends DocumentationTest {
         @Test
         void Space_수정에_성공한다() {
             SpaceChangeRequest request = new SpaceChangeRequest("잠실 캠퍼스", "https://image.gongcheck.shop/123sdf5");
-//            doNothing().when(spaceService).changeSpace(anyLong(), anyLong(), any());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             docsGiven
