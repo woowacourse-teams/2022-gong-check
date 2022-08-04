@@ -2,7 +2,6 @@ package com.woowacourse.imagestorage.application;
 
 import com.woowacourse.imagestorage.application.response.ImageResponse;
 import com.woowacourse.imagestorage.domain.ImageFile;
-import com.woowacourse.imagestorage.exception.BusinessException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,16 +23,12 @@ public class ImageService {
         this.imagePathPrefix = imagePathPrefix;
     }
 
-    public ImageResponse storeImage(MultipartFile image) {
+    public ImageResponse storeImage(MultipartFile image) throws IOException {
         ImageFile imageFile = ImageFile.from(image);
 
-        try {
-            String imageFileInputName = imageFile.randomName();
-            Path fileStorageLocation = storageLocation.resolve(imageFileInputName);
-            Files.copy(imageFile.inputStream(), fileStorageLocation, StandardCopyOption.REPLACE_EXISTING);
-            return new ImageResponse(imagePathPrefix + imageFileInputName);
-        } catch (IOException exception) {
-            throw new BusinessException("파일 업로드 시 문제가 발생했습니다.");
-        }
+        String imageFileInputName = imageFile.randomName();
+        Path fileStorageLocation = storageLocation.resolve(imageFileInputName);
+        Files.copy(imageFile.inputStream(), fileStorageLocation, StandardCopyOption.REPLACE_EXISTING);
+        return new ImageResponse(imagePathPrefix + imageFileInputName);
     }
 }
