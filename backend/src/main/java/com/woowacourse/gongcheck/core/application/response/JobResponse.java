@@ -18,6 +18,6 @@ public class JobResponse {
     }
 
     public static JobResponse from(final Job job) {
-        return new JobResponse(job.getId(), job.getName());
+        return new JobResponse(job.getId(), job.getName().getValue());
     }
 }

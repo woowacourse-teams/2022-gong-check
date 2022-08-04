@@ -22,6 +22,7 @@ public class TaskResponse {
     }
 
     public static TaskResponse from(final Task task) {
-        return new TaskResponse(task.getId(), task.getName(), task.getImageUrl(), task.getDescription());
+        return new TaskResponse(task.getId(), task.getName().getValue(), task.getImageUrl(),
+                task.getDescription().getValue());
     }
 }

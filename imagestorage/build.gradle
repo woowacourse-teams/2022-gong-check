@@ -29,6 +29,9 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'commons-io:commons-io:2.11.0'
 
+    // log
+    implementation 'dev.akkinoc.spring.boot:logback-access-spring-boot-starter:3.3.2'
+
     // lombock
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

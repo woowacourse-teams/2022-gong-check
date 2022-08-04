@@ -11,6 +11,7 @@ import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.domain.host.HostRepository;
 import com.woowacourse.gongcheck.core.domain.space.Space;
 import com.woowacourse.gongcheck.core.domain.space.SpaceRepository;
+import com.woowacourse.gongcheck.core.domain.vo.Name;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -61,7 +62,7 @@ class JobRepositoryTest {
             void 생성시간이_저장된다() {
                 job = jobRepository.save(Job.builder()
                         .space(space)
-                        .name("청소")
+                        .name(new Name("청소"))
                         .build());
                 assertThat(job.getCreatedAt()).isAfter(nowLocalDateTime);
             }

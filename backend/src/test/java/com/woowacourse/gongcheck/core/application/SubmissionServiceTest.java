@@ -229,7 +229,7 @@ class SubmissionServiceTest {
                         () -> assertThat(actual.getAuthor()).isEqualTo(request.getAuthor()),
                         () -> assertThat(actual.getSpaceName()).isEqualTo(
                                 space.getName().getValue()),
-                        () -> assertThat(actual.getJobName()).isEqualTo(job.getName())
+                        () -> assertThat(actual.getJobName()).isEqualTo(job.getName().getValue())
                 );
             }
         }
@@ -338,7 +338,7 @@ class SubmissionServiceTest {
                                 .containsExactly(job.getId(), job.getId()),
                         () -> assertThat(actual.getSubmissions())
                                 .extracting(SubmissionResponse::getJobName)
-                                .containsExactly(job.getName(), job.getName()),
+                                .containsExactly(job.getName().getValue(), job.getName().getValue()),
                         () -> assertThat(actual.getSubmissions())
                                 .extracting(SubmissionResponse::getAuthor)
                                 .containsExactly(SUBMISSION_AUTHOR_1, SUBMISSION_AUTHOR_2),

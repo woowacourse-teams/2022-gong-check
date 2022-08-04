@@ -20,14 +20,10 @@ const useNameModal = (jobId: string | undefined, hostId: string | undefined) => 
   };
 
   const onClickButton = async () => {
-    try {
-      await apis.postJobComplete({ jobId, author: name });
-      alert('제출 되었습니다.');
-      closeModal();
-      navigate(`/enter/${hostId}/spaces`);
-    } catch (err) {
-      alert(err);
-    }
+    await apis.postJobComplete({ jobId, author: name });
+    alert('제출 되었습니다.');
+    closeModal();
+    navigate(`/enter/${hostId}/spaces`);
   };
 
   return { onChangeInput, onClickButton, isDisabledButton, name };

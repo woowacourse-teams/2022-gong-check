@@ -36,5 +36,8 @@ out/
 ### VS Code ###
 .vscode/
 
+### logging ###
+/logs/**
+
 ### image ###
 src/test/resources/static/images/**

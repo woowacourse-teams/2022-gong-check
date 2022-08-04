@@ -6,6 +6,7 @@ import static com.woowacourse.gongcheck.fixture.FixtureFactory.Section_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Task_생성;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.gongcheck.config.JpaConfig;
@@ -17,6 +18,7 @@ import com.woowacourse.gongcheck.core.domain.section.Section;
 import com.woowacourse.gongcheck.core.domain.section.SectionRepository;
 import com.woowacourse.gongcheck.core.domain.space.Space;
 import com.woowacourse.gongcheck.core.domain.space.SpaceRepository;
+import com.woowacourse.gongcheck.core.domain.vo.Name;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -73,6 +75,30 @@ class TaskRepositoryTest {
                 LocalDateTime timeThatBeforeSave = LocalDateTime.now();
                 Task actual = taskRepository.save(task);
                 assertThat(actual.getCreatedAt()).isAfter(timeThatBeforeSave);
+            }
+        }
+
+        @Nested
+        class 입력받은_Task의_Description이_null인_경우 {
+
+            private Section section;
+
+            @BeforeEach
+            void setUp() {
+                Host host = hostRepository.save(Host_생성("1234", 1234L));
+                Space space = spaceRepository.save(Space_생성(host, "잠실"));
+                Job job = jobRepository.save(Job_생성(space, "청소"));
+                section = sectionRepository.save(Section_생성(job, "트랙룸"));
+            }
+
+            @Test
+            void 정상적으로_Task를_저장한다() {
+                Task task = Task.builder()
+                        .name(new Name("책상 닦기"))
+                        .section(section)
+                        .build();
+                assertThatCode(() -> taskRepository.save(task))
+                        .doesNotThrowAnyException();
             }
         }
     }

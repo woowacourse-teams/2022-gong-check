@@ -25,7 +25,7 @@ public class RunningTaskResponse {
     }
 
     public static RunningTaskResponse from(final Task task) {
-        return new RunningTaskResponse(task.getId(), task.getName(), task.getRunningTask().isChecked(),
-                task.getImageUrl(), task.getDescription());
+        return new RunningTaskResponse(task.getId(), task.getName().getValue(), task.getRunningTask().isChecked(),
+                task.getImageUrl(), task.getDescription().getValue());
     }
 }

@@ -8,6 +8,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.woowacourse.gongcheck.config.JpaConfig;
 import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.domain.host.HostRepository;
+import com.woowacourse.gongcheck.core.domain.vo.Name;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -187,7 +188,7 @@ class SpaceRepositoryTest {
             @BeforeEach
             void setUp() {
                 host = hostRepository.save(Host_생성("1234", 1234L));
-                name = new Name("존재하지 않는 Space 이름");
+                name = new Name("없는Space이름");
             }
 
             @Test
