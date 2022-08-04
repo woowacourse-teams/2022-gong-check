@@ -9,7 +9,14 @@ const layout = (isManagePath: boolean) => css`
   min-height: 100vh;
   height: fit-content;
   background-color: ${theme.colors.background};
-  padding-left: ${isManagePath ? '224px' : '0'};
+  padding-left: ${isManagePath ? '14em' : 0};
+
+  @media screen and (max-width: 1024px) {
+    font-size: 14px;
+  }
+  @media screen and (max-width: 720px) {
+    font-size: 12px;
+  }
 `;
 
 const styles = { layout };

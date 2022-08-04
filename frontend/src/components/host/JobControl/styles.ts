@@ -10,9 +10,14 @@ const header = css`
   width: 100%;
   border-bottom: 1px solid ${theme.colors.gray300};
   padding: 16px 32px;
+  font-size: 16px;
+
+  @media screen and (max-width: 720px) {
+    font-size: 14px;
+  }
 
   h1 {
-    font-size: 28px;
+    font-size: 1.75em;
     font-weight: 500;
     cursor: pointer;
   }
@@ -20,9 +25,10 @@ const header = css`
   button {
     margin: 0;
     margin-left: 12px;
-    font-size: 20px;
-    width: auto;
-    padding: 0 16px;
+    font-size: 1em;
+    width: fit-content;
+    height: fit-content;
+    padding: 8px 12px;
   }
 `;
 
@@ -34,9 +40,9 @@ const jobNameInput = css`
   border: none;
   border-radius: 12px;
   width: 50%;
-  height: 48px;
-  padding: 8px 16px;
-  font-size: 28px;
+  height: 3em;
+  padding: 0.5em 1em;
+  font-size: 1.75em;
   font-weight: 500;
   margin: 12px 0;
   background-color: ${theme.colors.white};
