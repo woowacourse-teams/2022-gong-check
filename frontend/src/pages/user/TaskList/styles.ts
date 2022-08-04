@@ -20,10 +20,10 @@ const contents = css`
 `;
 
 const location = css`
-  margin: 8px;
-  padding: 16px;
+  margin: 16px 0;
+  padding: 24px 16px;
   border: 1px solid ${theme.colors.shadow30};
-  border-radius: 10px;
+  border-radius: 24px;
   box-shadow: 2px 2px 2px 0px ${theme.colors.shadow30};
 `;
 
@@ -31,12 +31,13 @@ const locationHeader = css`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 8px;
 `;
 
 const locationName = css`
   font-size: 24px;
   font-weight: 600;
-  margin: 12px 8px 0 0;
+  margin: 0;
 `;
 
 const header = css`
@@ -48,7 +49,7 @@ const header = css`
   padding: 4em 0 3em 0;
 `;
 
-const thumbnail = (imageUrl: string) => css`
+const thumbnail = (imageUrl: string | undefined) => css`
   width: 120px;
   height: 120px;
   background-image: url(${imageUrl});
@@ -86,7 +87,7 @@ const arrowBackIconWrapper = css`
   }
 `;
 
-const progressBarWrapperSticky = css`
+const progressBarWrapperSticky = (isSticked: boolean | undefined) => css`
   position: sticky;
   top: 0;
   padding-top: 16px;
@@ -97,6 +98,8 @@ const progressBarWrapperSticky = css`
   align-items: center;
   background-color: ${theme.colors.white};
   z-index: 1;
+
+  box-shadow: ${isSticked ? `2px 2px 2px 0px ${theme.colors.shadow30}` : ''};
 `;
 
 const progressBarWrapper = css`
