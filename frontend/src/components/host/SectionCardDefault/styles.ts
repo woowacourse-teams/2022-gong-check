@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 
+import animation from '@/styles/animation';
 import theme from '@/styles/theme';
 
 const titleWrapper = css`
@@ -37,12 +38,13 @@ const editButton = css`
 `;
 
 const deleteButton = css`
-  background-color: ${theme.colors.red};
-  width: fit-content;
-  height: fit-content;
-  padding: 8px 12px;
-  font-size: 14px;
   margin: 0 4px;
+  cursor: pointer;
+  color: ${theme.colors.red};
+  transform: translateY(4px);
+  :hover {
+    animation: ${animation.shake} 2s infinite linear alternate;
+  }
 `;
 
 const newTaskButton = css`
@@ -61,9 +63,9 @@ const input = css`
   border: 1px solid ${theme.colors.shadow30};
   border-radius: 12px;
   padding: 0 16px;
-  font-size: 18px;
+  font-size: 16px;
   background-color: ${theme.colors.white};
-  width: 50%;
+  width: 80%;
 
   :focus {
     outline: 2px solid ${theme.colors.primary};

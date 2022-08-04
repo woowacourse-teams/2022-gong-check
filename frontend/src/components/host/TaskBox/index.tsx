@@ -14,39 +14,20 @@ interface TaskBoxProps {
 }
 
 const TaskBox: React.FC<TaskBoxProps> = ({ task, taskIndex, sectionIndex }) => {
-  const { taskName, isEditing, inputRef, onClickEdit, onChangeInput, onConfirmInput, onClickDeleteButton } = useTaskBox(
-    task,
-    taskIndex,
-    sectionIndex
-  );
+  const { onChangeInput, onClickDeleteButton } = useTaskBox(taskIndex, sectionIndex);
 
   return (
-    <form css={styles.taskBox} onSubmit={onConfirmInput}>
-      {isEditing ? (
-        <>
-          <input
-            css={styles.input}
-            placeholder="새 작업"
-            ref={inputRef}
-            value={taskName}
-            maxLength={10}
-            onChange={onChangeInput}
-            required
-          />
-          <Button type="submit" css={styles.editButton}>
-            확인
-          </Button>
-        </>
-      ) : (
-        <>
-          <span onClick={onClickEdit}>∙ {task.name}</span>
-          <div>
-            <BiPencil css={styles.pencil} size={22} onClick={onClickEdit} />
-            <BiTrash css={styles.trash} size={22} onClick={onClickDeleteButton} />
-          </div>
-        </>
-      )}
-    </form>
+    <div css={styles.taskBox}>
+      <input
+        css={styles.input}
+        placeholder="새 작업"
+        defaultValue={task.name}
+        maxLength={10}
+        onChange={onChangeInput}
+        required
+      />
+      <BiTrash css={styles.trash} size={22} onClick={onClickDeleteButton} />
+    </div>
   );
 };
 

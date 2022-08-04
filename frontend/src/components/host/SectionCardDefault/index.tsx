@@ -1,4 +1,5 @@
 import useSectionCardDefault from './useSectionCardDefault';
+import { BiTrash } from 'react-icons/bi';
 
 import Button from '@/components/common/Button';
 import TaskBox from '@/components/host/TaskBox';
@@ -13,45 +14,25 @@ interface SectionCardDefaultProps {
 }
 
 const SectionCardDefault: React.FC<SectionCardDefaultProps> = ({ section, sectionIndex }) => {
-  const { sectionName, isEditing, inputRef, onClickEdit, onSubmit, onChange, onClickDelete, onClickCreate } =
-    useSectionCardDefault(section, sectionIndex);
+  const { onChange, onClickDelete, onClickCreate } = useSectionCardDefault(sectionIndex);
 
   return (
     <>
-      <form css={styles.titleWrapper} onSubmit={onSubmit}>
-        {isEditing ? (
-          <>
-            <input
-              css={styles.input}
-              placeholder="새 업무"
-              ref={inputRef}
-              value={sectionName}
-              maxLength={10}
-              onChange={onChange}
-              required
-            />
-            <Button type="submit" css={styles.confirmButton}>
-              확인
-            </Button>
-          </>
-        ) : (
-          <>
-            <span onClick={onClickEdit}>{sectionName}</span>
-            <div>
-              <Button type="button" css={styles.editButton} onClick={onClickEdit}>
-                수정
-              </Button>
-              <Button type="button" css={styles.deleteButton} onClick={onClickDelete}>
-                삭제
-              </Button>
-            </div>
-          </>
-        )}
-      </form>
+      <div css={styles.titleWrapper}>
+        <input
+          css={styles.input}
+          placeholder="새 구역"
+          defaultValue={section.name}
+          maxLength={10}
+          onChange={onChange}
+          required
+        />
+        <BiTrash css={styles.deleteButton} size={26} onClick={onClickDelete} />
+      </div>
       {section.tasks.map((task, taskIndex) => (
         <TaskBox task={task} taskIndex={taskIndex} sectionIndex={sectionIndex} key={task.id} />
       ))}
-      <button css={styles.newTaskButton} onClick={onClickCreate}>
+      <button css={styles.newTaskButton} onClick={onClickCreate} type="button">
         + 새 작업 추가
       </button>
     </>

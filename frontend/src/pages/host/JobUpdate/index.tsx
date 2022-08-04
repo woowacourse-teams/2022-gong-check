@@ -12,13 +12,8 @@ const JobUpdate: React.FC = () => {
 
   return (
     <div css={styles.layout}>
-      <div css={styles.contents}>
-        <JobControl
-          mode="update"
-          jobName={jobName || ''}
-          onChangeJobName={onChangeJobName}
-          onClickControlJob={onClickUpdateJob}
-        />
+      <form css={styles.contents} onSubmit={onClickUpdateJob}>
+        <JobControl mode="update" jobName={jobName || ''} onChangeJobName={onChangeJobName} />
         <div css={styles.grid}>
           {sections.map((section, sectionIndex) => (
             <SectionCard section={section} sectionIndex={sectionIndex} key={section.id} />
@@ -27,7 +22,7 @@ const JobUpdate: React.FC = () => {
             +
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

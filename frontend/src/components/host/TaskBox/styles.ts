@@ -7,7 +7,7 @@ const taskBox = css`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 6px 12px;
+  padding: 10px 0;
   height: 40px;
   animation: ${animation.fadeIn} 1s;
 
@@ -49,7 +49,7 @@ const input = css`
   border: 1px solid ${theme.colors.shadow30};
   border-radius: 12px;
   padding: 4px 16px;
-  width: 50%;
+  width: 70%;
   font-size: 14px;
   background-color: ${theme.colors.white};
 

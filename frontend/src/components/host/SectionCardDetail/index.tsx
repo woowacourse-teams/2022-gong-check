@@ -20,14 +20,11 @@ const SectionCardDetail: React.FC<SectionCardDetailProps> = ({ section, sectionI
     <>
       <div css={styles.titleWrapper}>
         <span>{section.name}</span>
-        <div>
-          <Button
-            css={styles.detailButton(hasSectionDetailInfo(sectionIndex))}
-            onClick={() => onClickSectionDetail(sectionIndex)}
-          >
-            {hasSectionDetailInfo(sectionIndex) ? '상제 정보 수정' : '상세 정보 추가'}
-          </Button>
-        </div>
+        <BiNews
+          css={styles.detailButton(hasSectionDetailInfo(sectionIndex))}
+          onClick={() => onClickSectionDetail(sectionIndex)}
+          size={24}
+        />
       </div>
       {section.tasks.map((task, taskIndex) => (
         <div css={styles.taskWrapper(hasTaskDetailInfo(sectionIndex, taskIndex))} key={task.id}>

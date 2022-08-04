@@ -20,12 +20,12 @@ const titleWrapper = css`
 `;
 
 const detailButton = (hasSectionDetailInfo: boolean) => css`
-  background-color: ${hasSectionDetailInfo ? theme.colors.green : theme.colors.gray400};
-  width: fit-content;
-  height: fit-content;
-  padding: 8px 12px;
-  font-size: 14px;
   margin: 0 4px;
+  cursor: pointer;
+  color: ${hasSectionDetailInfo ? theme.colors.green : theme.colors.gray400};
+  :hover {
+    animation: ${animation.shake} 2s infinite linear alternate;
+  }
 `;
 
 const taskWrapper = (hasTaskDetailInfo: boolean) => css`
