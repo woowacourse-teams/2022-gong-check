@@ -16,6 +16,7 @@ const contents = css`
   flex-direction: column;
   width: 100%;
   align-items: center;
+  margin-top: 16px;
 `;
 
 const location = css`
@@ -88,13 +89,14 @@ const arrowBackIconWrapper = css`
 const progressBarWrapperSticky = css`
   position: sticky;
   top: 0;
-  padding: 16px 0;
+  padding-top: 16px;
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: ${theme.colors.white};
+  z-index: 1;
 `;
 
 const progressBarWrapper = css`
