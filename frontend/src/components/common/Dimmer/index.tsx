@@ -21,7 +21,8 @@ const Dimmer: React.FC<DimmerProps> = ({ children, isAbleClick = true, mode = 'f
     <div
       css={css`
         background-color: ${theme.colors.shadow80};
-        width: ${mode === 'full' ? '100vw' : '400px'};
+        max-width: ${mode === 'full' ? '100vw' : '414px'};
+        width: 100vw;
         height: 100vh;
         display: flex;
         justify-content: center;
