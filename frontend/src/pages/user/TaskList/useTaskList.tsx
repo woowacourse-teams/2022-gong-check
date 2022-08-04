@@ -1,22 +1,27 @@
 import { useQuery } from 'react-query';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import DetailedInfoCardModal from '@/components/user/DetailedInfoCardModal';
 import NameModal from '@/components/user/NameModal';
 
 import useGoPreviousPage from '@/hooks/useGoPreviousPage';
 import useModal from '@/hooks/useModal';
+import useToast from '@/hooks/useToast';
 
 import apis from '@/apis';
+
+import { ApiError } from '@/types/apis';
 
 const RE_FETCH_INTERVAL_TIME = 1000;
 
 const useTaskList = () => {
   const { spaceId, jobId, hostId } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
   const locationState = location.state as { jobName: string } | undefined;
 
   const { openModal } = useModal();
+  const { openToast } = useToast();
 
   const { goPreviousPage } = useGoPreviousPage();
 
@@ -27,6 +32,12 @@ const useTaskList = () => {
       suspense: true,
       retry: false,
       refetchInterval: RE_FETCH_INTERVAL_TIME,
+      onError: (err: ApiError) => {
+        if (err.response?.data.message === '존재하지 않는 작업입니다.') {
+          openToast('ERROR', `관리자가 체크리스트를 수정했습니다. 공간 선택 페이지로 이동합니다.`);
+          navigate(`/enter/${hostId}/spaces`);
+        }
+      },
     }
   );
 
