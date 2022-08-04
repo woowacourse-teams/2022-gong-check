@@ -33,7 +33,7 @@ const useDashBoard = () => {
     retry: false,
     enabled: false,
     onSuccess: data => {
-      clip(`${location.origin}/enter/${data.entranceCode}/spaces`);
+      clip(`${location.origin}/enter/${data.entranceCode}/pwd`);
       openToast('SUCCESS', '공간 입장 링크가 복사되었습니다.');
     },
     onError: () => {
