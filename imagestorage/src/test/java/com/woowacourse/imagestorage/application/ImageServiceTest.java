@@ -3,6 +3,7 @@ package com.woowacourse.imagestorage.application;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.imagestorage.application.response.ImageResponse;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -35,7 +36,7 @@ class ImageServiceTest {
             }
 
             @Test
-            void 이미지를_저장하고_이미지_경로를_반환한다() {
+            void 이미지를_저장하고_이미지_경로를_반환한다() throws IOException {
                 ImageResponse actual = imageService.storeImage(image);
 
                 assertThat(actual.getImagePath()).isNotNull();
