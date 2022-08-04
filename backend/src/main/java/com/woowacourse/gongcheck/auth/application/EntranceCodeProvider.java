@@ -8,19 +8,19 @@ public class EntranceCodeProvider {
 
     private static final int MINIMUM_ID_SIZE = 1;
 
-    private final Hashable hashable;
+    private final HashTranslator hashTranslator;
 
-    public EntranceCodeProvider(final Hashable hashable) {
-        this.hashable = hashable;
+    public EntranceCodeProvider(final HashTranslator hashTranslator) {
+        this.hashTranslator = hashTranslator;
     }
 
     public String createEntranceCode(final Long id) {
         validateIdSize(id);
-        return hashable.encode(String.valueOf(id));
+        return hashTranslator.encode(String.valueOf(id));
     }
 
     public Long parseId(final String entranceCode) {
-        String result = hashable.decode(entranceCode);
+        String result = hashTranslator.decode(entranceCode);
         try {
             Long id = Long.parseLong(result);
             validateIdSize(id);

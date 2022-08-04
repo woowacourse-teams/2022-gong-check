@@ -24,7 +24,7 @@ class EntranceCodeProviderTest {
     private EntranceCodeProvider entranceCodeProvider;
 
     @Autowired
-    private Hashable hashable;
+    private HashTranslator hashTranslator;
 
     @Nested
     class createEntranceCode_메서드는 {
@@ -64,7 +64,7 @@ class EntranceCodeProviderTest {
 
             @BeforeEach
             void setUp() {
-                invalidEntranceCode = hashable.encode("INVALID");
+                invalidEntranceCode = hashTranslator.encode("INVALID");
             }
 
             @Test
@@ -82,7 +82,7 @@ class EntranceCodeProviderTest {
 
             @BeforeEach
             void setUp() {
-                invalidEntranceCode = hashable.encode("-1");
+                invalidEntranceCode = hashTranslator.encode("-1");
             }
 
             @Test
@@ -102,7 +102,7 @@ class EntranceCodeProviderTest {
 
             @BeforeEach
             void setUp() {
-                entranceCode = hashable.encode(String.valueOf(expected));
+                entranceCode = hashTranslator.encode(String.valueOf(expected));
             }
 
             @Test

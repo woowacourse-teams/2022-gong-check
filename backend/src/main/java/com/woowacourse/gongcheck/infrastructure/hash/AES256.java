@@ -1,6 +1,6 @@
 package com.woowacourse.gongcheck.infrastructure.hash;
 
-import com.woowacourse.gongcheck.auth.application.Hashable;
+import com.woowacourse.gongcheck.auth.application.HashTranslator;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class AES256 implements Hashable {
+public class AES256 implements HashTranslator {
 
     private static final int SECRET_KEY_SIZE = 32;
     private static final int INITIALIZATION_VECTOR_SIZE = 16;

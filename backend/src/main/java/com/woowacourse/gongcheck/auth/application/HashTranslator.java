@@ -1,6 +1,6 @@
 package com.woowacourse.gongcheck.auth.application;
 
-public interface Hashable {
+public interface HashTranslator {
 
     String encode(final String input);
 
