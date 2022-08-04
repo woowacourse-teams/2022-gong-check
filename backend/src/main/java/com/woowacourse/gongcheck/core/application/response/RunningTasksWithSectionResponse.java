@@ -13,15 +13,19 @@ public class RunningTasksWithSectionResponse {
 
     private Long id;
     private String name;
+    private String imageUrl;
+    private String description;
     private List<RunningTaskResponse> tasks;
 
     private RunningTasksWithSectionResponse() {
     }
 
-    private RunningTasksWithSectionResponse(final Long id, final String name,
-                                            final List<RunningTaskResponse> tasks) {
+    private RunningTasksWithSectionResponse(final Long id, final String name, final String imageUrl,
+                                            final String description, final List<RunningTaskResponse> tasks) {
         this.id = id;
         this.name = name;
+        this.imageUrl = imageUrl;
+        this.description = description;
         this.tasks = tasks;
     }
 
@@ -38,8 +42,8 @@ public class RunningTasksWithSectionResponse {
 
     private static RunningTasksWithSectionResponse of(final Section section, final List<Task> tasks) {
         return new RunningTasksWithSectionResponse(section.getId(), section.getName(),
-                tasks.stream()
-                        .map(RunningTaskResponse::from)
-                        .collect(Collectors.toList()));
+                section.getImageUrl(), section.getDescription(), tasks.stream()
+                .map(RunningTaskResponse::from)
+                .collect(Collectors.toList()));
     }
 }

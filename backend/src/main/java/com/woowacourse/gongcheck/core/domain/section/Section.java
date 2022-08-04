@@ -1,10 +1,10 @@
 package com.woowacourse.gongcheck.core.domain.section;
 
 import com.woowacourse.gongcheck.core.domain.job.Job;
+import com.woowacourse.gongcheck.exception.BusinessException;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
@@ -28,6 +28,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class Section {
 
     private static final int NAME_MAX_LENGTH = 20;
+    private static final int DESCRIPTION_MAX_LENTH = 32;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,8 +41,11 @@ public class Section {
     @Column(name = "name", length = NAME_MAX_LENGTH, nullable = false)
     private String name;
 
-    @Embedded
-    private SectionExplanation sectionExplanation;
+    @Column(name = "description", length = DESCRIPTION_MAX_LENTH)
+    private String description;
+
+    @Column(name = "image_url")
+    private String imageUrl;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false)
@@ -54,14 +58,26 @@ public class Section {
     protected Section() {
     }
 
-    public Section(final Long id, final Job job, final String name, final SectionExplanation sectionExplanation,
+    public Section(final Long id, final Job job, final String name, final String description, final String imageUrl,
                    final LocalDateTime createdAt, final LocalDateTime updatedAt) {
+        checkDescriptionLength(description);
         this.id = id;
         this.job = job;
         this.name = name;
-        this.sectionExplanation = sectionExplanation;
+        this.description = description;
+        this.imageUrl = imageUrl;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    private void checkDescriptionLength(final String description) {
+        if (Objects.isNull(description)) {
+            return;
+        }
+
+        if (description.length() > DESCRIPTION_MAX_LENTH) {
+            throw new BusinessException("section의 설명은 " + DESCRIPTION_MAX_LENTH + "자 이하여야합니다.");
+        }
     }
 
     @Override
