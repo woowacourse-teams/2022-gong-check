@@ -135,7 +135,9 @@ describe('사용자 - 체크리스트 체크 페이지', () => {
     cy.get('#modal > div').should('be.visible');
   });
 
-  it('사용자가 제출 모달에서 제출자를 입력하고 버튼을 누르면, 제출 alert가 발생한다. ', () => {
+  it('사용자가 제출 모달에서 제출자를 입력하고 버튼을 누르면, 제출 alert가 발생한다.', () => {
+    cy.getSpaces();
+
     cy.postCheckTask(1);
     cy.get('label').first().click();
     cy.postCheckTask(2);
@@ -147,7 +149,7 @@ describe('사용자 - 체크리스트 체크 페이지', () => {
     cy.get('#modal button').click();
 
     cy.on('window:alert', text => {
-      expect(text).to.contains('제출 되었습니다.');
+      expect(text).to.include('제출 되었습니다.');
     });
   });
 });
