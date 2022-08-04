@@ -7,6 +7,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import com.woowacourse.gongcheck.auth.application.response.GuestTokenResponse;
 import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
 import com.woowacourse.gongcheck.core.domain.host.HostRepository;
+import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import com.woowacourse.gongcheck.exception.UnauthorizedException;
 import org.junit.jupiter.api.BeforeEach;
@@ -94,7 +95,7 @@ class GuestAuthServiceTest {
             @Test
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> guestAuthService.createToken(hostId, errorGuestEnterRequest))
-                        .isInstanceOf(UnauthorizedException.class)
+                        .isInstanceOf(BusinessException.class)
                         .hasMessage("공간 비밀번호와 입력하신 비밀번호가 일치하지 않습니다.");
             }
         }

@@ -1,5 +1,6 @@
 package com.woowacourse.gongcheck.core.domain.host;
 
+import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.UnauthorizedException;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -63,7 +64,7 @@ public class Host {
 
     public void checkPassword(final SpacePassword spacePassword) {
         if (!this.spacePassword.equals(spacePassword)) {
-            throw new UnauthorizedException("공간 비밀번호와 입력하신 비밀번호가 일치하지 않습니다.");
+            throw new BusinessException("공간 비밀번호와 입력하신 비밀번호가 일치하지 않습니다.");
         }
     }
 
