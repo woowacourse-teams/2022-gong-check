@@ -33,8 +33,6 @@ public class ImageService {
             Files.copy(imageFile.inputStream(), fileStorageLocation, StandardCopyOption.REPLACE_EXISTING);
             return new ImageResponse(imagePathPrefix + imageFileInputName);
         } catch (IOException exception) {
-            System.out.println("test for logging");
-            System.out.println(exception.getMessage());
             throw new BusinessException("파일 업로드 시 문제가 발생했습니다.");
         }
     }
