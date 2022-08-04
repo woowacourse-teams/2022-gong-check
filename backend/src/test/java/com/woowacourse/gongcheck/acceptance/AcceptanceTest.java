@@ -3,6 +3,7 @@ package com.woowacourse.gongcheck.acceptance;
 import static io.restassured.RestAssured.UNDEFINED_PORT;
 
 import com.woowacourse.gongcheck.core.application.AlertService;
+import com.woowacourse.gongcheck.core.application.ImageUploader;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +18,9 @@ class AcceptanceTest {
 
     @MockBean
     private AlertService alertService;
+
+    @MockBean
+    protected ImageUploader imageUploader;
 
     @Autowired
     private DatabaseInitializer databaseInitializer;

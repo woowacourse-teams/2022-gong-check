@@ -36,5 +36,8 @@ github:
     token: https://github.com/login/oauth/access_token
     profile: https://api.github.com/user
 
+file:
+  upload-url: http://localhost:7070
+
 server:
   port: 7070

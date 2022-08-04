@@ -1,0 +1,14 @@
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 50MB
+      max-request-size: 60MB
+
+file:
+  upload-dir: src/test/resources/static/images
+  server-path: http://localhost/images/
+
+server:
+  port: 7070

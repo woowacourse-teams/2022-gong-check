@@ -25,9 +25,6 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-application-dev.yml
-application-local.yml
-application-prod.yml
 
 ### NetBeans ###
 /nbproject/private/
@@ -39,11 +36,5 @@ application-prod.yml
 ### VS Code ###
 .vscode/
 
-### Rest docs ###
-/src/main/resources/static/index.html
-
-### logging ###
-/logs/**
-
-### upload image ###
-/src/test/resources/static/images/**
+### image ###
+src/test/resources/static/images/**
