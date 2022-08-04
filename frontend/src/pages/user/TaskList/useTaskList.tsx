@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import DetailedInfoCardModal from '@/components/user/DetailedInfoCardModal';
 import NameModal from '@/components/user/NameModal';
@@ -14,6 +14,7 @@ const RE_FETCH_INTERVAL_TIME = 1000;
 const useTaskList = () => {
   const { spaceId, jobId, hostId } = useParams();
   const location = useLocation();
+
   const locationState = location.state as { jobName: string } | undefined;
 
   const { openModal } = useModal();

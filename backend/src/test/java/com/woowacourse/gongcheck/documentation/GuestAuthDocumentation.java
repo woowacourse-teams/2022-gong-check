@@ -27,6 +27,8 @@ import org.springframework.restdocs.payload.JsonFieldType;
 
 class GuestAuthDocumentation extends DocumentationTest {
 
+    private static final String ENTRANCE_CODE = "random_entrance_code";
+
     @Nested
     class 게스트_토큰을_요청한다 {
 
@@ -38,11 +40,11 @@ class GuestAuthDocumentation extends DocumentationTest {
             docsGiven
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(guestEnterRequest)
-                    .when().post("/api/hosts/{hostId}/enter", 1)
+                    .when().post("/api/hosts/{entranceCode}/enter", ENTRANCE_CODE)
                     .then().log().all()
                     .apply(document("guests/auth/success",
                             pathParameters(
-                                    parameterWithName("hostId").description("입장할 host의 Id")),
+                                    parameterWithName("entranceCode").description("호스트가 제공하는 입장코드")),
                             requestFields(
                                     fieldWithPath("password").type(JsonFieldType.STRING).description("공간 비밀번호")),
                             responseFields(
@@ -61,7 +63,7 @@ class GuestAuthDocumentation extends DocumentationTest {
             ExtractableResponse<MockMvcResponse> response = docsGiven
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(guestEnterRequest)
-                    .when().post("/api/hosts/1/enter")
+                    .when().post("/api/hosts/{entranceCode}/enter", ENTRANCE_CODE)
                     .then().log().all()
                     .apply(document("guests/auth/fail/length"))
                     .extract();
@@ -82,7 +84,7 @@ class GuestAuthDocumentation extends DocumentationTest {
             ExtractableResponse<MockMvcResponse> response = docsGiven
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(guestEnterRequest)
-                    .when().post("/api/hosts/1/enter")
+                    .when().post("/api/hosts/{entranceCode}/enter", ENTRANCE_CODE)
                     .then().log().all()
                     .apply(document("guests/auth/fail/pattern"))
                     .extract();
