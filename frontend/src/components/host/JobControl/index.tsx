@@ -23,7 +23,14 @@ const JobControl: React.FC<JobControlProps> = ({ mode, jobName, onChangeJobName,
     <form css={styles.header} onSubmit={onConfirmInput}>
       {isEditing ? (
         <>
-          <input css={styles.jobNameInput} ref={inputRef} defaultValue={jobName} onChange={onChangeJobName} />
+          <input
+            css={styles.jobNameInput}
+            ref={inputRef}
+            defaultValue={jobName}
+            maxLength={10}
+            onChange={onChangeJobName}
+            required
+          />
           <Button type="submit">확인</Button>
         </>
       ) : (

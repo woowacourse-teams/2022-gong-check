@@ -31,7 +31,14 @@ const ImageBox: React.FC<ImageBoxProps> = ({ type, imageUrl }) => {
 
   return (
     <ImageLabelBox htmlFor="file" imageUrl={imageSrcUrl}>
-      <input css={styles.imageInput} name="imageInput" type="file" id="file" accept="image/*" onChange={onChangeImg} />
+      <input
+        css={styles.imageInput}
+        name="imageInput"
+        type="file"
+        id="file"
+        accept="image/gif, image/jpg, image/jpeg, image/png, image/svg"
+        onChange={onChangeImg}
+      />
       {!imageSrcUrl && (
         <div css={styles.iconBox}>
           <HiPlus size={50} />

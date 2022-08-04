@@ -24,7 +24,15 @@ const TaskBox: React.FC<TaskBoxProps> = ({ task, taskIndex, sectionIndex }) => {
     <form css={styles.taskBox} onSubmit={onConfirmInput}>
       {isEditing ? (
         <>
-          <input css={styles.input} ref={inputRef} value={taskName} onChange={onChangeInput} />
+          <input
+            css={styles.input}
+            placeholder="새 작업"
+            ref={inputRef}
+            value={taskName}
+            maxLength={10}
+            onChange={onChangeInput}
+            required
+          />
           <Button type="submit" css={styles.editButton}>
             확인
           </Button>
