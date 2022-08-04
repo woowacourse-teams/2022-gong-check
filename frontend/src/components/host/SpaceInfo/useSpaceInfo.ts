@@ -24,7 +24,7 @@ const useSpaceInfo = (data?: { name: string; imageUrl: string; id: number }, typ
     }
   }, [data]);
 
-  return { name, imageUrl: data?.imageUrl, isActiveSubmit, onChangeSpaceName, onClickEditSpaceInfo };
+  return { name, isActiveSubmit, onChangeSpaceName, onClickEditSpaceInfo };
 };
 
 export default useSpaceInfo;

@@ -1,10 +1,23 @@
 import checkFileSize from '@/utils/checkFileSize';
+import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
+import { useMutation } from 'react-query';
 
-const useImageBox = (imageUrl: string | undefined) => {
-  const [imageSrcUrl, setImageSrcUrl] = useState('');
+import useToast from '@/hooks/useToast';
 
-  const onChangeImg = (e: React.FormEvent<HTMLInputElement>) => {
+import apiImage from '@/apis/image';
+
+const useImageBox = (prevImageUrl?: string | undefined) => {
+  const [imageUrl, setImageUrl] = useState('');
+  const { openToast } = useToast();
+
+  const { mutateAsync: uploadImage } = useMutation((formData: any) => apiImage.postImageUpload(formData), {
+    onError: (err: AxiosError<{ message: string }>) => {
+      openToast('ERROR', `${err.response?.data.message}`);
+    },
+  });
+
+  const onChangeImg = async (e: React.FormEvent<HTMLInputElement>) => {
     const input = e.target as HTMLInputElement;
 
     if (!input.files?.length) {
@@ -12,19 +25,28 @@ const useImageBox = (imageUrl: string | undefined) => {
     }
 
     const file = input.files[0];
-    const src = URL.createObjectURL(file);
+    const formData = new FormData();
+    formData.append('image', file);
 
     const isOkayFileSize = checkFileSize(file);
-    isOkayFileSize ? setImageSrcUrl(src) : (input.value = '');
+
+    if (!isOkayFileSize) {
+      input.value = '';
+      return;
+    }
+
+    const { imageUrl: newImageUrl } = await uploadImage(formData);
+
+    setImageUrl(newImageUrl);
   };
 
   useEffect(() => {
-    if (imageUrl) {
-      setImageSrcUrl(imageUrl);
+    if (prevImageUrl) {
+      setImageUrl(prevImageUrl);
     }
-  }, [imageUrl]);
+  }, [prevImageUrl]);
 
-  return { imageSrcUrl, onChangeImg };
+  return { imageUrl, onChangeImg };
 };
 
 export default useImageBox;
