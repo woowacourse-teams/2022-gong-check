@@ -3,14 +3,22 @@ import { css } from '@emotion/react';
 import theme from '@/styles/theme';
 
 const layout = css`
+  font-size: 16px;
   position: fixed;
   top: 0;
   left: 0;
   height: 100vh;
-  width: 224px;
+  width: 14em;
   background-color: ${theme.colors.white};
   box-shadow: 6px 0 8px ${theme.colors.gray350};
   z-index: 1;
+
+  @media screen and (max-width: 1024px) {
+    font-size: 14px;
+  }
+  @media screen and (max-width: 720px) {
+    font-size: 12px;
+  }
 `;
 
 const logo = css`
@@ -34,7 +42,7 @@ const category = css`
 `;
 
 const categoryTitle = css`
-  font-size: 16px;
+  font-size: 1em;
   font-weight: 600;
   color: ${theme.colors.gray800};
   margin: 8px 0;
@@ -51,7 +59,7 @@ const categoryTextWrapper = css`
   display: flex;
   align-items: center;
   width: 100%;
-  font-size: 14px;
+  font-size: 0.875em;
   font-weight: 500;
   background-color: ${theme.colors.gray100};
   padding: 12px 8px;
@@ -86,7 +94,7 @@ const addNewSpace = css`
   justify-content: center;
   width: 100%;
   color: ${theme.colors.gray800};
-  font-size: 14px;
+  font-size: 0.875em;
 
   span:hover {
     font-weight: 600;
