@@ -47,7 +47,7 @@ public class AES256 implements Hashable {
             byte[] encrypted = cipher.doFinal(input.getBytes(StandardCharsets.UTF_8));
             return Base64.encodeBase64URLSafeString(encrypted);
         } catch (InvalidAlgorithmParameterException | NoSuchPaddingException | IllegalBlockSizeException |
-                 NoSuchAlgorithmException | BadPaddingException | InvalidKeyException e) {
+                 NoSuchAlgorithmException | BadPaddingException | InvalidKeyException | NullPointerException e) {
             // TODO: 2022/08/02 Infrastructure 예외로 변경 필요
             log.error("encoding error, input = {}, message = {}", input, e.getMessage());
             throw new IllegalArgumentException(e);
@@ -63,7 +63,7 @@ public class AES256 implements Hashable {
             byte[] decrypted = cipher.doFinal(decodedBytes);
             return new String(decrypted, StandardCharsets.UTF_8);
         } catch (InvalidAlgorithmParameterException | NoSuchPaddingException | IllegalBlockSizeException |
-                 NoSuchAlgorithmException | BadPaddingException | InvalidKeyException e) {
+                 NoSuchAlgorithmException | BadPaddingException | InvalidKeyException | NullPointerException e) {
             // TODO: 2022/08/02 Infrastructure 예외로 변경 필요
             log.error("decoding error, input = {}, message = {}", input, e.getMessage());
             throw new IllegalArgumentException(e);

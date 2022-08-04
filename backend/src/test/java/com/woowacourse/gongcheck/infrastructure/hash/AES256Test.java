@@ -1,6 +1,7 @@
 package com.woowacourse.gongcheck.infrastructure.hash;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.Test;
 
@@ -13,6 +14,18 @@ class AES256Test {
     void 문자열을_인코딩한다() {
         String actual = aes256.encode("1");
         assertThat(actual).isNotNull();
+    }
+
+    @Test
+    void 인코딩_시_null을_입력받는_경우_예외를_발생시킨다() {
+        assertThatThrownBy(() -> aes256.encode(null))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 디코딩_시_null을_입력받는_경우_예외를_발생시킨다() {
+        assertThatThrownBy(() -> aes256.decode(null))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
