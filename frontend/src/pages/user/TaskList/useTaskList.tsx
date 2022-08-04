@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
@@ -9,7 +10,7 @@ import useModal from '@/hooks/useModal';
 
 import apis from '@/apis';
 
-const RE_FETCH_INTERVAL_TIME = 1000;
+const RE_FETCH_INTERVAL_TIME = 500;
 
 const useTaskList = () => {
   const { spaceId, jobId, hostId } = useParams();

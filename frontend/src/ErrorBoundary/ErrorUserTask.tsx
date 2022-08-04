@@ -24,15 +24,19 @@ const ErrorUserTask: React.FC<ErrorUserTaskProps> = ({ children }) => {
 
   const { openToast } = useToast();
 
+  const isTaskListPage = location.pathname.split('/').length === 6;
+
   useEffect(() => {
     if (message === NOT_TASK_TEXT) {
-      openToast('ERROR', `관리자가 체크리스트를 수정했습니다. 공간 선택 페이지로 이동합니다.`);
+      openToast('ERROR', `관리자가 체크리스트를 수정했습니다.`);
       navigate(`/enter/${hostId}/spaces`);
     }
 
     if (message === NOT_JOB_TEXT || message === NOT_JOB_WORK_TEXT) {
-      openToast('ERROR', `다른 사용자가 체크리시트를 제출 했습니다. 공간 선택 페이지로 이동합니다.`);
-      navigate(`/enter/${hostId}/spaces`);
+      if (isTaskListPage) {
+        openToast('ERROR', `다른 사용자가 체크리스트를 제출 했습니다.`);
+        navigate(`/enter/${hostId}/spaces`);
+      }
     }
   }, [message]);
 
