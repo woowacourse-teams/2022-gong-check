@@ -32,12 +32,6 @@ const useTaskList = () => {
       suspense: true,
       retry: false,
       refetchInterval: RE_FETCH_INTERVAL_TIME,
-      onError: (err: ApiError) => {
-        if (err.response?.data.message === '존재하지 않는 작업입니다.') {
-          openToast('ERROR', `관리자가 체크리스트를 수정했습니다. 공간 선택 페이지로 이동합니다.`);
-          navigate(`/enter/${hostId}/spaces`);
-        }
-      },
     }
   );
 
