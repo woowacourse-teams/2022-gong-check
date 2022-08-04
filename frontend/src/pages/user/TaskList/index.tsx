@@ -1,5 +1,4 @@
 import useTaskList from './useTaskList';
-import { useEffect } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 
 import Button from '@/components/common/Button';
@@ -30,9 +29,11 @@ const TaskList: React.FC = () => {
           <p>{locationState?.jobName}</p>
         </div>
       </div>
-      <div css={styles.progressBarWrapper}>
-        <div css={styles.progressBar(percent || 0)} />
-        <span css={styles.percentText}>{`${checkCount}/${totalCount}`}</span>
+      <div css={styles.progressBarWrapperSticky}>
+        <div css={styles.progressBarWrapper}>
+          <div css={styles.progressBar(percent || 0)} />
+          <span css={styles.percentText}>{`${checkCount}/${totalCount}`}</span>
+        </div>
       </div>
       <div css={styles.contents}>
         <form css={styles.form}>
