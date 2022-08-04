@@ -1,3 +1,4 @@
+import checkFileSize from '@/utils/checkFileSize';
 import { AxiosError } from 'axios';
 import { useRef, useState } from 'react';
 import { useMutation } from 'react-query';
@@ -48,6 +49,12 @@ const useSectionDetailModal = (props: SectionDetailModalProps) => {
 
     const formData = new FormData();
     formData.append('image', imageFile);
+
+    const isOkayFileSize = checkFileSize(imageFile);
+    if (!isOkayFileSize) {
+      e.target.value = '';
+      return;
+    }
 
     uploadImage(formData);
 
