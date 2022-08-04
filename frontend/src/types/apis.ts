@@ -50,6 +50,6 @@ export type ApiHostTokenData = {
   alreadyJoin: boolean;
 };
 
-export type ApiHostIdData = {
-  id: number;
+export type ApiEntranceCodedData = {
+  entranceCode: string;
 };
