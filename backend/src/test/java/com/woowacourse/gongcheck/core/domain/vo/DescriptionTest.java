@@ -9,13 +9,6 @@ import org.junit.jupiter.api.Test;
 class DescriptionTest {
 
     @Test
-    void 설명은_빈_값일_수_없다() {
-        assertThatThrownBy(() -> new Description(""))
-                .isInstanceOf(BusinessException.class)
-                .hasMessage("설명은 공백일 수 없습니다.");
-    }
-
-    @Test
     void 설명은_128자를_초과할_수_없다() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < 128; i++) {
