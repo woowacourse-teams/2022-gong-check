@@ -4,13 +4,13 @@ import theme from '@/styles/theme';
 
 const wrapper = css`
   position: relative;
+  cursor: pointer;
 `;
 
 const imageWrapper = css`
-  width: 60px;
-  height: 48px;
+  width: 56px;
+  height: 40px;
   overflow: hidden;
-  position: relative;
   border-radius: 8px;
   box-shadow: 2px 2px 4px 0px ${theme.colors.gray500};
 `;
