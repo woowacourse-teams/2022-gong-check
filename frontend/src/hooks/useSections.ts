@@ -19,7 +19,7 @@ const useSections = () => {
 
   const createSection = () => {
     setSections(prev => {
-      return [...prev, { id: nanoid(), name: `새 구역 ${prev.length + 1}`, description: '', imageUrl: '', tasks: [] }];
+      return [...prev, { id: nanoid(), name: '', description: '', imageUrl: '', tasks: [] }];
     });
   };
 
@@ -62,10 +62,7 @@ const useSections = () => {
             name: prev[sectionIndex].name,
             description: prev[sectionIndex].description,
             imageUrl: prev[sectionIndex].imageUrl,
-            tasks: [
-              ...prev[sectionIndex].tasks,
-              { id: nanoid(), name: `새 작업 ${prev[sectionIndex].tasks.length + 1}`, description: '', imageUrl: '' },
-            ],
+            tasks: [...prev[sectionIndex].tasks, { id: nanoid(), name: '', description: '', imageUrl: '' }],
           };
         }
         return section;

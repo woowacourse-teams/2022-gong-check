@@ -14,10 +14,6 @@ const jobBox = css`
   color: ${theme.colors.black};
   font-size: 500;
   font-size: 18px;
-  cursor: pointer;
-  :hover {
-    background-color: ${theme.colors.gray200};
-  }
 `;
 
 const updateButton = css`

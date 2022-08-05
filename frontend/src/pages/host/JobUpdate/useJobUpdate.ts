@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
@@ -56,7 +56,8 @@ const useJobUpdate = () => {
     setJobName(e.target.value);
   };
 
-  const onClickUpdateJob = () => {
+  const onClickUpdateJob = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     updateJob({ jobId, jobName, sections });
     resetSections();
   };

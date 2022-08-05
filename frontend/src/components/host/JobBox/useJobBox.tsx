@@ -11,8 +11,6 @@ const useJobBox = () => {
 
   const { mutate: deleteJob } = useMutation((jobId: ID) => apiJobs.deleteJob(jobId));
 
-  const [isClicked, setIsClicked] = useState(false);
-
   const onClickUpdateJobButton = (jobId: ID, jobName: string) => {
     navigate(`jobUpdate/${jobId}`, { state: { jobName } });
   };
@@ -23,11 +21,7 @@ const useJobBox = () => {
     }
   };
 
-  const onClickJobBox = () => {
-    setIsClicked(prev => !prev);
-  };
-
-  return { isClicked, onClickUpdateJobButton, onClickDeleteJobButton, onClickJobBox };
+  return { onClickUpdateJobButton, onClickDeleteJobButton };
 };
 
 export default useJobBox;

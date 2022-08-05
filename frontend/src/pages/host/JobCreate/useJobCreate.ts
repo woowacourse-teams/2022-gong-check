@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -17,7 +17,7 @@ const useJobCreate = () => {
 
   const { spaceId } = useParams();
 
-  const [newJobName, setNewJobName] = useState('새 업무');
+  const [newJobName, setNewJobName] = useState('');
 
   const { sections, createSection, resetSections } = useSections();
 
@@ -32,7 +32,6 @@ const useJobCreate = () => {
       },
       onError: (err: ApiError) => {
         openToast('ERROR', `${err.response?.data.message}`);
-        navigate('/host/manage/spaceCreate');
       },
     }
   );
@@ -41,9 +40,9 @@ const useJobCreate = () => {
     setNewJobName(e.target.value);
   };
 
-  const onClickCreateNewJob = () => {
+  const onClickCreateNewJob = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     createNewJob({ spaceId, newJobName, sections });
-    resetSections();
   };
 
   useEffect(() => {
