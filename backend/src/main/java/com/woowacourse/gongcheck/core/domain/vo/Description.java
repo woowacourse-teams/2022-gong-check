@@ -24,10 +24,6 @@ public class Description {
     }
 
     private void validateLength(final String value) {
-        if (value.isBlank()) {
-            throw new BusinessException("설명은 공백일 수 없습니다.");
-        }
-
         if (value.length() > DESCRIPTION_MAX_LENGTH) {
             throw new BusinessException("설명은 " + DESCRIPTION_MAX_LENGTH + "자 이하여야 합니다.");
         }
