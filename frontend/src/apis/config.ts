@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-const DEV_URL = 'http://localhost:8080';
-const API_URL = DEV_URL;
+const API_URL = process.env.REACT_APP_API_URL!;
 
 export const axiosInstance = axios.create({
   baseURL: API_URL,
@@ -13,7 +12,7 @@ export const axiosInstanceToken = axios.create({
 
 axiosInstanceToken.interceptors.request.use(
   config => {
-    const accessToken = localStorage.getItem('user');
+    const accessToken = localStorage.getItem('token');
 
     if (accessToken) {
       config.headers = {

@@ -1,8 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-
-const isProduction = process.env.NODE_ENV == 'production';
+const Dotenv = require('dotenv-webpack');
 
 const config = {
   entry: './src/index.tsx',
@@ -24,6 +23,15 @@ const config = {
     }),
     new CleanWebpackPlugin({
       cleanAfterEveryBuildPatterns: ['dist'],
+    }),
+    new Dotenv({
+      path: path.resolve(
+        process.env.NODE_ENV === 'production'
+          ? `./frontend-security/.env.production`
+          : process.env.NODE_ENV === 'staging'
+          ? `./frontend-security/.env.staging`
+          : `./frontend-security/.env.development`
+      ),
     }),
   ],
   module: {
@@ -51,11 +59,17 @@ const config = {
   },
 };
 
-module.exports = () => {
-  if (isProduction) {
-    config.mode = 'production';
-  } else {
-    config.mode = 'development';
+module.exports = env => {
+  switch (process.env.NODE_ENV) {
+    case 'production':
+      config.mode = 'production';
+      break;
+    case 'staging':
+      config.mode = 'production';
+      break;
+    default:
+      config.mode = 'development';
+      break;
   }
   return config;
 };

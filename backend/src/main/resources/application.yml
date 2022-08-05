@@ -1,31 +1,10 @@
 spring:
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:gong-check;MODE=MYSQL;
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
   jpa:
     hibernate:
       ddl-auto: validate
-    properties:
-      hibernate:
-        show_sql: true
-        format_sql: true
     open-in-view: false
-  sql:
-    init:
-      schema-locations: classpath:schema.sql
-      data-locations: classpath:dummy_data.sql
+  output:
+    ansi:
+      enabled: always
   profiles:
-    include: oauth
-security:
-  jwt:
-    token:
-      secret-key: Z29uZy1jaGVjay1nb25nLWNoZWNrLWdvbmctY2hlY2stZ29uZy1jaGVjay1nb25nLWNoZWNrLWdvbmctY2hlY2stZ29uZy1jaGVjay1nb25nLWNoZWNrCg==
-      expire-time: 3600000
-
-server:
-  port: 8080
+    default: local

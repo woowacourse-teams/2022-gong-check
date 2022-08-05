@@ -1,5 +1,7 @@
 import { css } from '@emotion/react';
 
+import theme from '@/styles/theme';
+
 const layout = css`
   display: flex;
   flex-direction: column;
@@ -14,10 +16,15 @@ const logo = css`
 
 const text = css`
   font-weight: 600;
-  color: #84817a;
+  color: ${theme.colors.gray500};
   margin-bottom: 24px;
 `;
 
-const styles = { layout, logo, text };
+const empty = css`
+  margin-top: 56px;
+  font-size: 24px;
+  font-weight: 500;
+`;
+const styles = { layout, logo, text, empty };
 
 export default styles;

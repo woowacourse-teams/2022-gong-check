@@ -1,13 +1,22 @@
+import theme from './theme';
 import { css } from '@emotion/react';
 
 const globalStyle = css`
+  @font-face {
+    font-family: '지마켓';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: 0;
+    font-style: normal;
+  }
+
   * {
     box-sizing: border-box;
+    font-family: '지마켓';
   }
 
   a {
     text-decoration: none;
-    color: black;
+    color: ${theme.colors.black};
   }
 
   // 모달이 웹에서도 모바일 환경 처럼 보일 수 있도록 center 처리
@@ -15,11 +24,8 @@ const globalStyle = css`
     margin: 0;
     display: flex;
     justify-content: center;
-    -ms-overflow-style: none;
-  }
-
-  ::-webkit-scrollbar {
-    display: none;
+    overflow: scroll;
+    overflow-x: hidden;
   }
 
   button {
@@ -32,7 +38,7 @@ const globalStyle = css`
     justify-content: center;
     width: 100vw;
     min-height: 100vh;
-    background-color: #f5f6fa;
+    background-color: ${theme.colors.gray350};
   }
 
   #modal {
@@ -40,6 +46,7 @@ const globalStyle = css`
     justify-content: center;
     position: fixed;
     top: 0;
+    z-index: 1;
   }
 `;
 

@@ -2,3 +2,8 @@
 	path = backend/submodule
 	url = https://github.com/gong-check/submodule.git
     branch = main
+
+[submodule "frontend/frontend-security"]
+	path = frontend/frontend-security
+	url = https://github.com/gong-check/frontend-security.git
+	branch = main

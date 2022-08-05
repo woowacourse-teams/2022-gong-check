@@ -7,18 +7,22 @@ const contentWith = css`
   margin: 0 auto;
 `;
 
-const button = css`
+const button = ({ isActive }: { isActive?: boolean }) => css`
   width: 5rem;
-  height: 2.5rem;
+  height: 2rem;
   margin: 0;
   font-size: 1rem;
+  padding: 8px 0;
+  background: ${isActive ? theme.colors.primary : theme.colors.gray400};
 `;
 
 const spaceInfo = css`
-  min-height: 25rem;
+  height: 100%;
+  min-height: 28rem;
+  min-width: 21rem;
   background: ${theme.colors.white};
   border-radius: 8px;
-  box-shadow: 2px 2px 2px 2px ${theme.colors.shadow30};
+  box-shadow: 2px 2px 2px 2px ${theme.colors.shadow10};
 `;
 
 const titleWrapper = css`
@@ -26,10 +30,11 @@ const titleWrapper = css`
   justify-content: space-between;
   align-items: center;
   padding: 0 1.25rem;
-  border-bottom: 1px solid ${theme.colors.gray200};
+  border-bottom: 1px solid ${theme.colors.gray300};
 `;
 
 const title = css`
+  margin: 19px;
   font-size: 1.4rem;
 `;
 
@@ -51,47 +56,8 @@ const imageWrapper = css`
   padding-bottom: 1.25rem;
 `;
 
-const imageBox = css`
-  display: block;
-  background: ${theme.colors.gray200};
-  background-size: cover;
-  background-repeat: no-repeat;
-  border: 2px ${theme.colors.gray};
-  border-radius: 8px;
-  width: 15rem;
-  height: 15rem;
-  position: relative;
-  margin: 0 1.5rem;
-  cursor: pointer;
-`;
-
-const imageInput = css`
-  opacity: 0;
-  z-index: -1;
-`;
-
-const imageCoverText = css`
-  width: 100%;
-  color: ${theme.colors.lightGray};
-  text-shadow: 0px 0px 4px ${theme.colors.shadow60};
-  font-size: 0.8rem;
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  z-index: 0;
-`;
-
-const iconBox = css`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;
-
 const inputContainer = css`
-  border-top: 1px solid ${theme.colors.gray200};
+  border-top: 1px solid ${theme.colors.gray300};
   padding-bottom: 1.25rem;
 `;
 
@@ -104,8 +70,8 @@ const input = css`
   font-size: 1.4rem;
   font-weight: bold;
   cursor: pointer;
-  max-width: 12.5rem;
 
+  width: 100%;
   &:focus {
     outline: none;
   }
@@ -121,10 +87,6 @@ const styles = {
   inputContainer,
   inputWrapper,
   imageWrapper,
-  imageBox,
-  imageInput,
-  imageCoverText,
-  iconBox,
   input,
 };
 

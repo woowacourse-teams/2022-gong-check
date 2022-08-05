@@ -1,4 +1,5 @@
-import ErrorUserToken from '@/errorBoundary/ErrorUserToken';
+import ErrorUserTask from '@/ErrorBoundary/ErrorUserTask';
+import ErrorUserToken from '@/ErrorBoundary/ErrorUserToken';
 import { Global } from '@emotion/react';
 import { Suspense, useEffect } from 'react';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
@@ -12,20 +13,22 @@ const UserLayout: React.FC = () => {
   const { hostId } = useParams();
 
   useEffect(() => {
-    if (!localStorage.getItem('user')) {
+    if (!localStorage.getItem('token')) {
       navigate(`/enter/${hostId}/pwd`);
     }
   }, []);
 
   return (
-    <Suspense fallback={<div>유저 레이아웃 로딩 스피너</div>}>
-      <ErrorUserToken>
-        <div css={styles.layout}>
-          <Global styles={transitions} />
-          <Outlet />
-        </div>
-      </ErrorUserToken>
-    </Suspense>
+    <ErrorUserToken>
+      <ErrorUserTask>
+        <Suspense fallback={<></>}>
+          <div css={styles.layout}>
+            <Global styles={transitions} />
+            <Outlet />
+          </div>
+        </Suspense>
+      </ErrorUserTask>
+    </ErrorUserToken>
   );
 };
 

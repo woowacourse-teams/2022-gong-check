@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="logback/console/console-appender.xml"/>
+    <include resource="logback/file/file-error-appender.xml"/>
+    <include resource="logback/file/file-warn-appender.xml"/>
+    <include resource="logback/file/file-info-appender.xml"/>
+    <include resource="logback/file/file-debug-appender.xml"/>
+    <include resource="logback/slack/slack-appender.xml"/>
+
+    <springProfile name="prod">
+        <logger name="com.woowacourse.imagestorage" level="INFO">
+            <appender-ref ref="file-error-appender"/>
+            <appender-ref ref="file-warn-appender"/>
+            <appender-ref ref="file-info-appender"/>
+        </logger>
+
+        <logger name="org.springframework" level="INFO">
+            <appender-ref ref="file-error-appender"/>
+            <appender-ref ref="file-warn-appender"/>
+            <appender-ref ref="file-info-appender"/>
+        </logger>
+    </springProfile>
+
+    <springProfile name="dev">
+        <logger name="com.woowacourse.imagestorage" level="DEBUG">
+            <appender-ref ref="file-error-appender"/>
+            <appender-ref ref="file-warn-appender"/>
+            <appender-ref ref="file-info-appender"/>
+            <appender-ref ref="file-debug-appender"/>
+        </logger>
+
+        <logger name="org.springframework" level="DEBUG">
+            <appender-ref ref="file-error-appender"/>
+            <appender-ref ref="file-warn-appender"/>
+            <appender-ref ref="file-info-appender"/>
+            <appender-ref ref="file-debug-appender"/>
+        </logger>
+    </springProfile>
+
+    <springProfile name="local">
+        <logger name="com.woowacourse.imagestorage" level="DEBUG">
+            <appender-ref ref="console-appender"/>
+        </logger>
+
+        <logger name="org.springframework" level="INFO">
+            <appender-ref ref="console-appender"/>
+        </logger>
+    </springProfile>
+
+    <springProfile name="test">
+        <logger name="com.woowacourse.imagestorage" level="DEBUG">
+            <appender-ref ref="console-appender"/>
+        </logger>
+
+        <logger name="org.springframework" level="INFO">
+            <appender-ref ref="console-appender"/>
+        </logger>
+    </springProfile>
+</configuration>

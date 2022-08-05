@@ -6,9 +6,10 @@ const layout = ({ isFullSize }: { isFullSize: boolean }) => css`
   background: ${theme.colors.white};
   border-radius: 8px;
   font-size: 16px;
-  ${!isFullSize &&
+  box-shadow: 2px 2px 2px 2px ${theme.colors.shadow10};
+  ${isFullSize &&
   css`
-    width: 30em;
+    margin-top: 5rem;
   `}
 `;
 
@@ -24,9 +25,11 @@ const header = css`
 `;
 
 const detailButton = css`
-  font-size: 1em;
-  width: 5em;
+  width: 5rem;
+  height: 2rem;
   margin: 0;
+  font-size: 1rem;
+  padding: 8px 0;
 `;
 
 const table = ({ isFullSize }: { isFullSize: boolean }) => css`
@@ -36,17 +39,20 @@ const table = ({ isFullSize }: { isFullSize: boolean }) => css`
   display: block;
 
   thead {
-    background-color: ${theme.colors.lightGray};
+    background-color: ${theme.colors.gray200};
     color: ${theme.colors.shadow30};
     box-shadow: 0 1px 4px 0px ${theme.colors.shadow30};
     width: 100%;
+    display: block;
   }
 
   tbody {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
     width: 100%;
-    display: block;
-    overflow-y: scroll;
-    height: ${isFullSize ? '100%' : '12.5em'};
+    overflow-y: ${isFullSize ? 'scroll' : 'hidden'};
+    height: ${isFullSize ? '50vh' : '12.5em'};
 
     ::-webkit-scrollbar {
       width: 0.3em;
@@ -81,17 +87,40 @@ const table = ({ isFullSize }: { isFullSize: boolean }) => css`
   th,
   td {
     padding: 1em;
-    min-width: ${isFullSize ? '12em' : '6em'};
-    max-width: ${isFullSize ? '12em' : '6em'};
+    height: 10px;
+    width: 28vw;
+    min-width: 160px;
     word-wrap: break-word;
     text-align: left;
     &:nth-of-type(3) {
-      min-width: ${isFullSize ? '20em' : '15em'};
-      max-width: ${isFullSize ? '20em' : '15em'};
+      width: 60vw;
+      min-width: 320px;
     }
   }
 `;
 
-const styles = { layout, header, detailButton, table };
+const empty = css`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  td {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  img {
+    max-width: 100px;
+    margin-bottom: 12px;
+  }
+`;
+
+const styles = { layout, header, detailButton, table, empty };
 
 export default styles;

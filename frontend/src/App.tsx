@@ -1,17 +1,21 @@
 import routes from './Routes';
-import Transitions from '@/transitions';
+import ToastBar from './components/common/ToastBar';
+import Transitions from '@/Transitions';
 import { useRoutes } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 import useTransitionSelect from '@/hooks/useTransitionSelect';
 
 import { isShowModalState, modalComponentState } from '@/recoil/modal';
+import { isShowToastState } from '@/recoil/toast';
 
 const App = () => {
   const content = useRoutes(routes, location);
 
   const isShowModal = useRecoilValue(isShowModalState);
   const modalComponent = useRecoilValue(modalComponentState);
+
+  const isShowToast = useRecoilValue(isShowToastState);
 
   const transition = useTransitionSelect();
 
@@ -21,6 +25,7 @@ const App = () => {
         {content}
       </Transitions>
       {isShowModal && modalComponent}
+      {isShowToast && <ToastBar />}
     </>
   );
 };

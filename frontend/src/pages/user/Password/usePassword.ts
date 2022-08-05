@@ -1,20 +1,24 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import useToast from '@/hooks/useToast';
+
 import apis from '@/apis';
 
 const usePassword = () => {
   const navigate = useNavigate();
+
+  const { openToast } = useToast();
 
   const [isActiveSubmit, setIsActiveSubmit] = useState(false);
   const { hostId } = useParams();
 
   const setToken = async (password: string) => {
     const { token } = await apis.postPassword({ hostId, password });
-    localStorage.setItem('user', token);
+    localStorage.setItem('token', token);
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!isActiveSubmit) return;
 
@@ -26,11 +30,11 @@ const usePassword = () => {
         navigate(`/enter/${hostId}/spaces`);
       });
     } catch (err) {
-      alert('비밀번호를 확인해주세요.');
+      openToast('ERROR', '비밀번호를 확인해주세요.');
     }
   };
 
-  const handelChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target as HTMLInputElement;
 
     const isExistValue = value.length > 0;
@@ -39,8 +43,8 @@ const usePassword = () => {
 
   return {
     isActiveSubmit,
-    onSubmit: handleSubmit,
-    onChange: handelChangeInput,
+    onSubmit,
+    onChangeInput,
   };
 };
 

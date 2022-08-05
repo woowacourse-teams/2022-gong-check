@@ -1,10 +1,9 @@
 package com.woowacourse.gongcheck.acceptance;
 
-import static com.woowacourse.gongcheck.acceptance.AuthSupport.토큰을_요청한다;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.woowacourse.gongcheck.presentation.request.GuestEnterRequest;
-import com.woowacourse.gongcheck.presentation.request.SubmissionRequest;
+import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
+import com.woowacourse.gongcheck.core.presentation.request.SubmissionRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -15,14 +14,14 @@ import org.springframework.http.MediaType;
 class SubmissionAcceptanceTest extends AcceptanceTest {
 
     @Test
-    void 현재_진행중인_작업이_모두_완료된_상태로_제출한다() {
+    void RunningTask가_모두_체크된_상테로_Submission을_생성한다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
-        새로운_진행작업을_생성한다(token);
-        체크박스를_체크한다(token, 1L);
-        체크박스를_체크한다(token, 2L);
-        체크박스를_체크한다(token, 3L);
-        체크박스를_체크한다(token, 4L);
+        RunningTask를_생성한다(token);
+        체크상태를_변경한다(token, 1L);
+        체크상태를_변경한다(token, 2L);
+        체크상태를_변경한다(token, 3L);
+        체크상태를_변경한다(token, 4L);
         SubmissionRequest submissionRequest = new SubmissionRequest("제출자");
 
         ExtractableResponse<Response> response = RestAssured
@@ -38,11 +37,11 @@ class SubmissionAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void 현재_진행중인_작업을_미완료_상태로_제출을_시도할_경우_실패한다() {
+    void RunningTask가_모두_체크되지_않은_상태로_Submission을_생성할_수_없다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
-        새로운_진행작업을_생성한다(token);
-        체크박스를_체크한다(token, 1L);
+        RunningTask를_생성한다(token);
+        체크상태를_변경한다(token, 1L);
         SubmissionRequest submissionRequest = new SubmissionRequest("제출자");
 
         ExtractableResponse<Response> response = RestAssured
@@ -57,15 +56,15 @@ class SubmissionAcceptanceTest extends AcceptanceTest {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
 
-    private void 새로운_진행작업을_생성한다(final String token) {
+    private void RunningTask를_생성한다(final String token) {
         RestAssured
                 .given().log().all()
                 .auth().oauth2(token)
-                .when().post("/api/jobs/1/tasks/new")
+                .when().post("/api/jobs/1/runningTasks/new")
                 .then().log().all();
     }
 
-    private void 체크박스를_체크한다(final String token, final Long taskId) {
+    private void 체크상태를_변경한다(final String token, final Long taskId) {
         RestAssured
                 .given().log().all()
                 .auth().oauth2(token)

@@ -1,32 +1,50 @@
-import submissions from '@/mock/submissions';
-import { css } from '@emotion/react';
-import { useNavigate } from 'react-router-dom';
+import useDashBoard from './useDashBoard';
+import { GoLinkExternal } from 'react-icons/go';
 
-import JobList from '@/components/host/JobList';
+import Button from '@/components/common/Button';
+import ImageBox from '@/components/host/ImageBox';
+import JobListCard from '@/components/host/JobListCard';
+import SpaceDeleteButton from '@/components/host/SpaceDeleteButton';
+import SpaceInfo from '@/components/host/SpaceInfo';
 import Submissions from '@/components/host/Submissions';
 
-const DashBoard: React.FC = () => {
-  const navigate = useNavigate();
+import slackIcon from '@/assets/slackIcon.svg';
 
-  const handleClickSubmissionsDetail = () => {
-    navigate('spaceRecord');
-  };
+import styles from './styles';
+
+const DashBoard: React.FC = () => {
+  const {
+    spaceId,
+    spaceData,
+    jobsData,
+    submissionData,
+    onClickSubmissionsDetail,
+    onClickSlackButton,
+    onClickLinkButton,
+  } = useDashBoard();
 
   return (
-    <div
-      css={css`
-        padding: 16px 48px;
-
-        /* 임시 css 설정 - start*/
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        /* 임시 css 설정 - end*/
-      `}
-    >
-      <h1>공간 관리</h1>
-      <JobList />
-      <Submissions submissions={submissions} onClick={handleClickSubmissionsDetail} />
+    <div css={styles.layout}>
+      <div css={styles.contents}>
+        <div css={styles.buttons}>
+          <Button css={styles.linkButton} onClick={onClickLinkButton}>
+            <GoLinkExternal />
+            <span>입장 링크 복사</span>
+          </Button>
+          <Button css={styles.slackButton} onClick={onClickSlackButton}>
+            <img src={slackIcon} alt="슬랙" />
+            <span>URL 편집</span>
+          </Button>
+          <SpaceDeleteButton spaceId={spaceId} spaceName={spaceData?.name} />
+        </div>
+        <div css={styles.cardWrapper}>
+          <SpaceInfo type={'read'} data={spaceData}>
+            <ImageBox type={'read'} imageUrl={spaceData?.imageUrl} />
+          </SpaceInfo>
+          <JobListCard jobs={jobsData?.jobs || []} />
+        </div>
+        <Submissions submissions={submissionData?.submissions || []} onClick={onClickSubmissionsDetail} />
+      </div>
     </div>
   );
 };

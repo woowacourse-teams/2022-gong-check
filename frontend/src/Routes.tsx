@@ -5,17 +5,22 @@ import HostLayout from '@/layouts/HostLayout';
 import ManageLayout from '@/layouts/ManageLayout';
 import UserLayout from '@/layouts/UserLayout';
 
+// user
 const SpaceListPage = lazy(() => import('@/pages/user/SpaceList'));
 const JobListPage = lazy(() => import('@/pages/user/JobList'));
 const TaskListPage = lazy(() => import('@/pages/user/TaskList'));
 const PasswordPage = lazy(() => import('@/pages/user/Password'));
 
+// host
 const HomePage = lazy(() => import('@/pages/host/Home'));
-const LoginPage = lazy(() => import('@/pages/host/Login'));
 const AuthCallBackPage = lazy(() => import('@/pages/host/AuthCallBack'));
 const DashBoardPage = lazy(() => import('@/pages/host/DashBoard'));
 const SpaceCreatePage = lazy(() => import('@/pages/host/SpaceCreate'));
+const SpaceUpdatePage = lazy(() => import('@/pages/host/SpaceUpdate'));
 const SpaceRecordPage = lazy(() => import('@/pages/host/SpaceRecord'));
+const JobCreatePage = lazy(() => import('@/pages/host/JobCreate'));
+const JobUpdatePage = lazy(() => import('@/pages/host/JobUpdate'));
+const PasswordUpdatePage = lazy(() => import('@/pages/host/PasswordUpdate'));
 
 const routes = [
   {
@@ -53,10 +58,6 @@ const routes = [
             element: <HomePage />,
           },
           {
-            path: 'login',
-            element: <LoginPage />,
-          },
-          {
             path: 'authCallback',
             element: <AuthCallBackPage />,
           },
@@ -65,23 +66,33 @@ const routes = [
             element: <ManageLayout />,
             children: [
               {
-                path: '',
-                element: <DashBoardPage />,
+                path: 'passwordUpdate',
+                element: <PasswordUpdatePage />,
               },
               {
                 path: 'spaceCreate',
                 element: <SpaceCreatePage />,
               },
               {
-                path: 'spaceRecord',
+                path: ':spaceId',
+                element: <DashBoardPage />,
+              },
+              {
+                path: ':spaceId/spaceUpdate',
+                element: <SpaceUpdatePage />,
+              },
+              {
+                path: ':spaceId/spaceRecord',
                 element: <SpaceRecordPage />,
               },
-              // 공간 생성, 수정 <SpaceCreatePage/>
-              // 공간 정보 수정 페이지 <SpaceUpdatePage/>
-              // 공간 사용 내역 보기 페이지 <SpaceRecordPage/>
-              // 체크리스트 생성 페이지 <JobCreatePage />
-              // 체크리스트 수정 페이지 <JobUpdatePage />
-              // 회원 정보 수정 페이지 <JobUpdatePage />
+              {
+                path: ':spaceId/jobCreate',
+                element: <JobCreatePage />,
+              },
+              {
+                path: ':spaceId/jobUpdate/:jobId',
+                element: <JobUpdatePage />,
+              },
             ],
           },
         ],

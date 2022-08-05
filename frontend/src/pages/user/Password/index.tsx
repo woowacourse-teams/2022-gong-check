@@ -1,18 +1,18 @@
 import usePassword from './usePassword';
 
-import Button from '@/components/_common/Button';
+import Button from '@/components/common/Button';
 
 import homeCover from '@/assets/homeCover.png';
 
 import styles from './styles';
 
 const Password: React.FC = () => {
-  const { isActiveSubmit, onSubmit, onChange } = usePassword();
+  const { isActiveSubmit, onSubmit, onChangeInput } = usePassword();
 
   return (
     <div css={styles.layout}>
-      <div>
-        <img src={homeCover} alt="" />
+      <div css={styles.homeCoverImage}>
+        <img src={homeCover} alt="공책" />
       </div>
       <div css={styles.textWrapper}>
         <p>비밀번호를 입력해주세요.</p>
@@ -23,7 +23,7 @@ const Password: React.FC = () => {
         </p>
       </div>
       <form css={styles.form({ isActiveSubmit })} onSubmit={onSubmit}>
-        <input onChange={onChange} placeholder="비밀번호를 입력해주세요." required />
+        <input type="password" onChange={onChangeInput} placeholder="비밀번호를 입력해주세요." required />
         <Button type="submit">확인</Button>
       </form>
     </div>

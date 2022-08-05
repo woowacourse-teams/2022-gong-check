@@ -1,23 +1,9 @@
-import { css } from '@emotion/react';
-
-import useGitHubLogin from '@/hooks/useGithubLogin';
+import useAuthCallBack from './useAuthCallBack';
 
 const AuthCallBack: React.FC = () => {
-  useGitHubLogin();
+  useAuthCallBack();
 
-  return (
-    <div
-      css={css`
-        display: flex;
-        height: 100vh;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      `}
-    >
-      <div>로그인 진행 중...</div>
-    </div>
-  );
+  return <></>;
 };
 
 export default AuthCallBack;

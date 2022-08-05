@@ -7,19 +7,27 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 
-import com.woowacourse.gongcheck.application.response.GuestTokenResponse;
+import com.woowacourse.gongcheck.auth.application.response.GuestTokenResponse;
+import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.ErrorResponse;
-import com.woowacourse.gongcheck.presentation.request.GuestEnterRequest;
 import io.restassured.module.mockmvc.response.MockMvcResponse;
 import io.restassured.response.ExtractableResponse;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.payload.JsonFieldType;
 
 class GuestAuthDocumentation extends DocumentationTest {
+
+    private static final String ENTRANCE_CODE = "random_entrance_code";
 
     @Nested
     class 게스트_토큰을_요청한다 {
@@ -32,9 +40,17 @@ class GuestAuthDocumentation extends DocumentationTest {
             docsGiven
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(guestEnterRequest)
-                    .when().post("/api/hosts/1/enter")
+                    .when().post("/api/hosts/{entranceCode}/enter", ENTRANCE_CODE)
                     .then().log().all()
-                    .apply(document("guests/auth/success"))
+                    .apply(document("guests/auth/success",
+                            pathParameters(
+                                    parameterWithName("entranceCode").description("호스트가 제공하는 입장코드")),
+                            requestFields(
+                                    fieldWithPath("password").type(JsonFieldType.STRING).description("공간 비밀번호")),
+                            responseFields(
+                                    fieldWithPath("token").type(JsonFieldType.STRING).description("Access Token")
+                            )
+                    ))
                     .statusCode(HttpStatus.OK.value());
         }
 
@@ -47,7 +63,7 @@ class GuestAuthDocumentation extends DocumentationTest {
             ExtractableResponse<MockMvcResponse> response = docsGiven
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(guestEnterRequest)
-                    .when().post("/api/hosts/1/enter")
+                    .when().post("/api/hosts/{entranceCode}/enter", ENTRANCE_CODE)
                     .then().log().all()
                     .apply(document("guests/auth/fail/length"))
                     .extract();
@@ -68,7 +84,7 @@ class GuestAuthDocumentation extends DocumentationTest {
             ExtractableResponse<MockMvcResponse> response = docsGiven
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .body(guestEnterRequest)
-                    .when().post("/api/hosts/1/enter")
+                    .when().post("/api/hosts/{entranceCode}/enter", ENTRANCE_CODE)
                     .then().log().all()
                     .apply(document("guests/auth/fail/pattern"))
                     .extract();

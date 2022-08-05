@@ -2,4 +2,25 @@
 == job
 
 === job 목록 조회
-operation::jobs/list[snippets='http-request,http-response']
+
+operation::jobs/list[snippets='http-request,http-response,path-parameters,response-fields']
+
+=== job의 slack url 조회
+
+operation::jobs/slack_url[snippets='http-request,http-response,path-parameters,response-fields']
+
+=== job의 slack url 수정
+
+operation::jobs/change_slack_url/success[snippets='http-request,http-response,path-parameters,request-fields']
+
+=== 새로운 job 생성
+
+operation::jobs/create/success[snippets='http-request,http-response,path-parameters,request-fields']
+
+=== job 수정
+
+operation::jobs/change/success[snippets='http-request,http-response,path-parameters,request-fields']
+
+=== job 삭제
+
+operation::jobs/delete[snippets='http-request,http-response,path-parameters']

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+    <include resource="logback/properties/default-properties.xml"/>
+    <springProperty name="webhook" source="logging.webhook"/>
+    <appender name="slack" class="com.github.maricn.logback.SlackAppender">
+        <webhookUri>${webhook}</webhookUri>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level --- [%thread] %logger.%M{35} : %msg %n</pattern>
+        </layout>
+    </appender>
+
+    <appender name="slack-appender" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="slack"/>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+    </appender>
+</included>

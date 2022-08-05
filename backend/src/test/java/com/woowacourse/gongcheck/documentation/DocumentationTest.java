@@ -3,24 +3,26 @@ package com.woowacourse.gongcheck.documentation;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 
-import com.woowacourse.gongcheck.application.AlertService;
-import com.woowacourse.gongcheck.application.GuestAuthService;
-import com.woowacourse.gongcheck.application.HostAuthService;
-import com.woowacourse.gongcheck.application.HostService;
-import com.woowacourse.gongcheck.application.ImageUploader;
-import com.woowacourse.gongcheck.application.JjwtTokenProvider;
-import com.woowacourse.gongcheck.application.JobService;
-import com.woowacourse.gongcheck.application.SpaceService;
-import com.woowacourse.gongcheck.application.SubmissionService;
-import com.woowacourse.gongcheck.application.TaskService;
-import com.woowacourse.gongcheck.presentation.AuthenticationContext;
-import com.woowacourse.gongcheck.presentation.GuestAuthController;
-import com.woowacourse.gongcheck.presentation.HostAuthController;
-import com.woowacourse.gongcheck.presentation.HostController;
-import com.woowacourse.gongcheck.presentation.JobController;
-import com.woowacourse.gongcheck.presentation.SpaceController;
-import com.woowacourse.gongcheck.presentation.SubmissionController;
-import com.woowacourse.gongcheck.presentation.TaskController;
+import com.woowacourse.gongcheck.auth.application.EntranceCodeProvider;
+import com.woowacourse.gongcheck.auth.application.GuestAuthService;
+import com.woowacourse.gongcheck.auth.application.HostAuthService;
+import com.woowacourse.gongcheck.auth.domain.AuthenticationContext;
+import com.woowacourse.gongcheck.auth.presentation.GuestAuthController;
+import com.woowacourse.gongcheck.auth.presentation.HostAuthController;
+import com.woowacourse.gongcheck.core.application.AlertService;
+import com.woowacourse.gongcheck.core.application.HostService;
+import com.woowacourse.gongcheck.core.application.ImageUploader;
+import com.woowacourse.gongcheck.core.application.JobService;
+import com.woowacourse.gongcheck.core.application.SpaceService;
+import com.woowacourse.gongcheck.core.application.SubmissionService;
+import com.woowacourse.gongcheck.core.application.TaskService;
+import com.woowacourse.gongcheck.core.presentation.HostController;
+import com.woowacourse.gongcheck.core.presentation.ImageUploadController;
+import com.woowacourse.gongcheck.core.presentation.JobController;
+import com.woowacourse.gongcheck.core.presentation.SpaceController;
+import com.woowacourse.gongcheck.core.presentation.SubmissionController;
+import com.woowacourse.gongcheck.core.presentation.TaskController;
+import com.woowacourse.gongcheck.infrastructure.jwt.JjwtTokenProvider;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.module.mockmvc.specification.MockMvcRequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +41,8 @@ import org.springframework.web.context.WebApplicationContext;
         JobController.class,
         TaskController.class,
         SubmissionController.class,
-        HostController.class
+        HostController.class,
+        ImageUploadController.class
 })
 @ExtendWith(RestDocumentationExtension.class)
 class DocumentationTest {
@@ -48,7 +51,7 @@ class DocumentationTest {
 
     @MockBean
     protected HostAuthService hostAuthService;
-    
+
     @MockBean
     protected GuestAuthService guestAuthService;
 
@@ -72,6 +75,9 @@ class DocumentationTest {
 
     @MockBean
     protected JjwtTokenProvider jwtTokenProvider;
+
+    @MockBean
+    protected EntranceCodeProvider entranceCodeProvider;
 
     @MockBean
     protected AuthenticationContext authenticationContext;
