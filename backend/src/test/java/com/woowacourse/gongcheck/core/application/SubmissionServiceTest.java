@@ -11,7 +11,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.woowacourse.gongcheck.core.application.response.SubmissionCreatedResponse;
 import com.woowacourse.gongcheck.core.application.response.SubmissionResponse;
 import com.woowacourse.gongcheck.core.application.response.SubmissionsResponse;
 import com.woowacourse.gongcheck.core.domain.host.Host;
@@ -22,6 +21,7 @@ import com.woowacourse.gongcheck.core.domain.section.Section;
 import com.woowacourse.gongcheck.core.domain.section.SectionRepository;
 import com.woowacourse.gongcheck.core.domain.space.Space;
 import com.woowacourse.gongcheck.core.domain.space.SpaceRepository;
+import com.woowacourse.gongcheck.core.domain.submission.Submission;
 import com.woowacourse.gongcheck.core.domain.submission.SubmissionRepository;
 import com.woowacourse.gongcheck.core.domain.task.RunningTaskRepository;
 import com.woowacourse.gongcheck.core.domain.task.Task;
@@ -29,6 +29,7 @@ import com.woowacourse.gongcheck.core.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.core.presentation.request.SubmissionRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.NotFoundException;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -216,20 +217,15 @@ class SubmissionServiceTest {
 
             @Test
             void Submission을_생성한다() {
-                SubmissionCreatedResponse actual = submissionService.submitJobCompletion(
-                        host.getId(), job.getId(), request);
-                int submissionSize = submissionRepository.findAll()
-                        .size();
+                submissionService.submitJobCompletion(host.getId(), job.getId(), request);
+                List<Submission> submissions = submissionRepository.findAll();
                 int runningTaskSize = runningTaskRepository.findAll()
                         .size();
 
                 assertAll(
-                        () -> assertThat(submissionSize).isOne(),
-                        () -> assertThat(runningTaskSize).isZero(),
-                        () -> assertThat(actual.getAuthor()).isEqualTo(request.getAuthor()),
-                        () -> assertThat(actual.getSpaceName()).isEqualTo(
-                                space.getName().getValue()),
-                        () -> assertThat(actual.getJobName()).isEqualTo(job.getName().getValue())
+                        () -> assertThat(submissions).hasSize(1),
+                        () -> assertThat(submissions.get(0).getAuthor()).isEqualTo(request.getAuthor()),
+                        () -> assertThat(runningTaskSize).isZero()
                 );
             }
         }
