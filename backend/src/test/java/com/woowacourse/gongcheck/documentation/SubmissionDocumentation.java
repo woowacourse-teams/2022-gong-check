@@ -49,8 +49,7 @@ class SubmissionDocumentation extends DocumentationTest {
             Space space = Space_아이디_지정_생성(1L, host, "잠실");
             Job job = Job_아이디_지정_생성(1L, space, "청소");
             SubmissionCreatedResponse response = SubmissionCreatedResponse.of("author", job);
-            when(submissionService.submitJobCompletion(anyLong(), anyLong(), any())).thenReturn(response);
-            doNothing().when(alertService).sendMessage(response);
+            doNothing().when(submissionService).submitJobCompletion(anyLong(), anyLong(), any());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             SubmissionRequest submissionRequest = new SubmissionRequest("제출자");

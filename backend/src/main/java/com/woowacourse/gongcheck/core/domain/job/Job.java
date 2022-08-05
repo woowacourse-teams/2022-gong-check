@@ -75,6 +75,10 @@ public class Job {
         this.slackUrl = slackUrl;
     }
 
+    public boolean hasUrl() {
+        return Objects.nonNull(slackUrl);
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
