@@ -11,10 +11,9 @@ const taskBox = css`
   height: 40px;
   animation: ${animation.fadeIn} 1s;
 
-  span {
-    font-size: 14px;
-    margin-right: 8px;
-    cursor: pointer;
+  & > div {
+    display: flex;
+    align-items: center;
   }
 `;
 
@@ -27,22 +26,10 @@ const editButton = css`
   margin: 0;
 `;
 
-const pencil = css`
-  margin: 0 4px;
-  cursor: pointer;
-  color: ${theme.colors.primary};
-  :hover {
-    animation: ${animation.shake} 2s infinite linear alternate;
-  }
-`;
-
-const trash = css`
-  margin: 0 4px;
+const deleteButton = css`
+  margin-right: 4px;
   cursor: pointer;
   color: ${theme.colors.red};
-  :hover {
-    animation: ${animation.shake} 2s infinite linear alternate;
-  }
 `;
 
 const input = css`
@@ -58,6 +45,15 @@ const input = css`
   }
 `;
 
-const styles = { taskBox, editButton, pencil, trash, input };
+const detailButton = (hasSectionDetailInfo: boolean) => css`
+  margin: 0 4px;
+  cursor: pointer;
+  color: ${hasSectionDetailInfo ? theme.colors.green : theme.colors.gray400};
+  :hover {
+    animation: ${animation.shake} 2s infinite linear alternate;
+  }
+`;
+
+const styles = { taskBox, editButton, deleteButton, input, detailButton };
 
 export default styles;

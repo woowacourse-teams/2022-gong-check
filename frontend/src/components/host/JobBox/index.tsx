@@ -11,31 +11,29 @@ interface JobBoxProps {
 }
 
 const JobBox: React.FC<JobBoxProps> = ({ job }) => {
-  const { isClicked, onClickUpdateJobButton, onClickDeleteJobButton, onClickJobBox } = useJobBox();
+  const { onClickUpdateJobButton, onClickDeleteJobButton } = useJobBox();
 
   return (
-    <div css={styles.jobBox} onClick={onClickJobBox}>
+    <div css={styles.jobBox}>
       <span>{job.name}</span>
-      {isClicked && (
-        <div>
-          <Button
-            css={styles.updateButton}
-            onClick={() => {
-              onClickUpdateJobButton(job.id, job.name);
-            }}
-          >
-            수정
-          </Button>
-          <Button
-            css={styles.deleteButton}
-            onClick={() => {
-              onClickDeleteJobButton(job.id);
-            }}
-          >
-            삭제
-          </Button>
-        </div>
-      )}
+      <div>
+        <Button
+          css={styles.updateButton}
+          onClick={() => {
+            onClickUpdateJobButton(job.id, job.name);
+          }}
+        >
+          수정
+        </Button>
+        <Button
+          css={styles.deleteButton}
+          onClick={() => {
+            onClickDeleteJobButton(job.id);
+          }}
+        >
+          삭제
+        </Button>
+      </div>
     </div>
   );
 };
