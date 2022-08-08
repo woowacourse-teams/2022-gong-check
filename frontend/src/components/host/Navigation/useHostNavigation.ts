@@ -9,9 +9,9 @@ import { ID } from '@/types';
 const useHostNavigation = () => {
   const navigate = useNavigate();
 
-  const { spaceId } = useParams();
+  const { spaceId } = useParams() as { spaceId: ID };
 
-  const [selectedSpaceId, setSelectedSpaceId] = useState<ID | undefined>(spaceId);
+  const [selectedSpaceId, setSelectedSpaceId] = useState<ID>(spaceId);
 
   const { data: spaceData } = useQuery(['spaces'], apiSpace.getSpaces);
 
@@ -19,7 +19,7 @@ const useHostNavigation = () => {
     navigate('/host/manage/passwordUpdate');
   };
 
-  const onClickSpace = (spaceId: number) => {
+  const onClickSpace = (spaceId: ID) => {
     setSelectedSpaceId(spaceId);
     navigate(`${spaceId}`);
   };

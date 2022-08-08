@@ -12,10 +12,12 @@ import apiJobs from '@/apis/job';
 import apiSpace from '@/apis/space';
 import apiSubmission from '@/apis/submission';
 
+import { ID } from '@/types';
+
 const useDashBoard = () => {
   const navigate = useNavigate();
 
-  const { spaceId } = useParams();
+  const { spaceId } = useParams() as { spaceId: ID };
 
   const { openModal } = useModal();
   const { openToast } = useToast();
@@ -25,7 +27,7 @@ const useDashBoard = () => {
     cacheTime: 0,
   });
   const { data: jobsData } = useQuery(['jobs', spaceId], () => apiJobs.getJobs(spaceId));
-  const { data: submissionData } = useQuery(['submissions', spaceId], () => apiSubmission.getSubmission({ spaceId }));
+  const { data: submissionData } = useQuery(['submissions', spaceId], () => apiSubmission.getSubmission(spaceId));
   const { refetch: getEntranceCode } = useQuery(['entranceCode'], () => apiHost.getEntranceCode(), {
     enabled: false,
     onSuccess: data => {

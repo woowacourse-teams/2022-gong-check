@@ -13,7 +13,7 @@ const useSpaceForm = () => {
   const { openToast } = useToast();
 
   const { mutate: createSpace } = useMutation(
-    ({ name, imageUrl }: { name: string; imageUrl: string | undefined }) => apiSpace.postNewSpace(name, imageUrl),
+    ({ name, imageUrl }: { name: string; imageUrl: string }) => apiSpace.postNewSpace(name, imageUrl),
     {
       onSuccess: res => {
         const locationSplitted = res.headers.location.split('/');
@@ -28,14 +28,8 @@ const useSpaceForm = () => {
     }
   );
 
-  const { mutateAsync: uploadImage } = useMutation((formData: any) => apiImage.postImageUpload(formData), {
-    onError: (err: AxiosError<{ message: string }>) => {
-      openToast('ERROR', `${err.response?.data.message}`);
-    },
-  });
-
   const { mutate: updateSpace } = useMutation(
-    ({ spaceId, name, imageUrl }: { spaceId: ID | undefined; name: string; imageUrl: string | undefined }) =>
+    ({ spaceId, name, imageUrl }: { spaceId: ID; name: string; imageUrl: string }) =>
       apiSpace.putSpace(spaceId, name, imageUrl),
     {
       onSuccess: (_, { spaceId }) => {
@@ -48,7 +42,7 @@ const useSpaceForm = () => {
     }
   );
 
-  const onSubmitCreateSpace = (e: React.FormEvent<HTMLFormElement>, imageUrl: string | undefined) => {
+  const onSubmitCreateSpace = (e: React.FormEvent<HTMLFormElement>, imageUrl: string) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const name = form['nameInput'].value;
@@ -56,11 +50,7 @@ const useSpaceForm = () => {
     createSpace({ name, imageUrl });
   };
 
-  const onSubmitUpdateSpace = async (
-    e: React.FormEvent<HTMLFormElement>,
-    imageUrl: string | undefined,
-    spaceId: ID | undefined
-  ) => {
+  const onSubmitUpdateSpace = async (e: React.FormEvent<HTMLFormElement>, imageUrl: string, spaceId: ID) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const name = form['nameInput'].value;

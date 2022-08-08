@@ -5,7 +5,7 @@ import { ApiJobActiveData, ApiJobData } from '@/types/apis';
 
 import { axiosInstanceToken } from './config';
 
-const getJobs = async (spaceId: ID | undefined) => {
+const getJobs = async (spaceId: ID) => {
   const { data }: AxiosResponse<ApiJobData> = await axiosInstanceToken({
     method: 'GET',
     url: `/api/spaces/${spaceId}/jobs`,
@@ -23,9 +23,7 @@ const getJobActive = async (jobId: ID) => {
   return data;
 };
 
-// job 생성
-// Location : /api/jobs/{jobId}
-const postNewJob = (spaceId: ID | undefined, name: string, sections: SectionType[]) => {
+const postNewJob = (spaceId: ID, name: string, sections: SectionType[]) => {
   return axiosInstanceToken({
     method: 'POST',
     url: `/api/spaces/${spaceId}/jobs`,
@@ -36,8 +34,7 @@ const postNewJob = (spaceId: ID | undefined, name: string, sections: SectionType
   });
 };
 
-// job 수정
-const putJob = (jobId: ID | undefined, name: string, sections: SectionType[]) => {
+const putJob = (jobId: ID, name: string, sections: SectionType[]) => {
   return axiosInstanceToken({
     method: 'PUT',
     url: `/api/jobs/${jobId}`,
@@ -48,7 +45,6 @@ const putJob = (jobId: ID | undefined, name: string, sections: SectionType[]) =>
   });
 };
 
-// job 삭제
 const deleteJob = (jobId: ID) => {
   return axiosInstanceToken({
     method: 'DELETE',

@@ -5,16 +5,19 @@ import useToast from '@/hooks/useToast';
 
 import apis from '@/apis';
 
+import { ID } from '@/types';
+
 const usePassword = () => {
   const navigate = useNavigate();
 
   const { openToast } = useToast();
 
   const [isActiveSubmit, setIsActiveSubmit] = useState(false);
-  const { hostId } = useParams();
+  const { hostId } = useParams() as { hostId: ID };
 
   const setToken = async (password: string) => {
-    const { token } = await apis.postPassword({ hostId, password });
+    if (!hostId) return;
+    const { token } = await apis.postPassword(hostId!, password);
     localStorage.setItem('token', token);
   };
 

@@ -6,6 +6,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import useToast from '@/hooks/useToast';
 
+import { ID } from '@/types';
+
 const EXPIRED_TOKEN_TEXT = '만료된 토큰입니다.';
 const NOT_TOKEN_TEXT = '헤더에 토큰 값이 정상적으로 존재하지 않습니다.';
 
@@ -15,7 +17,7 @@ interface ErrorUserTokenProps {
 
 const ErrorUserToken: React.FC<ErrorUserTokenProps> = ({ children }) => {
   const navigate = useNavigate();
-  const { hostId } = useParams();
+  const { hostId } = useParams() as { hostId: ID };
   const [message, setMessage] = useState<string | undefined>('');
 
   useEffect(() => {

@@ -11,10 +11,12 @@ import useSpaceForm from '@/hooks/useSpaceForm';
 
 import apiSpace from '@/apis/space';
 
+import { ID } from '@/types';
+
 import styles from './styles';
 
 const SpaceUpdate: React.FC = () => {
-  const { spaceId } = useParams();
+  const { spaceId } = useParams() as { spaceId: ID };
 
   const { data } = useQuery(['space', spaceId], () => apiSpace.getSpace(spaceId));
 

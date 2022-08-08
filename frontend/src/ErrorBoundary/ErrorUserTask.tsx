@@ -6,6 +6,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import useToast from '@/hooks/useToast';
 
+import { ID } from '@/types';
+
 // 사용자가 체크리스트 페이지에 접속 중일 때, 관리자가 작업을 수정 할 경우 발생
 const NOT_TASK_TEXT = '존재하지 않는 작업입니다.';
 
@@ -19,7 +21,7 @@ interface ErrorUserTaskProps {
 
 const ErrorUserTask: React.FC<ErrorUserTaskProps> = ({ children }) => {
   const navigate = useNavigate();
-  const { hostId } = useParams();
+  const { hostId } = useParams() as { hostId: ID };
   const [message, setMessage] = useState<string | undefined>('');
 
   const { openToast } = useToast();

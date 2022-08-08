@@ -10,14 +10,16 @@ import useModal from '@/hooks/useModal';
 
 import apis from '@/apis';
 
+import { ID } from '@/types';
+
 const RE_FETCH_INTERVAL_TIME = 100;
 const PROGRESS_BAR_DEFAULT_POSITION = 232;
 
 const useTaskList = () => {
-  const { spaceId, jobId, hostId } = useParams();
+  const { spaceId, jobId, hostId } = useParams() as { spaceId: ID; jobId: ID; hostId: ID };
 
   const location = useLocation();
-  const locationState = location.state as { jobName: string } | undefined;
+  const locationState = location.state as { jobName: string };
 
   const { openModal } = useModal();
 

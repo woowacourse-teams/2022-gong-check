@@ -6,8 +6,10 @@ import useGoPreviousPage from '@/hooks/useGoPreviousPage';
 import apiJobs from '@/apis/job';
 import apiSpace from '@/apis/space';
 
+import { ID } from '@/types';
+
 const useJobList = () => {
-  const { spaceId } = useParams();
+  const { spaceId } = useParams() as { spaceId: ID };
 
   const { goPreviousPage } = useGoPreviousPage();
 

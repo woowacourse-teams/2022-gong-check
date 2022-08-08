@@ -14,8 +14,7 @@ const getSpaces = async () => {
   return data;
 };
 
-// space 생성
-const postNewSpace = (name: string, imageUrl: string | undefined) => {
+const postNewSpace = (name: string, imageUrl: string) => {
   return axiosInstanceToken({
     method: 'POST',
     url: `/api/spaces`,
@@ -23,16 +22,14 @@ const postNewSpace = (name: string, imageUrl: string | undefined) => {
   });
 };
 
-// space 삭제
-const deleteSpace = (spaceId: string | undefined) => {
+const deleteSpace = (spaceId: ID) => {
   return axiosInstanceToken({
     method: 'DELETE',
     url: `/api/spaces/${spaceId}`,
   });
 };
 
-// space 단건 조회
-const getSpace = async (spaceId: ID | undefined) => {
+const getSpace = async (spaceId: ID) => {
   const { data }: AxiosResponse<ApiSpaceData> = await axiosInstanceToken({
     method: 'GET',
     url: `/api/spaces/${spaceId}`,
@@ -41,8 +38,7 @@ const getSpace = async (spaceId: ID | undefined) => {
   return data;
 };
 
-// space 수정
-const putSpace = (spaceId: ID | undefined, name: string, imageUrl: string | undefined) => {
+const putSpace = (spaceId: ID, name: string, imageUrl: string) => {
   return axiosInstanceToken({
     method: 'PUT',
     url: `/api/spaces/${spaceId}`,
