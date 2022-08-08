@@ -3,8 +3,8 @@ package com.woowacourse.gongcheck.core.application;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Host_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.gongcheck.ApplicationTest;
 import com.woowacourse.gongcheck.SupportRepository;
 import com.woowacourse.gongcheck.auth.application.EntranceCodeProvider;
 import com.woowacourse.gongcheck.core.domain.host.Host;
@@ -17,11 +17,8 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
-@Transactional
+@ApplicationTest
 @DisplayName("HostService 클래스")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class HostServiceTest {
@@ -60,11 +57,7 @@ class HostServiceTest {
                 hostService.changeSpacePassword(hostId, spacePasswordChangeRequest);
                 Host actual = repository.getById(Host.class, hostId);
 
-                assertAll(
-                        () -> assertThat(actual.getSpacePassword().getValue()).isEqualTo(CHANGING_PASSWORD),
-                        () -> assertThat(actual.getGithubId()).isEqualTo(GITHUB_ID),
-                        () -> assertThat(actual.getId()).isEqualTo(hostId)
-                );
+                assertThat(actual.getSpacePassword().getValue()).isEqualTo(CHANGING_PASSWORD);
             }
         }
 
