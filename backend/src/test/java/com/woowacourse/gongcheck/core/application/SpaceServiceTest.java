@@ -10,10 +10,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.gongcheck.SupportRepository;
 import com.woowacourse.gongcheck.core.application.response.SpaceResponse;
 import com.woowacourse.gongcheck.core.application.response.SpacesResponse;
 import com.woowacourse.gongcheck.core.domain.host.Host;
-import com.woowacourse.gongcheck.core.domain.host.HostRepository;
 import com.woowacourse.gongcheck.core.domain.job.Job;
 import com.woowacourse.gongcheck.core.domain.job.JobRepository;
 import com.woowacourse.gongcheck.core.domain.section.Section;
@@ -52,7 +52,7 @@ class SpaceServiceTest {
     private SpaceService spaceService;
 
     @Autowired
-    private HostRepository hostRepository;
+    private SupportRepository repository;
 
     @Autowired
     private SpaceRepository spaceRepository;
@@ -91,12 +91,12 @@ class SpaceServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
+                host = repository.save(Host_생성("1234", 1234L));
 
                 Space space_1 = Space_생성(host, "잠실 캠퍼스");
                 Space space_2 = Space_생성(host, "선릉 캠퍼스");
                 Space space_3 = Space_생성(host, "양평같은방");
-                List<Space> spaces = spaceRepository.saveAll(List.of(space_1, space_2, space_3));
+                List<Space> spaces = repository.saveAll(List.of(space_1, space_2, space_3));
 
                 expected = SpacesResponse.from(spaces);
             }
@@ -123,8 +123,8 @@ class SpaceServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실 캠퍼스"));
                 request = new SpaceCreateRequest(space.getName().getValue(), "https://image.gongcheck.shop/123sdf5");
             }
 
@@ -167,7 +167,7 @@ class SpaceServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
+                host = repository.save(Host_생성("1234", 1234L));
                 request = new SpaceCreateRequest(SPACE_NAME, SPACE_IMAGE_URL);
             }
 
@@ -197,8 +197,8 @@ class SpaceServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 2345L));
-                space = spaceRepository.save(Space_생성(host, SPACE_NAME));
+                host = repository.save(Host_생성("1234", 2345L));
+                space = repository.save(Space_생성(host, SPACE_NAME));
             }
 
             @Test
@@ -220,9 +220,9 @@ class SpaceServiceTest {
 
             @BeforeEach
             void setUp() {
-                Host host = hostRepository.save(Host_생성("1234", 1234L));
-                space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
-                anotherHost = hostRepository.save(Host_생성("1234", 2345L));
+                Host host = repository.save(Host_생성("1234", 1234L));
+                space = repository.save(Space_생성(host, "잠실 캠퍼스"));
+                anotherHost = repository.save(Host_생성("1234", 2345L));
             }
 
             @Test
@@ -242,8 +242,8 @@ class SpaceServiceTest {
 
             @BeforeEach
             void setUp() {
-                Host host = hostRepository.save(Host_생성("1234", 1234L));
-                space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
+                Host host = repository.save(Host_생성("1234", 1234L));
+                space = repository.save(Space_생성(host, "잠실 캠퍼스"));
             }
 
             @Test
@@ -261,7 +261,7 @@ class SpaceServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
+                host = repository.save(Host_생성("1234", 1234L));
             }
 
             @Test
@@ -282,8 +282,8 @@ class SpaceServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                space = spaceRepository.save(Space_생성(host, SPACE_NAME));
+                host = repository.save(Host_생성("1234", 1234L));
+                space = repository.save(Space_생성(host, SPACE_NAME));
             }
 
             @Test
@@ -310,8 +310,8 @@ class SpaceServiceTest {
 
             @BeforeEach
             void setUp() {
-                Host host = hostRepository.save(Host_생성("1234", 1234L));
-                space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
+                Host host = repository.save(Host_생성("1234", 1234L));
+                space = repository.save(Space_생성(host, "잠실 캠퍼스"));
             }
 
             @Test
@@ -330,9 +330,9 @@ class SpaceServiceTest {
 
             @BeforeEach
             void setUp() {
-                Host host = hostRepository.save(Host_생성("1234", 1234L));
-                anotherHost = hostRepository.save(Host_생성("1234", 4567L));
-                space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
+                Host host = repository.save(Host_생성("1234", 1234L));
+                anotherHost = repository.save(Host_생성("1234", 4567L));
+                space = repository.save(Space_생성(host, "잠실 캠퍼스"));
             }
 
             @Test
@@ -355,12 +355,12 @@ class SpaceServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                section = sectionRepository.save(Section_생성(job, "대강의실"));
-                task = taskRepository.save(Task_생성(section, "책상 닦기"));
-                runningTask = runningTaskRepository.save(RunningTask_생성(task.getId(), false));
+                host = repository.save(Host_생성("1234", 1234L));
+                space = repository.save(Space_생성(host, "잠실 캠퍼스"));
+                job = repository.save(Job_생성(space, "청소"));
+                section = repository.save(Section_생성(job, "대강의실"));
+                task = repository.save(Task_생성(section, "책상 닦기"));
+                runningTask = repository.save(RunningTask_생성(task.getId(), false));
             }
 
             @Test

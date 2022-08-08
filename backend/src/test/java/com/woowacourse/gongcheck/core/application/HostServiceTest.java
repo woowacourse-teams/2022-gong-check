@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.gongcheck.SupportRepository;
 import com.woowacourse.gongcheck.auth.application.EntranceCodeProvider;
 import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.domain.host.HostRepository;
@@ -30,6 +31,9 @@ class HostServiceTest {
     private HostService hostService;
 
     @Autowired
+    private SupportRepository repository;
+
+    @Autowired
     private HostRepository hostRepository;
 
     @Autowired
@@ -51,7 +55,7 @@ class HostServiceTest {
             @BeforeEach
             void setUp() {
                 spacePasswordChangeRequest = new SpacePasswordChangeRequest(CHANGING_PASSWORD);
-                hostId = hostRepository.save(Host_생성(ORIGIN_PASSWORD, GITHUB_ID))
+                hostId = repository.save(Host_생성(ORIGIN_PASSWORD, GITHUB_ID))
                         .getId();
             }
 
@@ -102,7 +106,7 @@ class HostServiceTest {
 
             @BeforeEach
             void setUp() {
-                hostId = hostRepository.save(Host_생성("1234", 1111L))
+                hostId = repository.save(Host_생성("1234", 1111L))
                         .getId();
                 expected = entranceCodeProvider.createEntranceCode(hostId);
             }

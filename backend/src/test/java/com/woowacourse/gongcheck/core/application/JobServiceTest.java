@@ -10,7 +10,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.gongcheck.SupportRepository;
 import com.woowacourse.gongcheck.core.application.response.JobResponse;
+import com.woowacourse.gongcheck.core.application.response.SlackUrlResponse;
 import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.domain.host.HostRepository;
 import com.woowacourse.gongcheck.core.domain.job.Job;
@@ -48,10 +50,13 @@ import org.springframework.transaction.annotation.Transactional;
 class JobServiceTest {
 
     @Autowired
+    private JobService jobService;
+
+    @Autowired
     private EntityManager entityManager;
 
     @Autowired
-    private JobService jobService;
+    private SupportRepository repository;
 
     @Autowired
     private HostRepository hostRepository;
@@ -83,9 +88,9 @@ class JobServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                space = spaceRepository.save(Space_생성(host, "잠실"));
-                List<Job> jobs = jobRepository.saveAll(
+                host = repository.save(Host_생성("1234", 1234L));
+                space = repository.save(Space_생성(host, "잠실"));
+                List<Job> jobs = repository.saveAll(
                         List.of(Job_생성(space, "오픈"), Job_생성(space, "청소"), Job_생성(space, "마감")));
                 jobNames = jobs.stream()
                         .map(job -> job.getName().getValue())
@@ -115,8 +120,8 @@ class JobServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                space = spaceRepository.save(Space_생성(host, "잠실"));
+                host = repository.save(Host_생성("1234", 1234L));
+                space = repository.save(Space_생성(host, "잠실"));
             }
 
             @Test
@@ -136,7 +141,7 @@ class JobServiceTest {
 
             @BeforeEach
             void setUp() {
-                hostId = hostRepository.save(Host_생성("1234", 1234L))
+                hostId = repository.save(Host_생성("1234", 1234L))
                         .getId();
             }
 
@@ -156,9 +161,9 @@ class JobServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Host otherHost = hostRepository.save(Host_생성("1234", 2345L));
-                space = spaceRepository.save(Space_생성(otherHost, "잠실"));
+                host = repository.save(Host_생성("1234", 1234L));
+                Host otherHost = repository.save(Host_생성("1234", 2345L));
+                space = repository.save(Space_생성(otherHost, "잠실"));
             }
 
             @Test
@@ -184,8 +189,8 @@ class JobServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                space = spaceRepository.save(Space_생성(host, "잠실"));
+                host = repository.save(Host_생성("1234", 1234L));
+                space = repository.save(Space_생성(host, "잠실"));
                 List<TaskCreateRequest> tasks = List
                         .of(new TaskCreateRequest("책상 닦기", "책상 닦기 설명", "https://image.gongcheck.shop/checksang123"),
                                 new TaskCreateRequest("칠판 닦기", "칠판 닦기 설명", "https://image.gongcheck.shop/chilpan123"));
@@ -230,8 +235,8 @@ class JobServiceTest {
 
             @BeforeEach
             void setUp() {
-                Host host = hostRepository.save(Host_생성("1234", 1234L));
-                space = spaceRepository.save(Space_생성(host, "잠실"));
+                Host host = repository.save(Host_생성("1234", 1234L));
+                space = repository.save(Space_생성(host, "잠실"));
                 List<TaskCreateRequest> tasks = List
                         .of(new TaskCreateRequest("책상 닦기", "책상 닦기 설명", "https://image.gongcheck.shop/checksang123"),
                                 new TaskCreateRequest("칠판 닦기", "칠판 닦기 설명", "https://image.gongcheck.shop/chilpan123"));
@@ -258,7 +263,7 @@ class JobServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
+                host = repository.save(Host_생성("1234", 1234L));
                 List<TaskCreateRequest> tasks = List
                         .of(new TaskCreateRequest("책상 닦기", "책상 닦기 설명", "https://image.gongcheck.shop/checksang123"),
                                 new TaskCreateRequest("칠판 닦기", "칠판 닦기 설명", "https://image.gongcheck.shop/chilpan123"));
@@ -284,10 +289,10 @@ class JobServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                spaceRepository.save(Space_생성(host, "잠실"));
-                Host otherHost = hostRepository.save(Host_생성("5678", 5678L));
-                otherSpace = spaceRepository.save(Space_생성(otherHost, "잠실"));
+                host = repository.save(Host_생성("1234", 1234L));
+                repository.save(Space_생성(host, "잠실"));
+                Host otherHost = repository.save(Host_생성("5678", 5678L));
+                otherSpace = repository.save(Space_생성(otherHost, "잠실"));
                 List<TaskCreateRequest> tasks = List
                         .of(new TaskCreateRequest("책상 닦기", "책상 닦기 설명", "https://image.gongcheck.shop/checksang123"),
                                 new TaskCreateRequest("칠판 닦기", "칠판 닦기 설명", "https://image.gongcheck.shop/chilpan123"));
@@ -322,11 +327,11 @@ class JobServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                originJob = jobRepository.save(Job_생성(space, "마감"));
-                originSection = sectionRepository.save(Section_생성(originJob, "소강의실"));
-                originTask = taskRepository.save(Task_생성(originSection, "불 끄기"));
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                originJob = repository.save(Job_생성(space, "마감"));
+                originSection = repository.save(Section_생성(originJob, "소강의실"));
+                originTask = repository.save(Task_생성(originSection, "불 끄기"));
 
                 List<TaskCreateRequest> tasks = List
                         .of(new TaskCreateRequest("책상 닦기", "책상 닦기 설명", "https://image.gongcheck.shop/checksang123"),
@@ -378,8 +383,8 @@ class JobServiceTest {
 
             @BeforeEach
             void setUp() {
-                Host host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
+                Host host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
                 List<TaskCreateRequest> tasks = List
                         .of(new TaskCreateRequest("책상 닦기", "책상 닦기 설명", "https://image.gongcheck.shop/checksang123"),
                                 new TaskCreateRequest("칠판 닦기", "칠판 닦기 설명", "https://image.gongcheck.shop/chilpan123"));
@@ -400,13 +405,15 @@ class JobServiceTest {
         @Nested
         class 다른_host의_job_id를_입력받은_경우 {
 
+            private Host anotherHost;
             private JobCreateRequest request;
             private long savedJobId;
 
             @BeforeEach
             void setUp() {
-                Host host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
+                Host host = repository.save(Host_생성("1234", 1234L));
+                anotherHost = repository.save(Host_생성("1234", 2345L));
+                Space space = repository.save(Space_생성(host, "잠실"));
                 List<TaskCreateRequest> tasks = List
                         .of(new TaskCreateRequest("책상 닦기", "책상 닦기 설명", "https://image.gongcheck.shop/checksang123"),
                                 new TaskCreateRequest("칠판 닦기", "칠판 닦기 설명", "https://image.gongcheck.shop/chilpan123"));
@@ -418,7 +425,6 @@ class JobServiceTest {
 
             @Test
             void 예외가_발생한다() {
-                Host anotherHost = hostRepository.save(Host_생성("1234", 2345L));
                 assertThatThrownBy(() -> jobService.updateJob(anotherHost.getId(), savedJobId, request))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessage("존재하지 않는 작업입니다.");
@@ -435,7 +441,7 @@ class JobServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
+                host = repository.save(Host_생성("1234", 1234L));
                 List<TaskCreateRequest> tasks = List
                         .of(new TaskCreateRequest("책상 닦기", "책상 닦기 설명", "https://image.gongcheck.shop/checksang123"),
                                 new TaskCreateRequest("칠판 닦기", "칠판 닦기 설명", "https://image.gongcheck.shop/chilpan123"));
@@ -465,9 +471,9 @@ class JobServiceTest {
 
             @BeforeEach
             void setUp() {
-                Host host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "청소"));
+                Host host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                job = repository.save(Job_생성(space, "청소"));
             }
 
             @Test
@@ -487,7 +493,7 @@ class JobServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
+                host = repository.save(Host_생성("1234", 1234L));
             }
 
             @Test
@@ -506,10 +512,10 @@ class JobServiceTest {
 
             @BeforeEach
             void setUp() {
-                Host host = hostRepository.save(Host_생성("1234", 1234L));
-                otherHost = hostRepository.save(Host_생성("1234", 2345L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "청소"));
+                Host host = repository.save(Host_생성("1234", 1234L));
+                otherHost = repository.save(Host_생성("1234", 2345L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                job = repository.save(Job_생성(space, "청소"));
             }
 
             @Test
@@ -531,12 +537,12 @@ class JobServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                section = sectionRepository.save(Section_생성(job, "대강의실"));
-                task = taskRepository.save(Task_생성(section, "책상 닦기"));
-                runningTask = runningTaskRepository.save(RunningTask_생성(task.getId(), false));
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실 캠퍼스"));
+                job = repository.save(Job_생성(space, "청소"));
+                section = repository.save(Section_생성(job, "대강의실"));
+                task = repository.save(Task_생성(section, "책상 닦기"));
+                runningTask = repository.save(RunningTask_생성(task.getId(), false));
             }
 
             @Test
@@ -580,7 +586,7 @@ class JobServiceTest {
 
                 @BeforeEach
                 void setUp() {
-                    host = hostRepository.save(Host_생성("1234", 1234L));
+                    host = repository.save(Host_생성("1234", 1234L));
                 }
 
                 @Test
@@ -600,10 +606,10 @@ class JobServiceTest {
 
             @BeforeEach
             void setUp() {
-                myHost = hostRepository.save(Host_생성("1234", 1234L));
-                Host otherHost = hostRepository.save(Host_생성("1234", 2456L));
-                Space otherSpace = spaceRepository.save(Space_생성(otherHost, "잠실"));
-                otherJob = jobRepository.save(Job_생성(otherSpace, "톱오브스윙방"));
+                myHost = repository.save(Host_생성("1234", 1234L));
+                Host otherHost = repository.save(Host_생성("1234", 2456L));
+                Space otherSpace = repository.save(Space_생성(otherHost, "잠실"));
+                otherJob = repository.save(Job_생성(otherSpace, "톱오브스윙방"));
             }
 
             @Test
@@ -622,15 +628,16 @@ class JobServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "톱오브스윙방", "http://slackurl.com"));
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                job = repository.save(Job_생성(space, "톱오브스윙방", "http://slackurl.com"));
             }
 
             @Test
             void Slack_Url을_조회한다() {
-                assertThat(jobService.findSlackUrl(host.getId(), job.getId()).getSlackUrl()).isEqualTo(
-                        "http://slackurl.com");
+                SlackUrlResponse actual = jobService.findSlackUrl(host.getId(), job.getId());
+
+                assertThat(actual.getSlackUrl()).isEqualTo("http://slackurl.com");
             }
         }
     }
