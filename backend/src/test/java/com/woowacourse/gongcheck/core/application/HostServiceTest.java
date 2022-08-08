@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import com.woowacourse.gongcheck.SupportRepository;
 import com.woowacourse.gongcheck.auth.application.EntranceCodeProvider;
 import com.woowacourse.gongcheck.core.domain.host.Host;
-import com.woowacourse.gongcheck.core.domain.host.HostRepository;
 import com.woowacourse.gongcheck.core.presentation.request.SpacePasswordChangeRequest;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,9 +31,6 @@ class HostServiceTest {
 
     @Autowired
     private SupportRepository repository;
-
-    @Autowired
-    private HostRepository hostRepository;
 
     @Autowired
     private EntranceCodeProvider entranceCodeProvider;
@@ -62,7 +58,7 @@ class HostServiceTest {
             @Test
             void 패스워드를_수정한다() {
                 hostService.changeSpacePassword(hostId, spacePasswordChangeRequest);
-                Host actual = hostRepository.getById(hostId);
+                Host actual = repository.getById(Host.class, hostId);
 
                 assertAll(
                         () -> assertThat(actual.getSpacePassword().getValue()).isEqualTo(CHANGING_PASSWORD),

@@ -10,25 +10,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.gongcheck.ApplicationTest;
 import com.woowacourse.gongcheck.SupportRepository;
 import com.woowacourse.gongcheck.core.application.response.SpaceResponse;
 import com.woowacourse.gongcheck.core.application.response.SpacesResponse;
 import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.domain.job.Job;
-import com.woowacourse.gongcheck.core.domain.job.JobRepository;
 import com.woowacourse.gongcheck.core.domain.section.Section;
-import com.woowacourse.gongcheck.core.domain.section.SectionRepository;
 import com.woowacourse.gongcheck.core.domain.space.Space;
-import com.woowacourse.gongcheck.core.domain.space.SpaceRepository;
 import com.woowacourse.gongcheck.core.domain.task.RunningTask;
-import com.woowacourse.gongcheck.core.domain.task.RunningTaskRepository;
 import com.woowacourse.gongcheck.core.domain.task.Task;
-import com.woowacourse.gongcheck.core.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.core.presentation.request.SpaceCreateRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import java.util.List;
-import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -36,38 +31,17 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
-@Transactional
+@ApplicationTest
 @DisplayName("SpaceService 클래스")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class SpaceServiceTest {
-
-    @Autowired
-    EntityManager entityManager;
 
     @Autowired
     private SpaceService spaceService;
 
     @Autowired
     private SupportRepository repository;
-
-    @Autowired
-    private SpaceRepository spaceRepository;
-
-    @Autowired
-    private JobRepository jobRepository;
-
-    @Autowired
-    private SectionRepository sectionRepository;
-
-    @Autowired
-    private TaskRepository taskRepository;
-
-    @Autowired
-    private RunningTaskRepository runningTaskRepository;
 
     @Nested
     class findSpaces_메서드는 {
@@ -174,7 +148,7 @@ class SpaceServiceTest {
             @Test
             void Space를_생성한다() {
                 Long spaceId = spaceService.createSpace(host.getId(), request);
-                Space actual = spaceRepository.getById(spaceId);
+                Space actual = repository.getById(Space.class, spaceId);
 
                 assertAll(
                         () -> assertThat(actual.getName().getValue()).isEqualTo(SPACE_NAME),
@@ -367,14 +341,12 @@ class SpaceServiceTest {
             void 해당_Space_및_관련된_Job_Section_Task_RunningTask를_삭제한다() {
                 spaceService.removeSpace(host.getId(), space.getId());
 
-                entityManager.flush();
-                entityManager.clear();
                 assertAll(
-                        () -> assertThat(spaceRepository.findById(space.getId())).isEmpty(),
-                        () -> assertThat(jobRepository.findById(job.getId())).isEmpty(),
-                        () -> assertThat(sectionRepository.findById(section.getId())).isEmpty(),
-                        () -> assertThat(taskRepository.findById(task.getId())).isEmpty(),
-                        () -> assertThat(runningTaskRepository.findById(runningTask.getTaskId())).isEmpty()
+                        () -> assertThat(repository.findById(Space.class, space.getId())).isEmpty(),
+                        () -> assertThat(repository.findById(Job.class, job.getId())).isEmpty(),
+                        () -> assertThat(repository.findById(Section.class, section.getId())).isEmpty(),
+                        () -> assertThat(repository.findById(Task.class, task.getId())).isEmpty(),
+                        () -> assertThat(repository.findById(RunningTask.class, runningTask.getTaskId())).isEmpty()
                 );
             }
         }

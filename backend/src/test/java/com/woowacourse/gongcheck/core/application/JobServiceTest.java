@@ -10,19 +10,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.gongcheck.ApplicationTest;
 import com.woowacourse.gongcheck.SupportRepository;
 import com.woowacourse.gongcheck.core.application.response.JobResponse;
 import com.woowacourse.gongcheck.core.application.response.SlackUrlResponse;
 import com.woowacourse.gongcheck.core.domain.host.Host;
-import com.woowacourse.gongcheck.core.domain.host.HostRepository;
 import com.woowacourse.gongcheck.core.domain.job.Job;
-import com.woowacourse.gongcheck.core.domain.job.JobRepository;
 import com.woowacourse.gongcheck.core.domain.section.Section;
 import com.woowacourse.gongcheck.core.domain.section.SectionRepository;
 import com.woowacourse.gongcheck.core.domain.space.Space;
-import com.woowacourse.gongcheck.core.domain.space.SpaceRepository;
 import com.woowacourse.gongcheck.core.domain.task.RunningTask;
-import com.woowacourse.gongcheck.core.domain.task.RunningTaskRepository;
 import com.woowacourse.gongcheck.core.domain.task.Task;
 import com.woowacourse.gongcheck.core.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.core.presentation.request.JobCreateRequest;
@@ -32,7 +29,6 @@ import com.woowacourse.gongcheck.core.presentation.request.TaskCreateRequest;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -40,11 +36,8 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
-@Transactional
+@ApplicationTest
 @DisplayName("JobService 클래스")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class JobServiceTest {
@@ -53,28 +46,13 @@ class JobServiceTest {
     private JobService jobService;
 
     @Autowired
-    private EntityManager entityManager;
-
-    @Autowired
     private SupportRepository repository;
-
-    @Autowired
-    private HostRepository hostRepository;
-
-    @Autowired
-    private SpaceRepository spaceRepository;
-
-    @Autowired
-    private JobRepository jobRepository;
 
     @Autowired
     private SectionRepository sectionRepository;
 
     @Autowired
     private TaskRepository taskRepository;
-
-    @Autowired
-    private RunningTaskRepository runningTaskRepository;
 
     @Nested
     class findJobs_메소드는 {
@@ -209,7 +187,7 @@ class JobServiceTest {
             void 한_번에_생성한다() {
                 long savedJobId = jobService.createJob(host.getId(), space.getId(), request);
 
-                Job savedJob = jobRepository.getById(savedJobId);
+                Job savedJob = repository.getById(Job.class, savedJobId);
                 List<Section> savedSections = sectionRepository.findAllByJob(savedJob);
                 List<Task> savedTasks = taskRepository.findAllBySectionIn(savedSections);
 
@@ -354,8 +332,7 @@ class JobServiceTest {
             void 기존에_존재하던_Job을_삭제한_후_새로운_Job을_생성한다() {
                 long updateJobId = jobService.updateJob(host.getId(), originJob.getId(), request);
 
-                Job updateJob = jobRepository.findBySpaceHostAndId(host, updateJobId)
-                        .get();
+                Job updateJob = repository.getById(Job.class, updateJobId);
                 List<Section> updateSections = sectionRepository.findAllByJob(updateJob);
                 List<Task> updateTasks = taskRepository.findAllBySectionIn(updateSections);
 
@@ -548,14 +525,12 @@ class JobServiceTest {
             @Test
             void Job과_관련된_Section_Task_RunningTask를_함께_삭제한다() {
                 jobService.removeJob(host.getId(), job.getId());
-                entityManager.flush();
-                entityManager.clear();
 
                 assertAll(
-                        () -> assertThat(jobRepository.findById(job.getId())).isEmpty(),
-                        () -> assertThat(sectionRepository.findById(section.getId())).isEmpty(),
-                        () -> assertThat(taskRepository.findById(task.getId())).isEmpty(),
-                        () -> assertThat(runningTaskRepository.findById(runningTask.getTaskId())).isEmpty()
+                        () -> assertThat(repository.findById(Job.class, job.getId())).isEmpty(),
+                        () -> assertThat(repository.findById(Section.class, section.getId())).isEmpty(),
+                        () -> assertThat(repository.findById(Task.class, task.getId())).isEmpty(),
+                        () -> assertThat(repository.findById(RunningTask.class, runningTask.getTaskId())).isEmpty()
                 );
             }
         }
@@ -677,7 +652,7 @@ class JobServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
+                host = repository.save(Host_생성("1234", 1234L));
                 request = new SlackUrlChangeRequest("https://newslackurl.com");
             }
 
@@ -698,10 +673,10 @@ class JobServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Host otherHost = hostRepository.save(Host_생성("1234", 2456L));
-                Space otherSpace = spaceRepository.save(Space_생성(otherHost, "잠실"));
-                otherJob = jobRepository.save(Job_생성(otherSpace, "톱오브스윙방"));
+                host = repository.save(Host_생성("1234", 1234L));
+                Host otherHost = repository.save(Host_생성("1234", 2456L));
+                Space otherSpace = repository.save(Space_생성(otherHost, "잠실"));
+                otherJob = repository.save(Job_생성(otherSpace, "톱오브스윙방"));
                 request = new SlackUrlChangeRequest("https://newslackurl.com");
             }
 
@@ -720,22 +695,24 @@ class JobServiceTest {
             private static final String NEW_SLACK_URL = "https://newslackurl.com";
 
             private Host host;
-            private Job job;
+            private Long jobId;
             private SlackUrlChangeRequest request;
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "톱오브스윙방", SLACK_URL));
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                jobId = repository.save(Job_생성(space, "톱오브스윙방", SLACK_URL))
+                    .getId();
                 request = new SlackUrlChangeRequest(NEW_SLACK_URL);
             }
 
             @Test
             void Slack_Url을_수정한다() {
-                jobService.changeSlackUrl(host.getId(), job.getId(), request);
+                jobService.changeSlackUrl(host.getId(), jobId, request);
+                Job actual = repository.getById(Job.class, jobId);
 
-                assertThat(job.getSlackUrl()).isEqualTo(NEW_SLACK_URL);
+                assertThat(actual.getSlackUrl()).isEqualTo(NEW_SLACK_URL);
             }
         }
     }

@@ -11,6 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.gongcheck.ApplicationTest;
 import com.woowacourse.gongcheck.SupportRepository;
 import com.woowacourse.gongcheck.core.application.response.JobActiveResponse;
 import com.woowacourse.gongcheck.core.application.response.RunningTaskResponse;
@@ -35,11 +36,8 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
-@Transactional
+@ApplicationTest
 @DisplayName("TaskService 클래스")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class TaskServiceTest {
@@ -473,8 +471,7 @@ class TaskServiceTest {
             @Test
             void 체크상태를_True로_변경한다() {
                 taskService.flipRunningTask(host.getId(), task.getId());
-                RunningTask actual = runningTaskRepository.findByTaskId(runningTaskId)
-                        .orElseThrow(() -> new NotFoundException("runningtask를 찾을 수 없습니다."));
+                RunningTask actual = repository.getById(RunningTask.class, runningTaskId);
 
                 assertThat(actual.isChecked()).isTrue();
             }
@@ -501,8 +498,7 @@ class TaskServiceTest {
             @Test
             void 체크상태를_False로_변경한다() {
                 taskService.flipRunningTask(host.getId(), task.getId());
-                RunningTask actual = runningTaskRepository.findByTaskId(runningTaskId)
-                        .orElseThrow(() -> new NotFoundException("runningtask를 찾을 수 없습니다."));
+                RunningTask actual = repository.getById(RunningTask.class, runningTaskId);
 
                 assertThat(actual.isChecked()).isFalse();
             }
