@@ -1,6 +1,7 @@
 package com.woowacourse.gongcheck.core.domain.vo;
 
 import com.woowacourse.gongcheck.exception.BusinessException;
+import com.woowacourse.gongcheck.exception.ErrorCode;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -25,7 +26,8 @@ public class Description {
 
     private void validateLength(final String value) {
         if (value.length() > DESCRIPTION_MAX_LENGTH) {
-            throw new BusinessException("설명은 " + DESCRIPTION_MAX_LENGTH + "자 이하여야 합니다.");
+            String message = String.format("설명은 " + DESCRIPTION_MAX_LENGTH + "자 이하여야 합니다. value = %s", value);
+            throw new BusinessException(message, ErrorCode.D001);
         }
     }
 

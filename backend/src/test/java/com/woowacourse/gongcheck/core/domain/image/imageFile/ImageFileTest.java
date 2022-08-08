@@ -23,7 +23,7 @@ class ImageFileTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> ImageFile.from(null))
                         .isInstanceOf(BusinessException.class)
-                        .hasMessage("이미지 파일은 null이 들어올 수 없습니다.");
+                        .hasMessageContaining("이미지 파일은 null이 들어올 수 없습니다.");
             }
         }
 
@@ -44,7 +44,7 @@ class ImageFileTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> ImageFile.from(emptyFile))
                         .isInstanceOf(BusinessException.class)
-                        .hasMessage("이미지 파일은 빈값이 들어올 수 없습니다.");
+                        .hasMessageContaining("이미지 파일은 빈값이 들어올 수 없습니다.");
             }
         }
 
@@ -65,7 +65,7 @@ class ImageFileTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> ImageFile.from(nullNameFile))
                         .isInstanceOf(BusinessException.class)
-                        .hasMessage("이미지 파일 이름은 빈값이 들어올 수 없습니다.");
+                        .hasMessageContaining("이미지 파일 이름은 빈값이 들어올 수 없습니다.");
             }
         }
 
@@ -86,7 +86,7 @@ class ImageFileTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> ImageFile.from(textFile))
                         .isInstanceOf(BusinessException.class)
-                        .hasMessage("이미지 파일 확장자만 들어올 수 있습니다.");
+                        .hasMessageContaining("이미지 파일 확장자만 들어올 수 있습니다.");
             }
         }
 

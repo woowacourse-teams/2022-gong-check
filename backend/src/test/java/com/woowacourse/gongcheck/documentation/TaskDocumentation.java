@@ -33,6 +33,7 @@ import com.woowacourse.gongcheck.core.domain.task.RunningTask;
 import com.woowacourse.gongcheck.core.domain.task.Task;
 import com.woowacourse.gongcheck.core.domain.task.Tasks;
 import com.woowacourse.gongcheck.exception.BusinessException;
+import com.woowacourse.gongcheck.exception.ErrorCode;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import io.restassured.module.mockmvc.response.MockMvcResponse;
 import io.restassured.response.ExtractableResponse;
@@ -66,7 +67,7 @@ class TaskDocumentation extends DocumentationTest {
 
         @Test
         void 이미_RunningTask가_존재하는데_새로운_RunningTask를_생성하려는_경우_예외가_발생한다() {
-            doThrow(new BusinessException("현재 진행중인 작업이 존재하여 새로운 작업을 생성할 수 없습니다.")).when(taskService)
+            doThrow(new BusinessException("현재 진행중인 작업이 존재하여 새로운 작업을 생성할 수 없습니다.", ErrorCode.T001)).when(taskService)
                     .createNewRunningTasks(anyLong(), anyLong());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
@@ -158,7 +159,7 @@ class TaskDocumentation extends DocumentationTest {
 
         @Test
         void RunningTask가_존재하지_않는_상태에서_조회하려는_경우_예외가_발생한다() {
-            doThrow(new BusinessException("현재 진행중인 RunningTask가 없습니다")).when(taskService)
+            doThrow(new BusinessException("현재 진행중인 작업이 존재하지 않아 조회할 수 없습니다", ErrorCode.R001)).when(taskService)
                     .findRunningTasks(anyLong(), anyLong());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
@@ -195,7 +196,7 @@ class TaskDocumentation extends DocumentationTest {
 
         @Test
         void 존재하지_않는_RunningTask의_체크상태를_변경하려는_경우_예외가_발생한다() {
-            doThrow(new BusinessException("현재 진행 중인 작업이 아닙니다.")).when(taskService)
+            doThrow(new BusinessException("현재 진행 중인 작업이 아닙니다.", ErrorCode.R002)).when(taskService)
                     .flipRunningTask(anyLong(), anyLong());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
@@ -212,7 +213,7 @@ class TaskDocumentation extends DocumentationTest {
 
         @Test
         void RunningTask의_아이디와_Host_아이디가_연관되지_않는_경우_예외가_발생한다() {
-            doThrow(new NotFoundException("진행중인 작업이 존재하지 않습니다.")).when(taskService)
+            doThrow(new NotFoundException("진행중인 작업이 존재하지 않습니다.", ErrorCode.T003)).when(taskService)
                     .flipRunningTask(anyLong(), anyLong());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
@@ -229,7 +230,7 @@ class TaskDocumentation extends DocumentationTest {
 
         @Test
         void RunningTask와_연관된_Host가_존재하지_않는_경우_예외가_발생한다() {
-            doThrow(new NotFoundException("진행중인 작업이 존재하지 않습니다.")).when(taskService)
+            doThrow(new NotFoundException("진행중인 작업이 존재하지 않습니다.", ErrorCode.T003)).when(taskService)
                     .flipRunningTask(anyLong(), anyLong());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 

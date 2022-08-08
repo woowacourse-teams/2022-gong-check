@@ -178,7 +178,7 @@ class TaskRepositoryTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskRepository.getBySectionJobSpaceHostAndId(host, NON_EXIST_TASK_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
 
@@ -203,7 +203,7 @@ class TaskRepositoryTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskRepository.getBySectionJobSpaceHostAndId(anotherHost, taskId))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
     }

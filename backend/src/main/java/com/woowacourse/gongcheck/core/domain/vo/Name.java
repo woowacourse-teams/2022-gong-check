@@ -1,6 +1,7 @@
 package com.woowacourse.gongcheck.core.domain.vo;
 
 import com.woowacourse.gongcheck.exception.BusinessException;
+import com.woowacourse.gongcheck.exception.ErrorCode;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -25,11 +26,13 @@ public class Name {
 
     private void checkNameLength(final String name) {
         if (name.isBlank()) {
-            throw new BusinessException("이름은 공백일 수 없습니다.");
+            String message = String.format("이름은 공백일 수 없습니다. name = %s", name);
+            throw new BusinessException(message, ErrorCode.N001);
         }
 
         if (name.length() > NAME_MAX_LENGTH) {
-            throw new BusinessException("이름은 " + NAME_MAX_LENGTH + "자 이하여야합니다.");
+            String message = String.format("이름은 " + NAME_MAX_LENGTH + "자 이하여야합니다. name = %s", name);
+            throw new BusinessException(message, ErrorCode.N002);
         }
     }
 

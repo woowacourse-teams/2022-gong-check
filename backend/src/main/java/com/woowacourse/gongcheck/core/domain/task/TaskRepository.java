@@ -3,6 +3,7 @@ package com.woowacourse.gongcheck.core.domain.task;
 import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.domain.job.Job;
 import com.woowacourse.gongcheck.core.domain.section.Section;
+import com.woowacourse.gongcheck.exception.ErrorCode;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +27,9 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     default Task getBySectionJobSpaceHostAndId(final Host host, final Long id) throws NotFoundException {
         return findBySectionJobSpaceHostAndId(host, id)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 작업입니다."));
+                .orElseThrow(() -> {
+                    String message = String.format("존재하지 않는 작업입니다. hostId = %d, taskId = %d", host.getId(), id);
+                    throw new NotFoundException(message, ErrorCode.T003);
+                });
     }
 }

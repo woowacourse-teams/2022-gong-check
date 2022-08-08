@@ -53,7 +53,7 @@ class SpaceServiceTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> spaceService.findSpaces(0L))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
 
@@ -106,7 +106,7 @@ class SpaceServiceTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> spaceService.createSpace(host.getId(), request))
                         .isInstanceOf(BusinessException.class)
-                        .hasMessage("이미 존재하는 이름입니다.");
+                        .hasMessageContaining("이미 존재하는 이름입니다.");
             }
         }
 
@@ -126,7 +126,7 @@ class SpaceServiceTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> spaceService.createSpace(NON_EXIST_HOST_ID, request))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
 
@@ -203,7 +203,7 @@ class SpaceServiceTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> spaceService.findSpace(anotherHost.getId(), space.getId()))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 공간입니다.");
+                        .hasMessageContaining("존재하지 않는 공간입니다.");
             }
         }
 
@@ -224,7 +224,7 @@ class SpaceServiceTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> spaceService.findSpace(NON_EXIST_HOST_ID, space.getId()))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
 
@@ -242,7 +242,7 @@ class SpaceServiceTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> spaceService.findSpace(host.getId(), 0L))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 공간입니다.");
+                        .hasMessageContaining("존재하지 않는 공간입니다.");
             }
         }
 
@@ -292,7 +292,7 @@ class SpaceServiceTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> spaceService.removeSpace(NON_EXIST_HOST_ID, space.getId()))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
 
@@ -312,8 +312,7 @@ class SpaceServiceTest {
             @Test
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> spaceService.removeSpace(anotherHost.getId(), space.getId()))
-                        .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 공간입니다.");
+                        .isInstanceOf(NotFoundException.class);
             }
         }
 

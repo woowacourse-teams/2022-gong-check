@@ -106,7 +106,7 @@ class JobServiceTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> jobService.findJobs(NON_EXIST_HOST_ID, space.getId()))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
 
@@ -127,7 +127,7 @@ class JobServiceTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> jobService.findJobs(hostId, NON_EXIST_SPACE_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 공간입니다.");
+                        .hasMessageContaining("존재하지 않는 공간입니다.");
             }
         }
 
@@ -148,7 +148,7 @@ class JobServiceTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> jobService.findJobs(host.getId(), space.getId()))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 공간입니다.");
+                        .hasMessageContaining("존재하지 않는 공간입니다.");
             }
         }
     }
@@ -227,7 +227,7 @@ class JobServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> jobService.createJob(NON_EXIST_HOST_ID, space.getId(), request))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
 
@@ -254,7 +254,7 @@ class JobServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> jobService.createJob(host.getId(), NON_EXIST_SPACE_ID, request))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 공간입니다.");
+                        .hasMessageContaining("존재하지 않는 공간입니다.");
             }
         }
 
@@ -283,7 +283,7 @@ class JobServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> jobService.createJob(host.getId(), otherSpace.getId(), request))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 공간입니다.");
+                        .hasMessageContaining("존재하지 않는 공간입니다.");
             }
         }
     }
@@ -375,7 +375,7 @@ class JobServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> jobService.updateJob(NON_EXIST_HOST_ID, savedJobId, request))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
 
@@ -404,7 +404,7 @@ class JobServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> jobService.updateJob(anotherHost.getId(), savedJobId, request))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
 
@@ -431,7 +431,7 @@ class JobServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> jobService.updateJob(host.getId(), NON_EXIST_JOB_ID, request))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
     }
@@ -457,7 +457,7 @@ class JobServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> jobService.removeJob(NON_EXIST_HOST_ID, job.getId()))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
 
@@ -477,7 +477,7 @@ class JobServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> jobService.removeJob(host.getId(), NON_EXIST_JOB_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
 
@@ -499,7 +499,7 @@ class JobServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> jobService.removeJob(otherHost.getId(), job.getId()))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
 
@@ -548,7 +548,7 @@ class JobServiceTest {
                 void 예외가_발생한다() {
                     assertThatThrownBy(() -> jobService.findSlackUrl(NON_EXIST_HOST_ID, NON_EXIST_JOB_ID))
                             .isInstanceOf(NotFoundException.class)
-                            .hasMessage("존재하지 않는 호스트입니다.");
+                            .hasMessageContaining("존재하지 않는 호스트입니다.");
                 }
             }
 
@@ -568,7 +568,7 @@ class JobServiceTest {
                 void 예외가_발생한다() {
                     assertThatThrownBy(() -> jobService.findSlackUrl(host.getId(), NON_EXIST_JOB_ID))
                             .isInstanceOf(NotFoundException.class)
-                            .hasMessage("존재하지 않는 작업입니다.");
+                            .hasMessageContaining("존재하지 않는 작업입니다.");
                 }
             }
         }
@@ -591,7 +591,7 @@ class JobServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> jobService.findSlackUrl(myHost.getId(), otherJob.getId()))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
 
@@ -638,7 +638,7 @@ class JobServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> jobService.changeSlackUrl(NON_EXIST_HOST_ID, JOB_ID, request))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
 
@@ -660,7 +660,7 @@ class JobServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> jobService.changeSlackUrl(host.getId(), NON_EXIST_JOB_ID, request))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
 
@@ -684,7 +684,7 @@ class JobServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> jobService.changeSlackUrl(host.getId(), otherJob.getId(), request))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
 

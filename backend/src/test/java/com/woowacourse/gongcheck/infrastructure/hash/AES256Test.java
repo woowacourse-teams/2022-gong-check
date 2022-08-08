@@ -3,6 +3,7 @@ package com.woowacourse.gongcheck.infrastructure.hash;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.woowacourse.gongcheck.exception.InfrastructureException;
 import org.junit.jupiter.api.Test;
 
 class AES256Test {
@@ -19,13 +20,13 @@ class AES256Test {
     @Test
     void 인코딩_시_null을_입력받는_경우_예외를_발생시킨다() {
         assertThatThrownBy(() -> aes256.encode(null))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(InfrastructureException.class);
     }
 
     @Test
     void 디코딩_시_null을_입력받는_경우_예외를_발생시킨다() {
         assertThatThrownBy(() -> aes256.decode(null))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(InfrastructureException.class);
     }
 
     @Test

@@ -79,7 +79,7 @@ class HostRepositoryTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> hostRepository.getById(NON_EXIST_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
     }
@@ -114,7 +114,7 @@ class HostRepositoryTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> hostRepository.getByGithubId(NON_EXIST_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
     }
