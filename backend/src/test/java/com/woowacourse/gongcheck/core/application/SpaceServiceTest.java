@@ -10,25 +10,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.gongcheck.ApplicationTest;
+import com.woowacourse.gongcheck.SupportRepository;
 import com.woowacourse.gongcheck.core.application.response.SpaceResponse;
 import com.woowacourse.gongcheck.core.application.response.SpacesResponse;
 import com.woowacourse.gongcheck.core.domain.host.Host;
-import com.woowacourse.gongcheck.core.domain.host.HostRepository;
 import com.woowacourse.gongcheck.core.domain.job.Job;
-import com.woowacourse.gongcheck.core.domain.job.JobRepository;
 import com.woowacourse.gongcheck.core.domain.section.Section;
-import com.woowacourse.gongcheck.core.domain.section.SectionRepository;
 import com.woowacourse.gongcheck.core.domain.space.Space;
-import com.woowacourse.gongcheck.core.domain.space.SpaceRepository;
 import com.woowacourse.gongcheck.core.domain.task.RunningTask;
-import com.woowacourse.gongcheck.core.domain.task.RunningTaskRepository;
 import com.woowacourse.gongcheck.core.domain.task.Task;
-import com.woowacourse.gongcheck.core.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.core.presentation.request.SpaceCreateRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import java.util.List;
-import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -36,38 +31,17 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
-@Transactional
+@ApplicationTest
 @DisplayName("SpaceService 클래스")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class SpaceServiceTest {
 
     @Autowired
-    EntityManager entityManager;
-
-    @Autowired
     private SpaceService spaceService;
 
     @Autowired
-    private HostRepository hostRepository;
-
-    @Autowired
-    private SpaceRepository spaceRepository;
-
-    @Autowired
-    private JobRepository jobRepository;
-
-    @Autowired
-    private SectionRepository sectionRepository;
-
-    @Autowired
-    private TaskRepository taskRepository;
-
-    @Autowired
-    private RunningTaskRepository runningTaskRepository;
+    private SupportRepository repository;
 
     @Nested
     class findSpaces_메서드는 {
@@ -91,12 +65,12 @@ class SpaceServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
+                host = repository.save(Host_생성("1234", 1234L));
 
                 Space space_1 = Space_생성(host, "잠실 캠퍼스");
                 Space space_2 = Space_생성(host, "선릉 캠퍼스");
                 Space space_3 = Space_생성(host, "양평같은방");
-                List<Space> spaces = spaceRepository.saveAll(List.of(space_1, space_2, space_3));
+                List<Space> spaces = repository.saveAll(List.of(space_1, space_2, space_3));
 
                 expected = SpacesResponse.from(spaces);
             }
@@ -123,8 +97,8 @@ class SpaceServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실 캠퍼스"));
                 request = new SpaceCreateRequest(space.getName().getValue(), "https://image.gongcheck.shop/123sdf5");
             }
 
@@ -167,14 +141,14 @@ class SpaceServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
+                host = repository.save(Host_생성("1234", 1234L));
                 request = new SpaceCreateRequest(SPACE_NAME, SPACE_IMAGE_URL);
             }
 
             @Test
             void Space를_생성한다() {
                 Long spaceId = spaceService.createSpace(host.getId(), request);
-                Space actual = spaceRepository.getById(spaceId);
+                Space actual = repository.getById(Space.class, spaceId);
 
                 assertAll(
                         () -> assertThat(actual.getName().getValue()).isEqualTo(SPACE_NAME),
@@ -197,8 +171,8 @@ class SpaceServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 2345L));
-                space = spaceRepository.save(Space_생성(host, SPACE_NAME));
+                host = repository.save(Host_생성("1234", 2345L));
+                space = repository.save(Space_생성(host, SPACE_NAME));
             }
 
             @Test
@@ -220,9 +194,9 @@ class SpaceServiceTest {
 
             @BeforeEach
             void setUp() {
-                Host host = hostRepository.save(Host_생성("1234", 1234L));
-                space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
-                anotherHost = hostRepository.save(Host_생성("1234", 2345L));
+                Host host = repository.save(Host_생성("1234", 1234L));
+                space = repository.save(Space_생성(host, "잠실 캠퍼스"));
+                anotherHost = repository.save(Host_생성("1234", 2345L));
             }
 
             @Test
@@ -242,8 +216,8 @@ class SpaceServiceTest {
 
             @BeforeEach
             void setUp() {
-                Host host = hostRepository.save(Host_생성("1234", 1234L));
-                space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
+                Host host = repository.save(Host_생성("1234", 1234L));
+                space = repository.save(Space_생성(host, "잠실 캠퍼스"));
             }
 
             @Test
@@ -261,7 +235,7 @@ class SpaceServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
+                host = repository.save(Host_생성("1234", 1234L));
             }
 
             @Test
@@ -282,8 +256,8 @@ class SpaceServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                space = spaceRepository.save(Space_생성(host, SPACE_NAME));
+                host = repository.save(Host_생성("1234", 1234L));
+                space = repository.save(Space_생성(host, SPACE_NAME));
             }
 
             @Test
@@ -310,8 +284,8 @@ class SpaceServiceTest {
 
             @BeforeEach
             void setUp() {
-                Host host = hostRepository.save(Host_생성("1234", 1234L));
-                space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
+                Host host = repository.save(Host_생성("1234", 1234L));
+                space = repository.save(Space_생성(host, "잠실 캠퍼스"));
             }
 
             @Test
@@ -330,9 +304,9 @@ class SpaceServiceTest {
 
             @BeforeEach
             void setUp() {
-                Host host = hostRepository.save(Host_생성("1234", 1234L));
-                anotherHost = hostRepository.save(Host_생성("1234", 4567L));
-                space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
+                Host host = repository.save(Host_생성("1234", 1234L));
+                anotherHost = repository.save(Host_생성("1234", 4567L));
+                space = repository.save(Space_생성(host, "잠실 캠퍼스"));
             }
 
             @Test
@@ -355,26 +329,24 @@ class SpaceServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                space = spaceRepository.save(Space_생성(host, "잠실 캠퍼스"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                section = sectionRepository.save(Section_생성(job, "대강의실"));
-                task = taskRepository.save(Task_생성(section, "책상 닦기"));
-                runningTask = runningTaskRepository.save(RunningTask_생성(task.getId(), false));
+                host = repository.save(Host_생성("1234", 1234L));
+                space = repository.save(Space_생성(host, "잠실 캠퍼스"));
+                job = repository.save(Job_생성(space, "청소"));
+                section = repository.save(Section_생성(job, "대강의실"));
+                task = repository.save(Task_생성(section, "책상 닦기"));
+                runningTask = repository.save(RunningTask_생성(task.getId(), false));
             }
 
             @Test
             void 해당_Space_및_관련된_Job_Section_Task_RunningTask를_삭제한다() {
                 spaceService.removeSpace(host.getId(), space.getId());
 
-                entityManager.flush();
-                entityManager.clear();
                 assertAll(
-                        () -> assertThat(spaceRepository.findById(space.getId())).isEmpty(),
-                        () -> assertThat(jobRepository.findById(job.getId())).isEmpty(),
-                        () -> assertThat(sectionRepository.findById(section.getId())).isEmpty(),
-                        () -> assertThat(taskRepository.findById(task.getId())).isEmpty(),
-                        () -> assertThat(runningTaskRepository.findById(runningTask.getTaskId())).isEmpty()
+                        () -> assertThat(repository.findById(Space.class, space.getId())).isEmpty(),
+                        () -> assertThat(repository.findById(Job.class, job.getId())).isEmpty(),
+                        () -> assertThat(repository.findById(Section.class, section.getId())).isEmpty(),
+                        () -> assertThat(repository.findById(Task.class, task.getId())).isEmpty(),
+                        () -> assertThat(repository.findById(RunningTask.class, runningTask.getTaskId())).isEmpty()
                 );
             }
         }

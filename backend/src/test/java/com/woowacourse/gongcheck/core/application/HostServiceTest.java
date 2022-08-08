@@ -3,11 +3,11 @@ package com.woowacourse.gongcheck.core.application;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Host_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.gongcheck.ApplicationTest;
+import com.woowacourse.gongcheck.SupportRepository;
 import com.woowacourse.gongcheck.auth.application.EntranceCodeProvider;
 import com.woowacourse.gongcheck.core.domain.host.Host;
-import com.woowacourse.gongcheck.core.domain.host.HostRepository;
 import com.woowacourse.gongcheck.core.presentation.request.SpacePasswordChangeRequest;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,11 +17,8 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
-@Transactional
+@ApplicationTest
 @DisplayName("HostService 클래스")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class HostServiceTest {
@@ -30,7 +27,7 @@ class HostServiceTest {
     private HostService hostService;
 
     @Autowired
-    private HostRepository hostRepository;
+    private SupportRepository repository;
 
     @Autowired
     private EntranceCodeProvider entranceCodeProvider;
@@ -51,20 +48,16 @@ class HostServiceTest {
             @BeforeEach
             void setUp() {
                 spacePasswordChangeRequest = new SpacePasswordChangeRequest(CHANGING_PASSWORD);
-                hostId = hostRepository.save(Host_생성(ORIGIN_PASSWORD, GITHUB_ID))
+                hostId = repository.save(Host_생성(ORIGIN_PASSWORD, GITHUB_ID))
                         .getId();
             }
 
             @Test
             void 패스워드를_수정한다() {
                 hostService.changeSpacePassword(hostId, spacePasswordChangeRequest);
-                Host actual = hostRepository.getById(hostId);
+                Host actual = repository.getById(Host.class, hostId);
 
-                assertAll(
-                        () -> assertThat(actual.getSpacePassword().getValue()).isEqualTo(CHANGING_PASSWORD),
-                        () -> assertThat(actual.getGithubId()).isEqualTo(GITHUB_ID),
-                        () -> assertThat(actual.getId()).isEqualTo(hostId)
-                );
+                assertThat(actual.getSpacePassword().getValue()).isEqualTo(CHANGING_PASSWORD);
             }
         }
 
@@ -102,7 +95,7 @@ class HostServiceTest {
 
             @BeforeEach
             void setUp() {
-                hostId = hostRepository.save(Host_생성("1234", 1111L))
+                hostId = repository.save(Host_생성("1234", 1111L))
                         .getId();
                 expected = entranceCodeProvider.createEntranceCode(hostId);
             }

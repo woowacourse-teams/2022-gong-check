@@ -11,6 +11,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.woowacourse.gongcheck.ApplicationTest;
+import com.woowacourse.gongcheck.SupportRepository;
 import com.woowacourse.gongcheck.core.application.response.JobActiveResponse;
 import com.woowacourse.gongcheck.core.application.response.RunningTaskResponse;
 import com.woowacourse.gongcheck.core.application.response.RunningTasksWithSectionResponse;
@@ -18,21 +20,15 @@ import com.woowacourse.gongcheck.core.application.response.TaskResponse;
 import com.woowacourse.gongcheck.core.application.response.TasksResponse;
 import com.woowacourse.gongcheck.core.application.response.TasksWithSectionResponse;
 import com.woowacourse.gongcheck.core.domain.host.Host;
-import com.woowacourse.gongcheck.core.domain.host.HostRepository;
 import com.woowacourse.gongcheck.core.domain.job.Job;
-import com.woowacourse.gongcheck.core.domain.job.JobRepository;
 import com.woowacourse.gongcheck.core.domain.section.Section;
-import com.woowacourse.gongcheck.core.domain.section.SectionRepository;
 import com.woowacourse.gongcheck.core.domain.space.Space;
-import com.woowacourse.gongcheck.core.domain.space.SpaceRepository;
 import com.woowacourse.gongcheck.core.domain.task.RunningTask;
 import com.woowacourse.gongcheck.core.domain.task.RunningTaskRepository;
 import com.woowacourse.gongcheck.core.domain.task.Task;
-import com.woowacourse.gongcheck.core.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import java.util.List;
-import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -40,11 +36,8 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
-@Transactional
+@ApplicationTest
 @DisplayName("TaskService 클래스")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class TaskServiceTest {
@@ -53,25 +46,10 @@ class TaskServiceTest {
     private TaskService taskService;
 
     @Autowired
-    private HostRepository hostRepository;
-
-    @Autowired
-    private SpaceRepository spaceRepository;
-
-    @Autowired
-    private JobRepository jobRepository;
-
-    @Autowired
-    private SectionRepository sectionRepository;
-
-    @Autowired
-    private TaskRepository taskRepository;
+    private SupportRepository repository;
 
     @Autowired
     private RunningTaskRepository runningTaskRepository;
-
-    @Autowired
-    private EntityManager entityManager;
 
     @Nested
     class createNewRunningTasks_메소드는 {
@@ -85,11 +63,11 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                List<Task> tasks = taskRepository.saveAll(
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                List<Task> tasks = repository.saveAll(
                         List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
                 taskIds = tasks.stream()
                         .map(Task::getId)
@@ -120,10 +98,10 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                sectionRepository.save(Section_생성(job, "트랙룸"));
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                job = repository.save(Job_생성(space, "청소"));
+                repository.save(Section_생성(job, "트랙룸"));
             }
 
             @Test
@@ -157,7 +135,7 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                hostId = hostRepository.save(Host_생성("1234", 1234567L))
+                hostId = repository.save(Host_생성("1234", 1234567L))
                         .getId();
             }
 
@@ -177,12 +155,12 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                Host host = hostRepository.save(Host_생성("1234", 1234L));
-                anotherHost = hostRepository.save(Host_생성("1234", 2345L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                taskRepository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
+                Host host = repository.save(Host_생성("1234", 1234L));
+                anotherHost = repository.save(Host_생성("1234", 2345L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                repository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
             }
 
             @Test
@@ -201,13 +179,13 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                List<Task> tasks = taskRepository.saveAll(
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                List<Task> tasks = repository.saveAll(
                         List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
-                runningTaskRepository.saveAll(tasks.stream()
+                repository.saveAll(tasks.stream()
                         .map(Task::getId)
                         .map(id -> RunningTask_생성(id, true))
                         .collect(toList()));
@@ -233,13 +211,13 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                List<Task> tasks = taskRepository.saveAll(List.of(
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                List<Task> tasks = repository.saveAll(List.of(
                         Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
-                runningTaskRepository.saveAll(tasks.stream()
+                repository.saveAll(tasks.stream()
                         .map(Task::getId)
                         .map(id -> RunningTask_생성(id, true))
                         .collect(toList()));
@@ -261,11 +239,11 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                taskRepository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                repository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
             }
 
             @Test
@@ -299,7 +277,7 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                hostId = hostRepository.save(Host_생성("1234", 1111L))
+                hostId = repository.save(Host_생성("1234", 1111L))
                         .getId();
             }
 
@@ -319,12 +297,12 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                Host host = hostRepository.save(Host_생성("1234", 1234L));
-                anotherHost = hostRepository.save(Host_생성("1234", 2345L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                taskRepository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
+                Host host = repository.save(Host_생성("1234", 1234L));
+                anotherHost = repository.save(Host_생성("1234", 2345L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                repository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
             }
 
             @Test
@@ -349,28 +327,26 @@ class TaskServiceTest {
 
             private Host host;
             private Job job;
-            private Section section;
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, SECTION_NAME));
-                List<Task> tasks = taskRepository.saveAll(List.of(
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, SECTION_NAME));
+                List<Task> tasks = repository.saveAll(List.of(
                         Task_생성(section, TASK_NAME_1), Task_생성(section, TASK_NAME_2)));
-                runningTaskRepository.saveAll(tasks.stream()
+                repository.saveAll(tasks.stream()
                         .map(task -> RunningTask_생성(task.getId(), false))
                         .collect(toList()));
-                entityManager.flush();
-                entityManager.clear();
             }
 
             @Test
             void 정상적으로_RunningTasks를_조회한다() {
                 List<RunningTasksWithSectionResponse> actual = taskService.findRunningTasks(host.getId(), job.getId())
                         .getSections();
-                List<RunningTaskResponse> actualTasks = actual.get(TASK_INDEX).getTasks();
+                List<RunningTaskResponse> actualTasks = actual.get(TASK_INDEX)
+                        .getTasks();
 
                 assertAll(
                         () -> assertThat(actual)
@@ -407,7 +383,7 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                hostId = hostRepository.save(Host_생성("1234", 1111L))
+                hostId = repository.save(Host_생성("1234", 1111L))
                         .getId();
             }
 
@@ -427,14 +403,14 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                Host host = hostRepository.save(Host_생성("1234", 1234L));
-                anotherHost = hostRepository.save(Host_생성("1234", 2345L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                List<Task> tasks = taskRepository.saveAll(List.of(
+                Host host = repository.save(Host_생성("1234", 1234L));
+                anotherHost = repository.save(Host_생성("1234", 2345L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                List<Task> tasks = repository.saveAll(List.of(
                         Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
-                runningTaskRepository.saveAll(tasks.stream()
+                repository.saveAll(tasks.stream()
                         .map(task -> RunningTask_생성(task.getId(), false))
                         .collect(toList()));
             }
@@ -455,11 +431,11 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                taskRepository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                repository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
             }
 
             @Test
@@ -479,23 +455,25 @@ class TaskServiceTest {
 
             private Host host;
             private Task task;
-            private RunningTask runningTask;
+            private Long runningTaskId;
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                Job job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                task = taskRepository.save(Task_생성(section, "책상 청소"));
-                runningTask = runningTaskRepository.save(RunningTask_생성(task.getId(), false));
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                Job job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                task = repository.save(Task_생성(section, "책상 청소"));
+                runningTaskId = repository.save(RunningTask_생성(task.getId(), false))
+                    .getTaskId();
             }
 
             @Test
             void 체크상태를_True로_변경한다() {
                 taskService.flipRunningTask(host.getId(), task.getId());
+                RunningTask actual = repository.getById(RunningTask.class, runningTaskId);
 
-                assertThat(runningTask.isChecked()).isTrue();
+                assertThat(actual.isChecked()).isTrue();
             }
         }
 
@@ -504,23 +482,25 @@ class TaskServiceTest {
 
             private Host host;
             private Task task;
-            private RunningTask runningTask;
+            private Long runningTaskId;
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                Job job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                task = taskRepository.save(Task_생성(section, "책상 청소"));
-                runningTask = runningTaskRepository.save(RunningTask_생성(task.getId(), true));
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                Job job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                task = repository.save(Task_생성(section, "책상 청소"));
+                runningTaskId = repository.save(RunningTask_생성(task.getId(), true))
+                    .getTaskId();
             }
 
             @Test
             void 체크상태를_False로_변경한다() {
                 taskService.flipRunningTask(host.getId(), task.getId());
+                RunningTask actual = repository.getById(RunningTask.class, runningTaskId);
 
-                assertThat(runningTask.isChecked()).isFalse();
+                assertThat(actual.isChecked()).isFalse();
             }
         }
 
@@ -547,7 +527,7 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                hostId = hostRepository.save(Host_생성("1234", 1111L))
+                hostId = repository.save(Host_생성("1234", 1111L))
                         .getId();
             }
 
@@ -567,12 +547,12 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                Host host = hostRepository.save(Host_생성("1234", 1234L));
-                anotherHost = hostRepository.save(Host_생성("1234", 2345L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                Job job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                taskId = taskRepository.save(Task_생성(section, "책상 청소"))
+                Host host = repository.save(Host_생성("1234", 1234L));
+                anotherHost = repository.save(Host_생성("1234", 2345L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                Job job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                taskId = repository.save(Task_생성(section, "책상 청소"))
                         .getId();
             }
 
@@ -592,11 +572,11 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                Job job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                taskId = taskRepository.save(Task_생성(section, "책상 청소"))
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                Job job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                taskId = repository.save(Task_생성(section, "책상 청소"))
                         .getId();
             }
 
@@ -624,11 +604,11 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, SECTION_NAME));
-                taskRepository.saveAll(List.of(Task_생성(section, TASK_NAME_1), Task_생성(section, TASK_NAME_2)));
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, SECTION_NAME));
+                repository.saveAll(List.of(Task_생성(section, TASK_NAME_1), Task_생성(section, TASK_NAME_2)));
             }
 
             @Test
@@ -669,7 +649,7 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                hostId = hostRepository.save(Host_생성("1234", 1111L))
+                hostId = repository.save(Host_생성("1234", 1111L))
                         .getId();
             }
 
@@ -689,12 +669,12 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                Host host = hostRepository.save(Host_생성("1234", 1234L));
-                anotherHost = hostRepository.save(Host_생성("1234", 2345L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                taskRepository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
+                Host host = repository.save(Host_생성("1234", 1234L));
+                anotherHost = repository.save(Host_생성("1234", 2345L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                repository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
             }
 
             @Test
