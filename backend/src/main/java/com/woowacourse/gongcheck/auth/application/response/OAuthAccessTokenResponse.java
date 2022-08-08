@@ -4,15 +4,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 @Getter
-public class GithubAccessTokenResponse {
+public class OAuthAccessTokenResponse {
 
     @JsonProperty("access_token")
     private String accessToken;
 
-    private GithubAccessTokenResponse() {
+    private OAuthAccessTokenResponse() {
     }
 
-    public GithubAccessTokenResponse(final String accessToken) {
+    public OAuthAccessTokenResponse(final String accessToken) {
         this.accessToken = accessToken;
     }
 }

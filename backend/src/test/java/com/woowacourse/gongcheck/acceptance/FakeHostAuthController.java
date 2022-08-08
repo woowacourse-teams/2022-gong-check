@@ -7,8 +7,8 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.woowacourse.gongcheck.auth.application.HostAuthService;
-import com.woowacourse.gongcheck.auth.application.response.GithubAccessTokenResponse;
-import com.woowacourse.gongcheck.auth.application.response.GithubProfileResponse;
+import com.woowacourse.gongcheck.auth.application.response.OAuthAccessTokenResponse;
+import com.woowacourse.gongcheck.auth.application.response.SocialProfileResponse;
 import com.woowacourse.gongcheck.auth.application.response.TokenResponse;
 import com.woowacourse.gongcheck.auth.presentation.request.TokenRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,15 +40,15 @@ public class FakeHostAuthController {
                 .andExpect(method(HttpMethod.POST))
                 .andRespond(withStatus(HttpStatus.OK)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(objectMapper.writeValueAsString(new GithubAccessTokenResponse("token"))));
+                        .body(objectMapper.writeValueAsString(new OAuthAccessTokenResponse("token"))));
 
-        GithubProfileResponse githubProfileResponse = new GithubProfileResponse("nickname", "loginName",
+        SocialProfileResponse socialProfileResponse = new SocialProfileResponse("nickname", "loginName",
                 "2", "test.com");
         mockRestServiceServer.expect(requestTo("https://api.github.com/user"))
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withStatus(HttpStatus.OK)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(objectMapper.writeValueAsString(githubProfileResponse)));
+                        .body(objectMapper.writeValueAsString(socialProfileResponse)));
 
         TokenResponse result = hostAuthService.createToken(new TokenRequest("code"));
         return ResponseEntity.ok(result);
@@ -61,15 +61,15 @@ public class FakeHostAuthController {
                 .andExpect(method(HttpMethod.POST))
                 .andRespond(withStatus(HttpStatus.OK)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(objectMapper.writeValueAsString(new GithubAccessTokenResponse("token"))));
+                        .body(objectMapper.writeValueAsString(new OAuthAccessTokenResponse("token"))));
 
-        GithubProfileResponse githubProfileResponse = new GithubProfileResponse("nickname", "loginName",
+        SocialProfileResponse socialProfileResponse = new SocialProfileResponse("nickname", "loginName",
                 "3", "test.com");
         mockRestServiceServer.expect(requestTo("https://api.github.com/user"))
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withStatus(HttpStatus.OK)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(objectMapper.writeValueAsString(githubProfileResponse)));
+                        .body(objectMapper.writeValueAsString(socialProfileResponse)));
 
         TokenResponse result = hostAuthService.createToken(new TokenRequest("code"));
         return ResponseEntity.ok(result);

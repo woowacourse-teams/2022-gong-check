@@ -8,7 +8,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
-import com.woowacourse.gongcheck.auth.application.response.GithubProfileResponse;
+import com.woowacourse.gongcheck.auth.application.response.SocialProfileResponse;
 import com.woowacourse.gongcheck.auth.application.response.TokenResponse;
 import com.woowacourse.gongcheck.auth.presentation.request.TokenRequest;
 import com.woowacourse.gongcheck.core.domain.host.HostRepository;
@@ -60,8 +60,8 @@ class HostAuthServiceTest {
 
             @BeforeEach
             void setUp() {
-                when(githubOauthClient.requestGithubProfileByCode(OAUTH_CODE))
-                        .thenReturn(new GithubProfileResponse(GITHUB_NICKNAME, GITHUB_LOGIN_NAME, GITHUB_ID,
+                when(githubOauthClient.requestSocialProfileByCode(OAUTH_CODE))
+                        .thenReturn(new SocialProfileResponse(GITHUB_NICKNAME, GITHUB_LOGIN_NAME, GITHUB_ID,
                                 GITHUB_IMAGE_URL));
                 when(jwtTokenProvider.createToken(any(), eq(HOST))).thenReturn(JWT_ACCESS_TOKEN);
                 tokenRequest = new TokenRequest(OAUTH_CODE);
@@ -86,8 +86,8 @@ class HostAuthServiceTest {
 
             @BeforeEach
             void setUp() {
-                when(githubOauthClient.requestGithubProfileByCode(OAUTH_CODE))
-                        .thenReturn(new GithubProfileResponse(GITHUB_NICKNAME, GITHUB_LOGIN_NAME, GITHUB_ID,
+                when(githubOauthClient.requestSocialProfileByCode(OAUTH_CODE))
+                        .thenReturn(new SocialProfileResponse(GITHUB_NICKNAME, GITHUB_LOGIN_NAME, GITHUB_ID,
                                 GITHUB_IMAGE_URL));
                 when(jwtTokenProvider.createToken(any(), eq(HOST))).thenReturn(JWT_ACCESS_TOKEN);
                 hostRepository.save(Host_생성("1234", Long.parseLong(GITHUB_ID)));
@@ -112,7 +112,7 @@ class HostAuthServiceTest {
 
             @BeforeEach
             void setUp() {
-                when(githubOauthClient.requestGithubProfileByCode(ERROR_OAUTH_CODE))
+                when(githubOauthClient.requestSocialProfileByCode(ERROR_OAUTH_CODE))
                         .thenThrow(UnauthorizedException.class);
                 tokenRequest = new TokenRequest(ERROR_OAUTH_CODE);
             }

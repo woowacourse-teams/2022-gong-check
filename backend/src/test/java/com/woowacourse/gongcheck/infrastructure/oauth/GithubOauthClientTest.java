@@ -8,11 +8,9 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.woowacourse.gongcheck.auth.application.response.GithubAccessTokenResponse;
-import com.woowacourse.gongcheck.auth.application.response.GithubProfileResponse;
+import com.woowacourse.gongcheck.auth.application.response.OAuthAccessTokenResponse;
+import com.woowacourse.gongcheck.auth.application.response.SocialProfileResponse;
 import com.woowacourse.gongcheck.exception.InfrastructureException;
-import com.woowacourse.gongcheck.exception.NotFoundException;
-import com.woowacourse.gongcheck.exception.UnauthorizedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -61,7 +59,7 @@ class GithubOauthClientTest {
 
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> githubOauthClient.requestGithubProfileByCode("code"))
+                assertThatThrownBy(() -> githubOauthClient.requestSocialProfileByCode("code"))
                         .isInstanceOf(InfrastructureException.class)
                         .hasMessage("해당 사용자의 프로필을 요청할 수 없습니다.");
                 mockRestServiceServer.verify();
@@ -82,7 +80,7 @@ class GithubOauthClientTest {
 
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> githubOauthClient.requestGithubProfileByCode("code"))
+                assertThatThrownBy(() -> githubOauthClient.requestSocialProfileByCode("code"))
                         .isInstanceOf(InfrastructureException.class)
                         .hasMessage("잘못된 요청입니다.");
                 mockRestServiceServer.verify();
@@ -94,7 +92,7 @@ class GithubOauthClientTest {
 
             @BeforeEach
             void setUp() throws JsonProcessingException {
-                GithubAccessTokenResponse token = new GithubAccessTokenResponse("access_token");
+                OAuthAccessTokenResponse token = new OAuthAccessTokenResponse("access_token");
                 mockRestServiceServer.expect(requestTo("https://github.com/login/oauth/access_token"))
                         .andExpect(method(HttpMethod.POST))
                         .andRespond(withStatus(HttpStatus.OK)
@@ -109,7 +107,7 @@ class GithubOauthClientTest {
 
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> githubOauthClient.requestGithubProfileByCode("code"))
+                assertThatThrownBy(() -> githubOauthClient.requestSocialProfileByCode("code"))
                         .isInstanceOf(InfrastructureException.class)
                         .hasMessage("해당 사용자의 프로필을 요청할 수 없습니다.");
                 mockRestServiceServer.verify();
@@ -119,32 +117,32 @@ class GithubOauthClientTest {
         @Nested
         class 권한이_있는_code로_Github에_프로필접근이_가능한_경우 {
 
-            private GithubProfileResponse githubProfileResponse;
+            private SocialProfileResponse socialProfileResponse;
 
             @BeforeEach
             void setUp() throws JsonProcessingException {
-                GithubAccessTokenResponse token = new GithubAccessTokenResponse("access_token");
+                OAuthAccessTokenResponse token = new OAuthAccessTokenResponse("access_token");
                 mockRestServiceServer.expect(requestTo("https://github.com/login/oauth/access_token"))
                         .andExpect(method(HttpMethod.POST))
                         .andRespond(withStatus(HttpStatus.OK)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .body(objectMapper.writeValueAsString(token)));
 
-                githubProfileResponse = new GithubProfileResponse("nickname", "loginName", "1", "test.com");
+                socialProfileResponse = new SocialProfileResponse("nickname", "loginName", "1", "test.com");
                 mockRestServiceServer.expect(requestTo("https://api.github.com/user"))
                         .andExpect(method(HttpMethod.GET))
                         .andRespond(withStatus(HttpStatus.OK)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .body(objectMapper.writeValueAsString(githubProfileResponse)));
+                                .body(objectMapper.writeValueAsString(socialProfileResponse)));
             }
 
             @Test
             void Github_프로필정보를_반환한다() {
-                GithubProfileResponse actual = githubOauthClient.requestGithubProfileByCode("access_token");
+                SocialProfileResponse actual = githubOauthClient.requestSocialProfileByCode("access_token");
 
                 assertThat(actual)
                         .usingRecursiveComparison()
-                        .isEqualTo(githubProfileResponse);
+                        .isEqualTo(socialProfileResponse);
                 mockRestServiceServer.verify();
             }
         }
