@@ -12,8 +12,9 @@ const usePassword = () => {
 
   const { openToast } = useToast();
 
-  const [isActiveSubmit, setIsActiveSubmit] = useState(false);
   const { hostId } = useParams() as { hostId: ID };
+
+  const [isActiveSubmit, setIsActiveSubmit] = useState(false);
 
   const setToken = async (password: string) => {
     if (!hostId) return;
@@ -23,10 +24,11 @@ const usePassword = () => {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (!isActiveSubmit) return;
 
     const form = e.target as HTMLFormElement;
-    const { value: password } = form[0] as HTMLInputElement;
+    const password = form['password'].value;
 
     try {
       await setToken(password).then(() => {
@@ -38,10 +40,10 @@ const usePassword = () => {
   };
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target as HTMLInputElement;
+    const { value: password } = e.target;
 
-    const isExistValue = value.length > 0;
-    setIsActiveSubmit(isExistValue);
+    const isTyped = password.length > 0;
+    setIsActiveSubmit(isTyped);
   };
 
   return {

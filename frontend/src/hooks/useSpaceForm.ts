@@ -3,13 +3,13 @@ import { AxiosError } from 'axios';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
-import apiImage from '@/apis/image';
 import apiSpace from '@/apis/space';
 
 import { ID } from '@/types';
 
 const useSpaceForm = () => {
   const navigate = useNavigate();
+
   const { openToast } = useToast();
 
   const { mutate: createSpace } = useMutation(

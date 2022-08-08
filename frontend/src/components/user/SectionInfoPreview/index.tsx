@@ -2,12 +2,12 @@ import { FaMapMarkedAlt } from 'react-icons/fa';
 
 import styles from './styles';
 
-interface SectionInfoPreviewBoxProps {
+interface SectionInfoPreviewProps {
   imageUrl: string;
   onClick: () => void;
 }
 
-const SectionInfoPreviewBox: React.FC<SectionInfoPreviewBoxProps> = ({ imageUrl, onClick }) => {
+const SectionInfoPreview: React.FC<SectionInfoPreviewProps> = ({ imageUrl, onClick }) => {
   return (
     <div css={styles.wrapper} onClick={onClick}>
       <div css={styles.imageWrapper}>
@@ -18,4 +18,4 @@ const SectionInfoPreviewBox: React.FC<SectionInfoPreviewBoxProps> = ({ imageUrl,
   );
 };
 
-export default SectionInfoPreviewBox;
+export default SectionInfoPreview;

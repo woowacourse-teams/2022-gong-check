@@ -25,7 +25,7 @@ const useNameModal = (jobId: ID, hostId: ID) => {
       navigate(`/enter/${hostId}/spaces`);
     },
     onError: (err: AxiosError<{ message: string }>) => {
-      openToast('ERROR', err.response?.data.message!);
+      openToast('ERROR', `${err.response?.data.message}`);
       closeModal();
     },
   });

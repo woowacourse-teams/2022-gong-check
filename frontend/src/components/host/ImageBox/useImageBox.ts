@@ -11,7 +11,7 @@ const useImageBox = (prevImageUrl?: string | undefined) => {
   const [imageUrl, setImageUrl] = useState('');
   const { openToast } = useToast();
 
-  const { mutateAsync: uploadImage } = useMutation((formData: any) => apiImage.postImageUpload(formData), {
+  const { mutateAsync: uploadImage } = useMutation((formData: FormData) => apiImage.postImageUpload(formData), {
     onError: (err: AxiosError<{ message: string }>) => {
       openToast('ERROR', `${err.response?.data.message}`);
     },

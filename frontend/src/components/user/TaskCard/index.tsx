@@ -1,7 +1,7 @@
 import { RiInformationLine } from 'react-icons/ri';
 
 import CheckBox from '@/components/common/Checkbox';
-import DetailedInfoCardModal from '@/components/user/DetailedInfoCardModal';
+import DetailInfoModal from '@/components/user/DetailInfoModal';
 
 import useModal from '@/hooks/useModal';
 
@@ -28,8 +28,8 @@ const TaskCard: React.FC<TaskCardProps> = ({ tasks, getSections }) => {
     getSections();
   };
 
-  const onClickTaskDetail = (task: any) => {
-    openModal(<DetailedInfoCardModal name={task.name} imageUrl={task.imageUrl} description={task.description} />);
+  const onClickTaskDetail = (task: TaskType) => {
+    openModal(<DetailInfoModal name={task.name} imageUrl={task.imageUrl} description={task.description} />);
   };
 
   return (
