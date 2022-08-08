@@ -1,10 +1,10 @@
 package com.woowacourse.gongcheck.infrastructure.oauth;
 
-import com.woowacourse.gongcheck.auth.application.response.GithubAccessTokenResponse;
-import com.woowacourse.gongcheck.auth.application.response.GithubProfileResponse;
-import com.woowacourse.gongcheck.auth.presentation.request.GithubAccessTokenRequest;
+import com.woowacourse.gongcheck.auth.application.OAuthClient;
+import com.woowacourse.gongcheck.auth.application.response.OAuthAccessTokenResponse;
+import com.woowacourse.gongcheck.auth.application.response.SocialProfileResponse;
+import com.woowacourse.gongcheck.auth.presentation.request.OAuthAccessTokenRequest;
 import com.woowacourse.gongcheck.exception.InfrastructureException;
-import com.woowacourse.gongcheck.exception.UnauthorizedException;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 @Slf4j
-public class GithubOauthClient {
+public class GithubOauthClient implements OAuthClient {
 
     private static final String BEARER_TYPE = "Bearer ";
 
@@ -40,31 +40,32 @@ public class GithubOauthClient {
         this.restTemplate = restTemplate;
     }
 
-    public GithubProfileResponse requestGithubProfileByCode(final String code) {
+    @Override
+    public SocialProfileResponse requestSocialProfileByCode(final String code) {
         return requestGithubProfile(requestAccessToken(code));
     }
 
     private String requestAccessToken(final String code) {
-        GithubAccessTokenRequest githubAccessTokenRequest = new GithubAccessTokenRequest(code, clientId, clientSecret);
+        OAuthAccessTokenRequest oAuthAccessTokenRequest = new OAuthAccessTokenRequest(code, clientId, clientSecret);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
-        HttpEntity<?> httpEntity = new HttpEntity<>(githubAccessTokenRequest, headers);
+        HttpEntity<?> httpEntity = new HttpEntity<>(oAuthAccessTokenRequest, headers);
 
-        GithubAccessTokenResponse githubAccessTokenResponse = exchangeRestTemplateBody(tokenUrl, HttpMethod.POST,
-                httpEntity, GithubAccessTokenResponse.class);
-        if (Objects.isNull(githubAccessTokenResponse)) {
+        OAuthAccessTokenResponse oAuthAccessTokenResponse = exchangeRestTemplateBody(tokenUrl, HttpMethod.POST,
+                httpEntity, OAuthAccessTokenResponse.class);
+        if (Objects.isNull(oAuthAccessTokenResponse)) {
             throw new InfrastructureException("잘못된 요청입니다.");
         }
-        return githubAccessTokenResponse.getAccessToken();
+        return oAuthAccessTokenResponse.getAccessToken();
     }
 
-    private GithubProfileResponse requestGithubProfile(final String accessToken) {
+    private SocialProfileResponse requestGithubProfile(final String accessToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, BEARER_TYPE + accessToken);
 
         HttpEntity<?> httpEntity = new HttpEntity<>(headers);
-        return exchangeRestTemplateBody(profileUrl, HttpMethod.GET, httpEntity, GithubProfileResponse.class);
+        return exchangeRestTemplateBody(profileUrl, HttpMethod.GET, httpEntity, SocialProfileResponse.class);
     }
 
     private <T> T exchangeRestTemplateBody(final String url, final HttpMethod httpMethod,

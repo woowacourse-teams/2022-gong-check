@@ -5,7 +5,7 @@ import com.woowacourse.gongcheck.core.domain.host.Host;
 import lombok.Getter;
 
 @Getter
-public class GithubProfileResponse {
+public class SocialProfileResponse {
 
     @JsonProperty("name")
     private String nickname;
@@ -16,10 +16,10 @@ public class GithubProfileResponse {
     @JsonProperty("avatar_url")
     private String imageUrl;
 
-    private GithubProfileResponse() {
+    private SocialProfileResponse() {
     }
 
-    public GithubProfileResponse(final String nickname, final String loginName, final String githubId,
+    public SocialProfileResponse(final String nickname, final String loginName, final String githubId,
                                  final String imageUrl) {
         this.nickname = nickname;
         this.loginName = loginName;

@@ -2,7 +2,7 @@ package com.woowacourse.gongcheck.auth.application;
 
 import static com.woowacourse.gongcheck.auth.domain.Authority.HOST;
 
-import com.woowacourse.gongcheck.auth.application.response.GithubProfileResponse;
+import com.woowacourse.gongcheck.auth.application.response.SocialProfileResponse;
 import com.woowacourse.gongcheck.auth.application.response.TokenResponse;
 import com.woowacourse.gongcheck.auth.presentation.request.TokenRequest;
 import com.woowacourse.gongcheck.core.domain.host.Host;
@@ -28,17 +28,17 @@ public class HostAuthService {
 
     @Transactional
     public TokenResponse createToken(final TokenRequest request) {
-        GithubProfileResponse githubProfileResponse = githubOauthClient.requestGithubProfileByCode(request.getCode());
-        boolean alreadyJoin = hostRepository.existsByGithubId(githubProfileResponse.getGithubId());
-        Host host = findOrCreateHost(alreadyJoin, githubProfileResponse);
+        SocialProfileResponse socialProfileResponse = githubOauthClient.requestSocialProfileByCode(request.getCode());
+        boolean alreadyJoin = hostRepository.existsByGithubId(socialProfileResponse.getGithubId());
+        Host host = findOrCreateHost(alreadyJoin, socialProfileResponse);
         String token = jwtTokenProvider.createToken(String.valueOf(host.getId()), HOST);
         return TokenResponse.of(token, alreadyJoin);
     }
 
-    private Host findOrCreateHost(final boolean alreadyJoin, final GithubProfileResponse githubProfileResponse) {
+    private Host findOrCreateHost(final boolean alreadyJoin, final SocialProfileResponse socialProfileResponse) {
         if (alreadyJoin) {
-            return hostRepository.getByGithubId(githubProfileResponse.getGithubId());
+            return hostRepository.getByGithubId(socialProfileResponse.getGithubId());
         }
-        return hostRepository.save(githubProfileResponse.toHost());
+        return hostRepository.save(socialProfileResponse.toHost());
     }
 }

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 @Getter
-public class GithubAccessTokenRequest {
+public class OAuthAccessTokenRequest {
 
     private String code;
 
@@ -14,10 +14,10 @@ public class GithubAccessTokenRequest {
     @JsonProperty("client_secret")
     private String clientSecret;
 
-    private GithubAccessTokenRequest() {
+    private OAuthAccessTokenRequest() {
     }
 
-    public GithubAccessTokenRequest(final String code, final String clientId, final String clientSecret) {
+    public OAuthAccessTokenRequest(final String code, final String clientId, final String clientSecret) {
         this.code = code;
         this.clientId = clientId;
         this.clientSecret = clientSecret;
