@@ -4,7 +4,7 @@ import { ApiHostTokenData } from '@/types/apis';
 
 import { axiosInstance } from './config';
 
-const getToken = async (code: string | null) => {
+const getToken = async (code: string) => {
   const { data }: AxiosResponse<ApiHostTokenData> = await axiosInstance({
     method: 'POST',
     url: '/api/login',

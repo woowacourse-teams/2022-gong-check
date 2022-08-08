@@ -4,11 +4,9 @@ import { useQuery } from 'react-query';
 import apiAuth from '@/apis/githubAuth';
 
 const useGitHubLogin = () => {
-  const code = new URL(location.href).searchParams.get('code');
+  const code = new URL(location.href).searchParams.get('code') || '';
 
-  const { isSuccess: isSuccessGithubLogin, data } = useQuery(['hostToken'], () => apiAuth.getToken(code), {
-    suspense: true,
-  });
+  const { isSuccess: isSuccessGithubLogin, data } = useQuery(['hostToken'], () => apiAuth.getToken(code));
 
   useEffect(() => {
     if (data) {
