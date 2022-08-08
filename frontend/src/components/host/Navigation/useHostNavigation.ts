@@ -13,9 +13,7 @@ const useHostNavigation = () => {
 
   const [selectedSpaceId, setSelectedSpaceId] = useState<ID | undefined>(spaceId);
 
-  const { data: spaceData } = useQuery(['spaces'], apiSpace.getSpaces, {
-    suspense: true,
-  });
+  const { data: spaceData } = useQuery(['spaces'], apiSpace.getSpaces);
 
   const onClickPasswordUpdate = () => {
     navigate('/host/manage/passwordUpdate');

@@ -11,14 +11,8 @@ const useJobList = () => {
 
   const { goPreviousPage } = useGoPreviousPage();
 
-  const { data: jobsData } = useQuery(['jobs', spaceId], () => apiJobs.getJobs(spaceId), {
-    suspense: true,
-    retry: false,
-  });
-  const { data: spaceData } = useQuery(['spaces', spaceId], () => apiSpace.getSpace(spaceId), {
-    suspense: true,
-    retry: false,
-  });
+  const { data: jobsData } = useQuery(['jobs', spaceId], () => apiJobs.getJobs(spaceId));
+  const { data: spaceData } = useQuery(['spaces', spaceId], () => apiSpace.getSpace(spaceId));
 
   return { jobsData, spaceData, goPreviousPage };
 };

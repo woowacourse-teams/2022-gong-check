@@ -16,7 +16,7 @@ import styles from './styles';
 const SpaceUpdate: React.FC = () => {
   const { spaceId } = useParams();
 
-  const { data } = useQuery(['space', spaceId], () => apiSpace.getSpace(spaceId), { suspense: true });
+  const { data } = useQuery(['space', spaceId], () => apiSpace.getSpace(spaceId));
 
   const { onSubmitUpdateSpace } = useSpaceForm();
   const { imageUrl, onChangeImg } = useImageBox(data?.imageUrl);

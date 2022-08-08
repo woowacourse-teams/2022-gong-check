@@ -29,7 +29,6 @@ const useJobUpdate = () => {
 
   const { refetch: getTaskData } = useQuery(['taskData', jobId], () => apiTask.getTasks(jobId), {
     enabled: false,
-    retry: false,
     staleTime: Infinity,
     onSuccess: data => {
       updateSection(data.sections);

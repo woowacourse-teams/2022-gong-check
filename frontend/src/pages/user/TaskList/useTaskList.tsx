@@ -31,17 +31,12 @@ const useTaskList = () => {
     ['sections', jobId],
     () => apis.getRunningTasks(jobId),
     {
-      suspense: true,
-      retry: false,
       refetchInterval: RE_FETCH_INTERVAL_TIME,
       cacheTime: 0,
     }
   );
 
-  const { data: spaceData } = useQuery(['space', jobId], () => apis.getSpace(spaceId), {
-    suspense: true,
-    retry: false,
-  });
+  const { data: spaceData } = useQuery(['space', jobId], () => apis.getSpace(spaceId));
 
   const onClickButton = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();

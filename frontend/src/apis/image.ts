@@ -1,6 +1,6 @@
 import { axiosInstanceToken } from './config';
 
-const postImageUpload = async (formData: any) => {
+const postImageUpload = async (formData: FormData) => {
   const { data } = await axiosInstanceToken({
     method: 'POST',
     url: `/api/imageUpload`,

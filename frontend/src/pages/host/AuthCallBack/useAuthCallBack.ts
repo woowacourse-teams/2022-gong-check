@@ -12,7 +12,6 @@ const useAuthCallBack = () => {
   const { isSuccessGithubLogin } = useGitHubLogin();
 
   const { data, refetch: getSpaceData } = useQuery(['spaces'], apis.getSpaces, {
-    suspense: true,
     enabled: false,
   });
 

@@ -8,7 +8,11 @@ import { RecoilRoot } from 'recoil';
 import globalStyle from './styles/global';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: { suspense: true, retry: false },
+  },
+});
 
 root.render(
   <BrowserRouter>

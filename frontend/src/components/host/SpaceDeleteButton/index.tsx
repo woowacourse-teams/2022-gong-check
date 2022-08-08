@@ -26,7 +26,6 @@ const SpaceDeleteButton: React.FC<SpaceDeleteButtonProps> = ({ spaceId, spaceNam
   const text = useMemo(() => `${spaceName} 공간을 삭제합니다`, [spaceName]);
 
   const { refetch } = useQuery(['deleteSpaces'], apiSpace.getSpaces, {
-    suspense: true,
     enabled: false,
     onSuccess: data => {
       const { spaces } = data;
