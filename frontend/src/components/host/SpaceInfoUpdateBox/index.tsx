@@ -1,10 +1,10 @@
-import useImageBox from '../ImageBox/useImageBox';
 import useSpaceUpdateForm from './useSpaceUpdateForm';
-import { useState } from 'react';
 
 import Button from '@/components/common/Button';
-import ImageBox from '@/components/host/ImageBox';
+import { ImageBox } from '@/components/host/ImageBox';
 import { SpaceInfo } from '@/components/host/SpaceInfo';
+
+import useImage from '@/hooks/useImage';
 
 import { ID, SpaceType } from '@/types';
 
@@ -16,18 +16,9 @@ interface SpaceInfoUpdateBox {
 }
 
 const SpaceInfoUpdateBox: React.FC<SpaceInfoUpdateBox> = ({ spaceData, spaceId }) => {
-  const { onSubmitUpdateSpace } = useSpaceUpdateForm();
-  const [name, setName] = useState<string>(spaceData.name);
-  const { imageUrl, onChangeImage } = useImageBox(spaceData?.imageUrl);
+  const { isActiveSubmit, onChangeSpaceName, onSubmitUpdateSpace } = useSpaceUpdateForm();
+  const { imageUrl, onChangeImage } = useImage(spaceData?.imageUrl);
 
-  const [isActiveSubmit, setIsActiveSubmit] = useState(true);
-
-  const onChangeSpaceName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target as HTMLInputElement;
-
-    const isExistValue = input.value.length > 0;
-    setIsActiveSubmit(isExistValue);
-  };
   return (
     <form onSubmit={e => onSubmitUpdateSpace(e, imageUrl, spaceId)} encType="multipart/form-data">
       <SpaceInfo>
@@ -37,7 +28,9 @@ const SpaceInfoUpdateBox: React.FC<SpaceInfoUpdateBox> = ({ spaceData, spaceId }
           </Button>
         </SpaceInfo.header>
         <SpaceInfo.ImageBox>
-          <ImageBox type={'update'} imageUrl={imageUrl} onChangeImage={onChangeImage} />
+          <ImageBox>
+            <ImageBox.changeBox imageUrl={imageUrl} onChangeImage={onChangeImage} />
+          </ImageBox>
         </SpaceInfo.ImageBox>
         <SpaceInfo.InputBox>
           <input
@@ -45,7 +38,7 @@ const SpaceInfoUpdateBox: React.FC<SpaceInfoUpdateBox> = ({ spaceData, spaceId }
             name="nameInput"
             placeholder="이름을 입력하세요."
             type="text"
-            defaultValue={name}
+            defaultValue={spaceData.name}
             maxLength={10}
             onChange={onChangeSpaceName}
             required
