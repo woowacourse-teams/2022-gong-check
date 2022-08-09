@@ -17,7 +17,6 @@ import com.woowacourse.gongcheck.core.domain.task.Tasks;
 import com.woowacourse.gongcheck.core.presentation.request.SubmissionRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import java.util.List;
-import org.springframework.core.task.TaskRejectedException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -52,7 +51,7 @@ public class SubmissionService {
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public void submitJobCompletion(final Long hostId, final Long jobId,
-                                                         final SubmissionRequest request) {
+                                    final SubmissionRequest request) {
         Host host = hostRepository.getById(hostId);
         Job job = jobRepository.getBySpaceHostAndId(host, jobId);
         saveSubmissionAndClearRunningTasks(request, job);
@@ -62,11 +61,7 @@ public class SubmissionService {
     }
 
     private void sendNotification(final SubmissionRequest request, final Job job) {
-        try {
-            notificationService.sendMessage(SubmissionCreatedResponse.of(request.getAuthor(), job));
-        } catch (TaskRejectedException e) {
-            throw new RuntimeException(e);
-        }
+        notificationService.sendMessage(SubmissionCreatedResponse.of(request.getAuthor(), job));
     }
 
     public SubmissionsResponse findPage(final Long hostId, final Long spaceId, final Pageable pageable) {
