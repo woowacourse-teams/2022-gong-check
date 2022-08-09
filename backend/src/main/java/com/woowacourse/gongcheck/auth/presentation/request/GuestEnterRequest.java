@@ -6,7 +6,6 @@ import lombok.Getter;
 @Getter
 public class GuestEnterRequest {
 
-
     @NotNull
     private String password;
 

@@ -18,6 +18,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.snippet.Attributes.key;
 
 import com.woowacourse.gongcheck.core.application.response.SubmissionCreatedResponse;
 import com.woowacourse.gongcheck.core.application.response.SubmissionsResponse;
@@ -64,7 +65,7 @@ class SubmissionDocumentation extends DocumentationTest {
                                     parameterWithName("jobId").description("Submission을 제출할 Job Id")),
                             requestFields(
                                     fieldWithPath("author").type(JsonFieldType.STRING)
-                                            .description("제출자")
+                                            .description("제출자").attributes(key("length").value(10))
                             )
                     ))
                     .statusCode(HttpStatus.OK.value());

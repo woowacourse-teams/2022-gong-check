@@ -37,7 +37,7 @@ class ImageUploadDocumentation extends DocumentationTest {
                 .then().log().all()
                 .apply(document("image-upload",
                         requestParts(partWithName("image")
-                                .description("The version of the image")),
+                                .description("The version of the image").optional()),
                         responseFields(
                                 fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("저장된 Image Url")
                         )

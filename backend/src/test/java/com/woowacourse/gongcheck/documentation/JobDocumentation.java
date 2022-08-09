@@ -16,6 +16,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.snippet.Attributes.key;
 
 import com.woowacourse.gongcheck.core.application.response.JobsResponse;
 import com.woowacourse.gongcheck.core.application.response.SlackUrlResponse;
@@ -99,19 +100,20 @@ class JobDocumentation extends DocumentationTest {
                             pathParameters(
                                     parameterWithName("spaceId").description("Job을 생성할 Space Id")),
                             requestFields(
-                                    fieldWithPath("name").type(JsonFieldType.STRING).description("Job 이름"),
+                                    fieldWithPath("name").type(JsonFieldType.STRING).description("Job 이름")
+                                            .attributes(key("length").value(10)),
                                     fieldWithPath("sections.[].name").type(JsonFieldType.STRING)
-                                            .description("Section 이름"),
+                                            .description("Section 이름").attributes(key("length").value(10)),
                                     fieldWithPath("sections.[].description").type(JsonFieldType.STRING)
-                                            .description("Section 설명"),
+                                            .description("Section 설명").optional().attributes(key("length").value(128)),
                                     fieldWithPath("sections.[].imageUrl").type(JsonFieldType.STRING)
-                                            .description("Section Image Url"),
+                                            .description("Section Image Url").optional(),
                                     fieldWithPath("sections.[].tasks.[].name").type(JsonFieldType.STRING)
-                                            .description("Task 이름"),
+                                            .description("Task 이름").attributes(key("length").value(10)),
                                     fieldWithPath("sections.[].tasks.[].description").type(JsonFieldType.STRING)
-                                            .description("Task 설명"),
+                                            .description("Task 설명").optional().attributes(key("length").value(128)),
                                     fieldWithPath("sections.[].tasks.[].imageUrl").type(JsonFieldType.STRING)
-                                            .description("Task Image Url")
+                                            .description("Task Image Url").optional()
                             )
                     ))
                     .statusCode(HttpStatus.CREATED.value());
@@ -225,19 +227,20 @@ class JobDocumentation extends DocumentationTest {
                             pathParameters(
                                     parameterWithName("jobId").description("수정할 Job Id")),
                             requestFields(
-                                    fieldWithPath("name").type(JsonFieldType.STRING).description("Job 이름"),
+                                    fieldWithPath("name").type(JsonFieldType.STRING).description("Job 이름")
+                                            .attributes(key("length").value(10)),
                                     fieldWithPath("sections.[].name").type(JsonFieldType.STRING)
-                                            .description("Section 이름"),
+                                            .description("Section 이름").attributes(key("length").value(10)),
                                     fieldWithPath("sections.[].description").type(JsonFieldType.STRING)
-                                            .description("Section 설명"),
+                                            .description("Section 설명").optional().attributes(key("length").value(128)),
                                     fieldWithPath("sections.[].imageUrl").type(JsonFieldType.STRING)
-                                            .description("Section Image Url"),
+                                            .description("Section Image Url").optional(),
                                     fieldWithPath("sections.[].tasks.[].name").type(JsonFieldType.STRING)
-                                            .description("Task 이름"),
+                                            .description("Task 이름").attributes(key("length").value(10)),
                                     fieldWithPath("sections.[].tasks.[].description").type(JsonFieldType.STRING)
-                                            .description("Task 설명"),
+                                            .description("Task 설명").optional().attributes(key("length").value(128)),
                                     fieldWithPath("sections.[].tasks.[].imageUrl").type(JsonFieldType.STRING)
-                                            .description("Task Image Url")
+                                            .description("Task Image Url").optional()
                             )
                     ))
                     .statusCode(HttpStatus.NO_CONTENT.value());
@@ -375,9 +378,11 @@ class JobDocumentation extends DocumentationTest {
                                     parameterWithName("jobId").description("Slack Url을 수정할 Job Id")),
                             requestFields(
                                     fieldWithPath("slackUrl").type(JsonFieldType.STRING).description("수정할 Slack Url")
+                                            .optional()
                             )
                     ))
                     .statusCode(HttpStatus.NO_CONTENT.value());
+
         }
 
         @Test
