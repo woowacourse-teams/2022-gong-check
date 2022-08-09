@@ -1,5 +1,3 @@
 [[ErrorCode]]
 == 에러 코드
-
-=== 에러 코드 목록
-operation::errorCode[snippets='error-code-fields-errorCode']
+operation::errorCode[snippets='error-code']
