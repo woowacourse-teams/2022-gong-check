@@ -6,8 +6,8 @@ import com.woowacourse.gongcheck.auth.application.EntranceCodeProvider;
 import com.woowacourse.gongcheck.auth.application.response.GuestTokenResponse;
 import com.woowacourse.gongcheck.auth.application.response.TokenResponse;
 import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
-import com.woowacourse.gongcheck.core.application.AlertService;
 import com.woowacourse.gongcheck.core.application.ImageUploader;
+import com.woowacourse.gongcheck.core.application.NotificationService;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +22,7 @@ import org.springframework.http.MediaType;
 class AcceptanceTest {
 
     @MockBean
-    private AlertService alertService;
+    private NotificationService notificationService;
 
     @MockBean
     protected ImageUploader imageUploader;
