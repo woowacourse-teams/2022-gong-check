@@ -72,15 +72,15 @@ public class JobService {
     }
 
     @Transactional
-    public Long updateJob(final Long hostId, final Long jobId, final JobCreateRequest request) {
+    public void updateJob(final Long hostId, final Long jobId, final JobCreateRequest request) {
         Host host = hostRepository.getById(hostId);
         Job job = jobRepository.getBySpaceHostAndId(host, jobId);
-        Space space = job.getSpace();
         List<Section> sections = sectionRepository.findAllByJob(job);
         List<Task> tasks = taskRepository.findAllBySectionIn(sections);
 
-        deleteJob(jobId, sections, tasks);
-        return saveJob(request, space);
+        job.changeName(new Name(request.getName()));
+        deleteSectionsAndTasks(sections, tasks);
+        createSectionsAndTasks(request.getSections(), job);
     }
 
     public SlackUrlResponse findSlackUrl(final Long hostId, final Long jobId) {
@@ -140,11 +140,15 @@ public class JobService {
     }
 
     private void deleteJob(final Long jobId, final List<Section> sections, final List<Task> tasks) {
+        deleteSectionsAndTasks(sections, tasks);
+        jobRepository.deleteById(jobId);
+    }
+
+    private void deleteSectionsAndTasks(final List<Section> sections, final List<Task> tasks) {
         runningTaskRepository.deleteAllByIdInBatch(tasks.stream()
                 .map(Task::getId)
                 .collect(toList()));
         taskRepository.deleteAllInBatch(tasks);
         sectionRepository.deleteAllInBatch(sections);
-        jobRepository.deleteById(jobId);
     }
 }
