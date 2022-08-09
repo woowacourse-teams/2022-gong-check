@@ -4,13 +4,13 @@ import ModalPortal from '@/portals/ModalPortal';
 
 import styles from './styles';
 
-interface DetailedInfoCardModalProps {
+export interface DetailInfoModalProps {
   name: string;
   imageUrl: string;
   description: string;
 }
 
-const DetailedInfoCardModal: React.FC<DetailedInfoCardModalProps> = ({ name, imageUrl, description }) => {
+const DetailInfoModal: React.FC<DetailInfoModalProps> = ({ name, imageUrl, description }) => {
   return (
     <ModalPortal>
       <Dimmer mode="mobile">
@@ -26,4 +26,4 @@ const DetailedInfoCardModal: React.FC<DetailedInfoCardModalProps> = ({ name, ima
   );
 };
 
-export default DetailedInfoCardModal;
+export default DetailInfoModal;

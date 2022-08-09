@@ -1,6 +1,4 @@
-import { css } from '@emotion/react';
-
-import theme from '@/styles/theme';
+import styles from './styles';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -8,19 +6,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
   return (
-    <button
-      css={css`
-        background: ${theme.colors.primary};
-        width: 224px;
-        height: 48px;
-        border-radius: 12px;
-        font-size: 16px;
-        font-weight: 600;
-        color: ${theme.colors.white};
-        margin: 24px;
-      `}
-      {...props}
-    >
+    <button css={styles.button} {...props}>
       {children}
     </button>
   );

@@ -5,14 +5,14 @@ import { ApiTaskData } from '@/types/apis';
 
 import { axiosInstanceToken } from './config';
 
-const postNewRunningTasks = async (jobId: ID | undefined) => {
+const postNewRunningTasks = async (jobId: ID) => {
   return axiosInstanceToken({
     method: 'POST',
     url: `/api/jobs/${jobId}/runningTasks/new`,
   });
 };
 
-const getRunningTasks = async (jobId: ID | undefined) => {
+const getRunningTasks = async (jobId: ID) => {
   const { data }: AxiosResponse<ApiTaskData> = await axiosInstanceToken({
     method: 'GET',
     url: `/api/jobs/${jobId}/runningTasks`,
@@ -21,7 +21,7 @@ const getRunningTasks = async (jobId: ID | undefined) => {
   return data;
 };
 
-const getTasks = async (jobId: ID | undefined) => {
+const getTasks = async (jobId: ID) => {
   const { data }: AxiosResponse<ApiTaskData> = await axiosInstanceToken({
     method: 'GET',
     url: `/api/jobs/${jobId}/tasks`,
@@ -30,7 +30,7 @@ const getTasks = async (jobId: ID | undefined) => {
   return data;
 };
 
-const postCheckTask = (taskId: ID | undefined) => {
+const postCheckTask = (taskId: ID) => {
   return axiosInstanceToken({
     method: 'POST',
     url: `/api/tasks/${taskId}/flip`,

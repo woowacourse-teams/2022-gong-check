@@ -8,15 +8,15 @@ import useToast from '@/hooks/useToast';
 import apiJobs from '@/apis/job';
 import apiTask from '@/apis/task';
 
-import { SectionType } from '@/types';
+import { ID, SectionType } from '@/types';
 import { ApiError } from '@/types/apis';
 
-type MutationParams = { jobId: string | number | undefined; jobName: string; sections: SectionType[] };
+type MutationParams = { jobId: ID; jobName: string; sections: SectionType[] };
 
 const useJobUpdate = () => {
   const navigate = useNavigate();
 
-  const { spaceId, jobId } = useParams();
+  const { spaceId, jobId } = useParams() as { spaceId: ID; jobId: ID };
 
   const location = useLocation();
   const state = location.state as { jobName: string };
@@ -29,8 +29,6 @@ const useJobUpdate = () => {
 
   const { refetch: getTaskData } = useQuery(['taskData', jobId], () => apiTask.getTasks(jobId), {
     enabled: false,
-    retry: false,
-    staleTime: Infinity,
     onSuccess: data => {
       updateSection(data.sections);
     },
@@ -59,12 +57,12 @@ const useJobUpdate = () => {
   const onClickUpdateJob = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     updateJob({ jobId, jobName, sections });
-    resetSections();
   };
 
   useEffect(() => {
     setJobName(state.jobName);
     getTaskData();
+    return () => resetSections();
   }, []);
 
   return { sections, createSection, jobName, onChangeJobName, onClickUpdateJob };

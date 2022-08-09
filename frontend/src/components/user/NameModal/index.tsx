@@ -4,6 +4,8 @@ import Button from '@/components/common/Button';
 import Dimmer from '@/components/common/Dimmer';
 import Input from '@/components/common/Input';
 
+import { ID } from '@/types';
+
 import ModalPortal from '@/portals/ModalPortal';
 
 import styles from './styles';
@@ -13,8 +15,8 @@ interface NameModalProps {
   detail: string;
   placeholder: string;
   buttonText: string;
-  jobId: string | undefined;
-  hostId: string | undefined;
+  jobId: ID;
+  hostId: ID;
 }
 
 const NameModal: React.FC<NameModalProps> = ({ title, detail, placeholder, buttonText, jobId, hostId }) => {

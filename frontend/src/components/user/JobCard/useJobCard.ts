@@ -14,14 +14,14 @@ const useJobCard = (jobName: string, jobId: ID) => {
   const { openToast } = useToast();
 
   const { refetch: getJobActive } = useQuery(['jobActive', jobId], () => apis.getJobActive(jobId), {
-    retry: false,
+    suspense: false,
     enabled: false,
     onSuccess: data => {
       if (data.active) {
         navigate(jobId.toString(), { state: { jobName } });
-      } else {
-        if (confirm('진행중인 체크리스트가 없습니다. 새롭게 생성하시겠습니까?')) createNewRunningTask();
+        return;
       }
+      if (confirm('진행중인 체크리스트가 없습니다. 새롭게 생성하시겠습니까?')) createNewRunningTask();
     },
   });
 

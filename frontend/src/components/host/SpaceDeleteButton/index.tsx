@@ -10,11 +10,13 @@ import useToast from '@/hooks/useToast';
 
 import apiSpace from '@/apis/space';
 
+import { ID } from '@/types';
+
 import styles from './styles';
 
 interface SpaceDeleteButtonProps {
-  spaceId: string | undefined;
-  spaceName: string | undefined;
+  spaceId: ID;
+  spaceName: string;
 }
 
 const SpaceDeleteButton: React.FC<SpaceDeleteButtonProps> = ({ spaceId, spaceName }) => {
@@ -26,7 +28,6 @@ const SpaceDeleteButton: React.FC<SpaceDeleteButtonProps> = ({ spaceId, spaceNam
   const text = useMemo(() => `${spaceName} 공간을 삭제합니다`, [spaceName]);
 
   const { refetch } = useQuery(['deleteSpaces'], apiSpace.getSpaces, {
-    suspense: true,
     enabled: false,
     onSuccess: data => {
       const { spaces } = data;
@@ -41,7 +42,7 @@ const SpaceDeleteButton: React.FC<SpaceDeleteButtonProps> = ({ spaceId, spaceNam
     },
   });
 
-  const { mutate: deleteSpace } = useMutation((spaceId: string | undefined) => apiSpace.deleteSpace(spaceId), {
+  const { mutate: deleteSpace } = useMutation((spaceId: ID) => apiSpace.deleteSpace(spaceId), {
     onSuccess: () => {
       refetch();
       closeModal();

@@ -1,10 +1,11 @@
 import { AxiosResponse } from 'axios';
 
+import { ID } from '@/types';
 import { ApiSubmissionData } from '@/types/apis';
 
 import { axiosInstanceToken } from './config';
 
-const postJobComplete = ({ jobId, author }: any) => {
+const postJobComplete = (jobId: ID, author: string) => {
   return axiosInstanceToken({
     method: 'POST',
     url: `/api/jobs/${jobId}/complete`,
@@ -14,8 +15,7 @@ const postJobComplete = ({ jobId, author }: any) => {
   });
 };
 
-// submission 목록 조회
-const getSubmission = async ({ spaceId }: any) => {
+const getSubmission = async (spaceId: ID) => {
   const { data }: AxiosResponse<ApiSubmissionData> = await axiosInstanceToken({
     method: 'GET',
     url: `/api/spaces/${spaceId}/submissions`,

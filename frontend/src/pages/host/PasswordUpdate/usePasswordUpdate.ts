@@ -25,7 +25,7 @@ const usePasswordUpdate = () => {
     setPassword(e.target.value);
   };
 
-  const onClickFlipShowPassword = () => {
+  const onClickToggleShowPassword = () => {
     setIsShowPassword(prev => !prev);
   };
 
@@ -33,7 +33,7 @@ const usePasswordUpdate = () => {
     updatePassword();
   };
 
-  return { password, isShowPassword, onChangePassword, onClickFlipShowPassword, onClickChangeButton };
+  return { password, isShowPassword, onChangePassword, onClickToggleShowPassword, onClickChangeButton };
 };
 
 export default usePasswordUpdate;

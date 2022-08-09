@@ -7,15 +7,15 @@ import useToast from '@/hooks/useToast';
 
 import apiJobs from '@/apis/job';
 
-import { SectionType } from '@/types';
+import { ID, SectionType } from '@/types';
 import { ApiError } from '@/types/apis';
 
-type MutationParams = { spaceId: string | number | undefined; newJobName: string; sections: SectionType[] };
+type MutationParams = { spaceId: ID; newJobName: string; sections: SectionType[] };
 
 const useJobCreate = () => {
   const navigate = useNavigate();
 
-  const { spaceId } = useParams();
+  const { spaceId } = useParams() as { spaceId: ID };
 
   const [newJobName, setNewJobName] = useState('');
 
@@ -46,7 +46,7 @@ const useJobCreate = () => {
   };
 
   useEffect(() => {
-    resetSections();
+    return () => resetSections();
   }, []);
 
   return { sections, createSection, newJobName, onChangeJobName, onClickCreateNewJob };

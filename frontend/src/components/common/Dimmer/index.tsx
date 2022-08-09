@@ -1,8 +1,6 @@
-import { css } from '@emotion/react';
-
 import useModal from '@/hooks/useModal';
 
-import theme from '@/styles/theme';
+import styles from './styles';
 
 interface DimmerProps {
   children: React.ReactNode;
@@ -18,18 +16,7 @@ const Dimmer: React.FC<DimmerProps> = ({ children, isAbleClick = true, mode = 'f
   };
 
   return (
-    <div
-      css={css`
-        background-color: ${theme.colors.shadow80};
-        max-width: ${mode === 'full' ? '100vw' : '414px'};
-        width: 100vw;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      `}
-      onClick={onClickDimmed}
-    >
+    <div css={styles.dimmer(mode)} onClick={onClickDimmed}>
       {children}
     </div>
   );

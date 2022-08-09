@@ -2,48 +2,48 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useLocation, useParams } from 'react-router-dom';
 
-import DetailedInfoCardModal from '@/components/user/DetailedInfoCardModal';
+import DetailInfoModal from '@/components/user/DetailInfoModal';
 import NameModal from '@/components/user/NameModal';
 
 import useGoPreviousPage from '@/hooks/useGoPreviousPage';
 import useModal from '@/hooks/useModal';
+import useSectionCheck from '@/hooks/useSectionCheck';
 
 import apis from '@/apis';
+
+import { ID, SectionType } from '@/types';
 
 const RE_FETCH_INTERVAL_TIME = 100;
 const PROGRESS_BAR_DEFAULT_POSITION = 232;
 
 const useTaskList = () => {
-  const { spaceId, jobId, hostId } = useParams();
+  const { spaceId, jobId, hostId } = useParams() as { spaceId: ID; jobId: ID; hostId: ID };
 
   const location = useLocation();
-  const locationState = location.state as { jobName: string } | undefined;
+  const locationState = location.state as { jobName: string };
 
   const { openModal } = useModal();
 
-  const progressBarRef = useRef<HTMLDivElement>(null);
-
   const { goPreviousPage } = useGoPreviousPage();
 
-  const [isSticked, setIsSticked] = useState(false);
+  const progressBarRef = useRef<HTMLDivElement>(null);
+
+  const [isActiveSticky, setIsActiveSticky] = useState(false);
 
   const { data: sectionsData, refetch: getSections } = useQuery(
     ['sections', jobId],
     () => apis.getRunningTasks(jobId),
     {
-      suspense: true,
-      retry: false,
       refetchInterval: RE_FETCH_INTERVAL_TIME,
       cacheTime: 0,
     }
   );
 
-  const { data: spaceData } = useQuery(['space', jobId], () => apis.getSpace(spaceId), {
-    suspense: true,
-    retry: false,
-  });
+  const { data: spaceData } = useQuery(['space', jobId], () => apis.getSpace(spaceId));
 
-  const onClickButton = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const { totalCount, checkedCount, percent, isAllChecked } = useSectionCheck(sectionsData?.sections || []);
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     openModal(
       <NameModal
@@ -57,52 +57,30 @@ const useTaskList = () => {
     );
   };
 
-  const onClickSectionDetail = ({
-    name,
-    imageUrl,
-    description,
-  }: {
-    name: string;
-    imageUrl: string;
-    description: string;
-  }) => {
-    openModal(<DetailedInfoCardModal name={name} imageUrl={imageUrl} description={description} />);
+  const onClickSectionDetail = (section: SectionType) => {
+    openModal(<DetailInfoModal name={section.name} imageUrl={section.imageUrl} description={section.description} />);
   };
 
-  if (!sectionsData?.sections.length) return { isNotData: true };
-
-  const { sections } = sectionsData;
-
-  const tasks = sections.map(section => section.tasks.map(task => task.checked));
-  const checkList = tasks.reduce((prev, cur) => {
-    return prev.concat(...cur);
-  });
-
-  const totalCount = useMemo(() => checkList.length, [checkList]);
-  const checkCount = useMemo(() => checkList.filter(check => check === true).length, [checkList]);
-  const percent = useMemo(() => Math.ceil((checkCount / totalCount) * 100), [checkCount, totalCount]);
-  const isAllChecked = totalCount === checkCount;
-
   useEffect(() => {
-    const isStartSticked = progressBarRef.current?.offsetTop! > PROGRESS_BAR_DEFAULT_POSITION;
+    const isActive = progressBarRef.current?.offsetTop! > PROGRESS_BAR_DEFAULT_POSITION;
 
-    setIsSticked(isStartSticked);
+    setIsActiveSticky(isActive);
   }, [progressBarRef.current?.offsetTop]);
 
   return {
     spaceData,
     getSections,
-    onClickButton,
+    onSubmit,
     goPreviousPage,
     totalCount,
-    checkCount,
+    checkedCount,
     percent,
     isAllChecked,
     locationState,
     sectionsData,
     onClickSectionDetail,
     progressBarRef,
-    isSticked,
+    isActiveSticky,
   };
 };
 

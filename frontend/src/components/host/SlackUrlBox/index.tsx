@@ -19,9 +19,7 @@ interface SlackUrlBoxProps {
 const SlackUrlBox: React.FC<SlackUrlBoxProps> = ({ jobName, jobId }) => {
   const { openToast } = useToast();
 
-  const { data: slackUrlData } = useQuery(['slackUrl', jobId], () => slackApi.getSlackUrl(jobId), {
-    suspense: true,
-  });
+  const { data: slackUrlData } = useQuery(['slackUrl', jobId], () => slackApi.getSlackUrl(jobId));
 
   const { mutate: putSlackUrl } = useMutation((url: string) => slackApi.putSlackUrl(jobId, url), {
     onSuccess: () => {

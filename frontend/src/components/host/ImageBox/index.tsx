@@ -4,14 +4,13 @@ import styles from './styles';
 
 interface ImageBoxProps {
   type: 'read' | 'create' | 'update';
-  data?: { name: string; imageUrl: string; id: number };
-  imageUrl: string | undefined;
-  onChangeImg?: (e: React.FormEvent<HTMLInputElement>) => void;
+  imageUrl: string;
+  onChangeImage?: (e: React.FormEvent<HTMLInputElement>) => void;
 }
 
 interface ImageLabelBoxProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
   children?: React.ReactNode;
-  imageUrl: string | undefined;
+  imageUrl: string;
 }
 
 const ImageLabelBox: React.FC<ImageLabelBoxProps> = ({ children, imageUrl, ...props }) => {
@@ -22,7 +21,7 @@ const ImageLabelBox: React.FC<ImageLabelBoxProps> = ({ children, imageUrl, ...pr
   );
 };
 
-const ImageBox: React.FC<ImageBoxProps> = ({ type, imageUrl, onChangeImg }) => {
+const ImageBox: React.FC<ImageBoxProps> = ({ type, imageUrl, onChangeImage }) => {
   if (type === 'read') {
     return <ImageLabelBox imageUrl={imageUrl} />;
   }
@@ -35,7 +34,7 @@ const ImageBox: React.FC<ImageBoxProps> = ({ type, imageUrl, onChangeImg }) => {
         type="file"
         id="file"
         accept="image/gif, image/jpg, image/jpeg, image/png, image/svg"
-        onChange={onChangeImg}
+        onChange={onChangeImage}
       />
       {!imageUrl && (
         <div css={styles.iconBox}>

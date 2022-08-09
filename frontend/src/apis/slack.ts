@@ -8,7 +8,6 @@ type ApiSlackUrlData = {
   slackUrl: string;
 };
 
-// slack URL 조회
 const getSlackUrl = async (jobId: ID) => {
   const { data }: AxiosResponse<ApiSlackUrlData> = await axiosInstanceToken({
     method: 'GET',
@@ -18,7 +17,6 @@ const getSlackUrl = async (jobId: ID) => {
   return data;
 };
 
-// slack URL 수정
 const putSlackUrl = (jobId: ID, slackUrl: string) => {
   return axiosInstanceToken({
     method: 'PUT',
