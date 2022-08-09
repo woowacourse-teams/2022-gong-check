@@ -62,7 +62,7 @@ public class Submission {
         }
 
         if (author.length() > AUTHOR_MAX_LENGTH) {
-            String message = String.format("제출자 이름은 " + AUTHOR_MAX_LENGTH + "자 이하여야 합니다. author = %s", author);
+            String message = String.format("제출자 이름은 %d자 이하여야 합니다. author = %s", AUTHOR_MAX_LENGTH, author);
             throw new BusinessException(message, ErrorCode.S003);
         }
     }

@@ -26,7 +26,7 @@ public class Description {
 
     private void validateLength(final String value) {
         if (value.length() > DESCRIPTION_MAX_LENGTH) {
-            String message = String.format("설명은 " + DESCRIPTION_MAX_LENGTH + "자 이하여야 합니다. value = %s", value);
+            String message = String.format("설명은 %d자 이하여야 합니다. value = %s", DESCRIPTION_MAX_LENGTH, value);
             throw new BusinessException(message, ErrorCode.D001);
         }
     }
