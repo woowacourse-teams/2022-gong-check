@@ -7,15 +7,6 @@ const contentWith = css`
   margin: 0 auto;
 `;
 
-const button = ({ isActive }: { isActive?: boolean }) => css`
-  width: 5rem;
-  height: 2rem;
-  margin: 0;
-  font-size: 1rem;
-  padding: 8px 0;
-  background: ${isActive ? theme.colors.primary : theme.colors.gray400};
-`;
-
 const spaceInfo = css`
   height: 100%;
   min-height: 28rem;
@@ -65,21 +56,17 @@ const inputWrapper = css`
   ${contentWith}
 `;
 
-const input = css`
+const nameText = css`
   border: none;
   font-size: 1.4rem;
   font-weight: bold;
-  cursor: pointer;
-
   width: 100%;
-  &:focus {
-    outline: none;
-  }
+  margin: 0;
+  padding: 0;
 `;
 
 const styles = {
   spaceInfo,
-  button,
   titleWrapper,
   title,
   subTitle,
@@ -87,7 +74,7 @@ const styles = {
   inputContainer,
   inputWrapper,
   imageWrapper,
-  input,
+  nameText,
 };
 
 export default styles;
