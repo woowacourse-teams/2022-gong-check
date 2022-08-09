@@ -14,6 +14,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.snippet.Attributes.key;
 
 import com.woowacourse.gongcheck.core.application.response.SpaceResponse;
 import com.woowacourse.gongcheck.core.application.response.SpacesResponse;
@@ -80,9 +81,11 @@ class SpaceDocumentation extends DocumentationTest {
                     .apply(document("spaces/create/success",
                             requestFields(
                                     fieldWithPath("name").type(JsonFieldType.STRING)
-                                            .description("Space 이름"),
+                                            .description("Space 이름")
+                                            .attributes(key("length").value(10)),
                                     fieldWithPath("imageUrl").type(JsonFieldType.STRING)
                                             .description("Space Image Url")
+                                            .attributes(key("nullable").value(true))
                             )
                     ))
                     .statusCode(HttpStatus.CREATED.value());
@@ -174,9 +177,11 @@ class SpaceDocumentation extends DocumentationTest {
                                     parameterWithName("spaceId").description("수정할 Space Id")),
                             requestFields(
                                     fieldWithPath("name").type(JsonFieldType.STRING)
-                                            .description("Space 이름"),
+                                            .description("Space 이름")
+                                            .attributes(key("length").value(10)),
                                     fieldWithPath("imageUrl").type(JsonFieldType.STRING)
                                             .description("Space Image Url")
+                                            .attributes(key("nullable").value(true))
                             )
                     ))
                     .statusCode(HttpStatus.NO_CONTENT.value());

@@ -11,6 +11,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
+import static org.springframework.restdocs.snippet.Attributes.key;
 
 import com.woowacourse.gongcheck.core.application.response.ImageUrlResponse;
 import java.io.File;
@@ -37,7 +38,8 @@ class ImageUploadDocumentation extends DocumentationTest {
                 .then().log().all()
                 .apply(document("image-upload",
                         requestParts(partWithName("image")
-                                .description("The version of the image")),
+                                .description("The version of the image")
+                                .attributes(key("nullable").value(true))),
                         responseFields(
                                 fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("저장된 Image Url")
                         )

@@ -12,6 +12,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.snippet.Attributes.key;
 
 import com.woowacourse.gongcheck.auth.application.response.GuestTokenResponse;
 import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
@@ -46,9 +47,12 @@ class GuestAuthDocumentation extends DocumentationTest {
                             pathParameters(
                                     parameterWithName("entranceCode").description("호스트가 제공하는 입장코드")),
                             requestFields(
-                                    fieldWithPath("password").type(JsonFieldType.STRING).description("공간 비밀번호")),
+                                    fieldWithPath("password").type(JsonFieldType.STRING).description("공간 비밀번호")
+                                            .attributes(key("length").value(4))
+                                            .attributes(key("nullable").value(true))),
                             responseFields(
-                                    fieldWithPath("token").type(JsonFieldType.STRING).description("Access Token")
+                                    fieldWithPath("token").type(JsonFieldType.STRING)
+                                            .description("Access Token")
                             )
                     ))
                     .statusCode(HttpStatus.OK.value());

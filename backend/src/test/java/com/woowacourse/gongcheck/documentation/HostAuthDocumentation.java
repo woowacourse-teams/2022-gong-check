@@ -6,6 +6,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.snippet.Attributes.key;
 
 import com.woowacourse.gongcheck.auth.application.response.TokenResponse;
 import com.woowacourse.gongcheck.auth.presentation.request.TokenRequest;
@@ -33,7 +34,8 @@ public class HostAuthDocumentation extends DocumentationTest {
                     .then().log().all()
                     .apply(document("hosts/auth/success",
                             requestFields(
-                                    fieldWithPath("code").type(JsonFieldType.STRING).description("Authorization Code")),
+                                    fieldWithPath("code").type(JsonFieldType.STRING).description("Authorization Code")
+                                            .attributes(key("nullable").value(true))),
                             responseFields(
                                     fieldWithPath("token").type(JsonFieldType.STRING).description("Access Token"),
                                     fieldWithPath("alreadyJoin").type(JsonFieldType.BOOLEAN).description("가입 여부")
