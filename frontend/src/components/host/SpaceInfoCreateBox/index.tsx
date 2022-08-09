@@ -1,26 +1,29 @@
-import useImageBox from '../ImageBox/useImageBox';
 import useSpaceCreateForm from './useSpaceCreateForm';
 
 import Button from '@/components/common/Button';
-import ImageBox from '@/components/host/ImageBox';
+import { ImageBox } from '@/components/host/ImageBox';
 import { SpaceInfo } from '@/components/host/SpaceInfo';
+
+import useImage from '@/hooks/useImage';
 
 import styles from './styles';
 
 const SpaceInfoCreateBox: React.FC = () => {
   const { isActiveSubmit, onSubmitCreateSpace, onChangeSpaceName } = useSpaceCreateForm();
-  const { imageUrl, onChangeImage } = useImageBox();
+  const { imageUrl, onChangeImage } = useImage();
 
   return (
     <form onSubmit={e => onSubmitCreateSpace(e, imageUrl)} encType="multipart/form-data">
       <SpaceInfo>
         <SpaceInfo.header>
           <Button type="submit" css={styles.button({ isActive: isActiveSubmit })}>
-            수정완료
+            생성하기
           </Button>
         </SpaceInfo.header>
         <SpaceInfo.ImageBox>
-          <ImageBox type={'update'} imageUrl={imageUrl} onChangeImage={onChangeImage} />
+          <ImageBox>
+            <ImageBox.changeBox imageUrl={imageUrl} onChangeImage={onChangeImage} />
+          </ImageBox>
         </SpaceInfo.ImageBox>
         <SpaceInfo.InputBox>
           <input

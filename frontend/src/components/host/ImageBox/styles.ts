@@ -15,6 +15,17 @@ const imageBox = (imageUrl: string | undefined, borderStyle?: string) => css`
   position: relative;
   margin: 0 1.5rem;
   background-image: url(${imageUrl});
+`;
+
+const imagePaintedLabel = (imageUrl: string) => css`
+  ${imageBox(imageUrl)};
+
+  border-style: 'none';
+`;
+
+const imageChangeBox = (imageUrl: string, borderStyle?: string) => css`
+  ${imageBox(imageUrl, borderStyle)};
+
   cursor: pointer;
 `;
 
@@ -43,6 +54,6 @@ const iconBox = css`
   transform: translate(-50%, -50%);
 `;
 
-const styles = { imageBox, imageInput, imageCoverText, iconBox };
+const styles = { imageInput, imageCoverText, iconBox, imagePaintedLabel, imageChangeBox };
 
 export default styles;

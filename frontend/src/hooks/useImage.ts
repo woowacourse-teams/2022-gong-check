@@ -7,7 +7,7 @@ import useToast from '@/hooks/useToast';
 
 import apiImage from '@/apis/image';
 
-const useImageBox = (prevImageUrl?: string) => {
+const useImage = (prevImageUrl?: string) => {
   const { openToast } = useToast();
 
   const [imageUrl, setImageUrl] = useState('');
@@ -50,4 +50,4 @@ const useImageBox = (prevImageUrl?: string) => {
   return { imageUrl, onChangeImage };
 };
 
-export default useImageBox;
+export default useImage;

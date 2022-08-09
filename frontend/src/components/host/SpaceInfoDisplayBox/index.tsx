@@ -1,7 +1,8 @@
+import useSpaceInfoDisplayBox from './useSpaceInfoDisplayBox';
 import { useNavigate } from 'react-router-dom';
 
 import Button from '@/components/common/Button';
-import ImageBox from '@/components/host/ImageBox';
+import { ImageBox } from '@/components/host/ImageBox';
 import { SpaceInfo } from '@/components/host/SpaceInfo';
 
 import { SpaceType } from '@/types';
@@ -13,11 +14,8 @@ interface SpaceInfoDisplayBoxProps {
 }
 
 const SpaceInfoDisplayBox: React.FC<SpaceInfoDisplayBoxProps> = ({ spaceData }) => {
-  const navigate = useNavigate();
+  const { onClickEditSpaceInfo } = useSpaceInfoDisplayBox(spaceData);
 
-  const onClickEditSpaceInfo = () => {
-    navigate(`/host/manage/${spaceData.id}/spaceUpdate`);
-  };
   return (
     <SpaceInfo>
       <SpaceInfo.header>
@@ -26,7 +24,9 @@ const SpaceInfoDisplayBox: React.FC<SpaceInfoDisplayBoxProps> = ({ spaceData }) 
         </Button>
       </SpaceInfo.header>
       <SpaceInfo.ImageBox>
-        <ImageBox type="read" imageUrl={spaceData?.imageUrl || ''} />
+        <ImageBox>
+          <ImageBox.paintedLabel imageUrl={spaceData?.imageUrl || ''} />
+        </ImageBox>
       </SpaceInfo.ImageBox>
       <SpaceInfo.InputBox>
         <SpaceInfo.nameText>{spaceData.name}</SpaceInfo.nameText>
