@@ -48,7 +48,8 @@ class GuestAuthDocumentation extends DocumentationTest {
                                     parameterWithName("entranceCode").description("호스트가 제공하는 입장코드")),
                             requestFields(
                                     fieldWithPath("password").type(JsonFieldType.STRING).description("공간 비밀번호")
-                                            .attributes(key("length").value(4)).optional()),
+                                            .attributes(key("length").value(4))
+                                            .attributes(key("nullable").value(true))),
                             responseFields(
                                     fieldWithPath("token").type(JsonFieldType.STRING)
                                             .description("Access Token")

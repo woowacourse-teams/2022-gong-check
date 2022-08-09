@@ -100,20 +100,29 @@ class JobDocumentation extends DocumentationTest {
                             pathParameters(
                                     parameterWithName("spaceId").description("Job을 생성할 Space Id")),
                             requestFields(
-                                    fieldWithPath("name").type(JsonFieldType.STRING).description("Job 이름")
-                                            .attributes(key("length").value(10)).optional(),
+                                    fieldWithPath("name").type(JsonFieldType.STRING)
+                                            .description("Job 이름")
+                                            .attributes(key("length").value(10)),
                                     fieldWithPath("sections.[].name").type(JsonFieldType.STRING)
-                                            .description("Section 이름").attributes(key("length").value(10)).optional(),
+                                            .description("Section 이름")
+                                            .attributes(key("length").value(10)),
                                     fieldWithPath("sections.[].description").type(JsonFieldType.STRING)
-                                            .description("Section 설명").attributes(key("length").value(128)),
+                                            .description("Section 설명")
+                                            .attributes(key("length").value(128))
+                                            .attributes(key("nullable").value(true)),
                                     fieldWithPath("sections.[].imageUrl").type(JsonFieldType.STRING)
-                                            .description("Section Image Url"),
+                                            .description("Section Image Url")
+                                            .attributes(key("nullable").value(true)),
                                     fieldWithPath("sections.[].tasks.[].name").type(JsonFieldType.STRING)
-                                            .description("Task 이름").attributes(key("length").value(10)).optional(),
+                                            .description("Task 이름")
+                                            .attributes(key("length").value(10)),
                                     fieldWithPath("sections.[].tasks.[].description").type(JsonFieldType.STRING)
-                                            .description("Task 설명").attributes(key("length").value(128)),
+                                            .description("Task 설명")
+                                            .attributes(key("length").value(128))
+                                            .attributes(key("nullable").value(true)),
                                     fieldWithPath("sections.[].tasks.[].imageUrl").type(JsonFieldType.STRING)
                                             .description("Task Image Url")
+                                            .attributes(key("nullable").value(true))
                             )
                     ))
                     .statusCode(HttpStatus.CREATED.value());
@@ -228,19 +237,27 @@ class JobDocumentation extends DocumentationTest {
                                     parameterWithName("jobId").description("수정할 Job Id")),
                             requestFields(
                                     fieldWithPath("name").type(JsonFieldType.STRING).description("Job 이름")
-                                            .attributes(key("length").value(10)).optional(),
+                                            .attributes(key("length").value(10)),
                                     fieldWithPath("sections.[].name").type(JsonFieldType.STRING)
-                                            .description("Section 이름").attributes(key("length").value(10)).optional(),
+                                            .description("Section 이름")
+                                            .attributes(key("length").value(10)),
                                     fieldWithPath("sections.[].description").type(JsonFieldType.STRING)
-                                            .description("Section 설명").attributes(key("length").value(128)),
+                                            .description("Section 설명")
+                                            .attributes(key("length").value(128))
+                                            .attributes(key("nullable").value(true)),
                                     fieldWithPath("sections.[].imageUrl").type(JsonFieldType.STRING)
-                                            .description("Section Image Url"),
+                                            .description("Section Image Url")
+                                            .attributes(key("nullable").value(true)),
                                     fieldWithPath("sections.[].tasks.[].name").type(JsonFieldType.STRING)
-                                            .description("Task 이름").attributes(key("length").value(10)).optional(),
+                                            .description("Task 이름")
+                                            .attributes(key("length").value(10)),
                                     fieldWithPath("sections.[].tasks.[].description").type(JsonFieldType.STRING)
-                                            .description("Task 설명").attributes(key("length").value(128)),
+                                            .description("Task 설명")
+                                            .attributes(key("length").value(128))
+                                            .attributes(key("nullable").value(true)),
                                     fieldWithPath("sections.[].tasks.[].imageUrl").type(JsonFieldType.STRING)
                                             .description("Task Image Url")
+                                            .attributes(key("nullable").value(true))
                             )
                     ))
                     .statusCode(HttpStatus.NO_CONTENT.value());
@@ -377,7 +394,9 @@ class JobDocumentation extends DocumentationTest {
                             pathParameters(
                                     parameterWithName("jobId").description("Slack Url을 수정할 Job Id")),
                             requestFields(
-                                    fieldWithPath("slackUrl").type(JsonFieldType.STRING).description("수정할 Slack Url")
+                                    fieldWithPath("slackUrl").type(JsonFieldType.STRING)
+                                            .description("수정할 Slack Url")
+                                            .attributes(key("nullable").value(true))
                             )
                     ))
                     .statusCode(HttpStatus.NO_CONTENT.value());
