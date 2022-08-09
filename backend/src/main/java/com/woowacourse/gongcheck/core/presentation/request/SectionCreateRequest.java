@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 public class SectionCreateRequest {
 
-    @NotNull(message = "이름은 null일 수 없습니다.")
+    @NotNull(message = "SectionCreateRequest 의 name은 null일 수 없습니다.")
     private String name;
 
     private String description;

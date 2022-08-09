@@ -18,10 +18,4 @@ public class ErrorResponse {
     public static ErrorResponse from(final ErrorCode errorCode) {
         return new ErrorResponse(errorCode.name());
     }
-
-    public static ErrorResponse from(final MethodArgumentNotValidException e) {
-        return new ErrorResponse(e.getAllErrors()
-                .get(0)
-                .getDefaultMessage());
-    }
 }

@@ -34,7 +34,7 @@ public class ControllerAdvice {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(final MethodArgumentNotValidException e) {
         log.warn(e.getMessage());
-        return ResponseEntity.badRequest().body(ErrorResponse.from(e));
+        return ResponseEntity.badRequest().body(ErrorResponse.from(ErrorCode.V001));
     }
 
     @ExceptionHandler(InfrastructureException.class)

@@ -69,7 +69,10 @@ public enum ErrorCode {
     I007("깃허브 사용자 프로필을 가져올 수 없는 경우"),
 
     // ERROR
-    E001("예상치 못한 예외가 발생한 경우");
+    E001("예상치 못한 예외가 발생한 경우"),
+
+    // DTO Valid Error
+    V001("요청에 대한 DTO 필드값 일부가 null 인 경우");
 
     private final String description;
 

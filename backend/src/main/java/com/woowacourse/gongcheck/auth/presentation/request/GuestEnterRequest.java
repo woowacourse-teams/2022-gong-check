@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public class GuestEnterRequest {
 
-    @NotNull
+    @NotNull(message = "GuestEnterRequest의 password는 null일 수 없습니다.")
     private String password;
 
     private GuestEnterRequest() {

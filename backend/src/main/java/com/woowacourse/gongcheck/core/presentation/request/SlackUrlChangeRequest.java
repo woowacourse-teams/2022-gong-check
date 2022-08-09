@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public class SlackUrlChangeRequest {
 
-    @NotNull(message = "Slack URL은 null일 수 없습니다.")
+    @NotNull(message = "SlackUrlChangeRequest의 SlackURL은 null일 수 없습니다.")
     private String slackUrl;
 
     private SlackUrlChangeRequest() {

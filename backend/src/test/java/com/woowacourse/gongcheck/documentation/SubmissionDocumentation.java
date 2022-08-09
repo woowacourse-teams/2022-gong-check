@@ -116,7 +116,7 @@ class SubmissionDocumentation extends DocumentationTest {
             assertAll(
                     () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value()),
                     () -> assertThat(response.as(ErrorResponse.class).getErrorCode())
-                            .isEqualTo("제출자 이름은 null 일 수 없습니다.")
+                            .isEqualTo(ErrorCode.V001.name())
             );
         }
 
