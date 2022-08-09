@@ -9,10 +9,10 @@ import com.woowacourse.gongcheck.auth.application.HostAuthService;
 import com.woowacourse.gongcheck.auth.domain.AuthenticationContext;
 import com.woowacourse.gongcheck.auth.presentation.GuestAuthController;
 import com.woowacourse.gongcheck.auth.presentation.HostAuthController;
-import com.woowacourse.gongcheck.core.application.AlertService;
 import com.woowacourse.gongcheck.core.application.HostService;
 import com.woowacourse.gongcheck.core.application.ImageUploader;
 import com.woowacourse.gongcheck.core.application.JobService;
+import com.woowacourse.gongcheck.core.application.NotificationService;
 import com.woowacourse.gongcheck.core.application.SpaceService;
 import com.woowacourse.gongcheck.core.application.SubmissionService;
 import com.woowacourse.gongcheck.core.application.TaskService;
@@ -68,7 +68,7 @@ class DocumentationTest {
     protected SubmissionService submissionService;
 
     @MockBean
-    protected AlertService alertService;
+    protected NotificationService notificationService;
 
     @MockBean
     protected HostService hostService;

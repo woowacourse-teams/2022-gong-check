@@ -17,7 +17,6 @@ import com.woowacourse.gongcheck.core.domain.task.Tasks;
 import com.woowacourse.gongcheck.core.presentation.request.SubmissionRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import java.util.List;
-import org.springframework.core.task.TaskRejectedException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -34,38 +33,35 @@ public class SubmissionService {
     private final TaskRepository taskRepository;
     private final RunningTaskRepository runningTaskRepository;
     private final SubmissionRepository submissionRepository;
-    private final AlertService alertService;
+    private final NotificationService notificationService;
 
     public SubmissionService(final HostRepository hostRepository, final JobRepository jobRepository,
                              final SpaceRepository spaceRepository, final TaskRepository taskRepository,
                              final RunningTaskRepository runningTaskRepository,
-                             final SubmissionRepository submissionRepository, final AlertService alertService) {
+                             final SubmissionRepository submissionRepository,
+                             final NotificationService notificationService) {
         this.hostRepository = hostRepository;
         this.jobRepository = jobRepository;
         this.spaceRepository = spaceRepository;
         this.taskRepository = taskRepository;
         this.runningTaskRepository = runningTaskRepository;
         this.submissionRepository = submissionRepository;
-        this.alertService = alertService;
+        this.notificationService = notificationService;
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public void submitJobCompletion(final Long hostId, final Long jobId,
-                                                         final SubmissionRequest request) {
+                                    final SubmissionRequest request) {
         Host host = hostRepository.getById(hostId);
         Job job = jobRepository.getBySpaceHostAndId(host, jobId);
         saveSubmissionAndClearRunningTasks(request, job);
         if (job.hasUrl()) {
-            alertMessage(request, job);
+            sendNotification(request, job);
         }
     }
 
-    private void alertMessage(final SubmissionRequest request, final Job job) {
-        try {
-            alertService.sendMessage(SubmissionCreatedResponse.of(request.getAuthor(), job));
-        } catch (TaskRejectedException e) {
-            throw new RuntimeException(e);
-        }
+    private void sendNotification(final SubmissionRequest request, final Job job) {
+        notificationService.sendMessage(SubmissionCreatedResponse.of(request.getAuthor(), job));
     }
 
     public SubmissionsResponse findPage(final Long hostId, final Long spaceId, final Pageable pageable) {

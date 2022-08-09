@@ -1,8 +1,8 @@
-package com.woowacourse.gongcheck.infrastructure.alert;
+package com.woowacourse.gongcheck.infrastructure.notification;
 
 import com.slack.api.Slack;
 import com.slack.api.webhook.Payload;
-import com.woowacourse.gongcheck.core.application.AlertService;
+import com.woowacourse.gongcheck.core.application.NotificationService;
 import com.woowacourse.gongcheck.core.application.response.Attachments;
 import com.woowacourse.gongcheck.core.application.response.SubmissionCreatedResponse;
 import com.woowacourse.gongcheck.exception.InfrastructureException;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class SlackService implements AlertService {
+public class SlackService implements NotificationService {
 
     @Async
     @Override
