@@ -7,9 +7,10 @@ import useToast from '@/hooks/useToast';
 
 import apiImage from '@/apis/image';
 
-const useImageBox = (prevImageUrl?: string | undefined) => {
-  const [imageUrl, setImageUrl] = useState('');
+const useImageBox = (prevImageUrl?: string) => {
   const { openToast } = useToast();
+
+  const [imageUrl, setImageUrl] = useState('');
 
   const { mutateAsync: uploadImage } = useMutation((formData: FormData) => apiImage.postImageUpload(formData), {
     onError: (err: AxiosError<{ message: string }>) => {
@@ -17,7 +18,7 @@ const useImageBox = (prevImageUrl?: string | undefined) => {
     },
   });
 
-  const onChangeImg = async (e: React.FormEvent<HTMLInputElement>) => {
+  const onChangeImage = async (e: React.FormEvent<HTMLInputElement>) => {
     const input = e.target as HTMLInputElement;
 
     if (!input.files?.length) {
@@ -41,12 +42,12 @@ const useImageBox = (prevImageUrl?: string | undefined) => {
   };
 
   useEffect(() => {
-    if (prevImageUrl) {
-      setImageUrl(prevImageUrl);
-    }
+    if (!prevImageUrl) return;
+
+    setImageUrl(prevImageUrl);
   }, [prevImageUrl]);
 
-  return { imageUrl, onChangeImg };
+  return { imageUrl, onChangeImage };
 };
 
 export default useImageBox;

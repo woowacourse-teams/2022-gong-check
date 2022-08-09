@@ -7,7 +7,7 @@ import Button from '@/components/common/Button';
 import styles from './styles';
 
 const PasswordUpdate: React.FC = () => {
-  const { password, isShowPassword, onChangePassword, onClickFlipShowPassword, onClickChangeButton } =
+  const { password, isShowPassword, onChangePassword, onClickToggleShowPassword, onClickChangeButton } =
     usePasswordUpdate();
 
   return (
@@ -23,9 +23,9 @@ const PasswordUpdate: React.FC = () => {
             onChange={onChangePassword}
           />
           {isShowPassword ? (
-            <FiEyeOff size={20} onClick={onClickFlipShowPassword} />
+            <FiEyeOff size={20} onClick={onClickToggleShowPassword} />
           ) : (
-            <FiEye size={20} onClick={onClickFlipShowPassword} />
+            <FiEye size={20} onClick={onClickToggleShowPassword} />
           )}
         </div>
         <Button css={styles.button} onClick={onClickChangeButton}>

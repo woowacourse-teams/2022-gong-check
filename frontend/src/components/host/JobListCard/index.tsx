@@ -10,7 +10,7 @@ import emptyFolder from '@/assets/emptyFolder.png';
 import styles from './styles';
 
 interface JobListCardProps {
-  jobs: JobType[] | [];
+  jobs: JobType[];
 }
 
 const JobListCard: React.FC<JobListCardProps> = ({ jobs }) => {

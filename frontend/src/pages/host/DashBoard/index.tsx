@@ -13,15 +13,7 @@ import slackIcon from '@/assets/slackIcon.svg';
 import styles from './styles';
 
 const DashBoard: React.FC = () => {
-  const {
-    spaceId,
-    spaceData,
-    jobsData,
-    submissionData,
-    onClickSubmissionsDetail,
-    onClickSlackButton,
-    onClickLinkButton,
-  } = useDashBoard();
+  const { spaceId, spaceData, jobsData, submissionData, onClickSlackButton, onClickLinkButton } = useDashBoard();
 
   return (
     <div css={styles.layout}>
@@ -35,15 +27,15 @@ const DashBoard: React.FC = () => {
             <img src={slackIcon} alt="슬랙" />
             <span>URL 편집</span>
           </Button>
-          <SpaceDeleteButton spaceId={spaceId} spaceName={spaceData?.name} />
+          <SpaceDeleteButton spaceId={spaceId} spaceName={spaceData?.name || ''} />
         </div>
         <div css={styles.cardWrapper}>
-          <SpaceInfo type={'read'} data={spaceData}>
-            <ImageBox type={'read'} imageUrl={spaceData?.imageUrl} />
+          <SpaceInfo type="read" space={spaceData!}>
+            <ImageBox type="read" imageUrl={spaceData?.imageUrl || ''} />
           </SpaceInfo>
           <JobListCard jobs={jobsData?.jobs || []} />
         </div>
-        <Submissions submissions={submissionData?.submissions || []} onClick={onClickSubmissionsDetail} />
+        <Submissions submissions={submissionData?.submissions || []} />
       </div>
     </div>
   );

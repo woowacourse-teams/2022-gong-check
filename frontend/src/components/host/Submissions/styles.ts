@@ -121,6 +121,10 @@ const empty = css`
   }
 `;
 
-const styles = { layout, header, detailButton, table, empty };
+const greenText = css`
+  color: ${theme.colors.green};
+`;
+
+const styles = { layout, header, detailButton, table, empty, greenText };
 
 export default styles;

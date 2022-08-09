@@ -11,7 +11,7 @@ const useAuthCallBack = () => {
 
   const { isSuccessGithubLogin } = useGitHubLogin();
 
-  const { data, refetch: getSpaceData } = useQuery(['spaces'], apis.getSpaces, {
+  const { data: spacesData, refetch: getSpaceData } = useQuery(['spaces'], apis.getSpaces, {
     enabled: false,
   });
 
@@ -22,16 +22,16 @@ const useAuthCallBack = () => {
   }, [isSuccessGithubLogin]);
 
   useEffect(() => {
-    if (data) {
-      if (data.spaces.length === 0) {
-        navigate('/host/manage/spaceCreate');
-        return;
-      }
+    if (!spacesData) return;
 
-      const space = data.spaces[0];
-      navigate(`/host/manage/${space.id}`);
+    if (spacesData.spaces.length === 0) {
+      navigate('/host/manage/spaceCreate');
+      return;
     }
-  }, [data]);
+
+    const firstSpace = spacesData.spaces[0];
+    navigate(`/host/manage/${firstSpace.id}`);
+  }, [spacesData]);
 };
 
 export default useAuthCallBack;

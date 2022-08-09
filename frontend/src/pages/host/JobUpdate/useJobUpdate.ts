@@ -29,7 +29,6 @@ const useJobUpdate = () => {
 
   const { refetch: getTaskData } = useQuery(['taskData', jobId], () => apiTask.getTasks(jobId), {
     enabled: false,
-    staleTime: Infinity,
     onSuccess: data => {
       updateSection(data.sections);
     },
@@ -58,12 +57,12 @@ const useJobUpdate = () => {
   const onClickUpdateJob = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     updateJob({ jobId, jobName, sections });
-    resetSections();
   };
 
   useEffect(() => {
     setJobName(state.jobName);
     getTaskData();
+    return () => resetSections();
   }, []);
 
   return { sections, createSection, jobName, onChangeJobName, onClickUpdateJob };

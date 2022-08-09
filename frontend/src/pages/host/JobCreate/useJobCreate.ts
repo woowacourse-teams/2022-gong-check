@@ -46,7 +46,7 @@ const useJobCreate = () => {
   };
 
   useEffect(() => {
-    resetSections();
+    return () => resetSections();
   }, []);
 
   return { sections, createSection, newJobName, onChangeJobName, onClickCreateNewJob };

@@ -12,6 +12,7 @@ import styles from './styles';
 
 const UserLayout: React.FC = () => {
   const navigate = useNavigate();
+
   const { hostId } = useParams() as { hostId: ID };
 
   useEffect(() => {

@@ -17,10 +17,10 @@ import { ID } from '@/types';
 const useDashBoard = () => {
   const navigate = useNavigate();
 
-  const { spaceId } = useParams() as { spaceId: ID };
-
   const { openModal } = useModal();
   const { openToast } = useToast();
+
+  const { spaceId } = useParams() as { spaceId: ID };
 
   const { data: spaceData } = useQuery(['space', spaceId], () => apiSpace.getSpace(spaceId), {
     staleTime: 0,
@@ -28,7 +28,7 @@ const useDashBoard = () => {
   });
   const { data: jobsData } = useQuery(['jobs', spaceId], () => apiJobs.getJobs(spaceId));
   const { data: submissionData } = useQuery(['submissions', spaceId], () => apiSubmission.getSubmission(spaceId));
-  const { refetch: getEntranceCode } = useQuery(['entranceCode'], () => apiHost.getEntranceCode(), {
+  const { refetch: copyEntranceLink } = useQuery(['entranceCode'], () => apiHost.getEntranceCode(), {
     enabled: false,
     onSuccess: data => {
       clip(`${location.origin}/enter/${data.entranceCode}/pwd`);
@@ -39,16 +39,12 @@ const useDashBoard = () => {
     },
   });
 
-  const onClickSubmissionsDetail = () => {
-    navigate('spaceRecord');
-  };
-
   const onClickSlackButton = () => {
     openModal(<SlackUrlModal jobs={jobsData?.jobs || []} />);
   };
 
   const onClickLinkButton = () => {
-    getEntranceCode();
+    copyEntranceLink();
   };
 
   return {
@@ -56,7 +52,6 @@ const useDashBoard = () => {
     spaceData,
     jobsData,
     submissionData,
-    onClickSubmissionsDetail,
     onClickSlackButton,
     onClickLinkButton,
   };

@@ -11,6 +11,7 @@ import styles from './styles';
 
 const SpaceRecord: React.FC = () => {
   const { spaceId } = useParams() as { spaceId: ID };
+
   const { data: submissionData } = useQuery(['submissions', spaceId], () => apiSubmission.getSubmission(spaceId));
 
   return (
