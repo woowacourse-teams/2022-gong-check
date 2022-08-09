@@ -42,14 +42,14 @@ class JobTest {
 
     @Test
     void 이름을_수정한다() {
-        Name 수정_전_이름 = new Name("수정 전 이름");
-        Name 수정_후_이름 = new Name("수정 후 이름");
+        Name name = new Name("수정 전 이름");
+        Name changeName = new Name("수정 후 이름");
         Job job = Job.builder()
-                .name(수정_전_이름)
+                .name(name)
                 .build();
 
-        job.changeName(수정_후_이름);
+        job.changeName(changeName);
 
-        assertThat(job.getName()).isEqualTo(수정_후_이름);
+        assertThat(job.getName()).isEqualTo(changeName);
     }
 }
