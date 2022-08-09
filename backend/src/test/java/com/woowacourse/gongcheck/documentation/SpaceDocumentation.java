@@ -81,9 +81,9 @@ class SpaceDocumentation extends DocumentationTest {
                     .apply(document("spaces/create/success",
                             requestFields(
                                     fieldWithPath("name").type(JsonFieldType.STRING)
-                                            .description("Space 이름").attributes(key("length").value(10)),
+                                            .description("Space 이름").attributes(key("length").value(10)).optional(),
                                     fieldWithPath("imageUrl").type(JsonFieldType.STRING)
-                                            .description("Space Image Url").optional()
+                                            .description("Space Image Url")
                             )
                     ))
                     .statusCode(HttpStatus.CREATED.value());
@@ -175,9 +175,9 @@ class SpaceDocumentation extends DocumentationTest {
                                     parameterWithName("spaceId").description("수정할 Space Id")),
                             requestFields(
                                     fieldWithPath("name").type(JsonFieldType.STRING)
-                                            .description("Space 이름").attributes(key("length").value(10)),
+                                            .description("Space 이름").attributes(key("length").value(10)).optional(),
                                     fieldWithPath("imageUrl").type(JsonFieldType.STRING)
-                                            .description("Space Image Url").optional()
+                                            .description("Space Image Url")
                             )
                     ))
                     .statusCode(HttpStatus.NO_CONTENT.value());

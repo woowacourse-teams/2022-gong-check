@@ -65,7 +65,7 @@ class SubmissionDocumentation extends DocumentationTest {
                                     parameterWithName("jobId").description("Submission을 제출할 Job Id")),
                             requestFields(
                                     fieldWithPath("author").type(JsonFieldType.STRING)
-                                            .description("제출자").attributes(key("length").value(10))
+                                            .description("제출자").attributes(key("length").value(10)).optional()
                             )
                     ))
                     .statusCode(HttpStatus.OK.value());

@@ -33,8 +33,7 @@ public class HostAuthDocumentation extends DocumentationTest {
                     .then().log().all()
                     .apply(document("hosts/auth/success",
                             requestFields(
-                                    fieldWithPath("code").type(JsonFieldType.STRING).description("Authorization Code")
-                                            .optional()),
+                                    fieldWithPath("code").type(JsonFieldType.STRING).description("Authorization Code")),
                             responseFields(
                                     fieldWithPath("token").type(JsonFieldType.STRING).description("Access Token"),
                                     fieldWithPath("alreadyJoin").type(JsonFieldType.BOOLEAN).description("가입 여부")
