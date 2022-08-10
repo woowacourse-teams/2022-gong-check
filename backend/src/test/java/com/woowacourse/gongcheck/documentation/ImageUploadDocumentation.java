@@ -13,6 +13,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.partWith
 import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
 import static org.springframework.restdocs.snippet.Attributes.key;
 
+import com.woowacourse.gongcheck.auth.domain.Authority;
 import com.woowacourse.gongcheck.core.application.response.ImageUrlResponse;
 import java.io.File;
 import java.io.IOException;
@@ -28,6 +29,7 @@ class ImageUploadDocumentation extends DocumentationTest {
         File fakeImage = createFakeImage();
         when(imageUploader.upload(any(), anyString()))
                 .thenReturn(ImageUrlResponse.from("https://image.gongcheck.com/12sdf124sx.jpg"));
+        when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
         when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
         docsGiven

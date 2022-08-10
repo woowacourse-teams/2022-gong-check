@@ -1,7 +1,7 @@
 package com.woowacourse.gongcheck.core.presentation;
 
 import com.woowacourse.gongcheck.auth.presentation.AuthenticationPrincipal;
-import com.woowacourse.gongcheck.auth.presentation.aop.HostOnly;
+import com.woowacourse.gongcheck.auth.presentation.HostOnly;
 import com.woowacourse.gongcheck.core.application.HostService;
 import com.woowacourse.gongcheck.core.application.response.EntranceCodeResponse;
 import com.woowacourse.gongcheck.core.presentation.request.SpacePasswordChangeRequest;

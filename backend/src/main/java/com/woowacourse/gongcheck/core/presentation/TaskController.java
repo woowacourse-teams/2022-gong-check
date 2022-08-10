@@ -1,7 +1,7 @@
 package com.woowacourse.gongcheck.core.presentation;
 
 import com.woowacourse.gongcheck.auth.presentation.AuthenticationPrincipal;
-import com.woowacourse.gongcheck.auth.presentation.aop.HostOnly;
+import com.woowacourse.gongcheck.auth.presentation.HostOnly;
 import com.woowacourse.gongcheck.core.application.TaskService;
 import com.woowacourse.gongcheck.core.application.response.JobActiveResponse;
 import com.woowacourse.gongcheck.core.application.response.RunningTasksResponse;

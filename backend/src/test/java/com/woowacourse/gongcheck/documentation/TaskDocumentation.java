@@ -11,6 +11,7 @@ import static com.woowacourse.gongcheck.fixture.FixtureFactory.Task_아이디_�
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -20,6 +21,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 
+import com.woowacourse.gongcheck.auth.domain.Authority;
 import com.woowacourse.gongcheck.core.application.response.JobActiveResponse;
 import com.woowacourse.gongcheck.core.application.response.RunningTasksResponse;
 import com.woowacourse.gongcheck.core.application.response.TasksResponse;
@@ -255,6 +257,7 @@ class TaskDocumentation extends DocumentationTest {
         when(taskService.findTasks(anyLong(), any())).thenReturn(
                 TasksResponse.from(new Tasks(List.of(task1, task2)))
         );
+        when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
         when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
         docsGiven

@@ -4,6 +4,7 @@ import static com.woowacourse.gongcheck.fixture.FixtureFactory.Host_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_아이디_지정_생성;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -16,6 +17,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.snippet.Attributes.key;
 
+import com.woowacourse.gongcheck.auth.domain.Authority;
 import com.woowacourse.gongcheck.core.application.response.SpaceResponse;
 import com.woowacourse.gongcheck.core.application.response.SpacesResponse;
 import com.woowacourse.gongcheck.core.domain.host.Host;
@@ -68,6 +70,7 @@ class SpaceDocumentation extends DocumentationTest {
         @Test
         void Space_생성에_성공한다() {
             when(spaceService.createSpace(anyLong(), any())).thenReturn(1L);
+            when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             SpaceCreateRequest request = new SpaceCreateRequest("잠실 캠퍼스", "https://image.gongcheck.shop/123sdf5");
@@ -93,6 +96,7 @@ class SpaceDocumentation extends DocumentationTest {
 
         @Test
         void Space_이름이_null_인_경우_생성에_실패한다() {
+            when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             SpaceCreateRequest request = new SpaceCreateRequest(null, "https://image.gongcheck.shop/123sdf5");
@@ -112,6 +116,7 @@ class SpaceDocumentation extends DocumentationTest {
             doThrow(BusinessException.class)
                     .when(spaceService)
                     .createSpace(anyLong(), any());
+            when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             SpaceCreateRequest request = new SpaceCreateRequest("", "https://image.gongcheck.shop/123sdf5");
@@ -207,6 +212,7 @@ class SpaceDocumentation extends DocumentationTest {
     @Test
     void Space를_삭제한다() {
         doNothing().when(spaceService).removeSpace(anyLong(), anyLong());
+        when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
         when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
         docsGiven
