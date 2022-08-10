@@ -85,7 +85,7 @@ public class ImageFile {
     private byte[] resizeImageBytes(final int width) {
         try {
             BufferedImage resizedImage = resizedByWidth(toBufferedImage(imageBytes), width);
-            return toByteArray(resizedImage, contentType);
+            return toByteArray(resizedImage, extension);
         } catch (IOException e) {
             throw new BusinessException("이미지 변환 시 문제가 발생하였습니다.");
         }
