@@ -3,15 +3,15 @@ import React from 'react';
 import styles from './styles';
 
 interface SpaceInfoHeaderProps {
-  children?: React.ReactNode;
+  children: React.ReactNode;
 }
 
 interface SpaceInfoImageProps {
-  children?: React.ReactNode;
+  children: React.ReactNode;
 }
 
 interface SpaceInfoInputProps {
-  children?: React.ReactNode;
+  children: React.ReactNode;
 }
 
 interface SpaceInfoMainProps {

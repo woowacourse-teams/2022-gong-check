@@ -1,5 +1,4 @@
 import useSpaceInfoDisplayBox from './useSpaceInfoDisplayBox';
-import { useNavigate } from 'react-router-dom';
 
 import Button from '@/components/common/Button';
 import { ImageBox } from '@/components/host/ImageBox';
