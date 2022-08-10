@@ -2,32 +2,26 @@ import { HiPlus } from 'react-icons/hi';
 
 import styles from './styles';
 
-interface ImageBoxProps {
-  type: 'read' | 'create' | 'update';
+interface ImagePaintedLabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
+  imageUrl: string;
+}
+
+interface ImageChangeBoxProps {
   imageUrl: string;
   onChangeImage?: (e: React.FormEvent<HTMLInputElement>) => void;
 }
 
-interface ImageLabelBoxProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
-  children?: React.ReactNode;
-  imageUrl: string;
+interface ImageBoxMainProps {
+  children: React.ReactNode;
 }
 
-const ImageLabelBox: React.FC<ImageLabelBoxProps> = ({ children, imageUrl, ...props }) => {
-  return (
-    <label css={styles.imageBox(imageUrl, imageUrl ? 'none' : 'dashed')} {...props}>
-      {children}
-    </label>
-  );
+const ImagePaintedLabel: React.FC<ImagePaintedLabelProps> = ({ imageUrl }) => {
+  return <label css={styles.imagePaintedLabel(imageUrl)} />;
 };
 
-const ImageBox: React.FC<ImageBoxProps> = ({ type, imageUrl, onChangeImage }) => {
-  if (type === 'read') {
-    return <ImageLabelBox imageUrl={imageUrl} />;
-  }
-
+const ImageChangeBox: React.FC<ImageChangeBoxProps> = ({ imageUrl, onChangeImage }) => {
   return (
-    <ImageLabelBox htmlFor="file" imageUrl={imageUrl}>
+    <label css={styles.imageChangeBox(imageUrl, imageUrl ? 'none' : 'dashed')} htmlFor="file">
       <input
         css={styles.imageInput}
         name="imageInput"
@@ -42,8 +36,15 @@ const ImageBox: React.FC<ImageBoxProps> = ({ type, imageUrl, onChangeImage }) =>
         </div>
       )}
       <p css={styles.imageCoverText}>{imageUrl ? '이미지 수정 시 클릭해 주세요.' : '이미지를 추가해 주세요.'}</p>
-    </ImageLabelBox>
+    </label>
   );
 };
 
-export default ImageBox;
+const ImageBoxMain: React.FC<ImageBoxMainProps> = ({ children }) => {
+  return <>{children}</>;
+};
+
+export const ImageBox = Object.assign(ImageBoxMain, {
+  paintedLabel: ImagePaintedLabel,
+  changeBox: ImageChangeBox,
+});
