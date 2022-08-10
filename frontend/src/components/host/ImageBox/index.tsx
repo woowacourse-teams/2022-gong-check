@@ -12,7 +12,7 @@ interface ImageChangeBoxProps {
 }
 
 interface ImageBoxMainProps {
-  children?: React.ReactNode;
+  children: React.ReactNode;
 }
 
 const ImagePaintedLabel: React.FC<ImagePaintedLabelProps> = ({ imageUrl }) => {
