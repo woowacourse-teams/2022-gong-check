@@ -24,7 +24,8 @@ public class ImageService {
     }
 
     public ImageResponse storeImage(MultipartFile image) throws IOException {
-        ImageFile imageFile = ImageFile.from(image);
+        ImageFile imageFile = ImageFile.from(image)
+                .resizeImage(500);
 
         String imageFileInputName = imageFile.randomName();
         Path fileStorageLocation = storageLocation.resolve(imageFileInputName);

@@ -1,8 +1,12 @@
 package com.woowacourse.imagestorage.domain;
 
+import static com.woowacourse.imagestorage.util.ImageResizeUtil.resizedByWidth;
+import static com.woowacourse.imagestorage.util.ImageTypeUtil.toBufferedImage;
+import static com.woowacourse.imagestorage.util.ImageTypeUtil.toByteArray;
 import static org.springframework.util.StringUtils.getFilenameExtension;
 
 import com.woowacourse.imagestorage.exception.BusinessException;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -66,6 +70,24 @@ public class ImageFile {
         assert fileExtension != null;
         if (!IMAGE_FILE_EXTENSION_PATTERN.matcher(fileExtension).matches()) {
             throw new BusinessException("이미지 파일 확장자만 들어올 수 있습니다.");
+        }
+    }
+
+    public ImageFile resizeImage(final int width) {
+        return new ImageFile(
+                originFileName,
+                contentType,
+                extension,
+                resizeImageBytes(width)
+        );
+    }
+
+    private byte[] resizeImageBytes(final int width) {
+        try {
+            BufferedImage resizedImage = resizedByWidth(toBufferedImage(imageBytes), width);
+            return toByteArray(resizedImage, contentType);
+        } catch (IOException e) {
+            throw new BusinessException("이미지 변환 시 문제가 발생하였습니다.");
         }
     }
 
