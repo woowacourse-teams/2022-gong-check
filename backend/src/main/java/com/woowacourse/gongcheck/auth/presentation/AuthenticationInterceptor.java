@@ -38,7 +38,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         String subject = jwtTokenProvider.extractSubject(token);
         authenticationContext.setPrincipal(subject);
 
-        if (isNotAnnotated((HandlerMethod) handler)) {
+        if (isNotHostOnlyAnnotated((HandlerMethod) handler)) {
             return true;
         }
         Authority authority = jwtTokenProvider.extractAuthority(token);
@@ -46,7 +46,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }
 
-    private boolean isNotAnnotated(final HandlerMethod handlerMethod) {
+    private boolean isNotHostOnlyAnnotated(final HandlerMethod handlerMethod) {
         return Objects.isNull(handlerMethod.getMethodAnnotation(HostOnly.class));
     }
 
