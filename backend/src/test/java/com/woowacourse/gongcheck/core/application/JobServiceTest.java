@@ -301,7 +301,7 @@ class JobServiceTest {
             private Task originTask;
             private JobCreateRequest request;
             private List<String> requestSectionNames;
-            List<String> requestTaskNames;
+            private List<String> requestTaskNames;
 
             @BeforeEach
             void setUp() {
@@ -329,10 +329,10 @@ class JobServiceTest {
             }
 
             @Test
-            void 기존에_존재하던_Job을_삭제한_후_새로운_Job을_생성한다() {
-                long updateJobId = jobService.updateJob(host.getId(), originJob.getId(), request);
+            void Job을_수정한다() {
+                jobService.updateJob(host.getId(), originJob.getId(), request);
 
-                Job updateJob = repository.getById(Job.class, updateJobId);
+                Job updateJob = repository.getById(Job.class, originJob.getId());
                 List<Section> updateSections = sectionRepository.findAllByJob(updateJob);
                 List<Task> updateTasks = taskRepository.findAllBySectionIn(updateSections);
 

@@ -71,6 +71,10 @@ public class Job {
                 .build();
     }
 
+    public void changeName(final Name name) {
+        this.name = name;
+    }
+
     public void changeSlackUrl(final String slackUrl) {
         this.slackUrl = slackUrl;
     }
