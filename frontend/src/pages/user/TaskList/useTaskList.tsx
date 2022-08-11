@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useLocation, useParams } from 'react-router-dom';
+import { EventSourcePolyfill } from 'event-source-polyfill'
 
 import DetailInfoModal from '@/components/user/DetailInfoModal';
 import NameModal from '@/components/user/NameModal';
@@ -12,8 +13,8 @@ import useSectionCheck from '@/hooks/useSectionCheck';
 import apis from '@/apis';
 
 import { ID, SectionType } from '@/types';
+import { ApiTaskData } from '@/types/apis';
 
-const RE_FETCH_INTERVAL_TIME = 100;
 const PROGRESS_BAR_DEFAULT_POSITION = 232;
 
 const useTaskList = () => {
@@ -30,14 +31,17 @@ const useTaskList = () => {
 
   const [isActiveSticky, setIsActiveSticky] = useState(false);
 
-  const { data: sectionsData, refetch: getSections } = useQuery(
-    ['sections', jobId],
-    () => apis.getRunningTasks(jobId),
-    {
-      refetchInterval: RE_FETCH_INTERVAL_TIME,
-      cacheTime: 0,
-    }
-  );
+  const [sectionsData, setSectionsData] = useState<ApiTaskData>({
+    sections: [
+      {
+        id: 0,
+        name: '',
+        description: '',
+        imageUrl: '',
+        tasks: [{ id: 0, name: '', checked: false, description: '', imageUrl: '' }],
+      },
+    ],
+  });
 
   const { data: spaceData } = useQuery(['space', jobId], () => apis.getSpace(spaceId));
 
@@ -75,9 +79,28 @@ const useTaskList = () => {
     setIsActiveSticky(isActive);
   }, [progressBarRef.current?.offsetTop]);
 
+  useEffect(() => {
+    const sseTest = new EventSourcePolyfill(`http://192.168.1.4:8080/api/jobs/${jobId}/connect`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+
+    sseTest.addEventListener('connect', (e: any) => {
+      const { data: receivedSections } = e;
+
+      setSectionsData(JSON.parse(receivedSections));
+    });
+
+    sseTest.addEventListener('flip', (e: any) => {
+      const { data: receivedSections } = e;
+
+      setSectionsData(JSON.parse(receivedSections));
+    });
+  }, []);
+
   return {
     spaceData,
-    getSections,
     onSubmit,
     goPreviousPage,
     totalCount,

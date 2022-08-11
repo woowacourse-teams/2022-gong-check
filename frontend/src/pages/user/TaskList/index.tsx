@@ -11,7 +11,6 @@ import styles from './styles';
 const TaskList: React.FC = () => {
   const {
     spaceData,
-    getSections,
     onSubmit,
     goPreviousPage,
     totalCount,
@@ -66,7 +65,7 @@ const TaskList: React.FC = () => {
                   )}
                 </div>
               </div>
-              <TaskCard tasks={section.tasks} getSections={getSections} />
+              <TaskCard tasks={section.tasks} />
             </section>
           ))}
           <Button type="submit" css={styles.button(isAllChecked)} disabled={!isAllChecked}>
