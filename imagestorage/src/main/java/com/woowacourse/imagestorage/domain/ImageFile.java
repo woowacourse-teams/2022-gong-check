@@ -31,8 +31,12 @@ public class ImageFile {
         validateNullFileName(multipartFile);
 
         try {
-            return new ImageFile(multipartFile.getOriginalFilename(), multipartFile.getContentType(),
-                    ImageExtension.from(getFilenameExtension(multipartFile.getOriginalFilename())), multipartFile.getBytes());
+            return new ImageFile(
+                    multipartFile.getOriginalFilename(),
+                    multipartFile.getContentType(),
+                    ImageExtension.from(getFilenameExtension(multipartFile.getOriginalFilename())),
+                    multipartFile.getBytes()
+            );
         } catch (IOException exception) {
             throw new BusinessException("잘못된 파일입니다.");
         }
