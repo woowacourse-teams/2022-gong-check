@@ -301,7 +301,7 @@ class JobServiceTest {
             private Task originTask;
             private JobCreateRequest request;
             private List<String> requestSectionNames;
-            List<String> requestTaskNames;
+            private List<String> requestTaskNames;
 
             @BeforeEach
             void setUp() {
