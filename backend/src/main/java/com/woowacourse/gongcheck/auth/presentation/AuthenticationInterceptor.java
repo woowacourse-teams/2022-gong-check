@@ -42,7 +42,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             return true;
         }
         Authority authority = jwtTokenProvider.extractAuthority(token);
-        checkAuthorize(authority);
+        authorize(authority);
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }
 
@@ -50,7 +50,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         return Objects.isNull(handlerMethod.getMethodAnnotation(HostOnly.class));
     }
 
-    private void checkAuthorize(Authority authority) {
+    private void authorize(final Authority authority) {
         if (!authority.isHost()) {
             throw new UnauthorizedException("호스트만 입장 가능합니다.");
         }
