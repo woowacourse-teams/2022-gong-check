@@ -1,30 +1,23 @@
 package com.woowacourse.imagestorage.domain;
 
-import static com.woowacourse.imagestorage.util.ImageResizeUtil.resizedByWidth;
-import static com.woowacourse.imagestorage.util.ImageTypeUtil.toBufferedImage;
-import static com.woowacourse.imagestorage.util.ImageTypeUtil.toByteArray;
 import static org.springframework.util.StringUtils.getFilenameExtension;
 
 import com.woowacourse.imagestorage.exception.BusinessException;
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.regex.Pattern;
 import org.springframework.web.multipart.MultipartFile;
 
 public class ImageFile {
 
-    private static final Pattern IMAGE_FILE_EXTENSION_PATTERN = Pattern.compile("^(png|jpeg|jpg|svg|gif)$");
-
     private final String originFileName;
     private final String contentType;
-    private final String extension;
+    private final ImageExtension extension;
     private final byte[] imageBytes;
 
-    public ImageFile(final String originFileName, final String contentType, final String extension,
+    public ImageFile(final String originFileName, final String contentType, final ImageExtension extension,
                      final byte[] imageBytes) {
         this.originFileName = originFileName;
         this.contentType = contentType;
@@ -32,16 +25,14 @@ public class ImageFile {
         this.imageBytes = imageBytes;
     }
 
-
     public static ImageFile from(final MultipartFile multipartFile) {
         validateNullFile(multipartFile);
         validateEmptyFile(multipartFile);
         validateNullFileName(multipartFile);
-        validateImageExtension(multipartFile);
 
         try {
             return new ImageFile(multipartFile.getOriginalFilename(), multipartFile.getContentType(),
-                    getFilenameExtension(multipartFile.getOriginalFilename()), multipartFile.getBytes());
+                    ImageExtension.from(getFilenameExtension(multipartFile.getOriginalFilename())), multipartFile.getBytes());
         } catch (IOException exception) {
             throw new BusinessException("잘못된 파일입니다.");
         }
@@ -65,30 +56,13 @@ public class ImageFile {
         }
     }
 
-    private static void validateImageExtension(final MultipartFile multipartFile) {
-        String fileExtension = getFilenameExtension(multipartFile.getOriginalFilename());
-        assert fileExtension != null;
-        if (!IMAGE_FILE_EXTENSION_PATTERN.matcher(fileExtension).matches()) {
-            throw new BusinessException("이미지 파일 확장자만 들어올 수 있습니다.");
-        }
-    }
-
     public ImageFile resizeImage(final int width) {
         return new ImageFile(
                 originFileName,
                 contentType,
                 extension,
-                resizeImageBytes(width)
+                extension.resizeImage(imageBytes, width)
         );
-    }
-
-    private byte[] resizeImageBytes(final int width) {
-        try {
-            BufferedImage resizedImage = resizedByWidth(toBufferedImage(imageBytes), width);
-            return toByteArray(resizedImage, extension);
-        } catch (IOException e) {
-            throw new BusinessException("이미지 변환 시 문제가 발생하였습니다.");
-        }
     }
 
     public InputStream inputStream() {

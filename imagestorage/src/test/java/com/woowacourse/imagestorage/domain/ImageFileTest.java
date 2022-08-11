@@ -7,7 +7,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mockStatic;
 
 import com.woowacourse.imagestorage.exception.BusinessException;
-import com.woowacourse.imagestorage.util.ImageTypeUtil;
+import com.woowacourse.imagestorage.util.ImageTypeTransferUtil;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -77,27 +77,6 @@ class ImageFileTest {
         }
 
         @Nested
-        class 이미지_확장자가_아닌_파일이_입력된_경우 {
-
-            private MultipartFile textFile;
-
-            @BeforeEach
-            void setUp() {
-                textFile = new MockMultipartFile("image",
-                        "jamsil.text",
-                        "image/jpg",
-                        "123".getBytes(StandardCharsets.UTF_8));
-            }
-
-            @Test
-            void 예외가_발생한다() {
-                assertThatThrownBy(() -> ImageFile.from(textFile))
-                        .isInstanceOf(BusinessException.class)
-                        .hasMessage("이미지 파일 확장자만 들어올 수 있습니다.");
-            }
-        }
-
-        @Nested
         class 정상적인_multipartFile이_입력된_경우 {
 
             private MultipartFile multipartFile;
@@ -124,7 +103,7 @@ class ImageFileTest {
         class 변환할_가로크기가_입력되는_경우 {
 
             private static final int CHANGE_WIDTH = 100;
-            private final MockedStatic<ImageTypeUtil>  imageTypeUtil = mockStatic(ImageTypeUtil.class);
+            private final MockedStatic<ImageTypeTransferUtil>  imageTypeUtil = mockStatic(ImageTypeTransferUtil.class);
             private ImageFile imageFile;
 
             @BeforeEach
@@ -134,7 +113,7 @@ class ImageFileTest {
                         "jamsil.jpg",
                         "image/jpg",
                         imageBytes));
-                given(ImageTypeUtil.toBufferedImage(imageBytes)).willReturn(new BufferedImage(100, 20, TYPE_INT_RGB));
+                given(ImageTypeTransferUtil.toBufferedImage(imageBytes)).willReturn(new BufferedImage(100, 20, TYPE_INT_RGB));
             }
 
             @AfterEach

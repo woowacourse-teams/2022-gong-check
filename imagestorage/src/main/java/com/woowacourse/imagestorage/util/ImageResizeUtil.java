@@ -25,9 +25,9 @@ public class ImageResizeUtil {
         return (int) (length * resizeRatio);
     }
 
-    private static BufferedImage resizeImage(BufferedImage img, int width, int height) {
-        Image tmp = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        BufferedImage resized = new BufferedImage(width, height, img.getType());
+    private static BufferedImage resizeImage(final BufferedImage image, final int width, final int height) {
+        Image tmp = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        BufferedImage resized = new BufferedImage(width, height, image.getType());
         Graphics2D g2d = resized.createGraphics();
         g2d.drawImage(tmp, 0, 0, null);
         g2d.dispose();

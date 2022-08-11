@@ -6,17 +6,17 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import java.awt.image.BufferedImage;
 import org.junit.jupiter.api.Test;
 
-class ImageTypeUtilTest {
+class ImageTypeTransferUtilTest {
 
     @Test
     void BufferedImage를_byte_array로_변환할_수_있다() {
         BufferedImage inputImage = new BufferedImage(100, 20, TYPE_INT_RGB);
-        assertDoesNotThrow(() -> ImageTypeUtil.toByteArray(inputImage, "jpeg"));
+        assertDoesNotThrow(() -> ImageTypeTransferUtil.toByteArray(inputImage, "jpeg"));
     }
 
     @Test
     void byte_array를_BufferedImage로_변환할_수_있다() {
         byte[] inputBytes = new byte[]{};
-        assertDoesNotThrow(() -> ImageTypeUtil.toBufferedImage(inputBytes));
+        assertDoesNotThrow(() -> ImageTypeTransferUtil.toBufferedImage(inputBytes));
     }
 }
