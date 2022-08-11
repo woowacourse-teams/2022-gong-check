@@ -20,14 +20,20 @@ public class Tasks {
                 .collect(Collectors.toList());
     }
 
+    public boolean isEmpty() {
+        return tasks.isEmpty();
+    }
+
     public List<Long> getTaskIds() {
         return tasks.stream()
                 .map(Task::getId)
                 .collect(Collectors.toList());
     }
 
-    public boolean isEmpty() {
-        return tasks.isEmpty();
+    public RunningTasks getRunningTasks() {
+        return new RunningTasks(tasks.stream()
+                .map(Task::getRunningTask)
+                .collect(Collectors.toList()));
     }
 
     @Override

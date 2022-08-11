@@ -7,8 +7,11 @@ import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.domain.host.HostRepository;
 import com.woowacourse.gongcheck.core.domain.job.Job;
 import com.woowacourse.gongcheck.core.domain.job.JobRepository;
+import com.woowacourse.gongcheck.core.domain.section.Section;
+import com.woowacourse.gongcheck.core.domain.section.SectionRepository;
 import com.woowacourse.gongcheck.core.domain.task.RunningTask;
 import com.woowacourse.gongcheck.core.domain.task.RunningTaskRepository;
+import com.woowacourse.gongcheck.core.domain.task.RunningTasks;
 import com.woowacourse.gongcheck.core.domain.task.Task;
 import com.woowacourse.gongcheck.core.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.core.domain.task.Tasks;
@@ -23,13 +26,16 @@ public class TaskService {
 
     private final HostRepository hostRepository;
     private final JobRepository jobRepository;
+    private final SectionRepository sectionRepository;
     private final TaskRepository taskRepository;
     private final RunningTaskRepository runningTaskRepository;
 
     public TaskService(final HostRepository hostRepository, final JobRepository jobRepository,
-                       final TaskRepository taskRepository, final RunningTaskRepository runningTaskRepository) {
+                       final SectionRepository sectionRepository, final TaskRepository taskRepository,
+                       final RunningTaskRepository runningTaskRepository) {
         this.hostRepository = hostRepository;
         this.jobRepository = jobRepository;
+        this.sectionRepository = sectionRepository;
         this.taskRepository = taskRepository;
         this.runningTaskRepository = runningTaskRepository;
     }
@@ -71,6 +77,17 @@ public class TaskService {
         return TasksResponse.from(tasks);
     }
 
+    @Transactional
+    public void checkRunningTasksInSection(final Long hostId, final Long sectionId) {
+        Host host = hostRepository.getById(hostId);
+        Section section = sectionRepository.getByJobSpaceHostAndId(host, sectionId);
+        Tasks tasks = new Tasks(taskRepository.findAllBySection(section));
+
+        checkRunningTaskExists(tasks);
+        RunningTasks runningTasks = tasks.getRunningTasks();
+        runningTasks.check();
+    }
+
     private Tasks findTasksByHostIdAndJobId(final Long hostId, final Long jobId) {
         Host host = hostRepository.getById(hostId);
         Job job = jobRepository.getBySpaceHostAndId(host, jobId);
@@ -78,10 +95,14 @@ public class TaskService {
     }
 
     private RunningTasksResponse findExistingRunningTasks(final Tasks tasks) {
-        if (!existsAnyRunningTaskIn(tasks)) {
-            throw new BusinessException("현재 진행중인 작업이 존재하지 않아 조회할 수 없습니다");
-        }
+        checkRunningTaskExists(tasks);
         return RunningTasksResponse.from(tasks);
+    }
+
+    private void checkRunningTaskExists(final Tasks tasks) {
+        if (!existsAnyRunningTaskIn(tasks)) {
+            throw new BusinessException("현재 진행중인 RunningTask가 없습니다");
+        }
     }
 
     private boolean existsAnyRunningTaskIn(final Tasks tasks) {

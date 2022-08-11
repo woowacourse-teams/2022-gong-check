@@ -266,4 +266,36 @@ class TaskRepositoryTest {
             }
         }
     }
+
+    @Nested
+    class findAllBySection_메소드는 {
+
+        @Nested
+        class 입력받은_Job이_Task를_가지고_있는_경우 {
+
+            private Job job;
+            private List<Task> expected;
+
+            @BeforeEach
+            void setUp() {
+                Host host = hostRepository.save(Host_생성("1234", 1234L));
+                Space space = spaceRepository.save(Space_생성(host, "잠실"));
+                job = jobRepository.save(Job_생성(space, "청소"));
+                Section section1 = sectionRepository.save(Section_생성(job, "트랙룸"));
+                Section section2 = sectionRepository.save(Section_생성(job, "굿샷 강의장"));
+                expected = List.of(
+                        Task_생성(section1, "책상 청소"), Task_생성(section1, "빈백 정리"),
+                        Task_생성(section2, "책상 청소"), Task_생성(section2, "의자 넣기")
+                );
+                taskRepository.saveAll(expected);
+            }
+
+            @Test
+            void 가지고_있는_모든_Task를_반환한다() {
+                List<Task> actual = taskRepository.findAllBySectionJob(job);
+
+                assertThat(actual).hasSize(expected.size());
+            }
+        }
+    }
 }

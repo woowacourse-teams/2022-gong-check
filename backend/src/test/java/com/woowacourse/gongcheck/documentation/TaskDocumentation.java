@@ -158,7 +158,7 @@ class TaskDocumentation extends DocumentationTest {
 
         @Test
         void RunningTask가_존재하지_않는_상태에서_조회하려는_경우_예외가_발생한다() {
-            doThrow(new BusinessException("현재 진행중인 작업이 존재하지 않아 조회할 수 없습니다")).when(taskService)
+            doThrow(new BusinessException("현재 진행중인 RunningTask가 없습니다")).when(taskService)
                     .findRunningTasks(anyLong(), anyLong());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
@@ -287,5 +287,25 @@ class TaskDocumentation extends DocumentationTest {
                         )
                 ))
                 .statusCode(HttpStatus.OK.value());
+    }
+
+    @Nested
+    class 해당_Section의_RunningTask를_전부_체크한다 {
+
+        @Test
+        void 전부_체크에_성공한다() {
+            doNothing().when(taskService).checkRunningTasksInSection(anyLong(), any());
+            when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
+            docsGiven
+                    .header("Authorization", "Bearer jwt.token.here")
+                    .when().post("/api/sections/{sectionId}/runningTasks/check", 1)
+                    .then().log().all()
+                    .apply(document("runningTasks/allCheck/success",
+                            pathParameters(
+                                    parameterWithName("sectionId").description("RunningTask를 모두 체크 상태로 바꿀 sectionId"))
+                    ))
+                    .statusCode(HttpStatus.OK.value());
+        }
     }
 }

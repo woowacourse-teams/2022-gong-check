@@ -442,7 +442,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.findRunningTasks(host.getId(), job.getId()))
                         .isInstanceOf(BusinessException.class)
-                        .hasMessage("현재 진행중인 작업이 존재하지 않아 조회할 수 없습니다");
+                        .hasMessage("현재 진행중인 RunningTask가 없습니다");
             }
         }
     }
@@ -465,7 +465,7 @@ class TaskServiceTest {
                 Section section = repository.save(Section_생성(job, "트랙룸"));
                 task = repository.save(Task_생성(section, "책상 청소"));
                 runningTaskId = repository.save(RunningTask_생성(task.getId(), false))
-                    .getTaskId();
+                        .getTaskId();
             }
 
             @Test
@@ -492,7 +492,7 @@ class TaskServiceTest {
                 Section section = repository.save(Section_생성(job, "트랙룸"));
                 task = repository.save(Task_생성(section, "책상 청소"));
                 runningTaskId = repository.save(RunningTask_생성(task.getId(), true))
-                    .getTaskId();
+                        .getTaskId();
             }
 
             @Test
@@ -682,6 +682,120 @@ class TaskServiceTest {
                 assertThatThrownBy(() -> taskService.findTasks(anotherHost.getId(), job.getId()))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessage("존재하지 않는 작업입니다.");
+            }
+        }
+    }
+
+    @Nested
+    class checkRunningTasksInSection_메소드는 {
+
+        @Nested
+        class 존재하는_Host와_Section을_입력할_경우 {
+
+            private Host host;
+            private Section section;
+
+            @BeforeEach
+            void setUp() {
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                Job job = repository.save(Job_생성(space, "청소"));
+                section = repository.save(Section_생성(job, "트랙룸"));
+                Task task1 = repository.save(Task_생성(section, "책상 청소"));
+                Task task2 = repository.save(Task_생성(section, "의자 정리"));
+                repository.saveAll(List.of(RunningTask_생성(task1.getId(), false),
+                        RunningTask_생성(task2.getId(), false)));
+            }
+
+            @Test
+            void 해당_Section의_RunningTask를_모두_체크한다() {
+                taskService.checkRunningTasksInSection(host.getId(), section.getId());
+
+                List<RunningTask> actual = repository.findAll(RunningTask.class);
+                assertThat(actual).extracting("isChecked")
+                        .containsExactly(true, true);
+            }
+        }
+
+        @Nested
+        class 존재하지_않는_Host를_입력하는_경우 {
+
+            private static final long NON_EXIST_HOST_ID = 0L;
+            private static final long JOB_ID = 1L;
+
+            @Test
+            void 예외가_발생한다() {
+                assertThatThrownBy(() -> taskService.checkRunningTasksInSection(NON_EXIST_HOST_ID, JOB_ID))
+                        .isInstanceOf(NotFoundException.class)
+                        .hasMessage("존재하지 않는 호스트입니다.");
+            }
+        }
+
+        @Nested
+        class 존재하지_않는_Section을_입력하는_경우 {
+
+            private static final long NON_EXIST_SECTION_ID = 0L;
+
+            private long hostId;
+
+            @BeforeEach
+            void setUp() {
+                hostId = repository.save(Host_생성("1234", 1111L))
+                        .getId();
+            }
+
+            @Test
+            void 예외가_발생한다() {
+                assertThatThrownBy(() -> taskService.checkRunningTasksInSection(hostId, NON_EXIST_SECTION_ID))
+                        .isInstanceOf(NotFoundException.class)
+                        .hasMessage("존재하지 않는 구역입니다.");
+            }
+        }
+
+        @Nested
+        class 다른_Host의_Section을_입력하는_경우 {
+
+            private Host anotherHost;
+            private Section section;
+
+            @BeforeEach
+            void setUp() {
+                Host host = repository.save(Host_생성("1234", 1234L));
+                anotherHost = repository.save(Host_생성("1234", 2345L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                Job job = repository.save(Job_생성(space, "청소"));
+                section = repository.save(Section_생성(job, "트랙룸"));
+                repository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
+            }
+
+            @Test
+            void 예외가_발생한다() {
+                assertThatThrownBy(() -> taskService.checkRunningTasksInSection(anotherHost.getId(), section.getId()))
+                        .isInstanceOf(NotFoundException.class)
+                        .hasMessage("존재하지 않는 구역입니다.");
+            }
+        }
+
+        @Nested
+        class 해당_Section의_진행중인_RunningTask가_없는_경우 {
+
+            private Host host;
+            private Section section;
+
+            @BeforeEach
+            void setUp() {
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                Job job = repository.save(Job_생성(space, "청소"));
+                section = repository.save(Section_생성(job, "트랙룸"));
+                repository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
+            }
+
+            @Test
+            void 예외가_발생한다() {
+                assertThatThrownBy(() -> taskService.checkRunningTasksInSection(host.getId(), section.getId()))
+                        .isInstanceOf(BusinessException.class)
+                        .hasMessage("현재 진행중인 RunningTask가 없습니다");
             }
         }
     }

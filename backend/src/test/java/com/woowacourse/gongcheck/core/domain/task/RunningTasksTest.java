@@ -1,7 +1,9 @@
 package com.woowacourse.gongcheck.core.domain.task;
 
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.RunningTask_생성;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.woowacourse.gongcheck.exception.BusinessException;
@@ -28,5 +30,19 @@ class RunningTasksTest {
         assertThatThrownBy(runningTasks::validateCompletion)
                 .isInstanceOf(BusinessException.class)
                 .hasMessage("모든 작업이 완료되지않아 제출이 불가합니다.");
+    }
+
+    @Test
+    void RunningTask들을_모두_체크한다() {
+        RunningTask runningTask1 = RunningTask_생성(1L, false);
+        RunningTask runningTask2 = RunningTask_생성(2L, false);
+        RunningTasks runningTasks = new RunningTasks(List.of(runningTask1, runningTask2));
+
+        runningTasks.check();
+
+        assertAll(
+                () -> assertThat(runningTask1.isChecked()).isTrue(),
+                () -> assertThat(runningTask2.isChecked()).isTrue()
+        );
     }
 }
