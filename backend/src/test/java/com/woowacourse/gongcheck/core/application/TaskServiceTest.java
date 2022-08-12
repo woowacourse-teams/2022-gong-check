@@ -710,8 +710,8 @@ class TaskServiceTest {
             @Test
             void 해당_Section의_RunningTask를_모두_체크한다() {
                 taskService.checkRunningTasksInSection(host.getId(), section.getId());
-
                 List<RunningTask> actual = repository.findAll(RunningTask.class);
+                
                 assertThat(actual).extracting("isChecked")
                         .containsExactly(true, true);
             }

@@ -21,6 +21,7 @@ public interface SectionRepository extends JpaRepository<Section, Long> {
     }
 
     default Section getById(final Long id) throws NotFoundException {
-        return findById(id).orElseThrow(() -> new NotFoundException("존재하지 않는 구역입니다"));
+        return findById(id)
+                .orElseThrow(() -> new NotFoundException("존재하지 않는 구역입니다"));
     }
 }

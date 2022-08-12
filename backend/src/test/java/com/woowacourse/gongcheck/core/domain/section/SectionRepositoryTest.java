@@ -112,7 +112,10 @@ class SectionRepositoryTest {
             void 연관된_Job_목록을_조회한다() {
                 List<Job> result = jobRepository.findAllBySpaceHostAndSpace(host, space);
 
-                assertThat(result).hasSize(3);
+                assertThat(result).hasSize(3)
+                        .extracting("name")
+                        .extracting("value")
+                        .containsExactly("오픈", "청소", "마감");
             }
         }
     }
