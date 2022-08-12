@@ -12,7 +12,10 @@ export const axiosInstanceToken = axios.create({
 
 axiosInstanceToken.interceptors.request.use(
   config => {
-    const accessToken = localStorage.getItem('token');
+    const tokenKey = sessionStorage.getItem('tokenKey');
+    if (!tokenKey) return;
+
+    const accessToken = localStorage.getItem(tokenKey);
 
     if (accessToken) {
       config.headers = {
