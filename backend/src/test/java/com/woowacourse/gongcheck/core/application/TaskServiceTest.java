@@ -25,7 +25,6 @@ import com.woowacourse.gongcheck.core.domain.section.Section;
 import com.woowacourse.gongcheck.core.domain.space.Space;
 import com.woowacourse.gongcheck.core.domain.task.RunningTask;
 import com.woowacourse.gongcheck.core.domain.task.RunningTaskRepository;
-import com.woowacourse.gongcheck.core.domain.task.SseEmitterRepository;
 import com.woowacourse.gongcheck.core.domain.task.Task;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.NotFoundException;
@@ -37,6 +36,7 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 @ApplicationTest
 @DisplayName("TaskService 클래스")
@@ -52,8 +52,8 @@ class TaskServiceTest {
     @Autowired
     private RunningTaskRepository runningTaskRepository;
 
-    @Autowired
-    private SseEmitterRepository sseEmitterRepository;
+    @MockBean
+    private RunningTaskSseEmitterContainer runningTaskSseEmitterContainer;
 
     @Nested
     class createNewRunningTasks_메소드는 {
