@@ -21,7 +21,6 @@ const ErrorHostToken: React.FC<ErrorHostTokenProps> = ({ children }) => {
           const message = err.response?.data.message;
 
           if (message === EXPIRED_TOKEN_TEXT || message === NOT_TOKEN_TEXT) {
-            localStorage.removeItem('token');
             navigate(`/host`);
           }
 

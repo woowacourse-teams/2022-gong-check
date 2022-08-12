@@ -17,9 +17,9 @@ const usePassword = () => {
   const [isActiveSubmit, setIsActiveSubmit] = useState(false);
 
   const setToken = async (password: string) => {
-    if (!hostId) return;
-    const { token } = await apis.postPassword(hostId!, password);
-    localStorage.setItem('token', token);
+    const { token } = await apis.postPassword(hostId, password);
+    localStorage.setItem(`${hostId}`, token);
+    sessionStorage.setItem('tokenKey', `${hostId}`);
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
