@@ -8,7 +8,7 @@ const config = {
   output: {
     publicPath: '/',
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: 'bundle.[chunkhash].js',
   },
   devServer: {
     port: 3000,
