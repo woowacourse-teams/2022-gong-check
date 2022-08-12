@@ -25,6 +25,7 @@ import com.woowacourse.gongcheck.core.domain.section.Section;
 import com.woowacourse.gongcheck.core.domain.space.Space;
 import com.woowacourse.gongcheck.core.domain.task.RunningTask;
 import com.woowacourse.gongcheck.core.domain.task.RunningTaskRepository;
+import com.woowacourse.gongcheck.core.domain.task.SseEmitterRepository;
 import com.woowacourse.gongcheck.core.domain.task.Task;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.NotFoundException;
@@ -50,6 +51,9 @@ class TaskServiceTest {
 
     @Autowired
     private RunningTaskRepository runningTaskRepository;
+
+    @Autowired
+    private SseEmitterRepository sseEmitterRepository;
 
     @Nested
     class createNewRunningTasks_메소드는 {
