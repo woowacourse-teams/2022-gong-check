@@ -5,10 +5,12 @@ import com.woowacourse.gongcheck.auth.domain.AuthenticationContext;
 import com.woowacourse.gongcheck.auth.domain.Authority;
 import com.woowacourse.gongcheck.auth.support.JwtTokenExtractor;
 import com.woowacourse.gongcheck.exception.UnauthorizedException;
+import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsUtils;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
@@ -35,8 +37,22 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
         String subject = jwtTokenProvider.extractSubject(token);
         authenticationContext.setPrincipal(subject);
+
+        if (isNotHostOnlyAnnotated((HandlerMethod) handler)) {
+            return true;
+        }
         Authority authority = jwtTokenProvider.extractAuthority(token);
-        authenticationContext.setAuthority(authority);
+        authorize(authority);
         return HandlerInterceptor.super.preHandle(request, response, handler);
+    }
+
+    private boolean isNotHostOnlyAnnotated(final HandlerMethod handlerMethod) {
+        return Objects.isNull(handlerMethod.getMethodAnnotation(HostOnly.class));
+    }
+
+    private void authorize(final Authority authority) {
+        if (!authority.isHost()) {
+            throw new UnauthorizedException("호스트만 입장 가능합니다.");
+        }
     }
 }

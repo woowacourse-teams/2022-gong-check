@@ -2,6 +2,7 @@ package com.woowacourse.gongcheck.documentation;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -9,6 +10,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 
+import com.woowacourse.gongcheck.auth.domain.Authority;
 import com.woowacourse.gongcheck.core.presentation.request.SpacePasswordChangeRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import org.junit.jupiter.api.Nested;
@@ -25,6 +27,7 @@ class HostDocumentation extends DocumentationTest {
         @Test
         void 비밀번호_변경에_성공한다() {
             doNothing().when(hostService).changeSpacePassword(anyLong(), any());
+            when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             docsGiven
@@ -42,6 +45,7 @@ class HostDocumentation extends DocumentationTest {
             doThrow(new BusinessException("비밀번호는 네 자리 숫자로 이루어져야 합니다."))
                     .when(hostService)
                     .changeSpacePassword(anyLong(), any());
+            when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             docsGiven
@@ -59,6 +63,7 @@ class HostDocumentation extends DocumentationTest {
             doThrow(new BusinessException("비밀번호는 네 자리 숫자로 이루어져야 합니다."))
                     .when(hostService)
                     .changeSpacePassword(anyLong(), any());
+            when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             docsGiven
@@ -75,6 +80,7 @@ class HostDocumentation extends DocumentationTest {
     @Test
     void 호스트_입장코드를_조회한다() {
         when(hostService.createEntranceCode(anyLong())).thenReturn("random_entrance_code");
+        when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
         when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
         docsGiven

@@ -6,6 +6,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import com.woowacourse.gongcheck.auth.application.EntranceCodeProvider;
 import com.woowacourse.gongcheck.auth.application.GuestAuthService;
 import com.woowacourse.gongcheck.auth.application.HostAuthService;
+import com.woowacourse.gongcheck.auth.application.JwtTokenProvider;
 import com.woowacourse.gongcheck.auth.domain.AuthenticationContext;
 import com.woowacourse.gongcheck.auth.presentation.GuestAuthController;
 import com.woowacourse.gongcheck.auth.presentation.HostAuthController;
@@ -22,7 +23,6 @@ import com.woowacourse.gongcheck.core.presentation.JobController;
 import com.woowacourse.gongcheck.core.presentation.SpaceController;
 import com.woowacourse.gongcheck.core.presentation.SubmissionController;
 import com.woowacourse.gongcheck.core.presentation.TaskController;
-import com.woowacourse.gongcheck.infrastructure.jwt.JjwtTokenProvider;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.module.mockmvc.specification.MockMvcRequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
@@ -74,7 +74,7 @@ class DocumentationTest {
     protected HostService hostService;
 
     @MockBean
-    protected JjwtTokenProvider jwtTokenProvider;
+    protected JwtTokenProvider jwtTokenProvider;
 
     @MockBean
     protected EntranceCodeProvider entranceCodeProvider;

@@ -8,6 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -20,6 +21,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.snippet.Attributes.key;
 
+import com.woowacourse.gongcheck.auth.domain.Authority;
 import com.woowacourse.gongcheck.core.application.response.SubmissionCreatedResponse;
 import com.woowacourse.gongcheck.core.application.response.SubmissionsResponse;
 import com.woowacourse.gongcheck.core.domain.host.Host;
@@ -180,6 +182,7 @@ class SubmissionDocumentation extends DocumentationTest {
             SubmissionsResponse response = SubmissionsResponse.of(List.of(submission1, submission2), true);
 
             when(submissionService.findPage(anyLong(), anyLong(), any())).thenReturn(response);
+            when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             docsGiven
