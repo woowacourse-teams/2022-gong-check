@@ -4,6 +4,7 @@ import com.woowacourse.imagestorage.application.response.ImageResponse;
 import com.woowacourse.imagestorage.domain.ImageExtension;
 import com.woowacourse.imagestorage.domain.ImageFile;
 import com.woowacourse.imagestorage.exception.FileIOException;
+import com.woowacourse.imagestorage.exception.FileIONotFoundException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -54,7 +55,7 @@ public class ImageService {
 
             return imageExtension.resizeImage(originImage, width);
         } catch (FileNotFoundException exception) {
-            throw new FileIOException("파일 경로에 파일이 존재하지 않습니다.");
+            throw new FileIONotFoundException("파일 경로에 파일이 존재하지 않습니다.");
         } catch (IOException exception) {
             throw new FileIOException("이미지 파일 변환 시 예외가 발생했습니다.");
         }

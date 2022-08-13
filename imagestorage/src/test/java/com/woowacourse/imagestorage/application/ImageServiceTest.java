@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.woowacourse.imagestorage.application.response.ImageResponse;
-import com.woowacourse.imagestorage.exception.FileIOException;
+import com.woowacourse.imagestorage.exception.FileIONotFoundException;
 import com.woowacourse.imagestorage.util.ImageTypeTransferUtil;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -68,7 +68,7 @@ class ImageServiceTest {
             @Test
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> imageService.resizeImage(NOT_FOUND_IMAGE_URL, WIDTH))
-                        .isInstanceOf(FileIOException.class)
+                        .isInstanceOf(FileIONotFoundException.class)
                         .hasMessage("파일 경로에 파일이 존재하지 않습니다.");
             }
         }
