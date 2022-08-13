@@ -2,7 +2,6 @@ package com.woowacourse.imagestorage.presentation;
 
 import com.woowacourse.imagestorage.application.ImageService;
 import com.woowacourse.imagestorage.application.response.ImageResponse;
-import java.io.IOException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -19,7 +18,7 @@ public class ImageController {
     }
 
     @PostMapping(value = "/api/image-upload")
-    public ResponseEntity<String> uploadImage(@RequestPart MultipartFile file) throws IOException {
+    public ResponseEntity<String> uploadImage(@RequestPart MultipartFile file) {
 
         ImageResponse imageResponse = imageService.storeImage(file);
         return ResponseEntity.ok(imageResponse.getImagePath());
