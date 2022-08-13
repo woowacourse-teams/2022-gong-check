@@ -17,7 +17,7 @@ public class ImageController {
         this.imageService = imageService;
     }
 
-    @PostMapping(value = "/api/image-upload")
+    @PostMapping("/api/image-upload")
     public ResponseEntity<String> uploadImage(@RequestPart MultipartFile file) {
 
         ImageResponse imageResponse = imageService.storeImage(file);
