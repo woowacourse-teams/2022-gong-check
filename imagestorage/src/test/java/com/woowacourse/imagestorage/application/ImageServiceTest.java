@@ -1,10 +1,13 @@
 package com.woowacourse.imagestorage.application;
 
+import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.imagestorage.application.response.ImageResponse;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import javax.imageio.ImageIO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -19,6 +22,12 @@ class ImageServiceTest {
     @Autowired
     private ImageService imageService;
 
+    private byte[] toByteArray(final BufferedImage image) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ImageIO.write(image, "jpg", byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
+    }
+
     @Nested
     class storeImage_메소드는 {
 
@@ -28,15 +37,15 @@ class ImageServiceTest {
             private MultipartFile image;
 
             @BeforeEach
-            void setUp() {
+            void setUp() throws IOException {
                 image = new MockMultipartFile("image",
                         "jamsil.jpg",
                         "image/jpg",
-                        "123".getBytes(StandardCharsets.UTF_8));
+                        toByteArray(new BufferedImage(500, 500, TYPE_INT_RGB)));
             }
 
             @Test
-            void 이미지를_저장하고_이미지_경로를_반환한다() throws IOException {
+            void 이미지를_저장하고_이미지_경로를_반환한다() {
                 ImageResponse actual = imageService.storeImage(image);
 
                 assertThat(actual.getImagePath()).isNotNull();

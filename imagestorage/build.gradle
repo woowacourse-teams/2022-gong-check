@@ -35,6 +35,9 @@ dependencies {
     // lombock
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    // image resize
+    implementation 'com.madgag:animated-gif-lib:1.4'
 }
 
 tasks.named('test') {

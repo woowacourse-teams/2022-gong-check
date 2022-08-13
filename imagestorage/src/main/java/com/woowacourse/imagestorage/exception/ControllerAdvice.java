@@ -11,6 +11,17 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 public class ControllerAdvice {
 
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ErrorResponse> handleInfrastructureException(final BusinessException e) {
+        return ResponseEntity.badRequest().body(ErrorResponse.from(e));
+    }
+
+    @ExceptionHandler(FileIOException.class)
+    public ResponseEntity<ErrorResponse> handleInfrastructureException(final FileIOException e) {
+        log.error(e.getMessage());
+        return ResponseEntity.internalServerError().body(ErrorResponse.from(e));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Void> handleException(final Exception e) {
         log.error("Stack Trace : {}", extractStackTrace(e));
