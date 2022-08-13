@@ -28,8 +28,7 @@ public class ImageService {
 
     public ImageResponse storeImage(final MultipartFile image) {
         try {
-            ImageFile imageFile = ImageFile.from(image)
-                    .resizeImage(500);
+            ImageFile imageFile = ImageFile.from(image);
 
             String imageFileInputName = imageFile.randomName();
             Path fileStorageLocation = storageLocation.resolve(imageFileInputName);
