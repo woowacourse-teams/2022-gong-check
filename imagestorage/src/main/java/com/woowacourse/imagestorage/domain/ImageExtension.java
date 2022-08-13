@@ -5,20 +5,22 @@ import com.woowacourse.imagestorage.strategy.GifImageResizeStrategy;
 import com.woowacourse.imagestorage.strategy.ImageResizeStrategy;
 import com.woowacourse.imagestorage.strategy.StaticImageResizeStrategy;
 import java.util.Arrays;
-import java.util.List;
+import lombok.Getter;
 
+@Getter
 public enum ImageExtension {
 
-    PNG(List.of("png"), new StaticImageResizeStrategy()),
-    JPG(List.of("jpeg", "jpg"), new StaticImageResizeStrategy()),
-    SVG(List.of("svg"), new StaticImageResizeStrategy()),
-    GIF(List.of("gif"), new GifImageResizeStrategy()),
+    PNG("png", new StaticImageResizeStrategy()),
+    JPEG("jpeg", new StaticImageResizeStrategy()),
+    JPG("jpg", new StaticImageResizeStrategy()),
+    SVG("svg", new StaticImageResizeStrategy()),
+    GIF("gif", new GifImageResizeStrategy()),
     ;
 
-    private final List<String> extensions;
+    private final String extensions;
     private final ImageResizeStrategy imageResizeStrategy;
 
-    ImageExtension(final List<String> extensions, final ImageResizeStrategy imageResizeStrategy) {
+    ImageExtension(final String extensions, final ImageResizeStrategy imageResizeStrategy) {
         this.extensions = extensions;
         this.imageResizeStrategy = imageResizeStrategy;
     }
@@ -35,6 +37,6 @@ public enum ImageExtension {
     }
 
     private boolean containsType(final String format) {
-        return extensions.contains(format);
+        return extensions.equals(format);
     }
 }
