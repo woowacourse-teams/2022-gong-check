@@ -159,7 +159,7 @@ class TaskAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()
                 .auth().oauth2(token)
-                .when().post("/api/sections/1/runningTasks/check")
+                .when().post("/api/sections/1/runningTask/allCheck")
                 .then().log().all()
                 .extract();
 
@@ -174,7 +174,7 @@ class TaskAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()
                 .auth().oauth2(token)
-                .when().post("/api/sections/1/runningTasks/check")
+                .when().post("/api/sections/1/runningTask/allCheck")
                 .then().log().all()
                 .extract();
 

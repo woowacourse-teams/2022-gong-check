@@ -22,7 +22,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     void deleteAllBySectionIn(final List<Section> sections);
 
     @EntityGraph(attributePaths = {"runningTask"}, type = EntityGraphType.FETCH)
-    List<Task> findAllBySection(Section section);
+    List<Task> findAllBySection(final Section section);
 
     default Task getBySectionJobSpaceHostAndId(final Host host, final Long id) throws NotFoundException {
         return findBySectionJobSpaceHostAndId(host, id)

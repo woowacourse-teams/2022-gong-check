@@ -299,7 +299,7 @@ class TaskDocumentation extends DocumentationTest {
 
             docsGiven
                     .header("Authorization", "Bearer jwt.token.here")
-                    .when().post("/api/sections/{sectionId}/runningTasks/check", 1)
+                    .when().post("/api/sections/{sectionId}/runningTask/allCheck", 1)
                     .then().log().all()
                     .apply(document("runningTasks/allCheck/success",
                             pathParameters(
