@@ -20,7 +20,7 @@ const TaskBox: React.FC<TaskBoxProps> = ({ task, taskIndex, sectionIndex }) => {
   return (
     <div css={styles.taskBox}>
       <div>
-        <BiMinus css={styles.deleteButton} size={18} onClick={onClickDeleteButton} />
+        <BiXCircle css={styles.deleteButton} size={18} onClick={onClickDeleteButton} />
         <input
           css={styles.input}
           placeholder="새 작업"

@@ -10,8 +10,8 @@ const container = css`
   max-width: 480px;
   height: 360px;
   overflow-y: scroll;
-  padding: 32px;
-  background-color: ${theme.colors.white};
+  padding: 40px 32px;
+  background-color: ${theme.colors.gray200};
   box-shadow: 2px 2px 2px 2px ${theme.colors.shadow20};
   border-radius: 8px;
   position: relative;
@@ -68,14 +68,12 @@ const detailButton = (hasSectionDetailInfo: boolean) => css`
 
 const newTaskButton = css`
   align-self: center;
-  margin: 8px 0;
+  margin: 12px 0;
   font-size: 12px;
   padding: 8px 16px;
   border-radius: 24px;
-  background-color: ${theme.colors.shadow10};
-  :hover {
-    background-color: ${theme.colors.shadow20};
-  }
+  color: ${theme.colors.white};
+  background-color: ${theme.colors.primary};
 `;
 
 const input = css`
@@ -84,7 +82,7 @@ const input = css`
   border: 1px solid ${theme.colors.shadow30};
   border-radius: 12px;
   padding: 0 16px;
-  background-color: ${theme.colors.white};
+  background-color: ${theme.colors.gray100};
   width: 80%;
 
   :focus {

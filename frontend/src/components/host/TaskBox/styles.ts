@@ -27,7 +27,7 @@ const editButton = css`
 `;
 
 const deleteButton = css`
-  margin-right: 4px;
+  margin-right: 6px;
   cursor: pointer;
   color: ${theme.colors.red};
 `;
@@ -38,7 +38,7 @@ const input = css`
   padding: 4px 16px;
   width: 70%;
   font-size: 14px;
-  background-color: ${theme.colors.white};
+  background-color: ${theme.colors.gray100};
 
   :focus {
     outline: 2px solid ${theme.colors.primary};
