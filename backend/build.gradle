@@ -4,7 +4,7 @@ plugins {
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
     id 'java'
     id 'jacoco'
-    id "org.sonarqube" version "3.4.0.2513"
+    id "org.sonarqube" version "3.2.0"
 }
 
 group = 'com.woowacourse'
@@ -121,10 +121,6 @@ jacocoTestReport {
 
 sonarqube {
     properties {
-        property "sonar.projectKey", "woowacourse-teams_2022-gong-check"
-        property "sonar.organization", "woowacourse-teams"
-        property "sonar.host.url", "https://sonarcloud.io"
-        property 'sonar.coverage.jacoco.xmlReportPaths', 'build/reports/jacoco/test/jacocoTestReport.xml'
-        property 'sonar.language', 'java'
+        property "sonar.projectKey", "gongcheck"
     }
 }
