@@ -17,11 +17,11 @@ public enum ImageExtension {
     GIF("gif", new GifImageResizeStrategy()),
     ;
 
-    private final String extensions;
+    private final String extension;
     private final ImageResizeStrategy imageResizeStrategy;
 
-    ImageExtension(final String extensions, final ImageResizeStrategy imageResizeStrategy) {
-        this.extensions = extensions;
+    ImageExtension(final String extension, final ImageResizeStrategy imageResizeStrategy) {
+        this.extension = extension;
         this.imageResizeStrategy = imageResizeStrategy;
     }
 
@@ -33,10 +33,10 @@ public enum ImageExtension {
     }
 
     public byte[] resizeImage(final byte[] originBytes, final int width) {
-        return imageResizeStrategy.resize(originBytes, width);
+        return imageResizeStrategy.resize(originBytes, width, extension);
     }
 
     private boolean containsType(final String format) {
-        return extensions.equals(format);
+        return extension.equals(format);
     }
 }

@@ -78,7 +78,7 @@ public class ImageFile {
     }
 
     public String randomName() {
-        return UUID.randomUUID().toString() + "." + extension.getExtensions();
+        return UUID.randomUUID().toString() + "." + extension.getExtension();
     }
 
     public String contentType() {

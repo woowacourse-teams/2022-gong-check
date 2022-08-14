@@ -8,12 +8,10 @@ import java.awt.image.BufferedImage;
 
 public class StaticImageResizeStrategy implements ImageResizeStrategy {
 
-    private static final String STATIC_IMAGE_FORMAT = "jpeg";
-
     @Override
-    public byte[] resize(final byte[] originBytes, final int width) {
+    public byte[] resize(final byte[] originBytes, final int width, final String extension) {
         BufferedImage image = toBufferedImage(originBytes);
 
-        return toByteArray(resizedByWidth(image, width), STATIC_IMAGE_FORMAT);
+        return toByteArray(resizedByWidth(image, width), extension);
     }
 }

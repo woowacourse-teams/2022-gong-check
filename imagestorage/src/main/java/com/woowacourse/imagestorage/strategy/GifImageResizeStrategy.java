@@ -11,7 +11,7 @@ import java.io.InputStream;
 public class GifImageResizeStrategy implements ImageResizeStrategy {
 
     @Override
-    public byte[] resize(final byte[] originBytes, final int width) {
+    public byte[] resize(final byte[] originBytes, final int width, final String extension) {
         GifDecoder gifDecoder = createGifDecoder(originBytes);
 
         return resizeGif(gifDecoder, width).toByteArray();
