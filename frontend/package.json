@@ -8,6 +8,7 @@
     "build-local": "cross-env NODE_ENV=development webpack",
     "build-staging": "cross-env NODE_ENV=staging webpack",
     "build-release": "cross-env NODE_ENV=production webpack",
+    "lhci": "lhci autorun",
     "prettier": "npx prettier --write 'src/**/*.{tsx,ts,css,html,json}'"
   },
   "repository": {
@@ -36,6 +37,7 @@
     "@emotion/css": "^11.9.0",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
+    "@lhci/cli": "^0.9.0",
     "@trivago/prettier-plugin-sort-imports": "^3.2.0",
     "@types/node": "^18.0.0",
     "@types/react": "^18.0.14",
