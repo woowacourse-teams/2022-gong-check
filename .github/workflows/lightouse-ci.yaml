@@ -41,7 +41,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const fs = require('fs');
-            const results = JSON.parse(fs.readFileSync('${{ github.workspace }}/lhci_reports/manifest.json'));
+            const results = JSON.parse(fs.readFileSync('${{ github.workspace }}/frontend/lhci_reports/manifest.json'));
             let comments = "";
 
 
