@@ -57,4 +57,17 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONARQUBE_HOST_URL }}
         run: ./gradlew build sonarqube --info
-
+          -Dsonar.host.url=${{ secrets.SONARQUBE_HOST_URL }}
+          -Dsonar.projectKey=woowacourse-teams_2022-gong-check
+          -Dsonar.projectName=woowacourse-teams_2022-gong-check-${{ github.event.pull_request.number }}
+          -Dsonar.login=${{ secrets.SONARQUBE_TOKEN }}
+      - name: send sonarqube url
+        uses: actions/github-script@v4
+        with:
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `📊 woowacourse-teams_2022-gong-check-${{ github.event.pull_request.number }} 분석 결과 확인하기 [링크](${{secrets.SONARQUBE_HOST_URL}})`
+            })
