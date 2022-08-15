@@ -1,19 +1,15 @@
 name: sonarqube backend
-
 on:
   pull_request:
     branches: [ dev ]
     paths: [ "backend/**" ]
     types: [ opened, synchronize, reopened ]
-
 defaults:
   run:
     working-directory: backend
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: checkout source
         uses: actions/checkout@v2
@@ -25,11 +21,9 @@ jobs:
           cache: gradle
       - name: Build
         run: ./gradlew build
-
   sonarqube:
     needs: build
     runs-on: ubuntu-latest
-
     steps:
       - name: checkout source
         uses: actions/checkout@v2
@@ -52,50 +46,22 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
       - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONARQUBE_HOST_URL }}
         run: ./gradlew build sonarqube --info
           -Dsonar.host.url=${{ secrets.SONARQUBE_HOST_URL }}
           -Dsonar.projectKey=woowacourse-teams_2022-gong-check
           -Dsonar.projectName=woowacourse-teams_2022-gong-check-${{ github.event.pull_request.number }}
           -Dsonar.login=${{ secrets.SONARQUBE_TOKEN }}
-
-      - name: get analysis results
-        id: analysis_results
-        run: |
-          RESPONSE=$(curl -X GET -G '${{ secrets.SONARQUBE_HOST_URL }}/api/measures/search' \
-          -d projectKeys=woowacourse-teams_2022-gong-check \
-          -d metricKeys=bugs,vulnerabilities,security_hotspots,code_smells,coverage,tests,test_success_density,test_failures,test_errors,skipped_tests,duplicated_lines_density,duplicated_files,duplicated_blocks \
-          | jq '.measures')
-          echo "$RESPONSE" | jq -c '.[] | .' | while read -r data;
-          do
-            METRIC=$(echo $data | jq -r '.metric')
-            VALUE=$(echo $data | jq -r '.value')
-            BEST_VALUE=$(echo $data | jq -r '.bestValue')
-            echo "::set-output name=${METRIC}_value::${VALUE}"
-            if [ $BEST_VALUE == true ]; then
-              echo "::set-output name=${METRIC}_best_value::✅"
-            else
-              echo "::set-output name=${METRIC}_best_value::❌"                 
-            fi
-          done
       - name: send sonarqube url
         uses: actions/github-script@v4
         with:
           script: |
             github.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: `## 🚧 Analysis Results
-            2022-gong-check-${{ github.event.pull_request.number }}
-            
-            Bugs :    ${{ steps.analysis_results.outputs.bugs_value }}    ${{ steps.analysis_results.outputs.bugs_best_value }}
-            Vulnerabilities :    ${{ steps.analysis_results.outputs.vulnerabilities_value }}    ${{ steps.analysis_results.outputs.vulnerabilities_best_value }} 
-            Security Hotspots :    ${{ steps.analysis_results.outputs.security_hotspots_value }}    ${{ steps.analysis_results.outputs.security_hotspots_best_value }} 
-            Code Smells :    ${{ steps.analysis_results.outputs.code_smells_value }}    ${{ steps.analysis_results.outputs.code_smells_best_value }} 
-            Coverage :    ${{ steps.analysis_results.outputs.coverage_value }}    ${{ steps.analysis_results.outputs.coverage_best_value }} 
-            Tests :    ${{ steps.analysis_results.outputs.tests_value }}    ${{ steps.analysis_results.outputs.tests_best_value }} 
-            Test Success Density :    ${{ steps.analysis_results.outputs.test_success_density_value }}    ${{ steps.analysis_results.outputs.test_success_density_best_value }} 
-            Test Failures :    ${{ steps.analysis_results.outputs.test_failures_value }}    ${{ steps.analysis_results.outputs.test_failures_best_value }}             
-            Duplicated Lines Density :    ${{ steps.analysis_results.outputs.duplicated_lines_density_value }}    ${{ steps.analysis_results.outputs.duplicated_lines_density_best_value }}
-            
-            [분석 결과 확인하기](${secrets.SONARQUBE_HOST_URL})`
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `📊 woowacourse-teams_2022-gong-check-${{ github.event.pull_request.number }} 분석 결과 확인하기 [링크](${{secrets.SONARQUBE_HOST_URL}})`
+            })
