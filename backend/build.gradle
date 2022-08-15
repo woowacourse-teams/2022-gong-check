@@ -121,6 +121,6 @@ jacocoTestReport {
 
 sonarqube {
     properties {
-        property "sonar.projectKey", "gongcheck"
+        property "sonar.projectKey", "woowacourse-teams_2022-gong-check"
     }
 }
