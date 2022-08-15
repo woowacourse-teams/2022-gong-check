@@ -11,11 +11,6 @@ jobs:
     name: Lighthouse CI
     runs-on: ubuntu-latest
     steps:
-      - name: Print github workspace
-        run: |
-          echo "GITHUB_WORKSPACE = $GITHUB_WORKSPACE"
-          echo "github.workspace = ${{ github.workspace }}"
-
       - name: Checkout
         uses: actions/checkout@v1
 
