@@ -102,4 +102,4 @@ jobs:
             Test Failures :    ${{ steps.analysis_results.outputs.test_failures_value }}    ${{ steps.analysis_results.outputs.test_failures_best_value }}             
             Duplicated Lines Density :    ${{ steps.analysis_results.outputs.duplicated_lines_density_value }}    ${{ steps.analysis_results.outputs.duplicated_lines_density_best_value }}
             
-            [분석 결과 확인하기](${SONARQUBE_URL})`
+            [분석 결과 확인하기](${secrets.SONARQUBE_HOST_URL})`
