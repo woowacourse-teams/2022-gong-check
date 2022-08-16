@@ -44,7 +44,7 @@ jobs:
           lhci autorun || echo "LHCI failed!"
 
       - name: Cypress CI
-        run: npm run test:ci
+        run: npm run test:ci:chrome
         continue-on-error: true
 
       - name: Merge Cypress Results
@@ -136,4 +136,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          msg: ${{ steps.format_cypress_result.outputs.comments}} ${{ steps.format_lighthouse_score.outputs.comments}}
+          msg: ${{ steps.format_ci_result.outputs.comments}}
