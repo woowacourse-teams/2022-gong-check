@@ -4,7 +4,7 @@ plugins {
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
     id 'java'
     id 'jacoco'
-    id "org.sonarqube" version "3.2.0"
+    id "org.sonarqube" version "3.4.0.2513"
 }
 
 group = 'com.woowacourse'
@@ -121,6 +121,6 @@ jacocoTestReport {
 
 sonarqube {
     properties {
-        property "sonar.projectKey", "woowacourse-teams_2022-gong-check"
+        property "sonar.projectKey", "woowacourse-teams_2022-gong-check_AYKm4KvOS_3Pe1LEsoLu"
     }
 }
