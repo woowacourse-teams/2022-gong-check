@@ -4,6 +4,7 @@ import com.woowacourse.gongcheck.core.application.response.RunningTasksResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import lombok.extern.slf4j.Slf4j;
@@ -14,11 +15,11 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 @Slf4j
 public class RunningTaskSseEmitterContainer {
 
-    public static final long DEFAULT_TIME_OUT_MILLIS = 10L * 60 * 1000;
+    private static final long DEFAULT_TIME_OUT_MILLIS = 10L * 60 * 1000;
 
     private final Map<Long, List<SseEmitter>> values = new ConcurrentHashMap<>();
 
-    public SseEmitter publishEvent(final Long jobId, final RunningTasksResponse runningTasks) {
+    public SseEmitter createEmitterWithConnectionEvent(final Long jobId, final RunningTasksResponse runningTasks) {
         SseEmitter emitter = saveByJobId(jobId);
         try {
             emitter.send(SseEmitter.event()
@@ -44,6 +45,18 @@ public class RunningTaskSseEmitterContainer {
         });
     }
 
+    public void deleteByJobId(final Long jobId, final SseEmitter emitter) {
+        List<SseEmitter> emitters = values.get(jobId);
+        if (Objects.isNull(emitters)) {
+            return;
+        }
+        emitters.remove(emitter);
+    }
+
+    public List<SseEmitter> getValuesByJobId(final Long jobId) {
+        return values.get(jobId);
+    }
+
     private SseEmitter saveByJobId(final Long jobId) {
         SseEmitter emitter = new SseEmitter(DEFAULT_TIME_OUT_MILLIS);
         emitter.onCompletion(() -> deleteByJobId(jobId, emitter));
@@ -53,13 +66,5 @@ public class RunningTaskSseEmitterContainer {
         }
         values.get(jobId).add(emitter);
         return emitter;
-    }
-
-    public List<SseEmitter> getValuesByJobId(final Long jobId) {
-        return values.get(jobId);
-    }
-
-    public void deleteByJobId(final Long jobId, final SseEmitter emitter) {
-        values.get(jobId).remove(emitter);
     }
 }

@@ -10,6 +10,10 @@ import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import com.woowacourse.gongcheck.ApplicationTest;
 import com.woowacourse.gongcheck.SupportRepository;
@@ -800,6 +804,41 @@ class TaskServiceTest {
                 assertThatThrownBy(() -> taskService.checkRunningTasksInSection(host.getId(), section.getId()))
                         .isInstanceOf(BusinessException.class)
                         .hasMessage("현재 진행중인 RunningTask가 없습니다");
+            }
+        }
+    }
+
+    @Nested
+    class connectRunningTasks_메서드는 {
+
+        @Nested
+        class 존재하는_Host와_RunningTasks가_생성된_Job을_입력받은_경우 {
+
+            private Long hostId;
+            private Long jobId;
+
+            @BeforeEach
+            void setUp() {
+                Host host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                Job job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                List<Task> tasks = repository.saveAll(List.of(
+                        Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
+                repository.saveAll(tasks.stream()
+                        .map(task -> RunningTask_생성(task.getId(), false))
+                        .collect(toList()));
+
+                hostId = host.getId();
+                jobId = job.getId();
+            }
+
+            @Test
+            void emitter를_생성하는_메서드를_호출한다() {
+                taskService.connectRunningTasks(hostId, jobId);
+
+                verify(runningTaskSseEmitterContainer, times(1))
+                        .createEmitterWithConnectionEvent(anyLong(), any());
             }
         }
     }
