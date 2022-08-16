@@ -75,7 +75,7 @@ jobs:
             const score = (res) => (res >= 90 ? "🟢" : res >= 50 ? "🟠" : "🔴");
 
             const lhciComment = [
-              `## ⚡️ Lighthouse report!`,
+              `## ⚡️ Lighthouse Report`,
               `| Category | Score |`,
               `| --- | --- |`,
               `| ${score(summary.performance)} Performance | ${summary.performance} |`,
@@ -119,10 +119,10 @@ jobs:
             const {passes, failures, pending, duration, passPercent, skipped} = cypressResults.stats;
 
             const cypressComment = [
-              `## ⭐️ Cypress E2E Test Result`,
-              `| Result | Passed✅ | Failed❌ | Pending✋ | Skipped↩️ | Duration🕐 |`,
+              `## ⭐️ Cypress E2E Report`,
+              `| Result | Passed ✅ | Failed ❌ | Pending ✋ | Skipped ↩️ | Duration 🕐 |`,
               `| --- | --- | --- | --- | --- | --- |`,
-              `| ${passPercent === 100 ? 'Success😀' : 'Failed😂'} | ${passes} | ${failures} | ${pending} | ${skipped} | ${duration/10000}s |`,
+              `| ${passPercent === 100 ? 'Success ✅' : 'Failed ❌'} | ${passes} | ${failures} | ${pending} | ${skipped} | ${duration/10000}s |`,
             ].join("\n");
 
 
