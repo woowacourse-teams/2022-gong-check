@@ -13,8 +13,8 @@ const layout = css`
 const contents = css`
   width: 95%;
   min-height: 100%;
+  min-width: 720px;
   background-color: ${theme.colors.white};
-  min-width: 360px;
 `;
 
 const grid = css`
