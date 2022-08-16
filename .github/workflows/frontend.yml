@@ -19,44 +19,50 @@ jobs:
       - run: npm run build
 
   lhci:
-    name: Lighthouse CI
+    name: Frontend CI
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Use Node.js 16.x
         uses: actions/setup-node@v1
         with:
           node-version: 16.x
 
-      - name: Install packages ci
-        run: |
-          npm ci
+      - name: NPM CI
+        run: npm ci
 
       - name: Build
-        run: |
-          npm run build
+        run: npm run build
 
-      - name: Run Lighthouse CI
+      - name: Lighthouse CI
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
         run: |
           npm install -g @lhci/cli
           lhci autorun || echo "LHCI failed!"
 
-      - name: Format lighthouse score
-        id: format_lighthouse_score
+      - name: Cypress CI
+        run: npm run test:ci
+        continue-on-error: true
+
+      - name: Merge Cypress Results
+        run: npm run report:merge
+
+      - name: Format Result
+        id: format_ci_result
         uses: actions/github-script@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const fs = require('fs');
-            const results = JSON.parse(fs.readFileSync('${{ github.workspace }}/frontend/lhci_reports/manifest.json'));
+            const lhciResults = JSON.parse(fs.readFileSync('${{ github.workspace }}/frontend/lhci_reports/manifest.json'));
+            const cypressResults = JSON.parse(fs.readFileSync('${{ github.workspace }}/frontend/cypress.result.json'));
             let comments = "";
 
 
-            const { summary, jsonPath } = results[0];
+            const { summary, jsonPath } = lhciResults[0];
 
             const details = JSON.parse(fs.readFileSync(jsonPath));
             const { audits } = details;
@@ -69,7 +75,7 @@ jobs:
 
             const score = (res) => (res >= 90 ? "🟢" : res >= 50 ? "🟠" : "🔴");
 
-            const comment = [
+            const lhciComment = [
               `⚡️ Lighthouse report!`,
               `| Category | Score |`,
               `| --- | --- |`,
@@ -111,54 +117,17 @@ jobs:
               } |`
             ].join("\n");
 
-            comments += comment + "\n" + detail + "\n";
+            const {passes, failures, pending, duration, passPercent, skipped} = cypressResults.stats;
 
-            core.setOutput('comments', comments);
-
-      - name: comment PR
-        uses: unsplash/comment-on-pr@v1.3.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          msg: ${{ steps.format_lighthouse_score.outputs.comments}}
-
-  cypress-run:
-    name: Cypress E2E Test CI
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: NPM CI
-        run: npm ci
-
-      - name: Cypress run
-        run: npm run test:ci
-        continue-on-error: true
-
-      - name: Merge Results
-        run: npm run report:merge
-
-      - name: Format Cypress Result
-        id: format_cypress_result
-        uses: actions/github-script@v3
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const fs = require('fs');
-            const results = JSON.parse(fs.readFileSync('${{ github.workspace }}/frontend/cypress.result.json'));
-            let comments = "";
-
-            const {passes, failures, pending, duration, passPercent, skipped} = results.stats;
-
-            const comment = [
+            const cypressComment = [
               `⭐️ Cypress E2E Test Result`,
               `| Result | Passed✅ | Failed❌ | Pending✋ | Skipped↩️ | Duration🕐 |`,
               `| --- | --- | --- | --- | --- | --- |`,
               `| ${passPercent === 100 ? 'Success😀' : 'Failed😂'} | ${passes} | ${failures} | ${pending} | ${skipped} | ${duration/10000}s |`,
             ].join("\n");
 
-            comments += comment;
+
+            comments += lhciComment + "\n" + detail + "\n\n\n"+ cypressComment;
 
             core.setOutput('comments', comments);
 
@@ -167,4 +136,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          msg: ${{ steps.format_cypress_result.outputs.comments}}
+          msg: ${{ steps.format_cypress_result.outputs.comments}} ${{ steps.format_lighthouse_score.outputs.comments}}
