@@ -140,8 +140,8 @@ task cucumber() {
     }
 }
 
-check {
-    dependsOn(cucumber)
+build {
+    dependsOn cucumber
 }
 
 sonarqube {

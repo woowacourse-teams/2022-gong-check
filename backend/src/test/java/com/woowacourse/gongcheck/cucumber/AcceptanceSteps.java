@@ -11,4 +11,3 @@ public class AcceptanceSteps {
     @Autowired
     public EntranceCodeProvider entranceCodeProvider;
 }
-

@@ -30,9 +30,9 @@ public class AcceptanceContext {
     public void invokeHttpPost(String path, Object data) {
         request = RestAssured
                 .given().log().all()
-                .body(data).contentType(ContentType.JSON);
+                .body(data)
+                .contentType(ContentType.JSON);
         response = request.post(path);
         response.then().log().all();
     }
 }
-
