@@ -748,7 +748,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.checkRunningTasksInSection(hostId, NON_EXIST_SECTION_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 구역입니다.");
+                        .hasMessageContaining("존재하지 않는 구역입니다.");
             }
         }
 
@@ -772,7 +772,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.checkRunningTasksInSection(anotherHost.getId(), section.getId()))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 구역입니다.");
+                        .hasMessageContaining("존재하지 않는 구역입니다.");
             }
         }
 

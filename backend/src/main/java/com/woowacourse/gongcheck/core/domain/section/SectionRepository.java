@@ -18,11 +18,17 @@ public interface SectionRepository extends JpaRepository<Section, Long> {
 
     default Section getByJobSpaceHostAndId(final Host host, final Long id) throws NotFoundException {
         return findByJobSpaceHostAndId(host, id)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 구역입니다.", ErrorCode.SE01));
+                .orElseThrow(() -> {
+                    String message = String.format("존재하지 않는 구역입니다. hostId = %d, sectionId = %d", host.getId(), id);
+                    throw new NotFoundException(message, ErrorCode.SE01);
+                });
     }
 
     default Section getById(final Long id) throws NotFoundException {
         return findById(id)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 구역입니다", ErrorCode.SE01));
+                .orElseThrow(() -> {
+                    String message = String.format("존재하지 않는 구역입니다. sectionId = %d", id);
+                    throw new NotFoundException(message, ErrorCode.SE01);
+                });
     }
 }
