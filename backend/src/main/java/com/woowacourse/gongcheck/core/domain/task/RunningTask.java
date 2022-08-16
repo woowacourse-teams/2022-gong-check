@@ -55,6 +55,10 @@ public class RunningTask {
         isChecked = !isChecked;
     }
 
+    public void check() {
+        isChecked = true;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

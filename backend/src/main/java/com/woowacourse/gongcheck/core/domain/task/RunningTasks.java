@@ -17,6 +17,12 @@ public class RunningTasks {
         }
     }
 
+    public void check() {
+        for (RunningTask runningTask : runningTasks) {
+            runningTask.check();
+        }
+    }
+
     private boolean isAllChecked() {
         return runningTasks.stream()
                 .allMatch(RunningTask::isChecked);

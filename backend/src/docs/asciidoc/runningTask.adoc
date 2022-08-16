@@ -16,3 +16,7 @@ operation::runningTasks/check/success[snippets='http-request,http-response,path-
 === RunningTask 생성
 
 operation::runningTasks/create/success[snippets='http-request,http-response,path-parameters']
+
+=== Section의 RunningTask 모두 체크상태로 변환
+
+operation::runningTasks/allCheck/success[snippets='http-request,http-response,path-parameters']
