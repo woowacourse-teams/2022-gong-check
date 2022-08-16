@@ -26,8 +26,11 @@ const SECTIONS = [
   },
 ];
 
-Cypress.Commands.add<any>('setToken', () => {
-  localStorage.setItem('token', 'json_web_token');
+const HOST_ID = 1;
+
+Cypress.Commands.add('setToken', () => {
+  sessionStorage.setItem('tokenKey', `${HOST_ID}`);
+  localStorage.setItem(`${HOST_ID}`, 'json_web_token');
 });
 
 // mockAPIs
@@ -174,3 +177,5 @@ Cypress.Commands.addAll({
     }).as('postJobComplete');
   },
 });
+
+export {};
