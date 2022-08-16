@@ -23,7 +23,7 @@ class SpacePasswordTest {
     void 네자리_숫자가_아니면_예외가_발생한다(final String password) {
         assertThatThrownBy(() -> new SpacePassword(password))
                 .isInstanceOf(BusinessException.class)
-                .hasMessage("비밀번호는 네 자리 숫자로 이루어져야 합니다.");
+                .hasMessageContaining("비밀번호는 네 자리 숫자로 이루어져야 합니다.");
     }
 
     @Test

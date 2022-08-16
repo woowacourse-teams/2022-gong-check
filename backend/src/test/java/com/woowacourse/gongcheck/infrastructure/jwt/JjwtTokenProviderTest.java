@@ -35,7 +35,7 @@ class JjwtTokenProviderTest {
 
         assertThatThrownBy(() -> tokenProvider.extractSubject(expiredToken))
                 .isInstanceOf(UnauthorizedException.class)
-                .hasMessage("만료된 토큰입니다.");
+                .hasMessageContaining("만료된 토큰입니다.");
     }
 
     @Test
@@ -44,7 +44,7 @@ class JjwtTokenProviderTest {
 
         assertThatThrownBy(() -> tokenProvider.extractSubject(invalidToken))
                 .isInstanceOf(InfrastructureException.class)
-                .hasMessage("올바르지 않은 토큰입니다.");
+                .hasMessageContaining("올바르지 않은 토큰입니다.");
     }
 
     @Test
@@ -75,6 +75,6 @@ class JjwtTokenProviderTest {
 
         assertThatThrownBy(() -> tokenProvider.extractAuthority(invalidToken))
                 .isInstanceOf(InfrastructureException.class)
-                .hasMessage("올바르지 않은 토큰입니다.");
+                .hasMessageContaining("올바르지 않은 토큰입니다.");
     }
 }

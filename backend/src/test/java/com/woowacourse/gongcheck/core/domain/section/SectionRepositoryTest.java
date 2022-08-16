@@ -164,7 +164,7 @@ class SectionRepositoryTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> sectionRepository.getByJobSpaceHostAndId(otherHost, section.getId()))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 구역입니다.");
+                        .hasMessageContaining("존재하지 않는 구역입니다.");
             }
         }
     }

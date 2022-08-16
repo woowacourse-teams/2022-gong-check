@@ -30,6 +30,7 @@ import com.woowacourse.gongcheck.core.domain.space.Space;
 import com.woowacourse.gongcheck.core.domain.submission.Submission;
 import com.woowacourse.gongcheck.core.presentation.request.SubmissionRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
+import com.woowacourse.gongcheck.exception.ErrorCode;
 import com.woowacourse.gongcheck.exception.ErrorResponse;
 import io.restassured.module.mockmvc.response.MockMvcResponse;
 import io.restassured.response.ExtractableResponse;
@@ -76,7 +77,7 @@ class SubmissionDocumentation extends DocumentationTest {
 
         @Test
         void author_길이가_올바르지_않은_경우_예외가_발생한다() {
-            doThrow(new BusinessException("제출자 이름의 길이가 올바르지 않습니다."))
+            doThrow(new BusinessException("제출자 이름의 길이가 올바르지 않습니다.", ErrorCode.S003))
                     .when(submissionService)
                     .submitJobCompletion(anyLong(), anyLong(), any());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
@@ -93,8 +94,8 @@ class SubmissionDocumentation extends DocumentationTest {
 
             assertAll(
                     () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value()),
-                    () -> assertThat(response.as(ErrorResponse.class).getMessage())
-                            .isEqualTo("제출자 이름의 길이가 올바르지 않습니다.")
+                    () -> assertThat(response.as(ErrorResponse.class).getErrorCode())
+                            .isEqualTo(ErrorCode.S003.name())
             );
         }
 
@@ -114,14 +115,14 @@ class SubmissionDocumentation extends DocumentationTest {
 
             assertAll(
                     () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value()),
-                    () -> assertThat(response.as(ErrorResponse.class).getMessage())
-                            .isEqualTo("제출자 이름은 null 일 수 없습니다.")
+                    () -> assertThat(response.as(ErrorResponse.class).getErrorCode())
+                            .isEqualTo(ErrorCode.V001.name())
             );
         }
 
         @Test
         void RunningTask가_존재하지_않으면_예외가_발생한다() {
-            doThrow(new BusinessException("현재 제출할 수 있는 진행중인 작업이 존재하지 않습니다."))
+            doThrow(new BusinessException("현재 제출할 수 있는 진행중인 작업이 존재하지 않습니다.", ErrorCode.S001))
                     .when(submissionService)
                     .submitJobCompletion(anyLong(), anyLong(), any());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
@@ -138,14 +139,14 @@ class SubmissionDocumentation extends DocumentationTest {
 
             assertAll(
                     () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value()),
-                    () -> assertThat(response.as(ErrorResponse.class).getMessage())
-                            .isEqualTo("현재 제출할 수 있는 진행중인 작업이 존재하지 않습니다.")
+                    () -> assertThat(response.as(ErrorResponse.class).getErrorCode())
+                            .isEqualTo(ErrorCode.S001.name())
             );
         }
 
         @Test
         void 모든_RunningTask가_체크상태가_아니면_예외가_발생한다() {
-            doThrow(new BusinessException("모든 작업이 완료되지않아 제출이 불가합니다."))
+            doThrow(new BusinessException("모든 작업이 완료되지않아 제출이 불가합니다.", ErrorCode.R003))
                     .when(submissionService)
                     .submitJobCompletion(anyLong(), anyLong(), any());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
@@ -162,8 +163,8 @@ class SubmissionDocumentation extends DocumentationTest {
 
             assertAll(
                     () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value()),
-                    () -> assertThat(response.as(ErrorResponse.class).getMessage())
-                            .isEqualTo("모든 작업이 완료되지않아 제출이 불가합니다.")
+                    () -> assertThat(response.as(ErrorResponse.class).getErrorCode())
+                            .isEqualTo(ErrorCode.R003.name())
             );
         }
     }

@@ -13,6 +13,6 @@ class SubmissionTest {
                 .author("12345678901")
                 .build())
                 .isInstanceOf(BusinessException.class)
-                .hasMessage("제출자 이름은 10자 이하여야 합니다.");
+                .hasMessageContaining("제출자 이름은 10자 이하여야 합니다.");
     }
 }

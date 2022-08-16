@@ -74,7 +74,7 @@ class SubmissionServiceTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> submissionService.submitJobCompletion(NON_EXIST_HOST_ID, jobId, request))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
 
@@ -96,7 +96,7 @@ class SubmissionServiceTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> submissionService.submitJobCompletion(host.getId(), NON_EXIST_JOB_ID, request))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
 
@@ -121,7 +121,7 @@ class SubmissionServiceTest {
                 assertThatThrownBy(
                         () -> submissionService.submitJobCompletion(anotherHost.getId(), job.getId(), request))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
 
@@ -144,7 +144,7 @@ class SubmissionServiceTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> submissionService.submitJobCompletion(host.getId(), job.getId(), request))
                         .isInstanceOf(BusinessException.class)
-                        .hasMessage("현재 제출할 수 있는 진행중인 작업이 존재하지 않습니다.");
+                        .hasMessageContaining("현재 제출할 수 있는 진행중인 작업이 존재하지 않습니다.");
             }
         }
 
@@ -172,7 +172,7 @@ class SubmissionServiceTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> submissionService.submitJobCompletion(host.getId(), job.getId(), request))
                         .isInstanceOf(BusinessException.class)
-                        .hasMessage("모든 작업이 완료되지않아 제출이 불가합니다.");
+                        .hasMessageContaining("모든 작업이 완료되지않아 제출이 불가합니다.");
             }
         }
 
@@ -234,7 +234,7 @@ class SubmissionServiceTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> submissionService.findPage(NON_EXIST_HOST_ID, spaceId, request))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
 
@@ -256,7 +256,7 @@ class SubmissionServiceTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> submissionService.findPage(host.getId(), NON_EXIST_SPACE_ID, request))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 공간입니다.");
+                        .hasMessageContaining("존재하지 않는 공간입니다.");
             }
         }
 
@@ -280,7 +280,7 @@ class SubmissionServiceTest {
                 assertThatThrownBy(
                         () -> submissionService.findPage(anotherHost.getId(), space.getId(), request))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 공간입니다.");
+                        .hasMessageContaining("존재하지 않는 공간입니다.");
             }
         }
 

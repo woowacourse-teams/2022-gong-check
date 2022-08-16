@@ -31,7 +31,7 @@ class RunningTasksTest {
 
         assertThatThrownBy(runningTasks::validateCompletion)
                 .isInstanceOf(BusinessException.class)
-                .hasMessage("모든 작업이 완료되지않아 제출이 불가합니다.");
+                .hasMessageContaining("모든 작업이 완료되지않아 제출이 불가합니다.");
     }
 
     @ParameterizedTest

@@ -17,7 +17,7 @@ class DescriptionTest {
         String value = sb.toString();
         assertThatThrownBy(() -> new Description(value))
                 .isInstanceOf(BusinessException.class)
-                .hasMessage("설명은 128자 이하여야 합니다.");
+                .hasMessageContaining("설명은 128자 이하여야 합니다.");
     }
 
     @Test
