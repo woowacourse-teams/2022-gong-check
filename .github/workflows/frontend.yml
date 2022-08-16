@@ -126,11 +126,11 @@ jobs:
             ].join("\n");
 
 
-            comments += lhciComment + "\n" + detail + + "\n" + "---"+ + "\n" + cypressComment;
+            comments += lhciComment + "\n" + detail + "\n" + "---" + "\n" + cypressComment;
 
             core.setOutput('comments', comments);
 
-      - name: comment PR
+      - name: Comment PR
         uses: unsplash/comment-on-pr@v1.3.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
