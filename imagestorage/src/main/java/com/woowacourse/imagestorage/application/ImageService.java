@@ -1,14 +1,21 @@
 package com.woowacourse.imagestorage.application;
 
 import com.woowacourse.imagestorage.application.response.ImageResponse;
+import com.woowacourse.imagestorage.domain.ImageExtension;
 import com.woowacourse.imagestorage.domain.ImageFile;
 import com.woowacourse.imagestorage.exception.FileIOException;
+import com.woowacourse.imagestorage.exception.FileIONotFoundException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,15 +35,33 @@ public class ImageService {
 
     public ImageResponse storeImage(final MultipartFile image) {
         try {
-            ImageFile imageFile = ImageFile.from(image)
-                    .resizeImage(500);
+            ImageFile imageFile = ImageFile.from(image);
 
             String imageFileInputName = imageFile.randomName();
-            Path fileStorageLocation = storageLocation.resolve(imageFileInputName);
+            Path fileStorageLocation = resolvePath(imageFileInputName);
             Files.copy(imageFile.inputStream(), fileStorageLocation, StandardCopyOption.REPLACE_EXISTING);
             return new ImageResponse(imagePathPrefix + imageFileInputName);
         } catch (IOException exception) {
             throw new FileIOException("이미지 저장 시 예외가 발생했습니다.");
         }
+    }
+
+    public byte[] resizeImage(final String imageUrl, final int width) {
+        try {
+            Path fileStorageLocation = resolvePath(imageUrl);
+            File file = fileStorageLocation.toFile();
+            ImageExtension imageExtension = ImageExtension.from(FilenameUtils.getExtension(file.getName()));
+            byte[] originImage = IOUtils.toByteArray(new FileInputStream(file));
+
+            return imageExtension.resizeImage(originImage, width);
+        } catch (FileNotFoundException exception) {
+            throw new FileIONotFoundException("파일 경로에 파일이 존재하지 않습니다.");
+        } catch (IOException exception) {
+            throw new FileIOException("이미지 파일 변환 시 예외가 발생했습니다.");
+        }
+    }
+
+    private Path resolvePath(final String imageUrl) {
+        return storageLocation.resolve(imageUrl);
     }
 }

@@ -5,21 +5,23 @@ import com.woowacourse.imagestorage.strategy.GifImageResizeStrategy;
 import com.woowacourse.imagestorage.strategy.ImageResizeStrategy;
 import com.woowacourse.imagestorage.strategy.StaticImageResizeStrategy;
 import java.util.Arrays;
-import java.util.List;
+import lombok.Getter;
 
+@Getter
 public enum ImageExtension {
 
-    PNG(List.of("png"), new StaticImageResizeStrategy()),
-    JPG(List.of("jpeg", "jpg"), new StaticImageResizeStrategy()),
-    SVG(List.of("svg"), new StaticImageResizeStrategy()),
-    GIF(List.of("gif"), new GifImageResizeStrategy()),
+    PNG("png", new StaticImageResizeStrategy()),
+    JPEG("jpeg", new StaticImageResizeStrategy()),
+    JPG("jpg", new StaticImageResizeStrategy()),
+    SVG("svg", new StaticImageResizeStrategy()),
+    GIF("gif", new GifImageResizeStrategy()),
     ;
 
-    private final List<String> extensions;
+    private final String extension;
     private final ImageResizeStrategy imageResizeStrategy;
 
-    ImageExtension(final List<String> extensions, final ImageResizeStrategy imageResizeStrategy) {
-        this.extensions = extensions;
+    ImageExtension(final String extension, final ImageResizeStrategy imageResizeStrategy) {
+        this.extension = extension;
         this.imageResizeStrategy = imageResizeStrategy;
     }
 
@@ -31,10 +33,10 @@ public enum ImageExtension {
     }
 
     public byte[] resizeImage(final byte[] originBytes, final int width) {
-        return imageResizeStrategy.resize(originBytes, width);
+        return imageResizeStrategy.resize(originBytes, width, extension);
     }
 
     private boolean containsType(final String format) {
-        return extensions.contains(format);
+        return extension.equals(format);
     }
 }

@@ -29,7 +29,7 @@ class StaticImageResizeStrategyTest {
         StaticImageResizeStrategy strategy = new StaticImageResizeStrategy();
         byte[] inputBytes = toByteArray(new BufferedImage(100, 20, TYPE_INT_RGB));
 
-        BufferedImage actual = toBufferedImage(strategy.resize(inputBytes, 50));
+        BufferedImage actual = toBufferedImage(strategy.resize(inputBytes, 50, "jpeg"));
 
         assertAll(
                 () -> assertThat(actual.getWidth()).isEqualTo(50),

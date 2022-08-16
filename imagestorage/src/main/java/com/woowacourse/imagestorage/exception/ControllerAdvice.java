@@ -22,6 +22,12 @@ public class ControllerAdvice {
         return ResponseEntity.internalServerError().body(ErrorResponse.from(e));
     }
 
+    @ExceptionHandler(FileIONotFoundException.class)
+    public ResponseEntity<Void> handleFileNotFoundException(final FileIONotFoundException e) {
+        log.warn(e.getMessage());
+        return ResponseEntity.notFound().build();
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Void> handleException(final Exception e) {
         log.error("Stack Trace : {}", extractStackTrace(e));

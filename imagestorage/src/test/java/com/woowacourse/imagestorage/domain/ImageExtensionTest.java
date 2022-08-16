@@ -18,7 +18,7 @@ class ImageExtensionTest {
     }
 
     @ParameterizedTest
-    @CsvSource(value = {"png,PNG", "gif,GIF", "jpeg,JPG"})
+    @CsvSource(value = {"png,PNG", "gif,GIF", "jpeg,JPEG"})
     void 이미지확장자가_입력된_경우_ImageFormat_이_반환된다(final String input, final ImageExtension expected) {
         ImageExtension actual = ImageExtension.from(input);
         assertThat(actual).isEqualTo(expected);
