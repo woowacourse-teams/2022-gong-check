@@ -13,4 +13,6 @@ export default defineConfig({
       toast: '#toast',
     },
   },
+  video: false,
+  screenshotOnRunFailure: false,
 });

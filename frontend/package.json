@@ -9,7 +9,11 @@
     "build-staging": "cross-env NODE_ENV=staging webpack",
     "build-release": "cross-env NODE_ENV=production webpack",
     "lhci": "lhci autorun",
-    "prettier": "npx prettier --write 'src/**/*.{tsx,ts,css,html,json}'"
+    "prettier": "npx prettier --write 'src/**/*.{tsx,ts,css,html,json}'",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run --browser electron",
+    "test:dev": "start-server-and-test start http://localhost:3000 cypress:open",
+    "test:ci": "start-server-and-test start http://localhost:3000 cypress:run"
   },
   "repository": {
     "type": "git",
@@ -62,6 +66,7 @@
     "nanoid": "^4.0.0",
     "prettier": "^2.7.1",
     "react-icons": "^4.4.0",
+    "start-server-and-test": "^1.14.0",
     "ts-loader": "^9.3.1",
     "typescript": "^4.7.4",
     "webpack": "^5.73.0",
