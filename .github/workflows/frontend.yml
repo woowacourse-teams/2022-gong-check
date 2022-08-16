@@ -134,6 +134,7 @@ jobs:
 
       - name: Cypress run
         run: npm run test:ci
+        continue-on-error: true
 
       - name: Merge Results
         run: npm run report:merge
