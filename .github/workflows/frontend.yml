@@ -1,12 +1,14 @@
-name: sonar frontend
+name: frontend
 on:
   pull_request:
     branches: [dev]
-    paths: ["frontend/**"]
+    paths: ['frontend/**']
     types: [opened, synchronize, reopened]
+
 defaults:
   run:
     working-directory: frontend
+
 jobs:
   sonarcloud:
     name: sonar frontend
@@ -15,6 +17,7 @@ jobs:
       - uses: actions/checkout@v2
       - run: npm ci
       - run: npm run build
+
   lhci:
     name: Lighthouse CI
     runs-on: ubuntu-latest
@@ -118,3 +121,46 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           msg: ${{ steps.format_lighthouse_score.outputs.comments}}
+
+  cypress-run:
+    name: Cypress E2E Test CI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v4
+
+      - name: Merge Results
+        run: npm run report:merge
+
+      - name: Format Cypress Result
+        id: format_cypress_result
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const results = JSON.parse(fs.readFileSync('${{ github.workspace }}/cypress.result.json'));
+            let comments = "";
+
+            const {passes, failures, pending, duration, passPercent, skipped} = results.stats;
+
+            const comment = [
+              `⭐️ Cypress E2E Test Result`,
+              `| Result | Passed✅ | Failed❌ | Pending✋ | Skipped↩️ | Duration🕐 |`,
+              `| --- | --- | --- | --- | --- | --- |`,
+              `| ${passPercent === 100 ? 'Success😀' : 'Failed😂'} | ${passes} | ${failures} | ${pending} | ${skipped} | ${duration/10000}s |`,
+            ].join("\n");
+
+            comments += comment;
+
+            core.setOutput('comments', comments);
+
+      - name: comment PR
+        uses: unsplash/comment-on-pr@v1.3.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          msg: ${{ steps.format_cypress_result.outputs.comments}}

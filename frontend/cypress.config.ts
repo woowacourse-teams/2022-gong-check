@@ -13,6 +13,10 @@ export default defineConfig({
       toast: '#toast',
     },
   },
+  reporter: 'cypress-multi-reporters',
+  reporterOptions: {
+    configFile: 'reporter-config.json',
+  },
   video: false,
   screenshotOnRunFailure: false,
 });
