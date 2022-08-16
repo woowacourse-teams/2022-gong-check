@@ -132,7 +132,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v4
         with:
-          working-directory: frontend/cypress/e2e
+          working-directory: frontend
 
       - name: Merge Results
         run: npm run report:merge
