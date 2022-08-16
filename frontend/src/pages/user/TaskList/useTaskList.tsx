@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { useLocation, useParams } from 'react-router-dom';
 
 import DetailInfoModal from '@/components/user/DetailInfoModal';
@@ -41,7 +41,11 @@ const useTaskList = () => {
 
   const { data: spaceData } = useQuery(['space', jobId], () => apis.getSpace(spaceId));
 
-  const { totalCount, checkedCount, percent, isAllChecked } = useSectionCheck(sectionsData?.sections || []);
+  const { mutate: postSectionAllCheck } = useMutation((sectionId: ID) => apis.postSectionAllCheckTask(sectionId), {});
+
+  const { sectionsAllCheckMap, totalCount, checkedCount, percent, isAllChecked } = useSectionCheck(
+    sectionsData?.sections || []
+  );
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -61,6 +65,10 @@ const useTaskList = () => {
     openModal(<DetailInfoModal name={section.name} imageUrl={section.imageUrl} description={section.description} />);
   };
 
+  const onClickSectionAllCheck = (sectionId: ID) => {
+    postSectionAllCheck(sectionId);
+  };
+
   useEffect(() => {
     const isActive = progressBarRef.current?.offsetTop! > PROGRESS_BAR_DEFAULT_POSITION;
 
@@ -75,10 +83,12 @@ const useTaskList = () => {
     totalCount,
     checkedCount,
     percent,
+    sectionsAllCheckMap,
     isAllChecked,
     locationState,
     sectionsData,
     onClickSectionDetail,
+    onClickSectionAllCheck,
     progressBarRef,
     isActiveSticky,
   };

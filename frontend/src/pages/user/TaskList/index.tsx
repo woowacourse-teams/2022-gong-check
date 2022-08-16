@@ -1,4 +1,5 @@
 import useTaskList from './useTaskList';
+import React from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 
 import Button from '@/components/common/Button';
@@ -16,10 +17,12 @@ const TaskList: React.FC = () => {
     totalCount,
     checkedCount,
     percent,
+    sectionsAllCheckMap,
     isAllChecked,
     locationState,
     sectionsData,
     onClickSectionDetail,
+    onClickSectionAllCheck,
     progressBarRef,
     isActiveSticky,
   } = useTaskList();
@@ -48,9 +51,20 @@ const TaskList: React.FC = () => {
             <section css={styles.location} key={section.id}>
               <div css={styles.locationHeader}>
                 <p css={styles.locationName}>{section.name}</p>
-                {(section.imageUrl || section.description) && (
-                  <SectionInfoPreview imageUrl={section.imageUrl} onClick={() => onClickSectionDetail(section)} />
-                )}
+                <div css={styles.locationHeaderRightItems}>
+                  {!sectionsAllCheckMap[`${section.id}`] && (
+                    <Button
+                      css={styles.sectionAllCheckButton}
+                      type="button"
+                      onClick={() => onClickSectionAllCheck(section.id!)}
+                    >
+                      ALL
+                    </Button>
+                  )}
+                  {(section.imageUrl || section.description) && (
+                    <SectionInfoPreview imageUrl={section.imageUrl} onClick={() => onClickSectionDetail(section)} />
+                  )}
+                </div>
               </div>
               <TaskCard tasks={section.tasks} getSections={getSections} />
             </section>

@@ -32,12 +32,18 @@ const locationHeader = css`
   justify-content: space-between;
   align-items: center;
   padding: 0 8px;
+  min-height: 48px;
 `;
 
 const locationName = css`
   font-size: 24px;
   font-weight: 600;
   margin: 0;
+`;
+
+const locationHeaderRightItems = css`
+  display: flex;
+  gap: 10px;
 `;
 
 const header = css`
@@ -175,12 +181,21 @@ const form = css`
   align-items: center;
 `;
 
+const sectionAllCheckButton = css`
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  box-shadow: 2px 2px 2px 0px ${theme.colors.shadow30};
+`;
+
 const styles = {
   layout,
   contents,
   location,
   locationHeader,
   locationName,
+  locationHeaderRightItems,
   arrowBackIconWrapper,
   header,
   thumbnail,
@@ -190,6 +205,7 @@ const styles = {
   progressBar,
   percentText,
   button,
+  sectionAllCheckButton,
   form,
 };
 
