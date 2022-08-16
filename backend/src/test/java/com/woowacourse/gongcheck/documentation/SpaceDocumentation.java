@@ -24,6 +24,7 @@ import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.presentation.request.SpaceChangeRequest;
 import com.woowacourse.gongcheck.core.presentation.request.SpaceCreateRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
+import com.woowacourse.gongcheck.exception.ErrorCode;
 import java.util.List;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -113,7 +114,7 @@ class SpaceDocumentation extends DocumentationTest {
 
         @Test
         void Space_이름이_빈_값_인_경우_생성에_실패한다() {
-            doThrow(BusinessException.class)
+            doThrow(new BusinessException("이름은 공백일 수 없습니다", ErrorCode.N001))
                     .when(spaceService)
                     .createSpace(anyLong(), any());
             when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);

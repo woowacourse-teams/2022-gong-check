@@ -29,6 +29,7 @@ import com.woowacourse.gongcheck.core.presentation.request.SectionCreateRequest;
 import com.woowacourse.gongcheck.core.presentation.request.SlackUrlChangeRequest;
 import com.woowacourse.gongcheck.core.presentation.request.TaskCreateRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
+import com.woowacourse.gongcheck.exception.ErrorCode;
 import io.restassured.module.mockmvc.response.MockMvcResponse;
 import io.restassured.response.ExtractableResponse;
 import java.util.List;
@@ -133,7 +134,7 @@ class JobDocumentation extends DocumentationTest {
 
         @Test
         void Job의_이름_길이가_올바르지_않을_경우_예외가_발생한다() {
-            doThrow(BusinessException.class)
+            doThrow(new BusinessException("이름이 공백인 경우", ErrorCode.N001))
                     .when(jobService)
                     .createJob(anyLong(), anyLong(), any());
             when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
@@ -155,7 +156,7 @@ class JobDocumentation extends DocumentationTest {
 
         @Test
         void Section_이름_길이가_올바르지_않을_경우_예외가_발생한다() {
-            doThrow(BusinessException.class)
+            doThrow(new BusinessException("이름이 공백인 경우", ErrorCode.N001))
                     .when(jobService)
                     .createJob(anyLong(), anyLong(), any());
             when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
@@ -179,7 +180,7 @@ class JobDocumentation extends DocumentationTest {
 
         @Test
         void Task_이름_길이가_올바르지_않을_경우_예외가_발생한다() {
-            doThrow(BusinessException.class)
+            doThrow(new BusinessException("이름이 공백인 경우", ErrorCode.N001))
                     .when(jobService)
                     .createJob(anyLong(), anyLong(), any());
             when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
@@ -275,7 +276,7 @@ class JobDocumentation extends DocumentationTest {
         @NullSource
         @ValueSource(strings = {"", "10자초과의이름은안돼"})
         void Job_이름이_1글자_미만_10글자_초과_nul_인_경우_예외가_발생한다(final String input) {
-            doThrow(BusinessException.class)
+            doThrow(new BusinessException("이름이 공백인 경우", ErrorCode.N001))
                     .when(jobService)
                     .updateJob(anyLong(), anyLong(), any());
             when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
@@ -299,7 +300,7 @@ class JobDocumentation extends DocumentationTest {
         @NullSource
         @ValueSource(strings = {"", "10자초과의이름은안돼"})
         void Section_이름이_1글자_미만_10글자_초과_null_일_경우_예외가_발생한다(final String input) {
-            doThrow(BusinessException.class)
+            doThrow(new BusinessException("이름이 공백인 경우", ErrorCode.N001))
                     .when(jobService)
                     .updateJob(anyLong(), anyLong(), any());
             when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
@@ -325,7 +326,7 @@ class JobDocumentation extends DocumentationTest {
         @NullSource
         @ValueSource(strings = {"", "10자초과의이름은안돼"})
         void Task_이름이_1글자_미만_10글자_초과하거나_null일_경우_예외가_발생한다(final String input) {
-            doThrow(BusinessException.class)
+            doThrow(new BusinessException("이름이 공백인 경우", ErrorCode.N001))
                     .when(jobService)
                     .updateJob(anyLong(), anyLong(), any());
             when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);

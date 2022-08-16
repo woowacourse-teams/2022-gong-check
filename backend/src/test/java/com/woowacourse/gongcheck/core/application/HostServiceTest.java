@@ -79,7 +79,7 @@ class HostServiceTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> hostService.changeSpacePassword(hostId, spacePasswordChangeRequest))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
     }
@@ -114,7 +114,7 @@ class HostServiceTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> hostService.createEntranceCode(0L))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
     }

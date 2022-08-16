@@ -14,38 +14,38 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ControllerAdvice {
 
     @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<ErrorResponse> handleUnauthorized(final RuntimeException e) {
+    public ResponseEntity<ErrorResponse> handleUnauthorized(final CustomException e) {
         log.info(e.getMessage());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorResponse.from(e));
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorResponse.from(e.getErrorCode()));
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNotFound(final RuntimeException e) {
+    public ResponseEntity<ErrorResponse> handleNotFound(final CustomException e) {
         log.warn(e.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponse.from(e));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponse.from(e.getErrorCode()));
     }
 
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ErrorResponse> handleBusiness(final RuntimeException e) {
+    public ResponseEntity<ErrorResponse> handleBusiness(final CustomException e) {
         log.info(e.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse.from(e));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse.from(e.getErrorCode()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(final MethodArgumentNotValidException e) {
         log.warn(e.getMessage());
-        return ResponseEntity.badRequest().body(ErrorResponse.from(e));
+        return ResponseEntity.badRequest().body(ErrorResponse.from(ErrorCode.V001));
     }
 
     @ExceptionHandler(InfrastructureException.class)
-    public ResponseEntity<ErrorResponse> handleInfrastructureException(final InfrastructureException e) {
-        return ResponseEntity.internalServerError().body(ErrorResponse.from(e));
+    public ResponseEntity<ErrorResponse> handleInfrastructureException(final CustomException e) {
+        return ResponseEntity.internalServerError().body(ErrorResponse.from(e.getErrorCode()));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleInternalServerError(final Exception e) {
         log.error("Stack Trace : {}", extractStackTrace(e));
-        return ResponseEntity.internalServerError().body(ErrorResponse.from("서버 에러가 발생했습니다."));
+        return ResponseEntity.internalServerError().body(ErrorResponse.from(ErrorCode.E001));
     }
 
     private String extractStackTrace(final Exception e) {

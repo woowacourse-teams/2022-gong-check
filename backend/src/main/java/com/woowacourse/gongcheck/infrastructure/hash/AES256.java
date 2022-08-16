@@ -1,6 +1,8 @@
 package com.woowacourse.gongcheck.infrastructure.hash;
 
 import com.woowacourse.gongcheck.auth.application.HashTranslator;
+import com.woowacourse.gongcheck.exception.ErrorCode;
+import com.woowacourse.gongcheck.exception.InfrastructureException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -32,8 +34,8 @@ public class AES256 implements HashTranslator {
 
     public AES256(@Value("${security.hash.secret-key}") final String secretKey) {
         if (secretKey.length() < SECRET_KEY_SIZE) {
-            throw new IllegalArgumentException(
-                    "Minimum key size is " + SECRET_KEY_SIZE + ", current key size :" + secretKey.length());
+            String message = "Minimum key size is " + SECRET_KEY_SIZE + ". current key size = " + secretKey.length();
+            throw new InfrastructureException(message, ErrorCode.I002);
         }
         secretKeySpec = new SecretKeySpec(secretKey.substring(0, SECRET_KEY_SIZE).getBytes(), ALGORITHM);
         ivParamSpec = new IvParameterSpec(secretKey.substring(0, INITIALIZATION_VECTOR_SIZE).getBytes());
@@ -48,9 +50,8 @@ public class AES256 implements HashTranslator {
             return Base64.encodeBase64URLSafeString(encrypted);
         } catch (InvalidAlgorithmParameterException | NoSuchPaddingException | IllegalBlockSizeException |
                  NoSuchAlgorithmException | BadPaddingException | InvalidKeyException | NullPointerException e) {
-            // TODO: 2022/08/02 Infrastructure 예외로 변경 필요
-            log.error("encoding error, input = {}, message = {}", input, e.getMessage());
-            throw new IllegalArgumentException(e);
+            log.error("encoding error. input = {}, message = {}", input, e.getMessage());
+            throw new InfrastructureException(e.getMessage(), ErrorCode.I003);
         }
     }
 
@@ -64,9 +65,8 @@ public class AES256 implements HashTranslator {
             return new String(decrypted, StandardCharsets.UTF_8);
         } catch (InvalidAlgorithmParameterException | NoSuchPaddingException | IllegalBlockSizeException |
                  NoSuchAlgorithmException | BadPaddingException | InvalidKeyException | NullPointerException e) {
-            // TODO: 2022/08/02 Infrastructure 예외로 변경 필요
-            log.error("decoding error, input = {}, message = {}", input, e.getMessage());
-            throw new IllegalArgumentException(e);
+            log.error("decoding error. input = {}, message = {}", input, e.getMessage());
+            throw new InfrastructureException(e.getMessage(), ErrorCode.I004);
         }
     }
 }

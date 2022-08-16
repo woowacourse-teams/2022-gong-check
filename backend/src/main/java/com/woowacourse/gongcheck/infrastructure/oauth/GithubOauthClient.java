@@ -4,6 +4,7 @@ import com.woowacourse.gongcheck.auth.application.OAuthClient;
 import com.woowacourse.gongcheck.auth.application.response.OAuthAccessTokenResponse;
 import com.woowacourse.gongcheck.auth.application.response.SocialProfileResponse;
 import com.woowacourse.gongcheck.auth.presentation.request.OAuthAccessTokenRequest;
+import com.woowacourse.gongcheck.exception.ErrorCode;
 import com.woowacourse.gongcheck.exception.InfrastructureException;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
@@ -55,7 +56,9 @@ public class GithubOauthClient implements OAuthClient {
         OAuthAccessTokenResponse oAuthAccessTokenResponse = exchangeRestTemplateBody(tokenUrl, HttpMethod.POST,
                 httpEntity, OAuthAccessTokenResponse.class);
         if (Objects.isNull(oAuthAccessTokenResponse)) {
-            throw new InfrastructureException("잘못된 요청입니다.");
+            log.error("github oauth error. clientId = {}, clientSecret = {}, tokenUrl = {}, profileUrl = {}", clientId,
+                    clientSecret, tokenUrl, profileUrl);
+            throw new InfrastructureException("잘못된 요청입니다.", ErrorCode.I006);
         }
         return oAuthAccessTokenResponse.getAccessToken();
     }
@@ -75,8 +78,10 @@ public class GithubOauthClient implements OAuthClient {
                     .exchange(url, httpMethod, httpEntity, exchangeType)
                     .getBody();
         } catch (HttpClientErrorException | NullPointerException e) {
-            log.error(e.getMessage());
-            throw new InfrastructureException("해당 사용자의 프로필을 요청할 수 없습니다.");
+            log.error(
+                    "github oauth error. clientId = {}, clientSecret = {}, tokenUrl = {}, profileUrl = {}, message = {}",
+                    clientId, clientSecret, tokenUrl, profileUrl, e.getMessage());
+            throw new InfrastructureException("해당 사용자의 프로필을 요청할 수 없습니다.", ErrorCode.I007);
         }
     }
 }

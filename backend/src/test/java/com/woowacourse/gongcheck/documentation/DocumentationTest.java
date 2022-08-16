@@ -23,6 +23,7 @@ import com.woowacourse.gongcheck.core.presentation.JobController;
 import com.woowacourse.gongcheck.core.presentation.SpaceController;
 import com.woowacourse.gongcheck.core.presentation.SubmissionController;
 import com.woowacourse.gongcheck.core.presentation.TaskController;
+import com.woowacourse.gongcheck.documentation.support.ErrorCodeController;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.module.mockmvc.specification.MockMvcRequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,7 +43,8 @@ import org.springframework.web.context.WebApplicationContext;
         TaskController.class,
         SubmissionController.class,
         HostController.class,
-        ImageUploadController.class
+        ImageUploadController.class,
+        ErrorCodeController.class
 })
 @ExtendWith(RestDocumentationExtension.class)
 class DocumentationTest {

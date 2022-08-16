@@ -108,7 +108,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.createNewRunningTasks(host.getId(), job.getId()))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("작업이 존재하지 않습니다.");
+                        .hasMessageContaining("작업이 존재하지 않습니다.");
             }
         }
 
@@ -122,7 +122,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.createNewRunningTasks(NON_EXIST_HOST_ID, JOB_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
 
@@ -143,7 +143,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.createNewRunningTasks(hostId, NON_EXIST_JOB_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
 
@@ -167,7 +167,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.createNewRunningTasks(anotherHost.getId(), job.getId()))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
 
@@ -195,7 +195,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.createNewRunningTasks(host.getId(), job.getId()))
                         .isInstanceOf(BusinessException.class)
-                        .hasMessage("현재 진행중인 작업이 존재하여 새로운 작업을 생성할 수 없습니다.");
+                        .hasMessageContaining("현재 진행중인 작업이 존재하여 새로운 작업을 생성할 수 없습니다.");
             }
         }
     }
@@ -264,7 +264,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.isJobActivated(NON_EXIST_HOST_ID, JOB_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
 
@@ -285,7 +285,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.isJobActivated(hostId, NON_EXIST_JOB_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
 
@@ -309,7 +309,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.isJobActivated(anotherHost.getId(), job.getId()))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
     }
@@ -370,7 +370,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.findRunningTasks(NON_EXIST_HOST_ID, JOB_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
 
@@ -391,7 +391,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.findRunningTasks(hostId, NON_EXIST_JOB_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
 
@@ -419,7 +419,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.findRunningTasks(anotherHost.getId(), job.getId()))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
 
@@ -442,7 +442,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.findRunningTasks(host.getId(), job.getId()))
                         .isInstanceOf(BusinessException.class)
-                        .hasMessage("현재 진행중인 RunningTask가 없습니다");
+                        .hasMessageContaining("현재 진행중인 작업이 존재하지 않아 조회할 수 없습니다");
             }
         }
     }
@@ -492,7 +492,7 @@ class TaskServiceTest {
                 Section section = repository.save(Section_생성(job, "트랙룸"));
                 task = repository.save(Task_생성(section, "책상 청소"));
                 runningTaskId = repository.save(RunningTask_생성(task.getId(), true))
-                        .getTaskId();
+                    .getTaskId();
             }
 
             @Test
@@ -514,7 +514,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.flipRunningTask(NON_EXIST_HOST_ID, TASK_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
 
@@ -535,7 +535,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.flipRunningTask(hostId, NON_EXIST_TASK_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
 
@@ -560,7 +560,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.flipRunningTask(anotherHost.getId(), taskId))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
 
@@ -584,7 +584,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.flipRunningTask(host.getId(), taskId))
                         .isInstanceOf(BusinessException.class)
-                        .hasMessage("현재 진행 중인 작업이 아닙니다.");
+                        .hasMessageContaining("현재 진행 중인 작업이 아닙니다.");
             }
         }
     }
@@ -636,7 +636,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.findTasks(NON_EXIST_HOST_ID, JOB_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
 
@@ -657,7 +657,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.findTasks(hostId, NON_EXIST_JOB_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
 
@@ -681,7 +681,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.findTasks(anotherHost.getId(), job.getId()))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
     }
@@ -711,7 +711,7 @@ class TaskServiceTest {
             void 해당_Section의_RunningTask를_모두_체크한다() {
                 taskService.checkRunningTasksInSection(host.getId(), section.getId());
                 List<RunningTask> actual = repository.findAll(RunningTask.class);
-                
+
                 assertThat(actual).extracting("isChecked")
                         .containsExactly(true, true);
             }
@@ -727,7 +727,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.checkRunningTasksInSection(NON_EXIST_HOST_ID, JOB_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
 
@@ -748,7 +748,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.checkRunningTasksInSection(hostId, NON_EXIST_SECTION_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 구역입니다.");
+                        .hasMessageContaining("존재하지 않는 구역입니다.");
             }
         }
 
@@ -772,7 +772,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.checkRunningTasksInSection(anotherHost.getId(), section.getId()))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 구역입니다.");
+                        .hasMessageContaining("존재하지 않는 구역입니다.");
             }
         }
 

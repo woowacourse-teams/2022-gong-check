@@ -2,6 +2,7 @@ package com.woowacourse.gongcheck.infrastructure.jwt;
 
 import com.woowacourse.gongcheck.auth.application.JwtTokenProvider;
 import com.woowacourse.gongcheck.auth.domain.Authority;
+import com.woowacourse.gongcheck.exception.ErrorCode;
 import com.woowacourse.gongcheck.exception.InfrastructureException;
 import com.woowacourse.gongcheck.exception.UnauthorizedException;
 import io.jsonwebtoken.Claims;
@@ -13,10 +14,12 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 import java.util.Date;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class JjwtTokenProvider implements JwtTokenProvider {
 
     private static final String AUTHORITY = "authority";
@@ -63,9 +66,11 @@ public class JjwtTokenProvider implements JwtTokenProvider {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (ExpiredJwtException e) {
-            throw new UnauthorizedException("만료된 토큰입니다.");
+            String message = String.format("만료된 토큰입니다. token = %s", token);
+            throw new UnauthorizedException(message, ErrorCode.A002);
         } catch (JwtException e) {
-            throw new InfrastructureException("올바르지 않은 토큰입니다.");
+            log.error("jwt token error. token = {}", token);
+            throw new InfrastructureException("올바르지 않은 토큰입니다.", ErrorCode.I005);
         }
     }
 }

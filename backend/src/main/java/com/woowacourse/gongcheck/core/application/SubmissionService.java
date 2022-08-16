@@ -16,7 +16,9 @@ import com.woowacourse.gongcheck.core.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.core.domain.task.Tasks;
 import com.woowacourse.gongcheck.core.presentation.request.SubmissionRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
+import com.woowacourse.gongcheck.exception.ErrorCode;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -83,7 +85,12 @@ public class SubmissionService {
 
     private void validateRunning(final Tasks tasks) {
         if (!runningTaskRepository.existsByTaskIdIn(tasks.getTaskIds())) {
-            throw new BusinessException("현재 제출할 수 있는 진행중인 작업이 존재하지 않습니다.");
+            String message = String.format("현재 제출할 수 있는 진행중인 작업이 존재하지 않습니다. taskIds = %s",
+                    tasks.getTaskIds()
+                            .stream()
+                            .map(String::valueOf)
+                            .collect(Collectors.joining(", ")));
+            throw new BusinessException(message, ErrorCode.S001);
         }
     }
 }

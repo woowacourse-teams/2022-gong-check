@@ -16,6 +16,7 @@ import com.woowacourse.gongcheck.core.domain.task.Task;
 import com.woowacourse.gongcheck.core.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.core.domain.task.Tasks;
 import com.woowacourse.gongcheck.exception.BusinessException;
+import com.woowacourse.gongcheck.exception.ErrorCode;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,10 +45,13 @@ public class TaskService {
     public void createNewRunningTasks(final Long hostId, final Long jobId) {
         Tasks tasks = findTasksByHostIdAndJobId(hostId, jobId);
         if (tasks.isEmpty()) {
-            throw new NotFoundException("작업이 존재하지 않습니다.");
+            String message = String.format("작업이 존재하지 않습니다. hostId = %d, jobId = %d", hostId, jobId);
+            throw new NotFoundException(message, ErrorCode.T002);
         }
         if (existsAnyRunningTaskIn(tasks)) {
-            throw new BusinessException("현재 진행중인 작업이 존재하여 새로운 작업을 생성할 수 없습니다.");
+            String message = String.format("현재 진행중인 작업이 존재하여 새로운 작업을 생성할 수 없습니다. hostId = %d, jobId = %d", hostId,
+                    jobId);
+            throw new BusinessException(message, ErrorCode.T001);
         }
         runningTaskRepository.saveAll(tasks.createRunningTasks());
     }
@@ -59,7 +63,11 @@ public class TaskService {
 
     public RunningTasksResponse findRunningTasks(final Long hostId, final Long jobId) {
         Tasks tasks = findTasksByHostIdAndJobId(hostId, jobId);
-        return findExistingRunningTasks(tasks);
+        if (!existsAnyRunningTaskIn(tasks)) {
+            String message = String.format("현재 진행중인 작업이 존재하지 않아 조회할 수 없습니다. hostId = %d, jobId = %d", hostId, jobId);
+            throw new BusinessException(message, ErrorCode.R001);
+        }
+        return RunningTasksResponse.from(tasks);
     }
 
     @Transactional
@@ -67,7 +75,10 @@ public class TaskService {
         Host host = hostRepository.getById(hostId);
         Task task = taskRepository.getBySectionJobSpaceHostAndId(host, taskId);
         RunningTask runningTask = runningTaskRepository.findByTaskId(task.getId())
-                .orElseThrow(() -> new BusinessException("현재 진행 중인 작업이 아닙니다."));
+                .orElseThrow(() -> {
+                    String message = String.format("현재 진행 중인 작업이 아닙니다. hostId = %d, taskId = %d", hostId, taskId);
+                    throw new BusinessException(message, ErrorCode.R002);
+                });
 
         runningTask.flipCheckedStatus();
     }
@@ -101,7 +112,7 @@ public class TaskService {
 
     private void checkRunningTaskExists(final Tasks tasks) {
         if (!existsAnyRunningTaskIn(tasks)) {
-            throw new BusinessException("현재 진행중인 RunningTask가 없습니다");
+            throw new BusinessException("현재 진행중인 RunningTask가 없습니다", ErrorCode.R002);
         }
     }
 

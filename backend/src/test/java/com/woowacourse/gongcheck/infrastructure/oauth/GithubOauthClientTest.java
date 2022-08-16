@@ -61,7 +61,7 @@ class GithubOauthClientTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> githubOauthClient.requestSocialProfileByCode("code"))
                         .isInstanceOf(InfrastructureException.class)
-                        .hasMessage("해당 사용자의 프로필을 요청할 수 없습니다.");
+                        .hasMessageContaining("해당 사용자의 프로필을 요청할 수 없습니다.");
                 mockRestServiceServer.verify();
             }
         }
@@ -82,7 +82,7 @@ class GithubOauthClientTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> githubOauthClient.requestSocialProfileByCode("code"))
                         .isInstanceOf(InfrastructureException.class)
-                        .hasMessage("잘못된 요청입니다.");
+                        .hasMessageContaining("잘못된 요청입니다.");
                 mockRestServiceServer.verify();
             }
         }
@@ -109,7 +109,7 @@ class GithubOauthClientTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> githubOauthClient.requestSocialProfileByCode("code"))
                         .isInstanceOf(InfrastructureException.class)
-                        .hasMessage("해당 사용자의 프로필을 요청할 수 없습니다.");
+                        .hasMessageContaining("해당 사용자의 프로필을 요청할 수 없습니다.");
                 mockRestServiceServer.verify();
             }
         }

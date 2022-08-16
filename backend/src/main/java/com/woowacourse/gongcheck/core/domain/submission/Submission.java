@@ -2,6 +2,7 @@ package com.woowacourse.gongcheck.core.domain.submission;
 
 import com.woowacourse.gongcheck.core.domain.job.Job;
 import com.woowacourse.gongcheck.exception.BusinessException;
+import com.woowacourse.gongcheck.exception.ErrorCode;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -56,11 +57,13 @@ public class Submission {
 
     private void validateAuthorLength(final String author) {
         if (author.isBlank()) {
-            throw new BusinessException("제출자 이름은 공백일 수 없습니다.");
+            String message = String.format("제출자 이름은 공백일 수 없습니다. author = %s", author);
+            throw new BusinessException(message, ErrorCode.S002);
         }
 
         if (author.length() > AUTHOR_MAX_LENGTH) {
-            throw new BusinessException("제출자 이름은 " + AUTHOR_MAX_LENGTH + "자 이하여야 합니다.");
+            String message = String.format("제출자 이름은 %d자 이하여야 합니다. author = %s", AUTHOR_MAX_LENGTH, author);
+            throw new BusinessException(message, ErrorCode.S003);
         }
     }
 
