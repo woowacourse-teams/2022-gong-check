@@ -26,8 +26,7 @@ public class Name {
 
     private void checkNameLength(final String name) {
         if (name.isBlank()) {
-            String message = String.format("이름은 공백일 수 없습니다. name = %s", name);
-            throw new BusinessException(message, ErrorCode.N001);
+            throw new BusinessException("이름은 공백일 수 없습니다.", ErrorCode.N001);
         }
 
         if (name.length() > NAME_MAX_LENGTH) {

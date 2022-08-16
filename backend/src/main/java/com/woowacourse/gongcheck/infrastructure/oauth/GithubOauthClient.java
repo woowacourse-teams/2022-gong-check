@@ -80,8 +80,7 @@ public class GithubOauthClient implements OAuthClient {
         } catch (HttpClientErrorException | NullPointerException e) {
             log.error(
                     "github oauth error. clientId = {}, clientSecret = {}, tokenUrl = {}, profileUrl = {}, message = {}",
-                    clientId,
-                    clientSecret, tokenUrl, profileUrl, e.getMessage());
+                    clientId, clientSecret, tokenUrl, profileUrl, e.getMessage());
             throw new InfrastructureException("해당 사용자의 프로필을 요청할 수 없습니다.", ErrorCode.I007);
         }
     }
