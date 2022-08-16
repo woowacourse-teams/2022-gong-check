@@ -129,10 +129,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: NPM CI
+        run: npm ci
+
       - name: Cypress run
-        uses: cypress-io/github-action@v4
-        with:
-          working-directory: frontend
+        run: npm run test:ci
 
       - name: Merge Results
         run: npm run report:merge
