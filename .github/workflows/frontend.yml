@@ -142,7 +142,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const fs = require('fs');
-            const results = JSON.parse(fs.readFileSync('${{ github.workspace }}/cypress.result.json'));
+            const results = JSON.parse(fs.readFileSync('${{ github.workspace }}/frontend/cypress.result.json'));
             let comments = "";
 
             const {passes, failures, pending, duration, passPercent, skipped} = results.stats;
