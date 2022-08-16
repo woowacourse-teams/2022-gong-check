@@ -3,7 +3,7 @@
 
 === RunningTask 정보 조회
 
-operation::runningTasks/find/success[snippets='http-request,http-response,path-parameters,response-fields']
+operation::runningTasks/connect/success[snippets='http-request,http-response,path-parameters']
 
 === RunningTask 완료 여부 확인
 

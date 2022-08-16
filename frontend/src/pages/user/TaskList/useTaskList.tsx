@@ -80,7 +80,7 @@ const useTaskList = () => {
   }, [progressBarRef.current?.offsetTop]);
 
   useEffect(() => {
-    const sseTest = new EventSourcePolyfill(`http://192.168.2.247:8080/api/jobs/${jobId}/connect`, {
+    const sseTest = new EventSourcePolyfill(`http://192.168.1.4:8080/api/jobs/${jobId}/runningTasks/connect`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },

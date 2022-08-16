@@ -27,7 +27,6 @@ public class RunningTaskSseEmitterContainer {
                     .data(runningTasks));
         } catch (IOException e) {
             log.error("데이터 전송 중 에러가 발생했습니다. message = {}, emitterId = {}", e.getMessage(), emitter);
-            deleteByJobId(jobId, emitter);
             throw new RuntimeException(e);
         }
         return emitter;
@@ -39,6 +38,17 @@ public class RunningTaskSseEmitterContainer {
                 emitter.send(SseEmitter.event()
                         .name("flip")
                         .data(runningTasks));
+            } catch (IOException e) {
+                log.info("expired emitter. message = {}, emitterId = {}", e.getMessage(), emitter);
+            }
+        });
+    }
+
+    public void publishSubmitEvent(final Long jobId) {
+        getValuesByJobId(jobId).forEach(emitter -> {
+            try {
+                emitter.send(SseEmitter.event()
+                        .name("submit"));
             } catch (IOException e) {
                 log.info("expired emitter. message = {}, emitterId = {}", e.getMessage(), emitter);
             }
@@ -60,7 +70,6 @@ public class RunningTaskSseEmitterContainer {
     private SseEmitter saveByJobId(final Long jobId) {
         SseEmitter emitter = new SseEmitter(DEFAULT_TIME_OUT_MILLIS);
         emitter.onCompletion(() -> deleteByJobId(jobId, emitter));
-        emitter.onTimeout(() -> deleteByJobId(jobId, emitter));
         if (!values.containsKey(jobId)) {
             values.put(jobId, new CopyOnWriteArrayList<>());
         }
