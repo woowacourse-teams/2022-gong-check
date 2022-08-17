@@ -3,8 +3,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { QueryErrorResetBoundary } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
-const EXPIRED_TOKEN_TEXT = '만료된 토큰입니다.';
-const NOT_TOKEN_TEXT = '헤더에 토큰 값이 정상적으로 존재하지 않습니다.';
+import errorMessage from '@/constants/errorMessage';
 
 interface ErrorHostTokenProps {
   children: React.ReactNode;
@@ -17,10 +16,10 @@ const ErrorHostToken: React.FC<ErrorHostTokenProps> = ({ children }) => {
     <QueryErrorResetBoundary>
       <ErrorBoundary
         fallbackRender={({ error }) => {
-          const err = error as AxiosError<{ message: string }>;
-          const message = err.response?.data.message;
+          const err = error as AxiosError<{ errorCode: keyof typeof errorMessage }>;
+          const errorCode = err.response?.data.errorCode;
 
-          if (message === EXPIRED_TOKEN_TEXT || message === NOT_TOKEN_TEXT) {
+          if (errorCode === 'A002' || errorCode === 'A003') {
             navigate(`/host`);
           }
 

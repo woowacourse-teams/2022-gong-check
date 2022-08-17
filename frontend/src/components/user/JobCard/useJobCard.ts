@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { useMutation, useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,7 +7,8 @@ import useToast from '@/hooks/useToast';
 import apis from '@/apis';
 
 import { ID } from '@/types';
-import { ApiError } from '@/types/apis';
+
+import errorMessage from '@/constants/errorMessage';
 
 const useJobCard = (jobName: string, jobId: ID) => {
   const navigate = useNavigate();
@@ -31,8 +33,8 @@ const useJobCard = (jobName: string, jobId: ID) => {
     {
       retry: false,
       onSuccess: () => navigate(jobId.toString(), { state: { jobName } }),
-      onError: (err: ApiError) => {
-        openToast('ERROR', `${err.response?.data.message}`);
+      onError: (err: AxiosError<{ errorCode: keyof typeof errorMessage }>) => {
+        openToast('ERROR', errorMessage[`${err.response?.data.errorCode!}`]);
       },
     }
   );
