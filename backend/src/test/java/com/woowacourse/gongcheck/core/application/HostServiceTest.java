@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @ApplicationTest
-@DisplayName("HostService 클래스")
+@DisplayName("HostService 클래스의")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class HostServiceTest {
 
@@ -31,7 +31,7 @@ class HostServiceTest {
     @Autowired
     private EntranceCodeProvider entranceCodeProvider;
 
-    abstract class Host가_존재한다면 {
+    abstract class Host가_존재하는_경우 {
         protected final Host host = repository.save(Host_생성("1234", 1L));
     }
 
@@ -39,7 +39,7 @@ class HostServiceTest {
     class changeSpacePassword_메소드는 {
 
         @Nested
-        class 존재하는_HostId와_수정할_패스워드를_입력받는다면 extends Host가_존재한다면 {
+        class 존재하는_HostId와_수정할_패스워드를_입력받는_경우 extends Host가_존재하는_경우 {
 
             private static final String CHANGING_PASSWORD = "4567";
 
@@ -56,7 +56,7 @@ class HostServiceTest {
         }
 
         @Nested
-        class 존재하지_않는_HostId를_입력받는다면 {
+        class 존재하지_않는_HostId를_입력받는_경우 {
 
             private static final String CHANGING_PASSWORD = "4567";
             private static final long NON_EXIST_HOST_ID = 0L;
@@ -77,7 +77,7 @@ class HostServiceTest {
     class createEntranceCode_메소드는 {
 
         @Nested
-        class 존재하는_HostId를_입력받는다면 extends Host가_존재한다면 {
+        class 존재하는_HostId를_입력받는_경우 extends Host가_존재하는_경우 {
 
             private final Long hostId = host.getId();
             private final String expected = entranceCodeProvider.createEntranceCode(hostId);
@@ -90,7 +90,7 @@ class HostServiceTest {
         }
 
         @Nested
-        class 존재하지_않는_HostId를_입력받는다면 {
+        class 존재하지_않는_HostId를_입력받는_경우 {
 
             @Test
             void 예외를_발생시킨다() {
