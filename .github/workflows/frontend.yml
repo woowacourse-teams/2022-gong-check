@@ -24,8 +24,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-          with:
-            submodules: true
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          submodules: true
 
       - name: Use Node.js 16.x
         uses: actions/setup-node@v1
