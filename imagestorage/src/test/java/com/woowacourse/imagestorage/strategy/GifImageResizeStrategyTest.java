@@ -33,6 +33,7 @@ class GifImageResizeStrategyTest {
                         .resolve("test-image.gif")
                         .toFile();
                 image = IOUtils.toByteArray(new FileInputStream(imageFile));
+
             }
 
             @Test
