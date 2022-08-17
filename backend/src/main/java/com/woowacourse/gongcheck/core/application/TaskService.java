@@ -98,6 +98,7 @@ public class TaskService {
     public void checkRunningTasksInSection(final Long hostId, final Long sectionId) {
         Host host = hostRepository.getById(hostId);
         Section section = sectionRepository.getByJobSpaceHostAndId(host, sectionId);
+        Long jobId = section.getJob().getId();
         Tasks tasks = new Tasks(taskRepository.findAllBySection(section));
 
         if (!existsAnyRunningTaskIn(tasks)) {
@@ -106,6 +107,8 @@ public class TaskService {
         }
         RunningTasks runningTasks = tasks.getRunningTasks();
         runningTasks.check();
+
+        runningTaskSseEmitterContainer.publishFlipEvent(jobId, RunningTasksResponse.from(tasks));
     }
 
     private RunningTasksResponse findExistingRunningTasks(final Long hostId, final Long jobId) {
