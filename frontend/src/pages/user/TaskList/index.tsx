@@ -52,7 +52,7 @@ const TaskList: React.FC = () => {
               <div css={styles.locationHeader}>
                 <p css={styles.locationName}>{section.name}</p>
                 <div css={styles.locationHeaderRightItems}>
-                  {!sectionsAllCheckMap[`${section.id}`] && (
+                  {!sectionsAllCheckMap.get(`${section.id}`) && (
                     <Button
                       css={styles.sectionAllCheckButton}
                       type="button"

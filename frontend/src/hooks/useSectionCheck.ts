@@ -3,11 +3,14 @@ import { useMemo } from 'react';
 import { SectionType } from '@/types';
 
 const useSectionCheck = (sections: SectionType[]) => {
-  const sectionsAllCheckMap: { [key: string]: boolean } = {};
+  const sectionsAllCheckMap = new Map();
   const sectionCheckLists = sections.map(section => {
     const newSectionCheckList = section.tasks.map(task => task.checked);
 
-    sectionsAllCheckMap[`${section.id}`] = newSectionCheckList.every(isCheck => isCheck);
+    sectionsAllCheckMap.set(
+      `${section.id}`,
+      newSectionCheckList.every(isCheck => isCheck)
+    );
 
     return newSectionCheckList;
   });
