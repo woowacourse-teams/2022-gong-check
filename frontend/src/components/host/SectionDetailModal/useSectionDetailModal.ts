@@ -35,7 +35,7 @@ const useSectionDetailModal = (props: SectionDetailModalProps) => {
   const [description, setDescription] = useState(previousDescription);
   const [isDisabledButton, setIsDisabledButton] = useState(true);
 
-  const { mutateAsync: uploadImage, isLoading: isLoadingImage } = useMutation(
+  const { mutateAsync: uploadImage, isLoading: isImageLoading } = useMutation(
     (formData: FormData) => apiImage.postImageUpload(formData),
     {
       onSuccess: data => {
@@ -46,14 +46,6 @@ const useSectionDetailModal = (props: SectionDetailModalProps) => {
       },
     }
   );
-
-  const onClickClose = () => {
-    if (isLoadingImage) {
-      openToast('ERROR', '이미지 업로드 중입니다.');
-      return;
-    }
-    closeModal();
-  };
 
   const onChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -101,8 +93,7 @@ const useSectionDetailModal = (props: SectionDetailModalProps) => {
     closeModal,
     imageUrl,
     description,
-    isLoadingImage,
-    onClickClose,
+    isImageLoading,
   };
 };
 
