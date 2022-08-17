@@ -44,7 +44,15 @@ jobs:
           lhci autorun || echo "LHCI failed!"
 
       - name: Cypress CI
-        run: npm run test:ci:chrome
+        uses: cypress-io/github-action@v4
+        with:
+          record: true
+          working-directory: frontend
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMMIT_INFO_MESSAGE: ${{github.event.pull_request.title}}
+          COMMIT_INFO_SHA: ${{github.event.pull_request.head.sha}}
         continue-on-error: true
 
       - name: Merge Cypress Results
