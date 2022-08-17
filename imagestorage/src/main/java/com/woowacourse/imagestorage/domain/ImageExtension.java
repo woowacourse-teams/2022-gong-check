@@ -1,10 +1,10 @@
 package com.woowacourse.imagestorage.domain;
 
 import com.woowacourse.imagestorage.exception.BusinessException;
-import com.woowacourse.imagestorage.strategy.GifImageResizeStrategy;
-import com.woowacourse.imagestorage.strategy.ImageResizeStrategy;
-import com.woowacourse.imagestorage.strategy.JpegImageResizeStrategy;
-import com.woowacourse.imagestorage.strategy.PngImageResizeStrategy;
+import com.woowacourse.imagestorage.strategy.resize.GifImageResizeStrategy;
+import com.woowacourse.imagestorage.strategy.resize.ImageResizeStrategy;
+import com.woowacourse.imagestorage.strategy.resize.JpegImageResizeStrategy;
+import com.woowacourse.imagestorage.strategy.resize.PngImageResizeStrategy;
 import java.util.Arrays;
 import lombok.Getter;
 import org.springframework.http.MediaType;

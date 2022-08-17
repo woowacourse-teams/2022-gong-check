@@ -1,4 +1,4 @@
-package com.woowacourse.imagestorage.strategy;
+package com.woowacourse.imagestorage.strategy.resize;
 
 import com.sksamuel.scrimage.ImmutableImage;
 import com.sksamuel.scrimage.nio.AnimatedGifReader;

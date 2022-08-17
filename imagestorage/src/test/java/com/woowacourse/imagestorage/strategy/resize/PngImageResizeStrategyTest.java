@@ -1,4 +1,4 @@
-package com.woowacourse.imagestorage.strategy;
+package com.woowacourse.imagestorage.strategy.resize;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;

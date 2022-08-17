@@ -1,4 +1,4 @@
-package com.woowacourse.imagestorage.strategy;
+package com.woowacourse.imagestorage.strategy.resize;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -14,9 +14,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-class JpegImageResizeStrategyTest {
+class GifImageResizeStrategyTest {
 
-    private final JpegImageResizeStrategy jpegImageResizeStrategy = new JpegImageResizeStrategy();
+    private final GifImageResizeStrategy gifImageResizeStrategy = new GifImageResizeStrategy();
 
     @Nested
     class resize_메소드는 {
@@ -30,20 +30,20 @@ class JpegImageResizeStrategyTest {
             @BeforeEach
             void setUp() throws IOException {
                 File imageFile = Paths.get("src/test/resources/static/images/")
-                        .resolve("test-image.jpeg")
+                        .resolve("test-image.gif")
                         .toFile();
                 image = IOUtils.toByteArray(new FileInputStream(imageFile));
             }
 
             @Test
-            void width의_비율만큼_resize한_Jpeg이미지데이터를_반환한다() {
-                byte[] actual = jpegImageResizeStrategy.resize(image, RESIZE_WIDTH);
+            void width의_비율만큼_resize한_Gif이미지데이터를_반환한다() {
+                byte[] actual = gifImageResizeStrategy.resize(image, RESIZE_WIDTH);
                 int actualWidth = ImageTypeTransfer.toBufferedImage(actual)
                         .getWidth();
 
                 assertAll(
                         () -> assertThat(actualWidth).isEqualTo(RESIZE_WIDTH),
-                        () -> assertThat(ImageFormatDetector.isJpeg(actual)).isTrue()
+                        () -> assertThat(ImageFormatDetector.isGif(actual)).isTrue()
                 );
             }
         }

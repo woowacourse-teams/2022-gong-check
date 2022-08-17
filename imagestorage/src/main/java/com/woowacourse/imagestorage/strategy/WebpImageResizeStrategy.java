@@ -3,6 +3,7 @@ package com.woowacourse.imagestorage.strategy;
 import com.sksamuel.scrimage.ImmutableImage;
 import com.sksamuel.scrimage.webp.WebpWriter;
 import com.woowacourse.imagestorage.exception.FileResizeException;
+import com.woowacourse.imagestorage.strategy.resize.ImageResizeStrategy;
 import java.io.IOException;
 
 public class WebpImageResizeStrategy implements ImageResizeStrategy {

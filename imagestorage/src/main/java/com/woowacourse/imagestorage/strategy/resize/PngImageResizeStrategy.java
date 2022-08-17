@@ -1,11 +1,11 @@
-package com.woowacourse.imagestorage.strategy;
+package com.woowacourse.imagestorage.strategy.resize;
 
 import com.sksamuel.scrimage.ImmutableImage;
-import com.sksamuel.scrimage.nio.JpegWriter;
+import com.sksamuel.scrimage.nio.PngWriter;
 import com.woowacourse.imagestorage.exception.FileResizeException;
 import java.io.IOException;
 
-public class JpegImageResizeStrategy implements ImageResizeStrategy {
+public class PngImageResizeStrategy implements ImageResizeStrategy {
 
     @Override
     public byte[] resize(final byte[] originBytes, final int width) {
@@ -13,9 +13,9 @@ public class JpegImageResizeStrategy implements ImageResizeStrategy {
             return ImmutableImage.loader()
                     .fromBytes(originBytes)
                     .scaleToWidth(width)
-                    .bytes(JpegWriter.Default);
+                    .bytes(PngWriter.NoCompression);
         } catch (IOException exception) {
-            throw new FileResizeException("jpeg 사이즈 변환 시 문제가 발생하였습니다.");
+            throw new FileResizeException("png 사이즈 변환 시 문제가 발생하였습니다.");
         }
     }
 }
