@@ -1,6 +1,7 @@
 package com.woowacourse.imagestorage.application;
 
 import com.woowacourse.imagestorage.application.response.ImageResponse;
+import com.woowacourse.imagestorage.application.response.ImageSaveResponse;
 import com.woowacourse.imagestorage.domain.ImageExtension;
 import com.woowacourse.imagestorage.domain.ImageFile;
 import com.woowacourse.imagestorage.exception.FileIOException;
@@ -33,27 +34,27 @@ public class ImageService {
         this.imagePathPrefix = imagePathPrefix;
     }
 
-    public ImageResponse storeImage(final MultipartFile image) {
+    public ImageSaveResponse storeImage(final MultipartFile image) {
         try {
             ImageFile imageFile = ImageFile.from(image);
 
             String imageFileInputName = imageFile.randomName();
             Path fileStorageLocation = resolvePath(imageFileInputName);
             Files.copy(imageFile.inputStream(), fileStorageLocation, StandardCopyOption.REPLACE_EXISTING);
-            return new ImageResponse(imagePathPrefix + imageFileInputName);
+            return new ImageSaveResponse(imagePathPrefix + imageFileInputName);
         } catch (IOException exception) {
             throw new FileIOException("이미지 저장 시 예외가 발생했습니다.");
         }
     }
 
-    public byte[] resizeImage(final String imageUrl, final int width) {
+    public ImageResponse resizeImage(final String imageUrl, final int width) {
         try {
             Path fileStorageLocation = resolvePath(imageUrl);
             File file = fileStorageLocation.toFile();
             ImageExtension imageExtension = ImageExtension.from(FilenameUtils.getExtension(file.getName()));
             byte[] originImage = IOUtils.toByteArray(new FileInputStream(file));
 
-            return imageExtension.resizeImage(originImage, width);
+            return ImageResponse.of(imageExtension.resizeImage(originImage, width), imageExtension.getContentType());
         } catch (FileNotFoundException exception) {
             throw new FileIONotFoundException("파일 경로에 파일이 존재하지 않습니다.");
         } catch (IOException exception) {

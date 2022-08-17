@@ -2,9 +2,9 @@ package com.woowacourse.imagestorage.presentation;
 
 import com.woowacourse.imagestorage.application.ImageService;
 import com.woowacourse.imagestorage.application.response.ImageResponse;
+import com.woowacourse.imagestorage.application.response.ImageSaveResponse;
 import java.util.concurrent.TimeUnit;
 import org.springframework.http.CacheControl;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,15 +29,17 @@ public class ImageController {
     @PostMapping("/api/image-upload")
     public ResponseEntity<String> uploadImage(@RequestPart MultipartFile file) {
 
-        ImageResponse imageResponse = imageService.storeImage(file);
-        return ResponseEntity.ok(imageResponse.getImagePath());
+        ImageSaveResponse imageSaveResponse = imageService.storeImage(file);
+        return ResponseEntity.ok(imageSaveResponse.getImagePath());
     }
 
-    @GetMapping(value = "/api/resize/{imageUrl}", produces = MediaType.IMAGE_JPEG_VALUE)
+    @GetMapping("/api/resize/{imageUrl}")
     public ResponseEntity<byte[]> getResizeImage(@PathVariable String imageUrl,
                                                  @RequestParam(required = false, defaultValue = DEFAULT_RESIZE_WIDTH) int width) {
+        ImageResponse response = imageService.resizeImage(imageUrl, width);
         return ResponseEntity.ok()
                 .cacheControl(CacheControl.maxAge(CACHE_CONTROL_MAX_AGE, TimeUnit.DAYS))
-                .body(imageService.resizeImage(imageUrl, width));
+                .contentType(response.getContentType())
+                .body(response.getBytes());
     }
 }

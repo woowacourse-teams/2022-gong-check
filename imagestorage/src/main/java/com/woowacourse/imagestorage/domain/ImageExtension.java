@@ -3,25 +3,29 @@ package com.woowacourse.imagestorage.domain;
 import com.woowacourse.imagestorage.exception.BusinessException;
 import com.woowacourse.imagestorage.strategy.GifImageResizeStrategy;
 import com.woowacourse.imagestorage.strategy.ImageResizeStrategy;
-import com.woowacourse.imagestorage.strategy.StaticImageResizeStrategy;
+import com.woowacourse.imagestorage.strategy.JpegImageResizeStrategy;
+import com.woowacourse.imagestorage.strategy.PngImageResizeStrategy;
 import java.util.Arrays;
 import lombok.Getter;
+import org.springframework.http.MediaType;
 
 @Getter
 public enum ImageExtension {
 
-    PNG("png", new StaticImageResizeStrategy()),
-    JPEG("jpeg", new StaticImageResizeStrategy()),
-    JPG("jpg", new StaticImageResizeStrategy()),
-    SVG("svg", new StaticImageResizeStrategy()),
-    GIF("gif", new GifImageResizeStrategy()),
+    PNG("png", MediaType.IMAGE_PNG, new PngImageResizeStrategy()),
+    JPEG("jpeg", MediaType.IMAGE_JPEG, new JpegImageResizeStrategy()),
+    JPG("jpg", MediaType.IMAGE_JPEG, new JpegImageResizeStrategy()),
+    SVG("svg", new MediaType("image", "svg+xml"), new JpegImageResizeStrategy()),
+    GIF("gif", MediaType.IMAGE_GIF, new GifImageResizeStrategy()),
     ;
 
     private final String extension;
+    private final MediaType contentType;
     private final ImageResizeStrategy imageResizeStrategy;
 
-    ImageExtension(final String extension, final ImageResizeStrategy imageResizeStrategy) {
+    ImageExtension(final String extension, final MediaType contentType, final ImageResizeStrategy imageResizeStrategy) {
         this.extension = extension;
+        this.contentType = contentType;
         this.imageResizeStrategy = imageResizeStrategy;
     }
 
