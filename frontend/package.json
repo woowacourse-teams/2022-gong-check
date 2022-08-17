@@ -12,10 +12,8 @@
     "prettier": "npx prettier --write 'src/**/*.{tsx,ts,css,html,json}'",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run --browser electron",
-    "cypress:run:headed": "cypress run --headed --browser electron",
     "test:dev": "start-server-and-test start http://localhost:3000 cypress:open",
     "test:ci": "start-server-and-test start http://localhost:3000 cypress:run",
-    "test:ci:chrome": "start-server-and-test start http://localhost:3000 cypress:run:headed",
     "report:merge": "mochawesome-merge cypress/results/json/*.json > cypress.result.json"
   },
   "repository": {

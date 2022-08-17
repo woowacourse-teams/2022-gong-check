@@ -30,6 +30,11 @@ jobs:
         with:
           node-version: 16.x
 
+      - name: Submodule Update
+        run: git submodule init 
+        run: git submodule update --remote 
+        run: git submodule foreach git checkout main  
+
       - name: NPM CI
         run: npm ci
 
