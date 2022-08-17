@@ -6,6 +6,7 @@ import theme from '@/styles/theme';
 const layout = css`
   width: 100vw;
   height: 100vh;
+  z-index: 10;
 `;
 
 const spinner = css`

@@ -30,26 +30,33 @@ const SectionDetailModal: React.FC<SectionDetailModalProps> = props => {
     closeModal,
     imageUrl,
     description,
+    isLoadingImage,
+    onClickClose,
   } = useSectionDetailModal(props);
 
   return (
     <ModalPortal>
       <Dimmer mode="full" isAbleClick={false}>
-        <div css={styles.container}>
-          <BiX size={36} onClick={closeModal} />
+        <div css={styles.container(isLoadingImage)}>
+          <BiX size={36} onClick={onClickClose} />
           <h1>
             {target === 'section'
               ? getSectionInfo(sectionIndex).name
               : getTaskInfo(sectionIndex, taskIndex as number).name}
           </h1>
-          <img css={styles.image} src={imageUrl} alt="" onClick={() => fileInput.current?.click()} />
+          <img
+            css={styles.image(isLoadingImage)}
+            src={imageUrl}
+            alt=""
+            onClick={() => !isLoadingImage && fileInput.current?.click()}
+          />
           <input
             type="file"
             accept="image/gif, image/jpg, image/jpeg, image/png, image/svg"
             ref={fileInput}
             onChange={onChangeImage}
           />
-          <div css={styles.description}>
+          <div css={styles.description(isLoadingImage)}>
             <textarea
               rows={4}
               value={description}
@@ -59,7 +66,11 @@ const SectionDetailModal: React.FC<SectionDetailModalProps> = props => {
             />
             <span>{description?.length || 0}/128</span>
           </div>
-          <Button css={styles.saveButton(isDisabledButton)} disabled={isDisabledButton} onClick={onClickSaveButton}>
+          <Button
+            css={styles.saveButton(isDisabledButton, isLoadingImage)}
+            disabled={isDisabledButton}
+            onClick={() => !isLoadingImage && onClickSaveButton}
+          >
             저장
           </Button>
         </div>

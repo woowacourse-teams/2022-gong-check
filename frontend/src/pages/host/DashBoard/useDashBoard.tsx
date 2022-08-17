@@ -29,6 +29,7 @@ const useDashBoard = () => {
   const { data: jobsData } = useQuery(['jobs', spaceId], () => apiJobs.getJobs(spaceId));
   const { data: submissionData } = useQuery(['submissions', spaceId], () => apiSubmission.getSubmission(spaceId));
   const { refetch: copyEntranceLink } = useQuery(['entranceCode'], () => apiHost.getEntranceCode(), {
+    suspense: false,
     enabled: false,
     onSuccess: data => {
       clip(`${location.origin}/enter/${data.entranceCode}/pwd`);

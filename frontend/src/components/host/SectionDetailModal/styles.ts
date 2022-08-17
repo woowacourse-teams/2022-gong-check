@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 
 import theme from '@/styles/theme';
 
-const container = css`
+const container = (isLoadingImage: boolean) => css`
   width: 560px;
   background-color: ${theme.colors.white};
   display: flex;
@@ -12,6 +12,7 @@ const container = css`
   padding: 32px 20px;
   border-radius: 18px;
   position: relative;
+  cursor: ${isLoadingImage ? 'wait' : 'pointer'};
 
   h1 {
     align-self: start;
@@ -23,7 +24,7 @@ const container = css`
     position: absolute;
     top: 12px;
     right: 12px;
-    cursor: pointer;
+    cursor: ${isLoadingImage ? 'wait' : 'pointer'};
   }
 
   input {
@@ -31,13 +32,13 @@ const container = css`
   }
 `;
 
-const image = css`
+const image = (isLoadingImage: boolean) => css`
   width: 400px;
   height: 250px;
-  cursor: pointer;
+  cursor: ${isLoadingImage ? 'wait' : 'pointer'};
 `;
 
-const description = css`
+const description = (isLoadingImage: boolean) => css`
   width: 90%;
   margin: 20px 0;
   position: relative;
@@ -51,6 +52,7 @@ const description = css`
     font-size: 16px;
     color: ${theme.colors.black};
     padding: 8px;
+    ${isLoadingImage && 'cursor: wait'};
     ::placeholder {
       font-size: 16px;
       color: ${theme.colors.gray500};
@@ -71,10 +73,11 @@ const description = css`
   }
 `;
 
-const saveButton = (isDisabledButton: boolean) => css`
+const saveButton = (isDisabledButton: boolean, isLoadingImage: boolean) => css`
   font-size: 20px;
   margin: 0;
   background-color: ${isDisabledButton ? theme.colors.gray400 : theme.colors.green};
+  cursor: ${isLoadingImage ? 'wait' : 'pointer'};
 `;
 
 const styles = { container, image, description, saveButton };
