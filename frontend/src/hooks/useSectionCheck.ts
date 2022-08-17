@@ -3,7 +3,18 @@ import { useMemo } from 'react';
 import { SectionType } from '@/types';
 
 const useSectionCheck = (sections: SectionType[]) => {
-  const sectionCheckLists = sections.map(section => section.tasks.map(task => task.checked));
+  const sectionsAllCheckMap = new Map();
+  const sectionCheckLists = sections.map(section => {
+    const newSectionCheckList = section.tasks.map(task => task.checked);
+
+    sectionsAllCheckMap.set(
+      `${section.id}`,
+      newSectionCheckList.every(isCheck => isCheck)
+    );
+
+    return newSectionCheckList;
+  });
+
   const jobCheckList = sectionCheckLists?.reduce((prev, cur) => prev.concat(...cur));
 
   const totalCount = useMemo(() => jobCheckList?.length || 0, [jobCheckList]);
@@ -14,6 +25,7 @@ const useSectionCheck = (sections: SectionType[]) => {
   const isAllChecked = totalCount === checkedCount;
 
   return {
+    sectionsAllCheckMap,
     totalCount,
     checkedCount,
     percent,
