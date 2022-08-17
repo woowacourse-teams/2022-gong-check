@@ -146,10 +146,6 @@ build {
 
 sonarqube {
     properties {
-        property "sonar.projectKey", "woowacourse-teams_2022-gong-check"
-        property "sonar.organization", "woowacourse-teams"
-        property "sonar.host.url", "https://sonarcloud.io"
-        property 'sonar.coverage.jacoco.xmlReportPaths', 'build/reports/jacoco/test/jacocoTestReport.xml'
-        property 'sonar.language', 'java'
+        property "sonar.projectKey", "woowacourse-teams_2022-gong-check_AYKm4KvOS_3Pe1LEsoLu"
     }
 }
