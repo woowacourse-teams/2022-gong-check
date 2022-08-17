@@ -53,10 +53,4 @@ public class WebConfig implements WebMvcConfigurer {
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
-
-    @Bean
-    @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
-    public RequestContext requestStorage() {
-        return new RequestContext();
-    }
 }
