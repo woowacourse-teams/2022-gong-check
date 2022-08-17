@@ -43,25 +43,17 @@ jobs:
           npm install -g @lhci/cli
           lhci autorun || echo "LHCI failed!"
 
-      - name: Cypress CI
-        run: npm run test:ci:chrome
-        continue-on-error: true
-
-      - name: Merge Cypress Results
-        run: npm run report:merge
-
-      - name: Format Result
-        id: format_ci_result
+      - name: Format Lighthouse Score
+        id: format_lighthouse_score
         uses: actions/github-script@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const fs = require('fs');
-            const lhciResults = JSON.parse(fs.readFileSync('${{ github.workspace }}/frontend/lhci_reports/manifest.json'));
-            const cypressResults = JSON.parse(fs.readFileSync('${{ github.workspace }}/frontend/cypress.result.json'));
+            const results = JSON.parse(fs.readFileSync('${{ github.workspace }}/frontend/lhci_reports/manifest.json'));
             let comments = "";
 
-            const { summary, jsonPath } = lhciResults[0];
+            const { summary, jsonPath } = results[0];
 
             const details = JSON.parse(fs.readFileSync(jsonPath));
             const { audits } = details;
@@ -74,7 +66,7 @@ jobs:
 
             const score = (res) => (res >= 90 ? "🟢" : res >= 50 ? "🟠" : "🔴");
 
-            const lhciComment = [
+            const comment = [
               `## ⚡️ Lighthouse Report`,
               `| Category | Score |`,
               `| --- | --- |`,
@@ -116,23 +108,43 @@ jobs:
               } |`
             ].join("\n");
 
-            const {passes, failures, pending, duration, passPercent, skipped} = cypressResults.stats;
+            comments += comment + "\n" + detail + "\n";
 
-            const cypressComment = [
+            core.setOutput('comments', comments);
+
+      - name: Cypress CI
+        run: npm run test:ci
+        continue-on-error: true
+
+      - name: Merge Cypress Results
+        run: npm run report:merge
+
+      - name: Format Cypress Result
+        id: format_cypress_result
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const results = JSON.parse(fs.readFileSync('${{ github.workspace }}/frontend/cypress.result.json'));
+            let reports = "";
+
+            const {passes, failures, pending, duration, passPercent, skipped} = results.stats;
+
+            const report = [
               `## ⭐️ Cypress E2E Report`,
               `| Result | Passed ✅ | Failed ❌ | Pending ✋ | Skipped ↩️ | Duration 🕐 |`,
               `| --- | --- | --- | --- | --- | --- |`,
               `| ${passPercent === 100 ? 'Success ✅' : 'Failed ❌'} | ${passes} | ${failures} | ${pending} | ${skipped} | ${duration/10000}s |`,
             ].join("\n");
 
+            reports += report;
 
-            comments += lhciComment + "\n" + detail + "\n" + "---" + "\n" + cypressComment;
+            core.setOutput('reports', reports);
 
-            core.setOutput('comments', comments);
-
-      - name: Comment PR
+      - name: comment PR
         uses: unsplash/comment-on-pr@v1.3.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          msg: ${{ steps.format_ci_result.outputs.comments}}
+          msg: ${{ steps.format_cypress_result.outputs.reports}}
