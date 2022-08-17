@@ -20,8 +20,6 @@ jobs:
         with:
           node-version: 12
       - run: npm ci
-      - run: npm run build
-      - run: npm install -g sonarqube-scanner
 
       - name: sonar-scanner
       - uses: sonarsource/sonarqube-scan-action@master
