@@ -15,7 +15,7 @@ public class GifImageResizeStrategy implements ImageResizeStrategy {
             ImmutableImage[] immutableImages = AnimatedGifReader.read(ImageSource.of(originBytes))
                     .getFrames()
                     .stream()
-                    .map(immutableImage -> immutableImage.resizeToWidth(width))
+                    .map(immutableImage -> immutableImage.scaleToWidth(width))
                     .toArray(ImmutableImage[]::new);
             return new GifSequenceWriter().bytes(immutableImages);
         } catch (IOException exception) {

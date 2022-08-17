@@ -12,7 +12,7 @@ public class WebpImageResizeStrategy implements ImageResizeStrategy {
         try {
             return ImmutableImage.loader()
                     .fromBytes(originBytes)
-                    .resizeToWidth(width)
+                    .scaleToWidth(width)
                     .bytes(WebpWriter.MAX_LOSSLESS_COMPRESSION);
         } catch (IOException exception) {
             throw new FileResizeException("webp 사이즈 변환 시 문제가 발생하였습니다.");

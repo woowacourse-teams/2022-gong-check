@@ -12,7 +12,7 @@ public class JpegImageResizeStrategy implements ImageResizeStrategy {
         try {
             return ImmutableImage.loader()
                     .fromBytes(originBytes)
-                    .resizeToWidth(width)
+                    .scaleToWidth(width)
                     .bytes(JpegWriter.Default);
         } catch (IOException exception) {
             throw new FileResizeException("jpeg 사이즈 변환 시 문제가 발생하였습니다.");

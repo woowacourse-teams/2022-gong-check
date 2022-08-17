@@ -12,7 +12,7 @@ public class PngImageResizeStrategy implements ImageResizeStrategy {
         try {
             return ImmutableImage.loader()
                     .fromBytes(originBytes)
-                    .resizeToWidth(width)
+                    .scaleToWidth(width)
                     .bytes(PngWriter.NoCompression);
         } catch (IOException exception) {
             throw new FileResizeException("png 사이즈 변환 시 문제가 발생하였습니다.");
