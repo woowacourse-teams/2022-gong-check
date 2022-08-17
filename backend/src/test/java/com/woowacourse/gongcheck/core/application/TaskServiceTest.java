@@ -29,6 +29,7 @@ import com.woowacourse.gongcheck.core.domain.section.Section;
 import com.woowacourse.gongcheck.core.domain.space.Space;
 import com.woowacourse.gongcheck.core.domain.task.RunningTask;
 import com.woowacourse.gongcheck.core.domain.task.RunningTaskRepository;
+import com.woowacourse.gongcheck.core.domain.task.RunningTaskSseEmitterContainer;
 import com.woowacourse.gongcheck.core.domain.task.Task;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.NotFoundException;
@@ -500,7 +501,7 @@ class TaskServiceTest {
                 Section section = repository.save(Section_생성(job, "트랙룸"));
                 task = repository.save(Task_생성(section, "책상 청소"));
                 runningTaskId = repository.save(RunningTask_생성(task.getId(), true))
-                    .getTaskId();
+                        .getTaskId();
             }
 
             @Test

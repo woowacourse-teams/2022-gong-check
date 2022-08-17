@@ -108,7 +108,7 @@ class TaskDocumentation extends DocumentationTest {
     }
 
     @Nested
-    class Running_Task를_조회한다 {
+    class Running_Task에_대한_SSE를_연결한다 {
 
         @Test
         void RunningTask가_존재하면_성공적으로_조회한다() {

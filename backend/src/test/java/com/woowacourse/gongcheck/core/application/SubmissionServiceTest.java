@@ -25,6 +25,7 @@ import com.woowacourse.gongcheck.core.domain.space.Space;
 import com.woowacourse.gongcheck.core.domain.submission.Submission;
 import com.woowacourse.gongcheck.core.domain.submission.SubmissionRepository;
 import com.woowacourse.gongcheck.core.domain.task.RunningTaskRepository;
+import com.woowacourse.gongcheck.core.domain.task.RunningTaskSseEmitterContainer;
 import com.woowacourse.gongcheck.core.domain.task.Task;
 import com.woowacourse.gongcheck.core.presentation.request.SubmissionRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
@@ -219,8 +220,9 @@ class SubmissionServiceTest {
             }
 
             @Test
-            void Submission_SSE를_발행한다() {
+            void Submission_Sse_Event를_발행한다() {
                 submissionService.submitJobCompletion(host.getId(), job.getId(), request);
+
                 verify(runningTaskSseEmitterContainer, times(1))
                         .publishSubmitEvent(anyLong());
             }

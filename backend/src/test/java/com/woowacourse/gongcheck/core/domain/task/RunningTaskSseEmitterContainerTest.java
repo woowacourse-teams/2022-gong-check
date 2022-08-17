@@ -1,4 +1,4 @@
-package com.woowacourse.gongcheck.core.application;
+package com.woowacourse.gongcheck.core.domain.task;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

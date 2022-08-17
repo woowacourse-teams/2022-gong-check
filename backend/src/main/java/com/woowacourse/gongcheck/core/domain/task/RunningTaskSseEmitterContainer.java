@@ -1,4 +1,4 @@
-package com.woowacourse.gongcheck.core.application;
+package com.woowacourse.gongcheck.core.domain.task;
 
 import com.woowacourse.gongcheck.core.application.response.RunningTasksResponse;
 import java.io.IOException;
