@@ -46,7 +46,13 @@ jobs:
       - name: Cypress CI
         uses: cypress-io/github-action@v4
         with:
+          browser: chrome
+          headed: true
+          build: npm run build
+          start: npm run start
+          wait-on: 'http://localhost:3000'
           record: true
+          parallel: true
           working-directory: frontend
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
