@@ -1,15 +1,12 @@
 name: frontend
-
 on:
   pull_request:
     branches: [dev]
     paths: ['frontend/**']
     types: [opened, synchronize, reopened]
-
 defaults:
   run:
     working-directory: frontend
-
 jobs:
   sonarqube:
     name: sonarqube frontend
