@@ -4,24 +4,20 @@ on:
     branches: [dev]
     paths: ['frontend/**']
     types: [opened, synchronize, reopened]
+
 defaults:
   run:
     working-directory: frontend
+
 jobs:
-  sonarqube:
-    name: sonarqube frontend
+  sonarcloud:
+    name: sonar frontend
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - run: npm ci
       - run: npm run build
 
-      - name: sonar-scanner
-      - uses: sonarsource/sonarqube-scan-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONARQUBE_HOST_URL }}
   lhci:
     name: Lighthouse CI
     runs-on: ubuntu-latest
