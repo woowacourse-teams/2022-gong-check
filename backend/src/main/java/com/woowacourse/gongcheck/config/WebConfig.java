@@ -2,9 +2,12 @@ package com.woowacourse.gongcheck.config;
 
 import com.woowacourse.gongcheck.auth.presentation.AuthenticationInterceptor;
 import com.woowacourse.gongcheck.auth.presentation.AuthenticationPrincipalArgumentResolver;
+import com.woowacourse.gongcheck.core.domain.exception.RequestContext;
 import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -49,5 +52,11 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
+    }
+
+    @Bean
+    @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
+    public RequestContext requestStorage() {
+        return new RequestContext();
     }
 }
