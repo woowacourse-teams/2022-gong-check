@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,14 +48,18 @@ public class ImageService {
         }
     }
 
-    public ImageResponse resizeImage(final String imageUrl, final int width) {
+    public ImageResponse resizeImage(final String imageUrl, final int width, final boolean isWebp) {
         try {
             Path fileStorageLocation = resolvePath(imageUrl);
             File file = fileStorageLocation.toFile();
             ImageExtension imageExtension = ImageExtension.from(FilenameUtils.getExtension(file.getName()));
             byte[] originImage = IOUtils.toByteArray(new FileInputStream(file));
+            byte[] resizedImage = imageExtension.resizeImage(originImage, width);
 
-            return ImageResponse.of(imageExtension.resizeImage(originImage, width), imageExtension.getContentType());
+            if (isWebp) {
+                return ImageResponse.of(imageExtension.convertToWebp(resizedImage), new MediaType("image", "webp"));
+            }
+            return ImageResponse.of(resizedImage, imageExtension.getContentType());
         } catch (FileNotFoundException exception) {
             throw new FileIONotFoundException("파일 경로에 파일이 존재하지 않습니다.");
         } catch (IOException exception) {

@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ImageController {
 
     private static final String DEFAULT_RESIZE_WIDTH = "500";
+    private static final String DEFAULT_WEBP = "true";
     private static final int CACHE_CONTROL_MAX_AGE = 30;
 
     private final ImageService imageService;
@@ -35,8 +36,9 @@ public class ImageController {
 
     @GetMapping("/api/resize/{imageUrl}")
     public ResponseEntity<byte[]> getResizeImage(@PathVariable String imageUrl,
-                                                 @RequestParam(required = false, defaultValue = DEFAULT_RESIZE_WIDTH) int width) {
-        ImageResponse response = imageService.resizeImage(imageUrl, width);
+                                                 @RequestParam(required = false, defaultValue = DEFAULT_RESIZE_WIDTH) int width,
+                                                 @RequestParam(required = false, defaultValue = DEFAULT_WEBP) boolean webp) {
+        ImageResponse response = imageService.resizeImage(imageUrl, width, webp);
         return ResponseEntity.ok()
                 .cacheControl(CacheControl.maxAge(CACHE_CONTROL_MAX_AGE, TimeUnit.DAYS))
                 .contentType(response.getContentType())
