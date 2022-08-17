@@ -10,13 +10,26 @@ defaults:
     working-directory: frontend
 
 jobs:
-  sonarcloud:
-    name: sonar frontend
+  sonarqube:
+    name: sonarqube frontend
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Use Node.js 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
       - run: npm ci
       - run: npm run build
+      - run: npm install -g sonarqube-scanner
+
+      - name: sonar-scanner
+      - uses: sonarsource/sonarqube-scan-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONARQUBE_HOST_URL }}
+
 
   lhci:
     name: Lighthouse CI
