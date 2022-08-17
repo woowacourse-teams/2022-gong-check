@@ -13,7 +13,7 @@ public class GifImageResizeStrategy implements ImageResizeStrategy {
     private static final boolean INFINITE_LOOP = true;
 
     @Override
-    public byte[] resize(final byte[] originBytes, final int width, final String extension) {
+    public byte[] resize(final byte[] originBytes, final int width) {
         try {
             ImmutableImage[] immutableImages = AnimatedGifReader.read(ImageSource.of(originBytes))
                     .getFrames()

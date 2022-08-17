@@ -37,7 +37,7 @@ class WebpImageResizeStrategyTest {
 
             @Test
             void width의_비율만큼_resize한_Webp이미지데이터를_반환한다() throws IOException {
-                byte[] actual = webpImageResizeStrategy.resize(image, RESIZE_WIDTH, null);
+                byte[] actual = webpImageResizeStrategy.resize(image, RESIZE_WIDTH);
                 int actualWidth = ImmutableImage.loader()
                         .fromBytes(actual)
                         .width;

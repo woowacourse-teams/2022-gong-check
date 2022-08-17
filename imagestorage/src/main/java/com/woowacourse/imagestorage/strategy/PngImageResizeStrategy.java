@@ -8,7 +8,7 @@ import java.io.IOException;
 public class PngImageResizeStrategy implements ImageResizeStrategy {
 
     @Override
-    public byte[] resize(final byte[] originBytes, final int width, final String extension) {
+    public byte[] resize(final byte[] originBytes, final int width) {
         try {
             return ImmutableImage.loader()
                     .fromBytes(originBytes)

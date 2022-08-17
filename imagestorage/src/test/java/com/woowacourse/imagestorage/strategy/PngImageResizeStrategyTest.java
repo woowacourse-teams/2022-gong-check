@@ -37,7 +37,7 @@ class PngImageResizeStrategyTest {
 
             @Test
             void width의_비율만큼_resize한_Png이미지데이터를_반환한다() {
-                byte[] actual = pngImageResizeStrategy.resize(image, RESIZE_WIDTH, null);
+                byte[] actual = pngImageResizeStrategy.resize(image, RESIZE_WIDTH);
                 int actualWidth = ImageTypeTransfer.toBufferedImage(actual)
                         .getWidth();
 

@@ -37,7 +37,7 @@ public enum ImageExtension {
     }
 
     public byte[] resizeImage(final byte[] originBytes, final int width) {
-        return imageResizeStrategy.resize(originBytes, width, extension);
+        return imageResizeStrategy.resize(originBytes, width);
     }
 
     private boolean containsType(final String format) {
