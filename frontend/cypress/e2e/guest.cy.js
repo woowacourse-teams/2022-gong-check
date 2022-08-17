@@ -26,18 +26,6 @@ describe('사용자, - 비밀번호 입력 페이지', () => {
           });
       });
   });
-
-  it('사용자가 올바른 비밀번호를 입력하면, API 호출이 성공하고 공간 선택 페이지로 이동한다.', () => {
-    cy.get('input')
-      .type(CORRECT_PASSWORD)
-      .then(() => {
-        cy.get('button')
-          .click()
-          .then(() => {
-            cy.url().should('eq', PAGE.SPACE_LIST);
-          });
-      });
-  });
 });
 
 describe('사용자, - 공간 선택 페이지', () => {
@@ -153,28 +141,6 @@ describe('사용자 - 체크리스트 체크 페이지', () => {
               .click()
               .then(() => {
                 cy.get('button').should('not.be.disabled');
-              });
-          });
-        });
-    });
-  });
-
-  it('사용자가 제출 버튼을 클릭하면, 제출 모달이 노출된다.', () => {
-    cy.postCheckTask(1).then(() => {
-      cy.get('label')
-        .first()
-        .click()
-        .then(() => {
-          cy.postCheckTask(2).then(() => {
-            cy.get('label')
-              .last()
-              .click()
-              .then(() => {
-                cy.get('button')
-                  .click()
-                  .then(() => {
-                    cy.get('#modal > div').should('be.visible');
-                  });
               });
           });
         });
