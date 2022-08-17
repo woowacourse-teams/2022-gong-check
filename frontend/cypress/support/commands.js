@@ -35,7 +35,7 @@ Cypress.Commands.addAll({
   spaceEnter() {
     const PASSWORD = '1234';
 
-    cy.intercept('POST', 'http://localhost:8080/api/hosts/1/enter', request => {
+    cy.intercept('POST', '/api/hosts/1/enter', request => {
       request.reply(
         request.body.password === PASSWORD
           ? {
@@ -49,7 +49,7 @@ Cypress.Commands.addAll({
   },
 
   getSpaces() {
-    cy.intercept('GET', 'http://localhost:8080/api/spaces', request => {
+    cy.intercept('GET', '/api/spaces', request => {
       request.reply({
         statusCode: 200,
         body: {
@@ -71,7 +71,7 @@ Cypress.Commands.addAll({
   },
 
   getJobs() {
-    cy.intercept('GET', 'http://localhost:8080/api/spaces/1/jobs', request => {
+    cy.intercept('GET', '/api/spaces/1/jobs', request => {
       request.reply({
         statusCode: 200,
         body: {
@@ -91,7 +91,7 @@ Cypress.Commands.addAll({
   },
 
   getSpaceInfo() {
-    cy.intercept('GET', 'http://localhost:8080/api/spaces/1', request => {
+    cy.intercept('GET', '/api/spaces/1', request => {
       request.reply({
         statusCode: 200,
         body: {
@@ -104,7 +104,7 @@ Cypress.Commands.addAll({
   },
 
   getRunningTaskActive_true(jobId) {
-    cy.intercept('GET', `http://localhost:8080/api/jobs/${jobId}/active`, request => {
+    cy.intercept('GET', `/api/jobs/${jobId}/active`, request => {
       request.reply({
         statusCode: 200,
         body: {
@@ -115,7 +115,7 @@ Cypress.Commands.addAll({
   },
 
   getRunningTaskActive_false(jobId) {
-    cy.intercept('GET', `http://localhost:8080/api/jobs/${jobId}/active`, request => {
+    cy.intercept('GET', `/api/jobs/${jobId}/active`, request => {
       request.reply({
         statusCode: 200,
         body: {
@@ -126,7 +126,7 @@ Cypress.Commands.addAll({
   },
 
   postNewRunningTasks(jobId) {
-    cy.intercept('POST', `http://localhost:8080/api/jobs/${jobId}/runningTasks/new`, request => {
+    cy.intercept('POST', `/api/jobs/${jobId}/runningTasks/new`, request => {
       request.reply(
         jobId === 1
           ? {
@@ -143,7 +143,7 @@ Cypress.Commands.addAll({
   },
 
   getRunningTasks() {
-    cy.intercept('GET', 'http://localhost:8080/api/jobs/1/runningTasks', request => {
+    cy.intercept('GET', '/api/jobs/1/runningTasks', request => {
       request.reply({
         statusCode: 200,
         body: { sections: SECTIONS },
@@ -152,7 +152,7 @@ Cypress.Commands.addAll({
   },
 
   postCheckTask(taskId) {
-    cy.intercept('POST', `http://localhost:8080/api/tasks/${taskId}/flip`, request => {
+    cy.intercept('POST', `/api/tasks/${taskId}/flip`, request => {
       SECTIONS.forEach(section =>
         section.tasks.forEach(task => {
           if (task.id === taskId) {
@@ -167,7 +167,7 @@ Cypress.Commands.addAll({
   },
 
   postJobComplete() {
-    cy.intercept('POST', `http://localhost:8080/api/jobs/1/complete`, request => {
+    cy.intercept('POST', `/api/jobs/1/complete`, request => {
       request.reply({
         statusCode: 200,
       });
