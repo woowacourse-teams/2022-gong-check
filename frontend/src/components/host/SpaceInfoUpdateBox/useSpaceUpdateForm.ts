@@ -9,6 +9,8 @@ import apiSpace from '@/apis/space';
 
 import { ID } from '@/types';
 
+import errorMessage from '@/constants/errorMessage';
+
 const useSpaceUpdateForm = () => {
   const navigate = useNavigate();
 
@@ -31,8 +33,8 @@ const useSpaceUpdateForm = () => {
         openToast('SUCCESS', '공간 정보가 수정 되었습니다.');
         navigate(`/host/manage/${spaceId}`);
       },
-      onError: (err: AxiosError<{ message: string }>) => {
-        openToast('ERROR', `${err.response?.data.message}`);
+      onError: (err: AxiosError<{ errorCode: keyof typeof errorMessage }>) => {
+        openToast('ERROR', errorMessage[`${err.response?.data.errorCode!}`]);
       },
     }
   );

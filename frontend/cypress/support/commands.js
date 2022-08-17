@@ -135,7 +135,7 @@ Cypress.Commands.addAll({
           : {
               statusCode: 401,
               body: {
-                message: '작업이 존재하지 않습니다.',
+                errorCode: 'T002',
               },
             }
       );

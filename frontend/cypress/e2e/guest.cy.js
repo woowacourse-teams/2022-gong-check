@@ -102,7 +102,7 @@ describe('사용자 - 업무 선택 페이지', () => {
             });
           })
           .then(() => {
-            cy.get('#toast > div').should('be.contain', '작업이 존재하지 않습니다.');
+            cy.get('#toast > div').should('be.contain', '체크리스트가 존재하지 않습니다.');
           });
       });
     });
