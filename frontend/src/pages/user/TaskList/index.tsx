@@ -47,7 +47,7 @@ const TaskList: React.FC = () => {
       <div css={styles.contents}>
         <form css={styles.form} onSubmit={onSubmit}>
           {sectionsData?.sections.map(section => (
-            <section css={styles.location} key={section.id}>
+            <section css={styles.location} key={section.id!}>
               <div css={styles.locationHeader}>
                 <p css={styles.locationName}>{section.name}</p>
                 <div css={styles.locationHeaderRightItems}>

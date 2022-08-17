@@ -3,7 +3,8 @@ import { useMemo } from 'react';
 import { SectionType } from '@/types';
 
 const useSectionCheck = (sections: SectionType[]) => {
-  if (sections.length === 0) return { totalCount: 0, checkedCount: false, percent: 0, isAllChecked: false };
+  if (sections.length === 0)
+    return { totalCount: 0, checkedCount: false, percent: 0, isAllChecked: false, sectionsAllCheckMap: new Map() };
 
   const sectionsAllCheckMap = new Map();
   const sectionCheckLists = sections.map(section => {
