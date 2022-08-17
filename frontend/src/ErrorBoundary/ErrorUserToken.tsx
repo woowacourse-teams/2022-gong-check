@@ -4,12 +4,9 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { QueryErrorResetBoundary } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import useToast from '@/hooks/useToast';
-
 import { ID } from '@/types';
 
-const EXPIRED_TOKEN_TEXT = '만료된 토큰입니다.';
-const NOT_TOKEN_TEXT = '헤더에 토큰 값이 정상적으로 존재하지 않습니다.';
+import errorMessage from '@/constants/errorMessage';
 
 interface ErrorUserTokenProps {
   children: React.ReactNode;
@@ -18,22 +15,22 @@ interface ErrorUserTokenProps {
 const ErrorUserToken: React.FC<ErrorUserTokenProps> = ({ children }) => {
   const navigate = useNavigate();
   const { hostId } = useParams() as { hostId: ID };
-  const [message, setMessage] = useState<string | undefined>('');
+  const [errorCode, setErrorCode] = useState<keyof typeof errorMessage>();
 
   useEffect(() => {
-    if (message === EXPIRED_TOKEN_TEXT || message === NOT_TOKEN_TEXT) {
+    if (errorCode === 'A002' || errorCode === 'A003') {
       navigate(`/enter/${hostId}/pwd`);
     }
-  }, [message]);
+  }, [errorCode]);
 
   return (
     <QueryErrorResetBoundary>
       <ErrorBoundary
         fallbackRender={({ error }) => {
-          const err = error as AxiosError<{ message: string }>;
-          const message = err.response?.data.message;
+          const err = error as AxiosError<{ errorCode: keyof typeof errorMessage }>;
+          const newErrorCode = err.response?.data.errorCode;
 
-          setMessage(message);
+          setErrorCode(newErrorCode);
 
           return <></>;
         }}

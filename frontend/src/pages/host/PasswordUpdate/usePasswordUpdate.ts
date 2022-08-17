@@ -7,6 +7,8 @@ import useToast from '@/hooks/useToast';
 
 import apiPassword from '@/apis/password';
 
+import errorMessage from '@/constants/errorMessage';
+
 const usePasswordUpdate = () => {
   const navigate = useNavigate();
 
@@ -20,8 +22,8 @@ const usePasswordUpdate = () => {
       openToast('SUCCESS', '비밀번호 변경에 성공하였습니다.');
       navigate(-1);
     },
-    onError: (err: AxiosError<{ message: string }>) => {
-      openToast('ERROR', `${err.response?.data.message}`);
+    onError: (err: AxiosError<{ errorCode: keyof typeof errorMessage }>) => {
+      openToast('ERROR', errorMessage[`${err.response?.data.errorCode!}`]);
     },
   });
 
