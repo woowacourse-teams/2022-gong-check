@@ -1,8 +1,8 @@
 package com.woowacourse.gongcheck.exception;
 
-import static com.woowacourse.gongcheck.core.domain.exception.ExceptionMessageGenerator.generate;
+import static com.woowacourse.gongcheck.exception.ExceptionMessageGenerator.generate;
 
-import com.woowacourse.gongcheck.core.domain.exception.RequestContext;
+import com.woowacourse.gongcheck.core.presentation.filter.RequestContext;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import lombok.extern.slf4j.Slf4j;

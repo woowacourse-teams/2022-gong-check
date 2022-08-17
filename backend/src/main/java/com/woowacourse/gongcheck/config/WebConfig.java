@@ -2,7 +2,7 @@ package com.woowacourse.gongcheck.config;
 
 import com.woowacourse.gongcheck.auth.presentation.AuthenticationInterceptor;
 import com.woowacourse.gongcheck.auth.presentation.AuthenticationPrincipalArgumentResolver;
-import com.woowacourse.gongcheck.core.domain.exception.RequestContext;
+import com.woowacourse.gongcheck.core.presentation.filter.RequestContext;
 import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

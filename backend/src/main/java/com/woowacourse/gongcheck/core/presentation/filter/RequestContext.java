@@ -1,4 +1,4 @@
-package com.woowacourse.gongcheck.core.domain.exception;
+package com.woowacourse.gongcheck.core.presentation.filter;
 
 import lombok.Getter;
 import org.springframework.web.util.ContentCachingRequestWrapper;

@@ -2,6 +2,7 @@ package com.woowacourse.gongcheck.core.application;
 
 import com.woowacourse.gongcheck.core.application.response.SubmissionCreatedResponse;
 import com.woowacourse.gongcheck.core.application.response.SubmissionsResponse;
+import com.woowacourse.gongcheck.core.application.support.MessageGenerator;
 import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.domain.host.HostRepository;
 import com.woowacourse.gongcheck.core.domain.job.Job;
@@ -86,10 +87,7 @@ public class SubmissionService {
     private void validateRunning(final Tasks tasks) {
         if (!runningTaskRepository.existsByTaskIdIn(tasks.getTaskIds())) {
             String message = String.format("현재 제출할 수 있는 진행중인 작업이 존재하지 않습니다. taskIds = %s",
-                    tasks.getTaskIds()
-                            .stream()
-                            .map(String::valueOf)
-                            .collect(Collectors.joining(", ")));
+                    MessageGenerator.taskIdsGenerate(tasks));
             throw new BusinessException(message, ErrorCode.S001);
         }
     }

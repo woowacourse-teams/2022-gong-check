@@ -1,4 +1,4 @@
-package com.woowacourse.gongcheck.core.domain.exception;
+package com.woowacourse.gongcheck.exception;
 
 import java.util.Enumeration;
 import java.util.HashMap;

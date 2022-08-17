@@ -1,6 +1,5 @@
-package com.woowacourse.gongcheck.core.presentation;
+package com.woowacourse.gongcheck.core.presentation.filter;
 
-import com.woowacourse.gongcheck.core.domain.exception.RequestContext;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -11,11 +10,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 
 @Component
-public class ServletWrappingFilter extends OncePerRequestFilter {
+public class RequestServletWrappingFilter extends OncePerRequestFilter {
 
     private final RequestContext requestContext;
 
-    public ServletWrappingFilter(final RequestContext requestContext) {
+    public RequestServletWrappingFilter(final RequestContext requestContext) {
         this.requestContext = requestContext;
     }
 

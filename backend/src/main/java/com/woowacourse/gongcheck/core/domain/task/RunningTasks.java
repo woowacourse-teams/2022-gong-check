@@ -1,9 +1,9 @@
 package com.woowacourse.gongcheck.core.domain.task;
 
+import com.woowacourse.gongcheck.core.application.support.MessageGenerator;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.ErrorCode;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class RunningTasks {
 
@@ -15,9 +15,8 @@ public class RunningTasks {
 
     public void validateCompletion() {
         if (!isAllChecked()) {
-            String message = String.format("모든 작업이 완료되지않아 제출이 불가합니다. runningTasksIds = %s", runningTasks.stream()
-                    .map(String::valueOf)
-                    .collect(Collectors.joining(", ")));
+            String message = String.format("모든 작업이 완료되지않아 제출이 불가합니다. runningTasksIds = %s",
+                    MessageGenerator.runningTasksGenerate(runningTasks));
             throw new BusinessException(message, ErrorCode.R003);
         }
     }
