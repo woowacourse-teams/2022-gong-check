@@ -1,4 +1,4 @@
-package com.woowacourse.imagestorage.convert;
+package com.woowacourse.imagestorage.strategy.convert;
 
 import java.io.IOException;
 

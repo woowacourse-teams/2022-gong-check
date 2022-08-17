@@ -1,6 +1,5 @@
 package com.woowacourse.imagestorage.strategy.convert;
 
-import com.woowacourse.imagestorage.convert.AnimatedWebpWriter;
 import com.woowacourse.imagestorage.exception.FileConvertException;
 import java.io.IOException;
 
