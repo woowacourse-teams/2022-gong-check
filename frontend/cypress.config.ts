@@ -19,6 +19,4 @@ export default defineConfig({
   reporterOptions: {
     configFile: 'reporter-config.json',
   },
-  video: false,
-  screenshotOnRunFailure: false,
 });
