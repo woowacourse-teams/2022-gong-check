@@ -14,6 +14,11 @@ export default defineConfig({
       toast: '#toast',
     },
   },
+  chromeWebSecurity: false,
+  reporter: 'cypress-multi-reporters',
+  reporterOptions: {
+    configFile: 'reporter-config.json',
+  },
   video: false,
   screenshotOnRunFailure: false,
 });
