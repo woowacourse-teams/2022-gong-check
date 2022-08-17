@@ -48,7 +48,9 @@ public class RunningTaskSseEmitterContainer {
         getValuesByJobId(jobId).forEach(emitter -> {
             try {
                 emitter.send(SseEmitter.event()
-                        .name("submit"));
+                        .name("submit")
+                        .data("send submit event"));
+                log.info("send emitter = {}", emitter);
             } catch (IOException e) {
                 log.info("expired emitter. message = {}, emitterId = {}", e.getMessage(), emitter);
             }
