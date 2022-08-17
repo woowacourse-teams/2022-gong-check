@@ -6,6 +6,8 @@ import theme from '@/styles/theme';
 const layout = css`
   width: 100vw;
   height: 100vh;
+  z-index: 10;
+  opacity: 1;
 `;
 
 const spinner = css`
@@ -13,6 +15,7 @@ const spinner = css`
   height: 100%;
   margin: 0 0 0 -1px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   box-sizing: border-box;
   justify-content: center;
@@ -34,6 +37,7 @@ const faceSpinner = css`
   border-radius: 4rem;
   display: flex;
   justify-content: center;
+  background-color: ${theme.colors.background};
 `;
 
 const faceSpinnerEye = css`

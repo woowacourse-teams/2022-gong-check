@@ -3,6 +3,7 @@ import { BiX } from 'react-icons/bi';
 
 import Button from '@/components/common/Button';
 import Dimmer from '@/components/common/Dimmer';
+import LoadingOverlay from '@/components/common/LoadingOverlay';
 
 import ModalPortal from '@/portals/ModalPortal';
 
@@ -30,6 +31,7 @@ const SectionDetailModal: React.FC<SectionDetailModalProps> = props => {
     closeModal,
     imageUrl,
     description,
+    isImageLoading,
   } = useSectionDetailModal(props);
 
   return (
@@ -63,6 +65,7 @@ const SectionDetailModal: React.FC<SectionDetailModalProps> = props => {
             저장
           </Button>
         </div>
+        {isImageLoading && <LoadingOverlay />}
       </Dimmer>
     </ModalPortal>
   );

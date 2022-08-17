@@ -14,11 +14,15 @@ const useImage = (prevImageUrl?: string) => {
 
   const [imageUrl, setImageUrl] = useState('');
 
-  const { mutateAsync: uploadImage } = useMutation((formData: FormData) => apiImage.postImageUpload(formData), {
-    onError: (err: AxiosError<{ errorCode: keyof typeof errorMessage }>) => {
-      openToast('ERROR', errorMessage[`${err.response?.data.errorCode!}`]);
-    },
-  });
+  const { mutateAsync: uploadImage, isLoading: isImageLoading } = useMutation(
+    (formData: FormData) => apiImage.postImageUpload(formData),
+
+    {
+      onError: (err: AxiosError<{ errorCode: keyof typeof errorMessage }>) => {
+        openToast('ERROR', errorMessage[`${err.response?.data.errorCode!}`]);
+      },
+    }
+  );
 
   const onChangeImage = async (e: React.FormEvent<HTMLInputElement>) => {
     const input = e.target as HTMLInputElement;
@@ -49,7 +53,7 @@ const useImage = (prevImageUrl?: string) => {
     setImageUrl(prevImageUrl);
   }, [prevImageUrl]);
 
-  return { imageUrl, onChangeImage };
+  return { imageUrl, onChangeImage, isImageLoading };
 };
 
 export default useImage;
