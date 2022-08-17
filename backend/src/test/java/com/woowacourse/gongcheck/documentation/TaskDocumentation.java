@@ -2,11 +2,8 @@ package com.woowacourse.gongcheck.documentation;
 
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Host_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Job_생성;
-import static com.woowacourse.gongcheck.fixture.FixtureFactory.RunningTask_생성;
-import static com.woowacourse.gongcheck.fixture.FixtureFactory.RunningTask로_Task_아이디_지정_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Section_아이디_지정_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_생성;
-import static com.woowacourse.gongcheck.fixture.FixtureFactory.Task_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Task_아이디_지정_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -23,13 +20,11 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 
 import com.woowacourse.gongcheck.auth.domain.Authority;
 import com.woowacourse.gongcheck.core.application.response.JobActiveResponse;
-import com.woowacourse.gongcheck.core.application.response.RunningTasksResponse;
 import com.woowacourse.gongcheck.core.application.response.TasksResponse;
 import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.domain.job.Job;
 import com.woowacourse.gongcheck.core.domain.section.Section;
 import com.woowacourse.gongcheck.core.domain.space.Space;
-import com.woowacourse.gongcheck.core.domain.task.RunningTask;
 import com.woowacourse.gongcheck.core.domain.task.Task;
 import com.woowacourse.gongcheck.core.domain.task.Tasks;
 import com.woowacourse.gongcheck.exception.BusinessException;
@@ -43,6 +38,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 class TaskDocumentation extends DocumentationTest {
 
@@ -111,62 +107,33 @@ class TaskDocumentation extends DocumentationTest {
     class Running_Task에_대한_SSE를_연결한다 {
 
         @Test
-        void RunningTask가_존재하면_성공적으로_조회한다() {
-            Host host = Host_생성("1234", 1234L);
-            Space space = Space_생성(host, "잠실");
-            Job job = Job_생성(space, "청소");
-            Section section1 = Section_아이디_지정_생성(1L, job, "트랙룸");
-            Section section2 = Section_아이디_지정_생성(2L, job, "굿샷강의장");
-            RunningTask runningTask1 = RunningTask_생성(Task_생성(section1, "책상 청소").getId(), false);
-            RunningTask runningTask2 = RunningTask_생성(Task_생성(section2, "책상 청소").getId(), true);
-            Task task1 = RunningTask로_Task_아이디_지정_생성(1L, runningTask1, section1, "책상 청소");
-            Task task2 = RunningTask로_Task_아이디_지정_생성(2L, runningTask2, section2, "의자 청소");
-            when(taskService.findRunningTasks(anyLong(), any())).thenReturn(
-                    RunningTasksResponse.from(new Tasks(List.of(task1, task2)))
-            );
+        void RunningTask가_존재하면_성공적으로_연결한다() {
+            when(taskService.connectRunningTasks(anyLong(), any()))
+                    .thenReturn(new SseEmitter());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             docsGiven
                     .header("Authorization", "Bearer jwt.token.here")
-                    .when().get("/api/jobs/{jobId}/runningTasks", 1)
+                    .accept(MediaType.TEXT_EVENT_STREAM_VALUE)
+                    .when().get("/api/jobs/{jobId}/runningTasks/connect", 1)
                     .then().log().all()
-                    .apply(document("runningTasks/find/success",
+                    .apply(document("runningTasks/connect/success",
                             pathParameters(
-                                    parameterWithName("jobId").description("해당 RunningTask를 조회할 Job Id")),
-                            responseFields(
-                                    fieldWithPath("sections.[].id").type(JsonFieldType.NUMBER)
-                                            .description("Section Id"),
-                                    fieldWithPath("sections.[].name").type(JsonFieldType.STRING)
-                                            .description("Section 이름"),
-                                    fieldWithPath("sections.[].imageUrl").type(JsonFieldType.STRING)
-                                            .description("Section Image Url"),
-                                    fieldWithPath("sections.[].description").type(JsonFieldType.STRING)
-                                            .description("Section 설명"),
-                                    fieldWithPath("sections.[].tasks.[].id").type(JsonFieldType.NUMBER)
-                                            .description("Task Id"),
-                                    fieldWithPath("sections.[].tasks.[].name").type(JsonFieldType.STRING)
-                                            .description("Task 이름"),
-                                    fieldWithPath("sections.[].tasks.[].imageUrl").type(JsonFieldType.STRING)
-                                            .description("Task Image Url"),
-                                    fieldWithPath("sections.[].tasks.[].description").type(JsonFieldType.STRING)
-                                            .description("Task 설명"),
-                                    fieldWithPath("sections.[].tasks.[].checked").type(JsonFieldType.BOOLEAN)
-                                            .description("완료 여부")
-                            )
+                                    parameterWithName("jobId").description("해당 RunningTask를 조회할 Job Id"))
                     ))
                     .statusCode(HttpStatus.OK.value());
         }
 
         @Test
-        void RunningTask가_존재하지_않는_상태에서_조회하려는_경우_예외가_발생한다() {
+        void RunningTask가_존재하지_않는_상태에서_SSE_연결을_하려는_경우_예외가_발생한다() {
             doThrow(new BusinessException("현재 진행중인 작업이 존재하지 않아 조회할 수 없습니다", ErrorCode.R001)).when(taskService)
-                    .findRunningTasks(anyLong(), anyLong());
+                    .connectRunningTasks(anyLong(), anyLong());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             ExtractableResponse<MockMvcResponse> response = docsGiven
                     .header("Authorization", "Bearer jwt.token.here")
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .when().get("/api/jobs/1/runningTasks")
+                    .when().get("/api/jobs/1/runningTasks/connect")
                     .then().log().all()
                     .apply(document("runningTasks/find/fail/active"))
                     .extract();
