@@ -1,4 +1,3 @@
-import { clip } from '@/utils/copy';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -31,7 +30,7 @@ const useDashBoard = () => {
   const { refetch: copyEntranceLink } = useQuery(['entranceCode'], () => apiHost.getEntranceCode(), {
     enabled: false,
     onSuccess: data => {
-      clip(`${location.origin}/enter/${data.entranceCode}/pwd`);
+      navigator.clipboard.writeText(`${location.origin}/enter/${data.entranceCode}/pwd`);
       openToast('SUCCESS', '공간 입장 링크가 복사되었습니다.');
     },
     onError: () => {
