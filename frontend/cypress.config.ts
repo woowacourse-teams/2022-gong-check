@@ -15,8 +15,4 @@ export default defineConfig({
     },
   },
   chromeWebSecurity: false,
-  reporter: 'cypress-multi-reporters',
-  reporterOptions: {
-    configFile: 'reporter-config.json',
-  },
 });
