@@ -147,37 +147,37 @@ describe('사용자 - 체크리스트 체크 페이지', () => {
     });
   });
 
-  it('사용자가 제출 모달에서 제출자를 입력하고 버튼을 누르면, 제출 alert가 발생한다.', () => {
-    cy.getSpaces().then(() => {
-      cy.postCheckTask(1).then(() => {
-        cy.get('label')
-          .first()
-          .click()
-          .then(() => {
-            cy.postCheckTask(2).then(() => {
-              cy.get('label')
-                .last()
-                .click()
-                .then(() => {
-                  cy.get('button')
-                    .click()
-                    .then(() => {
-                      cy.get('#modal input')
-                        .type('coke')
-                        .then(() => {
-                          cy.get('#modal button')
-                            .click()
-                            .then(() => {
-                              cy.on('window:alert', text => {
-                                expect(text).to.include('제출 되었습니다.');
-                              });
-                            });
-                        });
-                    });
-                });
-            });
-          });
-      });
-    });
-  });
+  // it('사용자가 제출 모달에서 제출자를 입력하고 버튼을 누르면, 제출 alert가 발생한다.', () => {
+  //   cy.getSpaces().then(() => {
+  //     cy.postCheckTask(1).then(() => {
+  //       cy.get('label')
+  //         .first()
+  //         .click()
+  //         .then(() => {
+  //           cy.postCheckTask(2).then(() => {
+  //             cy.get('label')
+  //               .last()
+  //               .click()
+  //               .then(() => {
+  //                 cy.get('button')
+  //                   .click()
+  //                   .then(() => {
+  //                     cy.get('#modal input')
+  //                       .type('coke')
+  //                       .then(() => {
+  //                         cy.get('#modal button')
+  //                           .click()
+  //                           .then(() => {
+  //                             cy.on('window:alert', text => {
+  //                               expect(text).to.include('제출 되었습니다.');
+  //                             });
+  //                           });
+  //                       });
+  //                   });
+  //               });
+  //           });
+  //         });
+  //     });
+  //   });
+  // });
 });
