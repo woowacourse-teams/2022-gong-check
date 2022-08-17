@@ -19,7 +19,7 @@ jobs:
       - run: npm run build
 
   lhci:
-    name: Frontend CI
+    name: Lighthouse CI
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -36,7 +36,7 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Lighthouse CI
+      - name: Lighthouse Run
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
         run: |
@@ -112,7 +112,17 @@ jobs:
 
             core.setOutput('comments', comments);
 
-      - name: Cypress CI
+  cypress-run:
+    name: Cypress CI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: NPM CI
+        run: npm ci
+
+      - name: Cypress Run
         run: npm run test:ci
         continue-on-error: true
 
@@ -142,7 +152,7 @@ jobs:
 
             core.setOutput('reports', reports);
 
-      - name: comment PR
+      - name: Comment PR
         uses: unsplash/comment-on-pr@v1.3.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
