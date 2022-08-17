@@ -27,18 +27,6 @@ describe('사용자, - 비밀번호 입력 페이지', () => {
           });
       });
   });
-
-  it('사용자가 올바른 비밀번호를 입력하면, 공간 선택 페이지로 이동한다.', () => {
-    cy.get('input')
-      .type(CORRECT_PASSWORD)
-      .then(() => {
-        cy.get('button')
-          .click()
-          .then(() => {
-            cy.url().should('eq', PAGE.SPACE_LIST);
-          });
-      });
-  });
 });
 
 describe('사용자, - 공간 선택 페이지', () => {
