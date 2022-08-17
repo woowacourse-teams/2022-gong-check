@@ -23,10 +23,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          submodules: true
+          submodules: recursive
 
       - name: Use Node.js 16.x
         uses: actions/setup-node@v1
