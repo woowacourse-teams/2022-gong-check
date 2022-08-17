@@ -41,7 +41,6 @@ class JpegImageResizeStrategyTest {
                 int actualWidth = ImageTypeTransfer.toBufferedImage(actual)
                         .getWidth();
 
-                ImageFormatDetector.isJpeg(actual);
                 assertAll(
                         () -> assertThat(actualWidth).isEqualTo(RESIZE_WIDTH),
                         () -> assertThat(ImageFormatDetector.isJpeg(actual)).isTrue()
