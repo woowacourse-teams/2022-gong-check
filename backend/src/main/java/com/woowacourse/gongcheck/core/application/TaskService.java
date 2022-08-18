@@ -108,7 +108,8 @@ public class TaskService {
         RunningTasks runningTasks = tasks.getRunningTasks();
         runningTasks.check();
 
-        runningTaskSseEmitterContainer.publishFlipEvent(jobId, RunningTasksResponse.from(tasks));
+        Tasks allTasks = new Tasks(taskRepository.findAllBySectionJob(section.getJob()));
+        runningTaskSseEmitterContainer.publishFlipEvent(jobId, RunningTasksResponse.from(allTasks));
     }
 
     private RunningTasksResponse findExistingRunningTasks(final Long hostId, final Long jobId) {
