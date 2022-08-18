@@ -5,7 +5,7 @@ import useScroll from '@/hooks/useScroll';
 
 import homeCover from '@/assets/homeCover.png';
 
-import theme from '@/styles/theme';
+const CIRCLE_SIZE = 80;
 
 const MainSection: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -30,9 +30,10 @@ const MainSection: React.FC = () => {
     canvas.height = Math.floor(window.innerHeight * scale);
     ctx.scale(scale, scale);
 
-    const x = (e.nativeEvent.offsetX - canvas.offsetWidth / 2) * scrollPositionInt;
-    const y = (e.nativeEvent.offsetY - canvas.offsetHeight / 2) * scrollPositionInt;
-    const radius = 100 * scrollPositionInt;
+    const x = e.nativeEvent.offsetX;
+    const y = e.nativeEvent.offsetY;
+
+    const radius = CIRCLE_SIZE * scrollPositionInt;
 
     ctx.beginPath();
     let circlePath = new Path2D();
@@ -55,9 +56,10 @@ const MainSection: React.FC = () => {
     canvas.height = Math.floor(window.innerHeight * scale);
     ctx.scale(scale, scale);
 
-    const x = (positionRef.current.x - canvas.offsetWidth / 2) * scrollPositionInt;
-    const y = (positionRef.current.y - canvas.offsetHeight / 2) * scrollPositionInt;
-    const radius = 100 * scrollPositionInt;
+    const x = positionRef.current.x;
+    const y = positionRef.current.y;
+
+    const radius = CIRCLE_SIZE * scrollPositionInt;
 
     ctx.beginPath();
     let circlePath = new Path2D();
