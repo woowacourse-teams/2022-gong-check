@@ -38,6 +38,7 @@ dependencies {
 
     // image resize
     implementation 'com.sksamuel.scrimage:scrimage-core:4.0.31'
+    testImplementation 'com.sksamuel.scrimage:scrimage-webp:4.0.31'
 }
 
 tasks.named('test') {
