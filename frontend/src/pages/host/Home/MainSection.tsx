@@ -13,7 +13,7 @@ const MainSection: React.FC = () => {
   const positionRef = useRef({ x: 0, y: 0 });
 
   const { scrollPosition } = useScroll();
-  const scrollPositionInt = scrollPosition;
+  const scrollPositionInt = scrollPosition + 3;
 
   const onMouseMove = (e: React.MouseEvent<HTMLElement, MouseEvent>, scrollPositionInt: number) => {
     const canvas = canvasRef.current;
@@ -30,10 +30,9 @@ const MainSection: React.FC = () => {
     canvas.height = Math.floor(window.innerHeight * scale);
     ctx.scale(scale, scale);
 
-    const x = (50 + e.nativeEvent.offsetX - canvas.offsetWidth / 2) * scrollPositionInt;
-    const y = (50 + e.nativeEvent.offsetY - canvas.offsetHeight / 2) * scrollPositionInt;
-
-    const radius = 50 * scrollPositionInt;
+    const x = (e.nativeEvent.offsetX - canvas.offsetWidth / 2) * scrollPositionInt;
+    const y = (e.nativeEvent.offsetY - canvas.offsetHeight / 2) * scrollPositionInt;
+    const radius = 100 * scrollPositionInt;
 
     ctx.beginPath();
     let circlePath = new Path2D();
@@ -56,9 +55,9 @@ const MainSection: React.FC = () => {
     canvas.height = Math.floor(window.innerHeight * scale);
     ctx.scale(scale, scale);
 
-    const x = (50 + positionRef.current.x - canvas.offsetWidth / 2) * scrollPositionInt;
-    const y = (50 + positionRef.current.y - canvas.offsetHeight / 2) * scrollPositionInt;
-    const radius = 50 * scrollPositionInt;
+    const x = (positionRef.current.x - canvas.offsetWidth / 2) * scrollPositionInt;
+    const y = (positionRef.current.y - canvas.offsetHeight / 2) * scrollPositionInt;
+    const radius = 100 * scrollPositionInt;
 
     ctx.beginPath();
     let circlePath = new Path2D();
