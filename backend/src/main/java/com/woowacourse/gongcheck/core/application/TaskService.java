@@ -11,6 +11,7 @@ import com.woowacourse.gongcheck.core.domain.section.Section;
 import com.woowacourse.gongcheck.core.domain.section.SectionRepository;
 import com.woowacourse.gongcheck.core.domain.task.RunningTask;
 import com.woowacourse.gongcheck.core.domain.task.RunningTaskRepository;
+import com.woowacourse.gongcheck.core.domain.task.RunningTaskSseEmitterContainer;
 import com.woowacourse.gongcheck.core.domain.task.RunningTasks;
 import com.woowacourse.gongcheck.core.domain.task.Task;
 import com.woowacourse.gongcheck.core.domain.task.TaskRepository;
@@ -20,6 +21,7 @@ import com.woowacourse.gongcheck.exception.ErrorCode;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @Service
 @Transactional(readOnly = true)
@@ -30,15 +32,18 @@ public class TaskService {
     private final SectionRepository sectionRepository;
     private final TaskRepository taskRepository;
     private final RunningTaskRepository runningTaskRepository;
+    private final RunningTaskSseEmitterContainer runningTaskSseEmitterContainer;
 
     public TaskService(final HostRepository hostRepository, final JobRepository jobRepository,
                        final SectionRepository sectionRepository, final TaskRepository taskRepository,
-                       final RunningTaskRepository runningTaskRepository) {
+                       final RunningTaskRepository runningTaskRepository,
+                       final RunningTaskSseEmitterContainer runningTaskSseEmitterContainer) {
         this.hostRepository = hostRepository;
         this.jobRepository = jobRepository;
         this.sectionRepository = sectionRepository;
         this.taskRepository = taskRepository;
         this.runningTaskRepository = runningTaskRepository;
+        this.runningTaskSseEmitterContainer = runningTaskSseEmitterContainer;
     }
 
     @Transactional
@@ -61,13 +66,9 @@ public class TaskService {
         return JobActiveResponse.from(existsAnyRunningTaskIn(tasks));
     }
 
-    public RunningTasksResponse findRunningTasks(final Long hostId, final Long jobId) {
-        Tasks tasks = findTasksByHostIdAndJobId(hostId, jobId);
-        if (!existsAnyRunningTaskIn(tasks)) {
-            String message = String.format("현재 진행중인 작업이 존재하지 않아 조회할 수 없습니다. hostId = %d, jobId = %d", hostId, jobId);
-            throw new BusinessException(message, ErrorCode.R001);
-        }
-        return RunningTasksResponse.from(tasks);
+    public SseEmitter connectRunningTasks(final Long hostId, final Long jobId) {
+        RunningTasksResponse runningTasks = findExistingRunningTasks(hostId, jobId);
+        return runningTaskSseEmitterContainer.createEmitterWithConnectionEvent(jobId, runningTasks);
     }
 
     @Transactional
@@ -81,6 +82,11 @@ public class TaskService {
                 });
 
         runningTask.flipCheckedStatus();
+
+        Long jobId = task.getSection().getJob().getId();
+        RunningTasksResponse runningTasks = findExistingRunningTasks(hostId, jobId);
+
+        runningTaskSseEmitterContainer.publishFlipEvent(jobId, runningTasks);
     }
 
     public TasksResponse findTasks(final Long hostId, final Long jobId) {
@@ -92,28 +98,33 @@ public class TaskService {
     public void checkRunningTasksInSection(final Long hostId, final Long sectionId) {
         Host host = hostRepository.getById(hostId);
         Section section = sectionRepository.getByJobSpaceHostAndId(host, sectionId);
+        Long jobId = section.getJob().getId();
         Tasks tasks = new Tasks(taskRepository.findAllBySection(section));
 
-        checkRunningTaskExists(tasks);
+        if (!existsAnyRunningTaskIn(tasks)) {
+            String message = String.format("현재 진행중인 RunningTask가 없습니다 hostId = %d, sectionId = %d", hostId, sectionId);
+            throw new BusinessException(message, ErrorCode.R002);
+        }
         RunningTasks runningTasks = tasks.getRunningTasks();
         runningTasks.check();
+
+        Tasks allTasks = new Tasks(taskRepository.findAllBySectionJob(section.getJob()));
+        runningTaskSseEmitterContainer.publishFlipEvent(jobId, RunningTasksResponse.from(allTasks));
+    }
+
+    private RunningTasksResponse findExistingRunningTasks(final Long hostId, final Long jobId) {
+        Tasks tasks = findTasksByHostIdAndJobId(hostId, jobId);
+        if (!existsAnyRunningTaskIn(tasks)) {
+            String message = String.format("현재 진행중인 RunningTask가 없습니다 hostId = %d, jobId = %d", hostId, jobId);
+            throw new BusinessException(message, ErrorCode.R001);
+        }
+        return RunningTasksResponse.from(tasks);
     }
 
     private Tasks findTasksByHostIdAndJobId(final Long hostId, final Long jobId) {
         Host host = hostRepository.getById(hostId);
         Job job = jobRepository.getBySpaceHostAndId(host, jobId);
         return new Tasks(taskRepository.findAllBySectionJob(job));
-    }
-
-    private RunningTasksResponse findExistingRunningTasks(final Tasks tasks) {
-        checkRunningTaskExists(tasks);
-        return RunningTasksResponse.from(tasks);
-    }
-
-    private void checkRunningTaskExists(final Tasks tasks) {
-        if (!existsAnyRunningTaskIn(tasks)) {
-            throw new BusinessException("현재 진행중인 RunningTask가 없습니다", ErrorCode.R002);
-        }
     }
 
     private boolean existsAnyRunningTaskIn(final Tasks tasks) {

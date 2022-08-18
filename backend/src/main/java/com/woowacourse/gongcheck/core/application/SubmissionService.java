@@ -2,6 +2,7 @@ package com.woowacourse.gongcheck.core.application;
 
 import com.woowacourse.gongcheck.core.application.response.SubmissionCreatedResponse;
 import com.woowacourse.gongcheck.core.application.response.SubmissionsResponse;
+import com.woowacourse.gongcheck.core.application.support.LoggingFormatConverter;
 import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.domain.host.HostRepository;
 import com.woowacourse.gongcheck.core.domain.job.Job;
@@ -11,6 +12,7 @@ import com.woowacourse.gongcheck.core.domain.space.SpaceRepository;
 import com.woowacourse.gongcheck.core.domain.submission.Submission;
 import com.woowacourse.gongcheck.core.domain.submission.SubmissionRepository;
 import com.woowacourse.gongcheck.core.domain.task.RunningTaskRepository;
+import com.woowacourse.gongcheck.core.domain.task.RunningTaskSseEmitterContainer;
 import com.woowacourse.gongcheck.core.domain.task.RunningTasks;
 import com.woowacourse.gongcheck.core.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.core.domain.task.Tasks;
@@ -18,7 +20,6 @@ import com.woowacourse.gongcheck.core.presentation.request.SubmissionRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.ErrorCode;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -36,12 +37,14 @@ public class SubmissionService {
     private final RunningTaskRepository runningTaskRepository;
     private final SubmissionRepository submissionRepository;
     private final NotificationService notificationService;
+    private final RunningTaskSseEmitterContainer runningTaskSseEmitterContainer;
 
     public SubmissionService(final HostRepository hostRepository, final JobRepository jobRepository,
                              final SpaceRepository spaceRepository, final TaskRepository taskRepository,
                              final RunningTaskRepository runningTaskRepository,
                              final SubmissionRepository submissionRepository,
-                             final NotificationService notificationService) {
+                             final NotificationService notificationService,
+                             final RunningTaskSseEmitterContainer runningTaskSseEmitterContainer) {
         this.hostRepository = hostRepository;
         this.jobRepository = jobRepository;
         this.spaceRepository = spaceRepository;
@@ -49,6 +52,7 @@ public class SubmissionService {
         this.runningTaskRepository = runningTaskRepository;
         this.submissionRepository = submissionRepository;
         this.notificationService = notificationService;
+        this.runningTaskSseEmitterContainer = runningTaskSseEmitterContainer;
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
@@ -60,6 +64,7 @@ public class SubmissionService {
         if (job.hasUrl()) {
             sendNotification(request, job);
         }
+        runningTaskSseEmitterContainer.publishSubmitEvent(jobId);
     }
 
     private void sendNotification(final SubmissionRequest request, final Job job) {
@@ -84,12 +89,10 @@ public class SubmissionService {
     }
 
     private void validateRunning(final Tasks tasks) {
-        if (!runningTaskRepository.existsByTaskIdIn(tasks.getTaskIds())) {
+        List<Long> taskIds = tasks.getTaskIds();
+        if (!runningTaskRepository.existsByTaskIdIn(taskIds)) {
             String message = String.format("현재 제출할 수 있는 진행중인 작업이 존재하지 않습니다. taskIds = %s",
-                    tasks.getTaskIds()
-                            .stream()
-                            .map(String::valueOf)
-                            .collect(Collectors.joining(", ")));
+                    LoggingFormatConverter.convertIdsToString(taskIds));
             throw new BusinessException(message, ErrorCode.S001);
         }
     }

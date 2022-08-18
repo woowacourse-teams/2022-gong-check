@@ -12,9 +12,7 @@ import { ID } from '@/types';
 
 import errorMessage from '@/constants/errorMessage';
 
-const useNameModal = (jobId: ID, hostId: ID) => {
-  const navigate = useNavigate();
-
+const useNameModal = (jobId: ID) => {
   const { openToast } = useToast();
   const { closeModal } = useModal();
 
@@ -22,10 +20,6 @@ const useNameModal = (jobId: ID, hostId: ID) => {
   const [isDisabledButton, setIsDisabledButton] = useState(true);
 
   const { mutate: postJobComplete } = useMutation(() => apis.postJobComplete(jobId, name), {
-    onSuccess: () => {
-      alert('체크리스트가 정상적으로 제출되었습니다.');
-      navigate(`/enter/${hostId}/spaces`);
-    },
     onError: (err: AxiosError<{ errorCode: keyof typeof errorMessage }>) => {
       openToast('ERROR', errorMessage[`${err.response?.data.errorCode!}`]);
       closeModal();

@@ -10,6 +10,9 @@ import static com.woowacourse.gongcheck.fixture.FixtureFactory.Task_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import com.woowacourse.gongcheck.ApplicationTest;
 import com.woowacourse.gongcheck.SupportRepository;
@@ -22,6 +25,7 @@ import com.woowacourse.gongcheck.core.domain.space.Space;
 import com.woowacourse.gongcheck.core.domain.submission.Submission;
 import com.woowacourse.gongcheck.core.domain.submission.SubmissionRepository;
 import com.woowacourse.gongcheck.core.domain.task.RunningTaskRepository;
+import com.woowacourse.gongcheck.core.domain.task.RunningTaskSseEmitterContainer;
 import com.woowacourse.gongcheck.core.domain.task.Task;
 import com.woowacourse.gongcheck.core.presentation.request.SubmissionRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
@@ -34,6 +38,7 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
 
 @ApplicationTest
@@ -52,6 +57,9 @@ class SubmissionServiceTest {
 
     @Autowired
     private SubmissionRepository submissionRepository;
+
+    @MockBean
+    private RunningTaskSseEmitterContainer runningTaskSseEmitterContainer;
 
     @Nested
     class submitJobCompletion_메소드는 {
@@ -209,6 +217,14 @@ class SubmissionServiceTest {
                         () -> assertThat(submissions.get(0).getAuthor()).isEqualTo(request.getAuthor()),
                         () -> assertThat(runningTaskSize).isZero()
                 );
+            }
+
+            @Test
+            void Submission_Sse_Event를_발행한다() {
+                submissionService.submitJobCompletion(host.getId(), job.getId(), request);
+
+                verify(runningTaskSseEmitterContainer, times(1))
+                        .publishSubmitEvent(anyLong());
             }
         }
     }

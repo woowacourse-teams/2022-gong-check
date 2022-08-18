@@ -11,7 +11,6 @@ import styles from './styles';
 const TaskList: React.FC = () => {
   const {
     spaceData,
-    getSections,
     onSubmit,
     goPreviousPage,
     totalCount,
@@ -48,7 +47,7 @@ const TaskList: React.FC = () => {
       <div css={styles.contents}>
         <form css={styles.form} onSubmit={onSubmit}>
           {sectionsData?.sections.map(section => (
-            <section css={styles.location} key={section.id}>
+            <section css={styles.location} key={section.id!}>
               <div css={styles.locationHeader}>
                 <p css={styles.locationName}>{section.name}</p>
                 <div css={styles.locationHeaderRightItems}>
@@ -66,7 +65,7 @@ const TaskList: React.FC = () => {
                   )}
                 </div>
               </div>
-              <TaskCard tasks={section.tasks} getSections={getSections} />
+              <TaskCard tasks={section.tasks} />
             </section>
           ))}
           <Button type="submit" css={styles.button(isAllChecked)} disabled={!isAllChecked}>

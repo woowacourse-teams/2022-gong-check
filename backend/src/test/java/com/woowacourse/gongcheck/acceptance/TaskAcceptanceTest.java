@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
-import com.woowacourse.gongcheck.core.application.response.RunningTasksResponse;
 import com.woowacourse.gongcheck.core.application.response.TasksResponse;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -13,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 class TaskAcceptanceTest extends AcceptanceTest {
-    
+
     @Test
     void RunningTask를_생성한다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
@@ -36,7 +35,7 @@ class TaskAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void RunningTask를_조회한다() {
+    void RunningTask에_대한_Sse_connection을_연결한다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
         String token = 토큰을_요청한다(guestEnterRequest);
         RunningTask를_생성한다(token);
@@ -44,15 +43,11 @@ class TaskAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()
                 .auth().oauth2(token)
-                .when().get("/api/jobs/1/runningTasks")
+                .when().get("/api/jobs/1/runningTasks/connect")
                 .then().log().all()
                 .extract();
-        RunningTasksResponse runningTasksResponse = response.as(RunningTasksResponse.class);
 
-        assertAll(
-                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value()),
-                () -> assertThat(runningTasksResponse.getSections()).hasSize(2)
-        );
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
     @Test
@@ -94,7 +89,7 @@ class TaskAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()
                 .auth().oauth2(token)
-                .when().get("/api/jobs/1/runningTasks")
+                .when().get("/api/jobs/1/runningTasks/connect")
                 .then().log().all()
                 .extract();
 
