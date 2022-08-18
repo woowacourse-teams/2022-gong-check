@@ -26,6 +26,7 @@ const globalStyle = css`
     justify-content: center;
     overflow: scroll;
     overflow-x: hidden;
+    background-color: ${theme.colors.background};
   }
 
   button {
