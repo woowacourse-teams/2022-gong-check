@@ -11,6 +11,9 @@ public class ExceptionMessageGenerator {
     private static final String MESSAGE_FORMAT = "Request Information\n%s %s\n%s\nParams: %s\nBody : %s\nException Message : %s";
     private static final String GENERATE_MESSAGE_EXCEPTION = "예외 메세지 생성 중 예외가 발생했습니다.";
 
+    private ExceptionMessageGenerator() {
+    }
+
     public static String generate(final ContentCachingRequestWrapper request, final Exception exception) {
         try {
             String method = request.getMethod();

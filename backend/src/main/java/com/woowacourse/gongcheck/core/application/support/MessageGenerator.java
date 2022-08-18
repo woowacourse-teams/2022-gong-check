@@ -7,6 +7,9 @@ import java.util.stream.Collectors;
 
 public class MessageGenerator {
 
+    private MessageGenerator() {
+    }
+
     public static String taskIdsGenerate(final Tasks tasks) {
         return tasks.getTaskIds()
                 .stream()
