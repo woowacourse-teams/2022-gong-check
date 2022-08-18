@@ -11,12 +11,10 @@ import createSpace from '@/assets/createSpace.png';
 import dashboard from '@/assets/dashboard.png';
 import edit2 from '@/assets/edit2.png';
 import edit from '@/assets/edit.png';
-import homeCover from '@/assets/homeCover.png';
 import mobileView1 from '@/assets/mobileView1.png';
 import mobileView2 from '@/assets/mobileView2.png';
 import mobileView3 from '@/assets/mobileView3.png';
 import mobileView4 from '@/assets/mobileView4.png';
-import mobileView5 from '@/assets/mobileView5.png';
 
 import animation from '@/styles/animation';
 import theme from '@/styles/theme';
@@ -558,6 +556,7 @@ const HostViewSection2 = () => {
                   animation: ${animation.moveUp} 1.5s;
                   animation-fill-mode: forwards;
                   z-index: 11;
+                  border-radius: 25px;
                 `}
                 src={createSpace}
                 alt=""
@@ -571,21 +570,23 @@ const HostViewSection2 = () => {
                   animation: ${animation.moveUp} 1.5s;
                   animation-fill-mode: forwards;
                   z-index: 11;
+                  border-radius: 25px;
                 `}
-                src={createSpace}
+                src={dashboard}
                 alt=""
               />
               <img
                 css={css`
                   position: absolute;
                   top: 10%;
-                  right: 12%;
+                  right: 10%;
                   height: 36%;
                   animation: ${animation.moveUp} 1.5s;
                   animation-fill-mode: forwards;
                   z-index: 11;
+                  border-radius: 25px;
                 `}
-                src={createSpace}
+                src={edit}
                 alt=""
               />
               <img
@@ -597,8 +598,9 @@ const HostViewSection2 = () => {
                   animation: ${animation.moveUp} 1.5s;
                   animation-fill-mode: forwards;
                   z-index: 11;
+                  border-radius: 25px;
                 `}
-                src={createSpace}
+                src={edit2}
                 alt=""
               />
             </>
