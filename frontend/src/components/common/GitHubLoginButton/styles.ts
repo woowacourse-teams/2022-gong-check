@@ -4,16 +4,15 @@ const wrapper = css`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 16px;
+  width: 260px;
   border-radius: 24px;
   color: white;
   background-color: #21262c;
-  gap: 10px;
 `;
 
 const text = css`
-  font-size: 16px;
-  text-align: center;
+  margin-left: 16px;
+  font-size: 24px;
 `;
 
 const styles = { wrapper, text };
