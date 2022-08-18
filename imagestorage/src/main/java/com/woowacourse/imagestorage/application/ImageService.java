@@ -2,6 +2,7 @@ package com.woowacourse.imagestorage.application;
 
 import com.woowacourse.imagestorage.application.response.ImageResponse;
 import com.woowacourse.imagestorage.application.response.ImageSaveResponse;
+import com.woowacourse.imagestorage.domain.ChangeWidth;
 import com.woowacourse.imagestorage.domain.ImageExtension;
 import com.woowacourse.imagestorage.domain.ImageFile;
 import com.woowacourse.imagestorage.exception.FileIOException;
@@ -56,7 +57,7 @@ public class ImageService {
             File file = fileStorageLocation.toFile();
             ImageExtension imageExtension = ImageExtension.from(FilenameUtils.getExtension(file.getName()));
             byte[] originImage = IOUtils.toByteArray(new FileInputStream(file));
-            byte[] resizedImage = imageExtension.resizeImage(originImage, width);
+            byte[] resizedImage = imageExtension.resizeImage(originImage, new ChangeWidth(width));
 
             if (isWebp) {
                 return ImageResponse.of(imageExtension.convertToWebp(resizedImage), IMAGE_WEBP);

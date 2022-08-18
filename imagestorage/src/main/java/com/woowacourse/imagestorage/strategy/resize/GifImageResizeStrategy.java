@@ -4,6 +4,7 @@ import com.sksamuel.scrimage.ImmutableImage;
 import com.sksamuel.scrimage.nio.AnimatedGifReader;
 import com.sksamuel.scrimage.nio.GifSequenceWriter;
 import com.sksamuel.scrimage.nio.ImageSource;
+import com.woowacourse.imagestorage.domain.ChangeWidth;
 import com.woowacourse.imagestorage.exception.FileResizeException;
 import java.io.IOException;
 
@@ -13,12 +14,12 @@ public class GifImageResizeStrategy implements ImageResizeStrategy {
     private static final boolean INFINITE_LOOP = true;
 
     @Override
-    public byte[] resize(final byte[] originBytes, final int width) {
+    public byte[] resize(final byte[] originBytes, final ChangeWidth width) {
         try {
             ImmutableImage[] immutableImages = AnimatedGifReader.read(ImageSource.of(originBytes))
                     .getFrames()
                     .stream()
-                    .map(immutableImage -> immutableImage.scaleToWidth(width))
+                    .map(immutableImage -> immutableImage.scaleToWidth(width.getValue()))
                     .toArray(ImmutableImage[]::new);
             return new GifSequenceWriter(FRAME_DELAY_MILLIS, INFINITE_LOOP).bytes(immutableImages);
         } catch (IOException exception) {

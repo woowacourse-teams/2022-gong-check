@@ -42,7 +42,7 @@ public enum ImageExtension {
                 .orElseThrow(() -> new BusinessException("이미지 파일 확장자만 들어올 수 있습니다."));
     }
 
-    public byte[] resizeImage(final byte[] originBytes, final int width) {
+    public byte[] resizeImage(final byte[] originBytes, final ChangeWidth width) {
         return imageResizeStrategy.resize(originBytes, width);
     }
 

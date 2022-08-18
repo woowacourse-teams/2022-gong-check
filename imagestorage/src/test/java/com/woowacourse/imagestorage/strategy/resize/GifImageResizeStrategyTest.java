@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.woowacourse.imagestorage.ImageFormatDetector;
 import com.woowacourse.imagestorage.ImageTypeTransfer;
+import com.woowacourse.imagestorage.domain.ChangeWidth;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -37,7 +38,7 @@ class GifImageResizeStrategyTest {
 
             @Test
             void width의_비율만큼_resize한_Gif이미지데이터를_반환한다() {
-                byte[] actual = gifImageResizeStrategy.resize(image, RESIZE_WIDTH);
+                byte[] actual = gifImageResizeStrategy.resize(image, new ChangeWidth(RESIZE_WIDTH));
                 int actualWidth = ImageTypeTransfer.toBufferedImage(actual)
                         .getWidth();
 
