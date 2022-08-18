@@ -31,7 +31,11 @@ public abstract class WebpHandler {
         if (SystemUtils.IS_OS_MAC) {
             return "/dist_webp_binaries/mac/" + binaryName;
         }
-        return "/dist_webp_binaries/linux_arm/" + binaryName;
+        String osArch = System.getProperty("os.arch");
+        if (osArch.equals("aarch64")) {
+            return "/dist_webp_binaries/linux_arm/" + binaryName;
+        }
+        return "/dist_webp_binaries/linux/" + binaryName;
     }
 
     private static boolean setExecutable(Path output) throws IOException {
