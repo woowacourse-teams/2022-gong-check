@@ -30,26 +30,40 @@ public class ExceptionMessageGenerator {
 
     private static String getHeaders(final ContentCachingRequestWrapper request) {
         Enumeration<String> headerNames = request.getHeaderNames();
-        return extractRequestEnumerationInfo(request, headerNames);
+        return extractHeaders(request, headerNames);
+    }
+
+    private static String extractHeaders(final ContentCachingRequestWrapper request,
+                                         final Enumeration<String> parameterNames) {
+        Map<String, String> headers = new HashMap<>();
+
+        while (parameterNames.hasMoreElements()) {
+            String headerName = parameterNames.nextElement();
+            headers.put(headerName, request.getHeader(headerName));
+        }
+
+        return headers.entrySet().stream()
+                .map(i -> i.getKey() + ":" + i.getValue())
+                .collect(Collectors.joining("\n"));
     }
 
     private static String getParams(final ContentCachingRequestWrapper request) {
         Enumeration<String> parameterNames = request.getParameterNames();
-        return extractRequestEnumerationInfo(request, parameterNames);
+        return extractParameters(request, parameterNames);
     }
 
-    private static String extractRequestEnumerationInfo(final ContentCachingRequestWrapper request,
+    private static String extractParameters(final ContentCachingRequestWrapper request,
                                                         final Enumeration<String> parameterNames) {
         Map<String, String> parameters = new HashMap<>();
 
         while (parameterNames.hasMoreElements()) {
-            String headerName = parameterNames.nextElement();
-            parameters.put(headerName, request.getHeader(headerName));
+            String parameterName = parameterNames.nextElement();
+            parameters.put(parameterName, request.getParameter(parameterName));
         }
 
         return parameters.entrySet().stream()
                 .map(i -> i.getKey() + ":" + i.getValue())
-                .collect(Collectors.joining("\n"));
+                .collect(Collectors.joining(", "));
     }
 
     private static String getBody(final ContentCachingRequestWrapper request) {

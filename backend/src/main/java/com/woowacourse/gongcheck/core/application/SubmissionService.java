@@ -84,9 +84,10 @@ public class SubmissionService {
     }
 
     private void validateRunning(final Tasks tasks) {
-        if (!runningTaskRepository.existsByTaskIdIn(tasks.getTaskIds())) {
+        List<Long> taskIds = tasks.getTaskIds();
+        if (!runningTaskRepository.existsByTaskIdIn(taskIds)) {
             String message = String.format("현재 제출할 수 있는 진행중인 작업이 존재하지 않습니다. taskIds = %s",
-                    LoggingFormatConverter.taskIdsConvert(tasks));
+                    LoggingFormatConverter.convertIdsToString(taskIds));
             throw new BusinessException(message, ErrorCode.S001);
         }
     }

@@ -15,8 +15,4 @@ public class RequestContext {
     public void setRequest(final ContentCachingRequestWrapper request) {
         this.request = request;
     }
-
-    public ContentCachingRequestWrapper getRequest() {
-        return request;
-    }
 }
