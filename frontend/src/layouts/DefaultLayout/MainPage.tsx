@@ -459,7 +459,6 @@ const HostViewSection1 = () => {
   const { scrollPosition } = useScroll();
   const [eventNumber, setEventNumber] = useState(0);
 
-  console.log(scrollPosition);
   useEffect(() => {
     if (scrollPosition >= 410) {
       setEventNumber(1);
@@ -537,20 +536,22 @@ const HostViewSection1 = () => {
 };
 
 const HostViewSection2 = () => {
-  const { isLoaded, targetRef: sectionRef } = useLazyLoading<HTMLSelectElement>(0.4);
+  const { isLoaded, targetRef: sectionRef } = useLazyLoading<HTMLSelectElement>(0.2);
   const { scrollPosition } = useScroll();
   const [eventNumber, setEventNumber] = useState(0);
 
   useEffect(() => {
-    if (scrollPosition >= 480) {
+    if (scrollPosition >= 490) {
       setEventNumber(1);
       return;
     }
+    setEventNumber(0);
   }, [scrollPosition]);
 
   return (
     <section
       css={css`
+        margin-top: 10vh;
         width: 100vw;
         height: 100vh;
       `}
@@ -565,23 +566,23 @@ const HostViewSection2 = () => {
             position: relative;
           `}
         >
+          <h1
+            css={css`
+              position: absolute;
+              top: 4%;
+              left: 44%;
+              height: 75%;
+              z-index: 11;
+              font-size: 5vh;
+              color: ${theme.colors.gray800};
+              animation: ${animation.fadeIn} 1.5s;
+              animation-fill-mode: forwards;
+            `}
+          >
+            내 공간 관리
+          </h1>
           {eventNumber >= 1 && (
             <>
-              <h1
-                css={css`
-                  position: absolute;
-                  top: 4%;
-                  left: 44%;
-                  height: 75%;
-                  z-index: 11;
-                  font-size: 5vh;
-                  color: ${theme.colors.gray800};
-                  animation: ${animation.fadeIn} 1.5s;
-                  animation-fill-mode: forwards;
-                `}
-              >
-                내 공간 관리
-              </h1>
               <img
                 css={css`
                   position: absolute;
@@ -679,6 +680,7 @@ const HostViewSection3 = () => {
               color: ${theme.colors.gray800};
               animation: ${animation.moveDown} 1.5s;
               animation-fill-mode: forwards;
+              padding-bottom: 8vh;
             `}
           >
             지금 바로
