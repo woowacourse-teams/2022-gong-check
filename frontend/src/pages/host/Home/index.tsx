@@ -96,25 +96,10 @@ const Home: React.FC = () => {
       <UserViewSection2 />
       <UserViewSection3 />
       <HostViewSection1 />
-      <Footer />
+      <HostViewSection2 />
+      <HostViewSection3 />
       <FloatingActionButton />
     </div>
-  );
-};
-
-const Footer = () => {
-  return (
-    <section
-      css={css`
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100vw;
-        height: 100vh;
-        background-color: ${theme.colors.background};
-        border: 2px solid black;
-      `}
-    />
   );
 };
 
@@ -483,15 +468,51 @@ const UserViewSection3 = () => {
 
 const HostViewSection1 = () => {
   const { isLoaded, targetRef: sectionRef } = useLazyLoading<HTMLSelectElement>();
+
+  return (
+    <section
+      css={css`
+        width: 100vw;
+        height: 100vh;
+      `}
+      ref={sectionRef}
+    >
+      {isLoaded && (
+        <div
+          css={css`
+            width: 100%;
+            height: 100%;
+            background-color: ${theme.colors.background};
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          `}
+        >
+          <h1
+            css={css`
+              z-index: 11;
+              font-size: 5vh;
+              color: ${theme.colors.gray800};
+            `}
+          >
+            직접 내 공간을 생성하고 관리하고싶다면?
+          </h1>
+        </div>
+      )}
+    </section>
+  );
+};
+
+const HostViewSection2 = () => {
+  const { isLoaded, targetRef: sectionRef } = useLazyLoading<HTMLSelectElement>();
   const { scrollPosition } = useScroll();
   const [eventNumber, setEventNumber] = useState(0);
 
   useEffect(() => {
-    if (scrollPosition >= 340) {
+    if (scrollPosition >= 470) {
       setEventNumber(1);
       return;
     }
-    setEventNumber(0);
   }, [scrollPosition]);
 
   return (
@@ -499,7 +520,6 @@ const HostViewSection1 = () => {
       css={css`
         width: 100vw;
         height: 100vh;
-        margin-top: 50vh;
       `}
       ref={sectionRef}
     >
@@ -515,25 +535,26 @@ const HostViewSection1 = () => {
           <h1
             css={css`
               position: absolute;
-              top: -25%;
-              left: 23%;
+              top: -10%;
+              left: 38.5%;
               height: 75%;
               z-index: 11;
               font-size: 5vh;
               color: ${theme.colors.gray800};
+              animation: ${animation.fadeIn} 1.5s;
             `}
           >
-            직접 내 공간을 생성하고 관리하고 싶다면?
+            공책과 함께 하세요.
           </h1>
 
-          {eventNumber === 1 && (
+          {eventNumber >= 1 && (
             <>
               <img
                 css={css`
                   position: absolute;
-                  top: 24%;
-                  left: 10%;
-                  height: 32%;
+                  top: 10%;
+                  left: 12%;
+                  height: 36%;
                   animation: ${animation.moveUp} 1.5s;
                   animation-fill-mode: forwards;
                   z-index: 11;
@@ -545,8 +566,8 @@ const HostViewSection1 = () => {
                 css={css`
                   position: absolute;
                   top: 60%;
-                  right: 52%;
-                  height: 32%;
+                  left: 12%;
+                  height: 36%;
                   animation: ${animation.moveUp} 1.5s;
                   animation-fill-mode: forwards;
                   z-index: 11;
@@ -557,9 +578,9 @@ const HostViewSection1 = () => {
               <img
                 css={css`
                   position: absolute;
-                  top: 24%;
-                  left: 52%;
-                  height: 32%;
+                  top: 10%;
+                  right: 12%;
+                  height: 36%;
                   animation: ${animation.moveUp} 1.5s;
                   animation-fill-mode: forwards;
                   z-index: 11;
@@ -571,8 +592,8 @@ const HostViewSection1 = () => {
                 css={css`
                   position: absolute;
                   top: 60%;
-                  right: 10%;
-                  height: 32%;
+                  right: 12%;
+                  height: 36%;
                   animation: ${animation.moveUp} 1.5s;
                   animation-fill-mode: forwards;
                   z-index: 11;
@@ -582,6 +603,43 @@ const HostViewSection1 = () => {
               />
             </>
           )}
+        </div>
+      )}
+    </section>
+  );
+};
+
+const HostViewSection3 = () => {
+  const { isLoaded, targetRef: sectionRef } = useLazyLoading<HTMLSelectElement>();
+
+  return (
+    <section
+      css={css`
+        width: 100vw;
+        height: 100vh;
+      `}
+      ref={sectionRef}
+    >
+      {isLoaded && (
+        <div
+          css={css`
+            width: 100%;
+            height: 100%;
+            background-color: ${theme.colors.background};
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          `}
+        >
+          <h1
+            css={css`
+              z-index: 11;
+              font-size: 5vh;
+              color: ${theme.colors.gray800};
+            `}
+          >
+            지금 바로 시작하기
+          </h1>
         </div>
       )}
     </section>
