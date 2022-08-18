@@ -104,7 +104,7 @@ class ImageServiceTest {
             private static final int WIDTH = 500;
 
             @Test
-            void 리사이징된_webp_이미지를_반환한다() {
+            void 리사이징된_기존_타입_이미지를_반환한다() {
                 ImageResponse actual = imageService.resizeImage(IMAGE_URL, WIDTH, false);
                 int actualWidth = ImageTypeTransfer.toBufferedImage(actual.getBytes())
                         .getWidth();
