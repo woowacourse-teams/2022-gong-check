@@ -9,9 +9,11 @@ const useLazyLoading = <T extends Element>(threshold: number = 0) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         setIsLoaded(true);
+        return;
       }
       if (!entry.isIntersecting) {
         setIsLoaded(false);
+        return;
       }
     });
   };

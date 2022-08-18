@@ -66,6 +66,39 @@ const moveUp = keyframes`
   }
 `;
 
-const animation = { fadeIn, fadeOut, shake, spinnerFace, spinnerEye, moveUp };
+const moveDown = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const moveLeft = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+const moveRight = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+const animation = { fadeIn, fadeOut, shake, spinnerFace, spinnerEye, moveUp, moveDown, moveRight, moveLeft };
 
 export default animation;
