@@ -1,3 +1,4 @@
+import MainSection from './MainSection';
 import { css } from '@emotion/react';
 import { useEffect, useRef, useState } from 'react';
 
@@ -34,24 +35,6 @@ const Home: React.FC = () => {
       <HostViewSection1 />
       <Footer />
     </div>
-  );
-};
-
-const MainSection = () => {
-  return (
-    <section
-      css={css`
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100vw;
-        height: 100vh;
-        background-color: ${theme.colors.background};
-        border: 2px solid black;
-      `}
-    >
-      <img src={homeCover} alt="" />
-    </section>
   );
 };
 
