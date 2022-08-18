@@ -537,7 +537,7 @@ const HostViewSection1 = () => {
 };
 
 const HostViewSection2 = () => {
-  const { isLoaded, targetRef: sectionRef } = useLazyLoading<HTMLSelectElement>();
+  const { isLoaded, targetRef: sectionRef } = useLazyLoading<HTMLSelectElement>(0.4);
   const { scrollPosition } = useScroll();
   const [eventNumber, setEventNumber] = useState(0);
 
@@ -570,29 +570,29 @@ const HostViewSection2 = () => {
               <h1
                 css={css`
                   position: absolute;
-                  top: 8%;
-                  left: 39%;
+                  top: 4%;
+                  left: 44%;
                   height: 75%;
                   z-index: 11;
-                  font-size: 4vh;
+                  font-size: 5vh;
                   color: ${theme.colors.gray800};
                   animation: ${animation.fadeIn} 1.5s;
                   animation-fill-mode: forwards;
                 `}
               >
-                공간 관리자 페이지 제공
+                내 공간 관리
               </h1>
               <img
                 css={css`
                   position: absolute;
                   top: 22%;
                   left: 16%;
-                  height: 30%;
+                  height: 33%;
                   animation: ${animation.moveUp} 1.5s;
                   animation-fill-mode: forwards;
                   z-index: 11;
                   border-radius: 4px;
-                  border: 4px solid ${theme.colors.primary};
+                  border: 8px solid ${theme.colors.primary};
                 `}
                 src={createSpace}
                 alt=""
@@ -602,12 +602,12 @@ const HostViewSection2 = () => {
                   position: absolute;
                   top: 60%;
                   left: 16%;
-                  height: 30%;
+                  height: 33%;
                   animation: ${animation.moveUp} 1.5s;
                   animation-fill-mode: forwards;
                   z-index: 11;
                   border-radius: 4px;
-                  border: 4px solid ${theme.colors.primary};
+                  border: 8px solid ${theme.colors.primary};
                 `}
                 src={dashboard}
                 alt=""
@@ -617,12 +617,12 @@ const HostViewSection2 = () => {
                   position: absolute;
                   top: 22%;
                   right: 16%;
-                  height: 30%;
+                  height: 33%;
                   animation: ${animation.moveUp} 1.5s;
                   animation-fill-mode: forwards;
                   z-index: 11;
                   border-radius: 4px;
-                  border: 4px solid ${theme.colors.green};
+                  border: 6px solid ${theme.colors.green};
                 `}
                 src={edit}
                 alt=""
@@ -632,12 +632,12 @@ const HostViewSection2 = () => {
                   position: absolute;
                   top: 60%;
                   right: 16%;
-                  height: 30%;
+                  height: 33%;
                   animation: ${animation.moveUp} 1.5s;
                   animation-fill-mode: forwards;
                   z-index: 11;
                   border-radius: 4px;
-                  border: 4px solid ${theme.colors.green};
+                  border: 8px solid ${theme.colors.green};
                 `}
                 src={edit2}
                 alt=""
@@ -657,7 +657,7 @@ const HostViewSection3 = () => {
     <section
       css={css`
         width: 100vw;
-        height: 38vh;
+        height: 42vh;
       `}
       ref={sectionRef}
     >
