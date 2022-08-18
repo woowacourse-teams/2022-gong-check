@@ -1,9 +1,13 @@
 import { css } from '@emotion/react';
 import React, { useEffect, useRef } from 'react';
+import { IoIosArrowDown } from 'react-icons/io';
 
 import useScroll from '@/hooks/useScroll';
 
 import homeCover from '@/assets/homeCover.png';
+
+import animation from '@/styles/animation';
+import theme from '@/styles/theme';
 
 const CIRCLE_SIZE = 80;
 
@@ -106,17 +110,6 @@ const MainSection: React.FC = () => {
 
         overflow: hidden;
         position: relative;
-
-        /* background: linear-gradient(95.06deg, rgb(130, 128, 227) 2.38%, rgb(85, 144, 237) 100.44%); */
-        &::before {
-          background-size: 100% 100vh;
-          content: '';
-          height: 100%;
-          mix-blend-mode: soft-light;
-          pointer-events: none;
-          position: absolute;
-          width: 100%;
-        }
       `}
       onMouseMove={e => onMouseMove(e, scrollPositionInt)}
     >
@@ -148,6 +141,26 @@ const MainSection: React.FC = () => {
             <img src={homeCover} alt="" />
           </div>
         </div>
+        <div
+          css={css`
+            position: absolute;
+            bottom: 20px;
+            color: ${theme.colors.primary};
+            width: 100%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: ${animation.moveDown} 2s 0s infinite;
+          `}
+        >
+          <span>아래로 내려주세요.</span>
+          <IoIosArrowDown />
+        </div>
+
         <canvas
           css={css`
             height: 100%;

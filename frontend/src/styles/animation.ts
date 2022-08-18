@@ -30,6 +30,18 @@ const shake = keyframes`
   }
 `;
 
+const littleShake = keyframes`
+  0%, 50%{
+    transform: rotate(0deg);
+	}
+  5%, 15%, 25%, 35%, 45% {
+    transform: rotate(5deg);
+  }
+  10%, 20%, 30%, 40% {
+    transform: rotate(-5deg);
+  }
+`;
+
 const spinnerFace = keyframes`
   0% {
     transform: translate(-50%, 20%);
@@ -59,6 +71,17 @@ const moveUp = keyframes`
   0% {
     opacity: 0;
     transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const customMoveUp = (y: string) => keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(${y});
   }
   100% {
     opacity: 1;
@@ -99,6 +122,18 @@ const moveRight = keyframes`
   }
 `;
 
-const animation = { fadeIn, fadeOut, shake, spinnerFace, spinnerEye, moveUp, moveDown, moveRight, moveLeft };
+const animation = {
+  fadeIn,
+  fadeOut,
+  shake,
+  littleShake,
+  spinnerFace,
+  spinnerEye,
+  moveUp,
+  customMoveUp,
+  moveDown,
+  moveRight,
+  moveLeft,
+};
 
 export default animation;

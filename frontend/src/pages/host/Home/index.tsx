@@ -21,6 +21,69 @@ import mobileView5 from '@/assets/mobileView5.png';
 import animation from '@/styles/animation';
 import theme from '@/styles/theme';
 
+const FloatingActionButton: React.FC = () => {
+  const [isShow, setIsShow] = useState(false);
+  const onClick = () => {
+    setIsShow(prev => !prev);
+  };
+
+  return (
+    <div>
+      <div
+        css={css`
+          position: fixed;
+          right: 40px;
+          bottom: 40px;
+          z-index: 200;
+          cursor: pointer;
+          color: white;
+          font-weight: 600;
+          background-color: ${theme.colors.primary};
+          padding: 16px;
+          border-radius: 24px;
+          box-shadow: 2px 2px 2px 2px ${theme.colors.shadow10};
+          &:hover {
+            animation: ${animation.littleShake} 2s 0s infinite;
+          }
+        `}
+        onClick={onClick}
+      >
+        <span>지금 바로 시작하기</span>
+      </div>
+      {isShow && (
+        <div
+          css={css`
+            position: fixed;
+            right: 40px;
+            bottom: 50px;
+            z-index: 200;
+            cursor: pointer;
+            animation: ${animation.customMoveUp('20px')} 2s 0s;
+          `}
+        >
+          <div
+            css={css`
+              position: absolute;
+              right: 0;
+              bottom: 50px;
+            `}
+          >
+            <div
+              css={css`
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+              `}
+            >
+              <GitHubLoginButton />
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const Home: React.FC = () => {
   return (
     <div
@@ -34,6 +97,7 @@ const Home: React.FC = () => {
       <UserViewSection3 />
       <HostViewSection1 />
       <Footer />
+      <FloatingActionButton />
     </div>
   );
 };
