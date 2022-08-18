@@ -78,7 +78,7 @@ class ImageServiceTest {
         }
 
         @Nested
-        class 반환할_이미지의_경로와_변경할_이미지_가로길이와_webp변환확인을_입력받은_경우 {
+        class 경로와_변경할_길이와_webp변환확인을_입력받은_경우 {
 
             private static final String IMAGE_URL = "test-image.jpeg";
             private static final int WIDTH = 500;
@@ -98,7 +98,7 @@ class ImageServiceTest {
         }
 
         @Nested
-        class 반환할_이미지의_경로와_변경할_이미지_가로길이와_webp변환불가를_입력받은_경우 {
+        class 경로와_변경할_길이와_webp변환불가를_입력받은_경우 {
 
             private static final String IMAGE_URL = "test-image.jpeg";
             private static final int WIDTH = 500;
