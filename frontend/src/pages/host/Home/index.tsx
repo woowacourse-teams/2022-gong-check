@@ -119,7 +119,7 @@ const Footer = () => {
 };
 
 const UserViewSection1 = () => {
-  const { isLoaded, targetRef: sectionRef } = useLazyLoading<HTMLSelectElement>(0.1);
+  const { isLoaded, targetRef: sectionRef } = useLazyLoading<HTMLSelectElement>();
   const { scrollPosition } = useScroll();
   const [eventNumber, setEventNumber] = useState(0);
 
@@ -154,62 +154,99 @@ const UserViewSection1 = () => {
             z-index: 10;
           `}
         >
-          {eventNumber !== 2 ? (
-            <h1
-              css={css`
-                position: absolute;
-                top: 18%;
-                left: 12%;
-                z-index: 11;
-                font-size: 4vh;
-                color: ${theme.colors.primary};
-              `}
-            >
-              관리하는 공간을 볼 수 있어요.
-            </h1>
-          ) : (
-            <h1
-              css={css`
-                position: absolute;
-                top: 18%;
-                left: 12%;
-                z-index: 11;
-                font-size: 4vh;
-                color: ${theme.colors.green};
-              `}
-            >
-              생성된 작업을 볼 수 있어요.
-            </h1>
-          )}
+          <h1
+            css={css`
+              position: absolute;
+              top: 24%;
+              left: 12%;
+              z-index: 11;
+              font-size: 7.5vh;
+              color: ${theme.colors.primary};
+            `}
+          >
+            쉽게 확인해요.
+          </h1>
+          <h1
+            css={css`
+              position: absolute;
+              top: 52%;
+              left: 10%;
+              z-index: 11;
+              font-size: 5vh;
+              color: ${theme.colors.gray800};
+            `}
+          >
+            함께 사용할
+          </h1>
           {eventNumber >= 1 && (
-            <img
-              css={css`
-                position: absolute;
-                top: 5%;
-                right: 25%;
-                height: 75%;
-                animation: ${animation.moveRight} 1.5s;
-                animation-fill-mode: forwards;
-                z-index: 11;
-              `}
-              src={mobileView1}
-              alt=""
-            />
+            <>
+              <img
+                css={css`
+                  position: absolute;
+                  top: 5%;
+                  right: 25%;
+                  height: 75%;
+                  animation: ${animation.moveRight} 1.5s;
+                  animation-fill-mode: forwards;
+                  z-index: 11;
+                `}
+                src={mobileView1}
+                alt=""
+              />
+              <h1
+                css={css`
+                  position: absolute;
+                  top: 52%;
+                  left: 24.5%;
+                  z-index: 11;
+                  font-size: 5vh;
+                  animation: ${animation.moveDown} 1.5s;
+                  animation-fill-mode: forwards;
+                  color: ${theme.colors.gray800};
+
+                  b {
+                    color: ${theme.colors.green};
+                  }
+                `}
+              >
+                <b>공간</b>과
+              </h1>
+            </>
           )}
           {eventNumber === 2 && (
-            <img
-              css={css`
-                position: absolute;
-                top: 15%;
-                right: 12%;
-                height: 75%;
-                animation: ${animation.moveLeft} 1.5s;
-                animation-fill-mode: forwards;
-                z-index: 12;
-              `}
-              src={mobileView2}
-              alt=""
-            />
+            <>
+              <img
+                css={css`
+                  position: absolute;
+                  top: 15%;
+                  right: 12%;
+                  height: 75%;
+                  animation: ${animation.moveLeft} 1.5s;
+                  animation-fill-mode: forwards;
+                  z-index: 12;
+                `}
+                src={mobileView2}
+                alt=""
+              />
+              <h1
+                css={css`
+                  position: absolute;
+                  top: 52%;
+                  left: 33%;
+                  z-index: 11;
+                  font-size: 5vh;
+                  animation: ${animation.moveUp} 1.5s;
+                  animation-fill-mode: forwards;
+                  color: ${theme.colors.gray800};
+
+                  b {
+                    color: ${theme.colors.green};
+                  }
+                `}
+              >
+                <b>업무</b>를
+              </h1>
+            </>
           )}
         </div>
       )}
@@ -218,7 +255,7 @@ const UserViewSection1 = () => {
 };
 
 const UserViewSection2 = () => {
-  const { isLoaded, targetRef: sectionRef } = useLazyLoading<HTMLSelectElement>(0.1);
+  const { isLoaded, targetRef: sectionRef } = useLazyLoading<HTMLSelectElement>();
   const { scrollPosition } = useScroll();
   const [eventNumber, setEventNumber] = useState(0);
 
@@ -251,60 +288,100 @@ const UserViewSection2 = () => {
             position: relative;
           `}
         >
-          {eventNumber !== 2 ? (
-            <h1
-              css={css`
-                position: absolute;
-                top: 18%;
-                right: 12%;
-                z-index: 11;
-                font-size: 4vh;
-                color: ${theme.colors.primary};
-              `}
-            >
-              체크리스트를 볼 수 있어요.
-            </h1>
-          ) : (
-            <h1
-              css={css`
-                position: absolute;
-                top: 18%;
-                right: 6%;
-                z-index: 11;
-                font-size: 4vh;
-                color: ${theme.colors.green};
-              `}
-            >
-              공간 및 작업 정보를 확인할 수 있어요.
-            </h1>
-          )}
-          {eventNumber === 1 && (
-            <img
-              css={css`
-                position: absolute;
-                top: 11%;
-                left: 20%;
-                height: 75%;
-                animation: ${animation.moveUp} 1.5s;
-                animation-fill-mode: forwards;
-                z-index: 11;
-              `}
-              src={mobileView3}
-              alt=""
-            />
+          <h1
+            css={css`
+              position: absolute;
+              top: 24%;
+              right: 12%;
+              z-index: 11;
+              font-size: 7.5vh;
+              color: ${theme.colors.green};
+            `}
+          >
+            간단하게 체크해요.
+          </h1>
+          {eventNumber >= 1 && (
+            <>
+              <img
+                css={css`
+                  position: absolute;
+                  top: 8%;
+                  left: 28%;
+                  height: 75%;
+                  animation: ${animation.moveDown} 1.5s;
+                  animation-fill-mode: forwards;
+                  z-index: 11;
+                `}
+                src={mobileView3}
+                alt=""
+              />
+              <h1
+                css={css`
+                  position: absolute;
+                  top: 52%;
+                  right: 30%;
+                  z-index: 11;
+                  font-size: 5vh;
+                  color: ${theme.colors.gray800};
+                  animation: ${animation.moveRight} 1.5s;
+                  animation-fill-mode: forwards;
+
+                  b {
+                    color: ${theme.colors.primary};
+                  }
+                `}
+              >
+                <b>체크리스트</b>와
+              </h1>
+            </>
           )}
           {eventNumber === 2 && (
-            <img
-              css={css`
-                position: absolute;
-                top: 11%;
-                left: 20%;
-                height: 75%;
-                z-index: 12;
-              `}
-              src={mobileView4}
-              alt=""
-            />
+            <>
+              <img
+                css={css`
+                  position: absolute;
+                  top: 14%;
+                  left: 8%;
+                  height: 75%;
+                  z-index: 12;
+                  animation: ${animation.moveUp} 1.5s;
+                  animation-fill-mode: forwards;
+                `}
+                src={mobileView4}
+                alt=""
+              />
+              <h1
+                css={css`
+                  position: absolute;
+                  top: 52%;
+                  right: 13%;
+                  z-index: 11;
+                  font-size: 5vh;
+                  color: ${theme.colors.gray800};
+                  animation: ${animation.moveLeft} 1.5s;
+                  animation-fill-mode: forwards;
+                  b {
+                    color: ${theme.colors.primary};
+                  }
+                `}
+              >
+                <b>상세정보</b> 제공
+              </h1>
+              <h1
+                css={css`
+                  position: absolute;
+                  top: 51.6%;
+                  right: 21%;
+                  z-index: 11;
+                  font-size: 1.8vh;
+                  color: ${theme.colors.gray500};
+                  animation: ${animation.moveLeft} 1.5s;
+                  animation-fill-mode: forwards;
+                `}
+              >
+                How, Where
+              </h1>
+            </>
           )}
         </div>
       )}
@@ -313,18 +390,13 @@ const UserViewSection2 = () => {
 };
 
 const UserViewSection3 = () => {
-  const { isLoaded, targetRef: sectionRef } = useLazyLoading<HTMLSelectElement>(0.1);
+  const { isLoaded, targetRef: sectionRef } = useLazyLoading<HTMLSelectElement>();
   const { scrollPosition } = useScroll();
   const [eventNumber, setEventNumber] = useState(0);
 
-  console.log(scrollPosition);
   useEffect(() => {
-    if (scrollPosition >= 240 && scrollPosition < 280) {
+    if (scrollPosition >= 240) {
       setEventNumber(1);
-      return;
-    }
-    if (scrollPosition >= 280) {
-      setEventNumber(2);
       return;
     }
     setEventNumber(0);
@@ -350,28 +422,27 @@ const UserViewSection3 = () => {
           <h1
             css={css`
               position: absolute;
-              top: 8%;
-              left: 25%;
+              top: 4%;
+              left: 38.5%;
               height: 75%;
               z-index: 11;
-              font-size: 4vh;
+              font-size: 7.5vh;
               color: ${theme.colors.primary};
             `}
           >
-            여러명의 유저가 실시간으로 사용할 수 있어요.
+            함께 사용해요.
           </h1>
-
           {eventNumber === 1 && (
             <>
               <img
                 css={css`
                   position: absolute;
-                  top: 24%;
-                  left: 12%;
-                  height: 68%;
+                  top: 28%;
+                  left: 26%;
+                  height: 72%;
+                  z-index: 11;
                   animation: ${animation.moveRight} 1.5s;
                   animation-fill-mode: forwards;
-                  z-index: 11;
                 `}
                 src={mobileView3}
                 alt=""
@@ -379,66 +450,29 @@ const UserViewSection3 = () => {
               <img
                 css={css`
                   position: absolute;
-                  top: 24%;
-                  right: 12%;
-                  height: 68%;
+                  top: 28%;
+                  right: 26%;
+                  height: 72%;
+                  z-index: 11;
                   animation: ${animation.moveLeft} 1.5s;
                   animation-fill-mode: forwards;
+                `}
+                src={mobileView3}
+                alt=""
+              />
+              <h1
+                css={css`
+                  position: absolute;
+                  top: 19.2%;
+                  left: 41%;
+                  height: 75%;
                   z-index: 11;
+                  font-size: 2.4vh;
+                  color: ${theme.colors.gray800};
                 `}
-                src={mobileView3}
-                alt=""
-              />
-              <img
-                css={css`
-                  position: absolute;
-                  top: 24%;
-                  left: 42%;
-                  height: 68%;
-                  z-index: 112;
-                  animation: ${animation.fadeIn} 1.5s;
-                  animation-fill-mode: forwards;
-                `}
-                src={mobileView3}
-                alt=""
-              />
-            </>
-          )}
-          {eventNumber === 2 && (
-            <>
-              <img
-                css={css`
-                  position: absolute;
-                  top: 24%;
-                  left: 12%;
-                  height: 68%;
-                  z-index: 1;
-                `}
-                src={mobileView5}
-                alt=""
-              />
-              <img
-                css={css`
-                  position: absolute;
-                  top: 24%;
-                  right: 12%;
-                  height: 68%;
-                  z-index: 112;
-                `}
-                src={mobileView5}
-                alt=""
-              />
-              <img
-                css={css`
-                  position: absolute;
-                  top: 24%;
-                  left: 42%;
-                  height: 68%;
-                  z-index: 112;
-                `}
-                src={mobileView5}
-                alt=""
-              />
+              >
+                여러명이 동시에 체크할 수 있어요.
+              </h1>
             </>
           )}
         </div>
@@ -448,11 +482,10 @@ const UserViewSection3 = () => {
 };
 
 const HostViewSection1 = () => {
-  const { isLoaded, targetRef: sectionRef } = useLazyLoading<HTMLSelectElement>(0.1);
+  const { isLoaded, targetRef: sectionRef } = useLazyLoading<HTMLSelectElement>();
   const { scrollPosition } = useScroll();
   const [eventNumber, setEventNumber] = useState(0);
 
-  console.log(scrollPosition);
   useEffect(() => {
     if (scrollPosition >= 340) {
       setEventNumber(1);
@@ -466,6 +499,7 @@ const HostViewSection1 = () => {
       css={css`
         width: 100vw;
         height: 100vh;
+        margin-top: 50vh;
       `}
       ref={sectionRef}
     >
@@ -481,33 +515,72 @@ const HostViewSection1 = () => {
           <h1
             css={css`
               position: absolute;
-
+              top: -25%;
+              left: 23%;
               height: 75%;
               z-index: 11;
-              font-size: 4vh;
-              color: ${theme.colors.primary};
-              top: 25%;
-              left: 50%;
-              transform: translate(-50%, -25%);
+              font-size: 5vh;
+              color: ${theme.colors.gray800};
             `}
           >
-            공간을 생성할 수 있어요.
+            직접 내 공간을 생성하고 관리하고 싶다면?
           </h1>
 
           {eventNumber === 1 && (
-            <img
-              css={css`
-                position: absolute;
-                top: 24%;
-                left: 16%;
-                height: 68%;
-                animation: ${animation.moveUp} 1.5s;
-                animation-fill-mode: forwards;
-                z-index: 11;
-              `}
-              src={createSpace}
-              alt=""
-            />
+            <>
+              <img
+                css={css`
+                  position: absolute;
+                  top: 24%;
+                  left: 10%;
+                  height: 32%;
+                  animation: ${animation.moveUp} 1.5s;
+                  animation-fill-mode: forwards;
+                  z-index: 11;
+                `}
+                src={createSpace}
+                alt=""
+              />
+              <img
+                css={css`
+                  position: absolute;
+                  top: 60%;
+                  right: 52%;
+                  height: 32%;
+                  animation: ${animation.moveUp} 1.5s;
+                  animation-fill-mode: forwards;
+                  z-index: 11;
+                `}
+                src={createSpace}
+                alt=""
+              />
+              <img
+                css={css`
+                  position: absolute;
+                  top: 24%;
+                  left: 52%;
+                  height: 32%;
+                  animation: ${animation.moveUp} 1.5s;
+                  animation-fill-mode: forwards;
+                  z-index: 11;
+                `}
+                src={createSpace}
+                alt=""
+              />
+              <img
+                css={css`
+                  position: absolute;
+                  top: 60%;
+                  right: 10%;
+                  height: 32%;
+                  animation: ${animation.moveUp} 1.5s;
+                  animation-fill-mode: forwards;
+                  z-index: 11;
+                `}
+                src={createSpace}
+                alt=""
+              />
+            </>
           )}
         </div>
       )}
