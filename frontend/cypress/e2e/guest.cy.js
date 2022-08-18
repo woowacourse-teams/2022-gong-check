@@ -118,34 +118,34 @@ describe('사용자 - 체크리스트 체크 페이지', () => {
     cy.postJobComplete();
   });
 
-  it('사용자가 체크 박스를 클릭하면, 해당 사항이 체크표시된다.', () => {
-    cy.postCheckTask(1).then(() => {
-      cy.get('label')
-        .first()
-        .click()
-        .then(() => {
-          cy.get('label').first().should('have.css', 'background-color', 'rgb(126, 217, 87)');
-        });
-    });
-  });
+  // it('사용자가 체크 박스를 클릭하면, 해당 사항이 체크표시된다.', () => {
+  //   cy.postCheckTask(1);
 
-  it('사용자가 모든 체크 박스를 클릭하면, 제출 버튼이 활성화된다.', () => {
-    cy.postCheckTask(1).then(() => {
-      cy.get('label')
-        .first()
-        .click()
-        .then(() => {
-          cy.postCheckTask(2).then(() => {
-            cy.get('label')
-              .last()
-              .click()
-              .then(() => {
-                cy.get('button').should('not.be.disabled');
-              });
-          });
-        });
-    });
-  });
+  //   cy.get('label')
+  //     .first()
+  //     .click()
+  //     .then(() => {
+  //       cy.get('label').first().should('have.css', 'background-color', 'rgb(126, 217, 87)');
+  //     });
+  // });
+
+  // it('사용자가 모든 체크 박스를 클릭하면, 제출 버튼이 활성화된다.', () => {
+  //   cy.postCheckTask(1).then(() => {
+  //     cy.get('label')
+  //       .first()
+  //       .click()
+  //       .then(() => {
+  //         cy.postCheckTask(2).then(() => {
+  //           cy.get('label')
+  //             .last()
+  //             .click()
+  //             .then(() => {
+  //               cy.get('button').should('not.be.disabled');
+  //             });
+  //         });
+  //       });
+  //   });
+  // });
 
   // it('사용자가 제출 모달에서 제출자를 입력하고 버튼을 누르면, 제출 alert가 발생한다.', () => {
   //   cy.getSpaces().then(() => {

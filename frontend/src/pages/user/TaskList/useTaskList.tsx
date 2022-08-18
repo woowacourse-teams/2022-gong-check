@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { EventSourcePolyfill } from 'event-source-polyfill';
+import { useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import DetailInfoModal from '@/components/user/DetailInfoModal';
 import NameModal from '@/components/user/NameModal';
@@ -8,21 +9,26 @@ import NameModal from '@/components/user/NameModal';
 import useGoPreviousPage from '@/hooks/useGoPreviousPage';
 import useModal from '@/hooks/useModal';
 import useSectionCheck from '@/hooks/useSectionCheck';
+import useToast from '@/hooks/useToast';
 
 import apis from '@/apis';
 
 import { ID, SectionType } from '@/types';
+import { ApiTaskData } from '@/types/apis';
 
-const RE_FETCH_INTERVAL_TIME = 100;
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
 const PROGRESS_BAR_DEFAULT_POSITION = 232;
 
 const useTaskList = () => {
+  const navigate = useNavigate();
+
   const { spaceId, jobId, hostId } = useParams() as { spaceId: ID; jobId: ID; hostId: ID };
 
   const location = useLocation();
   const locationState = location.state as { jobName: string };
 
   const { openModal } = useModal();
+  const { openToast } = useToast();
 
   const { goPreviousPage } = useGoPreviousPage();
 
@@ -30,18 +36,21 @@ const useTaskList = () => {
 
   const [isActiveSticky, setIsActiveSticky] = useState(false);
 
-  const { data: sectionsData, refetch: getSections } = useQuery(
-    ['sections', jobId],
-    () => apis.getRunningTasks(jobId),
-    {
-      refetchInterval: RE_FETCH_INTERVAL_TIME,
-      cacheTime: 0,
-    }
-  );
+  const [sectionsData, setSectionsData] = useState<ApiTaskData>({
+    sections: [
+      {
+        id: 0,
+        name: '',
+        description: '',
+        imageUrl: '',
+        tasks: [{ id: 0, name: '', checked: false, description: '', imageUrl: '' }],
+      },
+    ],
+  });
 
   const { data: spaceData } = useQuery(['space', jobId], () => apis.getSpace(spaceId));
 
-  const { mutate: postSectionAllCheck } = useMutation((sectionId: ID) => apis.postSectionAllCheckTask(sectionId), {});
+  const { mutate: postSectionAllCheck } = useMutation((sectionId: ID) => apis.postSectionAllCheckTask(sectionId));
 
   const { sectionsAllCheckMap, totalCount, checkedCount, percent, isAllChecked } = useSectionCheck(
     sectionsData?.sections || []
@@ -56,7 +65,6 @@ const useTaskList = () => {
         placeholder="이름을 입력해주세요."
         buttonText="확인"
         jobId={jobId}
-        hostId={hostId}
       />
     );
   };
@@ -75,9 +83,36 @@ const useTaskList = () => {
     setIsActiveSticky(isActive);
   }, [progressBarRef.current?.offsetTop]);
 
+  useEffect(() => {
+    const tokenKey = sessionStorage.getItem('tokenKey');
+    if (!tokenKey) return;
+
+    const sse = new EventSourcePolyfill(`${API_URL}/api/jobs/${jobId}/runningTasks/connect`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem(tokenKey)}`,
+      },
+    });
+
+    sse.addEventListener('connect', (e: any) => {
+      const { data: receivedSections } = e;
+
+      setSectionsData(JSON.parse(receivedSections));
+    });
+
+    sse.addEventListener('flip', (e: any) => {
+      const { data: receivedSections } = e;
+
+      setSectionsData(JSON.parse(receivedSections));
+    });
+
+    sse.addEventListener('submit', () => {
+      navigate(`/enter/${hostId}/spaces/${jobId}`);
+      openToast('SUCCESS', '해당 체크리스트는 제출되었습니다.');
+    });
+  }, []);
+
   return {
     spaceData,
-    getSections,
     onSubmit,
     goPreviousPage,
     totalCount,

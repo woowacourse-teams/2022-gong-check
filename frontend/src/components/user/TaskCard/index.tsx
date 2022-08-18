@@ -13,19 +13,14 @@ import styles from './styles';
 
 type TaskCardProps = {
   tasks: TaskType[];
-  getSections: () => void;
 };
 
-const TaskCard: React.FC<TaskCardProps> = ({ tasks, getSections }) => {
+const TaskCard: React.FC<TaskCardProps> = ({ tasks }) => {
   const { openModal } = useModal();
 
-  const onClickCheckBox = async (
-    e: React.MouseEvent<HTMLElement, MouseEvent> | React.ChangeEvent<HTMLElement>,
-    id: ID
-  ) => {
+  const onClickCheckBox = (e: React.MouseEvent<HTMLElement, MouseEvent> | React.ChangeEvent<HTMLElement>, id: ID) => {
     e.preventDefault();
-    await apis.postCheckTask(id);
-    getSections();
+    apis.postCheckTask(id);
   };
 
   const onClickTaskDetail = (task: TaskType) => {

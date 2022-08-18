@@ -11,6 +11,7 @@ import com.woowacourse.gongcheck.core.domain.space.SpaceRepository;
 import com.woowacourse.gongcheck.core.domain.submission.Submission;
 import com.woowacourse.gongcheck.core.domain.submission.SubmissionRepository;
 import com.woowacourse.gongcheck.core.domain.task.RunningTaskRepository;
+import com.woowacourse.gongcheck.core.domain.task.RunningTaskSseEmitterContainer;
 import com.woowacourse.gongcheck.core.domain.task.RunningTasks;
 import com.woowacourse.gongcheck.core.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.core.domain.task.Tasks;
@@ -36,12 +37,14 @@ public class SubmissionService {
     private final RunningTaskRepository runningTaskRepository;
     private final SubmissionRepository submissionRepository;
     private final NotificationService notificationService;
+    private final RunningTaskSseEmitterContainer runningTaskSseEmitterContainer;
 
     public SubmissionService(final HostRepository hostRepository, final JobRepository jobRepository,
                              final SpaceRepository spaceRepository, final TaskRepository taskRepository,
                              final RunningTaskRepository runningTaskRepository,
                              final SubmissionRepository submissionRepository,
-                             final NotificationService notificationService) {
+                             final NotificationService notificationService,
+                             final RunningTaskSseEmitterContainer runningTaskSseEmitterContainer) {
         this.hostRepository = hostRepository;
         this.jobRepository = jobRepository;
         this.spaceRepository = spaceRepository;
@@ -49,6 +52,7 @@ public class SubmissionService {
         this.runningTaskRepository = runningTaskRepository;
         this.submissionRepository = submissionRepository;
         this.notificationService = notificationService;
+        this.runningTaskSseEmitterContainer = runningTaskSseEmitterContainer;
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
@@ -60,6 +64,7 @@ public class SubmissionService {
         if (job.hasUrl()) {
             sendNotification(request, job);
         }
+        runningTaskSseEmitterContainer.publishSubmitEvent(jobId);
     }
 
     private void sendNotification(final SubmissionRequest request, final Job job) {
