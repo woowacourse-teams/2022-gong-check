@@ -26,6 +26,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class ImageService {
 
+    private static final MediaType IMAGE_WEBP = new MediaType("image", "webp");
+
     private final Path storageLocation;
     private final String imagePathPrefix;
 
@@ -57,7 +59,7 @@ public class ImageService {
             byte[] resizedImage = imageExtension.resizeImage(originImage, width);
 
             if (isWebp) {
-                return ImageResponse.of(imageExtension.convertToWebp(resizedImage), new MediaType("image", "webp"));
+                return ImageResponse.of(imageExtension.convertToWebp(resizedImage), IMAGE_WEBP);
             }
             return ImageResponse.of(resizedImage, imageExtension.getContentType());
         } catch (FileNotFoundException exception) {
