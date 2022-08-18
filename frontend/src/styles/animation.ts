@@ -58,7 +58,7 @@ const spinnerEye = keyframes`
 const moveUp = keyframes`
   0% {
     opacity: 0;
-    transform: translateY(25px);
+    transform: translateY(50px);
   }
   100% {
     opacity: 1;

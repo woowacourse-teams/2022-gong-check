@@ -1,28 +1,32 @@
 import { useEffect, useRef, useState } from 'react';
 
-const useLazyImage = () => {
-  const lazyImageRef = useRef<HTMLImageElement>(null);
+const useLazyLoading = <T extends Element>(threshold: number = 0) => {
+  const targetRef = useRef<T>(null);
   const observerRef = useRef<IntersectionObserver>();
   const [isLoaded, setIsLoaded] = useState(false);
 
   const intersectionCallBack = (entries: IntersectionObserverEntry[], io: IntersectionObserver) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        io.unobserve(entry.target);
         setIsLoaded(true);
+      }
+      if (!entry.isIntersecting) {
+        setIsLoaded(false);
       }
     });
   };
 
   useEffect(() => {
     if (!observerRef.current) {
-      observerRef.current = new IntersectionObserver(intersectionCallBack);
+      observerRef.current = new IntersectionObserver(intersectionCallBack, {
+        threshold,
+      });
     }
 
-    lazyImageRef.current && observerRef.current.observe(lazyImageRef.current);
+    targetRef.current && observerRef.current.observe(targetRef.current);
   }, []);
 
-  return { isLoaded, lazyImageRef };
+  return { isLoaded, targetRef };
 };
 
-export default useLazyImage;
+export default useLazyLoading;
