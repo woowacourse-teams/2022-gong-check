@@ -8,6 +8,7 @@ public class Gif2WebpStrategy implements Convert2WebpStrategy {
 
     private static final Gif2WebpHandler DEFAULT = new Gif2WebpHandler();
 
+    @Override
     public byte[] convert(final byte[] originBytes) {
         try {
             return DEFAULT.convert(originBytes);
