@@ -71,6 +71,32 @@ const MainSection: React.FC = () => {
     ctx.closePath();
   }, [scrollPositionInt]);
 
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext('2d');
+    if (!canvas || !ctx) return;
+
+    const scale = window.devicePixelRatio;
+
+    canvas.width = Math.floor(window.innerWidth * scale);
+    canvas.height = Math.floor(window.innerHeight * scale);
+    ctx.scale(scale, scale);
+
+    const x = window.innerWidth / 2;
+    const y = window.innerHeight / 2;
+
+    const radius = CIRCLE_SIZE * scrollPositionInt;
+
+    ctx.beginPath();
+    let circlePath = new Path2D();
+    circlePath.arc(x, y, radius, 0, Math.PI * 2);
+    circlePath.rect(0, 0, window.innerWidth, window.innerHeight);
+    ctx.clip(circlePath, 'evenodd');
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.closePath();
+  }, []);
+
   return (
     <section
       css={css`
