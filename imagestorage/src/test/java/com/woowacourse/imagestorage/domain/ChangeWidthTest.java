@@ -9,7 +9,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 class ChangeWidthTest {
 
     @ParameterizedTest
-    @ValueSource(ints = {-1, 0, 10})
+    @ValueSource(ints = {-1, 0, 9})
     void 입력된_width가_최소길이보다_작으면_예외가_발생한다(final int input) {
         assertThatThrownBy(() -> new ChangeWidth(input))
                 .isInstanceOf(BusinessException.class)
