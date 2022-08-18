@@ -5,19 +5,19 @@ import com.woowacourse.gongcheck.core.domain.task.Tasks;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MessageGenerator {
+public class LoggingFormatConverter {
 
-    private MessageGenerator() {
+    private LoggingFormatConverter() {
     }
 
-    public static String taskIdsGenerate(final Tasks tasks) {
+    public static String taskIdsConvert(final Tasks tasks) {
         return tasks.getTaskIds()
                 .stream()
                 .map(String::valueOf)
                 .collect(Collectors.joining(", "));
     }
 
-    public static String runningTasksGenerate(final List<RunningTask> runningTasks) {
+    public static String runningTasksConvert(final List<RunningTask> runningTasks) {
         return runningTasks.stream()
                 .map(String::valueOf)
                 .collect(Collectors.joining(", "));
