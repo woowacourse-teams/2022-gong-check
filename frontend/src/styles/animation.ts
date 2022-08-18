@@ -122,6 +122,20 @@ const moveRight = keyframes`
   }
 `;
 
+const wave = keyframes`
+ from {
+    transform: skew(0);
+  }
+  33% {
+    transform: skew(2deg, 2deg);
+  }
+  66% {
+    transform: skew(4deg, 4deg);
+  }
+  to {
+    transform: skew(2deg, 2deg);
+  }`;
+
 const animation = {
   fadeIn,
   fadeOut,
@@ -134,6 +148,7 @@ const animation = {
   moveDown,
   moveRight,
   moveLeft,
+  wave,
 };
 
 export default animation;

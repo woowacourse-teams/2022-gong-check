@@ -106,8 +106,6 @@ const MainSection: React.FC = () => {
       css={css`
         width: 100vw;
         height: 100vh;
-        border: 2px solid black;
-
         overflow: hidden;
         position: relative;
       `}
@@ -136,6 +134,7 @@ const MainSection: React.FC = () => {
             id="커버"
             css={css`
               margin: 1em 0;
+              animation: ${animation.wave} 2s alternate linear infinite;
             `}
           >
             <img src={homeCover} alt="" />
@@ -170,9 +169,6 @@ const MainSection: React.FC = () => {
             -webkit-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
             width: 100%;
-
-            border: 1px solid black;
-
             z-index: 2;
             opacity: 0.9;
           `}
