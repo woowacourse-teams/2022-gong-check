@@ -132,7 +132,7 @@ class TaskDocumentation extends DocumentationTest {
 
             ExtractableResponse<MockMvcResponse> response = docsGiven
                     .header("Authorization", "Bearer jwt.token.here")
-                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .contentType(MediaType.TEXT_EVENT_STREAM_VALUE)
                     .when().get("/api/jobs/1/runningTasks/connect")
                     .then().log().all()
                     .apply(document("runningTasks/find/fail/active"))

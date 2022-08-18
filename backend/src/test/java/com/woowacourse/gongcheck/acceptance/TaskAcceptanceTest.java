@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 class TaskAcceptanceTest extends AcceptanceTest {
-    
+
     @Test
     void RunningTask를_생성한다() {
         GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
@@ -47,9 +47,7 @@ class TaskAcceptanceTest extends AcceptanceTest {
                 .then().log().all()
                 .extract();
 
-        assertAll(
-                () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value())
-        );
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
     @Test
