@@ -6,11 +6,10 @@ import org.junit.jupiter.api.Test;
 
 public class ImageFormatDetector {
 
-    // inspired by http://stackoverflow.com/questions/22534833/scala-detect-mimetype-of-an-arraybyte-image
     private static final byte[] GIF = new byte[]{'G', 'I', 'F', '8'};
     private static final byte[] PNG = new byte[]{(byte) 0x89, 'P', 'N', 'G', 0x0D, 0x0A, 0x1A, 0x0A};
     private static final byte[] JPEG = new byte[]{(byte) 0xFF, (byte) 0xD8, (byte) 0xFF};
-    // see webp spec https://developers.google.com/speed/webp/docs/riff_container
+
     private static final byte[] WEBP_START = new byte[]{'R', 'I', 'F', 'F'};
     private static final byte[] WEBP_END = new byte[]{'W', 'E', 'B', 'P'};
 
