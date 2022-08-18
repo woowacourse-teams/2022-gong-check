@@ -10,6 +10,7 @@ public class ExceptionMessageGenerator {
 
     private static final String MESSAGE_FORMAT = "Request Information\n%s %s\n%s\nParams: %s\nBody : %s\nException Message : %s";
     private static final String GENERATE_MESSAGE_EXCEPTION = "예외 메세지 생성 중 예외가 발생했습니다.";
+    private static final String KEY_VALUE_DELIMITER = ":";
 
     private ExceptionMessageGenerator() {
     }
@@ -42,9 +43,7 @@ public class ExceptionMessageGenerator {
             headers.put(headerName, request.getHeader(headerName));
         }
 
-        return headers.entrySet().stream()
-                .map(i -> i.getKey() + ":" + i.getValue())
-                .collect(Collectors.joining("\n"));
+        return convertMapToString(headers);
     }
 
     private static String getParams(final ContentCachingRequestWrapper request) {
@@ -61,12 +60,16 @@ public class ExceptionMessageGenerator {
             parameters.put(parameterName, request.getParameter(parameterName));
         }
 
-        return parameters.entrySet().stream()
-                .map(i -> i.getKey() + ":" + i.getValue())
-                .collect(Collectors.joining(", "));
+        return convertMapToString(parameters);
     }
 
     private static String getBody(final ContentCachingRequestWrapper request) {
         return new String(request.getContentAsByteArray());
+    }
+
+    private static String convertMapToString(final Map<String, String> requestInfo) {
+        return requestInfo.entrySet().stream()
+                .map(i -> i.getKey() + KEY_VALUE_DELIMITER+ i.getValue())
+                .collect(Collectors.joining("\n"));
     }
 }
