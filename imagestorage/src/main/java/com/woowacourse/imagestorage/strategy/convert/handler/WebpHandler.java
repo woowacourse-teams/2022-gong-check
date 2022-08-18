@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.SystemUtils;
 
@@ -21,6 +22,14 @@ public abstract class WebpHandler {
 
         if (!SystemUtils.IS_OS_WINDOWS) {
             setExecutable(output);
+        }
+    }
+
+    protected static void checkSuccessProcess(final Path stdout, final Process process) throws IOException {
+        int exitStatus = process.exitValue();
+        if (exitStatus != 0) {
+            List<String> error = Files.readAllLines(stdout);
+            throw new IOException(error.toString());
         }
     }
 

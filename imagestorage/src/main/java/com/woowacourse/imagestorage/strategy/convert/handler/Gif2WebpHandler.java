@@ -57,10 +57,6 @@ public class Gif2WebpHandler extends WebpHandler {
         } catch (InterruptedException e) {
             throw new IOException(e);
         }
-        int exitStatus = process.exitValue();
-        if (exitStatus != 0) {
-            List<String> error = Files.readAllLines(stdout);
-            throw new IOException(error.toString());
-        }
+        checkSuccessProcess(stdout, process);
     }
 }
