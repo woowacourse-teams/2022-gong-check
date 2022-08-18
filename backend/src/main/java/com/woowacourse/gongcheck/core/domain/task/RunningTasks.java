@@ -1,5 +1,6 @@
 package com.woowacourse.gongcheck.core.domain.task;
 
+import com.woowacourse.gongcheck.core.application.support.LoggingFormatConverter;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.ErrorCode;
 import java.util.List;
@@ -15,9 +16,8 @@ public class RunningTasks {
 
     public void validateCompletion() {
         if (!isAllChecked()) {
-            String message = String.format("모든 작업이 완료되지않아 제출이 불가합니다. runningTasksIds = %s", runningTasks.stream()
-                    .map(String::valueOf)
-                    .collect(Collectors.joining(", ")));
+            String message = String.format("모든 작업이 완료되지않아 제출이 불가합니다. runningTasksIds = %s",
+                    LoggingFormatConverter.convertIdsToString(getIds()));
             throw new BusinessException(message, ErrorCode.R003);
         }
     }
@@ -31,5 +31,11 @@ public class RunningTasks {
     private boolean isAllChecked() {
         return runningTasks.stream()
                 .allMatch(RunningTask::isChecked);
+    }
+
+    private List<Long> getIds() {
+        return runningTasks.stream()
+                .map(RunningTask::getTaskId)
+                .collect(Collectors.toList());
     }
 }

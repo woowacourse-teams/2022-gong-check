@@ -23,6 +23,7 @@ import com.woowacourse.gongcheck.core.presentation.JobController;
 import com.woowacourse.gongcheck.core.presentation.SpaceController;
 import com.woowacourse.gongcheck.core.presentation.SubmissionController;
 import com.woowacourse.gongcheck.core.presentation.TaskController;
+import com.woowacourse.gongcheck.core.presentation.filter.RequestContext;
 import com.woowacourse.gongcheck.documentation.support.ErrorCodeController;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.module.mockmvc.specification.MockMvcRequestSpecification;
@@ -86,6 +87,9 @@ class DocumentationTest {
 
     @MockBean
     protected ImageUploader imageUploader;
+
+    @MockBean
+    private RequestContext requestContext;
 
     @BeforeEach
     void setDocsGiven(final WebApplicationContext webApplicationContext,
