@@ -106,7 +106,7 @@ const useTaskList = () => {
     });
 
     sse.addEventListener('submit', () => {
-      navigate(`/enter/${hostId}/spaces/${jobId}`);
+      navigate(`/enter/${hostId}/spaces/${spaceId}`);
       openToast('SUCCESS', '해당 체크리스트는 제출되었습니다.');
     });
   }, []);
