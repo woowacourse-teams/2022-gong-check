@@ -59,10 +59,7 @@ public class ImageService {
             byte[] originImage = IOUtils.toByteArray(new FileInputStream(file));
             byte[] resizedImage = imageExtension.resizeImage(originImage, new ChangeWidth(width));
 
-            if (isWebp) {
-                return ImageResponse.of(imageExtension.convertToWebp(resizedImage), IMAGE_WEBP);
-            }
-            return ImageResponse.of(resizedImage, imageExtension.getContentType());
+            return imageByRequestToWebp(isWebp, imageExtension, resizedImage);
         } catch (FileNotFoundException exception) {
             throw new FileIONotFoundException("파일 경로에 파일이 존재하지 않습니다.");
         } catch (IOException exception) {
@@ -72,5 +69,13 @@ public class ImageService {
 
     private Path resolvePath(final String imageUrl) {
         return storageLocation.resolve(imageUrl);
+    }
+
+    private ImageResponse imageByRequestToWebp(final boolean isWebp, final ImageExtension imageExtension,
+                                               final byte[] resizedImage) {
+        if (isWebp) {
+            return ImageResponse.of(imageExtension.convertToWebp(resizedImage), IMAGE_WEBP);
+        }
+        return ImageResponse.of(resizedImage, imageExtension.getContentType());
     }
 }
