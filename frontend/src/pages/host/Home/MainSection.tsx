@@ -24,6 +24,11 @@ const MainSection: React.FC = () => {
     const ctx = canvas?.getContext('2d');
     if (!canvas || !ctx) return;
 
+    const target = e.target as HTMLInputElement;
+    const localName = target.localName;
+
+    if (localName !== 'canvas') return;
+
     positionRef.current = {
       x: e.nativeEvent.offsetX,
       y: e.nativeEvent.offsetY,
