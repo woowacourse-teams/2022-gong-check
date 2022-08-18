@@ -18,7 +18,8 @@ const Home: React.FC = () => {
           width: 100vw;
           height: 84px;
           padding: 0 48px;
-          font-size: 28px;
+          font-size: 24px;
+          font-weight: 600;
           background-color: ${theme.colors.skyblue200};
           box-shadow: 0px 2px 1px 1px ${theme.colors.shadow20};
 
