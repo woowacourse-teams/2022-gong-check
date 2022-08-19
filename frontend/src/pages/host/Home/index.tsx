@@ -8,6 +8,8 @@ import logoTitle from '@/assets/logoTitle.png';
 import theme from '@/styles/theme';
 
 const Home: React.FC = () => {
+  const isMobile = innerWidth < 600;
+
   return (
     <>
       <div
@@ -33,9 +35,11 @@ const Home: React.FC = () => {
         `}
       >
         <img src={logoTitle} alt="" width={240} />
-        <span>
-          <b>for</b> 공간 관리자
-        </span>
+        {!isMobile && (
+          <span>
+            <b>for</b> 공간 관리자
+          </span>
+        )}
       </div>
       <div
         id="레이아웃"
@@ -44,18 +48,28 @@ const Home: React.FC = () => {
           height: calc(100vh - 84px);
           flex-direction: column;
           align-items: center;
-          font-size: 24px;
 
           img {
             margin-top: 32px;
           }
         `}
       >
+        {isMobile && (
+          <div
+            css={css`
+              margin: 20px;
+              color: ${theme.colors.red};
+            `}
+          >
+            모바일에 최적화되어있지 않습니다. 데스크탑을 이용해주세요.
+          </div>
+        )}
         <img src={homeCover} alt="" width={360} />
         <span
           css={css`
             margin: 32px 0 62px 0;
             color: ${theme.colors.gray800};
+            font-size: ${isMobile ? '16px' : '24px'};
           `}
         >
           관리자 페이지 이용을 위해 로그인이 필요합니다.

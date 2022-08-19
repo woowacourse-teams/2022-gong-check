@@ -124,10 +124,10 @@ const UserViewSection1 = () => {
           <h1
             css={css`
               position: absolute;
-              top: 24%;
+              top: 13vw;
               left: 12%;
               z-index: 11;
-              font-size: 7.5vh;
+              font-size: 4.1vw;
               color: ${theme.colors.primary};
             `}
           >
@@ -136,10 +136,10 @@ const UserViewSection1 = () => {
           <h1
             css={css`
               position: absolute;
-              top: 52%;
+              top: 29vw;
               left: 10%;
               z-index: 11;
-              font-size: 5vh;
+              font-size: 2.7vw;
               color: ${theme.colors.gray800};
             `}
           >
@@ -150,9 +150,10 @@ const UserViewSection1 = () => {
               <img
                 css={css`
                   position: absolute;
-                  top: 5%;
+                  top: 5vw;
                   right: 25%;
-                  height: 75%;
+                  width: 20%;
+
                   animation: ${animation.moveRight} 1.5s;
                   animation-fill-mode: forwards;
                   z-index: 11;
@@ -163,10 +164,10 @@ const UserViewSection1 = () => {
               <h1
                 css={css`
                   position: absolute;
-                  top: 52%;
+                  top: 29vw;
                   left: 24.5%;
                   z-index: 11;
-                  font-size: 5vh;
+                  font-size: 2.7vw;
                   animation: ${animation.moveDown} 1.5s;
                   animation-fill-mode: forwards;
                   color: ${theme.colors.gray800};
@@ -185,9 +186,9 @@ const UserViewSection1 = () => {
               <img
                 css={css`
                   position: absolute;
-                  top: 15%;
+                  top: 12vw;
                   right: 10%;
-                  height: 75%;
+                  width: 20%;
                   animation: ${animation.moveLeft} 1.5s;
                   animation-fill-mode: forwards;
                   z-index: 12;
@@ -198,10 +199,10 @@ const UserViewSection1 = () => {
               <h1
                 css={css`
                   position: absolute;
-                  top: 52%;
+                  top: 29vw;
                   left: 33%;
                   z-index: 11;
-                  font-size: 5vh;
+                  font-size: 2.7vw;
                   animation: ${animation.moveUp} 1.5s;
                   animation-fill-mode: forwards;
                   color: ${theme.colors.gray800};
@@ -258,10 +259,10 @@ const UserViewSection2 = () => {
           <h1
             css={css`
               position: absolute;
-              top: 24%;
+              top: 12vw;
               right: 12%;
               z-index: 11;
-              font-size: 7.5vh;
+              font-size: 4.1vw;
               color: ${theme.colors.green};
             `}
           >
@@ -272,9 +273,9 @@ const UserViewSection2 = () => {
               <img
                 css={css`
                   position: absolute;
-                  top: 8%;
+                  top: 4vw;
                   left: 28%;
-                  height: 75%;
+                  width: 20%;
                   animation: ${animation.moveDown} 1.5s;
                   animation-fill-mode: forwards;
                   z-index: 11;
@@ -285,10 +286,10 @@ const UserViewSection2 = () => {
               <h1
                 css={css`
                   position: absolute;
-                  top: 52%;
+                  top: 28.5vw;
                   right: 30%;
                   z-index: 11;
-                  font-size: 5vh;
+                  font-size: 2.7vw;
                   color: ${theme.colors.gray800};
                   animation: ${animation.moveRight} 1.5s;
                   animation-fill-mode: forwards;
@@ -307,9 +308,9 @@ const UserViewSection2 = () => {
               <img
                 css={css`
                   position: absolute;
-                  top: 14%;
+                  top: 7vw;
                   left: 6%;
-                  height: 75%;
+                  width: 20%;
                   z-index: 12;
                   animation: ${animation.moveUp} 1.5s;
                   animation-fill-mode: forwards;
@@ -320,10 +321,10 @@ const UserViewSection2 = () => {
               <h1
                 css={css`
                   position: absolute;
-                  top: 52%;
+                  top: 28.5vw;
                   right: 13%;
                   z-index: 11;
-                  font-size: 5vh;
+                  font-size: 2.7vw;
                   color: ${theme.colors.gray800};
                   animation: ${animation.moveLeft} 1.5s;
                   animation-fill-mode: forwards;
@@ -334,20 +335,22 @@ const UserViewSection2 = () => {
               >
                 <b>상세정보</b> 제공
               </h1>
-              <h1
-                css={css`
-                  position: absolute;
-                  top: 51.6%;
-                  right: 21%;
-                  z-index: 11;
-                  font-size: 1.8vh;
-                  color: ${theme.colors.gray500};
-                  animation: ${animation.moveLeft} 1.5s;
-                  animation-fill-mode: forwards;
-                `}
-              >
-                How, Where
-              </h1>
+              {innerWidth > 600 && (
+                <h1
+                  css={css`
+                    position: absolute;
+                    top: 28.5vw;
+                    right: 20.7%;
+                    z-index: 11;
+                    font-size: 1vw;
+                    color: ${theme.colors.gray500};
+                    animation: ${animation.moveLeft} 1.5s;
+                    animation-fill-mode: forwards;
+                  `}
+                >
+                  How, Where
+                </h1>
+              )}
             </>
           )}
         </div>
@@ -389,11 +392,10 @@ const UserViewSection3 = () => {
           <h1
             css={css`
               position: absolute;
-              top: 4%;
+              top: 2.2vw;
               left: 38.5%;
-              height: 75%;
               z-index: 11;
-              font-size: 7.5vh;
+              font-size: 4.1vw;
               color: ${theme.colors.primary};
             `}
           >
@@ -404,9 +406,9 @@ const UserViewSection3 = () => {
               <img
                 css={css`
                   position: absolute;
-                  top: 28%;
+                  top: 15vw;
                   left: 26%;
-                  height: 68%;
+                  width: 18%;
                   z-index: 11;
                   animation: ${animation.moveRight} 1.5s;
                   animation-fill-mode: forwards;
@@ -417,9 +419,9 @@ const UserViewSection3 = () => {
               <img
                 css={css`
                   position: absolute;
-                  top: 28%;
+                  top: 15vw;
                   right: 26%;
-                  height: 68%;
+                  width: 18%;
                   z-index: 11;
                   animation: ${animation.moveLeft} 1.5s;
                   animation-fill-mode: forwards;
@@ -427,25 +429,26 @@ const UserViewSection3 = () => {
                 src={mobileView3}
                 alt=""
               />
-              <h1
-                css={css`
-                  position: absolute;
-                  top: 19.2%;
-                  left: 40.4%;
-                  height: 75%;
-                  z-index: 11;
-                  font-size: 2.4vh;
-                  color: ${theme.colors.gray800};
-                  animation: ${animation.fadeIn} 1.5s;
-                  animation-fill-mode: forwards;
+              {innerWidth > 600 && (
+                <h1
+                  css={css`
+                    position: absolute;
+                    top: 10.5vw;
+                    left: 40.4%;
+                    z-index: 11;
+                    font-size: 1.3vw;
+                    color: ${theme.colors.gray800};
+                    animation: ${animation.fadeIn} 1.5s;
+                    animation-fill-mode: forwards;
 
-                  b {
-                    color: ${theme.colors.green};
-                  }
-                `}
-              >
-                여러명이 <b>동시에</b> 같은 업무 체크 가능
-              </h1>
+                    b {
+                      color: ${theme.colors.green};
+                    }
+                  `}
+                >
+                  여러명이 <b>동시에</b> 같은 업무 체크 가능
+                </h1>
+              )}
             </>
           )}
         </div>
@@ -472,7 +475,6 @@ const HostViewSection1 = () => {
       css={css`
         width: 100vw;
         height: 100vh;
-        position: relative;
       `}
       ref={sectionRef}
     >
@@ -481,18 +483,18 @@ const HostViewSection1 = () => {
           css={css`
             width: 100%;
             height: 100%;
+            position: relative;
             background-color: ${theme.colors.background};
-            display: flex;
-            align-items: center;
-            justify-content: center;
           `}
         >
           <h1
             css={css`
+              top: 21.4vw;
+              left: 27%;
               z-index: 11;
-              font-size: 5vh;
+              font-size: 2.7vw;
               color: ${theme.colors.gray800};
-
+              position: absolute;
               b {
                 color: ${theme.colors.primary};
               }
@@ -508,11 +510,10 @@ const HostViewSection1 = () => {
             <h1
               css={css`
                 position: absolute;
-                top: 80%;
+                top: 44vw;
                 left: 33%;
-                height: 75%;
                 z-index: 11;
-                font-size: 5vh;
+                font-size: 2.7vw;
                 color: ${theme.colors.gray800};
                 animation: ${animation.fadeIn} 1.5s;
 
@@ -569,11 +570,10 @@ const HostViewSection2 = () => {
           <h1
             css={css`
               position: absolute;
-              top: 4%;
+              top: 2vw;
               left: 44%;
-              height: 75%;
               z-index: 11;
-              font-size: 5vh;
+              font-size: 2.7vw;
               color: ${theme.colors.gray800};
               animation: ${animation.fadeIn} 1.5s;
               animation-fill-mode: forwards;
@@ -587,9 +587,9 @@ const HostViewSection2 = () => {
                 css={css`
                   box-shadow: 3px 3px 3px 3px ${theme.colors.shadow20};
                   position: absolute;
-                  top: 22%;
+                  top: 12vw;
                   left: 16%;
-                  height: 33%;
+                  width: 32%;
                   animation: ${animation.moveUp} 1.5s;
                   animation-fill-mode: forwards;
                   z-index: 11;
@@ -603,9 +603,9 @@ const HostViewSection2 = () => {
                 css={css`
                   box-shadow: 3px 3px 3px 3px ${theme.colors.shadow20};
                   position: absolute;
-                  top: 60%;
+                  top: 33vw;
                   left: 16%;
-                  height: 33%;
+                  width: 32%;
                   animation: ${animation.moveUp} 1.5s;
                   animation-fill-mode: forwards;
                   z-index: 11;
@@ -619,9 +619,9 @@ const HostViewSection2 = () => {
                 css={css`
                   box-shadow: 3px 3px 3px 3px ${theme.colors.shadow20};
                   position: absolute;
-                  top: 22%;
+                  top: 12vw;
                   right: 16%;
-                  height: 33%;
+                  width: 32%;
                   animation: ${animation.moveUp} 1.5s;
                   animation-fill-mode: forwards;
                   z-index: 11;
@@ -635,9 +635,9 @@ const HostViewSection2 = () => {
                 css={css`
                   box-shadow: 3px 3px 3px 3px ${theme.colors.shadow20};
                   position: absolute;
-                  top: 60%;
+                  top: 33vw;
                   right: 16%;
-                  height: 33%;
+                  width: 32%;
                   animation: ${animation.moveUp} 1.5s;
                   animation-fill-mode: forwards;
                   z-index: 11;
@@ -680,7 +680,7 @@ const HostViewSection3 = () => {
           <h1
             css={css`
               z-index: 11;
-              font-size: 5vh;
+              font-size: 2.7vw;
               color: ${theme.colors.gray800};
               animation: ${animation.moveDown} 1.5s;
               animation-fill-mode: forwards;
