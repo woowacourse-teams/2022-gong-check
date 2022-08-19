@@ -28,6 +28,18 @@ public class ControllerAdvice {
         return ResponseEntity.notFound().build();
     }
 
+    @ExceptionHandler(FileConvertException.class)
+    public ResponseEntity<ErrorResponse> handleFileConvertException(final FileConvertException e) {
+        log.error(e.getMessage());
+        return ResponseEntity.internalServerError().build();
+    }
+
+    @ExceptionHandler(FileResizeException.class)
+    public ResponseEntity<ErrorResponse> handleFileResizeException(final FileResizeException e) {
+        log.error(e.getMessage());
+        return ResponseEntity.internalServerError().build();
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Void> handleException(final Exception e) {
         log.error("Stack Trace : {}", extractStackTrace(e));

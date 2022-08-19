@@ -60,15 +60,6 @@ public class ImageFile {
         }
     }
 
-    public ImageFile resizeImage(final int width) {
-        return new ImageFile(
-                originFileName,
-                contentType,
-                extension,
-                extension.resizeImage(imageBytes, width)
-        );
-    }
-
     public InputStream inputStream() {
         return new ByteArrayInputStream(imageBytes);
     }
