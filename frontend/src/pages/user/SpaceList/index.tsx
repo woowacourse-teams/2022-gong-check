@@ -9,7 +9,7 @@ import logo from '@/assets/logoTitle.png';
 import styles from './styles';
 
 const SpaceList: React.FC = () => {
-  const { data: spaceData } = useQuery(['spaces'], apis.getSpaces, { suspense: true, retry: false });
+  const { data: spaceData } = useQuery(['spaces'], apis.getSpaces);
 
   return (
     <div css={styles.layout}>

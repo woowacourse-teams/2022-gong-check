@@ -10,29 +10,28 @@ import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
+import com.woowacourse.gongcheck.ApplicationTest;
+import com.woowacourse.gongcheck.SupportRepository;
 import com.woowacourse.gongcheck.core.application.response.JobActiveResponse;
-import com.woowacourse.gongcheck.core.application.response.RunningTaskResponse;
-import com.woowacourse.gongcheck.core.application.response.RunningTasksWithSectionResponse;
 import com.woowacourse.gongcheck.core.application.response.TaskResponse;
 import com.woowacourse.gongcheck.core.application.response.TasksResponse;
 import com.woowacourse.gongcheck.core.application.response.TasksWithSectionResponse;
 import com.woowacourse.gongcheck.core.domain.host.Host;
-import com.woowacourse.gongcheck.core.domain.host.HostRepository;
 import com.woowacourse.gongcheck.core.domain.job.Job;
-import com.woowacourse.gongcheck.core.domain.job.JobRepository;
 import com.woowacourse.gongcheck.core.domain.section.Section;
-import com.woowacourse.gongcheck.core.domain.section.SectionRepository;
 import com.woowacourse.gongcheck.core.domain.space.Space;
-import com.woowacourse.gongcheck.core.domain.space.SpaceRepository;
 import com.woowacourse.gongcheck.core.domain.task.RunningTask;
 import com.woowacourse.gongcheck.core.domain.task.RunningTaskRepository;
+import com.woowacourse.gongcheck.core.domain.task.RunningTaskSseEmitterContainer;
 import com.woowacourse.gongcheck.core.domain.task.Task;
-import com.woowacourse.gongcheck.core.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import java.util.List;
-import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -40,11 +39,9 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
-@SpringBootTest
-@Transactional
+@ApplicationTest
 @DisplayName("TaskService 클래스")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class TaskServiceTest {
@@ -53,25 +50,13 @@ class TaskServiceTest {
     private TaskService taskService;
 
     @Autowired
-    private HostRepository hostRepository;
-
-    @Autowired
-    private SpaceRepository spaceRepository;
-
-    @Autowired
-    private JobRepository jobRepository;
-
-    @Autowired
-    private SectionRepository sectionRepository;
-
-    @Autowired
-    private TaskRepository taskRepository;
+    private SupportRepository repository;
 
     @Autowired
     private RunningTaskRepository runningTaskRepository;
 
-    @Autowired
-    private EntityManager entityManager;
+    @MockBean
+    private RunningTaskSseEmitterContainer runningTaskSseEmitterContainer;
 
     @Nested
     class createNewRunningTasks_메소드는 {
@@ -85,11 +70,11 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                List<Task> tasks = taskRepository.saveAll(
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                List<Task> tasks = repository.saveAll(
                         List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
                 taskIds = tasks.stream()
                         .map(Task::getId)
@@ -120,17 +105,17 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                sectionRepository.save(Section_생성(job, "트랙룸"));
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                job = repository.save(Job_생성(space, "청소"));
+                repository.save(Section_생성(job, "트랙룸"));
             }
 
             @Test
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.createNewRunningTasks(host.getId(), job.getId()))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("작업이 존재하지 않습니다.");
+                        .hasMessageContaining("작업이 존재하지 않습니다.");
             }
         }
 
@@ -144,7 +129,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.createNewRunningTasks(NON_EXIST_HOST_ID, JOB_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
 
@@ -157,7 +142,7 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                hostId = hostRepository.save(Host_생성("1234", 1234567L))
+                hostId = repository.save(Host_생성("1234", 1234567L))
                         .getId();
             }
 
@@ -165,7 +150,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.createNewRunningTasks(hostId, NON_EXIST_JOB_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
 
@@ -177,19 +162,19 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                Host host = hostRepository.save(Host_생성("1234", 1234L));
-                anotherHost = hostRepository.save(Host_생성("1234", 2345L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                taskRepository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
+                Host host = repository.save(Host_생성("1234", 1234L));
+                anotherHost = repository.save(Host_생성("1234", 2345L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                repository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
             }
 
             @Test
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.createNewRunningTasks(anotherHost.getId(), job.getId()))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
 
@@ -201,13 +186,13 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                List<Task> tasks = taskRepository.saveAll(
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                List<Task> tasks = repository.saveAll(
                         List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
-                runningTaskRepository.saveAll(tasks.stream()
+                repository.saveAll(tasks.stream()
                         .map(Task::getId)
                         .map(id -> RunningTask_생성(id, true))
                         .collect(toList()));
@@ -217,7 +202,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.createNewRunningTasks(host.getId(), job.getId()))
                         .isInstanceOf(BusinessException.class)
-                        .hasMessage("현재 진행중인 작업이 존재하여 새로운 작업을 생성할 수 없습니다.");
+                        .hasMessageContaining("현재 진행중인 작업이 존재하여 새로운 작업을 생성할 수 없습니다.");
             }
         }
     }
@@ -233,13 +218,13 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                List<Task> tasks = taskRepository.saveAll(List.of(
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                List<Task> tasks = repository.saveAll(List.of(
                         Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
-                runningTaskRepository.saveAll(tasks.stream()
+                repository.saveAll(tasks.stream()
                         .map(Task::getId)
                         .map(id -> RunningTask_생성(id, true))
                         .collect(toList()));
@@ -261,11 +246,11 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                taskRepository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                repository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
             }
 
             @Test
@@ -286,7 +271,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.isJobActivated(NON_EXIST_HOST_ID, JOB_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
 
@@ -299,7 +284,7 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                hostId = hostRepository.save(Host_생성("1234", 1111L))
+                hostId = repository.save(Host_생성("1234", 1111L))
                         .getId();
             }
 
@@ -307,7 +292,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.isJobActivated(hostId, NON_EXIST_JOB_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
 
@@ -319,68 +304,54 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                Host host = hostRepository.save(Host_생성("1234", 1234L));
-                anotherHost = hostRepository.save(Host_생성("1234", 2345L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                taskRepository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
+                Host host = repository.save(Host_생성("1234", 1234L));
+                anotherHost = repository.save(Host_생성("1234", 2345L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                repository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
             }
 
             @Test
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.isJobActivated(anotherHost.getId(), job.getId()))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
     }
 
     @Nested
-    class findRunningTasks_메소드는 {
+    class connectRunningTasks_메서드는 {
 
         @Nested
         class 존재하는_Host와_RunningTasks가_생성된_Job을_입력받은_경우 {
 
-            private static final String SECTION_NAME = "트랙룸";
-            private static final String TASK_NAME_1 = "책상 청소";
-            private static final String TASK_NAME_2 = "의자 넣기";
-            private static final int TASK_INDEX = 0;
-
-            private Host host;
-            private Job job;
-            private Section section;
+            private Long hostId;
+            private Long jobId;
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, SECTION_NAME));
-                List<Task> tasks = taskRepository.saveAll(List.of(
-                        Task_생성(section, TASK_NAME_1), Task_생성(section, TASK_NAME_2)));
-                runningTaskRepository.saveAll(tasks.stream()
+                Host host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                Job job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                List<Task> tasks = repository.saveAll(List.of(
+                        Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
+                repository.saveAll(tasks.stream()
                         .map(task -> RunningTask_생성(task.getId(), false))
                         .collect(toList()));
-                entityManager.flush();
-                entityManager.clear();
+
+                hostId = host.getId();
+                jobId = job.getId();
             }
 
             @Test
-            void 정상적으로_RunningTasks를_조회한다() {
-                List<RunningTasksWithSectionResponse> actual = taskService.findRunningTasks(host.getId(), job.getId())
-                        .getSections();
-                List<RunningTaskResponse> actualTasks = actual.get(TASK_INDEX).getTasks();
+            void emitter를_생성하는_메서드를_호출한다() {
+                taskService.connectRunningTasks(hostId, jobId);
 
-                assertAll(
-                        () -> assertThat(actual)
-                                .extracting(RunningTasksWithSectionResponse::getName)
-                                .containsExactly(SECTION_NAME),
-                        () -> assertThat(actual).hasSize(1),
-                        () -> assertThat(actualTasks)
-                                .extracting(RunningTaskResponse::getName)
-                                .containsExactly(TASK_NAME_1, TASK_NAME_2)
-                );
+                verify(runningTaskSseEmitterContainer, times(1))
+                        .createEmitterWithConnectionEvent(anyLong(), any());
             }
         }
 
@@ -392,9 +363,9 @@ class TaskServiceTest {
 
             @Test
             void 예외가_발생한다() {
-                assertThatThrownBy(() -> taskService.findRunningTasks(NON_EXIST_HOST_ID, JOB_ID))
+                assertThatThrownBy(() -> taskService.connectRunningTasks(NON_EXIST_HOST_ID, JOB_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
 
@@ -407,15 +378,15 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                hostId = hostRepository.save(Host_생성("1234", 1111L))
+                hostId = repository.save(Host_생성("1234", 1111L))
                         .getId();
             }
 
             @Test
             void 예외가_발생한다() {
-                assertThatThrownBy(() -> taskService.findRunningTasks(hostId, NON_EXIST_JOB_ID))
+                assertThatThrownBy(() -> taskService.connectRunningTasks(hostId, NON_EXIST_JOB_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
 
@@ -427,23 +398,23 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                Host host = hostRepository.save(Host_생성("1234", 1234L));
-                anotherHost = hostRepository.save(Host_생성("1234", 2345L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                List<Task> tasks = taskRepository.saveAll(List.of(
+                Host host = repository.save(Host_생성("1234", 1234L));
+                anotherHost = repository.save(Host_생성("1234", 2345L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                List<Task> tasks = repository.saveAll(List.of(
                         Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
-                runningTaskRepository.saveAll(tasks.stream()
+                repository.saveAll(tasks.stream()
                         .map(task -> RunningTask_생성(task.getId(), false))
                         .collect(toList()));
             }
 
             @Test
             void 예외가_발생한다() {
-                assertThatThrownBy(() -> taskService.findRunningTasks(anotherHost.getId(), job.getId()))
+                assertThatThrownBy(() -> taskService.connectRunningTasks(anotherHost.getId(), job.getId()))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
 
@@ -455,22 +426,21 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                taskRepository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                repository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
             }
 
             @Test
             void 예외가_발생한다() {
-                assertThatThrownBy(() -> taskService.findRunningTasks(host.getId(), job.getId()))
+                assertThatThrownBy(() -> taskService.connectRunningTasks(host.getId(), job.getId()))
                         .isInstanceOf(BusinessException.class)
-                        .hasMessage("현재 진행중인 작업이 존재하지 않아 조회할 수 없습니다");
+                        .hasMessageContaining("현재 진행중인 RunningTask가 없습니다");
             }
         }
     }
-
     @Nested
     class flipRunningTask_메소드는 {
 
@@ -479,23 +449,25 @@ class TaskServiceTest {
 
             private Host host;
             private Task task;
-            private RunningTask runningTask;
+            private Long runningTaskId;
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                Job job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                task = taskRepository.save(Task_생성(section, "책상 청소"));
-                runningTask = runningTaskRepository.save(RunningTask_생성(task.getId(), false));
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                Job job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                task = repository.save(Task_생성(section, "책상 청소"));
+                runningTaskId = repository.save(RunningTask_생성(task.getId(), false))
+                        .getTaskId();
             }
 
             @Test
             void 체크상태를_True로_변경한다() {
                 taskService.flipRunningTask(host.getId(), task.getId());
+                RunningTask actual = repository.getById(RunningTask.class, runningTaskId);
 
-                assertThat(runningTask.isChecked()).isTrue();
+                assertThat(actual.isChecked()).isTrue();
             }
         }
 
@@ -504,23 +476,25 @@ class TaskServiceTest {
 
             private Host host;
             private Task task;
-            private RunningTask runningTask;
+            private Long runningTaskId;
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                Job job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                task = taskRepository.save(Task_생성(section, "책상 청소"));
-                runningTask = runningTaskRepository.save(RunningTask_생성(task.getId(), true));
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                Job job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                task = repository.save(Task_생성(section, "책상 청소"));
+                runningTaskId = repository.save(RunningTask_생성(task.getId(), true))
+                        .getTaskId();
             }
 
             @Test
             void 체크상태를_False로_변경한다() {
                 taskService.flipRunningTask(host.getId(), task.getId());
+                RunningTask actual = repository.getById(RunningTask.class, runningTaskId);
 
-                assertThat(runningTask.isChecked()).isFalse();
+                assertThat(actual.isChecked()).isFalse();
             }
         }
 
@@ -534,7 +508,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.flipRunningTask(NON_EXIST_HOST_ID, TASK_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
 
@@ -547,7 +521,7 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                hostId = hostRepository.save(Host_생성("1234", 1111L))
+                hostId = repository.save(Host_생성("1234", 1111L))
                         .getId();
             }
 
@@ -555,7 +529,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.flipRunningTask(hostId, NON_EXIST_TASK_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
 
@@ -567,12 +541,12 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                Host host = hostRepository.save(Host_생성("1234", 1234L));
-                anotherHost = hostRepository.save(Host_생성("1234", 2345L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                Job job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                taskId = taskRepository.save(Task_생성(section, "책상 청소"))
+                Host host = repository.save(Host_생성("1234", 1234L));
+                anotherHost = repository.save(Host_생성("1234", 2345L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                Job job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                taskId = repository.save(Task_생성(section, "책상 청소"))
                         .getId();
             }
 
@@ -580,7 +554,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.flipRunningTask(anotherHost.getId(), taskId))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
 
@@ -592,11 +566,11 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                Job job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                taskId = taskRepository.save(Task_생성(section, "책상 청소"))
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                Job job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                taskId = repository.save(Task_생성(section, "책상 청소"))
                         .getId();
             }
 
@@ -604,7 +578,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.flipRunningTask(host.getId(), taskId))
                         .isInstanceOf(BusinessException.class)
-                        .hasMessage("현재 진행 중인 작업이 아닙니다.");
+                        .hasMessageContaining("현재 진행 중인 작업이 아닙니다.");
             }
         }
     }
@@ -624,11 +598,11 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                host = hostRepository.save(Host_생성("1234", 1234L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, SECTION_NAME));
-                taskRepository.saveAll(List.of(Task_생성(section, TASK_NAME_1), Task_생성(section, TASK_NAME_2)));
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, SECTION_NAME));
+                repository.saveAll(List.of(Task_생성(section, TASK_NAME_1), Task_생성(section, TASK_NAME_2)));
             }
 
             @Test
@@ -656,7 +630,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.findTasks(NON_EXIST_HOST_ID, JOB_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
 
@@ -669,7 +643,7 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                hostId = hostRepository.save(Host_생성("1234", 1111L))
+                hostId = repository.save(Host_생성("1234", 1111L))
                         .getId();
             }
 
@@ -677,7 +651,7 @@ class TaskServiceTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.findTasks(hostId, NON_EXIST_JOB_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
 
@@ -689,19 +663,133 @@ class TaskServiceTest {
 
             @BeforeEach
             void setUp() {
-                Host host = hostRepository.save(Host_생성("1234", 1234L));
-                anotherHost = hostRepository.save(Host_생성("1234", 2345L));
-                Space space = spaceRepository.save(Space_생성(host, "잠실"));
-                job = jobRepository.save(Job_생성(space, "청소"));
-                Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
-                taskRepository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
+                Host host = repository.save(Host_생성("1234", 1234L));
+                anotherHost = repository.save(Host_생성("1234", 2345L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                job = repository.save(Job_생성(space, "청소"));
+                Section section = repository.save(Section_생성(job, "트랙룸"));
+                repository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
             }
 
             @Test
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskService.findTasks(anotherHost.getId(), job.getId()))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
+            }
+        }
+    }
+
+    @Nested
+    class checkRunningTasksInSection_메소드는 {
+
+        @Nested
+        class 존재하는_Host와_Section을_입력할_경우 {
+
+            private Host host;
+            private Section section;
+
+            @BeforeEach
+            void setUp() {
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                Job job = repository.save(Job_생성(space, "청소"));
+                section = repository.save(Section_생성(job, "트랙룸"));
+                Task task1 = repository.save(Task_생성(section, "책상 청소"));
+                Task task2 = repository.save(Task_생성(section, "의자 정리"));
+                repository.saveAll(List.of(RunningTask_생성(task1.getId(), false),
+                        RunningTask_생성(task2.getId(), false)));
+            }
+
+            @Test
+            void 해당_Section의_RunningTask를_모두_체크한다() {
+                taskService.checkRunningTasksInSection(host.getId(), section.getId());
+                List<RunningTask> actual = repository.findAll(RunningTask.class);
+
+                assertThat(actual).extracting("isChecked")
+                        .containsExactly(true, true);
+            }
+        }
+
+        @Nested
+        class 존재하지_않는_Host를_입력하는_경우 {
+
+            private static final long NON_EXIST_HOST_ID = 0L;
+            private static final long JOB_ID = 1L;
+
+            @Test
+            void 예외가_발생한다() {
+                assertThatThrownBy(() -> taskService.checkRunningTasksInSection(NON_EXIST_HOST_ID, JOB_ID))
+                        .isInstanceOf(NotFoundException.class)
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
+            }
+        }
+
+        @Nested
+        class 존재하지_않는_Section을_입력하는_경우 {
+
+            private static final long NON_EXIST_SECTION_ID = 0L;
+
+            private long hostId;
+
+            @BeforeEach
+            void setUp() {
+                hostId = repository.save(Host_생성("1234", 1111L))
+                        .getId();
+            }
+
+            @Test
+            void 예외가_발생한다() {
+                assertThatThrownBy(() -> taskService.checkRunningTasksInSection(hostId, NON_EXIST_SECTION_ID))
+                        .isInstanceOf(NotFoundException.class)
+                        .hasMessageContaining("존재하지 않는 구역입니다.");
+            }
+        }
+
+        @Nested
+        class 다른_Host의_Section을_입력하는_경우 {
+
+            private Host anotherHost;
+            private Section section;
+
+            @BeforeEach
+            void setUp() {
+                Host host = repository.save(Host_생성("1234", 1234L));
+                anotherHost = repository.save(Host_생성("1234", 2345L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                Job job = repository.save(Job_생성(space, "청소"));
+                section = repository.save(Section_생성(job, "트랙룸"));
+                repository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
+            }
+
+            @Test
+            void 예외가_발생한다() {
+                assertThatThrownBy(() -> taskService.checkRunningTasksInSection(anotherHost.getId(), section.getId()))
+                        .isInstanceOf(NotFoundException.class)
+                        .hasMessageContaining("존재하지 않는 구역입니다.");
+            }
+        }
+
+        @Nested
+        class 해당_Section의_진행중인_RunningTask가_없는_경우 {
+
+            private Host host;
+            private Section section;
+
+            @BeforeEach
+            void setUp() {
+                host = repository.save(Host_생성("1234", 1234L));
+                Space space = repository.save(Space_생성(host, "잠실"));
+                Job job = repository.save(Job_생성(space, "청소"));
+                section = repository.save(Section_생성(job, "트랙룸"));
+                repository.saveAll(List.of(Task_생성(section, "책상 청소"), Task_생성(section, "의자 넣기")));
+            }
+
+            @Test
+            void 예외가_발생한다() {
+                assertThatThrownBy(() -> taskService.checkRunningTasksInSection(host.getId(), section.getId()))
+                        .isInstanceOf(BusinessException.class)
+                        .hasMessageContaining("현재 진행중인 RunningTask가 없습니다");
             }
         }
     }

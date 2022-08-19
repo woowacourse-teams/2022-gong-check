@@ -6,19 +6,15 @@ import useGoPreviousPage from '@/hooks/useGoPreviousPage';
 import apiJobs from '@/apis/job';
 import apiSpace from '@/apis/space';
 
+import { ID } from '@/types';
+
 const useJobList = () => {
-  const { spaceId } = useParams();
+  const { spaceId } = useParams() as { spaceId: ID };
 
   const { goPreviousPage } = useGoPreviousPage();
 
-  const { data: jobsData } = useQuery(['jobs', spaceId], () => apiJobs.getJobs(spaceId), {
-    suspense: true,
-    retry: false,
-  });
-  const { data: spaceData } = useQuery(['spaces', spaceId], () => apiSpace.getSpace(spaceId), {
-    suspense: true,
-    retry: false,
-  });
+  const { data: jobsData } = useQuery(['jobs', spaceId], () => apiJobs.getJobs(spaceId));
+  const { data: spaceData } = useQuery(['spaces', spaceId], () => apiSpace.getSpace(spaceId));
 
   return { jobsData, spaceData, goPreviousPage };
 };

@@ -2,10 +2,9 @@ import useDashBoard from './useDashBoard';
 import { GoLinkExternal } from 'react-icons/go';
 
 import Button from '@/components/common/Button';
-import ImageBox from '@/components/host/ImageBox';
 import JobListCard from '@/components/host/JobListCard';
 import SpaceDeleteButton from '@/components/host/SpaceDeleteButton';
-import SpaceInfo from '@/components/host/SpaceInfo';
+import SpaceInfoDisplayBox from '@/components/host/SpaceInfoDisplayBox';
 import Submissions from '@/components/host/Submissions';
 
 import slackIcon from '@/assets/slackIcon.svg';
@@ -13,15 +12,7 @@ import slackIcon from '@/assets/slackIcon.svg';
 import styles from './styles';
 
 const DashBoard: React.FC = () => {
-  const {
-    spaceId,
-    spaceData,
-    jobsData,
-    submissionData,
-    onClickSubmissionsDetail,
-    onClickSlackButton,
-    onClickLinkButton,
-  } = useDashBoard();
+  const { spaceId, spaceData, jobsData, submissionData, onClickSlackButton, onClickLinkButton } = useDashBoard();
 
   return (
     <div css={styles.layout}>
@@ -35,15 +26,13 @@ const DashBoard: React.FC = () => {
             <img src={slackIcon} alt="슬랙" />
             <span>URL 편집</span>
           </Button>
-          <SpaceDeleteButton spaceId={spaceId} spaceName={spaceData?.name} />
+          <SpaceDeleteButton spaceId={spaceId} spaceName={spaceData?.name || ''} />
         </div>
         <div css={styles.cardWrapper}>
-          <SpaceInfo type={'read'} data={spaceData}>
-            <ImageBox type={'read'} imageUrl={spaceData?.imageUrl} />
-          </SpaceInfo>
+          <SpaceInfoDisplayBox spaceData={spaceData!} />
           <JobListCard jobs={jobsData?.jobs || []} />
         </div>
-        <Submissions submissions={submissionData?.submissions || []} onClick={onClickSubmissionsDetail} />
+        <Submissions submissions={submissionData?.submissions || []} />
       </div>
     </div>
   );

@@ -1,10 +1,11 @@
 import { AxiosResponse } from 'axios';
 
+import { ID } from '@/types';
 import { ApiTokenData } from '@/types/apis';
 
 import { axiosInstance, axiosInstanceToken } from './config';
 
-const postPassword = async ({ hostId, password }: any) => {
+const postPassword = async (hostId: ID, password: string) => {
   const { data }: AxiosResponse<ApiTokenData> = await axiosInstance({
     method: 'POST',
     url: `api/hosts/${hostId}/enter`,
@@ -16,9 +17,7 @@ const postPassword = async ({ hostId, password }: any) => {
   return data;
 };
 
-// /api/spacePassword
-// space password 수정
-const patchSpacePassword = (password: number | string) => {
+const patchSpacePassword = (password: string) => {
   return axiosInstanceToken({
     method: 'PATCH',
     url: `/api/spacePassword`,

@@ -4,11 +4,14 @@ import com.woowacourse.gongcheck.auth.application.JwtTokenProvider;
 import com.woowacourse.gongcheck.auth.domain.AuthenticationContext;
 import com.woowacourse.gongcheck.auth.domain.Authority;
 import com.woowacourse.gongcheck.auth.support.JwtTokenExtractor;
+import com.woowacourse.gongcheck.exception.ErrorCode;
 import com.woowacourse.gongcheck.exception.UnauthorizedException;
+import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsUtils;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
@@ -31,12 +34,29 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         }
 
         String token = JwtTokenExtractor.extractToken(request)
-                .orElseThrow(() -> new UnauthorizedException("헤더에 토큰 값이 정상적으로 존재하지 않습니다."));
+                .orElseThrow(() -> {
+                    String message = "헤더에 토큰값이 정상적으로 존재하지 않습니다.";
+                    throw new UnauthorizedException(message, ErrorCode.A003);
+                });
 
         String subject = jwtTokenProvider.extractSubject(token);
         authenticationContext.setPrincipal(subject);
+
+        if (isNotHostOnlyAnnotated((HandlerMethod) handler)) {
+            return true;
+        }
         Authority authority = jwtTokenProvider.extractAuthority(token);
-        authenticationContext.setAuthority(authority);
+        authorize(authority);
         return HandlerInterceptor.super.preHandle(request, response, handler);
+    }
+
+    private boolean isNotHostOnlyAnnotated(final HandlerMethod handlerMethod) {
+        return Objects.isNull(handlerMethod.getMethodAnnotation(HostOnly.class));
+    }
+
+    private void authorize(final Authority authority) {
+        if (!authority.isHost()) {
+            throw new UnauthorizedException("호스트만 입장 가능합니다.", ErrorCode.A001);
+        }
     }
 }

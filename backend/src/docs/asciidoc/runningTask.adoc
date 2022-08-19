@@ -3,7 +3,7 @@
 
 === RunningTask 정보 조회
 
-operation::runningTasks/find/success[snippets='http-request,http-response,path-parameters,response-fields']
+operation::runningTasks/connect/success[snippets='http-request,http-response,path-parameters']
 
 === RunningTask 완료 여부 확인
 
@@ -16,3 +16,7 @@ operation::runningTasks/check/success[snippets='http-request,http-response,path-
 === RunningTask 생성
 
 operation::runningTasks/create/success[snippets='http-request,http-response,path-parameters']
+
+=== Section의 RunningTask 모두 체크상태로 변환
+
+operation::runningTasks/allCheck/success[snippets='http-request,http-response,path-parameters']

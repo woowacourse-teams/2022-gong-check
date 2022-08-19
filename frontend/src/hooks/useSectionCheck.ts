@@ -3,22 +3,34 @@ import { useMemo } from 'react';
 import { SectionType } from '@/types';
 
 const useSectionCheck = (sections: SectionType[]) => {
-  const tasks = useMemo(() => sections.map(section => section.tasks.map(task => task.checked)), [sections]);
-  const checkList = useMemo(
-    () =>
-      tasks.reduce((prev, cur) => {
-        return prev.concat(...cur);
-      }, []),
-    [tasks]
-  );
-  const totalCount = useMemo(() => checkList.length, [checkList]);
-  const checkCount = useMemo(() => checkList.filter(check => check === true).length, [checkList]);
-  const percent = useMemo(() => Math.ceil((checkCount / totalCount) * 100), [checkCount, totalCount]);
-  const isAllChecked = totalCount === checkCount;
+  if (sections.length === 0)
+    return { totalCount: 0, checkedCount: false, percent: 0, isAllChecked: false, sectionsAllCheckMap: new Map() };
+
+  const sectionsAllCheckMap = new Map();
+  const sectionCheckLists = sections.map(section => {
+    const newSectionCheckList = section.tasks.map(task => task.checked);
+
+    sectionsAllCheckMap.set(
+      `${section.id}`,
+      newSectionCheckList.every(isCheck => isCheck)
+    );
+
+    return newSectionCheckList;
+  });
+
+  const jobCheckList = sectionCheckLists?.reduce((prev, cur) => prev.concat(...cur));
+
+  const totalCount = useMemo(() => jobCheckList?.length || 0, [jobCheckList]);
+  const checkedCount = useMemo(() => jobCheckList?.filter(check => check === true).length || 0, [jobCheckList]);
+
+  const percent = useMemo(() => Math.ceil((checkedCount / totalCount) * 100), [checkedCount, totalCount]);
+
+  const isAllChecked = totalCount === checkedCount;
 
   return {
+    sectionsAllCheckMap,
     totalCount,
-    checkCount,
+    checkedCount,
     percent,
     isAllChecked,
   };

@@ -1,7 +1,5 @@
 import Button from '@/components/common/Button';
 
-import useEditInput from '@/hooks/useEditInput';
-
 import styles from './styles';
 
 interface JobControlProps {

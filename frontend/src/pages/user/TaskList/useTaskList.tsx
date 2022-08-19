@@ -1,49 +1,62 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { useQuery } from 'react-query';
-import { useLocation, useParams } from 'react-router-dom';
+import { EventSourcePolyfill } from 'event-source-polyfill';
+import { useEffect, useRef, useState } from 'react';
+import { useMutation, useQuery } from 'react-query';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
-import DetailedInfoCardModal from '@/components/user/DetailedInfoCardModal';
+import DetailInfoModal from '@/components/user/DetailInfoModal';
 import NameModal from '@/components/user/NameModal';
 
 import useGoPreviousPage from '@/hooks/useGoPreviousPage';
 import useModal from '@/hooks/useModal';
+import useSectionCheck from '@/hooks/useSectionCheck';
+import useToast from '@/hooks/useToast';
 
 import apis from '@/apis';
 
-const RE_FETCH_INTERVAL_TIME = 100;
+import { ID, SectionType } from '@/types';
+import { ApiTaskData } from '@/types/apis';
+
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
 const PROGRESS_BAR_DEFAULT_POSITION = 232;
 
 const useTaskList = () => {
-  const { spaceId, jobId, hostId } = useParams();
+  const navigate = useNavigate();
+
+  const { spaceId, jobId, hostId } = useParams() as { spaceId: ID; jobId: ID; hostId: ID };
 
   const location = useLocation();
-  const locationState = location.state as { jobName: string } | undefined;
+  const locationState = location.state as { jobName: string };
 
   const { openModal } = useModal();
-
-  const progressBarRef = useRef<HTMLDivElement>(null);
+  const { openToast } = useToast();
 
   const { goPreviousPage } = useGoPreviousPage();
 
-  const [isSticked, setIsSticked] = useState(false);
+  const progressBarRef = useRef<HTMLDivElement>(null);
 
-  const { data: sectionsData, refetch: getSections } = useQuery(
-    ['sections', jobId],
-    () => apis.getRunningTasks(jobId),
-    {
-      suspense: true,
-      retry: false,
-      refetchInterval: RE_FETCH_INTERVAL_TIME,
-      cacheTime: 0,
-    }
-  );
+  const [isActiveSticky, setIsActiveSticky] = useState(false);
 
-  const { data: spaceData } = useQuery(['space', jobId], () => apis.getSpace(spaceId), {
-    suspense: true,
-    retry: false,
+  const [sectionsData, setSectionsData] = useState<ApiTaskData>({
+    sections: [
+      {
+        id: 0,
+        name: '',
+        description: '',
+        imageUrl: '',
+        tasks: [{ id: 0, name: '', checked: false, description: '', imageUrl: '' }],
+      },
+    ],
   });
 
-  const onClickButton = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const { data: spaceData } = useQuery(['space', jobId], () => apis.getSpace(spaceId));
+
+  const { mutate: postSectionAllCheck } = useMutation((sectionId: ID) => apis.postSectionAllCheckTask(sectionId));
+
+  const { sectionsAllCheckMap, totalCount, checkedCount, percent, isAllChecked } = useSectionCheck(
+    sectionsData?.sections || []
+  );
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     openModal(
       <NameModal
@@ -52,57 +65,67 @@ const useTaskList = () => {
         placeholder="이름을 입력해주세요."
         buttonText="확인"
         jobId={jobId}
-        hostId={hostId}
       />
     );
   };
 
-  const onClickSectionDetail = ({
-    name,
-    imageUrl,
-    description,
-  }: {
-    name: string;
-    imageUrl: string;
-    description: string;
-  }) => {
-    openModal(<DetailedInfoCardModal name={name} imageUrl={imageUrl} description={description} />);
+  const onClickSectionDetail = (section: SectionType) => {
+    openModal(<DetailInfoModal name={section.name} imageUrl={section.imageUrl} description={section.description} />);
   };
 
-  if (!sectionsData?.sections.length) return { isNotData: true };
-
-  const { sections } = sectionsData;
-
-  const tasks = sections.map(section => section.tasks.map(task => task.checked));
-  const checkList = tasks.reduce((prev, cur) => {
-    return prev.concat(...cur);
-  });
-
-  const totalCount = useMemo(() => checkList.length, [checkList]);
-  const checkCount = useMemo(() => checkList.filter(check => check === true).length, [checkList]);
-  const percent = useMemo(() => Math.ceil((checkCount / totalCount) * 100), [checkCount, totalCount]);
-  const isAllChecked = totalCount === checkCount;
+  const onClickSectionAllCheck = (sectionId: ID) => {
+    postSectionAllCheck(sectionId);
+  };
 
   useEffect(() => {
-    const isStartSticked = progressBarRef.current?.offsetTop! > PROGRESS_BAR_DEFAULT_POSITION;
+    const isActive = progressBarRef.current?.offsetTop! > PROGRESS_BAR_DEFAULT_POSITION;
 
-    setIsSticked(isStartSticked);
+    setIsActiveSticky(isActive);
   }, [progressBarRef.current?.offsetTop]);
+
+  useEffect(() => {
+    const tokenKey = sessionStorage.getItem('tokenKey');
+    if (!tokenKey) return;
+
+    const sse = new EventSourcePolyfill(`${API_URL}/api/jobs/${jobId}/runningTasks/connect`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem(tokenKey)}`,
+      },
+    });
+
+    sse.addEventListener('connect', (e: any) => {
+      const { data: receivedSections } = e;
+
+      setSectionsData(JSON.parse(receivedSections));
+    });
+
+    sse.addEventListener('flip', (e: any) => {
+      const { data: receivedSections } = e;
+
+      setSectionsData(JSON.parse(receivedSections));
+    });
+
+    sse.addEventListener('submit', () => {
+      navigate(`/enter/${hostId}/spaces/${spaceId}`);
+      openToast('SUCCESS', '해당 체크리스트는 제출되었습니다.');
+    });
+  }, []);
 
   return {
     spaceData,
-    getSections,
-    onClickButton,
+    onSubmit,
     goPreviousPage,
     totalCount,
-    checkCount,
+    checkedCount,
     percent,
+    sectionsAllCheckMap,
     isAllChecked,
     locationState,
     sectionsData,
     onClickSectionDetail,
+    onClickSectionAllCheck,
     progressBarRef,
-    isSticked,
+    isActiveSticky,
   };
 };
 

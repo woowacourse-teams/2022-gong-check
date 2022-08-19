@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Button from '@/components/common/Button';
 
@@ -22,17 +23,22 @@ interface Submission {
 interface SubmissionsProps {
   submissions: Submission[];
   isFullSize?: boolean;
-  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const Submissions: React.FC<SubmissionsProps> = ({ submissions, isFullSize = false, onClick }) => {
+const Submissions: React.FC<SubmissionsProps> = ({ submissions, isFullSize = false }) => {
+  const navigate = useNavigate();
+
+  const onClickSubmissionsDetail = () => {
+    navigate('spaceRecord');
+  };
+
   return (
     <div css={styles.layout({ isFullSize })}>
       <div css={styles.header}>
         <p>공간 사용 내역</p>
 
         {!isFullSize && (
-          <Button css={styles.detailButton} type="button" onClick={onClick}>
+          <Button css={styles.detailButton} type="button" onClick={onClickSubmissionsDetail}>
             더보기
           </Button>
         )}
@@ -61,13 +67,7 @@ const Submissions: React.FC<SubmissionsProps> = ({ submissions, isFullSize = fal
                   <tr key={submissionId}>
                     <td>{author}</td>
                     <td>{jobName}</td>
-                    <td
-                      css={css`
-                        color: ${theme.colors.green};
-                      `}
-                    >
-                      {createdAt}
-                    </td>
+                    <td css={styles.greenText}>{createdAt}</td>
                   </tr>
                 ))}
               </>

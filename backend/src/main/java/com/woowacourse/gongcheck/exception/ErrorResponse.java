@@ -6,26 +6,16 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 @Getter
 public class ErrorResponse {
 
-    private String message;
+    private String errorCode;
 
     private ErrorResponse() {
     }
 
-    private ErrorResponse(final String message) {
-        this.message = message;
+    private ErrorResponse(final String errorCode) {
+        this.errorCode = errorCode;
     }
 
-    public static ErrorResponse from(final RuntimeException e) {
-        return new ErrorResponse(e.getMessage());
-    }
-
-    public static ErrorResponse from(final MethodArgumentNotValidException e) {
-        return new ErrorResponse(e.getAllErrors()
-                .get(0)
-                .getDefaultMessage());
-    }
-
-    public static ErrorResponse from(final String message) {
-        return new ErrorResponse(message);
+    public static ErrorResponse from(final ErrorCode errorCode) {
+        return new ErrorResponse(errorCode.name());
     }
 }

@@ -9,6 +9,8 @@ import useToast from '@/hooks/useToast';
 
 import apiImage from '@/apis/image';
 
+import errorMessage from '@/constants/errorMessage';
+
 const DEFAULT_NO_IMAGE = 'https://velog.velcdn.com/images/cks3066/post/7f506718-7a3c-4d63-b9ac-f21b6417f3c2/image.png';
 
 interface SectionDetailModalProps {
@@ -33,14 +35,17 @@ const useSectionDetailModal = (props: SectionDetailModalProps) => {
   const [description, setDescription] = useState(previousDescription);
   const [isDisabledButton, setIsDisabledButton] = useState(true);
 
-  const { mutateAsync: uploadImage } = useMutation((formData: FormData) => apiImage.postImageUpload(formData), {
-    onSuccess: data => {
-      setImageUrl(data.imageUrl);
-    },
-    onError: (err: AxiosError<{ message: string }>) => {
-      openToast('ERROR', `${err.response?.data.message}`);
-    },
-  });
+  const { mutateAsync: uploadImage, isLoading: isImageLoading } = useMutation(
+    (formData: FormData) => apiImage.postImageUpload(formData),
+    {
+      onSuccess: data => {
+        setImageUrl(data.imageUrl);
+      },
+      onError: (err: AxiosError<{ errorCode: keyof typeof errorMessage }>) => {
+        openToast('ERROR', errorMessage[`${err.response?.data.errorCode!}`]);
+      },
+    }
+  );
 
   const onChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -88,6 +93,7 @@ const useSectionDetailModal = (props: SectionDetailModalProps) => {
     closeModal,
     imageUrl,
     description,
+    isImageLoading,
   };
 };
 

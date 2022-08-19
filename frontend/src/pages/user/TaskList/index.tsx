@@ -1,9 +1,9 @@
 import useTaskList from './useTaskList';
-import { useEffect, useRef } from 'react';
+import React from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 
 import Button from '@/components/common/Button';
-import SectionInfoPreviewBox from '@/components/user/SectionInfoPreviewBox';
+import SectionInfoPreview from '@/components/user/SectionInfoPreview';
 import TaskCard from '@/components/user/TaskCard';
 
 import styles from './styles';
@@ -11,18 +11,19 @@ import styles from './styles';
 const TaskList: React.FC = () => {
   const {
     spaceData,
-    getSections,
-    onClickButton,
+    onSubmit,
     goPreviousPage,
     totalCount,
-    checkCount,
+    checkedCount,
     percent,
+    sectionsAllCheckMap,
     isAllChecked,
     locationState,
     sectionsData,
     onClickSectionDetail,
+    onClickSectionAllCheck,
     progressBarRef,
-    isSticked,
+    isActiveSticky,
   } = useTaskList();
 
   return (
@@ -37,44 +38,37 @@ const TaskList: React.FC = () => {
           <p>{locationState?.jobName}</p>
         </div>
       </div>
-      <div css={styles.progressBarWrapperSticky(isSticked)} ref={progressBarRef}>
+      <div css={styles.progressBarWrapperSticky(isActiveSticky)} ref={progressBarRef}>
         <div css={styles.progressBarWrapper}>
-          <div css={styles.progressBar(percent || 0)} />
-          <span css={styles.percentText}>{`${checkCount}/${totalCount}`}</span>
+          <div css={styles.progressBar(percent)} />
+          <span css={styles.percentText}>{`${checkedCount}/${totalCount}`}</span>
         </div>
       </div>
       <div css={styles.contents}>
-        <form css={styles.form}>
-          {sectionsData?.sections.length === 0 ? (
-            <div>체크리스트가 없습니다.</div>
-          ) : (
-            sectionsData?.sections.map(section => (
-              <section css={styles.location} key={section.id}>
-                <div css={styles.locationHeader}>
-                  <p css={styles.locationName}>{section.name}</p>
+        <form css={styles.form} onSubmit={onSubmit}>
+          {sectionsData?.sections.map(section => (
+            <section css={styles.location} key={section.id!}>
+              <div css={styles.locationHeader}>
+                <p css={styles.locationName}>{section.name}</p>
+                <div css={styles.locationHeaderRightItems}>
+                  {!sectionsAllCheckMap.get(`${section.id}`) && (
+                    <Button
+                      css={styles.sectionAllCheckButton}
+                      type="button"
+                      onClick={() => onClickSectionAllCheck(section.id!)}
+                    >
+                      ALL
+                    </Button>
+                  )}
                   {(section.imageUrl || section.description) && (
-                    <SectionInfoPreviewBox
-                      imageUrl={section.imageUrl}
-                      onClick={() =>
-                        onClickSectionDetail({
-                          name: section.name,
-                          imageUrl: section.imageUrl,
-                          description: section.description,
-                        })
-                      }
-                    />
+                    <SectionInfoPreview imageUrl={section.imageUrl} onClick={() => onClickSectionDetail(section)} />
                   )}
                 </div>
-                <TaskCard tasks={section.tasks} getSections={getSections} />
-              </section>
-            ))
-          )}
-          <Button
-            type="submit"
-            css={styles.button(isAllChecked || false)}
-            onClick={onClickButton}
-            disabled={!isAllChecked}
-          >
+              </div>
+              <TaskCard tasks={section.tasks} />
+            </section>
+          ))}
+          <Button type="submit" css={styles.button(isAllChecked)} disabled={!isAllChecked}>
             제출
           </Button>
         </form>

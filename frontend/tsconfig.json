@@ -28,6 +28,6 @@
     },
     "types": ["cypress", "node"]
   },
-  "include": ["src"],
-  "exclude": ["cypress", "**/*.cy.ts"]
+  "include": ["src", "cypress"],
+  "exclude": ["**/*.cy.ts"]
 }

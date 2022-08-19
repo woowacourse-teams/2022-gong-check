@@ -8,6 +8,7 @@ import static com.woowacourse.gongcheck.fixture.FixtureFactory.Task_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.groups.Tuple.tuple;
 
 import com.woowacourse.gongcheck.config.JpaConfig;
 import com.woowacourse.gongcheck.core.domain.host.Host;
@@ -177,7 +178,7 @@ class TaskRepositoryTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskRepository.getBySectionJobSpaceHostAndId(host, NON_EXIST_TASK_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
 
@@ -202,7 +203,7 @@ class TaskRepositoryTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> taskRepository.getBySectionJobSpaceHostAndId(anotherHost, taskId))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 작업입니다.");
             }
         }
     }
@@ -263,6 +264,45 @@ class TaskRepositoryTest {
                 taskRepository.deleteAllBySectionIn(List.of(section));
 
                 assertThat(taskRepository.findById(taskId)).isEmpty();
+            }
+        }
+    }
+
+    @Nested
+    class findAllBySection_메소드는 {
+
+        @Nested
+        class 입력받은_Job이_Task를_가지고_있는_경우 {
+
+            private Job job;
+            private Section expectedSection1;
+            private Section expectedSection2;
+            private List<Task> expected;
+
+            @BeforeEach
+            void setUp() {
+                Host host = hostRepository.save(Host_생성("1234", 1234L));
+                Space space = spaceRepository.save(Space_생성(host, "잠실"));
+                job = jobRepository.save(Job_생성(space, "청소"));
+                expectedSection1 = sectionRepository.save(Section_생성(job, "트랙룸"));
+                expectedSection2 = sectionRepository.save(Section_생성(job, "굿샷 강의장"));
+                expected = List.of(
+                        Task_생성(expectedSection1, "책상 청소"), Task_생성(expectedSection1, "빈백 정리"),
+                        Task_생성(expectedSection2, "책상 청소"), Task_생성(expectedSection2, "의자 넣기")
+                );
+                taskRepository.saveAll(expected);
+            }
+
+            @Test
+            void 가지고_있는_모든_Task를_반환한다() {
+                List<Task> actual = taskRepository.findAllBySectionJob(job);
+
+                assertThat(actual).hasSize(expected.size())
+                        .extracting("section", "name")
+                        .containsExactly(tuple(expectedSection1, new Name("책상 청소")),
+                                tuple(expectedSection1, new Name("빈백 정리")),
+                                tuple(expectedSection2, new Name("책상 청소")),
+                                tuple(expectedSection2, new Name("의자 넣기")));
             }
         }
     }

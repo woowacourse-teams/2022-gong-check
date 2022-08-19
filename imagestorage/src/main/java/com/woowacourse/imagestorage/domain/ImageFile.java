@@ -8,19 +8,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.regex.Pattern;
 import org.springframework.web.multipart.MultipartFile;
 
 public class ImageFile {
 
-    private static final Pattern IMAGE_FILE_EXTENSION_PATTERN = Pattern.compile("^(png|jpeg|jpg|svg|gif)$");
-
     private final String originFileName;
     private final String contentType;
-    private final String extension;
+    private final ImageExtension extension;
     private final byte[] imageBytes;
 
-    public ImageFile(final String originFileName, final String contentType, final String extension,
+    public ImageFile(final String originFileName, final String contentType, final ImageExtension extension,
                      final byte[] imageBytes) {
         this.originFileName = originFileName;
         this.contentType = contentType;
@@ -28,16 +25,18 @@ public class ImageFile {
         this.imageBytes = imageBytes;
     }
 
-
     public static ImageFile from(final MultipartFile multipartFile) {
         validateNullFile(multipartFile);
         validateEmptyFile(multipartFile);
         validateNullFileName(multipartFile);
-        validateImageExtension(multipartFile);
 
         try {
-            return new ImageFile(multipartFile.getOriginalFilename(), multipartFile.getContentType(),
-                    getFilenameExtension(multipartFile.getOriginalFilename()), multipartFile.getBytes());
+            return new ImageFile(
+                    multipartFile.getOriginalFilename(),
+                    multipartFile.getContentType(),
+                    ImageExtension.from(getFilenameExtension(multipartFile.getOriginalFilename())),
+                    multipartFile.getBytes()
+            );
         } catch (IOException exception) {
             throw new BusinessException("잘못된 파일입니다.");
         }
@@ -61,14 +60,6 @@ public class ImageFile {
         }
     }
 
-    private static void validateImageExtension(final MultipartFile multipartFile) {
-        String fileExtension = getFilenameExtension(multipartFile.getOriginalFilename());
-        assert fileExtension != null;
-        if (!IMAGE_FILE_EXTENSION_PATTERN.matcher(fileExtension).matches()) {
-            throw new BusinessException("이미지 파일 확장자만 들어올 수 있습니다.");
-        }
-    }
-
     public InputStream inputStream() {
         return new ByteArrayInputStream(imageBytes);
     }
@@ -78,7 +69,7 @@ public class ImageFile {
     }
 
     public String randomName() {
-        return UUID.randomUUID().toString() + "." + extension;
+        return UUID.randomUUID().toString() + "." + extension.getExtension();
     }
 
     public String contentType() {

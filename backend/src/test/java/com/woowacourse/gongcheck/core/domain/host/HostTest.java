@@ -30,7 +30,7 @@ class HostTest {
 
             assertThatThrownBy(() -> host.checkPassword(spacePassword))
                     .isInstanceOf(BusinessException.class)
-                    .hasMessage("공간 비밀번호와 입력하신 비밀번호가 일치하지 않습니다.");
+                    .hasMessageContaining("공간 비밀번호와 입력하신 비밀번호가 일치하지 않습니다.");
         }
 
         @Test

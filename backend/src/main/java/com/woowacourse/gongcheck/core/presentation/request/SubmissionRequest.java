@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public class SubmissionRequest {
 
-    @NotNull(message = "제출자 이름은 null 일 수 없습니다.")
+    @NotNull(message = "SubmissionRequest의 author은 null 일 수 없습니다.")
     private String author;
 
     private SubmissionRequest() {

@@ -6,6 +6,7 @@ import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_생성;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -16,7 +17,9 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.snippet.Attributes.key;
 
+import com.woowacourse.gongcheck.auth.domain.Authority;
 import com.woowacourse.gongcheck.core.application.response.JobsResponse;
 import com.woowacourse.gongcheck.core.application.response.SlackUrlResponse;
 import com.woowacourse.gongcheck.core.domain.host.Host;
@@ -26,6 +29,7 @@ import com.woowacourse.gongcheck.core.presentation.request.SectionCreateRequest;
 import com.woowacourse.gongcheck.core.presentation.request.SlackUrlChangeRequest;
 import com.woowacourse.gongcheck.core.presentation.request.TaskCreateRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
+import com.woowacourse.gongcheck.exception.ErrorCode;
 import io.restassured.module.mockmvc.response.MockMvcResponse;
 import io.restassured.response.ExtractableResponse;
 import java.util.List;
@@ -86,6 +90,7 @@ class JobDocumentation extends DocumentationTest {
 
         @Test
         void Job을_생성한다() {
+            when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
             JobCreateRequest request = new JobCreateRequest("청소", sections);
 
@@ -99,19 +104,29 @@ class JobDocumentation extends DocumentationTest {
                             pathParameters(
                                     parameterWithName("spaceId").description("Job을 생성할 Space Id")),
                             requestFields(
-                                    fieldWithPath("name").type(JsonFieldType.STRING).description("Job 이름"),
+                                    fieldWithPath("name").type(JsonFieldType.STRING)
+                                            .description("Job 이름")
+                                            .attributes(key("length").value(10)),
                                     fieldWithPath("sections.[].name").type(JsonFieldType.STRING)
-                                            .description("Section 이름"),
+                                            .description("Section 이름")
+                                            .attributes(key("length").value(10)),
                                     fieldWithPath("sections.[].description").type(JsonFieldType.STRING)
-                                            .description("Section 설명"),
+                                            .description("Section 설명")
+                                            .attributes(key("length").value(128))
+                                            .attributes(key("nullable").value(true)),
                                     fieldWithPath("sections.[].imageUrl").type(JsonFieldType.STRING)
-                                            .description("Section Image Url"),
+                                            .description("Section Image Url")
+                                            .attributes(key("nullable").value(true)),
                                     fieldWithPath("sections.[].tasks.[].name").type(JsonFieldType.STRING)
-                                            .description("Task 이름"),
+                                            .description("Task 이름")
+                                            .attributes(key("length").value(10)),
                                     fieldWithPath("sections.[].tasks.[].description").type(JsonFieldType.STRING)
-                                            .description("Task 설명"),
+                                            .description("Task 설명")
+                                            .attributes(key("length").value(128))
+                                            .attributes(key("nullable").value(true)),
                                     fieldWithPath("sections.[].tasks.[].imageUrl").type(JsonFieldType.STRING)
                                             .description("Task Image Url")
+                                            .attributes(key("nullable").value(true))
                             )
                     ))
                     .statusCode(HttpStatus.CREATED.value());
@@ -119,9 +134,10 @@ class JobDocumentation extends DocumentationTest {
 
         @Test
         void Job의_이름_길이가_올바르지_않을_경우_예외가_발생한다() {
-            doThrow(BusinessException.class)
+            doThrow(new BusinessException("이름이 공백인 경우", ErrorCode.N001))
                     .when(jobService)
                     .createJob(anyLong(), anyLong(), any());
+            when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             JobCreateRequest wrongRequest = new JobCreateRequest("10자초과의이름은안돼", sections);
@@ -140,9 +156,10 @@ class JobDocumentation extends DocumentationTest {
 
         @Test
         void Section_이름_길이가_올바르지_않을_경우_예외가_발생한다() {
-            doThrow(BusinessException.class)
+            doThrow(new BusinessException("이름이 공백인 경우", ErrorCode.N001))
                     .when(jobService)
                     .createJob(anyLong(), anyLong(), any());
+            when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             List<SectionCreateRequest> sections = List.of(new SectionCreateRequest("10자초과의이름은안돼", "대강의실 설명",
@@ -163,9 +180,10 @@ class JobDocumentation extends DocumentationTest {
 
         @Test
         void Task_이름_길이가_올바르지_않을_경우_예외가_발생한다() {
-            doThrow(BusinessException.class)
+            doThrow(new BusinessException("이름이 공백인 경우", ErrorCode.N001))
                     .when(jobService)
                     .createJob(anyLong(), anyLong(), any());
+            when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             List<TaskCreateRequest> tasks1 = List
@@ -212,7 +230,9 @@ class JobDocumentation extends DocumentationTest {
                     .of(new SectionCreateRequest("대강의실", "대강의실 설명", "https://image.gongcheck.shop/degang123", tasks1),
                             new SectionCreateRequest("소강의실", "소강의실 설명", "https://image.gongcheck.shop/sogang123",
                                     tasks2));
+            when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
             JobCreateRequest request = new JobCreateRequest("청소", sections);
 
             docsGiven
@@ -225,19 +245,28 @@ class JobDocumentation extends DocumentationTest {
                             pathParameters(
                                     parameterWithName("jobId").description("수정할 Job Id")),
                             requestFields(
-                                    fieldWithPath("name").type(JsonFieldType.STRING).description("Job 이름"),
+                                    fieldWithPath("name").type(JsonFieldType.STRING).description("Job 이름")
+                                            .attributes(key("length").value(10)),
                                     fieldWithPath("sections.[].name").type(JsonFieldType.STRING)
-                                            .description("Section 이름"),
+                                            .description("Section 이름")
+                                            .attributes(key("length").value(10)),
                                     fieldWithPath("sections.[].description").type(JsonFieldType.STRING)
-                                            .description("Section 설명"),
+                                            .description("Section 설명")
+                                            .attributes(key("length").value(128))
+                                            .attributes(key("nullable").value(true)),
                                     fieldWithPath("sections.[].imageUrl").type(JsonFieldType.STRING)
-                                            .description("Section Image Url"),
+                                            .description("Section Image Url")
+                                            .attributes(key("nullable").value(true)),
                                     fieldWithPath("sections.[].tasks.[].name").type(JsonFieldType.STRING)
-                                            .description("Task 이름"),
+                                            .description("Task 이름")
+                                            .attributes(key("length").value(10)),
                                     fieldWithPath("sections.[].tasks.[].description").type(JsonFieldType.STRING)
-                                            .description("Task 설명"),
+                                            .description("Task 설명")
+                                            .attributes(key("length").value(128))
+                                            .attributes(key("nullable").value(true)),
                                     fieldWithPath("sections.[].tasks.[].imageUrl").type(JsonFieldType.STRING)
                                             .description("Task Image Url")
+                                            .attributes(key("nullable").value(true))
                             )
                     ))
                     .statusCode(HttpStatus.NO_CONTENT.value());
@@ -247,9 +276,10 @@ class JobDocumentation extends DocumentationTest {
         @NullSource
         @ValueSource(strings = {"", "10자초과의이름은안돼"})
         void Job_이름이_1글자_미만_10글자_초과_nul_인_경우_예외가_발생한다(final String input) {
-            doThrow(BusinessException.class)
+            doThrow(new BusinessException("이름이 공백인 경우", ErrorCode.N001))
                     .when(jobService)
                     .updateJob(anyLong(), anyLong(), any());
+            when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             JobCreateRequest wrongRequest = new JobCreateRequest(input, sections);
@@ -270,10 +300,12 @@ class JobDocumentation extends DocumentationTest {
         @NullSource
         @ValueSource(strings = {"", "10자초과의이름은안돼"})
         void Section_이름이_1글자_미만_10글자_초과_null_일_경우_예외가_발생한다(final String input) {
-            doThrow(BusinessException.class)
+            doThrow(new BusinessException("이름이 공백인 경우", ErrorCode.N001))
                     .when(jobService)
                     .updateJob(anyLong(), anyLong(), any());
+            when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
             List<SectionCreateRequest> sections = List
                     .of(new SectionCreateRequest(input, "대강의실 설명", "https://image.gongcheck.shop/degang123", tasks1));
             JobCreateRequest wrongRequest = new JobCreateRequest("청소", sections);
@@ -294,9 +326,10 @@ class JobDocumentation extends DocumentationTest {
         @NullSource
         @ValueSource(strings = {"", "10자초과의이름은안돼"})
         void Task_이름이_1글자_미만_10글자_초과하거나_null일_경우_예외가_발생한다(final String input) {
-            doThrow(BusinessException.class)
+            doThrow(new BusinessException("이름이 공백인 경우", ErrorCode.N001))
                     .when(jobService)
                     .updateJob(anyLong(), anyLong(), any());
+            when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             List<TaskCreateRequest> tasks1 = List.of(
@@ -321,6 +354,7 @@ class JobDocumentation extends DocumentationTest {
     @Test
     void Job을_삭제한다() {
         doNothing().when(jobService).removeJob(anyLong(), anyLong());
+        when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
         when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
         docsGiven
@@ -337,6 +371,7 @@ class JobDocumentation extends DocumentationTest {
     @Test
     void Job의_Slack_Url을_조회한다() {
         when(jobService.findSlackUrl(anyLong(), anyLong())).thenReturn(new SlackUrlResponse("http://slackurl.com"));
+        when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
         when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
         ExtractableResponse<MockMvcResponse> response = docsGiven
@@ -360,6 +395,7 @@ class JobDocumentation extends DocumentationTest {
         @Test
         void 정상적으로_수정한다() {
             doNothing().when(jobService).changeSlackUrl(anyLong(), anyLong(), any());
+            when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             SlackUrlChangeRequest request = new SlackUrlChangeRequest("https://newslackurl.com");
@@ -374,15 +410,19 @@ class JobDocumentation extends DocumentationTest {
                             pathParameters(
                                     parameterWithName("jobId").description("Slack Url을 수정할 Job Id")),
                             requestFields(
-                                    fieldWithPath("slackUrl").type(JsonFieldType.STRING).description("수정할 Slack Url")
+                                    fieldWithPath("slackUrl").type(JsonFieldType.STRING)
+                                            .description("수정할 Slack Url")
+                                            .attributes(key("nullable").value(true))
                             )
                     ))
                     .statusCode(HttpStatus.NO_CONTENT.value());
+
         }
 
         @Test
         void null이_전달될_경우_예외가_발생한다() {
             doNothing().when(jobService).changeSlackUrl(anyLong(), anyLong(), any());
+            when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             SlackUrlChangeRequest wrongRequest = new SlackUrlChangeRequest(null);

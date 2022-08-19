@@ -1,4 +1,3 @@
-import { clip } from '@/utils/copy';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -12,28 +11,27 @@ import apiJobs from '@/apis/job';
 import apiSpace from '@/apis/space';
 import apiSubmission from '@/apis/submission';
 
+import { ID } from '@/types';
+
 const useDashBoard = () => {
   const navigate = useNavigate();
-
-  const { spaceId } = useParams();
 
   const { openModal } = useModal();
   const { openToast } = useToast();
 
+  const { spaceId } = useParams() as { spaceId: ID };
+
   const { data: spaceData } = useQuery(['space', spaceId], () => apiSpace.getSpace(spaceId), {
-    suspense: true,
     staleTime: 0,
     cacheTime: 0,
   });
-  const { data: jobsData } = useQuery(['jobs', spaceId], () => apiJobs.getJobs(spaceId), { suspense: true });
-  const { data: submissionData } = useQuery(['submissions', spaceId], () => apiSubmission.getSubmission({ spaceId }), {
-    suspense: true,
-  });
-  const { refetch: getEntranceCode } = useQuery(['entranceCode'], () => apiHost.getEntranceCode(), {
-    retry: false,
+  const { data: jobsData } = useQuery(['jobs', spaceId], () => apiJobs.getJobs(spaceId));
+  const { data: submissionData } = useQuery(['submissions', spaceId], () => apiSubmission.getSubmission(spaceId));
+  const { refetch: copyEntranceLink } = useQuery(['entranceCode'], () => apiHost.getEntranceCode(), {
+    suspense: false,
     enabled: false,
     onSuccess: data => {
-      clip(`${location.origin}/enter/${data.entranceCode}/pwd`);
+      navigator.clipboard.writeText(`${location.origin}/enter/${data.entranceCode}/pwd`);
       openToast('SUCCESS', '공간 입장 링크가 복사되었습니다.');
     },
     onError: () => {
@@ -41,16 +39,12 @@ const useDashBoard = () => {
     },
   });
 
-  const onClickSubmissionsDetail = () => {
-    navigate('spaceRecord');
-  };
-
   const onClickSlackButton = () => {
     openModal(<SlackUrlModal jobs={jobsData?.jobs || []} />);
   };
 
   const onClickLinkButton = () => {
-    getEntranceCode();
+    copyEntranceLink();
   };
 
   return {
@@ -58,7 +52,6 @@ const useDashBoard = () => {
     spaceData,
     jobsData,
     submissionData,
-    onClickSubmissionsDetail,
     onClickSlackButton,
     onClickLinkButton,
   };

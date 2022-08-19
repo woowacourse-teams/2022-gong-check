@@ -6,8 +6,9 @@ import com.woowacourse.gongcheck.auth.application.EntranceCodeProvider;
 import com.woowacourse.gongcheck.auth.application.response.GuestTokenResponse;
 import com.woowacourse.gongcheck.auth.application.response.TokenResponse;
 import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
-import com.woowacourse.gongcheck.core.application.AlertService;
 import com.woowacourse.gongcheck.core.application.ImageUploader;
+import com.woowacourse.gongcheck.core.application.NotificationService;
+import com.woowacourse.gongcheck.core.domain.task.RunningTaskSseEmitterContainer;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +23,10 @@ import org.springframework.http.MediaType;
 class AcceptanceTest {
 
     @MockBean
-    private AlertService alertService;
+    private NotificationService notificationService;
+
+    @MockBean
+    protected RunningTaskSseEmitterContainer runningTaskSseEmitterContainer;
 
     @MockBean
     protected ImageUploader imageUploader;
@@ -48,6 +52,7 @@ class AcceptanceTest {
     void clean() {
         databaseInitializer.truncateTables();
     }
+
     public String 토큰을_요청한다(final GuestEnterRequest guestEnterRequest) {
         String entranceCode = entranceCodeProvider.createEntranceCode(1L);
         return RestAssured

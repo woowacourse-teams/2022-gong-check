@@ -4,6 +4,7 @@ import static com.woowacourse.gongcheck.fixture.FixtureFactory.Host_생성;
 import static com.woowacourse.gongcheck.fixture.FixtureFactory.Space_아이디_지정_생성;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -14,13 +15,16 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.snippet.Attributes.key;
 
+import com.woowacourse.gongcheck.auth.domain.Authority;
 import com.woowacourse.gongcheck.core.application.response.SpaceResponse;
 import com.woowacourse.gongcheck.core.application.response.SpacesResponse;
 import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.presentation.request.SpaceChangeRequest;
 import com.woowacourse.gongcheck.core.presentation.request.SpaceCreateRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
+import com.woowacourse.gongcheck.exception.ErrorCode;
 import java.util.List;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -67,6 +71,7 @@ class SpaceDocumentation extends DocumentationTest {
         @Test
         void Space_생성에_성공한다() {
             when(spaceService.createSpace(anyLong(), any())).thenReturn(1L);
+            when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             SpaceCreateRequest request = new SpaceCreateRequest("잠실 캠퍼스", "https://image.gongcheck.shop/123sdf5");
@@ -80,9 +85,11 @@ class SpaceDocumentation extends DocumentationTest {
                     .apply(document("spaces/create/success",
                             requestFields(
                                     fieldWithPath("name").type(JsonFieldType.STRING)
-                                            .description("Space 이름"),
+                                            .description("Space 이름")
+                                            .attributes(key("length").value(10)),
                                     fieldWithPath("imageUrl").type(JsonFieldType.STRING)
                                             .description("Space Image Url")
+                                            .attributes(key("nullable").value(true))
                             )
                     ))
                     .statusCode(HttpStatus.CREATED.value());
@@ -90,6 +97,7 @@ class SpaceDocumentation extends DocumentationTest {
 
         @Test
         void Space_이름이_null_인_경우_생성에_실패한다() {
+            when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             SpaceCreateRequest request = new SpaceCreateRequest(null, "https://image.gongcheck.shop/123sdf5");
@@ -106,9 +114,10 @@ class SpaceDocumentation extends DocumentationTest {
 
         @Test
         void Space_이름이_빈_값_인_경우_생성에_실패한다() {
-            doThrow(BusinessException.class)
+            doThrow(new BusinessException("이름은 공백일 수 없습니다", ErrorCode.N001))
                     .when(spaceService)
                     .createSpace(anyLong(), any());
+            when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             SpaceCreateRequest request = new SpaceCreateRequest("", "https://image.gongcheck.shop/123sdf5");
@@ -174,9 +183,11 @@ class SpaceDocumentation extends DocumentationTest {
                                     parameterWithName("spaceId").description("수정할 Space Id")),
                             requestFields(
                                     fieldWithPath("name").type(JsonFieldType.STRING)
-                                            .description("Space 이름"),
+                                            .description("Space 이름")
+                                            .attributes(key("length").value(10)),
                                     fieldWithPath("imageUrl").type(JsonFieldType.STRING)
                                             .description("Space Image Url")
+                                            .attributes(key("nullable").value(true))
                             )
                     ))
                     .statusCode(HttpStatus.NO_CONTENT.value());
@@ -202,6 +213,7 @@ class SpaceDocumentation extends DocumentationTest {
     @Test
     void Space를_삭제한다() {
         doNothing().when(spaceService).removeSpace(anyLong(), anyLong());
+        when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
         when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
         docsGiven

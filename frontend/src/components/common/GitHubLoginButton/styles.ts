@@ -4,7 +4,7 @@ const wrapper = css`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 240px;
+  width: 260px;
   border-radius: 24px;
   color: white;
   background-color: #21262c;

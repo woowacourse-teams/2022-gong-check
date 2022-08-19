@@ -6,13 +6,14 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import com.woowacourse.gongcheck.auth.application.EntranceCodeProvider;
 import com.woowacourse.gongcheck.auth.application.GuestAuthService;
 import com.woowacourse.gongcheck.auth.application.HostAuthService;
+import com.woowacourse.gongcheck.auth.application.JwtTokenProvider;
 import com.woowacourse.gongcheck.auth.domain.AuthenticationContext;
 import com.woowacourse.gongcheck.auth.presentation.GuestAuthController;
 import com.woowacourse.gongcheck.auth.presentation.HostAuthController;
-import com.woowacourse.gongcheck.core.application.AlertService;
 import com.woowacourse.gongcheck.core.application.HostService;
 import com.woowacourse.gongcheck.core.application.ImageUploader;
 import com.woowacourse.gongcheck.core.application.JobService;
+import com.woowacourse.gongcheck.core.application.NotificationService;
 import com.woowacourse.gongcheck.core.application.SpaceService;
 import com.woowacourse.gongcheck.core.application.SubmissionService;
 import com.woowacourse.gongcheck.core.application.TaskService;
@@ -22,7 +23,8 @@ import com.woowacourse.gongcheck.core.presentation.JobController;
 import com.woowacourse.gongcheck.core.presentation.SpaceController;
 import com.woowacourse.gongcheck.core.presentation.SubmissionController;
 import com.woowacourse.gongcheck.core.presentation.TaskController;
-import com.woowacourse.gongcheck.infrastructure.jwt.JjwtTokenProvider;
+import com.woowacourse.gongcheck.core.presentation.filter.RequestContext;
+import com.woowacourse.gongcheck.documentation.support.ErrorCodeController;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import io.restassured.module.mockmvc.specification.MockMvcRequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,7 +44,8 @@ import org.springframework.web.context.WebApplicationContext;
         TaskController.class,
         SubmissionController.class,
         HostController.class,
-        ImageUploadController.class
+        ImageUploadController.class,
+        ErrorCodeController.class
 })
 @ExtendWith(RestDocumentationExtension.class)
 class DocumentationTest {
@@ -68,13 +71,13 @@ class DocumentationTest {
     protected SubmissionService submissionService;
 
     @MockBean
-    protected AlertService alertService;
+    protected NotificationService notificationService;
 
     @MockBean
     protected HostService hostService;
 
     @MockBean
-    protected JjwtTokenProvider jwtTokenProvider;
+    protected JwtTokenProvider jwtTokenProvider;
 
     @MockBean
     protected EntranceCodeProvider entranceCodeProvider;
@@ -84,6 +87,9 @@ class DocumentationTest {
 
     @MockBean
     protected ImageUploader imageUploader;
+
+    @MockBean
+    private RequestContext requestContext;
 
     @BeforeEach
     void setDocsGiven(final WebApplicationContext webApplicationContext,

@@ -11,7 +11,9 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
+import static org.springframework.restdocs.snippet.Attributes.key;
 
+import com.woowacourse.gongcheck.auth.domain.Authority;
 import com.woowacourse.gongcheck.core.application.response.ImageUrlResponse;
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +29,7 @@ class ImageUploadDocumentation extends DocumentationTest {
         File fakeImage = createFakeImage();
         when(imageUploader.upload(any(), anyString()))
                 .thenReturn(ImageUrlResponse.from("https://image.gongcheck.com/12sdf124sx.jpg"));
+        when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
         when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
         docsGiven
@@ -37,7 +40,8 @@ class ImageUploadDocumentation extends DocumentationTest {
                 .then().log().all()
                 .apply(document("image-upload",
                         requestParts(partWithName("image")
-                                .description("The version of the image")),
+                                .description("The version of the image")
+                                .attributes(key("nullable").value(true))),
                         responseFields(
                                 fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("저장된 Image Url")
                         )

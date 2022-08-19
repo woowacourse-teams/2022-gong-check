@@ -108,7 +108,7 @@ class SpaceRepositoryTest {
                 assertThatThrownBy(() ->
                         spaceRepository.getByHostAndId(anotherHost, spaceId))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 공간입니다.");
+                        .hasMessageContaining("존재하지 않는 공간입니다.");
             }
         }
 
@@ -129,7 +129,7 @@ class SpaceRepositoryTest {
                 assertThatThrownBy(() ->
                         spaceRepository.getByHostAndId(host, NON_EXIST_SPACE_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 공간입니다.");
+                        .hasMessageContaining("존재하지 않는 공간입니다.");
             }
         }
 

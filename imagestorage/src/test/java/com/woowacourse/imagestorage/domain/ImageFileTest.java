@@ -4,7 +4,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import com.woowacourse.imagestorage.exception.BusinessException;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import javax.imageio.ImageIO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -12,6 +16,13 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 class ImageFileTest {
+
+    private byte[] toByteArray(final BufferedImage image) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ImageIO.write(image, "jpg", byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
+    }
+
     @Nested
     class from_메소드는 {
 
@@ -65,27 +76,6 @@ class ImageFileTest {
                 assertThatThrownBy(() -> ImageFile.from(nullNameFile))
                         .isInstanceOf(BusinessException.class)
                         .hasMessage("이미지 파일 이름은 빈값이 들어올 수 없습니다.");
-            }
-        }
-
-        @Nested
-        class 이미지_확장자가_아닌_파일이_입력된_경우 {
-
-            private MultipartFile textFile;
-
-            @BeforeEach
-            void setUp() {
-                textFile = new MockMultipartFile("image",
-                        "jamsil.text",
-                        "image/jpg",
-                        "123".getBytes(StandardCharsets.UTF_8));
-            }
-
-            @Test
-            void 예외가_발생한다() {
-                assertThatThrownBy(() -> ImageFile.from(textFile))
-                        .isInstanceOf(BusinessException.class)
-                        .hasMessage("이미지 파일 확장자만 들어올 수 있습니다.");
             }
         }
 
