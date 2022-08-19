@@ -1,6 +1,6 @@
 import MainSection from './MainSection';
 import { css } from '@emotion/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import useLazyLoading from '@/hooks/useLazyLoading';
@@ -585,6 +585,7 @@ const HostViewSection2 = () => {
             <>
               <img
                 css={css`
+                  box-shadow: 3px 3px 3px 3px ${theme.colors.shadow20};
                   position: absolute;
                   top: 22%;
                   left: 16%;
@@ -593,13 +594,14 @@ const HostViewSection2 = () => {
                   animation-fill-mode: forwards;
                   z-index: 11;
                   border-radius: 4px;
-                  border: 8px solid ${theme.colors.primary};
+                  border: 4px solid ${theme.colors.primary};
                 `}
                 src={createSpace}
                 alt=""
               />
               <img
                 css={css`
+                  box-shadow: 3px 3px 3px 3px ${theme.colors.shadow20};
                   position: absolute;
                   top: 60%;
                   left: 16%;
@@ -608,13 +610,14 @@ const HostViewSection2 = () => {
                   animation-fill-mode: forwards;
                   z-index: 11;
                   border-radius: 4px;
-                  border: 8px solid ${theme.colors.primary};
+                  border: 4px solid ${theme.colors.primary};
                 `}
                 src={dashboard}
                 alt=""
               />
               <img
                 css={css`
+                  box-shadow: 3px 3px 3px 3px ${theme.colors.shadow20};
                   position: absolute;
                   top: 22%;
                   right: 16%;
@@ -630,6 +633,7 @@ const HostViewSection2 = () => {
               />
               <img
                 css={css`
+                  box-shadow: 3px 3px 3px 3px ${theme.colors.shadow20};
                   position: absolute;
                   top: 60%;
                   right: 16%;
@@ -638,7 +642,7 @@ const HostViewSection2 = () => {
                   animation-fill-mode: forwards;
                   z-index: 11;
                   border-radius: 4px;
-                  border: 8px solid ${theme.colors.green};
+                  border: 4px solid ${theme.colors.green};
                 `}
                 src={edit2}
                 alt=""
