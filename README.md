@@ -1,8 +1,18 @@
 <p align="center">
     <img src="https://user-images.githubusercontent.com/83967672/186716387-7603cec6-d992-485b-a3c3-e50bf0e2c436.png" width="300" height="300">
 </p>
+
 <div align="center">
   📖  함께 사용하는 우리의 공간, 우리가 체크하자!
+</div>
+
+<br>
+
+<div align="center">
+
+[![Application](http://img.shields.io/badge/Application-blue?style=flat-square&logo=googlechrome&logoColor=white&link=https://https://gongcheck.day//)](https://gongcheck.day/)
+[![Tech Blog](http://img.shields.io/badge/Tech%20Blog-green?style=flat-square&logo=github&logoColor=white&link=https://gong-check.github.io/dev-blog/)](https://gong-check.github.io/dev-blog/)
+
 </div>
 
 ## 🫂 Members
