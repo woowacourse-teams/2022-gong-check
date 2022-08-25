@@ -6,7 +6,7 @@
 [공책 기술 블로그](https://gong-check.github.io/dev-blog)
 
 ### BackEnd 
-![backend_tech_stack](https://user-images.githubusercontent.com/48307960/186613381-c9adbdcf-f034-4a78-a825-e376cda717ae.png)
+![backend_tech_stack](https://user-images.githubusercontent.com/48307960/186614006-16ae2ddb-3447-4346-aff3-67d5790c8ce7.png)
 
 ## Infrastructure
 
