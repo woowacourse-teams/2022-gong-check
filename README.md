@@ -5,8 +5,11 @@
 ## 🛠 Tech Stack
 [공책 기술 블로그](https://gong-check.github.io/dev-blog)
 
-### BackEnd 
+### Backend 
 ![backend_tech_stack](https://user-images.githubusercontent.com/48307960/186618284-374d0407-6aad-4927-9769-647ecf8cd53e.png)
+
+### Frontend
+![frontend tech stack](https://user-images.githubusercontent.com/48307960/186627192-44237e98-5430-48f7-9eed-3afe1ada1085.png)
 
 ## Infrastructure
 
