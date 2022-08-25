@@ -14,7 +14,7 @@
 ![architecture](https://user-images.githubusercontent.com/48307960/186613372-7ebe7620-b90a-4fa2-854f-2e3c71c9dcfb.png)
 
 ### CI/CD Pipeline
-![ci_cd](https://user-images.githubusercontent.com/48307960/186613394-c9dfca1c-9a58-4fb3-92e8-73a3f8e5a195.png)
+![ci_cd](https://user-images.githubusercontent.com/48307960/186614445-4f6cd9e9-28c3-4182-9a4d-0e7ccf19c88a.png)
 
 
 ## 📷 Member
