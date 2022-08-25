@@ -6,12 +6,12 @@
 [공책 기술 블로그](https://gong-check.github.io/dev-blog)
 
 ### BackEnd 
-![backend_tech_stack](https://user-images.githubusercontent.com/48307960/186614006-16ae2ddb-3447-4346-aff3-67d5790c8ce7.png)
+![backend_tech_stack](https://user-images.githubusercontent.com/48307960/186618284-374d0407-6aad-4927-9769-647ecf8cd53e.png)
 
 ## Infrastructure
 
 ### prod & dev Architecture
-![architecture](https://user-images.githubusercontent.com/48307960/186613372-7ebe7620-b90a-4fa2-854f-2e3c71c9dcfb.png)
+![architecture](https://user-images.githubusercontent.com/48307960/186614645-867f2f98-0e79-4894-88d4-b6df0a3c7681.png)
 
 ### CI/CD Pipeline
 ![ci_cd](https://user-images.githubusercontent.com/48307960/186614445-4f6cd9e9-28c3-4182-9a4d-0e7ccf19c88a.png)
