@@ -15,14 +15,13 @@
 
 </div>
 
-## 🫂 Members
+<div align="center">
 
-|            [코카콜라](https://github.com/intae92)            |             [온스타](https://github.com/cks3066)             |           [어썸오](https://github.com/awesomeo184)           |          [오리](https://github.com/jinyoungchoi95)           |             [쿼리치](https://github.com/meatsby)             |             [찬](https://github.com/kimchan123)              |          [범고래](https://github.com/cndqjacndqja)           |
-| :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| <img src="https://avatars.githubusercontent.com/u/56149367?v=4" alt="Avatar" style="width:300px;" /> | <img src="https://avatars.githubusercontent.com/u/62434898?v=4" alt="Avatar" style="width:300px;" /> | <img src="https://avatars.githubusercontent.com/u/63030569?v=4" alt="Avatar" style="width:300px;" /> | <img src="https://avatars.githubusercontent.com/u/69106910?v=4" alt="Avatar" style="width:300px;" /> | <img src="https://avatars.githubusercontent.com/u/83967672?v=4" alt="Avatar" style="width:300px;" /> | <img src="https://avatars.githubusercontent.com/u/55445564?v=4" alt="Avatar" style="width:300px;" /> | <img src="https://avatars.githubusercontent.com/u/48307960?v=4" alt="Avatar" style="width:300px;" /> |
-|                          프론트엔드                          |                          프론트엔드                          |                            백엔드                            |                            백엔드                            |                            백엔드                            |                            백엔드                            |                            백엔드                            |
+![](https://img.shields.io/github/workflow/status/woowacourse-teams/2022-gong-check/frontend?label=frontend&logo=github&style=flat-square)
+![](https://img.shields.io/github/workflow/status/woowacourse-teams/2022-gong-check/sonarqube%20backend?label=backend&logo=sonarqube&style=flat-square)
+![](https://img.shields.io/github/workflow/status/woowacourse-teams/2022-gong-check/sonar%20imagestorage?label=imagestorage&logo=sonarcloud&style=flat-square)
 
-<br>
+</div>
 
 ## 🛠 Tech Stacks
 
@@ -49,6 +48,15 @@
 ### CI/CD Pipeline
 
 <img width="1200" alt="Screen Shot 2022-08-27 at 4 46 27 PM" src="https://user-images.githubusercontent.com/83967672/187020661-7531ee0a-f7bd-4a91-af0c-96af810d6866.png">
+
+<br>
+
+## 🫂 Members
+
+|            [코카콜라](https://github.com/intae92)            |             [온스타](https://github.com/cks3066)             |           [어썸오](https://github.com/awesomeo184)           |          [오리](https://github.com/jinyoungchoi95)           |             [쿼리치](https://github.com/meatsby)             |             [찬](https://github.com/kimchan123)              |          [범고래](https://github.com/cndqjacndqja)           |
+| :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
+| <img src="https://avatars.githubusercontent.com/u/56149367?v=4" alt="Avatar" style="width:300px;" /> | <img src="https://avatars.githubusercontent.com/u/62434898?v=4" alt="Avatar" style="width:300px;" /> | <img src="https://avatars.githubusercontent.com/u/63030569?v=4" alt="Avatar" style="width:300px;" /> | <img src="https://avatars.githubusercontent.com/u/69106910?v=4" alt="Avatar" style="width:300px;" /> | <img src="https://avatars.githubusercontent.com/u/83967672?v=4" alt="Avatar" style="width:300px;" /> | <img src="https://avatars.githubusercontent.com/u/55445564?v=4" alt="Avatar" style="width:300px;" /> | <img src="https://avatars.githubusercontent.com/u/48307960?v=4" alt="Avatar" style="width:300px;" /> |
+|                          프론트엔드                          |                          프론트엔드                          |                            백엔드                            |                            백엔드                            |                            백엔드                            |                            백엔드                            |                            백엔드                            |
 
 <br>
 
@@ -88,4 +96,3 @@
 ### 📝 팀 블로그
 
 - 서로 배운 내용을 일주일에 한 번씩 글로 작성해서 공유해요.
-
