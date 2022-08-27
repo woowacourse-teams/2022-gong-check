@@ -18,8 +18,8 @@
 <div align="center">
 
 ![](https://img.shields.io/github/workflow/status/woowacourse-teams/2022-gong-check/frontend?label=frontend&logo=github&style=flat-square)
-![](https://img.shields.io/github/workflow/status/woowacourse-teams/2022-gong-check/sonarqube%20backend?label=backend&logo=sonarqube&style=flat-square)
-![](https://img.shields.io/github/workflow/status/woowacourse-teams/2022-gong-check/sonar%20imagestorage?label=imagestorage&logo=sonarcloud&style=flat-square)
+![](https://img.shields.io/github/workflow/status/woowacourse-teams/2022-gong-check/sonarqube%20backend?label=backend&logo=github&style=flat-square)
+![](https://img.shields.io/github/workflow/status/woowacourse-teams/2022-gong-check/sonar%20imagestorage?label=imagestorage&logo=github&style=flat-square)
 
 </div>
 
