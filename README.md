@@ -28,7 +28,7 @@
 
 ### Front-End
 
-<img width="1195" alt="Screen Shot 2022-08-26 at 12 41 19 AM" src="https://user-images.githubusercontent.com/83967672/186713816-eac5d06a-bab9-43d0-a7c9-af0cfe58a908.png">
+<img width="1190" alt="Screen Shot 2022-08-27 at 4 45 07 PM" src="https://user-images.githubusercontent.com/83967672/187020629-9dd735c0-e9b0-4928-ba37-32b38a67254e.png">
 
 ### Back-End
 
@@ -44,11 +44,11 @@
 
 ### Architecture
 
-<img width="1010" alt="Screen Shot 2022-08-26 at 12 52 52 AM" src="https://user-images.githubusercontent.com/83967672/186713976-1a501567-2f21-463d-98aa-1c9c00194a3b.png">
+<img width="1015" alt="Screen Shot 2022-08-27 at 4 45 57 PM" src="https://user-images.githubusercontent.com/83967672/187020639-8bf9717f-c586-44c0-9fdf-b0416300566e.png">
 
 ### CI/CD Pipeline
 
-<img width="1175" alt="Screen Shot 2022-08-26 at 12 51 41 AM" src="https://user-images.githubusercontent.com/83967672/186714020-6f8b9f65-eff4-4220-af94-c7c7fb90fea8.png">
+<img width="1200" alt="Screen Shot 2022-08-27 at 4 46 27 PM" src="https://user-images.githubusercontent.com/83967672/187020661-7531ee0a-f7bd-4a91-af0c-96af810d6866.png">
 
 <br>
 
