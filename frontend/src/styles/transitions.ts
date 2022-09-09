@@ -2,7 +2,6 @@ import { css } from '@emotion/react';
 
 const transitions = css`
   .transitions-group {
-    max-width: 414px;
     width: 100vw;
     overflow-x: hidden;
     position: relative;
@@ -57,50 +56,6 @@ const transitions = css`
     z-index: 1;
     transform: translateX(100%);
     transition: transform 500ms ease-in-out;
-  }
-
-  // right
-  .right-enter {
-    z-index: 1;
-    transform: translate3d(100%, 0, 0);
-  }
-  .right-enter.right-enter-active {
-    z-index: 1;
-    transform: translate3d(0, 0, 0);
-    transition: all 500ms;
-  }
-
-  .right-exit {
-    z-index: 1;
-    transform: translate3d(0, 0, 0);
-  }
-
-  .right-exit.right-exit-active {
-    z-index: 1;
-    transform: translate3d(0, 0, 0);
-    transition: all 700ms;
-  }
-
-  // left
-  .left-enter {
-    z-index: 1;
-    transform: translate3d(0, 0, 0);
-  }
-  .left-enter.left-enter-active {
-    z-index: 1;
-    transform: translate3d(0, 0, 0);
-    transition: all 500ms;
-  }
-
-  .left-exit {
-    z-index: 1;
-    transform: translate3d(0, 0, 0);
-  }
-
-  .left-exit.left-exit-active {
-    z-index: 1;
-    transform: translate3d(100%, 0, 0);
-    transition: all 700ms;
   }
 `;
 
