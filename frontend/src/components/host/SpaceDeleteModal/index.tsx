@@ -23,7 +23,7 @@ const SpaceDeleteModal: React.FC<SpaceDeleteModalProps> = ({ text, onClick }) =>
 
   return (
     <ModalPortal>
-      <Dimmer mode="full">
+      <Dimmer>
         <div css={styles.container}>
           <div css={styles.textWrapper}>
             <span>다음 내용을 입력하시면 공간을 삭제 할 수 있습니다.</span>

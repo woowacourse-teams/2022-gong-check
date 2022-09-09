@@ -36,7 +36,7 @@ const SectionDetailModal: React.FC<SectionDetailModalProps> = props => {
 
   return (
     <ModalPortal>
-      <Dimmer mode="full" isAbleClick={false}>
+      <Dimmer isAbleClick={false}>
         <div css={styles.container}>
           <BiX size={36} onClick={closeModal} />
           <h1>

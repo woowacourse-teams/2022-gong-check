@@ -19,7 +19,7 @@ interface SlackUrlModalProps {
 const SlackUrlModal: React.FC<SlackUrlModalProps> = ({ jobs }) => {
   return (
     <ModalPortal>
-      <Dimmer mode="full">
+      <Dimmer>
         <div css={styles.container}>
           <div>
             <img css={styles.icon} src={slackIcon} alt="" />

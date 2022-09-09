@@ -23,7 +23,7 @@ const NameModal: React.FC<NameModalProps> = ({ title, detail, placeholder, butto
 
   return (
     <ModalPortal>
-      <Dimmer mode="mobile">
+      <Dimmer>
         <div css={styles.container}>
           <h1 css={styles.title}>{title}</h1>
           <span css={styles.detail}>{detail}</span>
