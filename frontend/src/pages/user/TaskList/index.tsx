@@ -6,6 +6,8 @@ import Button from '@/components/common/Button';
 import SectionInfoPreview from '@/components/user/SectionInfoPreview';
 import TaskCard from '@/components/user/TaskCard';
 
+import DEFAULT_IMAGE from '@/assets/defaultSpaceImage.webp';
+
 import styles from './styles';
 
 const TaskList: React.FC = () => {
@@ -32,7 +34,7 @@ const TaskList: React.FC = () => {
         <div css={styles.arrowBackIconWrapper}>
           <IoIosArrowBack size={30} onClick={goPreviousPage} />
         </div>
-        <div css={styles.thumbnail(spaceData?.imageUrl)} />
+        <div css={styles.thumbnail(spaceData?.imageUrl || DEFAULT_IMAGE)} />
         <div css={styles.infoWrapper}>
           <p>{spaceData?.name}</p>
           <p>{locationState?.jobName}</p>

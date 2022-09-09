@@ -3,6 +3,8 @@ import { IoIosArrowBack } from 'react-icons/io';
 
 import JobCard from '@/components/user/JobCard';
 
+import DEFAULT_IMAGE from '@/assets/defaultSpaceImage.webp';
+
 import styles from './styles';
 
 const JobList: React.FC = () => {
@@ -10,7 +12,7 @@ const JobList: React.FC = () => {
 
   return (
     <div css={styles.layout}>
-      <div css={styles.cover(spaceData?.imageUrl)}>
+      <div css={styles.cover(spaceData?.imageUrl || DEFAULT_IMAGE)}>
         <IoIosArrowBack css={styles.arrow} size={40} onClick={goPreviousPage} />
         <span css={styles.coverText}>{spaceData?.name}</span>
       </div>
