@@ -26,6 +26,7 @@ const coverText = css`
   text-shadow: 0 0 4px ${theme.colors.black};
   background-image: linear-gradient(transparent 90%, ${theme.colors.primary} 10%);
   width: fit-content;
+  margin-left: 16px;
 `;
 
 const text = css`
@@ -35,6 +36,7 @@ const text = css`
 `;
 
 const arrow = css`
+  align-self: end;
   color: ${theme.colors.white};
   cursor: pointer;
 `;
