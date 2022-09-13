@@ -11,6 +11,10 @@ const layout = css`
   background-color: ${theme.colors.white};
 `;
 
-const styles = { layout };
+const fallback = css`
+  opacity: 1;
+`;
+
+const styles = { layout, fallback };
 
 export default styles;
