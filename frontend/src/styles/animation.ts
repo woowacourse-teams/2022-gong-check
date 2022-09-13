@@ -78,6 +78,28 @@ const moveUp = keyframes`
   }
 `;
 
+const scaleUp = keyframes`
+  from {
+    transform: scale(0.7);
+  }
+  to {
+    transform: scale(1);
+  }
+`;
+
+const scaleDown = keyframes`
+  from {
+    opacity: 1;
+    transform: scale(1);
+    
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.7);
+    
+  }
+`;
+
 const customMoveUp = (y: string) => keyframes`
   0% {
     opacity: 0;
@@ -149,6 +171,8 @@ const animation = {
   moveRight,
   moveLeft,
   wave,
+  scaleUp,
+  scaleDown,
 };
 
 export default animation;

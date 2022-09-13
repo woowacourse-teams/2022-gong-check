@@ -19,14 +19,8 @@ const globalStyle = css`
     color: ${theme.colors.black};
   }
 
-  // 모달이 웹에서도 모바일 환경 처럼 보일 수 있도록 center 처리
   body {
     margin: 0;
-    display: flex;
-    justify-content: center;
-    overflow: scroll;
-    overflow-x: hidden;
-    background-color: ${theme.colors.background};
   }
 
   button {
@@ -39,7 +33,7 @@ const globalStyle = css`
     justify-content: center;
     width: 100vw;
     min-height: 100vh;
-    background-color: ${theme.colors.gray350};
+    background-color: ${theme.colors.white};
   }
 
   #modal {

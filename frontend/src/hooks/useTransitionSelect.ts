@@ -25,18 +25,18 @@ const useTransitionSelect = () => {
   }
   if (currentPage === 'spaceListPage') {
     if (previousPage === 'passwordPage') return '';
-    return 'slide-left';
+    return 'image-scale-down';
   }
   if (currentPage === 'jobListPage') {
     if (previousPage === 'spaceListPage') {
-      return 'slide-right';
+      return 'image-scale-up';
     }
     if (previousPage === 'taskListPage') {
-      return 'slide-left';
+      return 'left';
     }
   }
   if (currentPage === 'taskListPage') {
-    return 'slide-right';
+    return 'right';
   }
 
   return '';
