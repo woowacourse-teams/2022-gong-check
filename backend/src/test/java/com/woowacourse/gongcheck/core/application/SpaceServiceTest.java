@@ -28,7 +28,6 @@ import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -50,14 +49,6 @@ class SpaceServiceTest {
     @Autowired
     private SpaceRepository spaceRepository;
 
-    abstract class 다른_Host가_소유한_Space인_경우 {
-
-        protected Space 다른_Host가_소유한_Space() {
-            Host host = repository.save(Host_생성("1234", 2345L));
-            return repository.save(Space_생성(host, "잠실 캠퍼스"));
-        }
-    }
-
     @Nested
     class findSpace_메서드는 {
 
@@ -66,7 +57,7 @@ class SpaceServiceTest {
 
             private static final String SPACE_NAME = "잠실 캠퍼스";
 
-            private final Host host = repository.save(Host_생성("1234", 2345L));
+            private final Host host = repository.save(Host_생성("1234", 1L));
             private final Space space = repository.save(Space_생성(host, SPACE_NAME));
 
             @Test
@@ -81,10 +72,11 @@ class SpaceServiceTest {
         }
 
         @Nested
-        class 입력받은_Host가_입력받은_Space를_소유하고_있지_않은_경우 extends 다른_Host가_소유한_Space인_경우 {
+        class 입력받은_Host가_입력받은_Space를_소유하고_있지_않은_경우 {
 
-            private final Host host = repository.save(Host_생성("1234", 1234L));
-            private final Space space = 다른_Host가_소유한_Space();
+            private final Host host = repository.save(Host_생성("1234", 1L));
+            private final Host anotherHost = repository.save(Host_생성("1234", 2L));
+            private final Space space = repository.save(Space_생성(anotherHost, "잠실 캠퍼스"));
 
             @Test
             void 예외를_발생시킨다() {
@@ -99,17 +91,12 @@ class SpaceServiceTest {
 
             private static final long NON_EXIST_HOST_ID = 0L;
 
-            private Space space;
-
-            @BeforeEach
-            void setUp() {
-                Host host = repository.save(Host_생성("1234", 1234L));
-                space = repository.save(Space_생성(host, "잠실 캠퍼스"));
-            }
+            private final Host host = repository.save(Host_생성("1234", 1L));
+            private final Space dummySpace = repository.save(Space_생성(host, "잠실 캠퍼스"));
 
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> spaceService.findSpace(NON_EXIST_HOST_ID, space.getId()))
+                assertThatThrownBy(() -> spaceService.findSpace(NON_EXIST_HOST_ID, dummySpace.getId()))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
@@ -118,11 +105,13 @@ class SpaceServiceTest {
         @Nested
         class 존재하지_않는_Space_id를_입력받은_경우 {
 
-            private Host host = host = repository.save(Host_생성("1234", 1234L));
+            private static final long NON_EXIST_SPACE_ID = 0L;
+
+            private final Host host = repository.save(Host_생성("1234", 1L));
 
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> spaceService.findSpace(host.getId(), 0L))
+                assertThatThrownBy(() -> spaceService.findSpace(host.getId(), NON_EXIST_SPACE_ID))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessageContaining("존재하지 않는 공간입니다.");
             }
@@ -148,7 +137,7 @@ class SpaceServiceTest {
         @Nested
         class 올바른_입력을_받는_경우 {
 
-            private final Host host = repository.save(Host_생성("1234", 1234L));
+            private final Host host = repository.save(Host_생성("1234", 1L));
             private final SpacesResponse expected = SpacesResponse.from(
                     repository.saveAll(List.of(Space_생성(host, "잠실 캠퍼스"), Space_생성(host, "선릉 캠퍼스"),
                             Space_생성(host, "양평같은방"))));
@@ -170,7 +159,7 @@ class SpaceServiceTest {
         @Nested
         class 입력받은_Space_이름이_Host가_소유한_Space의_이름과_중복되는_경우 {
 
-            private final Host host = repository.save(Host_생성("1234", 1234L));
+            private final Host host = repository.save(Host_생성("1234", 1L));
             private final SpaceCreateRequest request = new SpaceCreateRequest(
                     repository.save(Space_생성(host, "잠실 캠퍼스")).getName().getValue(),
                     "https://image.gongcheck.shop/123sdf5");
@@ -205,7 +194,7 @@ class SpaceServiceTest {
             private static final String SPACE_NAME = "잠실 캠퍼스";
             private static final String SPACE_IMAGE_URL = "https://image.gongcheck.shop/123sdf5";
 
-            private final Host host = repository.save(Host_생성("1234", 1234L));
+            private final Host host = repository.save(Host_생성("1234", 1L));
             private final SpaceCreateRequest request = new SpaceCreateRequest(SPACE_NAME, SPACE_IMAGE_URL);
 
             @Test
@@ -239,22 +228,24 @@ class SpaceServiceTest {
         }
 
         @Nested
-        class 입력받은_Host가_입력받은_Space를_소유하고_있지_않은_경우 extends 다른_Host가_소유한_Space인_경우 {
+        class 입력받은_Host가_입력받은_Space를_소유하고_있지_않은_경우 {
 
-            private final Host host = repository.save(Host_생성("1234", 1234L));
-            private final Space space = 다른_Host가_소유한_Space();
+            private final Host host = repository.save(Host_생성("1234", 1L));
+            private final Host anotherHost = repository.save(Host_생성("1234", 2L));
+            private final Space space = repository.save(Space_생성(anotherHost, "잠실 캠퍼스"));
 
             @Test
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> spaceService.removeSpace(host.getId(), space.getId()))
-                        .isInstanceOf(NotFoundException.class);
+                        .isInstanceOf(NotFoundException.class)
+                        .hasMessageContaining("존재하지 않는 공간입니다.");
             }
         }
 
         @Nested
         class 올바른_입력을_받는_경우 {
 
-            private final Host host = repository.save(Host_생성("1234", 1234L));
+            private final Host host = repository.save(Host_생성("1234", 1L));
             private final Space space = repository.save(Space_생성(host, "잠실 캠퍼스"));
             private final Job job = repository.save(Job_생성(space, "청소"));
             private final Section section = repository.save(Section_생성(job, "대강의실"));
@@ -314,10 +305,11 @@ class SpaceServiceTest {
         }
 
         @Nested
-        class 입력받은_Host가_입력받은_Space를_소유하지_않은_경우 extends 다른_Host가_소유한_Space인_경우 {
+        class 입력받은_Host가_입력받은_Space를_소유하지_않은_경우 {
 
             private final Host host = repository.save(Host_생성("1234", 1L));
-            private final Space space = 다른_Host가_소유한_Space();
+            private final Host anotherHost = repository.save(Host_생성("1234", 2L));
+            private final Space space = repository.save(Space_생성(anotherHost, "잠실 캠퍼스"));
             private final SpaceChangeRequest spaceChangeRequest = new SpaceChangeRequest("changeName",
                     "changeImageUrl");
 
@@ -334,14 +326,11 @@ class SpaceServiceTest {
         class 입력받은_Space의_이름이_입력받은_Host가_소유한_Space_이름과_중복되는_경우 {
 
             private static final String SPACE_NAME = "잠실 캠퍼스";
+
             private final Host host = repository.save(Host_생성("1234", 1L));
+            private final Space existSpace = repository.save(Space_생성(host, SPACE_NAME));
             private final Space spaceToChangeName = repository.save(Space_생성(host, "선릉 캠퍼스"));
             private final SpaceChangeRequest spaceChangeRequest = new SpaceChangeRequest(SPACE_NAME, "image");
-
-            @BeforeEach
-            void setUp() {
-                repository.save(Space_생성(host, SPACE_NAME));
-            }
 
             @Test
             void 예외를_발생시킨다() {

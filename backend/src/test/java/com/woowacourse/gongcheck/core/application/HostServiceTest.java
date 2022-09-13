@@ -31,18 +31,15 @@ class HostServiceTest {
     @Autowired
     private EntranceCodeProvider entranceCodeProvider;
 
-    abstract class Host가_존재하는_경우 {
-        protected final Host host = repository.save(Host_생성("1234", 1L));
-    }
-
     @Nested
     class changeSpacePassword_메소드는 {
 
         @Nested
-        class 존재하는_HostId와_수정할_패스워드를_입력받는_경우 extends Host가_존재하는_경우 {
+        class 존재하는_HostId와_수정할_패스워드를_입력받는_경우 {
 
             private static final String CHANGING_PASSWORD = "4567";
 
+            private final Host host = repository.save(Host_생성("1234", 1L));
             private final SpacePasswordChangeRequest spacePasswordChangeRequest = new SpacePasswordChangeRequest(
                     CHANGING_PASSWORD);
 
@@ -77,14 +74,14 @@ class HostServiceTest {
     class createEntranceCode_메소드는 {
 
         @Nested
-        class 존재하는_HostId를_입력받는_경우 extends Host가_존재하는_경우 {
+        class 존재하는_HostId를_입력받는_경우 {
 
-            private final Long hostId = host.getId();
-            private final String expected = entranceCodeProvider.createEntranceCode(hostId);
+            private final Host host = repository.save(Host_생성("1234", 1L));
+            private final String expected = entranceCodeProvider.createEntranceCode(host.getId());
 
             @Test
             void entranceCode를_반환한다() {
-                String actual = hostService.createEntranceCode(hostId);
+                String actual = hostService.createEntranceCode(host.getId());
                 assertThat(actual).isEqualTo(expected);
             }
         }
@@ -92,9 +89,11 @@ class HostServiceTest {
         @Nested
         class 존재하지_않는_HostId를_입력받는_경우 {
 
+            private static final long NON_EXIST_HOST_ID = 0L;
+
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> hostService.createEntranceCode(1L))
+                assertThatThrownBy(() -> hostService.createEntranceCode(NON_EXIST_HOST_ID))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
