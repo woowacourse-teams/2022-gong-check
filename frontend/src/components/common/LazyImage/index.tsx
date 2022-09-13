@@ -24,6 +24,8 @@ const LazyImage: React.FC<LazyImageProps> = ({ imageUrl, ...props }) => {
     }
 
     lazyImageRef.current && observerRef.current.observe(lazyImageRef.current);
+
+    return () => observerRef.current && observerRef.current.disconnect();
   }, []);
 
   return <img src={isLoaded ? imageUrl : ''} ref={lazyImageRef} {...props} />;
