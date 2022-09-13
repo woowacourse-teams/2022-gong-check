@@ -11,8 +11,6 @@ import apis from '@/apis';
 
 import { ID, SectionType, TaskType } from '@/types';
 
-import theme from '@/styles/theme';
-
 import styles from './styles';
 
 type SectionCardProps = {
