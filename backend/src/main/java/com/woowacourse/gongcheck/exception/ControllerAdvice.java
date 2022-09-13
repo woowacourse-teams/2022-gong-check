@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 
 @RestControllerAdvice
 @Slf4j
@@ -49,6 +50,11 @@ public class ControllerAdvice {
     @ExceptionHandler(InfrastructureException.class)
     public ResponseEntity<ErrorResponse> handleInfrastructureException(final CustomException e) {
         return ResponseEntity.internalServerError().body(ErrorResponse.from(e.getErrorCode()));
+    }
+
+    @ExceptionHandler(AsyncRequestTimeoutException.class)
+    public void escapeFromAsyncRequestTimeoutException() {
+        // do nothing
     }
 
     @ExceptionHandler(Exception.class)
