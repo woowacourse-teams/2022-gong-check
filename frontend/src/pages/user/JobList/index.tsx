@@ -1,5 +1,5 @@
 import useJobList from './useJobList';
-import { AiOutlineClose } from 'react-icons/ai';
+import { IoIosArrowBack } from 'react-icons/io';
 
 import JobCard from '@/components/user/JobCard';
 
@@ -13,7 +13,7 @@ const JobList: React.FC = () => {
   return (
     <div css={styles.layout}>
       <div css={styles.cover(spaceData?.imageUrl || DEFAULT_IMAGE)}>
-        <AiOutlineClose css={styles.arrow} size={30} onClick={goPreviousPage} />
+        <IoIosArrowBack css={styles.arrow} size={30} onClick={goPreviousPage} />
         <span css={styles.coverText}>{spaceData?.name}</span>
       </div>
       {jobsData?.jobs.length === 0 ? (

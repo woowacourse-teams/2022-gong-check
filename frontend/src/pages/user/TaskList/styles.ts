@@ -67,8 +67,8 @@ const infoWrapper = css`
 
 const arrowBackIcon = css`
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 16px;
+  left: 16px;
 
   svg {
     color: ${theme.colors.black};
@@ -85,7 +85,6 @@ const progressBarWrapper = css`
   max-width: 380px;
   width: 80%;
   position: relative;
-  padding-top: 16px;
   margin-bottom: 16px;
 `;
 

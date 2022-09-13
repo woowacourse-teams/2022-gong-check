@@ -36,7 +36,6 @@ const text = css`
 `;
 
 const arrow = css`
-  align-self: end;
   color: ${theme.colors.white};
   cursor: pointer;
 `;

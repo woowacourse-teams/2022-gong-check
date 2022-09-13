@@ -25,11 +25,11 @@ const useTransitionSelect = () => {
   }
   if (currentPage === 'spaceListPage') {
     if (previousPage === 'passwordPage') return '';
-    return 'image-scale-down';
+    return 'slide-left';
   }
   if (currentPage === 'jobListPage') {
     if (previousPage === 'spaceListPage') {
-      return 'image-scale-up';
+      return 'slide-right';
     }
     if (previousPage === 'taskListPage') {
       return 'left';
