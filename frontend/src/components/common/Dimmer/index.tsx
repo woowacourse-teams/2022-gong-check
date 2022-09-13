@@ -4,11 +4,10 @@ import styles from './styles';
 
 interface DimmerProps {
   children: React.ReactNode;
-  mode: 'full' | 'mobile';
   isAbleClick?: boolean;
 }
 
-const Dimmer: React.FC<DimmerProps> = ({ children, isAbleClick = true, mode = 'full' }) => {
+const Dimmer: React.FC<DimmerProps> = ({ children, isAbleClick = true }) => {
   const { closeModal } = useModal();
 
   const onClickDimmed = (e: React.MouseEvent<HTMLElement>) => {
@@ -16,7 +15,7 @@ const Dimmer: React.FC<DimmerProps> = ({ children, isAbleClick = true, mode = 'f
   };
 
   return (
-    <div css={styles.dimmer(mode)} onClick={onClickDimmed}>
+    <div css={styles.dimmer} onClick={onClickDimmed}>
       {children}
     </div>
   );

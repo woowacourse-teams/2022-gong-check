@@ -4,6 +4,7 @@ import SpaceCard from '@/components/user/SpaceCard';
 
 import apis from '@/apis';
 
+import DEFAULT_IMAGE from '@/assets/defaultSpaceImage.webp';
 import logo from '@/assets/logoTitle.png';
 
 import styles from './styles';
@@ -14,12 +15,12 @@ const SpaceList: React.FC = () => {
   return (
     <div css={styles.layout}>
       <img css={styles.logo} src={logo} alt="공간 체크" />
-      <span css={styles.text}>사용하실 공간을 선택해주세요.</span>
+      <span css={styles.text}>현재 머무르는 공간을 클릭해주세요.</span>
       {spaceData?.spaces.length === 0 ? (
         <div css={styles.empty}>관리자가 생성한 공간 없어요</div>
       ) : (
         spaceData?.spaces.map(space => (
-          <SpaceCard spaceName={space.name} imageUrl={space.imageUrl} key={space.id} id={space.id} />
+          <SpaceCard spaceName={space.name} imageUrl={space.imageUrl || DEFAULT_IMAGE} key={space.id} id={space.id} />
         ))
       )}
       {}

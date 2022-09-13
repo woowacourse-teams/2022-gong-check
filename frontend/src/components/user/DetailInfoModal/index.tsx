@@ -13,7 +13,7 @@ export interface DetailInfoModalProps {
 const DetailInfoModal: React.FC<DetailInfoModalProps> = ({ name, imageUrl, description }) => {
   return (
     <ModalPortal>
-      <Dimmer mode="mobile">
+      <Dimmer>
         <div css={styles.container}>
           <h1 css={styles.title}>{name}</h1>
           <div css={styles.imageWrapper}>

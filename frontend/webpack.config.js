@@ -44,7 +44,7 @@ const config = {
         },
       },
       {
-        test: /\.(png|jpe?g|gif|svg)$/,
+        test: /\.(png|jpe?g|gif|svg|webp)$/,
         use: {
           loader: 'file-loader',
           options: {

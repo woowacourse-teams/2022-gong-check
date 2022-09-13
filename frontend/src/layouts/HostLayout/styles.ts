@@ -8,7 +8,7 @@ const layout = (isManagePath: boolean) => css`
   width: 100vw;
   min-height: 100vh;
   height: fit-content;
-  background-color: ${theme.colors.background};
+  background-color: ${theme.colors.white};
   padding-left: ${isManagePath ? '14em' : 0};
 
   @media screen and (max-width: 1024px) {
