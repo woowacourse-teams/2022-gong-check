@@ -11,6 +11,7 @@ const input = css`
 
 const label = css`
   width: 28px;
+  min-width: 28px;
   height: 28px;
   border: 1px solid ${theme.colors.shadow30};
   border-radius: 10px;

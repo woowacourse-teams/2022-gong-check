@@ -1,6 +1,6 @@
 import { FaMapMarkedAlt } from 'react-icons/fa';
 
-import useLazyImage from '@/hooks/useLazyLoading';
+import LazyImage from '@/components/common/LazyImage';
 
 import styles from './styles';
 
@@ -10,12 +10,10 @@ interface SectionInfoPreviewProps {
 }
 
 const SectionInfoPreview: React.FC<SectionInfoPreviewProps> = ({ imageUrl, onClick }) => {
-  const { isLoaded, targetRef: imageRef } = useLazyImage<HTMLImageElement>();
-
   return (
     <div css={styles.wrapper} onClick={onClick}>
       <div css={styles.imageWrapper}>
-        <img css={styles.image} src={isLoaded ? imageUrl : ''} ref={imageRef} />
+        <LazyImage css={styles.image} imageUrl={imageUrl} />
       </div>
       <FaMapMarkedAlt css={styles.icon} size={24} />
     </div>
