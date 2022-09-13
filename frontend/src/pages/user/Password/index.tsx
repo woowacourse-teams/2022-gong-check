@@ -26,6 +26,7 @@ const Password: React.FC = () => {
         <input
           type="password"
           name="password"
+          autoComplete="off"
           onChange={onChangeInput}
           placeholder="비밀번호를 입력해주세요."
           required
