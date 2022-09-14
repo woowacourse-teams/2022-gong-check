@@ -46,6 +46,12 @@ public class SpaceService {
         this.runningTaskRepository = runningTaskRepository;
     }
 
+    public SpaceResponse findSpace(final Long hostId, final Long spaceId) {
+        Host host = hostRepository.getById(hostId);
+        Space space = spaceRepository.getByHostAndId(host, spaceId);
+        return SpaceResponse.from(space);
+    }
+
     public SpacesResponse findSpaces(final Long hostId) {
         Host host = hostRepository.getById(hostId);
         List<Space> spaces = spaceRepository.findAllByHost(host);
@@ -67,23 +73,6 @@ public class SpaceService {
                 .getId();
     }
 
-    public SpaceResponse findSpace(final Long hostId, final Long spaceId) {
-        Host host = hostRepository.getById(hostId);
-        Space space = spaceRepository.getByHostAndId(host, spaceId);
-        return SpaceResponse.from(space);
-    }
-
-    @Transactional
-    public void changeSpace(final Long hostId, final Long spaceId, final SpaceChangeRequest request) {
-        Host host = hostRepository.getById(hostId);
-        Space space = spaceRepository.getByHostAndId(host, spaceId);
-        Name changeName = new Name(request.getName());
-        checkDuplicateSpaceName(changeName, host, space);
-
-        space.changeName(changeName);
-        space.changeImageUrl(request.getImageUrl());
-    }
-
     @Transactional
     public void removeSpace(final Long hostId, final Long spaceId) {
         Host host = hostRepository.getById(hostId);
@@ -99,6 +88,17 @@ public class SpaceService {
         sectionRepository.deleteAllInBatch(sections);
         jobRepository.deleteAllInBatch(jobs);
         spaceRepository.deleteById(spaceId);
+    }
+
+    @Transactional
+    public void changeSpace(final Long hostId, final Long spaceId, final SpaceChangeRequest request) {
+        Host host = hostRepository.getById(hostId);
+        Space space = spaceRepository.getByHostAndId(host, spaceId);
+        Name changeName = new Name(request.getName());
+        checkDuplicateSpaceName(changeName, host, space);
+
+        space.changeName(changeName);
+        space.changeImageUrl(request.getImageUrl());
     }
 
     private void checkDuplicateSpaceName(final Name spaceName, final Host host) {
