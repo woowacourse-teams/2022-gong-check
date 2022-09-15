@@ -7,10 +7,10 @@ const container = css`
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 480px;
-  height: 360px;
+  min-width: 320px;
+  height: 356px;
   overflow-y: scroll;
-  padding: 32px;
+  padding: 40px 32px;
   background-color: ${theme.colors.white};
   box-shadow: 2px 2px 2px 2px ${theme.colors.shadow20};
   border-radius: 8px;
@@ -42,7 +42,6 @@ const titleWrapper = css`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 20px;
   margin-bottom: 8px;
   padding-bottom: 16px;
   border-bottom: 2px solid ${theme.colors.shadow20};
@@ -79,11 +78,10 @@ const newTaskButton = css`
 `;
 
 const input = css`
-  font-size: 18px;
-  line-height: 38px;
+  font-size: 16px;
   border: 1px solid ${theme.colors.shadow30};
   border-radius: 12px;
-  padding: 0 16px;
+  padding: 4px 16px;
   background-color: ${theme.colors.white};
   width: 80%;
 

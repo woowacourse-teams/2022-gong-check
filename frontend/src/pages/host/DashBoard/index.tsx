@@ -23,7 +23,7 @@ const DashBoard: React.FC = () => {
             <span>입장 링크 복사</span>
           </Button>
           <Button css={styles.slackButton} onClick={onClickSlackButton}>
-            <img src={slackIcon} alt="슬랙" />
+            <img src={slackIcon} alt="슬랙 URL 편집" />
             <span>URL 편집</span>
           </Button>
           <SpaceDeleteButton spaceId={spaceId} spaceName={spaceData?.name || ''} />

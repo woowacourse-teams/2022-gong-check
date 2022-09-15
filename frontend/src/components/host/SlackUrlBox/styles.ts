@@ -14,19 +14,23 @@ const form = css`
 `;
 
 const label = css`
-  font-size: 18px;
-  margin: 20px 0 8px 0;
+  font-size: 16px;
+  margin: 12px 0 8px 0;
+  padding: 0 4px;
   font-weight: 600;
   color: ${theme.colors.gray800};
 `;
 
 const input = css`
   width: 100%;
+  height: 36px;
 `;
 
 const button = css`
+  font-size: 0.8rem;
   margin: 0 8px;
-  width: 58px;
+  width: 48px;
+  height: 32px;
 `;
 
 const styles = { slackUrlBox, form, label, input, button };

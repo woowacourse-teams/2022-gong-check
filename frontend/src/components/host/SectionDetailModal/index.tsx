@@ -47,7 +47,7 @@ const SectionDetailModal: React.FC<SectionDetailModalProps> = props => {
           <img css={styles.image} src={imageUrl} alt="" onClick={() => fileInput.current?.click()} />
           <input
             type="file"
-            accept="image/gif, image/jpg, image/jpeg, image/png, image/svg"
+            accept="image/gif, image/jpg, image/jpeg, image/png, image/svg, , image/webp"
             ref={fileInput}
             onChange={onChangeImage}
           />
@@ -55,14 +55,14 @@ const SectionDetailModal: React.FC<SectionDetailModalProps> = props => {
             <textarea
               rows={4}
               value={description}
-              placeholder="사용자가 확인할 안내사항을 입력주세요. (128자이내)"
+              placeholder="사용자가 확인할 안내사항을 입력주세요."
               maxLength={128}
               onChange={onChangeText}
             />
             <span>{description?.length || 0}/128</span>
           </div>
           <Button css={styles.saveButton(isDisabledButton)} disabled={isDisabledButton} onClick={onClickSaveButton}>
-            저장
+            {target === 'section' ? '업무 정보 저장' : '작업 정보 저장'}
           </Button>
         </div>
         {isImageLoading && <LoadingOverlay />}

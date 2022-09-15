@@ -12,7 +12,7 @@ const layout = css`
 
   svg + span {
     color: ${theme.colors.shadow50};
-    font-size: 24px;
+    font-size: 16px;
     margin: 24px 0 32px 0;
   }
   svg {
@@ -28,12 +28,12 @@ const content = css`
 
 const inputWrapper = css`
   width: 280px;
-  height: 48px;
+  height: 36px;
   display: flex;
   justify-content: space-around;
   align-items: center;
   background-color: ${theme.colors.gray200};
-  border: 2px solid ${theme.colors.gray400};
+  border: 1px solid ${theme.colors.gray400};
   border-radius: 8px;
   padding: 0 12px;
 
@@ -43,7 +43,7 @@ const inputWrapper = css`
     background-color: ${theme.colors.gray200};
     border: none;
     outline: none;
-    font-size: 20px;
+    font-size: 16px;
     color: ${theme.colors.shadow80};
   }
 
@@ -60,6 +60,7 @@ const inputWrapper = css`
 const button = css`
   margin: 0 0 0 8px;
   width: auto;
+  height: 36px;
   padding: 0 16px;
 `;
 

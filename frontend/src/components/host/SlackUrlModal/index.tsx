@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 
 import Dimmer from '@/components/common/Dimmer';
-import Loading from '@/components/common/Loading';
+import LoadingOverlay from '@/components/common/LoadingOverlay';
 import SlackUrlBox from '@/components/host/SlackUrlBox';
 
 import { JobType } from '@/types';
@@ -23,14 +23,14 @@ const SlackUrlModal: React.FC<SlackUrlModalProps> = ({ jobs }) => {
         <div css={styles.container}>
           <div>
             <img css={styles.icon} src={slackIcon} alt="" />
-            <h1 css={styles.title}>Slack 알림 URL</h1>
+            <h1 css={styles.title}>Slack 알림</h1>
           </div>
-          <span css={styles.detail}>사용하시는 Slack 채널의 URL을 수정하세요.</span>
+          <span css={styles.detail}>Slack 채널의 URL을 입력하세요.</span>
           <div css={styles.contents}>
-            <Suspense fallback={<Loading />}>
+            <Suspense fallback={<LoadingOverlay />}>
               {jobs.length === 0 ? (
                 <div css={styles.noJobsInfo}>
-                  <span>생성된 업무가 없어요 😂</span>
+                  <span>생성한 업무가 없습니다.</span>
                 </div>
               ) : (
                 jobs.map((job, index) => <SlackUrlBox key={index} jobName={job.name} jobId={job.id} />)

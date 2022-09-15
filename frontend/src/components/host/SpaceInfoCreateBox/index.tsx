@@ -15,7 +15,7 @@ const SpaceInfoCreateBox: React.FC = () => {
 
   return (
     <>
-      <form onSubmit={e => onSubmitCreateSpace(e, imageUrl)} encType="multipart/form-data">
+      <form css={styles.form} onSubmit={e => onSubmitCreateSpace(e, imageUrl)} encType="multipart/form-data">
         <SpaceInfo>
           <SpaceInfo.header>
             <Button type="submit" css={styles.button({ isActive: isActiveSubmit })}>

@@ -2,38 +2,6 @@ import { css } from '@emotion/react';
 
 import theme from '@/styles/theme';
 
-const layout = css`
-  font-size: 16px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 14em;
-  background-color: ${theme.colors.white};
-  box-shadow: 6px 0 8px ${theme.colors.gray350};
-  z-index: 1;
-
-  @media screen and (max-width: 1024px) {
-    font-size: 14px;
-  }
-  @media screen and (max-width: 720px) {
-    font-size: 12px;
-  }
-`;
-
-const logo = css`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 200px;
-`;
-
-const logoImage = css`
-  width: 160px;
-  height: 160px;
-`;
-
 const category = css`
   width: 100%;
   display: flex;
@@ -42,7 +10,7 @@ const category = css`
 `;
 
 const categoryTitle = css`
-  font-size: 1em;
+  font-size: 0.9em;
   font-weight: 600;
   color: ${theme.colors.gray800};
   margin: 8px 0;
@@ -103,9 +71,6 @@ const addNewSpace = css`
 `;
 
 const styles = {
-  layout,
-  logo,
-  logoImage,
   category,
   categoryTitle,
   categoryList,

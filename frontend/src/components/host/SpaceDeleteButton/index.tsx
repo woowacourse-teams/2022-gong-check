@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { BiTrash } from 'react-icons/bi';
 import { useMutation, useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
@@ -56,7 +57,8 @@ const SpaceDeleteButton: React.FC<SpaceDeleteButtonProps> = ({ spaceId, spaceNam
 
   return (
     <Button css={styles.spaceDeleteButton} onClick={onClickDeleteSpace}>
-      공간 삭제
+      <BiTrash />
+      <span>공간 삭제</span>
     </Button>
   );
 };
