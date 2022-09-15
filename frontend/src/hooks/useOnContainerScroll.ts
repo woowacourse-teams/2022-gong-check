@@ -39,7 +39,7 @@ const useIntersectionObserver = <T extends Element>(targetRef: RefObject<T>, thr
   return { isLoaded };
 };
 
-export default function useOnContainerScroll(container: RefObject<HTMLElement>, onScroll: (info: ScrollInfo) => void) {
+const useOnContainerScroll = (container: RefObject<HTMLElement>, onScroll: (info: ScrollInfo) => void) => {
   const { isLoaded } = useIntersectionObserver<HTMLElement>(container);
 
   const dimension = {
@@ -110,4 +110,6 @@ export default function useOnContainerScroll(container: RefObject<HTMLElement>, 
     dimension,
     scrollInfo,
   };
-}
+};
+
+export default useOnContainerScroll;

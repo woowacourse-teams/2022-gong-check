@@ -1,9 +1,14 @@
 import MainSection from './MainSection';
 import { css } from '@emotion/react';
-import React, { RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import React, { RefObject, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import useOnContainerScroll from '@/hooks/useOnContainerScroll';
+import useResizeScreen from '@/hooks/useResizeScreen';
+
+import { ScreenModeType } from '@/types';
+
+import screenSize from '@/constants/screenSize';
 
 import createSpace_280w from '@/assets/createSpace-280w.webp';
 import createSpace_360w from '@/assets/createSpace-360w.webp';
@@ -133,19 +138,12 @@ const edit: HostImageType = {
   fallback: edit_fallback,
 };
 
-type ScreenModeType = 'DESKTOP' | 'MOBILE';
-
-// const MOBILE_SIZE = 400;
-const TABLET_SIZE = 768;
-const DESKTOP_SIZE = 1024;
-const DESKTOP_BIC_SIZE = 1600;
-
 const UserPicture: React.FC<{ image: UserImageType; className?: string }> = ({ image, className }) => {
   return (
     <picture className={className}>
-      <source media={`(max-width: ${TABLET_SIZE}px)`} type="image/webp" srcSet={image['160w']} />
-      <source media={`(max-width: ${DESKTOP_SIZE}px)`} type="image/webp" srcSet={image['240w']} />
-      <source media={`(max-width: ${DESKTOP_BIC_SIZE}px)`} type="image/webp" srcSet={image['320w']} />
+      <source media={`(max-width: ${screenSize.TABLET}px)`} type="image/webp" srcSet={image['160w']} />
+      <source media={`(max-width: ${screenSize.DESKTOP}px)`} type="image/webp" srcSet={image['240w']} />
+      <source media={`(max-width: ${screenSize.DESKTOP_BIC}px)`} type="image/webp" srcSet={image['320w']} />
       <source type="image/webp" srcSet={image['480w']} />
       <img src={image.fallback} alt="" />
     </picture>
@@ -155,8 +153,8 @@ const UserPicture: React.FC<{ image: UserImageType; className?: string }> = ({ i
 const HostPicture: React.FC<{ image: HostImageType; className?: string }> = ({ image, className }) => {
   return (
     <picture className={className}>
-      <source media={`(max-width: ${DESKTOP_SIZE}px)`} type="image/webp" srcSet={image['280w']} />
-      <source media={`(max-width: ${DESKTOP_BIC_SIZE}px)`} type="image/webp" srcSet={image['360w']} />
+      <source media={`(max-width: ${screenSize.DESKTOP}px)`} type="image/webp" srcSet={image['280w']} />
+      <source media={`(max-width: ${screenSize.DESKTOP_BIC}px)`} type="image/webp" srcSet={image['360w']} />
       <source type="image/webp" srcSet={image['540w']} />
       <img src={image.fallback} alt="" />
     </picture>
@@ -211,42 +209,9 @@ const FloatingActionButton: React.FC<{ mainRef: RefObject<HTMLElement> }> = ({ m
 };
 
 const MainPage: React.FC = () => {
-  const [resize, setResize] = useState<number>(window.innerWidth);
-  const [screenMode, setScreenMode] = useState<ScreenModeType>('DESKTOP');
-  const timerDebounce = useRef<ReturnType<typeof setTimeout>>();
-
   const mainRef = useRef<HTMLDivElement>(null);
 
-  const handleResize = useCallback(() => {
-    if (timerDebounce.current) {
-      clearTimeout(timerDebounce.current);
-    }
-
-    const newTimerDebounce = setTimeout(() => {
-      setResize(window.innerWidth);
-      clearTimeout(timerDebounce.current);
-    }, 800);
-
-    timerDebounce.current = newTimerDebounce;
-  }, []);
-
-  useEffect(() => {
-    if (TABLET_SIZE < resize) {
-      setScreenMode('DESKTOP');
-      return;
-    }
-
-    setScreenMode('MOBILE');
-  }, [resize]);
-
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      if (timerDebounce.current) clearTimeout(timerDebounce.current);
-    };
-  }, []);
+  const { screenMode } = useResizeScreen();
 
   return (
     <div
