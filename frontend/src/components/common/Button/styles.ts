@@ -4,10 +4,10 @@ import theme from '@/styles/theme';
 
 const button = css`
   background: ${theme.colors.primary};
-  width: 224px;
+  width: auto;
   height: 48px;
   border-radius: 12px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   color: ${theme.colors.white};
   margin: 24px;
