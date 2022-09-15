@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import SlackUrlModal from '@/components/host/SlackUrlModal';
 
@@ -14,8 +14,6 @@ import apiSubmission from '@/apis/submission';
 import { ID } from '@/types';
 
 const useDashBoard = () => {
-  const navigate = useNavigate();
-
   const { openModal } = useModal();
   const { openToast } = useToast();
 
@@ -31,8 +29,14 @@ const useDashBoard = () => {
     suspense: false,
     enabled: false,
     onSuccess: data => {
-      navigator.clipboard.writeText(`${location.origin}/enter/${data.entranceCode}/pwd`);
-      openToast('SUCCESS', '공간 입장 링크가 복사되었습니다.');
+      navigator.clipboard
+        .writeText(`${location.origin}/enter/${data.entranceCode}/pwd`)
+        .then(() => {
+          openToast('SUCCESS', '공간 입장 링크가 복사되었습니다.');
+        })
+        .catch(() => {
+          openToast('ERROR', '다시 시도해주세요.');
+        });
     },
     onError: () => {
       openToast('ERROR', '잠시 후 다시 시도해주세요.');
