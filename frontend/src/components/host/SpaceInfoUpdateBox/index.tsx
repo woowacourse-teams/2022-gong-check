@@ -1,4 +1,5 @@
 import useSpaceUpdateForm from './useSpaceUpdateForm';
+import { css } from '@emotion/react';
 
 import Button from '@/components/common/Button';
 import LoadingOverlay from '@/components/common/LoadingOverlay';
@@ -22,7 +23,7 @@ const SpaceInfoUpdateBox: React.FC<SpaceInfoUpdateBox> = ({ spaceData, spaceId }
 
   return (
     <>
-      <form onSubmit={e => onSubmitUpdateSpace(e, imageUrl, spaceId)} encType="multipart/form-data">
+      <form css={styles.form} onSubmit={e => onSubmitUpdateSpace(e, imageUrl, spaceId)} encType="multipart/form-data">
         <SpaceInfo>
           <SpaceInfo.header>
             <Button type="submit" css={styles.button({ isActive: isActiveSubmit })}>

@@ -6,17 +6,15 @@ const button = css`
   width: 5rem;
   height: 2rem;
   margin: 0;
-  font-size: 1rem;
-  padding: 8px 0;
+  font-size: 0.9rem;
   background: ${theme.colors.primary};
 `;
 
 const input = css`
   border: none;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: bold;
   cursor: pointer;
-
   width: 100%;
   &:focus {
     outline: none;
