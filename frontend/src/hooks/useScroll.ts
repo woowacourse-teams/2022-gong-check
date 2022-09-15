@@ -10,7 +10,7 @@ const useScroll = () => {
   useEffect(() => {
     window.addEventListener('scroll', updateScroll, { capture: true, passive: true });
 
-    return () => document.removeEventListener('scroll', updateScroll);
+    return () => window.removeEventListener('scroll', updateScroll);
   }, []);
 
   return { scrollPosition };
