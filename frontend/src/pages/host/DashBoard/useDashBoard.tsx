@@ -1,3 +1,4 @@
+import copyUrlToClipboard from '@/utils/copyUrlToClipboard';
 import { useMutation, useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -28,23 +29,8 @@ const useDashBoard = () => {
   });
   const { data: jobsData } = useQuery(['jobs', spaceId], () => apiJobs.getJobs(spaceId));
   const { data: submissionData } = useQuery(['submissions', spaceId], () => apiSubmission.getSubmission(spaceId));
-  const { refetch: copyEntranceLink } = useQuery(['entranceCode'], () => apiHost.getEntranceCode(), {
+  const { data: entranceCodeData } = useQuery(['entranceCode'], () => apiHost.getEntranceCode(), {
     suspense: false,
-    enabled: false,
-    onSuccess: data => {
-      const { entranceCode } = data;
-      navigator.clipboard
-        .writeText(`${window.location.origin}/enter/${entranceCode}/pwd`)
-        .then(() => {
-          openToast('SUCCESS', '공간 입장 링크가 복사되었습니다.');
-        })
-        .catch(() => {
-          openToast('ERROR', '다시 시도해주세요.');
-        });
-    },
-    onError: () => {
-      openToast('ERROR', '잠시 후 다시 시도해주세요.');
-    },
   });
 
   const { refetch } = useQuery(['deleteSpaces'], apiSpace.getSpaces, {
@@ -75,7 +61,12 @@ const useDashBoard = () => {
   };
 
   const onClickLinkButton = () => {
-    copyEntranceLink();
+    if (entranceCodeData) {
+      copyUrlToClipboard(`${location.origin}/enter/${entranceCodeData.entranceCode}/pwd`);
+      openToast('SUCCESS', '공간 입장 링크가 복사되었습니다.');
+      return;
+    }
+    openToast('ERROR', '다시 시도해주세요.');
   };
 
   const onClickDeleteSpace = () => {
