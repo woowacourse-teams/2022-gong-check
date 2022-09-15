@@ -4,7 +4,8 @@ const useScroll = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
 
   const updateScroll = (e: any) => {
-    setScrollPosition((scrollY / innerHeight) * 100 || (e.target.scrollTop / innerHeight) * 100);
+    const newScrollPosition = (scrollY / innerHeight) * 100 || (e.target.scrollTop / innerHeight) * 100 || 0;
+    setScrollPosition(newScrollPosition);
   };
 
   useEffect(() => {
