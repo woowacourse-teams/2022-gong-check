@@ -1,8 +1,9 @@
 import copyUrlToClipboard from '@/utils/copyUrlToClipboard';
-import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
+import { useMutation, useQuery } from 'react-query';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import SlackUrlModal from '@/components/host/SlackUrlModal';
+import SpaceDeleteModal from '@/components/host/SpaceDeleteModal';
 
 import useModal from '@/hooks/useModal';
 import useToast from '@/hooks/useToast';
@@ -15,7 +16,9 @@ import apiSubmission from '@/apis/submission';
 import { ID } from '@/types';
 
 const useDashBoard = () => {
-  const { openModal } = useModal();
+  const navigate = useNavigate();
+
+  const { openModal, closeModal } = useModal();
   const { openToast } = useToast();
 
   const { spaceId } = useParams() as { spaceId: ID };
@@ -28,6 +31,29 @@ const useDashBoard = () => {
   const { data: submissionData } = useQuery(['submissions', spaceId], () => apiSubmission.getSubmission(spaceId));
   const { data: entranceCodeData } = useQuery(['entranceCode'], () => apiHost.getEntranceCode(), {
     suspense: false,
+  });
+
+  const { refetch } = useQuery(['deleteSpaces'], apiSpace.getSpaces, {
+    enabled: false,
+    onSuccess: data => {
+      const { spaces } = data;
+
+      if (spaces.length === 0) {
+        navigate('/host/manage/spaceCreate');
+        return;
+      }
+
+      const space = spaces[0];
+      navigate(`/host/manage/${space.id}`);
+    },
+  });
+
+  const { mutate: deleteSpace } = useMutation((spaceId: ID) => apiSpace.deleteSpace(spaceId), {
+    onSuccess: () => {
+      refetch();
+      closeModal();
+      openToast('SUCCESS', '공간이 삭제되었습니다.');
+    },
   });
 
   const onClickSlackButton = () => {
@@ -43,6 +69,12 @@ const useDashBoard = () => {
     openToast('ERROR', '다시 시도해주세요.');
   };
 
+  const onClickDeleteSpace = () => {
+    openModal(
+      <SpaceDeleteModal text={`${spaceData?.name} 공간을 삭제합니다` || ''} onClick={() => deleteSpace(spaceId)} />
+    );
+  };
+
   return {
     spaceId,
     spaceData,
@@ -50,6 +82,7 @@ const useDashBoard = () => {
     submissionData,
     onClickSlackButton,
     onClickLinkButton,
+    onClickDeleteSpace,
   };
 };
 

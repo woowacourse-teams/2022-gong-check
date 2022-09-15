@@ -26,3 +26,5 @@ export type TaskType = {
   description: string;
   imageUrl: string;
 };
+
+export type ScreenModeType = 'DESKTOP' | 'MOBILE';

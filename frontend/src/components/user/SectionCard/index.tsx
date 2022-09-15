@@ -1,4 +1,4 @@
-import SectionInfoPreview from '../SectionInfoPreview';
+import SectionInfoPreview from './SectionInfoPreview';
 import { RiInformationLine } from 'react-icons/ri';
 
 import Button from '@/components/common/Button';

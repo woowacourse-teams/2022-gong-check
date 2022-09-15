@@ -1,4 +1,4 @@
-import SectionDetailModal from '../SectionDetailModal';
+import SectionDetailModal from '../../SectionDetailModal';
 
 import useModal from '@/hooks/useModal';
 import useSections from '@/hooks/useSections';

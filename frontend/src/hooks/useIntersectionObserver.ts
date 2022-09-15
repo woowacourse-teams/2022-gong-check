@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 
-const useLazyLoading = <T extends Element>(threshold: number = 0) => {
-  const targetRef = useRef<T>(null);
+const useIntersectionObserver = <T extends Element>(targetRef: RefObject<T>, threshold: number = 0) => {
   const observerRef = useRef<IntersectionObserver>();
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -30,9 +29,9 @@ const useLazyLoading = <T extends Element>(threshold: number = 0) => {
     return () => {
       observerRef.current?.disconnect();
     };
-  }, []);
+  }, [targetRef.current]);
 
-  return { isLoaded, targetRef };
+  return { isLoaded };
 };
 
-export default useLazyLoading;
+export default useIntersectionObserver;
