@@ -1,20 +1,14 @@
-import useHostNavigation from './useHostNavigation';
+import useMenu from './useMenu';
 import { CgHomeAlt } from 'react-icons/cg';
 import { RiLockPasswordLine } from 'react-icons/ri';
 
-import navigationLogo from '@/assets/navigationLogo.png';
-
 import styles from './styles';
 
-const Navigation: React.FC = () => {
-  const { selectedSpaceId, spaceData, onClickPasswordUpdate, onClickSpace, onClickNewSpace } = useHostNavigation();
+const Menu = () => {
+  const { selectedSpaceId, spaceData, onClickPasswordUpdate, onClickSpace, onClickNewSpace } = useMenu();
 
   return (
-    <div css={styles.layout}>
-      <div css={styles.logo}>
-        <img src={navigationLogo} alt="" css={styles.logoImage} />
-      </div>
-
+    <>
       <div css={styles.category}>
         <span css={styles.categoryTitle}>Menu</span>
         <div css={styles.categoryList} onClick={onClickPasswordUpdate}>
@@ -47,8 +41,8 @@ const Navigation: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
-export default Navigation;
+export default Menu;

@@ -6,7 +6,7 @@ import apiSpace from '@/apis/space';
 
 import { ID } from '@/types';
 
-const useHostNavigation = () => {
+const useHostNavigator = () => {
   const navigate = useNavigate();
 
   const { spaceId } = useParams() as { spaceId: ID };
@@ -31,4 +31,4 @@ const useHostNavigation = () => {
   return { selectedSpaceId, spaceData, onClickPasswordUpdate, onClickSpace, onClickNewSpace };
 };
 
-export default useHostNavigation;
+export default useHostNavigator;
