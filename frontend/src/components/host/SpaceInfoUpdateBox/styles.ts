@@ -24,10 +24,11 @@ const input = css`
 `;
 
 const button = ({ isActive }: { isActive?: boolean }) => css`
-  width: 5rem;
+  width: auto;
   height: 2rem;
   margin: 0;
   font-size: 0.9rem;
+  padding: 0 12px;
   background: ${isActive ? theme.colors.primary : theme.colors.gray400};
 `;
 
