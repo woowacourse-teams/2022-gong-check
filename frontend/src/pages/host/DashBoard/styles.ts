@@ -11,7 +11,7 @@ const layout = css`
   }
 
   @media screen and (max-width: 1023px) {
-    padding: 16px;
+    padding: 32px;
   }
 `;
 

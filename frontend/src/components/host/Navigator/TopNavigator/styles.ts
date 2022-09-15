@@ -9,9 +9,6 @@ const layout = css`
   display: flex;
   justify-content: center;
   align-items: center;
-  transform: translate3d(0, 0, 0);
-  -webkit-transform: translateZ(0);
-  -webkit-overflow-scrolling: touch;
 
   background-color: ${theme.colors.white};
   z-index: 1;
