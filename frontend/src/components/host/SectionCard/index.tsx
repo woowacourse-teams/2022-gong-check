@@ -1,4 +1,4 @@
-import TaskBox from '../TaskBox';
+import TaskBox from './TaskBox';
 import useSectionCardDefault from './useSectionCardDefault';
 import { BiNews, BiX } from 'react-icons/bi';
 

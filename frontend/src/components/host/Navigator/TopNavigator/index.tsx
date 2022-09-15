@@ -1,4 +1,4 @@
-import Menu from '../../Menu';
+import Menu from '../Menu';
 import isNull from '@/utils/isNull';
 import { useState } from 'react';
 import { BiMenu, BiX } from 'react-icons/bi';
