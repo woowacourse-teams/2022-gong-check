@@ -29,8 +29,9 @@ const useDashBoard = () => {
     suspense: false,
     enabled: false,
     onSuccess: data => {
+      const { entranceCode } = data;
       navigator.clipboard
-        .writeText(`${location.origin}/enter/${data.entranceCode}/pwd`)
+        .writeText(`${window.location.origin}/enter/${entranceCode}/pwd`)
         .then(() => {
           openToast('SUCCESS', '공간 입장 링크가 복사되었습니다.');
         })

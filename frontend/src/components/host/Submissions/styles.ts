@@ -37,10 +37,11 @@ const header = css`
 `;
 
 const detailButton = css`
-  width: 5rem;
+  width: auto;
   height: 2rem;
   margin: 0;
   font-size: 0.9rem;
+  padding: 0 12px;
 `;
 
 const table = ({ isFullSize }: { isFullSize: boolean }) => css`
