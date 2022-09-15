@@ -158,6 +158,24 @@ const wave = keyframes`
     transform: skew(2deg, 2deg);
   }`;
 
+const navigatorOpen = keyframes`
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0)
+  }
+`;
+
+const navigatorClose = keyframes`
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%)
+  }
+`;
+
 const animation = {
   fadeIn,
   fadeOut,
@@ -173,6 +191,8 @@ const animation = {
   wave,
   scaleUp,
   scaleDown,
+  navigatorOpen,
+  navigatorClose,
 };
 
 export default animation;
