@@ -1,4 +1,4 @@
-import Menu from '../../Menu';
+import Menu from '../Menu';
 import { useNavigate } from 'react-router-dom';
 
 import logo from '@/assets/navigationLogo.png';

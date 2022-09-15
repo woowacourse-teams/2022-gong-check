@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 
 import Dimmer from '@/components/common/Dimmer';
 import LoadingOverlay from '@/components/common/LoadingOverlay';
-import SlackUrlBox from '@/components/host/SlackUrlBox';
+import SlackUrlBox from '@/components/host/SlackUrlModal/SlackUrlBox';
 
 import { JobType } from '@/types';
 

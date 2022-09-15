@@ -1,4 +1,4 @@
-import SpaceInfoCreateBox from '@/components/host/SpaceInfoCreateBox';
+import SpaceInfoCreateBox from '@/components/host/SpaceInfo/SpaceInfoCreateBox';
 
 import styles from './styles';
 

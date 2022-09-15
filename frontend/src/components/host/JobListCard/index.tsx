@@ -1,7 +1,7 @@
 import useJobListCard from './useJobListCard';
 
 import Button from '@/components/common/Button';
-import JobBox from '@/components/host/JobBox';
+import JobBox from '@/components/host/JobListCard/JobBox';
 
 import { JobType } from '@/types';
 
