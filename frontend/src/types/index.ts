@@ -29,18 +29,20 @@ export type TaskType = {
 
 export type ScreenModeType = 'DESKTOP' | 'MOBILE';
 
+type ImagePathType = string;
+
 export type UserImageType = {
-  '160w': string;
-  '240w': string;
-  '320w': string;
-  '480w': string;
-  fallback: string;
+  '160w': ImagePathType;
+  '240w': ImagePathType;
+  '320w': ImagePathType;
+  '480w': ImagePathType;
+  fallback: ImagePathType;
 };
 
 export type HostImageType = {
-  '280w': string;
-  '360w': string;
-  '540w': string;
-  '800w': string;
-  fallback: string;
+  '280w': ImagePathType;
+  '360w': ImagePathType;
+  '540w': ImagePathType;
+  '800w': ImagePathType;
+  fallback: ImagePathType;
 };
