@@ -1,5 +1,4 @@
 import HostPicture from '../HostPicture';
-import { css } from '@emotion/react';
 import { useRef, useState } from 'react';
 
 import useOnContainerScroll from '@/hooks/useOnContainerScroll';
@@ -27,8 +26,9 @@ import edit_540w from '@/assets/edit-540w.webp';
 import edit_800w from '@/assets/edit-800w.webp';
 import edit_fallback from '@/assets/edit-fallback.jpg';
 
-import animation from '@/styles/animation';
 import theme from '@/styles/theme';
+
+import styles from './styles';
 
 const createSpace: HostImageType = {
   '280w': createSpace_280w,
@@ -78,94 +78,15 @@ const HostViewSection2 = ({ screenMode }: { screenMode: ScreenModeType }) => {
   });
 
   return (
-    <section
-      css={css`
-        margin-top: 10vh;
-        width: 100vw;
-        height: 100vh;
-      `}
-      ref={sectionRef}
-    >
-      <div
-        css={css`
-          width: 100%;
-          height: 100%;
-          background-color: ${theme.colors.background};
-          position: relative;
-          display: flex;
-          justify-content: center;
-        `}
-      >
-        <h1
-          css={css`
-            position: absolute;
-            top: 2vw;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 11;
-            font-size: ${screenMode === 'DESKTOP' ? `2.7vw` : `5vw`};
-            color: ${theme.colors.gray800};
-            animation: ${animation.fadeIn} 1.5s;
-            animation-fill-mode: forwards;
-          `}
-        >
-          내 공간 관리
-        </h1>
+    <section css={styles.layout} ref={sectionRef}>
+      <div css={styles.content}>
+        <h1 css={styles.title(screenMode)}>내 공간 관리</h1>
         {eventNumber >= 1 && (
-          <div
-            css={css`
-              display: grid;
-              position: absolute;
-              top: 14vw;
-              animation: ${animation.moveUp} 1.5s;
-              animation-fill-mode: forwards;
-              z-index: 11;
-              gap: 10px 20px;
-              grid-template-columns: repeat(2, 1fr);
-
-              @media (max-width: 768px) {
-                grid-template-columns: repeat(1, 1fr);
-                row-gap: 20px;
-              }
-
-              & img {
-                height: 100%;
-                width: 100%;
-              }
-            `}
-          >
-            <HostPicture
-              image={createSpace}
-              css={css`
-                box-shadow: 3px 3px 3px 3px ${theme.colors.shadow20};
-                border-radius: 4px;
-                border: 4px solid ${theme.colors.primary};
-              `}
-            />
-            <HostPicture
-              image={dashboard}
-              css={css`
-                box-shadow: 3px 3px 3px 3px ${theme.colors.shadow20};
-                border-radius: 4px;
-                border: 4px solid ${theme.colors.primary};
-              `}
-            />
-            <HostPicture
-              image={edit}
-              css={css`
-                box-shadow: 3px 3px 3px 3px ${theme.colors.shadow20};
-                border-radius: 4px;
-                border: 6px solid ${theme.colors.green};
-              `}
-            />
-            <HostPicture
-              image={edit2}
-              css={css`
-                box-shadow: 3px 3px 3px 3px ${theme.colors.shadow20};
-                border-radius: 4px;
-                border: 4px solid ${theme.colors.green};
-              `}
-            />
+          <div css={styles.gridWrapper}>
+            <HostPicture image={createSpace} css={styles.picture(theme.colors.primary)} />
+            <HostPicture image={dashboard} css={styles.picture(theme.colors.primary)} />
+            <HostPicture image={edit} css={styles.picture(theme.colors.green)} />
+            <HostPicture image={edit2} css={styles.picture(theme.colors.green)} />
           </div>
         )}
       </div>

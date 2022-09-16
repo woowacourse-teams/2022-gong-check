@@ -1,10 +1,9 @@
-import { css } from '@emotion/react';
 import { RefObject, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import useOnContainerScroll from '@/hooks/useOnContainerScroll';
 
-import theme from '@/styles/theme';
+import styles from './styles';
 
 const FloatingActionButton: React.FC<{ mainRef: RefObject<HTMLElement> }> = ({ mainRef }) => {
   const navigate = useNavigate();
@@ -25,28 +24,7 @@ const FloatingActionButton: React.FC<{ mainRef: RefObject<HTMLElement> }> = ({ m
 
   return (
     <div>
-      <div
-        css={css`
-          ${eventNumber === 1 &&
-          `
-              transform: translateX(calc(-50vw + 114px))  scale(1.4);
-              transition-duration: 1.5s;
-              `}
-
-          right: 40px;
-          bottom: 40px;
-          position: fixed;
-          z-index: 200;
-          cursor: pointer;
-          color: white;
-          font-weight: 600;
-          background-color: ${theme.colors.primary};
-          padding: 16px 32px;
-          border-radius: 24px;
-          box-shadow: 0px 0px 2px 3px ${theme.colors.shadow10};
-        `}
-        onClick={onClick}
-      >
+      <div css={styles.floatingActionButton(eventNumber)} onClick={onClick}>
         <span>시작하기</span>
       </div>
     </div>

@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import React, { useRef } from 'react';
 
 import FloatingActionButton from '@/components/host/LandingView/FloatingActionButton';
@@ -12,7 +11,7 @@ import UserViewSection3 from '@/components/host/LandingView/UserViewSection3';
 
 import useResizeScreen from '@/hooks/useResizeScreen';
 
-import theme from '@/styles/theme';
+import styles from './styles';
 
 const Landing: React.FC = () => {
   const mainRef = useRef<HTMLDivElement>(null);
@@ -20,13 +19,7 @@ const Landing: React.FC = () => {
   const { screenMode } = useResizeScreen();
 
   return (
-    <div
-      css={css`
-        width: 100vw;
-        background-color: ${theme.colors.background};
-      `}
-      ref={mainRef}
-    >
+    <div css={styles.layout} ref={mainRef}>
       <HeroSection />
       <UserViewSection1 screenMode={screenMode} />
       <UserViewSection2 screenMode={screenMode} />
