@@ -11,7 +11,7 @@ import theme from '@/styles/theme';
 
 const CIRCLE_SIZE = 80;
 
-const MainSection: React.FC = () => {
+const HeroSection: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const positionRef = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
@@ -209,4 +209,4 @@ const MainSection: React.FC = () => {
   );
 };
 
-export default MainSection;
+export default HeroSection;

@@ -28,3 +28,19 @@ export type TaskType = {
 };
 
 export type ScreenModeType = 'DESKTOP' | 'MOBILE';
+
+export type UserImageType = {
+  '160w': string;
+  '240w': string;
+  '320w': string;
+  '480w': string;
+  fallback: string;
+};
+
+export type HostImageType = {
+  '280w': string;
+  '360w': string;
+  '540w': string;
+  '800w': string;
+  fallback: string;
+};
