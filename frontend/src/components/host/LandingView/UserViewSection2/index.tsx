@@ -1,7 +1,5 @@
 import UserPicture from '../UserPicture';
-import { useRef, useState } from 'react';
-
-import useOnContainerScroll from '@/hooks/useOnContainerScroll';
+import useUserViewSection2 from './useUserViewSection2';
 
 import { ScreenModeType, UserImageType } from '@/types';
 
@@ -35,23 +33,7 @@ const mobileView4: UserImageType = {
 };
 
 const UserViewSection2 = ({ screenMode }: { screenMode: ScreenModeType }) => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const [eventNumber, setEventNumber] = useState(0);
-
-  const { dimension, scrollInfo } = useOnContainerScroll(sectionRef, () => {
-    const progress = Math.min(Math.max(0, scrollInfo.scrollY / dimension.windowHeight), 1) * 100;
-    if (progress === 0) return;
-
-    if (progress >= 60 && progress < 100) {
-      setEventNumber(1);
-      return;
-    }
-    if (progress >= 100) {
-      setEventNumber(2);
-      return;
-    }
-    setEventNumber(0);
-  });
+  const { sectionRef, eventNumber } = useUserViewSection2();
 
   return (
     <section css={styles.layout} ref={sectionRef}>

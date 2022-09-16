@@ -1,7 +1,5 @@
 import HostPicture from '../HostPicture';
-import { useRef, useState } from 'react';
-
-import useOnContainerScroll from '@/hooks/useOnContainerScroll';
+import useHostViewSection2 from './useHostViewSection2';
 
 import { HostImageType, ScreenModeType } from '@/types';
 
@@ -63,19 +61,7 @@ const edit: HostImageType = {
 };
 
 const HostViewSection2 = ({ screenMode }: { screenMode: ScreenModeType }) => {
-  const [eventNumber, setEventNumber] = useState(0);
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  const { dimension, scrollInfo } = useOnContainerScroll(sectionRef, () => {
-    const progress = Math.min(Math.max(0, scrollInfo.scrollY / dimension.windowHeight), 1) * 100;
-    if (progress === 0) return;
-
-    if (progress >= 50) {
-      setEventNumber(1);
-      return;
-    }
-    setEventNumber(0);
-  });
+  const { eventNumber, sectionRef } = useHostViewSection2();
 
   return (
     <section css={styles.layout} ref={sectionRef}>
