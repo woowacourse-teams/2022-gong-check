@@ -2,7 +2,12 @@ import { HostImageType } from '@/types';
 
 import screenSize from '@/constants/screenSize';
 
-const HostPicture: React.FC<{ image: HostImageType; className?: string }> = ({ image, className }) => {
+interface HostPictureProps {
+  image: HostImageType;
+  className?: string;
+}
+
+const HostPicture: React.FC<HostPictureProps> = ({ image, className }) => {
   return (
     <picture className={className}>
       <source media={`(max-width: ${screenSize.DESKTOP}px)`} type="image/webp" srcSet={image['280w']} />

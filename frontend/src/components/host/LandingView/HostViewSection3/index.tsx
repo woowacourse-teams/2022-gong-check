@@ -4,7 +4,11 @@ import { ScreenModeType } from '@/types';
 
 import styles from './styles';
 
-const HostViewSection3 = ({ screenMode }: { screenMode: ScreenModeType }) => {
+interface HostViewSection3Props {
+  screenMode: ScreenModeType;
+}
+
+const HostViewSection3: React.FC<HostViewSection3Props> = ({ screenMode }) => {
   const { eventNumber, sectionRef } = useHostViewSection3();
 
   return (

@@ -60,7 +60,11 @@ const edit: HostImageType = {
   fallback: edit_fallback,
 };
 
-const HostViewSection2 = ({ screenMode }: { screenMode: ScreenModeType }) => {
+interface HostViewSection2Props {
+  screenMode: ScreenModeType;
+}
+
+const HostViewSection2: React.FC<HostViewSection2Props> = ({ screenMode }) => {
   const { eventNumber, sectionRef } = useHostViewSection2();
 
   return (

@@ -2,7 +2,12 @@ import { UserImageType } from '@/types';
 
 import screenSize from '@/constants/screenSize';
 
-const UserPicture: React.FC<{ image: UserImageType; className?: string }> = ({ image, className }) => {
+interface UserPicture {
+  image: UserImageType;
+  className?: string;
+}
+
+const UserPicture: React.FC<UserPicture> = ({ image, className }) => {
   return (
     <picture className={className}>
       <source media={`(max-width: ${screenSize.TABLET}px)`} type="image/webp" srcSet={image['160w']} />

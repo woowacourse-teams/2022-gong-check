@@ -3,7 +3,11 @@ import { RefObject } from 'react';
 
 import styles from './styles';
 
-const FloatingActionButton: React.FC<{ mainRef: RefObject<HTMLElement> }> = ({ mainRef }) => {
+interface FloatingActionButtonProps {
+  mainRef: RefObject<HTMLElement>;
+}
+
+const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({ mainRef }) => {
   const { eventNumber, onClick } = useFloatingActionButton(mainRef);
 
   return (
