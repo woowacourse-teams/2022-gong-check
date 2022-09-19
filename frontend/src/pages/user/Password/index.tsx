@@ -3,6 +3,7 @@ import usePassword from './usePassword';
 import Button from '@/components/common/Button';
 
 import homeCover from '@/assets/homeCover.png';
+import homeCoverWebp from '@/assets/homeCover.webp';
 
 import styles from './styles';
 
@@ -12,7 +13,7 @@ const Password: React.FC = () => {
   return (
     <div css={styles.layout}>
       <div css={styles.homeCoverImage}>
-        <img src={homeCover} alt="공책" />
+        <img srcSet={`${homeCoverWebp}`} src={homeCover} alt="공책" />
       </div>
       <div css={styles.textWrapper}>
         <p>비밀번호를 입력해주세요.</p>

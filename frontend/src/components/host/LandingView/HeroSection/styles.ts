@@ -33,6 +33,11 @@ const homeCover = css`
   animation: ${animation.wave} 2s alternate linear infinite;
 `;
 
+const img = css`
+  width: 500px;
+  aspect-ratio: auto 1 / 1;
+`;
+
 const arrowDownWrapper = css`
   position: absolute;
   bottom: 20px;
@@ -65,6 +70,6 @@ const bottomWrapper = (isFull: boolean) => css`
   background-color: ${theme.colors.background};
 `;
 
-const styles = { layout, content, homeCoverWrapper, homeCover, arrowDownWrapper, canvas, bottomWrapper };
+const styles = { layout, content, homeCoverWrapper, homeCover, img, arrowDownWrapper, canvas, bottomWrapper };
 
 export default styles;

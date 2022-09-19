@@ -34,6 +34,8 @@ const arrow = css`
   box-shadow: 0 0 4px 2px ${theme.colors.shadow90};
   margin-left: auto;
   align-self: center;
+  width: 2rem;
+  aspect-ratio: auto 1 / 1;
 `;
 
 const styles = { spaceCard, title, arrow };
