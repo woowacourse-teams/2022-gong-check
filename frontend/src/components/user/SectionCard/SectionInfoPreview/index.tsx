@@ -1,4 +1,4 @@
-import { FaMapMarkedAlt } from 'react-icons/fa';
+import { FaMapMarkedAlt } from '@react-icons/all-files/fa/FaMapMarkedAlt';
 
 import LazyImage from '@/components/common/LazyImage';
 

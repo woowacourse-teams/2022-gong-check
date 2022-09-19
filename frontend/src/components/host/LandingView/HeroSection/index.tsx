@@ -1,5 +1,5 @@
 import useHeroSection from './useHeroSection';
-import { IoIosArrowDown } from 'react-icons/io';
+import { IoIosArrowDown } from '@react-icons/all-files/io/IoIosArrowDown';
 
 import homeCover from '@/assets/homeCover.png';
 

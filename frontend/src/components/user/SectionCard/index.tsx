@@ -1,5 +1,5 @@
 import SectionInfoPreview from './SectionInfoPreview';
-import { RiInformationLine } from 'react-icons/ri';
+import { RiInformationLine } from '@react-icons/all-files/ri/RiInformationLine';
 
 import Button from '@/components/common/Button';
 import CheckBox from '@/components/common/Checkbox';

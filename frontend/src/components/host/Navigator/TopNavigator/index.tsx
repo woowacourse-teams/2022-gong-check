@@ -1,7 +1,8 @@
 import Menu from '../Menu';
 import isNull from '@/utils/isNull';
+import { BiMenu } from '@react-icons/all-files/bi/BiMenu';
+import { BiX } from '@react-icons/all-files/bi/BiX';
 import { useState } from 'react';
-import { BiMenu, BiX } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 
 import SlideMenu from '@/components/common/SlideMenu';

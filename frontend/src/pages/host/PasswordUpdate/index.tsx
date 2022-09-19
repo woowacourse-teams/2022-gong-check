@@ -1,6 +1,7 @@
 import usePasswordUpdate from './usePasswordUpdate';
-import { FiEyeOff, FiEye } from 'react-icons/fi';
-import { RiLockPasswordLine } from 'react-icons/ri';
+import { FiEye } from '@react-icons/all-files/fi/FiEye';
+import { FiEyeOff } from '@react-icons/all-files/fi/FiEyeOff';
+import { RiLockPasswordLine } from '@react-icons/all-files/ri/RiLockPasswordLine';
 
 import Button from '@/components/common/Button';
 

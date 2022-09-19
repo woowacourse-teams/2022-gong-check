@@ -1,6 +1,6 @@
 import useDashBoard from './useDashBoard';
-import { BiTrash } from 'react-icons/bi';
-import { GoLinkExternal } from 'react-icons/go';
+import { BiTrash } from '@react-icons/all-files/bi/BiTrash';
+import { GoLinkExternal } from '@react-icons/all-files/go/GoLinkExternal';
 
 import Button from '@/components/common/Button';
 import JobListCard from '@/components/host/JobListCard';

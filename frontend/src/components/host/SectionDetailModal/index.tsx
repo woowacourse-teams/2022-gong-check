@@ -1,5 +1,5 @@
 import useSectionDetailModal from './useSectionDetailModal';
-import { BiX } from 'react-icons/bi';
+import { BiX } from '@react-icons/all-files/bi/BiX';
 
 import Button from '@/components/common/Button';
 import Dimmer from '@/components/common/Dimmer';

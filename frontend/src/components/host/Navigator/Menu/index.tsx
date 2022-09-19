@@ -1,6 +1,6 @@
 import useMenu from './useMenu';
-import { CgHomeAlt } from 'react-icons/cg';
-import { RiLockPasswordLine } from 'react-icons/ri';
+import { CgHomeAlt } from '@react-icons/all-files/cg/CgHomeAlt';
+import { RiLockPasswordLine } from '@react-icons/all-files/ri/RiLockPasswordLine';
 
 import styles from './styles';
 

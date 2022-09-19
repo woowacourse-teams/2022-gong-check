@@ -1,5 +1,6 @@
 import useTaskBox from './useTaskBox';
-import { BiMinus, BiNews } from 'react-icons/bi';
+import { BiMinus } from '@react-icons/all-files/bi/BiMinus';
+import { BiNews } from '@react-icons/all-files/bi/BiNews';
 
 import { TaskType } from '@/types';
 
