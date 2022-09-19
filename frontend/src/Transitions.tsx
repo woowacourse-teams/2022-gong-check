@@ -10,7 +10,7 @@ interface TransitionsProps {
 const childFactoryCreator = (props: { classNames: string }) => (child: React.ReactElement) =>
   cloneElement(child, props);
 
-const Transitions: React.FC<TransitionsProps> = ({ transition = 'right', pageKey, children }) => (
+const Transitions: React.FC<TransitionsProps> = ({ transition, pageKey, children }) => (
   <TransitionGroup className="transitions-group" childFactory={childFactoryCreator({ classNames: transition })}>
     <CSSTransition key={pageKey} timeout={500}>
       {children}

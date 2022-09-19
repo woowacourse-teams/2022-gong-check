@@ -20,14 +20,12 @@ import { ApiTaskData } from '@/types/apis';
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
 
 const useTaskList = () => {
-  const navigate = useNavigate();
-
-  const { spaceId, jobId, hostId } = useParams() as { spaceId: ID; jobId: ID; hostId: ID };
+  const { spaceId, jobId } = useParams() as { spaceId: ID; jobId: ID };
 
   const location = useLocation();
   const locationState = location.state as { jobName: string };
 
-  const { openModal } = useModal();
+  const { openModal, closeModal } = useModal();
   const { openToast } = useToast();
 
   const { goPreviousPage } = useGoPreviousPage();
@@ -73,6 +71,11 @@ const useTaskList = () => {
     postSectionAllCheck(sectionId);
   };
 
+  const onSSESubmit = async () => {
+    closeModal();
+    openToast('SUCCESS', '해당 체크리스트는 제출되었습니다.');
+  };
+
   useEffect(() => {
     const tokenKey = sessionStorage.getItem('tokenKey');
     if (!tokenKey) return;
@@ -96,8 +99,7 @@ const useTaskList = () => {
     });
 
     sse.addEventListener('submit', () => {
-      navigate(`/enter/${hostId}/spaces/${spaceId}`);
-      openToast('SUCCESS', '해당 체크리스트는 제출되었습니다.');
+      onSSESubmit().then(() => goPreviousPage());
     });
 
     return () => sse.close();
