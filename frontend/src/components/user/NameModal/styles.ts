@@ -3,6 +3,8 @@ import { css } from '@emotion/react';
 import theme from '@/styles/theme';
 
 const container = css`
+  max-width: 400px;
+  min-width: 320px;
   width: 80%;
   background-color: ${theme.colors.white};
   display: flex;
