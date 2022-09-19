@@ -71,11 +71,6 @@ const useTaskList = () => {
     postSectionAllCheck(sectionId);
   };
 
-  const onSSESubmit = async () => {
-    closeModal();
-    openToast('SUCCESS', '해당 체크리스트는 제출되었습니다.');
-  };
-
   useEffect(() => {
     const tokenKey = sessionStorage.getItem('tokenKey');
     if (!tokenKey) return;
@@ -99,7 +94,9 @@ const useTaskList = () => {
     });
 
     sse.addEventListener('submit', () => {
-      onSSESubmit().then(() => goPreviousPage());
+      closeModal();
+      openToast('SUCCESS', '해당 체크리스트는 제출되었습니다.');
+      goPreviousPage();
     });
 
     return () => sse.close();
