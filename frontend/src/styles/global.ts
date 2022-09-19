@@ -7,11 +7,12 @@ const globalStyle = css`
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
     font-weight: 0;
     font-style: normal;
+    font-display: swap;
   }
 
   * {
     box-sizing: border-box;
-    font-family: '지마켓';
+    font-family: '지마켓', 'Noto Sans Korean', 'Roboto';
   }
 
   a {
