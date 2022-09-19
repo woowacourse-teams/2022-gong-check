@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
+import { IoIosArrowDown } from '@react-icons/all-files/io/IoIosArrowDown';
 import React, { useEffect, useRef, useState } from 'react';
-import { IoIosArrowDown } from 'react-icons/io';
 
 import useScroll from '@/hooks/useScroll';
 

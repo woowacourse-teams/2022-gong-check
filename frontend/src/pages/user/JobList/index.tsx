@@ -1,5 +1,5 @@
 import useJobList from './useJobList';
-import { IoIosArrowBack } from 'react-icons/io';
+import { IoIosArrowBack } from '@react-icons/all-files/io/IoIosArrowBack';
 
 import JobCard from '@/components/user/JobCard';
 

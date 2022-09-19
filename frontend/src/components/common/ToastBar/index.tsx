@@ -1,5 +1,5 @@
-import { AiOutlineCheckCircle } from 'react-icons/ai';
-import { BiError } from 'react-icons/bi';
+import { AiOutlineCheckCircle } from '@react-icons/all-files/ai/AiOutlineCheckCircle';
+import { BiError } from '@react-icons/all-files/bi/BiError';
 import { useRecoilValue } from 'recoil';
 
 import { toastState } from '@/recoil/toast';

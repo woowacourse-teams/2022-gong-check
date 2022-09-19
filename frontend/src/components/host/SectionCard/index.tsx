@@ -1,6 +1,7 @@
 import TaskBox from './TaskBox';
 import useSectionCardDefault from './useSectionCardDefault';
-import { BiNews, BiX } from 'react-icons/bi';
+import { BiNews } from '@react-icons/all-files/bi/BiNews';
+import { BiX } from '@react-icons/all-files/bi/BiX';
 
 import { SectionType } from '@/types';
 
