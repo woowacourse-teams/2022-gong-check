@@ -63,7 +63,9 @@ const useHeroSection = () => {
     const x = positionRef.current.x;
     const y = positionRef.current.y;
 
-    const radius = CIRCLE_SIZE * scrollPositionInt - scrollPositionInt * 2;
+    let radius = CIRCLE_SIZE * scrollPositionInt - scrollPositionInt * 2;
+
+    if (radius < 0) radius = 0;
 
     ctx.beginPath();
     let circlePath = new Path2D();

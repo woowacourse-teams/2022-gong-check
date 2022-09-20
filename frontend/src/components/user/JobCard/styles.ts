@@ -36,6 +36,11 @@ const textWrapper = css`
   }
 `;
 
-const styles = { jobCard, textWrapper };
+const img = css`
+  width: 4.5rem;
+  aspect-ratio: auto 1 / 1;
+`;
+
+const styles = { jobCard, textWrapper, img };
 
 export default styles;

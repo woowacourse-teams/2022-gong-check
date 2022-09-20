@@ -7,7 +7,7 @@ const layout = (isFull: boolean) => css`
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  ${isFull ? `transform: translateY(68px);` : `position: fixed; top: 0; z-index: 100;`}
+  ${isFull ? `transform: translateY(68px);` : `position: fixed; top: 0; z-index: 100;`};
 `;
 
 const content = css`
@@ -31,6 +31,11 @@ const homeCoverWrapper = css`
 const homeCover = css`
   margin: 1em 0;
   animation: ${animation.wave} 2s alternate linear infinite;
+`;
+
+const img = css`
+  width: 500px;
+  aspect-ratio: auto 1 / 1;
 `;
 
 const arrowDownWrapper = css`
@@ -65,6 +70,6 @@ const bottomWrapper = (isFull: boolean) => css`
   background-color: ${theme.colors.background};
 `;
 
-const styles = { layout, content, homeCoverWrapper, homeCover, arrowDownWrapper, canvas, bottomWrapper };
+const styles = { layout, content, homeCoverWrapper, homeCover, img, arrowDownWrapper, canvas, bottomWrapper };
 
 export default styles;
