@@ -2,6 +2,7 @@ import useHeroSection from './useHeroSection';
 import { IoIosArrowDown } from '@react-icons/all-files/io/IoIosArrowDown';
 
 import homeCover from '@/assets/homeCover.png';
+import homeCoverWebp from '@/assets/homeCover.webp';
 
 import styles from './styles';
 
@@ -14,7 +15,7 @@ const HeroSection: React.FC = () => {
         <div css={styles.content}>
           <div css={styles.homeCoverWrapper}>
             <div id="커버" css={styles.homeCover}>
-              <img src={homeCover} alt="" />
+              <img css={styles.img} srcSet={`${homeCoverWebp}`} src={homeCover} alt="" />
             </div>
           </div>
           <div css={styles.arrowDownWrapper}>

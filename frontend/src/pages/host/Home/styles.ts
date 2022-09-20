@@ -14,6 +14,7 @@ const header = css`
   img {
     height: 40px;
     transform: translateY(4px);
+    aspect-ratio: auto 5 / 1;
   }
 `;
 
@@ -28,6 +29,7 @@ const layout = css`
   img {
     width: 80%;
     max-width: 420px;
+    aspect-ratio: auto 1 / 1;
   }
 `;
 

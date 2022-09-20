@@ -89,7 +89,9 @@ const empty = css`
 
   img {
     max-width: 100px;
+    width: 100px;
     margin-bottom: 12px;
+    aspect-ratio: auto 1 / 1;
   }
 `;
 const styles = { layout, title, jobListWrapper, jobList, newJobButton, updateButton, deleteButton, empty };

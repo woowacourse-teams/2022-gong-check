@@ -6,6 +6,7 @@ import JobBox from '@/components/host/JobListCard/JobBox';
 import { JobType } from '@/types';
 
 import emptyFolder from '@/assets/emptyFolder.png';
+import emptyFolderWebp from '@/assets/emptyFolder.webp';
 
 import styles from './styles';
 
@@ -27,7 +28,7 @@ const JobListCard: React.FC<JobListCardProps> = ({ jobs }) => {
       <div css={styles.jobListWrapper}>
         {jobs.length === 0 ? (
           <div css={styles.empty}>
-            <img src={emptyFolder} alt="" />
+            <img srcSet={`${emptyFolderWebp}`} src={emptyFolder} alt="" />
             <div>생성된 업무가 없습니다.</div>
           </div>
         ) : (
