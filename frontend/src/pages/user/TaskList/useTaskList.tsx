@@ -1,7 +1,7 @@
 import { EventSourcePolyfill } from 'event-source-polyfill';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 import DetailInfoModal from '@/components/user/DetailInfoModal';
 import NameModal from '@/components/user/NameModal';
