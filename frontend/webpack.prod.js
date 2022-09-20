@@ -7,7 +7,9 @@ const CompressionPlugin = require('compression-webpack-plugin');
 module.exports = merge(common, {
   mode: 'production',
   output: {
+    publicPath: '/',
     filename: 'js/[name].[chunkhash].js',
+    path: path.join(__dirname, '/dist'),
     clean: true,
   },
   devtool: false,
