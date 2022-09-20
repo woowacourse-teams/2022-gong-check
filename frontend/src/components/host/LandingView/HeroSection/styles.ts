@@ -7,7 +7,7 @@ const layout = (isFull: boolean) => css`
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  ${isFull ? `transform: translateY(68px);` : `position: fixed; top: 0; z-index: 100;`}
+  ${isFull ? `transform: translateY(68px);` : `position: fixed; top: 0; z-index: 100;`};
 `;
 
 const content = css`
