@@ -1,4 +1,4 @@
-import { GoMarkGithub } from 'react-icons/go';
+import { GoMarkGithub } from '@react-icons/all-files/go/GoMarkGithub';
 
 import styles from './styles';
 

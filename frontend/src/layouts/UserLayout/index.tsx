@@ -27,12 +27,12 @@ const UserLayout: React.FC = () => {
   return (
     <ErrorUserToken>
       <ErrorUserTask>
-        <Suspense fallback={<></>}>
-          <div css={styles.layout}>
-            <Global styles={transitions} />
+        <div css={styles.layout}>
+          <Global styles={transitions} />
+          <Suspense fallback={<div css={styles.fallback} />}>
             <Outlet />
-          </div>
-        </Suspense>
+          </Suspense>
+        </div>
       </ErrorUserTask>
     </ErrorUserToken>
   );

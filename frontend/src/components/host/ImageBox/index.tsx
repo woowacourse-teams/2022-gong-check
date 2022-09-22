@@ -1,4 +1,4 @@
-import { HiPlus } from 'react-icons/hi';
+import { HiPlus } from '@react-icons/all-files/hi/HiPlus';
 
 import styles from './styles';
 

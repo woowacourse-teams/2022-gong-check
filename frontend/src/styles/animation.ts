@@ -78,6 +78,28 @@ const moveUp = keyframes`
   }
 `;
 
+const scaleUp = keyframes`
+  from {
+    transform: scale(0.7);
+  }
+  to {
+    transform: scale(1);
+  }
+`;
+
+const scaleDown = keyframes`
+  from {
+    opacity: 1;
+    transform: scale(1);
+    
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.7);
+    
+  }
+`;
+
 const customMoveUp = (y: string) => keyframes`
   0% {
     opacity: 0;
@@ -136,6 +158,24 @@ const wave = keyframes`
     transform: skew(2deg, 2deg);
   }`;
 
+const navigatorOpen = keyframes`
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0)
+  }
+`;
+
+const navigatorClose = keyframes`
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%)
+  }
+`;
+
 const animation = {
   fadeIn,
   fadeOut,
@@ -149,6 +189,10 @@ const animation = {
   moveRight,
   moveLeft,
   wave,
+  scaleUp,
+  scaleDown,
+  navigatorOpen,
+  navigatorClose,
 };
 
 export default animation;

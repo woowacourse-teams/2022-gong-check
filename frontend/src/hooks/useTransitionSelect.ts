@@ -1,33 +1,41 @@
 import { useLocation } from 'react-router-dom';
 
+const getPageByPath = (pathname: string) => {
+  const pathList = pathname.split('/');
+
+  if (pathList.length === 4 && pathList[3] === 'pwd') return 'passwordPage';
+  if (pathList.length === 4 && pathList[3] === 'spaces') return 'spaceListPage';
+  if (pathList.length === 5) return 'jobListPage';
+  if (pathList.length === 6) return 'taskListPage';
+
+  return '';
+};
+
 const useTransitionSelect = () => {
   const location = useLocation();
-
   const previousPath = sessionStorage.getItem('path');
 
-  const pathLength = location.pathname.split('/').length;
-  const previousPathLength = previousPath?.split('/').length;
-  const isPwdPage = location.pathname.split('/')[3] == 'pwd';
-  const isPreviousPwdPage = previousPath?.split('/')[3] == 'pwd';
+  const previousPage = getPageByPath(previousPath || '');
+  const currentPage = getPageByPath(location.pathname);
 
   sessionStorage.setItem('path', location.pathname);
 
-  if (pathLength === 4 && isPwdPage) {
+  if (currentPage === 'passwordPage') {
     return '';
   }
-  if (pathLength === 4) {
-    if (isPreviousPwdPage) return '';
+  if (currentPage === 'spaceListPage') {
+    if (previousPage === 'passwordPage') return '';
     return 'slide-left';
   }
-  if (pathLength === 5) {
-    if (previousPathLength === 4 && !isPreviousPwdPage) {
+  if (currentPage === 'jobListPage') {
+    if (previousPage === 'spaceListPage') {
       return 'slide-right';
     }
-    if (previousPathLength === 6) {
+    if (previousPage === 'taskListPage') {
       return 'left';
     }
   }
-  if (pathLength === 6) {
+  if (currentPage === 'taskListPage') {
     return 'right';
   }
 

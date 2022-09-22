@@ -4,19 +4,27 @@ import theme from '@/styles/theme';
 
 const layout = css`
   min-width: 320px;
-  width: 100%;
-  height: 30.2rem;
   background-color: ${theme.colors.white};
   box-shadow: 2px 2px 2px 2px ${theme.colors.shadow10};
   border-radius: 8px;
+
+  @media screen and (min-width: 1024px) {
+    height: 452px;
+    width: 100%;
+  }
+
+  @media screen and (max-width: 1023px) {
+    height: 360px;
+    width: 90%;
+  }
 `;
 
 const title = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.25rem;
-  font-size: 1.4rem;
+  padding: 0 24px;
+  font-size: 1.2rem;
   border-bottom: 1px solid ${theme.colors.gray300};
 `;
 
@@ -49,11 +57,8 @@ const jobList = css`
 const newJobButton = css`
   width: auto;
   height: 2rem;
-  padding: 6px 10px;
-  font-weight: 500;
-  font-size: 1rem;
+  font-size: 0.9rem;
   padding: 0 12px;
-
   margin: 0;
 `;
 
@@ -84,7 +89,9 @@ const empty = css`
 
   img {
     max-width: 100px;
+    width: 100px;
     margin-bottom: 12px;
+    aspect-ratio: auto 1 / 1;
   }
 `;
 const styles = { layout, title, jobListWrapper, jobList, newJobButton, updateButton, deleteButton, empty };

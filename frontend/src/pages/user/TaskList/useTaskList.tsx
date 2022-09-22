@@ -1,13 +1,14 @@
 import { EventSourcePolyfill } from 'event-source-polyfill';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 import DetailInfoModal from '@/components/user/DetailInfoModal';
 import NameModal from '@/components/user/NameModal';
 
 import useGoPreviousPage from '@/hooks/useGoPreviousPage';
 import useModal from '@/hooks/useModal';
+import useScroll from '@/hooks/useScroll';
 import useSectionCheck from '@/hooks/useSectionCheck';
 import useToast from '@/hooks/useToast';
 
@@ -17,24 +18,17 @@ import { ID, SectionType } from '@/types';
 import { ApiTaskData } from '@/types/apis';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
-const PROGRESS_BAR_DEFAULT_POSITION = 232;
 
 const useTaskList = () => {
-  const navigate = useNavigate();
-
-  const { spaceId, jobId, hostId } = useParams() as { spaceId: ID; jobId: ID; hostId: ID };
+  const { spaceId, jobId } = useParams() as { spaceId: ID; jobId: ID };
 
   const location = useLocation();
   const locationState = location.state as { jobName: string };
 
-  const { openModal } = useModal();
+  const { openModal, closeModal } = useModal();
   const { openToast } = useToast();
 
   const { goPreviousPage } = useGoPreviousPage();
-
-  const progressBarRef = useRef<HTMLDivElement>(null);
-
-  const [isActiveSticky, setIsActiveSticky] = useState(false);
 
   const [sectionsData, setSectionsData] = useState<ApiTaskData>({
     sections: [
@@ -78,12 +72,6 @@ const useTaskList = () => {
   };
 
   useEffect(() => {
-    const isActive = progressBarRef.current?.offsetTop! > PROGRESS_BAR_DEFAULT_POSITION;
-
-    setIsActiveSticky(isActive);
-  }, [progressBarRef.current?.offsetTop]);
-
-  useEffect(() => {
     const tokenKey = sessionStorage.getItem('tokenKey');
     if (!tokenKey) return;
 
@@ -106,9 +94,12 @@ const useTaskList = () => {
     });
 
     sse.addEventListener('submit', () => {
-      navigate(`/enter/${hostId}/spaces/${spaceId}`);
+      closeModal();
       openToast('SUCCESS', '해당 체크리스트는 제출되었습니다.');
+      goPreviousPage();
     });
+
+    return () => sse.close();
   }, []);
 
   return {
@@ -124,8 +115,6 @@ const useTaskList = () => {
     sectionsData,
     onClickSectionDetail,
     onClickSectionAllCheck,
-    progressBarRef,
-    isActiveSticky,
   };
 };
 

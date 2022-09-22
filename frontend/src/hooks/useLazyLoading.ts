@@ -26,6 +26,10 @@ const useLazyLoading = <T extends Element>(threshold: number = 0) => {
     }
 
     targetRef.current && observerRef.current.observe(targetRef.current);
+
+    return () => {
+      observerRef.current?.disconnect();
+    };
   }, []);
 
   return { isLoaded, targetRef };

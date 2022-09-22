@@ -1,8 +1,9 @@
 import { css } from '@emotion/react';
 
+import animation from '@/styles/animation';
+
 const transitions = css`
   .transitions-group {
-    max-width: 414px;
     width: 100vw;
     overflow-x: hidden;
     position: relative;
@@ -62,45 +63,53 @@ const transitions = css`
   // right
   .right-enter {
     z-index: 1;
-    transform: translate3d(100%, 0, 0);
+    transform: translateX(100%);
   }
   .right-enter.right-enter-active {
     z-index: 1;
-    transform: translate3d(0, 0, 0);
-    transition: all 500ms;
+    transform: translateX(0);
+    transition: transform 600ms;
   }
-
   .right-exit {
-    z-index: 1;
-    transform: translate3d(0, 0, 0);
-  }
-
-  .right-exit.right-exit-active {
-    z-index: 1;
-    transform: translate3d(0, 0, 0);
-    transition: all 700ms;
+    z-index: 0;
+    transform: translateX(0);
+    transition: transform 600ms;
   }
 
   // left
   .left-enter {
-    z-index: 1;
-    transform: translate3d(0, 0, 0);
+    z-index: 0;
+    transform: translateX(0);
+    transition: transform 600ms;
   }
-  .left-enter.left-enter-active {
-    z-index: 1;
-    transform: translate3d(0, 0, 0);
-    transition: all 500ms;
-  }
-
   .left-exit {
     z-index: 1;
-    transform: translate3d(0, 0, 0);
+    transform: translateX(0);
   }
-
   .left-exit.left-exit-active {
     z-index: 1;
-    transform: translate3d(100%, 0, 0);
-    transition: all 700ms;
+    transform: translateX(100%);
+    transition: transform 600ms;
+  }
+
+  // image scale up
+  .image-scale-up-enter.image-scale-up-enter-active {
+    z-index: 1;
+    animation: ${animation.scaleUp} 500ms;
+  }
+
+  .image-scale-down-exit {
+    z-index: 0;
+  }
+
+  // image scale down
+  .image-scale-up-enter {
+    z-index: 0;
+  }
+
+  .image-scale-down-exit.image-scale-down-exit-active {
+    z-index: 1;
+    animation: ${animation.scaleDown} 500ms;
   }
 `;
 

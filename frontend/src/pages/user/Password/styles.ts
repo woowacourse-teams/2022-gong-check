@@ -21,6 +21,7 @@ const homeCoverImage = css`
 
   img {
     width: 22em;
+    aspect-ratio: auto 1 / 1;
   }
 `;
 

@@ -30,6 +30,7 @@ const imageChangeBox = (imageUrl: string, borderStyle?: string) => css`
 `;
 
 const imageInput = css`
+  width: 100%;
   opacity: 0;
   z-index: -1;
 `;
