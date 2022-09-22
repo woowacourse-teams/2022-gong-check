@@ -1,4 +1,4 @@
-const MOBILE = 400;
+const MOBILE = 480;
 const TABLET = 768;
 const DESKTOP = 1024;
 const DESKTOP_BIC = 1600;

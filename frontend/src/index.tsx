@@ -1,4 +1,5 @@
 import App from './App';
+import { disableReactDevTools } from './utils/disableReactDevTools';
 import { Global } from '@emotion/react';
 import ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -13,6 +14,10 @@ const queryClient = new QueryClient({
     queries: { suspense: true, retry: false },
   },
 });
+
+if (process.env.NODE_ENV === 'production') {
+  disableReactDevTools();
+}
 
 root.render(
   <BrowserRouter>

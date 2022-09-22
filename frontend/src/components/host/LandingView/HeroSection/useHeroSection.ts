@@ -2,7 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 
 import useScroll from '@/hooks/useScroll';
 
-const CIRCLE_SIZE = 80;
+import screenSize from '@/constants/screenSize';
+
+const CIRCLE_SIZE = window.innerWidth > screenSize.MOBILE ? 80 : 60;
 
 const useHeroSection = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -10,6 +12,7 @@ const useHeroSection = () => {
   const positionRef = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
 
   const { scrollPosition } = useScroll();
+
   const scrollPositionInt = scrollPosition + 3;
 
   const [isFull, setIsFull] = useState(false);
