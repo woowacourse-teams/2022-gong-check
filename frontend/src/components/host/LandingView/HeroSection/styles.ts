@@ -31,11 +31,15 @@ const homeCoverWrapper = css`
 const homeCover = css`
   margin: 1em 0;
   animation: ${animation.wave} 2s alternate linear infinite;
-`;
 
-const img = css`
-  width: 500px;
-  aspect-ratio: auto 1 / 1;
+  source,
+  img {
+    width: 360px;
+    aspect-ratio: auto 1 / 1;
+    @media screen and (min-width: 481px) {
+      width: 480px;
+    }
+  }
 `;
 
 const arrowDownWrapper = css`
@@ -70,6 +74,6 @@ const bottomWrapper = (isFull: boolean) => css`
   background-color: ${theme.colors.background};
 `;
 
-const styles = { layout, content, homeCoverWrapper, homeCover, img, arrowDownWrapper, canvas, bottomWrapper };
+const styles = { layout, content, homeCoverWrapper, homeCover, arrowDownWrapper, canvas, bottomWrapper };
 
 export default styles;
