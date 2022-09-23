@@ -21,8 +21,9 @@ const content = css`
 
 const title = css`
   position: absolute;
-  color: ${theme.colors.primary};
   z-index: 11;
+  color: ${theme.colors.primary};
+  width: max-content;
   font-size: 4.1vw;
   top: 13vw;
   left: 12%;
@@ -68,10 +69,10 @@ const subTitle = css`
 const leftSection = css`
   img,
   source {
+    position: absolute;
     animation: ${animation.moveRight} 1.5s;
     animation-fill-mode: forwards;
     z-index: 11;
-    position: absolute;
     width: 20%;
     top: 5vw;
     right: 25%;

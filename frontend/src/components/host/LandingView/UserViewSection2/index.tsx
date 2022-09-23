@@ -42,23 +42,23 @@ const UserViewSection2: React.FC<UserViewSection2Props> = ({ screenMode }) => {
   return (
     <section css={styles.layout} ref={sectionRef}>
       <div css={styles.content}>
-        <h1 css={styles.title(screenMode)}>간단하게 체크해요.</h1>
+        <h1 css={styles.title}>간단하게 체크해요.</h1>
         {eventNumber >= 1 && (
-          <div css={styles.leftSectionWrapper}>
-            <UserPicture image={mobileView3} css={styles.leftSection(screenMode)} />
-            <h1 css={styles.leftSectionTitle(screenMode)}>
+          <>
+            <UserPicture image={mobileView3} css={styles.leftSection} />
+            <h1 css={styles.leftSectionTitle}>
               <b>체크리스트</b>와
             </h1>
-          </div>
+          </>
         )}
         {eventNumber === 2 && (
-          <div css={styles.rightSectionWrapper}>
-            <UserPicture image={mobileView4} css={styles.rightSection(screenMode)} />
-            <h1 css={styles.rightSectionTitle(screenMode)}>
+          <>
+            <UserPicture image={mobileView4} css={styles.rightSection} />
+            <h1 css={styles.rightSectionTitle}>
               <b>상세정보</b> 제공
             </h1>
             {screenMode === 'DESKTOP' && <h1 css={styles.rightSectionLittleTitle}>How, Where</h1>}
-          </div>
+          </>
         )}
       </div>
     </section>

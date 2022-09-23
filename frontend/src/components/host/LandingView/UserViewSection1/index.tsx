@@ -44,7 +44,6 @@ const UserViewSection1: React.FC<UserViewSection1> = ({ screenMode }) => {
       <div css={styles.content}>
         <h1 css={styles.title}>쉽게 확인해요.</h1>
         <h1 css={styles.subTitle}>함께 사용할</h1>
-
         {eventNumber >= 1 && (
           <>
             <UserPicture image={mobileView1} css={styles.leftSection} />

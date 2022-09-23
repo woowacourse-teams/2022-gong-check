@@ -10,11 +10,11 @@ const useUserViewSection2 = () => {
     const progress = Math.min(Math.max(0, scrollInfo.scrollY / dimension.windowHeight), 1) * 100;
     if (progress === 0) return;
 
-    if (progress >= 60 && progress < 100) {
+    if (progress >= 40 && progress < 80) {
       setEventNumber(1);
       return;
     }
-    if (progress >= 100) {
+    if (progress >= 80) {
       setEventNumber(2);
       return;
     }
