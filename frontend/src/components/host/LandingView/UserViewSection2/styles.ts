@@ -125,7 +125,7 @@ const rightSectionTitle = css`
   animation-fill-mode: forwards;
   color: ${theme.colors.gray800};
   font-size: 2.7vw;
-  top: 28.5vw;
+  top: 29vw;
   right: 9%;
 
   b {
@@ -146,19 +146,13 @@ const rightSectionTitle = css`
 
 const rightSectionLittleTitle = css`
   position: absolute;
-  top: 28.5vw;
-  right: 17%;
   z-index: 11;
-  font-size: 1vw;
-  color: ${theme.colors.gray500};
   animation: ${animation.moveLeft} 1.5s;
   animation-fill-mode: forwards;
-
-  @media screen and (max-width: ${screenSize.TABLET}px) {
-  }
-
-  @media screen and (max-width: ${screenSize.MOBILE}px) {
-  }
+  color: ${theme.colors.gray500};
+  font-size: 1vw;
+  top: 28.5vw;
+  right: 17%;
 `;
 
 const styles = {
