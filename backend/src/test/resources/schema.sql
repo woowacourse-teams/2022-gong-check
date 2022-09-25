@@ -13,57 +13,57 @@ CREATE TABLE host
     github_id      BIGINT       NOT NULL UNIQUE,
     image_url      VARCHAR(255) NOT NULL,
     created_at     TIMESTAMP    NOT NULL,
-    updated_at     TIMESTAMP NULL,
+    updated_at     TIMESTAMP    NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE space
 (
-    id         BIGINT      NOT NULL AUTO_INCREMENT,
-    host_id    BIGINT      NOT NULL,
-    name       VARCHAR(10) NOT NULL,
+    id         BIGINT       NOT NULL AUTO_INCREMENT,
+    host_id    BIGINT       NOT NULL,
+    name       VARCHAR(10)  NOT NULL,
     img_url    VARCHAR(255) NULL,
-    created_at TIMESTAMP   NOT NULL,
-    updated_at TIMESTAMP NULL,
+    created_at TIMESTAMP    NOT NULL,
+    updated_at TIMESTAMP    NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE job
 (
-    id         BIGINT      NOT NULL AUTO_INCREMENT,
-    space_id   BIGINT      NOT NULL,
-    name       VARCHAR(10) NOT NULL,
+    id         BIGINT       NOT NULL AUTO_INCREMENT,
+    space_id   BIGINT       NOT NULL,
+    name       VARCHAR(10)  NOT NULL,
     slack_url  VARCHAR(255) NULL,
-    created_at TIMESTAMP   NOT NULL,
-    updated_at TIMESTAMP NULL,
+    created_at TIMESTAMP    NOT NULL,
+    updated_at TIMESTAMP    NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE section
 (
-    id          BIGINT      NOT NULL AUTO_INCREMENT,
-    job_id      BIGINT      NOT NULL,
-    name        VARCHAR(10) NOT NULL,
+    id          BIGINT       NOT NULL AUTO_INCREMENT,
+    job_id      BIGINT       NOT NULL,
+    name        VARCHAR(10)  NOT NULL,
     description VARCHAR(128) NULL,
     image_url   VARCHAR(255) NULL,
-    created_at  TIMESTAMP   NOT NULL,
-    updated_at  TIMESTAMP NULL,
+    created_at  TIMESTAMP    NOT NULL,
+    updated_at  TIMESTAMP    NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE task
 (
-    id          BIGINT      NOT NULL AUTO_INCREMENT,
-    section_id  BIGINT      NOT NULL,
-    name        VARCHAR(10) NOT NULL,
+    id          BIGINT       NOT NULL AUTO_INCREMENT,
+    section_id  BIGINT       NOT NULL,
+    name        VARCHAR(10)  NOT NULL,
     description VARCHAR(128) NULL,
     image_url   VARCHAR(255) NULL,
-    created_at  TIMESTAMP   NOT NULL,
-    updated_at  TIMESTAMP NULL,
+    created_at  TIMESTAMP    NOT NULL,
+    updated_at  TIMESTAMP    NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
