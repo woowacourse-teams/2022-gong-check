@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class DatabaseInitializer {
 
     private static final String TRUNCATE_QUERY = "TRUNCATE TABLE %s";
-    private static final String ALTER_COLUMN_QUERY = "ALTER TABLE %s ALTER COLUMN id RESTART WITH 1";
+    private static final String ALTER_COLUMN_QUERY = "ALTER TABLE %s AUTO_INCREMENT = 1";
 
     @Autowired
     private EntityManager entityManager;
@@ -41,11 +41,11 @@ public class DatabaseInitializer {
 
     @Transactional
     public void truncateTables() {
-        entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY FALSE").executeUpdate();
+        entityManager.createNativeQuery("SET FOREIGN_KEY_CHECKS = 0").executeUpdate();
         for (String tableName : tableNames) {
             truncateTable(tableName);
         }
-        entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();
+        entityManager.createNativeQuery("SET FOREIGN_KEY_CHECKS = 1").executeUpdate();
     }
 
     @Transactional

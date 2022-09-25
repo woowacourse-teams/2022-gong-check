@@ -1,43 +1,46 @@
-DROP TABLE host IF EXISTS;
-DROP TABLE space IF EXISTS;
-DROP TABLE job IF EXISTS;
-DROP TABLE running_task IF EXISTS;
-DROP TABLE task IF EXISTS;
-DROP TABLE section IF EXISTS;
-DROP TABLE submission IF EXISTS;
+DROP TABLE IF EXISTS host;
+DROP TABLE IF EXISTS space;
+DROP TABLE IF EXISTS job;
+DROP TABLE IF EXISTS running_task;
+DROP TABLE IF EXISTS task;
+DROP TABLE IF EXISTS section;
+DROP TABLE IF EXISTS submission;
 
 CREATE TABLE host
 (
-    id             BIGINT     NOT NULL AUTO_INCREMENT,
-    space_password VARCHAR(4) NOT NULL,
-    github_id      BIGINT     NOT NULL UNIQUE,
-    image_url      VARCHAR    NOT NULL,
-    created_at     TIMESTAMP  NOT NULL,
-    updated_at     TIMESTAMP  NULL,
+    id             BIGINT       NOT NULL AUTO_INCREMENT,
+    space_password VARCHAR(4)   NOT NULL,
+    github_id      BIGINT       NOT NULL UNIQUE,
+    image_url      VARCHAR(255) NOT NULL,
+    created_at     TIMESTAMP    NOT NULL,
+    updated_at     TIMESTAMP NULL,
     PRIMARY KEY (id)
-);
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 
 CREATE TABLE space
 (
     id         BIGINT      NOT NULL AUTO_INCREMENT,
     host_id    BIGINT      NOT NULL,
     name       VARCHAR(10) NOT NULL,
-    img_url    VARCHAR NULL,
+    img_url    VARCHAR(255) NULL,
     created_at TIMESTAMP   NOT NULL,
     updated_at TIMESTAMP NULL,
     PRIMARY KEY (id)
-);
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 
 CREATE TABLE job
 (
     id         BIGINT      NOT NULL AUTO_INCREMENT,
     space_id   BIGINT      NOT NULL,
     name       VARCHAR(10) NOT NULL,
-    slack_url  VARCHAR NULL,
+    slack_url  VARCHAR(255) NULL,
     created_at TIMESTAMP   NOT NULL,
     updated_at TIMESTAMP NULL,
     PRIMARY KEY (id)
-);
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 
 CREATE TABLE section
 (
@@ -45,11 +48,12 @@ CREATE TABLE section
     job_id      BIGINT      NOT NULL,
     name        VARCHAR(10) NOT NULL,
     description VARCHAR(128) NULL,
-    image_url   VARCHAR NULL,
+    image_url   VARCHAR(255) NULL,
     created_at  TIMESTAMP   NOT NULL,
     updated_at  TIMESTAMP NULL,
     PRIMARY KEY (id)
-);
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 
 CREATE TABLE task
 (
@@ -57,11 +61,12 @@ CREATE TABLE task
     section_id  BIGINT      NOT NULL,
     name        VARCHAR(10) NOT NULL,
     description VARCHAR(128) NULL,
-    image_url   VARCHAR NULL,
+    image_url   VARCHAR(255) NULL,
     created_at  TIMESTAMP   NOT NULL,
     updated_at  TIMESTAMP NULL,
     PRIMARY KEY (id)
-);
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 
 CREATE TABLE running_task
 (
@@ -70,7 +75,8 @@ CREATE TABLE running_task
     created_at TIMESTAMP NOT NULL,
     PRIMARY KEY (task_id),
     FOREIGN KEY (task_id) REFERENCES task (id)
-);
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 
 CREATE TABLE submission
 (
@@ -79,4 +85,5 @@ CREATE TABLE submission
     author     VARCHAR(10) NOT NULL,
     created_at TIMESTAMP   NOT NULL,
     PRIMARY KEY (id)
-);
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;

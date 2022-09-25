@@ -3,10 +3,10 @@ spring:
     init:
       schema-locations: classpath:schema_local.sql
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:gong-check-test;MODE=MYSQL;
-    username: sa
-    password:
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:mysql:8.0.30:///gongcheck?TC_INITSCRIPT=schema.sql
+    username: root
+    password: password
   h2:
     console:
       enabled: true
