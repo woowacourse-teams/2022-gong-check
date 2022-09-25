@@ -23,7 +23,6 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -55,9 +54,8 @@ public class SubmissionService {
         this.runningTaskSseEmitterContainer = runningTaskSseEmitterContainer;
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
-    public void submitJobCompletion(final Long hostId, final Long jobId,
-                                    final SubmissionRequest request) {
+    @Transactional
+    public void submitJobCompletion(final Long hostId, final Long jobId, final SubmissionRequest request) {
         Host host = hostRepository.getById(hostId);
         Job job = jobRepository.getBySpaceHostAndId(host, jobId);
         saveSubmissionAndClearRunningTasks(request, job);
