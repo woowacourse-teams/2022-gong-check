@@ -7,6 +7,15 @@ spring:
     url: jdbc:tc:mysql:8.0.30:///gongcheck?TC_INITSCRIPT=schema.sql
     username: root
     password: password
+    hikari:
+      maximum-pool-size: 30
+      max-lifetime: 60000
+      jdbc-url: jdbc:tc:mysql:8.0.30:///gongcheck?TC_INITSCRIPT=schema.sql
+      username: root
+      password: password
+      driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+      connection-timeout: 5000
+      pool-name: Spring-HikariPool
   h2:
     console:
       enabled: true
@@ -21,6 +30,17 @@ spring:
   output:
     ansi:
       enabled: always
+
+submission-lock:
+  hikari:
+    maximum-pool-size: 30
+    max-lifetime: 60000
+    jdbc-url: jdbc:tc:mysql:8.0.30:///gongcheck?TC_INITSCRIPT=schema.sql
+    username: root
+    password: password
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    connection-timeout: 5000
+    pool-name: Spring-HikariPool
 
 security:
   jwt:
