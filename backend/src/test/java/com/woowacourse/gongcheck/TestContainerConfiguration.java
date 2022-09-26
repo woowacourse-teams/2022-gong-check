@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
@@ -32,6 +33,7 @@ public class TestContainerConfiguration {
         log.info("🐳 TestContainers port {}", mySQLContainer.getJdbcUrl());
     }
 
+    @Primary
     @Bean
     public HikariDataSource dataSource() {
         return DataSourceBuilder.create()
@@ -44,13 +46,18 @@ public class TestContainerConfiguration {
     }
 
     @Bean
-    public UserLevelLock userLevelLock() {
-        return new JdbcUserLevelLock(DataSourceBuilder.create()
+    public HikariDataSource submissionLockDataSource() {
+        return DataSourceBuilder.create()
                 .driverClassName(mySQLContainer.getDriverClassName())
                 .username(mySQLContainer.getUsername())
                 .password(mySQLContainer.getPassword())
                 .url(mySQLContainer.getJdbcUrl())
                 .type(HikariDataSource.class)
-                .build());
+                .build();
+    }
+
+    @Bean
+    public UserLevelLock userLevelLock() {
+        return new JdbcUserLevelLock(submissionLockDataSource());
     }
 }
