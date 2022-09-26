@@ -79,7 +79,7 @@ const leftSection = css`
     animation: ${animation.moveRight} 1.5s;
     animation-fill-mode: forwards;
     z-index: 11;
-    width: 18%;
+    width: 15%;
     top: 17vw;
     left: 26%;
 
@@ -104,7 +104,7 @@ const rightSection = css`
     animation: ${animation.moveLeft} 1.5s;
     animation-fill-mode: forwards;
     z-index: 11;
-    width: 18%;
+    width: 15%;
     top: 17vw;
     right: 26%;
 

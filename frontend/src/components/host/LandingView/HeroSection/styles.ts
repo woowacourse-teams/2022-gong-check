@@ -55,6 +55,7 @@ const arrowDownWrapper = css`
   justify-content: center;
   align-items: center;
   animation: ${animation.moveDown} 2s 0s infinite;
+  font-size: 1.5vw;
 `;
 
 const canvas = css`
