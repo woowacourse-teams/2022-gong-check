@@ -16,7 +16,7 @@ const HeroSection: React.FC = () => {
         <div css={styles.content}>
           <div css={styles.homeCoverWrapper}>
             <picture css={styles.homeCover}>
-              <source media={`(max-width: 360px`} type="image/webp" srcSet={homeCover_360w} />
+              <source media={`(max-width: 360px)`} type="image/webp" srcSet={homeCover_360w} />
               <source type="image/webp" srcSet={homeCover_480w} />
               <img src={homeCover_fallback} alt="" />
             </picture>

@@ -60,17 +60,13 @@ const edit: HostImageType = {
   fallback: edit_fallback,
 };
 
-interface HostViewSection2Props {
-  screenMode: ScreenModeType;
-}
-
-const HostViewSection2: React.FC<HostViewSection2Props> = ({ screenMode }) => {
+const HostViewSection2: React.FC = () => {
   const { eventNumber, sectionRef } = useHostViewSection2();
 
   return (
     <section css={styles.layout} ref={sectionRef}>
       <div css={styles.content}>
-        <h1 css={styles.title(screenMode)}>내 공간 관리</h1>
+        <h1 css={styles.title}>내 공간 관리</h1>
         {eventNumber >= 1 && (
           <div css={styles.gridWrapper}>
             <HostPicture image={createSpace} css={styles.picture(theme.colors.primary)} />
