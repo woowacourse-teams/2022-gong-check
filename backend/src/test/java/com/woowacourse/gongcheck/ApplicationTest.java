@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Import;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @SpringBootTest
-@Import(TestcontainerConfiguration.class)
+@Import(TestContainerConfiguration.class)
 @ExtendWith({DatabaseCleanerExtension.class})
 public @interface ApplicationTest {
 }

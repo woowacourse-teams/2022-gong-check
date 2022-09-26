@@ -14,9 +14,9 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
 @TestConfiguration
-public class TestcontainerConfiguration {
+public class TestContainerConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(TestcontainerConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(TestContainerConfiguration.class);
 
     public final static MySQLContainer<?> mySQLContainer = new MySQLContainer<>(DockerImageName.parse("mysql:8.0.30"))
             .withDatabaseName("gongcheck-test")

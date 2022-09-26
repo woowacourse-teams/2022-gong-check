@@ -2,7 +2,7 @@ package com.woowacourse.gongcheck.acceptance;
 
 import static io.restassured.RestAssured.UNDEFINED_PORT;
 
-import com.woowacourse.gongcheck.TestcontainerConfiguration;
+import com.woowacourse.gongcheck.TestContainerConfiguration;
 import com.woowacourse.gongcheck.auth.application.EntranceCodeProvider;
 import com.woowacourse.gongcheck.auth.application.response.GuestTokenResponse;
 import com.woowacourse.gongcheck.auth.application.response.TokenResponse;
@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
-@Import(TestcontainerConfiguration.class)
+@Import(TestContainerConfiguration.class)
 class AcceptanceTest {
 
     @MockBean
