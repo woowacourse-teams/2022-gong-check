@@ -1,6 +1,5 @@
 package com.woowacourse.gongcheck.core.domain.lock;
 
-import java.util.function.Supplier;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -16,10 +15,10 @@ public class JdbcUserLevelLock implements UserLevelLock {
     }
 
     @Override
-    public <T> T executeWithLock(final String lockName, final int timeOutSeconds, final Supplier<T> supplier) {
+    public void executeWithLock(final String lockName, final int timeOutSeconds, final Runnable runnable) {
         try {
             getLock(lockName, timeOutSeconds);
-            return supplier.get();
+            runnable.run();
         } finally {
             releaseLock(lockName);
         }
