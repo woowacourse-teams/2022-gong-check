@@ -32,6 +32,9 @@ public class DatabaseInitializer {
             ResultSet tables = metaData.getTables(null, null, null, new String[]{"TABLE"});
             while (tables.next()) {
                 String tableName = tables.getString("TABLE_NAME");
+                if (tableName.equals("sys_config")) {
+                    continue;
+                }
                 tableNames.add(tableName);
             }
         } catch (Exception e) {
