@@ -32,11 +32,7 @@ const mobileView2: UserImageType = {
   fallback: mobileView2_fallback,
 };
 
-interface UserViewSection1 {
-  screenMode: ScreenModeType;
-}
-
-const UserViewSection1: React.FC<UserViewSection1> = ({ screenMode }) => {
+const UserViewSection1: React.FC = () => {
   const { eventNumber, sectionRef } = useUserViewSection1();
 
   return (

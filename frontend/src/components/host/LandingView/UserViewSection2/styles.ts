@@ -74,7 +74,7 @@ const leftSectionTitle = css`
   z-index: 11;
   font-size: 2.7vw;
   top: 29vw;
-  right: 26%;
+  right: 28%;
 
   b {
     color: ${theme.colors.primary};
@@ -126,7 +126,7 @@ const rightSectionTitle = css`
   color: ${theme.colors.gray800};
   font-size: 2.7vw;
   top: 29vw;
-  right: 9%;
+  right: 11%;
 
   b {
     color: ${theme.colors.primary};
@@ -144,17 +144,6 @@ const rightSectionTitle = css`
   }
 `;
 
-const rightSectionLittleTitle = css`
-  position: absolute;
-  z-index: 11;
-  animation: ${animation.moveLeft} 1.5s;
-  animation-fill-mode: forwards;
-  color: ${theme.colors.gray500};
-  font-size: 1vw;
-  top: 28.5vw;
-  right: 17%;
-`;
-
 const styles = {
   layout,
   content,
@@ -163,7 +152,6 @@ const styles = {
   leftSectionTitle,
   rightSection,
   rightSectionTitle,
-  rightSectionLittleTitle,
 };
 
 export default styles;

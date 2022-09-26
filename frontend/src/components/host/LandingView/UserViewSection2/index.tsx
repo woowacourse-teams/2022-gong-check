@@ -32,11 +32,7 @@ const mobileView4: UserImageType = {
   fallback: mobileView4_fallback,
 };
 
-interface UserViewSection2Props {
-  screenMode: ScreenModeType;
-}
-
-const UserViewSection2: React.FC<UserViewSection2Props> = ({ screenMode }) => {
+const UserViewSection2: React.FC = () => {
   const { sectionRef, eventNumber } = useUserViewSection2();
 
   return (
@@ -57,7 +53,6 @@ const UserViewSection2: React.FC<UserViewSection2Props> = ({ screenMode }) => {
             <h1 css={styles.rightSectionTitle}>
               <b>상세정보</b> 제공
             </h1>
-            {screenMode === 'DESKTOP' && <h1 css={styles.rightSectionLittleTitle}>How, Where</h1>}
           </>
         )}
       </div>

@@ -19,11 +19,7 @@ const mobileView3: UserImageType = {
   fallback: mobileView3_fallback,
 };
 
-interface UserViewSection3Props {
-  screenMode: ScreenModeType;
-}
-
-const UserViewSection3: React.FC<UserViewSection3Props> = ({ screenMode }) => {
+const UserViewSection3: React.FC = () => {
   const { sectionRef, eventNumber } = useUserViewSection3();
 
   return (

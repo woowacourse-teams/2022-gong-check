@@ -46,10 +46,11 @@ const subTitle = css`
   animation: ${animation.fadeIn} 1.5s;
   animation-fill-mode: forwards;
   color: ${theme.colors.gray800};
-  font-size: 1.3vw;
+  font-size: 2vw;
   width: max-content;
-  top: 10.5vw;
-  left: 40.4%;
+  top: 11vw;
+  left: 50%;
+  transform: translateX(-50%);
 
   b {
     color: ${theme.colors.green};
@@ -78,7 +79,7 @@ const leftSection = css`
     animation-fill-mode: forwards;
     z-index: 11;
     width: 18%;
-    top: 15vw;
+    top: 17vw;
     left: 26%;
 
     @media screen and (max-width: ${screenSize.TABLET}px) {
@@ -103,7 +104,7 @@ const rightSection = css`
     animation-fill-mode: forwards;
     z-index: 11;
     width: 18%;
-    top: 15vw;
+    top: 17vw;
     right: 26%;
 
     @media screen and (max-width: ${screenSize.TABLET}px) {

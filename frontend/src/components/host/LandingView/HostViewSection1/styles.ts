@@ -2,13 +2,19 @@ import { css } from '@emotion/react';
 
 import { ScreenModeType } from '@/types';
 
+import screenSize from '@/constants/screenSize';
+
 import animation from '@/styles/animation';
 import theme from '@/styles/theme';
 
 const layout = (screenMode: ScreenModeType) =>
   css`
     width: 100vw;
-    height: ${screenMode === 'DESKTOP' ? `100vh` : `50vh`};
+    height: 100vh;
+
+    @media screen and (max-width: ${screenSize.TABLET}px) {
+      height: 50vh;
+    }
   `;
 
 const content = css`
@@ -19,20 +25,25 @@ const content = css`
 `;
 
 const title = (screenMode: ScreenModeType) => css`
+  position: absolute;
+  z-index: 11;
+  white-space: nowrap;
+  color: ${theme.colors.gray800};
+  font-size: 2.7vw;
   top: 21.4vw;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 11;
-  font-size: ${screenMode === 'DESKTOP' ? `2.7vw` : `5vw`};
-  white-space: nowrap;
-  color: ${theme.colors.gray800};
-  position: absolute;
+
   b {
     color: ${theme.colors.primary};
   }
 
   b + b {
     color: ${theme.colors.green};
+  }
+
+  @media screen and (max-width: ${screenSize.TABLET}px) {
+    font-size: 4vw;
   }
 `;
 

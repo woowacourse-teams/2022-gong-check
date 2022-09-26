@@ -21,9 +21,9 @@ const Landing: React.FC = () => {
   return (
     <div css={styles.layout} ref={mainRef}>
       <HeroSection />
-      <UserViewSection1 screenMode={screenMode} />
-      <UserViewSection2 screenMode={screenMode} />
-      <UserViewSection3 screenMode={screenMode} />
+      <UserViewSection1 />
+      <UserViewSection2 />
+      <UserViewSection3 />
       <HostViewSection1 screenMode={screenMode} />
       <HostViewSection2 screenMode={screenMode} />
       <HostViewSection3 screenMode={screenMode} />
