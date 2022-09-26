@@ -30,7 +30,13 @@ class JdbcUserLevelLockTest {
 
             @Test
             void 순차적으로_실행시킨다() throws InterruptedException {
-                runThreadPool(() -> jdbcUserLevelLock.executeWithLock(lockName, timeOutSeconds, () -> count++));
+                runThreadPool(() -> jdbcUserLevelLock.executeWithLock(lockName, timeOutSeconds, () -> {
+                    try {
+                        convertCount();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }));
 
                 assertThat(count).isEqualTo(2);
             }
@@ -47,6 +53,19 @@ class JdbcUserLevelLockTest {
                     });
                 }
                 latch.await();
+            }
+
+            private void convertCount() throws InterruptedException {
+                if (count == 0) {
+                    Thread.sleep(100);
+                    count = 1;
+                    return;
+                }
+                if (count == 1) {
+                    count = 2;
+                    return;
+                }
+                count = 3;
             }
         }
     }

@@ -17,6 +17,7 @@ import com.woowacourse.gongcheck.core.application.NotificationService;
 import com.woowacourse.gongcheck.core.application.SpaceService;
 import com.woowacourse.gongcheck.core.application.SubmissionService;
 import com.woowacourse.gongcheck.core.application.TaskService;
+import com.woowacourse.gongcheck.core.application.UserLockSubmissionService;
 import com.woowacourse.gongcheck.core.presentation.HostController;
 import com.woowacourse.gongcheck.core.presentation.ImageUploadController;
 import com.woowacourse.gongcheck.core.presentation.JobController;
@@ -75,6 +76,9 @@ class DocumentationTest {
 
     @MockBean
     protected HostService hostService;
+
+    @MockBean
+    protected UserLockSubmissionService userLockSubmissionService;
 
     @MockBean
     protected JwtTokenProvider jwtTokenProvider;

@@ -53,7 +53,7 @@ class SubmissionDocumentation extends DocumentationTest {
             Space space = Space_아이디_지정_생성(1L, host, "잠실");
             Job job = Job_아이디_지정_생성(1L, space, "청소");
             SubmissionCreatedResponse response = SubmissionCreatedResponse.of("author", job);
-            doNothing().when(submissionService).submitJobCompletion(anyLong(), anyLong(), any());
+            doNothing().when(userLockSubmissionService).submitJobCompletionByLock(anyLong(), anyLong(), any());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             SubmissionRequest submissionRequest = new SubmissionRequest("제출자");
@@ -78,8 +78,8 @@ class SubmissionDocumentation extends DocumentationTest {
         @Test
         void author_길이가_올바르지_않은_경우_예외가_발생한다() {
             doThrow(new BusinessException("제출자 이름의 길이가 올바르지 않습니다.", ErrorCode.S003))
-                    .when(submissionService)
-                    .submitJobCompletion(anyLong(), anyLong(), any());
+                    .when(userLockSubmissionService)
+                    .submitJobCompletionByLock(anyLong(), anyLong(), any());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             SubmissionRequest submissionRequest = new SubmissionRequest("123456789123456789123");
@@ -123,8 +123,8 @@ class SubmissionDocumentation extends DocumentationTest {
         @Test
         void RunningTask가_존재하지_않으면_예외가_발생한다() {
             doThrow(new BusinessException("현재 제출할 수 있는 진행중인 작업이 존재하지 않습니다.", ErrorCode.S001))
-                    .when(submissionService)
-                    .submitJobCompletion(anyLong(), anyLong(), any());
+                    .when(userLockSubmissionService)
+                    .submitJobCompletionByLock(anyLong(), anyLong(), any());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             SubmissionRequest submissionRequest = new SubmissionRequest("제출자");
@@ -147,8 +147,8 @@ class SubmissionDocumentation extends DocumentationTest {
         @Test
         void 모든_RunningTask가_체크상태가_아니면_예외가_발생한다() {
             doThrow(new BusinessException("모든 작업이 완료되지않아 제출이 불가합니다.", ErrorCode.R003))
-                    .when(submissionService)
-                    .submitJobCompletion(anyLong(), anyLong(), any());
+                    .when(userLockSubmissionService)
+                    .submitJobCompletionByLock(anyLong(), anyLong(), any());
             when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
             SubmissionRequest submissionRequest = new SubmissionRequest("제출자");
