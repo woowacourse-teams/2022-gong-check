@@ -11,10 +11,6 @@ const layout = (screenMode: ScreenModeType) =>
   css`
     width: 100vw;
     height: 100vh;
-
-    @media screen and (max-width: ${screenSize.TABLET}px) {
-      height: 50vh;
-    }
   `;
 
 const content = css`
@@ -29,8 +25,8 @@ const title = (screenMode: ScreenModeType) => css`
   z-index: 11;
   white-space: nowrap;
   color: ${theme.colors.gray800};
-  font-size: 2.7vw;
-  top: 21.4vw;
+  font-size: 3vw;
+  top: 20%;
   left: 50%;
   transform: translateX(-50%);
 
@@ -49,15 +45,14 @@ const title = (screenMode: ScreenModeType) => css`
 
 const subTitle = (screenMode: ScreenModeType) => css`
   position: absolute;
-  top: 44vw;
   z-index: 11;
   color: ${theme.colors.gray800};
   animation: ${animation.fadeIn} 1.5s;
   white-space: nowrap;
-
-  ${screenMode === 'DESKTOP'
-    ? `left: 33%; font-size: 2.7vw;`
-    : `left: 50%; transform: translateX(-50%); font-size: 5vw;`}
+  font-size: 4vw;
+  top: 60%;
+  left: 50%;
+  transform: translateX(-50%);
 
   b {
     color: ${theme.colors.primary};
@@ -65,6 +60,10 @@ const subTitle = (screenMode: ScreenModeType) => css`
 
   b + b {
     color: ${theme.colors.green};
+  }
+
+  @media screen and (max-width: ${screenSize.TABLET}px) {
+    font-size: 6vw;
   }
 `;
 

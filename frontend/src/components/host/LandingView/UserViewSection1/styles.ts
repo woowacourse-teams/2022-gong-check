@@ -54,7 +54,7 @@ const subTitle = css`
   @media screen and (max-width: ${screenSize.TABLET}px) {
     font-size: 3.7vw;
     top: 24vh;
-    left: 36%;
+    left: 37%;
     transform: translateX(-50%);
   }
 
