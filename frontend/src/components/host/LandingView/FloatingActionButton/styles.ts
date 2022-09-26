@@ -5,7 +5,7 @@ import theme from '@/styles/theme';
 const floatingActionButton = (eventNumber: number) => css`
   ${eventNumber === 1 &&
   `
-    transform: translateX(calc(-50vw + 114px))  scale(1.4);
+    transform: translateX(calc(-50vw + 106px))  scale(1.2);
     transition-duration: 1.5s;
     `}
 

@@ -1,17 +1,15 @@
 import { css } from '@emotion/react';
 
-import { ScreenModeType } from '@/types';
-
 import screenSize from '@/constants/screenSize';
 
 import animation from '@/styles/animation';
 import theme from '@/styles/theme';
 
-const layout = (screenMode: ScreenModeType) =>
-  css`
-    width: 100vw;
-    height: 100vh;
-  `;
+const layout = css`
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+`;
 
 const content = css`
   width: 100%;
@@ -20,7 +18,7 @@ const content = css`
   background-color: ${theme.colors.background};
 `;
 
-const title = (screenMode: ScreenModeType) => css`
+const title = css`
   position: absolute;
   z-index: 11;
   white-space: nowrap;
@@ -43,7 +41,7 @@ const title = (screenMode: ScreenModeType) => css`
   }
 `;
 
-const subTitle = (screenMode: ScreenModeType) => css`
+const subTitle = css`
   position: absolute;
   z-index: 11;
   color: ${theme.colors.gray800};

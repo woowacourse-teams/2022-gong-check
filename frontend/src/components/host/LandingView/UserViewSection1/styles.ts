@@ -8,6 +8,7 @@ import theme from '@/styles/theme';
 const layout = css`
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
   z-index: 10;
 `;
 

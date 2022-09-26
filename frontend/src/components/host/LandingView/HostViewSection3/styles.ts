@@ -1,13 +1,18 @@
 import { css } from '@emotion/react';
 
-import { ScreenModeType } from '@/types';
+import screenSize from '@/constants/screenSize';
 
 import animation from '@/styles/animation';
 import theme from '@/styles/theme';
 
 const layout = css`
   width: 100vw;
-  height: 42vh;
+  height: 60vh;
+  overflow: hidden;
+
+  @media screen and (max-width: ${screenSize.TABLET}px) {
+    margin-top: 30vw;
+  }
 `;
 
 const content = css`
@@ -19,13 +24,17 @@ const content = css`
   justify-content: center;
 `;
 
-const title = (screenMode: ScreenModeType) => css`
+const title = css`
   z-index: 11;
-  font-size: ${screenMode === 'DESKTOP' ? `2.7vw` : `5vw`};
   color: ${theme.colors.gray800};
   animation: ${animation.moveDown} 1.5s;
   animation-fill-mode: forwards;
   padding-bottom: 8vh;
+  font-size: 3vw;
+
+  @media screen and (max-width: ${screenSize.TABLET}px) {
+    font-size: 5vw;
+  }
 `;
 
 const styles = { layout, content, title };

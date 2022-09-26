@@ -8,7 +8,6 @@ interface UserPicture {
 }
 
 const UserPicture: React.FC<UserPicture> = ({ image, className }) => {
-  console.log(screenSize);
   return (
     <picture className={className}>
       <source media={`(max-width: ${screenSize.DESKTOP}px)`} type="image/webp" srcSet={image['320w']} />

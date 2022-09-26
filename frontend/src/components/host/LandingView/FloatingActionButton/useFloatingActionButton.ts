@@ -8,7 +8,7 @@ const useFloatingActionButton = (mainRef: RefObject<HTMLElement>) => {
   const [eventNumber, setEventNumber] = useState(0);
 
   const { scrollInfo } = useOnContainerScroll(mainRef, () => {
-    if (scrollInfo.progress === 1) {
+    if (scrollInfo.progress > 0.99) {
       setEventNumber(1);
       return;
     }

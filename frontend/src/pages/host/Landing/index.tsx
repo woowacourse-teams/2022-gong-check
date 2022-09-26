@@ -9,14 +9,10 @@ import UserViewSection1 from '@/components/host/LandingView/UserViewSection1';
 import UserViewSection2 from '@/components/host/LandingView/UserViewSection2';
 import UserViewSection3 from '@/components/host/LandingView/UserViewSection3';
 
-import useResizeScreen from '@/hooks/useResizeScreen';
-
 import styles from './styles';
 
 const Landing: React.FC = () => {
   const mainRef = useRef<HTMLDivElement>(null);
-
-  const { screenMode } = useResizeScreen();
 
   return (
     <div css={styles.layout} ref={mainRef}>
@@ -24,9 +20,9 @@ const Landing: React.FC = () => {
       <UserViewSection1 />
       <UserViewSection2 />
       <UserViewSection3 />
-      <HostViewSection1 screenMode={screenMode} />
-      <HostViewSection2 screenMode={screenMode} />
-      <HostViewSection3 screenMode={screenMode} />
+      <HostViewSection1 />
+      <HostViewSection2 />
+      <HostViewSection3 />
       <FloatingActionButton mainRef={mainRef} />
     </div>
   );
