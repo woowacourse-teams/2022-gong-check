@@ -25,20 +25,14 @@ class JdbcUserLevelLockTest {
             private final String lockName = "lock";
             private final int timeOutSeconds = 2;
             private int count = 0;
-            private final int threadCount = 2;
+            private final int threadCount = 10;
             private final ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
 
             @Test
             void 순차적으로_실행시킨다() throws InterruptedException {
-                runThreadPool(() -> jdbcUserLevelLock.executeWithLock(lockName, timeOutSeconds, () -> {
-                    try {
-                        convertCount();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }));
+                runThreadPool(() -> jdbcUserLevelLock.executeWithLock(lockName, timeOutSeconds, () -> convertCount()));
 
-                assertThat(count).isEqualTo(2);
+                assertThat(count).isEqualTo(10);
             }
 
             private void runThreadPool(Runnable runnable) throws InterruptedException {
@@ -55,14 +49,49 @@ class JdbcUserLevelLockTest {
                 latch.await();
             }
 
-            private void convertCount() throws InterruptedException {
+            private void convertCount() {
                 if (count == 0) {
-                    Thread.sleep(100);
                     count = 1;
                     return;
                 }
                 if (count == 1) {
                     count = 2;
+                    return;
+                }
+                if (count == 2) {
+                    count = 3;
+                    return;
+                }
+                if (count == 3) {
+                    count = 4;
+                    return;
+                }
+                if (count == 4) {
+                    count = 5;
+                    return;
+                }
+                if (count == 5) {
+                    count = 6;
+                    return;
+                }
+                if (count == 6) {
+                    count = 7;
+                    return;
+                }
+                if (count == 7) {
+                    count = 8;
+                    return;
+                }
+                if (count == 8) {
+                    count = 9;
+                    return;
+                }
+                if (count == 9) {
+                    count = 10;
+                    return;
+                }
+                if (count == 10) {
+                    count = 11;
                     return;
                 }
                 count = 3;

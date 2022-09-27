@@ -60,7 +60,7 @@ class UserLockSubmissionServiceTest {
             private final Job job = repository.save(Job_생성(space, "청소"));
             private final SubmissionRequest request = new SubmissionRequest("제출자");
 
-            private final int threadCount = 100;
+            private final int threadCount = 9;
             private final ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
 
             @BeforeEach
@@ -73,8 +73,10 @@ class UserLockSubmissionServiceTest {
             }
 
             @Test
-            void 한명만_제출된다() throws InterruptedException {
-                runThreadPool(() -> userLockSubmissionService.submitJobCompletionByLock(host.getId(), job.getId(), request));
+            void
+            한명만_제출된다() throws InterruptedException {
+                runThreadPool(
+                        () -> userLockSubmissionService.submitJobCompletionByLock(host.getId(), job.getId(), request));
                 List<Submission> submissions = submissionRepository.findAll();
                 int runningTaskSize = runningTaskRepository.findAll()
                         .size();

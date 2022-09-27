@@ -8,3 +8,6 @@ spring:
       enabled: always
   profiles:
     default: local
+logging:
+  level:
+    root: debug

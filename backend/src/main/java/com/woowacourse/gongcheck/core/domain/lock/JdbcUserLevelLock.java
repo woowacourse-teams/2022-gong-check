@@ -17,15 +17,16 @@ public class JdbcUserLevelLock implements UserLevelLock {
     @Override
     public void executeWithLock(final String lockName, final int timeOutSeconds, final Runnable runnable) {
         try {
-            getLock(lockName, timeOutSeconds);
+            Integer number = getLock(lockName, timeOutSeconds);
+            System.out.println("query:" + number);
             runnable.run();
         } finally {
             releaseLock(lockName);
         }
     }
 
-    private void getLock(final String lockName, final int timeOutSeconds) {
-        jdbcTemplate.queryForObject(GET_LOCK_QUERY, Integer.class, lockName, timeOutSeconds);
+    private Integer getLock(final String lockName, final int timeOutSeconds) {
+        return jdbcTemplate.queryForObject(GET_LOCK_QUERY, Integer.class, lockName, timeOutSeconds);
     }
 
     private void releaseLock(final String lockName) {
