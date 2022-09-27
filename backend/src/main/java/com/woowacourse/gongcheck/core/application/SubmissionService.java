@@ -1,5 +1,7 @@
 package com.woowacourse.gongcheck.core.application;
 
+import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
+
 import com.woowacourse.gongcheck.core.application.response.SubmissionCreatedResponse;
 import com.woowacourse.gongcheck.core.application.response.SubmissionsResponse;
 import com.woowacourse.gongcheck.core.application.support.LoggingFormatConverter;
@@ -23,7 +25,6 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -55,7 +56,7 @@ public class SubmissionService {
         this.runningTaskSseEmitterContainer = runningTaskSseEmitterContainer;
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = REQUIRES_NEW)
     public void submitJobCompletion(final Long hostId, final Long jobId, final SubmissionRequest request) {
         Host host = hostRepository.getById(hostId);
         Job job = jobRepository.getBySpaceHostAndId(host, jobId);

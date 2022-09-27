@@ -31,7 +31,6 @@ public class DatabaseConfig {
         return DataSourceBuilder.create().type(HikariDataSource.class).build();
     }
 
-
     @Primary
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
