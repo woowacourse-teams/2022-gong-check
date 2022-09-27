@@ -1,7 +1,6 @@
 import UserPicture from '../UserPicture';
 import useUserViewSection2 from './useUserViewSection2';
-
-import { ScreenModeType, UserImageType } from '@/types';
+import { UserImageType } from 'gongcheck-util-types/image';
 
 import mobileView3_160w from '@/assets/mobileView3-160w.webp';
 import mobileView3_240w from '@/assets/mobileView3-240w.webp';

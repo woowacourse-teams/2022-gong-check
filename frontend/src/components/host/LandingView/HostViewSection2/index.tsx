@@ -1,7 +1,6 @@
 import HostPicture from '../HostPicture';
 import useHostViewSection2 from './useHostViewSection2';
-
-import { HostImageType, ScreenModeType } from '@/types';
+import { HostImageType } from 'gongcheck-util-types/image';
 
 import createSpace_280w from '@/assets/createSpace-280w.webp';
 import createSpace_360w from '@/assets/createSpace-360w.webp';
