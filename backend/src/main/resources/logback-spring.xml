@@ -64,29 +64,29 @@
             <appender-ref ref="console-appender"/>
         </logger>
 
-        <!--        &lt;!&ndash;sql 구문 출력&ndash;&gt;-->
-        <!--        <logger name="org.hibernate.SQL" level="DEBUG">-->
-        <!--            <appender-ref ref="console-query-appender"/>-->
-        <!--        </logger>-->
+        <!--sql 구문 출력-->
+        <logger name="org.hibernate.SQL" level="DEBUG">
+            <appender-ref ref="console-query-appender"/>
+        </logger>
 
-        <!--        &lt;!&ndash;insert, update, delete문 파라미터 바인딩&ndash;&gt;-->
-        <!--        <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" additivity="false">-->
-        <!--            <appender-ref ref="console-db-appender"/>-->
-        <!--        </logger>-->
+        <!--insert, update, delete문 파라미터 바인딩-->
+        <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" additivity="false">
+            <appender-ref ref="console-db-appender"/>
+        </logger>
 
-        <!--        &lt;!&ndash;select 문에서 가져온 값 바인딩&ndash;&gt;-->
-        <!--        <logger name="org.hibernate.type.descriptor.sql.BasicExtractor" level="TRACE" additivity="false">-->
-        <!--            <appender-ref ref="console-db-appender"/>-->
-        <!--        </logger>-->
+        <!--select 문에서 가져온 값 바인딩-->
+        <logger name="org.hibernate.type.descriptor.sql.BasicExtractor" level="TRACE" additivity="false">
+            <appender-ref ref="console-db-appender"/>
+        </logger>
 
-        <!--        &lt;!&ndash;DB slow query 로깅&ndash;&gt;-->
-        <!--        <logger name="org.hibernate.SQL_SLOW" level="INFO">-->
-        <!--            <appender-ref ref="console-db-appender"/>-->
-        <!--        </logger>-->
+        <!--DB slow query 로깅-->
+        <logger name="org.hibernate.SQL_SLOW" level="INFO">
+            <appender-ref ref="console-db-appender"/>
+        </logger>
 
-        <!--        <logger name="org.springframework.jdbc.core.JdbcTemplate" level="DEBUG">-->
-        <!--            <appender-ref ref="console-db-appender"/>-->
-        <!--        </logger>-->
+        <logger name="org.springframework.jdbc.core.JdbcTemplate" level="DEBUG">
+            <appender-ref ref="console-db-appender"/>
+        </logger>
 
     </springProfile>
 </configuration>

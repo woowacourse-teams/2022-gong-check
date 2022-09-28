@@ -5,12 +5,16 @@ import com.woowacourse.gongcheck.core.domain.lock.JdbcUserLevelLock;
 import com.woowacourse.gongcheck.core.domain.lock.UserLevelLock;
 import com.zaxxer.hikari.HikariDataSource;
 import java.time.Instant;
+import javax.persistence.EntityManagerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
@@ -54,6 +58,19 @@ public class TestContainerConfiguration {
                 .url(mySQLContainer.getJdbcUrl())
                 .type(HikariDataSource.class)
                 .build();
+    }
+
+    @Primary
+    @Bean
+    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+        JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
+        jpaTransactionManager.setEntityManagerFactory(entityManagerFactory);
+        return jpaTransactionManager;
+    }
+
+    @Bean
+    public PlatformTransactionManager submissionLockTransactionManager() {
+        return new DataSourceTransactionManager(submissionLockDataSource());
     }
 
     @Bean

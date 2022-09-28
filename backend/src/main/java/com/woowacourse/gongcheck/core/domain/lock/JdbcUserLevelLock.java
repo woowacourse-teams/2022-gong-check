@@ -2,6 +2,7 @@ package com.woowacourse.gongcheck.core.domain.lock;
 
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
 public class JdbcUserLevelLock implements UserLevelLock {
 
@@ -15,10 +16,10 @@ public class JdbcUserLevelLock implements UserLevelLock {
     }
 
     @Override
+    @Transactional(transactionManager = "submissionLockTransactionManager")
     public void executeWithLock(final String lockName, final int timeOutSeconds, final Runnable runnable) {
         try {
-            Integer number = getLock(lockName, timeOutSeconds);
-            System.out.println("query:" + number);
+            getLock(lockName, timeOutSeconds);
             runnable.run();
         } finally {
             releaseLock(lockName);
