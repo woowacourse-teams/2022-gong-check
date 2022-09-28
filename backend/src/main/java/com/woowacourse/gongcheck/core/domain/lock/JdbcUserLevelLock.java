@@ -26,8 +26,8 @@ public class JdbcUserLevelLock implements UserLevelLock {
         }
     }
 
-    private Integer getLock(final String lockName, final int timeOutSeconds) {
-        return jdbcTemplate.queryForObject(GET_LOCK_QUERY, Integer.class, lockName, timeOutSeconds);
+    private void getLock(final String lockName, final int timeOutSeconds) {
+        jdbcTemplate.queryForObject(GET_LOCK_QUERY, Integer.class, lockName, timeOutSeconds);
     }
 
     private void releaseLock(final String lockName) {
