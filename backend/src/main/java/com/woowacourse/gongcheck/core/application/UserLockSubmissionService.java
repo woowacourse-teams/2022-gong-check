@@ -3,7 +3,6 @@ package com.woowacourse.gongcheck.core.application;
 import com.woowacourse.gongcheck.core.domain.lock.UserLevelLock;
 import com.woowacourse.gongcheck.core.presentation.request.SubmissionRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserLockSubmissionService {
@@ -22,14 +21,5 @@ public class UserLockSubmissionService {
                 30,
                 () -> submissionService.submitJobCompletion(hostId, jobId, request)
         );
-    }
-
-    @Transactional
-    public void foo() {
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
