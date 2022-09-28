@@ -60,7 +60,7 @@ class UserLockSubmissionServiceTest {
             private final Job job = repository.save(Job_생성(space, "청소"));
             private final SubmissionRequest request = new SubmissionRequest("제출자");
 
-            private final int threadCount = 100;
+            private final int threadCount = 11;
             private final ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
 
             @BeforeEach

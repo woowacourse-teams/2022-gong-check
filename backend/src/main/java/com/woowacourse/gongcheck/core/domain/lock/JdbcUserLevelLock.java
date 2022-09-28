@@ -19,8 +19,7 @@ public class JdbcUserLevelLock implements UserLevelLock {
     @Transactional(transactionManager = "submissionLockTransactionManager")
     public void executeWithLock(final String lockName, final int timeOutSeconds, final Runnable runnable) {
         try {
-            Integer number = getLock(lockName, timeOutSeconds);
-            System.out.println("query:" + number);
+            getLock(lockName, timeOutSeconds);
             runnable.run();
         } finally {
             releaseLock(lockName);
