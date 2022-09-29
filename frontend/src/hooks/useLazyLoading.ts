@@ -8,12 +8,8 @@ const useLazyLoading = <T extends Element>(threshold: number = 0) => {
   const intersectionCallBack = (entries: IntersectionObserverEntry[], io: IntersectionObserver) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
+        io.unobserve(entry.target);
         setIsLoaded(true);
-        return;
-      }
-      if (!entry.isIntersecting) {
-        setIsLoaded(false);
-        return;
       }
     });
   };
