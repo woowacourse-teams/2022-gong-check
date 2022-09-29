@@ -30,9 +30,9 @@ class MySQLUserLevelLockTest {
 
             @Test
             void 순차적으로_실행시킨다() throws InterruptedException {
-                runThreadPool(() -> mySQLUserLevelLock.executeWithLock(lockName, timeOutSeconds, () -> convertCount()));
+                runThreadPool(() -> mySQLUserLevelLock.executeWithLock(lockName, timeOutSeconds, this::convertCount));
 
-                assertThat(count).isEqualTo(10);
+                assertThat(count).isEqualTo(threadCount);
             }
 
             private void runThreadPool(Runnable runnable) throws InterruptedException {
@@ -50,51 +50,7 @@ class MySQLUserLevelLockTest {
             }
 
             private void convertCount() {
-                if (count == 0) {
-                    count = 1;
-                    return;
-                }
-                if (count == 1) {
-                    count = 2;
-                    return;
-                }
-                if (count == 2) {
-                    count = 3;
-                    return;
-                }
-                if (count == 3) {
-                    count = 4;
-                    return;
-                }
-                if (count == 4) {
-                    count = 5;
-                    return;
-                }
-                if (count == 5) {
-                    count = 6;
-                    return;
-                }
-                if (count == 6) {
-                    count = 7;
-                    return;
-                }
-                if (count == 7) {
-                    count = 8;
-                    return;
-                }
-                if (count == 8) {
-                    count = 9;
-                    return;
-                }
-                if (count == 9) {
-                    count = 10;
-                    return;
-                }
-                if (count == 10) {
-                    count = 11;
-                    return;
-                }
-                count = 3;
+                this.count++;
             }
         }
     }
