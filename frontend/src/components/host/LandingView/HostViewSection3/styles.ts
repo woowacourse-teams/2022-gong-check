@@ -9,10 +9,6 @@ const layout = css`
   width: 100vw;
   height: 60vh;
   overflow: hidden;
-
-  @media screen and (max-width: ${screenSize.TABLET}px) {
-    margin-top: 30vw;
-  }
 `;
 
 const content = css`
