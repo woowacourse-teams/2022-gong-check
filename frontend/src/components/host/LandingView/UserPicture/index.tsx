@@ -1,4 +1,4 @@
-import { UserImageType } from 'gongcheck-util-types/image';
+import { UserImageType } from 'gongcheck-util-types/types/image';
 
 import screenSize from '@/constants/screenSize';
 

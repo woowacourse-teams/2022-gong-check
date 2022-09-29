@@ -1,5 +1,7 @@
 import { css } from '@emotion/react';
 
+import screenSize from '@/constants/screenSize';
+
 import animation from '@/styles/animation';
 import theme from '@/styles/theme';
 
@@ -55,7 +57,15 @@ const arrowDownWrapper = css`
   justify-content: center;
   align-items: center;
   animation: ${animation.moveDown} 2s 0s infinite;
-  font-size: 1.5vw;
+  font-size: 1.6vw;
+
+  @media screen and (max-width: ${screenSize.DESKTOP}px) {
+    font-size: 2.4vw;
+  }
+
+  @media screen and (max-width: ${screenSize.MOBILE}px) {
+    font-size: 3.4vw;
+  }
 `;
 
 const canvas = css`

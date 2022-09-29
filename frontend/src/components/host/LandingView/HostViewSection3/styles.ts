@@ -7,12 +7,8 @@ import theme from '@/styles/theme';
 
 const layout = css`
   width: 100vw;
-  height: 60vh;
+  height: 50vh;
   overflow: hidden;
-
-  @media screen and (max-width: ${screenSize.TABLET}px) {
-    margin-top: 30vw;
-  }
 `;
 
 const content = css`

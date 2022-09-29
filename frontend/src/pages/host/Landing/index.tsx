@@ -21,7 +21,6 @@ const Landing: React.FC = () => {
       <UserViewSection2 />
       <UserViewSection3 />
       <HostViewSection1 />
-      <HostViewSection2 />
       <HostViewSection3 />
       <FloatingActionButton mainRef={mainRef} />
     </div>

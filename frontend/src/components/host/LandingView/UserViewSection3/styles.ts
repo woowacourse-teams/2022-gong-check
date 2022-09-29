@@ -22,6 +22,7 @@ const title = css`
   position: absolute;
   z-index: 11;
   color: ${theme.colors.primary};
+  width: max-content;
   font-size: 4.1vw;
   top: 2.2vw;
   left: 38.5%;
@@ -79,7 +80,7 @@ const leftSection = css`
     animation: ${animation.moveRight} 1.5s;
     animation-fill-mode: forwards;
     z-index: 11;
-    width: 15%;
+    width: 16%;
     top: 17vw;
     left: 26%;
 
@@ -104,7 +105,7 @@ const rightSection = css`
     animation: ${animation.moveLeft} 1.5s;
     animation-fill-mode: forwards;
     z-index: 11;
-    width: 15%;
+    width: 16%;
     top: 17vw;
     right: 26%;
 
