@@ -22,6 +22,7 @@ const title = css`
   position: absolute;
   z-index: 11;
   color: ${theme.colors.primary};
+  width: max-content;
   font-size: 4.1vw;
   top: 2.2vw;
   left: 38.5%;
