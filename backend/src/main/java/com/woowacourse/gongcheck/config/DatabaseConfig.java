@@ -1,7 +1,7 @@
 package com.woowacourse.gongcheck.config;
 
-import com.woowacourse.gongcheck.core.domain.lock.JdbcUserLevelLock;
 import com.woowacourse.gongcheck.core.domain.lock.UserLevelLock;
+import com.woowacourse.gongcheck.infrastructure.lock.MySQLUserLevelLock;
 import com.zaxxer.hikari.HikariDataSource;
 import javax.persistence.EntityManagerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -46,6 +46,6 @@ public class DatabaseConfig {
 
     @Bean
     public UserLevelLock userLevelLock() {
-        return new JdbcUserLevelLock(submissionLockDataSource());
+        return new MySQLUserLevelLock(submissionLockDataSource());
     }
 }

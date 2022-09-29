@@ -1,17 +1,19 @@
-package com.woowacourse.gongcheck.core.domain.lock;
+package com.woowacourse.gongcheck.infrastructure.lock;
 
+import com.woowacourse.gongcheck.core.domain.lock.UserLevelLock;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
-public class JdbcUserLevelLock implements UserLevelLock {
+
+public class MySQLUserLevelLock implements UserLevelLock {
 
     private static final String GET_LOCK_QUERY = "select get_lock(?, ?)";
     private static final String RELEASE_LOCK_QUERY = "select release_lock(?)";
 
     private final JdbcTemplate jdbcTemplate;
 
-    public JdbcUserLevelLock(final DataSource dataSource) {
+    public MySQLUserLevelLock(final DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 

@@ -1,8 +1,8 @@
 package com.woowacourse.gongcheck;
 
 
-import com.woowacourse.gongcheck.core.domain.lock.JdbcUserLevelLock;
 import com.woowacourse.gongcheck.core.domain.lock.UserLevelLock;
+import com.woowacourse.gongcheck.infrastructure.lock.MySQLUserLevelLock;
 import com.zaxxer.hikari.HikariDataSource;
 import java.time.Instant;
 import javax.persistence.EntityManagerFactory;
@@ -75,6 +75,6 @@ public class TestContainerConfiguration {
 
     @Bean
     public UserLevelLock userLevelLock() {
-        return new JdbcUserLevelLock(submissionLockDataSource());
+        return new MySQLUserLevelLock(submissionLockDataSource());
     }
 }

@@ -11,10 +11,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @ApplicationTest
-class JdbcUserLevelLockTest {
+class MySQLUserLevelLockTest {
 
     @Autowired
-    private JdbcUserLevelLock jdbcUserLevelLock;
+    private UserLevelLock mySQLUserLevelLock;
 
     @Nested
     class executeWithLock_메소드는 {
@@ -30,7 +30,7 @@ class JdbcUserLevelLockTest {
 
             @Test
             void 순차적으로_실행시킨다() throws InterruptedException {
-                runThreadPool(() -> jdbcUserLevelLock.executeWithLock(lockName, timeOutSeconds, () -> convertCount()));
+                runThreadPool(() -> mySQLUserLevelLock.executeWithLock(lockName, timeOutSeconds, () -> convertCount()));
 
                 assertThat(count).isEqualTo(10);
             }
