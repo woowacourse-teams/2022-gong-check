@@ -7,7 +7,7 @@ import theme from '@/styles/theme';
 
 const layout = css`
   width: 100vw;
-  height: 60vh;
+  height: 50vh;
   overflow: hidden;
 `;
 
