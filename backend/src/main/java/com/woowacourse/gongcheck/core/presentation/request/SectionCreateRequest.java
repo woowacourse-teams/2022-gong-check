@@ -2,13 +2,14 @@ package com.woowacourse.gongcheck.core.presentation.request;
 
 import java.util.List;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import lombok.Getter;
 
 @Getter
 public class SectionCreateRequest {
 
-    @NotNull(message = "SectionCreateRequest의 name은 null일 수 없습니다.")
+    @NotBlank(message = "SectionCreateRequest의 name은 비어있을 수 없습니다.")
     private String name;
 
     private String description;
@@ -16,6 +17,7 @@ public class SectionCreateRequest {
     private String imageUrl;
 
     @Valid
+    @NotEmpty
     private List<TaskCreateRequest> tasks;
 
     private SectionCreateRequest() {
