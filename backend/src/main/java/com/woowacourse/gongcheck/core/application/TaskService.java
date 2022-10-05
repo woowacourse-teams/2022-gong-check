@@ -19,7 +19,6 @@ import com.woowacourse.gongcheck.core.domain.task.Tasks;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.ErrorCode;
 import com.woowacourse.gongcheck.exception.NotFoundException;
-import java.util.Objects;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -77,7 +76,7 @@ public class TaskService {
         Host host = hostRepository.getById(hostId);
         Task task = taskRepository.getBySectionJobSpaceHostAndId(host, taskId);
         RunningTask runningTask = task.getRunningTask();
-        if (Objects.isNull(runningTask)) {
+        if (runningTask == null) {
             String message = String.format("현재 진행 중인 작업이 아닙니다. hostId = %d, taskId = %d", hostId, taskId);
             throw new BusinessException(message, ErrorCode.R002);
         }
