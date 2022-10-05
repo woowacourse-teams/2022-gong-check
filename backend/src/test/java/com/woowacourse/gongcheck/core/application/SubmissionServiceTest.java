@@ -31,6 +31,9 @@ import com.woowacourse.gongcheck.core.presentation.request.SubmissionRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -217,6 +220,23 @@ class SubmissionServiceTest {
                         () -> assertThat(submissions.get(0).getAuthor()).isEqualTo(request.getAuthor()),
                         () -> assertThat(runningTaskSize).isZero()
                 );
+            }
+
+            @Test
+            void 여러명이_제출한다면_하나의_Submission만_생성한다() {
+                final ExecutorService executorService = Executors.newFixedThreadPool(11);
+                final CountDownLatch countDownLatch = new CountDownLatch(11);
+                for (int i = 0; i < 11; i++) {
+                    executorService.submit(() -> {
+                        try {
+                            submissionService.submitJobCompletion(host.getId(), job.getId(), request);
+                        } finally {
+                            countDownLatch.countDown();
+                        }
+                    });
+                }
+
+                assertThat(submissionRepository.findAll()).hasSize(1);
             }
 
             @Test
