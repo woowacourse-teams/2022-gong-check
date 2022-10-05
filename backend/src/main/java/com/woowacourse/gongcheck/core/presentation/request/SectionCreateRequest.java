@@ -17,7 +17,7 @@ public class SectionCreateRequest {
     private String imageUrl;
 
     @Valid
-    @NotEmpty
+    @NotEmpty(message = "tasks 값은 비어있을 수 없습니다.")
     private List<TaskCreateRequest> tasks;
 
     private SectionCreateRequest() {

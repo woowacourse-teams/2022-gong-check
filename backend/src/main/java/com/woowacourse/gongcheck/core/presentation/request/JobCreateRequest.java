@@ -13,7 +13,7 @@ public class JobCreateRequest {
     private String name;
 
     @Valid
-    @NotEmpty
+    @NotEmpty(message = "sections 값은 비어있을 수 없습니다.")
     private List<SectionCreateRequest> sections;
 
     private JobCreateRequest() {
