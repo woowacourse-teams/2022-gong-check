@@ -75,14 +75,13 @@ public class TaskService {
     public void flipRunningTask(final Long hostId, final Long taskId) {
         Host host = hostRepository.getById(hostId);
         Task task = taskRepository.getBySectionJobSpaceHostAndId(host, taskId);
-        RunningTask runningTask = runningTaskRepository.findByTaskId(task.getId())
-                .orElseThrow(() -> {
-                    String message = String.format("현재 진행 중인 작업이 아닙니다. hostId = %d, taskId = %d", hostId, taskId);
-                    throw new BusinessException(message, ErrorCode.R002);
-                });
+        RunningTask runningTask = task.getRunningTask();
+        if (runningTask == null) {
+            String message = String.format("현재 진행 중인 작업이 아닙니다. hostId = %d, taskId = %d", hostId, taskId);
+            throw new BusinessException(message, ErrorCode.R002);
+        }
 
         runningTask.flipCheckedStatus();
-
         Long jobId = task.getSection().getJob().getId();
         RunningTasksResponse runningTasks = findExistingRunningTasks(hostId, jobId);
 

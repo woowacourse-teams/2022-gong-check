@@ -10,15 +10,18 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.EntityGraph.EntityGraphType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
-    @EntityGraph(attributePaths = {"runningTask"}, type = EntityGraphType.FETCH)
-    List<Task> findAllBySectionJob(final Job job);
+    @Query("select t from Task t left join fetch t.runningTask join fetch t.section s join fetch s.job j where j = :job")
+    List<Task> findAllBySectionJob(@Param("job") final Job job);
 
     Optional<Task> findBySectionJobSpaceHostAndId(final Host host, final Long id);
 
-    List<Task> findAllBySectionIn(final List<Section> sections);
+    @Query("select t from Task t left join fetch t.runningTask where t.section in (:sections)")
+    List<Task> findAllBySectionIn(@Param("sections") final List<Section> sections);
 
     void deleteAllBySectionIn(final List<Section> sections);
 
