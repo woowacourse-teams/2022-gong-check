@@ -10,7 +10,7 @@ const header = css`
   height: 64px;
   background-color: ${theme.colors.white};
   box-shadow: 0px 2px 2px 2px ${theme.colors.shadow20};
-  z-index: 2;
+  z-index: 3;
 
   img {
     height: 40px;
@@ -27,6 +27,7 @@ const layout = css`
   align-items: center;
   justify-content: space-around;
   z-index: 2;
+  background-color: ${theme.colors.background};
 
   img {
     width: 80%;
