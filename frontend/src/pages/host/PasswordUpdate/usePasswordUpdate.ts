@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
@@ -35,11 +35,12 @@ const usePasswordUpdate = () => {
     setIsShowPassword(prev => !prev);
   };
 
-  const onClickChangeButton = () => {
+  const onSubmitChangePassword = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     updatePassword();
   };
 
-  return { password, isShowPassword, onChangePassword, onClickToggleShowPassword, onClickChangeButton };
+  return { password, isShowPassword, onChangePassword, onClickToggleShowPassword, onSubmitChangePassword };
 };
 
 export default usePasswordUpdate;
