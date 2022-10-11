@@ -19,13 +19,13 @@ const logo = css`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 200px;
+  height: 160px;
   cursor: pointer;
 `;
 
 const logoImage = css`
-  width: 160px;
-  height: 160px;
+  width: 140px;
+  height: 140px;
 `;
 
 const styles = {

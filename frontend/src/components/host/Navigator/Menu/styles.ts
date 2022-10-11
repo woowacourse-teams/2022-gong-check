@@ -6,7 +6,7 @@ const category = css`
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin: 8px 0 24px;
+  margin: 8px 0 12px 0;
 `;
 
 const categoryTitle = css`
@@ -27,7 +27,7 @@ const categoryTextWrapper = css`
   display: flex;
   align-items: center;
   width: 100%;
-  font-size: 0.875em;
+  font-size: 0.8em;
   font-weight: 500;
   background-color: ${theme.colors.gray100};
   padding: 12px 8px;
@@ -62,7 +62,7 @@ const addNewSpace = css`
   justify-content: center;
   width: 100%;
   color: ${theme.colors.gray800};
-  font-size: 0.875em;
+  font-size: 0.9em;
 
   span:hover {
     font-weight: 600;
