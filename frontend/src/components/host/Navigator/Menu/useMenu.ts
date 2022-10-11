@@ -31,9 +31,11 @@ const useHostNavigator = () => {
   };
 
   const onClickLogout = () => {
-    sessionStorage.removeItem('host');
-    localStorage.removeItem('host');
-    navigate('/host');
+    if (confirm('로그아웃하시겠습니까?')) {
+      sessionStorage.removeItem('host');
+      localStorage.removeItem('host');
+      navigate('/host');
+    }
   };
 
   return { selectedSpaceId, spaceData, onClickPasswordUpdate, onClickSpace, onClickNewSpace, onClickLogout };
