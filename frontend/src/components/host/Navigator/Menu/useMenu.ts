@@ -30,7 +30,13 @@ const useHostNavigator = () => {
     navigate('/host/manage/spaceCreate');
   };
 
-  return { selectedSpaceId, spaceData, onClickPasswordUpdate, onClickSpace, onClickNewSpace };
+  const onClickLogout = () => {
+    sessionStorage.removeItem('host');
+    localStorage.removeItem('host');
+    navigate('/host');
+  };
+
+  return { selectedSpaceId, spaceData, onClickPasswordUpdate, onClickSpace, onClickNewSpace, onClickLogout };
 };
 
 export default useHostNavigator;

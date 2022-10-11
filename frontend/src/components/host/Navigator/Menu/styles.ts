@@ -36,7 +36,7 @@ const categoryTextWrapper = css`
   cursor: pointer;
 
   svg {
-    margin-bottom: 4px;
+    margin-bottom: 2px;
   }
 
   span {
