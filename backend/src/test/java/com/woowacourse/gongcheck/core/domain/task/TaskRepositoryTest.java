@@ -55,6 +55,39 @@ class TaskRepositoryTest {
     private TaskRepository taskRepository;
 
     @Nested
+    class getById_메소드는 {
+
+        @Nested
+        class 입력받은_id의_Task가_존재하지_않는_경우 {
+
+            private static final long NON_EXIST_TASK_ID = 0L;
+
+            @Test
+            void 예외를_발생시킨다() {
+                assertThatThrownBy(() -> taskRepository.getById(NON_EXIST_TASK_ID))
+                        .isInstanceOf(NotFoundException.class)
+                        .hasMessageContaining("존재하지 않는 작업입니다");
+            }
+        }
+
+        @Nested
+        class id를_입력받는_경우 {
+
+            Host host = hostRepository.save(Host_생성("1234", 1234L));
+            Space space = spaceRepository.save(Space_생성(host, "잠실"));
+            Job job = jobRepository.save(Job_생성(space, "청소"));
+            Section section = sectionRepository.save(Section_생성(job, "트랙룸"));
+            Task task = taskRepository.save(Task_생성(section, "책상 청소"));
+
+            @Test
+            void 해당하는_Task를_반환한다() {
+                Task actual = taskRepository.getById(task.getId());
+                assertThat(actual).isEqualTo(task);
+            }
+        }
+    }
+
+    @Nested
     class save_메소드는 {
 
         @Nested
