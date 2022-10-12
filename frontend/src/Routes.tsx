@@ -22,6 +22,9 @@ const JobCreatePage = lazy(() => import('@/pages/host/JobCreate'));
 const JobUpdatePage = lazy(() => import('@/pages/host/JobUpdate'));
 const PasswordUpdatePage = lazy(() => import('@/pages/host/PasswordUpdate'));
 
+// common
+const NotFoundPage = lazy(() => import('@/pages/common/NotFound'));
+
 const routes = [
   {
     path: '/',
@@ -101,7 +104,7 @@ const routes = [
   },
   {
     path: '*',
-    element: <div>잘못된 접근입니다.</div>,
+    element: <NotFoundPage />,
   },
 ];
 
