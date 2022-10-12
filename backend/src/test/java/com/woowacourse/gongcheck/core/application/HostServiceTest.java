@@ -111,10 +111,9 @@ class HostServiceTest {
 
             @Test
             void profile을_반환한다() {
-                final HostProfileResponse actual = hostService.findProfile(host.getId());
+                HostProfileResponse actual = hostService.findProfile(host.getId());
                 assertThat(actual).extracting("imageUrl", "nickname")
                         .containsExactly("image.url", "nickname");
-
             }
         }
 

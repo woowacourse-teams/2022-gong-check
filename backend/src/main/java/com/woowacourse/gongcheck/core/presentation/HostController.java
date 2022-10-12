@@ -42,8 +42,7 @@ public class HostController {
     @GetMapping("/hosts/me")
     @HostOnly
     public ResponseEntity<HostProfileResponse> showProfile(@AuthenticationPrincipal final Long hostId) {
-        final HostProfileResponse response = hostService.findProfile(hostId);
+        HostProfileResponse response = hostService.findProfile(hostId);
         return ResponseEntity.ok(response);
     }
-
 }
