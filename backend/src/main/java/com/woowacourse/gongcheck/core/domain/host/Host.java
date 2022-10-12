@@ -43,6 +43,7 @@ public class Host {
 
     @Column(name = "nickname", nullable = false)
     private String nickname;
+    
     @CreatedDate
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
