@@ -54,8 +54,8 @@ public class Host {
     protected Host() {
     }
 
-    public Host(Long id, SpacePassword spacePassword, Long githubId, String imageUrl, String nickname,
-                LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Host(final Long id, final SpacePassword spacePassword, final Long githubId, final String imageUrl,
+                final String nickname, final LocalDateTime createdAt, final LocalDateTime updatedAt) {
         this.id = id;
         this.spacePassword = spacePassword;
         this.githubId = githubId;
