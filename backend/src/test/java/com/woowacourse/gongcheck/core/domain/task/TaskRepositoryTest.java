@@ -66,7 +66,7 @@ class TaskRepositoryTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> taskRepository.getById(NON_EXIST_TASK_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessageContaining("존재하지 않는 작업입니다");
+                        .hasMessageContaining("존재하지 않는 Task입니다");
             }
         }
 

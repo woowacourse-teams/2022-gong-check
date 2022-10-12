@@ -40,7 +40,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     default Task getById(final Long id) {
         return findById(id).orElseThrow(() -> {
-            String message = String.format("존재하지 않는 작업입니다. taskId = %d", id);
+            String message = String.format("존재하지 않는 Task입니다. taskId = %d", id);
             throw new NotFoundException(message, ErrorCode.T004);
         });
     }

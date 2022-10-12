@@ -72,6 +72,30 @@ public class TaskService {
     }
 
     @Transactional
+    public void flip(Long taskId) {
+        Task task = taskRepository.getById(taskId);
+        RunningTask runningTask = task.getRunningTask();
+        if (runningTask == null) {
+            String message = String.format("현재 진행 중인 작업이 아닙니다. taskId = %d", taskId);
+            throw new BusinessException(message, ErrorCode.R002);
+        }
+        runningTask.flipCheckedStatus();
+    }
+
+    // runningTaskRepository.existsByTaskIdIn() 메서드, Lock 거는 조회 분리되면 readOnly transaction으로 변경해야함.
+    @Transactional
+    public RunningTasksResponse showRunningTasks(final Long jobId) {
+        Job job = jobRepository.getById(jobId);
+        Tasks tasks = new Tasks(taskRepository.findAllBySectionJob(job));
+
+        if (!existsAnyRunningTaskIn(tasks)) {
+            String message = String.format("현재 진행중인 RunningTask가 없습니다. jobId = %d", jobId);
+            throw new BusinessException(message, ErrorCode.R001);
+        }
+        return RunningTasksResponse.from(tasks);
+    }
+
+    @Transactional
     public void flipRunningTask(final Long hostId, final Long taskId) {
         Host host = hostRepository.getById(hostId);
         Task task = taskRepository.getBySectionJobSpaceHostAndId(host, taskId);

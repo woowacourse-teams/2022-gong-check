@@ -27,7 +27,7 @@ public interface JobRepository extends JpaRepository<Job, Long> {
     default Job getById(final Long id) throws NotFoundException {
         return findById(id)
                 .orElseThrow(() -> {
-                    String message = String.format("존재하지 않는 작업입니다. jobId = %d", id);
+                    String message = String.format("존재하지 않는 Job입니다. jobId = %d", id);
                     throw new NotFoundException(message, ErrorCode.J002);
                 });
     }
