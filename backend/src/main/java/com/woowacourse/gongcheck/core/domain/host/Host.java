@@ -41,6 +41,8 @@ public class Host {
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
 
+    @Column(name = "nickname", nullable = false)
+    private String nickname;
     @CreatedDate
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
@@ -52,12 +54,13 @@ public class Host {
     protected Host() {
     }
 
-    public Host(final Long id, final SpacePassword spacePassword, final Long githubId, final String imageUrl,
-                final LocalDateTime createdAt, final LocalDateTime updatedAt) {
+    public Host(Long id, SpacePassword spacePassword, Long githubId, String imageUrl, String nickname,
+                LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.spacePassword = spacePassword;
         this.githubId = githubId;
         this.imageUrl = imageUrl;
+        this.nickname = nickname;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }

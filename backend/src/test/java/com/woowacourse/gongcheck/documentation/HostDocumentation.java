@@ -1,5 +1,6 @@
 package com.woowacourse.gongcheck.documentation;
 
+import static com.woowacourse.gongcheck.fixture.FixtureFactory.Host_아이디_지정_생성;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -11,6 +12,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 
 import com.woowacourse.gongcheck.auth.domain.Authority;
+import com.woowacourse.gongcheck.core.application.response.HostProfileResponse;
 import com.woowacourse.gongcheck.core.presentation.request.SpacePasswordChangeRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.ErrorCode;
@@ -91,6 +93,26 @@ class HostDocumentation extends DocumentationTest {
                 .apply(document("hosts/entranceCode",
                         responseFields(
                                 fieldWithPath("entranceCode").type(JsonFieldType.STRING).description("입장코드")
+                        )
+                ))
+                .statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 호스트_프로필을_조회한다() {
+        when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
+        when(hostService.findProfile(anyLong())).thenReturn(HostProfileResponse.from(
+                Host_아이디_지정_생성(1L, "0000", 1L)));
+        when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
+
+        docsGiven
+                .header("Authorization", "Bearer jwt.token.here")
+                .when().get("/api/hosts/me")
+                .then().log().all()
+                .apply(document("hosts/profile",
+                        responseFields(
+                                fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("Github Image Url"),
+                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("Github Login Name")
                         )
                 ))
                 .statusCode(HttpStatus.OK.value());

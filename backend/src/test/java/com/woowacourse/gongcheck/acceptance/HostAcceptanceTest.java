@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 class HostAcceptanceTest extends AcceptanceTest {
-    
+
     @Test
     void Host_토큰으로_Space_비밀번호를_변경한다() {
         String token = Host_토큰을_요청한다().getToken();
@@ -52,6 +52,20 @@ class HostAcceptanceTest extends AcceptanceTest {
                 .given().log().all()
                 .auth().oauth2(token)
                 .when().get("/api/hosts/entranceCode")
+                .then().log().all()
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    void Host_토큰으로_호스트_profile을_조회한다() {
+        String token = Host_토큰을_요청한다().getToken();
+
+        ExtractableResponse<Response> response = RestAssured
+                .given().log().all()
+                .auth().oauth2(token)
+                .when().get("/api/hosts/me")
                 .then().log().all()
                 .extract();
 

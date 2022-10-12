@@ -8,12 +8,13 @@ DROP TABLE submission IF EXISTS;
 
 CREATE TABLE host
 (
-    id             BIGINT     NOT NULL AUTO_INCREMENT,
-    space_password VARCHAR(4) NOT NULL,
-    github_id      BIGINT     NOT NULL UNIQUE,
-    image_url      VARCHAR    NOT NULL,
-    created_at     TIMESTAMP  NOT NULL,
-    updated_at     TIMESTAMP  NULL,
+    id             BIGINT      NOT NULL AUTO_INCREMENT,
+    space_password VARCHAR(4)  NOT NULL,
+    github_id      BIGINT      NOT NULL UNIQUE,
+    image_url      VARCHAR     NOT NULL,
+    nickname       VARCHAR(30) NOT NULL,
+    created_at     TIMESTAMP   NOT NULL,
+    updated_at     TIMESTAMP NULL,
     PRIMARY KEY (id)
 );
 

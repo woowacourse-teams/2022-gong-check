@@ -31,6 +31,7 @@ public class SocialProfileResponse {
         return Host.builder()
                 .githubId(getGithubId())
                 .imageUrl(imageUrl)
+                .nickname(loginName)
                 .build();
     }
 
