@@ -67,11 +67,4 @@ public class TaskController {
         TasksResponse response = taskService.findTasks(hostId, jobId);
         return ResponseEntity.ok(response);
     }
-
-    @PostMapping("/sections/{sectionId}/runningTask/allCheck")
-    public ResponseEntity<Void> checkRunningTasksInSection(@AuthenticationPrincipal final Long hostId,
-                                                           @PathVariable final Long sectionId) {
-        taskService.checkRunningTasksInSection(hostId, sectionId);
-        return ResponseEntity.ok().build();
-    }
 }

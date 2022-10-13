@@ -12,7 +12,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -534,7 +533,7 @@ class TaskServiceTest {
     class checkRunningTasksInSection_메소드는 {
 
         @Nested
-        class Host와_Section을_입력받는_경우 {
+        class SectionId를_입력받는_경우 {
 
             private final Host host = repository.save(Host_생성("1234", 1L));
             private final Space space = repository.save(Space_생성(host, "잠실"));
@@ -547,34 +546,12 @@ class TaskServiceTest {
                             RunningTask_생성(task2.getId(), false)));
 
             @Test
-            void 해당_Section의_RunningTask를_모두_체크싱테로_변경한다() {
-                taskService.checkRunningTasksInSection(host.getId(), section.getId());
+            void 해당_Section의_RunningTask를_모두_체크상태로_변경한다() {
+                taskService.checkRunningTasksInSection(section.getId());
                 List<RunningTask> actual = repository.findAll(RunningTask.class);
 
                 assertThat(actual).extracting("isChecked")
                         .containsExactly(true, true);
-            }
-
-            @Test
-            void emitterContainer에게_event_전송을_요청한다() {
-                taskService.checkRunningTasksInSection(host.getId(), section.getId());
-
-                verify(runningTaskSseEmitterContainer, times(1))
-                        .publishFlipEvent(eq(job.getId()), any());
-            }
-        }
-
-        @Nested
-        class 입력받은_Host가_존재하지_않는_경우 {
-
-            private static final long NON_EXIST_HOST_ID = 0L;
-            private static final long JOB_ID = 1L;
-
-            @Test
-            void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> taskService.checkRunningTasksInSection(NON_EXIST_HOST_ID, JOB_ID))
-                        .isInstanceOf(NotFoundException.class)
-                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
 
@@ -583,28 +560,9 @@ class TaskServiceTest {
 
             private static final long NON_EXIST_SECTION_ID = 0L;
 
-            private final Host host = repository.save(Host_생성("1234", 1L));
-
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> taskService.checkRunningTasksInSection(host.getId(), NON_EXIST_SECTION_ID))
-                        .isInstanceOf(NotFoundException.class)
-                        .hasMessageContaining("존재하지 않는 구역입니다.");
-            }
-        }
-
-        @Nested
-        class 다른_Host의_Section을_입력받는_경우 {
-
-            private final Host host = repository.save(Host_생성("1234", 1234L));
-            private final Host anotherHost = repository.save(Host_생성("1234", 2345L));
-            private final Space space = repository.save(Space_생성(anotherHost, "잠실"));
-            private final Job job = repository.save(Job_생성(space, "청소"));
-            private final Section section = repository.save(Section_생성(job, "트랙룸"));
-
-            @Test
-            void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> taskService.checkRunningTasksInSection(host.getId(), section.getId()))
+                assertThatThrownBy(() -> taskService.checkRunningTasksInSection(NON_EXIST_SECTION_ID))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessageContaining("존재하지 않는 구역입니다.");
             }
@@ -622,7 +580,7 @@ class TaskServiceTest {
 
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> taskService.checkRunningTasksInSection(host.getId(), section.getId()))
+                assertThatThrownBy(() -> taskService.checkRunningTasksInSection(section.getId()))
                         .isInstanceOf(BusinessException.class)
                         .hasMessageContaining("현재 진행중인 RunningTask가 없습니다");
             }

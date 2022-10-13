@@ -145,37 +145,6 @@ class TaskAcceptanceTest extends AcceptanceTest {
         );
     }
 
-    @Test
-    void 해당_Section의_RunningTask를_모두_체크한다() {
-        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
-        String token = 토큰을_요청한다(guestEnterRequest);
-        RunningTask를_생성한다(token);
-
-        ExtractableResponse<Response> response = RestAssured
-                .given().log().all()
-                .auth().oauth2(token)
-                .when().post("/api/sections/1/runningTask/allCheck")
-                .then().log().all()
-                .extract();
-
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-    }
-
-    @Test
-    void 존재하지_않는_RunningTask를_모두_체크하려는_경우_예외가_발생한다() {
-        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
-        String token = 토큰을_요청한다(guestEnterRequest);
-
-        ExtractableResponse<Response> response = RestAssured
-                .given().log().all()
-                .auth().oauth2(token)
-                .when().post("/api/sections/1/runningTask/allCheck")
-                .then().log().all()
-                .extract();
-
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-    }
-
     private ExtractableResponse<Response> RunningTask를_생성한다(final String token) {
         return RestAssured
                 .given().log().all()

@@ -118,24 +118,6 @@ public class TaskService {
     }
 
     @Transactional
-    public void checkRunningTasksInSection(final Long hostId, final Long sectionId) {
-        Host host = hostRepository.getById(hostId);
-        Section section = sectionRepository.getByJobSpaceHostAndId(host, sectionId);
-        Long jobId = section.getJob().getId();
-        Tasks tasks = new Tasks(taskRepository.findAllBySection(section));
-
-        if (!existsAnyRunningTaskIn(tasks)) {
-            String message = String.format("현재 진행중인 RunningTask가 없습니다 hostId = %d, sectionId = %d", hostId, sectionId);
-            throw new BusinessException(message, ErrorCode.R002);
-        }
-        RunningTasks runningTasks = tasks.getRunningTasks();
-        runningTasks.check();
-
-        Tasks allTasks = new Tasks(taskRepository.findAllBySectionJob(section.getJob()));
-        runningTaskSseEmitterContainer.publishFlipEvent(jobId, RunningTasksResponse.from(allTasks));
-    }
-
-    @Transactional
     public void checkRunningTasksInSection(final Long sectionId) {
         Section section = sectionRepository.getById(sectionId);
         Tasks tasks = new Tasks(taskRepository.findAllBySection(section));

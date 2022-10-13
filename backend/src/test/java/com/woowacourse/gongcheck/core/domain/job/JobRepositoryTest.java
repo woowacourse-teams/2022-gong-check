@@ -200,7 +200,7 @@ class JobRepositoryTest {
             void 예외가_발생한다() {
                 assertThatThrownBy(() -> jobRepository.getById(NON_EXIST_JOB_ID))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessageContaining("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 Job입니다.");
             }
         }
     }
