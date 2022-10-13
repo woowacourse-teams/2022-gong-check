@@ -9,7 +9,7 @@ import apiPassword from '@/apis/password';
 
 import errorMessage from '@/constants/errorMessage';
 
-const usePasswordUpdate = () => {
+const useUpdate = () => {
   const navigate = useNavigate();
 
   const { openToast } = useToast();
@@ -43,4 +43,4 @@ const usePasswordUpdate = () => {
   return { password, isShowPassword, onChangePassword, onClickToggleShowPassword, onSubmitChangePassword };
 };
 
-export default usePasswordUpdate;
+export default useUpdate;

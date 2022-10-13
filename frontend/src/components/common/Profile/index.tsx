@@ -1,12 +1,16 @@
+import { useQuery } from 'react-query';
+
+import apis from '@/apis';
+
 import styles from './styles';
 
 const Profile: React.FC = () => {
-  const PROFILE_DATA = { name: 'cks3066', imageUrl: 'https://avatars.githubusercontent.com/u/62434898?v=4' };
+  const { data: profileData } = useQuery(['hostProfile'], apis.getHostProfile, { suspense: false });
 
   return (
     <div css={styles.profile}>
-      <img src={PROFILE_DATA.imageUrl} alt="cks3066" width={36} height={36} />
-      <p>{PROFILE_DATA.name}</p>
+      <img src={profileData?.imageUrl} alt="" width={36} height={36} />
+      <p>{profileData?.nickname}</p>
     </div>
   );
 };

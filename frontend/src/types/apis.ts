@@ -53,3 +53,8 @@ export type ApiHostTokenData = {
 export type ApiEntranceCodedData = {
   entranceCode: string;
 };
+
+export type ApiHostProfileData = {
+  imageUrl: string;
+  nickname: string;
+};
