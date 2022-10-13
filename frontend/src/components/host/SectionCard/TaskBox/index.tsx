@@ -1,6 +1,6 @@
 import useTaskBox from './useTaskBox';
-import { BiMinus } from '@react-icons/all-files/bi/BiMinus';
 import { BiNews } from '@react-icons/all-files/bi/BiNews';
+import { BiXCircle } from '@react-icons/all-files/bi/BiXCircle';
 
 import { TaskType } from '@/types';
 
@@ -21,10 +21,10 @@ const TaskBox: React.FC<TaskBoxProps> = ({ task, taskIndex, sectionIndex }) => {
   return (
     <div css={styles.taskBox}>
       <div>
-        <BiMinus css={styles.deleteButton} size={18} onClick={onClickDeleteButton} />
+        <BiXCircle css={styles.deleteButton} size={18} onClick={onClickDeleteButton} />
         <input
           css={styles.input}
-          placeholder="새 작업"
+          placeholder="작업 내역을 입력해주세요."
           defaultValue={task.name}
           maxLength={10}
           onChange={onChangeInput}
