@@ -639,7 +639,7 @@ class TaskServiceTest {
 
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> taskService.flip(NON_EXIST_TASK_ID))
+                assertThatThrownBy(() -> taskService.flipRunningTask(NON_EXIST_TASK_ID))
                         .isInstanceOf(NotFoundException.class)
                         .hasMessageContaining("존재하지 않는 Task입니다");
             }
@@ -656,7 +656,7 @@ class TaskServiceTest {
 
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> taskService.flip(task.getId()))
+                assertThatThrownBy(() -> taskService.flipRunningTask(task.getId()))
                         .isInstanceOf(BusinessException.class)
                         .hasMessageContaining("현재 진행 중인 작업이 아닙니다");
             }
@@ -674,7 +674,7 @@ class TaskServiceTest {
 
             @Test
             void 해당_Task와_일치하는_RunningTask의_상태를_반대로_변경한다() {
-                taskService.flip(task.getId());
+                taskService.flipRunningTask(task.getId());
                 RunningTask actual = repository.getById(RunningTask.class, runningTask.getTaskId());
                 assertThat(actual.isChecked()).isTrue();
             }
