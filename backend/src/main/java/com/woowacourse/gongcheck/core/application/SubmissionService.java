@@ -12,7 +12,6 @@ import com.woowacourse.gongcheck.core.domain.space.SpaceRepository;
 import com.woowacourse.gongcheck.core.domain.submission.Submission;
 import com.woowacourse.gongcheck.core.domain.submission.SubmissionRepository;
 import com.woowacourse.gongcheck.core.domain.task.RunningTaskRepository;
-import com.woowacourse.gongcheck.core.domain.task.RunningTaskSseEmitterContainer;
 import com.woowacourse.gongcheck.core.domain.task.RunningTasks;
 import com.woowacourse.gongcheck.core.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.core.domain.task.Tasks;
@@ -36,14 +35,12 @@ public class SubmissionService {
     private final RunningTaskRepository runningTaskRepository;
     private final SubmissionRepository submissionRepository;
     private final NotificationService notificationService;
-    private final RunningTaskSseEmitterContainer runningTaskSseEmitterContainer;
 
     public SubmissionService(final HostRepository hostRepository, final JobRepository jobRepository,
                              final SpaceRepository spaceRepository, final TaskRepository taskRepository,
                              final RunningTaskRepository runningTaskRepository,
                              final SubmissionRepository submissionRepository,
-                             final NotificationService notificationService,
-                             final RunningTaskSseEmitterContainer runningTaskSseEmitterContainer) {
+                             final NotificationService notificationService) {
         this.hostRepository = hostRepository;
         this.jobRepository = jobRepository;
         this.spaceRepository = spaceRepository;
@@ -51,23 +48,15 @@ public class SubmissionService {
         this.runningTaskRepository = runningTaskRepository;
         this.submissionRepository = submissionRepository;
         this.notificationService = notificationService;
-        this.runningTaskSseEmitterContainer = runningTaskSseEmitterContainer;
     }
 
     @Transactional
-    public void submitJobCompletion(final Long hostId, final Long jobId,
-                                    final SubmissionRequest request) {
-        Host host = hostRepository.getById(hostId);
-        Job job = jobRepository.getBySpaceHostAndId(host, jobId);
+    public void submitJobCompletion(Long jobId, SubmissionRequest request) {
+        Job job = jobRepository.getById(jobId);
         saveSubmissionAndClearRunningTasks(request, job);
         if (job.hasUrl()) {
             sendNotification(request, job);
         }
-        runningTaskSseEmitterContainer.publishSubmitEvent(jobId);
-    }
-
-    private void sendNotification(final SubmissionRequest request, final Job job) {
-        notificationService.sendMessage(SubmissionCreatedResponse.of(request.getAuthor(), job));
     }
 
     public SubmissionsResponse findPage(final Long hostId, final Long spaceId, final Pageable pageable) {
@@ -76,6 +65,10 @@ public class SubmissionService {
         List<Job> jobs = jobRepository.findAllBySpace(space);
         Slice<Submission> submissions = submissionRepository.findAllByJobIn(jobs, pageable);
         return SubmissionsResponse.from(submissions);
+    }
+
+    private void sendNotification(final SubmissionRequest request, final Job job) {
+        notificationService.sendMessage(SubmissionCreatedResponse.of(request.getAuthor(), job));
     }
 
     private void saveSubmissionAndClearRunningTasks(final SubmissionRequest request, final Job job) {
