@@ -4,6 +4,7 @@ import com.woowacourse.gongcheck.auth.presentation.AuthenticationPrincipal;
 import com.woowacourse.gongcheck.auth.presentation.HostOnly;
 import com.woowacourse.gongcheck.core.application.TaskService;
 import com.woowacourse.gongcheck.core.application.response.JobActiveResponse;
+import com.woowacourse.gongcheck.core.application.response.RunningTasksResponse;
 import com.woowacourse.gongcheck.core.application.response.TasksResponse;
 import java.net.URI;
 import org.springframework.http.MediaType;
@@ -21,7 +22,7 @@ public class TaskController {
 
     private final TaskService taskService;
 
-    public TaskController(final TaskService taskService) {
+    public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
 
@@ -44,6 +45,12 @@ public class TaskController {
                                                           @PathVariable Long jobId) {
         SseEmitter emitter = taskService.connectRunningTasks(hostId, jobId);
         return ResponseEntity.ok(emitter);
+    }
+
+    @GetMapping("/jobs/{jobId}/runningTasks")
+    public ResponseEntity<RunningTasksResponse> showRunningTasks(@AuthenticationPrincipal final Long hostId,
+                                                                 @PathVariable Long jobId) {
+        return ResponseEntity.ok(taskService.showRunningTasks(jobId));
     }
 
     @PostMapping("/tasks/{taskId}/flip")

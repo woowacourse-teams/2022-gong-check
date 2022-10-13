@@ -30,6 +30,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    // websocket
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
     // webflux
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
