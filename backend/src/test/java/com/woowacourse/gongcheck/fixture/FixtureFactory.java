@@ -18,7 +18,18 @@ public class FixtureFactory {
         return Host.builder()
                 .spacePassword(new SpacePassword(password))
                 .githubId(githubId)
-                .imageUrl("test.com")
+                .imageUrl("image.url")
+                .nickname("nickname")
+                .createdAt(LocalDateTime.now()).build();
+    }
+
+    public static Host Host_아이디_지정_생성(final Long id, final String password, final Long githubId) {
+        return Host.builder()
+                .id(id)
+                .spacePassword(new SpacePassword(password))
+                .githubId(githubId)
+                .imageUrl("image.url")
+                .nickname("nickname")
                 .createdAt(LocalDateTime.now()).build();
     }
 
