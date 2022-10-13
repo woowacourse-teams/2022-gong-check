@@ -1,6 +1,7 @@
 package com.woowacourse.gongcheck.core.application;
 
 import com.woowacourse.gongcheck.auth.application.EntranceCodeProvider;
+import com.woowacourse.gongcheck.core.application.response.HostProfileResponse;
 import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.domain.host.HostRepository;
 import com.woowacourse.gongcheck.core.domain.host.SpacePassword;
@@ -29,5 +30,10 @@ public class HostService {
     public String createEntranceCode(final Long hostId) {
         Host host = hostRepository.getById(hostId);
         return entranceCodeProvider.createEntranceCode(host.getId());
+    }
+
+    public HostProfileResponse findProfile(final Long hostId) {
+        Host host = hostRepository.getById(hostId);
+        return HostProfileResponse.from(host);
     }
 }

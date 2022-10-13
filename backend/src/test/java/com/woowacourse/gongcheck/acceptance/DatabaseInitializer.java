@@ -50,8 +50,9 @@ public class DatabaseInitializer {
 
     @Transactional
     public void initTable() {
-        entityManager.createNativeQuery("INSERT INTO host (id, space_password, github_id, image_url, created_at)\n"
-                + "VALUES (1, '1234', 2, 'test.com', current_timestamp())").executeUpdate();
+        entityManager.createNativeQuery(
+                "INSERT INTO host (id, space_password, github_id, image_url, nickname, created_at)\n"
+                        + "VALUES (1, '1234', 2, 'test.com', 'nickname', current_timestamp())").executeUpdate();
         entityManager.createNativeQuery("INSERT INTO space (host_id, name, created_at)\n"
                 + "VALUES (1, '잠실', current_timestamp())").executeUpdate();
         entityManager.createNativeQuery("INSERT INTO job (space_id, name, slack_url, created_at)\n"

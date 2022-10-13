@@ -2,7 +2,13 @@
 == 호스트
 
 === 호스트 비밀번호 변경
+
 operation::hosts/spacePassword_update/success[snippets='http-request,http-response']
 
 === 입장코드 조회
+
 operation::hosts/entranceCode[snippets='http-request,http-response,response-fields']
+
+=== 호스트 프로필 조회
+
+operation::hosts/profile[snippets='http-request,http-response,response-fields']
