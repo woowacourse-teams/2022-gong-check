@@ -20,8 +20,8 @@ public class SubmitController {
     }
 
     @MessageMapping("/jobs/{jobId}/complete")
-    public String submitJobCompletion(@DestinationVariable Long jobId, @Valid final SubmissionRequest request) {
+    public Boolean submitJobCompletion(@DestinationVariable Long jobId, @Valid final SubmissionRequest request) {
         submissionService.submitJobCompletion(jobId, request);
-        return "제출되었습니다";
+        return true;
     }
 }

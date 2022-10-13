@@ -22,16 +22,16 @@ public class FlipController {
     @MessageMapping("/jobs/{jobId}/tasks/flip")
     public void flipRunningTask(@DestinationVariable final Long jobId, final Long taskId) {
         taskService.flipRunningTask(taskId);
-        template.convertAndSend("/topic/" + jobId, taskService.showRunningTasks(jobId));
+        template.convertAndSend("/topic/jobs" + jobId, taskService.showRunningTasks(jobId));
     }
 
     @MessageMapping("/jobs/{jobId}/sections/checkAll")
     public void checkAll(@DestinationVariable final Long jobId, final Long sectionId) {
         taskService.checkRunningTasksInSection(sectionId);
-        template.convertAndSend("/topic/" + jobId, taskService.showRunningTasks(jobId));
+        template.convertAndSend("/topic/jobs" + jobId, taskService.showRunningTasks(jobId));
     }
 
-    @SubscribeMapping("/topic/{jobId}")
+    @SubscribeMapping("/topic/jobs/{jobId}")
     public RunningTasksResponse showRunningTasks(@DestinationVariable final Long jobId) {
         return taskService.showRunningTasks(jobId);
     }
