@@ -1,4 +1,5 @@
 import apiAuth from './githubAuth';
+import apisHost from './host';
 import apiImage from './image';
 import apisJob from './job';
 import apisPassword from './password';
@@ -16,6 +17,7 @@ const apis = {
   ...apisTask,
   ...apiAuth,
   ...apiImage,
+  ...apisHost,
 };
 
 export default apis;

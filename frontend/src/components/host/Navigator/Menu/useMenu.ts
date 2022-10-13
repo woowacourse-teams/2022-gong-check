@@ -17,8 +17,8 @@ const useHostNavigator = () => {
     suspense: false,
   });
 
-  const onClickPasswordUpdate = () => {
-    navigate('/host/manage/passwordUpdate');
+  const onClickUpdate = () => {
+    navigate('/host/manage/update');
   };
 
   const onClickSpace = (spaceId: ID) => {
@@ -38,7 +38,7 @@ const useHostNavigator = () => {
     }
   };
 
-  return { selectedSpaceId, spaceData, onClickPasswordUpdate, onClickSpace, onClickNewSpace, onClickLogout };
+  return { selectedSpaceId, spaceData, onClickUpdate, onClickSpace, onClickNewSpace, onClickLogout };
 };
 
 export default useHostNavigator;

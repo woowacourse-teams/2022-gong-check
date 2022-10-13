@@ -1,7 +1,6 @@
 import useMenu from './useMenu';
-import { CgHomeAlt } from '@react-icons/all-files/cg/CgHomeAlt';
-import { RiAccountPinCircleLine } from '@react-icons/all-files/ri/RiAccountPinCircleLine';
-import { RiLockPasswordLine } from '@react-icons/all-files/ri/RiLockPasswordLine';
+import { RiHomeGearLine } from '@react-icons/all-files/ri/RiHomeGearLine';
+import { RiHomeSmileLine } from '@react-icons/all-files/ri/RiHomeSmileLine';
 import { RiLogoutCircleLine } from '@react-icons/all-files/ri/RiLogoutCircleLine';
 
 import Profile from '@/components/common/Profile';
@@ -9,7 +8,7 @@ import Profile from '@/components/common/Profile';
 import styles from './styles';
 
 const Menu = () => {
-  const { selectedSpaceId, spaceData, onClickPasswordUpdate, onClickSpace, onClickNewSpace, onClickLogout } = useMenu();
+  const { selectedSpaceId, spaceData, onClickUpdate, onClickSpace, onClickNewSpace, onClickLogout } = useMenu();
 
   return (
     <>
@@ -17,13 +16,9 @@ const Menu = () => {
         <div css={styles.categoryList}>
           <span css={styles.categoryTitle}>내 정보</span>
           <Profile />
-          <div css={styles.categoryTextWrapper} onClick={onClickPasswordUpdate}>
-            <RiLockPasswordLine size={20} />
-            <span>공간 입장코드 변경</span>
-          </div>
-          <div css={styles.categoryTextWrapper}>
-            <RiAccountPinCircleLine size={20} />
-            <span>닉네임 변경</span>
+          <div css={styles.categoryTextWrapper} onClick={onClickUpdate}>
+            <RiHomeGearLine size={20} />
+            <span>공간 정보 변경</span>
           </div>
           <div css={styles.categoryTextWrapper} onClick={onClickLogout}>
             <RiLogoutCircleLine size={20} />
@@ -44,7 +39,7 @@ const Menu = () => {
                 key={space.id}
                 onClick={() => onClickSpace(space.id)}
               >
-                <CgHomeAlt size={20} />
+                <RiHomeSmileLine size={20} />
                 <span>{space.name}</span>
               </div>
             );
