@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 
-import animation from '@/styles/animation';
 import theme from '@/styles/theme';
 
 const layout = css`
@@ -19,36 +18,27 @@ const text404 = css`
 `;
 
 const description = css`
-  color: ${theme.colors.primary};
+  color: ${theme.colors.black};
+  font-weight: bold;
   font-size: 1.4rem;
+  margin-bottom: 1.8rem;
+`;
+
+const mark = css`
+  color: ${theme.colors.red};
 `;
 
 const content = css`
   position: relative;
   top: 0;
   z-index: 1;
+  margin: 20px 0;
 `;
 
-const homeCoverWrapper = css`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const button = css`
+  background-color: ${theme.colors.red};
 `;
 
-const homeCover = css`
-  margin: 1em 0;
-  animation: ${animation.wave} 2s alternate linear infinite;
-
-  source,
-  img {
-    width: 300px;
-    aspect-ratio: auto 1 / 1;
-    @media screen and (min-width: 481px) {
-      width: 400px;
-    }
-  }
-`;
-
-const styles = { layout, text404, description, content, homeCoverWrapper, homeCover };
+const styles = { layout, text404, description, content, button, mark };
 
 export default styles;
