@@ -2,15 +2,15 @@ import { AxiosError } from 'axios';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useQueryErrorResetBoundary } from 'react-query';
 
-import ErrorPage from '@/pages/errorPages/ErrorPage';
+import ErrorUser from '@/pages/errorPages/ErrorUser';
 
 import errorMessage from '@/constants/errorMessage';
 
-interface ErrorHostProps {
+interface ErrorUserBoundaryProps {
   children: React.ReactNode;
 }
 
-const ErrorHost: React.FC<ErrorHostProps> = ({ children }) => {
+const ErrorUserBoundary: React.FC<ErrorUserBoundaryProps> = ({ children }) => {
   const { reset } = useQueryErrorResetBoundary();
 
   return (
@@ -20,7 +20,7 @@ const ErrorHost: React.FC<ErrorHostProps> = ({ children }) => {
         const err = error as AxiosError<{ errorCode: keyof typeof errorMessage }>;
         const errorCode = err.response?.data.errorCode;
 
-        return <ErrorPage errorCode={errorCode} />;
+        return <ErrorUser errorCode={errorCode} />;
       }}
     >
       {children}
@@ -28,4 +28,4 @@ const ErrorHost: React.FC<ErrorHostProps> = ({ children }) => {
   );
 };
 
-export default ErrorHost;
+export default ErrorUserBoundary;

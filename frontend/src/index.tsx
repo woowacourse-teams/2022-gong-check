@@ -24,7 +24,7 @@ const queryClient = new QueryClient({
 
         if (!errorCode) return false;
 
-        return ['A001', 'A002', 'A003', 'E001'].includes(errorCode);
+        return ['A001', 'A002', 'A003', 'E001', 'T003', 'R001', 'R002'].includes(errorCode);
       },
     },
   },
