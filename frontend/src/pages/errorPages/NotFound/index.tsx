@@ -14,7 +14,7 @@ import homeCover_fallback from '@/assets/homeCover-fallback.png';
 import styles from './styles';
 
 interface NotFoundProps {
-  errorCode?: keyof typeof errorMessage;
+  errorCode?: keyof typeof errorMessage | undefined;
 }
 
 const NotFound: React.FC<NotFoundProps> = ({ errorCode }) => {
@@ -43,6 +43,7 @@ const NotFound: React.FC<NotFoundProps> = ({ errorCode }) => {
       </div>
       <div css={styles.description}>존재하지 않는 페이지입니다!</div>
       <Button onClick={() => navigate(-1)}>이전 페이지로 이동</Button>
+      <Button onClick={() => navigate('/host')}>Home</Button>
     </div>
   );
 };
