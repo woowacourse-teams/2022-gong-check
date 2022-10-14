@@ -9,30 +9,23 @@ const layout = css`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  svg + span {
-    color: ${theme.colors.shadow50};
-    font-size: 16px;
-    margin: 24px 0 32px 0;
-  }
-  svg {
-    color: ${theme.colors.shadow40};
-  }
 `;
 
 const content = css`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 40px;
 `;
 
 const inputWrapper = css`
   width: 280px;
   height: 36px;
   display: flex;
-  justify-content: space-around;
+  justify-content: flex;
   align-items: center;
-  background-color: ${theme.colors.gray200};
+  background-color: ${theme.colors.white};
   border: 1px solid ${theme.colors.gray400};
   border-radius: 8px;
   padding: 0 12px;
@@ -40,14 +33,18 @@ const inputWrapper = css`
   input {
     height: 80%;
     width: 80%;
-    background-color: ${theme.colors.gray200};
+    background-color: ${theme.colors.white};
     border: none;
     outline: none;
     font-size: 16px;
-    color: ${theme.colors.shadow80};
+
+    &::placeholder {
+      color: ${theme.colors.gray400};
+    }
   }
 
   svg {
+    margin-left: auto;
     cursor: pointer;
     color: ${theme.colors.shadow70};
 
@@ -69,6 +66,24 @@ const infoText = css`
   margin: 12px 0;
 `;
 
-const styles = { layout, content, inputWrapper, button, infoText };
+const label = css`
+  width: 360px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  color: ${theme.colors.gray800};
+  font-size: 18px;
+  margin-bottom: 8px;
+
+  svg {
+    margin-right: 4px;
+  }
+`;
+
+const flex = css`
+  display: flex;
+`;
+
+const styles = { layout, content, inputWrapper, button, infoText, label, flex };
 
 export default styles;

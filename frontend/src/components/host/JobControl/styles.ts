@@ -32,7 +32,7 @@ const jobNameInput = css`
   font-size: 1.2em;
   font-weight: 500;
   margin: 12px 0;
-  background-color: ${theme.colors.white};
+  background-color: ${theme.colors.gray100};
   outline: 1px solid ${theme.colors.gray400};
 
   :focus {

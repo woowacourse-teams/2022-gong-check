@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 
-import { ApiEntranceCodedData } from '@/types/apis';
+import { ApiEntranceCodedData, ApiHostProfileData } from '@/types/apis';
 
 import { axiosInstanceToken } from './config';
 
@@ -13,6 +13,15 @@ const getEntranceCode = async () => {
   return data;
 };
 
-const apiHost = { getEntranceCode };
+const getHostProfile = async () => {
+  const { data }: AxiosResponse<ApiHostProfileData> = await axiosInstanceToken({
+    method: 'GET',
+    url: `/api/hosts/me`,
+  });
+
+  return data;
+};
+
+const apiHost = { getEntranceCode, getHostProfile };
 
 export default apiHost;

@@ -11,7 +11,6 @@ const useGitHubLogin = () => {
   useEffect(() => {
     if (tokenData) {
       localStorage.setItem('host', tokenData.token);
-      sessionStorage.setItem('tokenKey', 'host');
     }
   }, [tokenData]);
 

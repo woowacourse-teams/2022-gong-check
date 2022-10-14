@@ -20,7 +20,7 @@ const SpaceUpdatePage = lazy(() => import('@/pages/host/SpaceUpdate'));
 const SpaceRecordPage = lazy(() => import('@/pages/host/SpaceRecord'));
 const JobCreatePage = lazy(() => import('@/pages/host/JobCreate'));
 const JobUpdatePage = lazy(() => import('@/pages/host/JobUpdate'));
-const PasswordUpdatePage = lazy(() => import('@/pages/host/PasswordUpdate'));
+const UpdatePage = lazy(() => import('@/pages/host/Update'));
 
 // common
 const NotFoundPage = lazy(() => import('@/pages/common/NotFound'));
@@ -69,8 +69,8 @@ const routes = [
             element: <ManageLayout />,
             children: [
               {
-                path: 'passwordUpdate',
-                element: <PasswordUpdatePage />,
+                path: 'update',
+                element: <UpdatePage />,
               },
               {
                 path: 'spaceCreate',

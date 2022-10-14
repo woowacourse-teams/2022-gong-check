@@ -17,8 +17,8 @@ const useHostNavigator = () => {
     suspense: false,
   });
 
-  const onClickPasswordUpdate = () => {
-    navigate('/host/manage/passwordUpdate');
+  const onClickUpdate = () => {
+    navigate('/host/manage/update');
   };
 
   const onClickSpace = (spaceId: ID) => {
@@ -30,7 +30,15 @@ const useHostNavigator = () => {
     navigate('/host/manage/spaceCreate');
   };
 
-  return { selectedSpaceId, spaceData, onClickPasswordUpdate, onClickSpace, onClickNewSpace };
+  const onClickLogout = () => {
+    if (confirm('로그아웃하시겠습니까?')) {
+      sessionStorage.removeItem('host');
+      localStorage.removeItem('host');
+      navigate('/host');
+    }
+  };
+
+  return { selectedSpaceId, spaceData, onClickUpdate, onClickSpace, onClickNewSpace, onClickLogout };
 };
 
 export default useHostNavigator;

@@ -22,7 +22,7 @@ const SectionCard: React.FC<SectionCardProps> = ({ section, sectionIndex }) => {
       <div css={styles.titleWrapper}>
         <input
           css={styles.input}
-          placeholder="새 구역"
+          placeholder="구역 이름을 입력주세요."
           defaultValue={section.name}
           maxLength={10}
           onChange={onChange}

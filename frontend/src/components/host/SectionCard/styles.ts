@@ -11,7 +11,7 @@ const container = css`
   height: 356px;
   overflow-y: scroll;
   padding: 40px 32px;
-  background-color: ${theme.colors.white};
+  background-color: ${theme.colors.skyblue200};
   box-shadow: 2px 2px 2px 2px ${theme.colors.shadow20};
   border-radius: 8px;
   position: relative;
@@ -59,7 +59,7 @@ const deleteButton = css`
 const detailButton = (hasSectionDetailInfo: boolean) => css`
   margin: 0 4px;
   cursor: pointer;
-  color: ${hasSectionDetailInfo ? theme.colors.green : theme.colors.gray400};
+  color: ${hasSectionDetailInfo ? theme.colors.green : theme.colors.shadow40};
   :hover {
     animation: ${animation.shake} 2s infinite linear alternate;
   }
@@ -71,10 +71,8 @@ const newTaskButton = css`
   font-size: 12px;
   padding: 8px 16px;
   border-radius: 24px;
-  background-color: ${theme.colors.shadow10};
-  :hover {
-    background-color: ${theme.colors.shadow20};
-  }
+  color: ${theme.colors.white};
+  background-color: ${theme.colors.primary};
 `;
 
 const input = css`
@@ -82,11 +80,15 @@ const input = css`
   border: 1px solid ${theme.colors.shadow30};
   border-radius: 12px;
   padding: 4px 16px;
-  background-color: ${theme.colors.white};
+  background-color: ${theme.colors.gray100};
   width: 80%;
 
   :focus {
     outline: 2px solid ${theme.colors.primary};
+  }
+
+  ::placeholder {
+    font-size: 14px;
   }
 `;
 
