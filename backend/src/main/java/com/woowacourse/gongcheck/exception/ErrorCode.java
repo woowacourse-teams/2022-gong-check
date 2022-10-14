@@ -11,6 +11,7 @@ public enum ErrorCode {
     H003("entranceCode 에서 hostId 추출 시 유효하지 않은 hostId인 경우"),
     H004("Host 조회 시, 입력 받은 id의 Host가 존재하지 않는 경우"),
     H005("Host 조회 시, 입력 받은 githubId의 Host가 존재하지 않는 경우"),
+    H006("Nickname 변경 시, 입력 받은 nickname이 공백인 경우"),
 
     // Job
     J001("Job 조회 시, 입력 받은 host, id에 해당하는 Job 이 존재하지 않는 경우"),

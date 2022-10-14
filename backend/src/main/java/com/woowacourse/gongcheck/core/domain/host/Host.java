@@ -43,7 +43,7 @@ public class Host {
 
     @Column(name = "nickname", nullable = false)
     private String nickname;
-    
+
     @CreatedDate
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
@@ -75,6 +75,13 @@ public class Host {
 
     public void changeSpacePassword(final SpacePassword spacePassword) {
         this.spacePassword = spacePassword;
+    }
+
+    public void changeNickname(final String nickname) {
+        if (nickname.isBlank()) {
+            throw new BusinessException("nickname은 공백일 수 없습니다.", ErrorCode.H006);
+        }
+        this.nickname = nickname;
     }
 
     @Override
