@@ -41,8 +41,8 @@ public class Host {
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
 
-    @Column(name = "nickname", nullable = false)
-    private String nickname;
+    @Embedded
+    private Nickname nickname;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false)
@@ -56,7 +56,7 @@ public class Host {
     }
 
     public Host(final Long id, final SpacePassword spacePassword, final Long githubId, final String imageUrl,
-                final String nickname, final LocalDateTime createdAt, final LocalDateTime updatedAt) {
+                final Nickname nickname, final LocalDateTime createdAt, final LocalDateTime updatedAt) {
         this.id = id;
         this.spacePassword = spacePassword;
         this.githubId = githubId;
@@ -77,10 +77,7 @@ public class Host {
         this.spacePassword = spacePassword;
     }
 
-    public void changeNickname(final String nickname) {
-        if (nickname.isBlank()) {
-            throw new BusinessException("nickname은 공백일 수 없습니다.", ErrorCode.H006);
-        }
+    public void changeNickname(final Nickname nickname) {
         this.nickname = nickname;
     }
 

@@ -147,7 +147,7 @@ class HostServiceTest {
                 hostService.changeProfile(host.getId(), new HostProfileChangeRequest(CHANGED_NAME));
                 Host actual = repository.getById(Host.class, host.getId());
 
-                assertThat(actual.getNickname()).isEqualTo(CHANGED_NAME);
+                assertThat(actual.getNickname().getValue()).isEqualTo(CHANGED_NAME);
             }
         }
 

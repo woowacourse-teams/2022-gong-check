@@ -50,23 +50,13 @@ class HostTest {
         assertThat(host.getSpacePassword()).isEqualTo(new SpacePassword(changedPassword));
     }
 
-    @Nested
-    class nickname을_변경할_때 {
+    @Test
+    void nickname을_변경한다() {
+        Host host = Host_생성("0123", 1234L);
+        String expected = "changedName";
 
-        private final Host host = Host_생성("0123", 1234L);
+        host.changeNickname(new Nickname(expected));
 
-        @Test
-        void 변경할_nickname이_공백이면_예외가_발생한다() {
-            assertThatThrownBy(() -> host.changeNickname(" "))
-                    .isInstanceOf(BusinessException.class)
-                    .hasMessageContaining("nickname은 공백일 수 없습니다.");
-        }
-
-        @Test
-        void 정상적인_nickname이면_변경한다() {
-            String expected = "changedName";
-            host.changeNickname(expected);
-            assertThat(host.getNickname()).isEqualTo(expected);
-        }
+        assertThat(host.getNickname().getValue()).isEqualTo(expected);
     }
 }

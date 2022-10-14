@@ -2,6 +2,7 @@ package com.woowacourse.gongcheck.auth.application.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.woowacourse.gongcheck.core.domain.host.Host;
+import com.woowacourse.gongcheck.core.domain.host.Nickname;
 import lombok.Getter;
 
 @Getter
@@ -31,7 +32,7 @@ public class SocialProfileResponse {
         return Host.builder()
                 .githubId(getGithubId())
                 .imageUrl(imageUrl)
-                .nickname(loginName)
+                .nickname(new Nickname(loginName))
                 .build();
     }
 

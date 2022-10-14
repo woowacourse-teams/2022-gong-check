@@ -18,6 +18,6 @@ public class HostProfileResponse {
     }
 
     public static HostProfileResponse from(final Host host) {
-        return new HostProfileResponse(host.getImageUrl(), host.getNickname());
+        return new HostProfileResponse(host.getImageUrl(), host.getNickname().getValue());
     }
 }
