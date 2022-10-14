@@ -5,18 +5,15 @@ import com.woowacourse.gongcheck.core.presentation.request.SubmissionRequest;
 import javax.validation.Valid;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 @Controller
 public class SubmitController {
 
     private final SubmissionService submissionService;
-    private final SimpMessagingTemplate template;
 
-    public SubmitController(SubmissionService submissionService, SimpMessagingTemplate template) {
+    public SubmitController(SubmissionService submissionService) {
         this.submissionService = submissionService;
-        this.template = template;
     }
 
     @MessageMapping("/jobs/{jobId}/complete")

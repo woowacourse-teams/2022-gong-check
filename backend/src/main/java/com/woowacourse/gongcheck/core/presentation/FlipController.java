@@ -2,6 +2,8 @@ package com.woowacourse.gongcheck.core.presentation;
 
 import com.woowacourse.gongcheck.core.application.TaskService;
 import com.woowacourse.gongcheck.core.application.response.RunningTasksResponse;
+import com.woowacourse.gongcheck.core.presentation.request.AllCheckRequest;
+import com.woowacourse.gongcheck.core.presentation.request.FlipRequest;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -20,15 +22,15 @@ public class FlipController {
     }
 
     @MessageMapping("/jobs/{jobId}/tasks/flip")
-    public void flipRunningTask(@DestinationVariable final Long jobId, final Long taskId) {
-        taskService.flipRunningTask(taskId);
-        template.convertAndSend("/topic/jobs" + jobId, taskService.showRunningTasks(jobId));
+    public void flipRunningTask(@DestinationVariable final Long jobId, final FlipRequest request) {
+        taskService.flipRunningTask(request.getTaskId());
+        template.convertAndSend("/topic/jobs/" + jobId, taskService.showRunningTasks(jobId));
     }
 
     @MessageMapping("/jobs/{jobId}/sections/checkAll")
-    public void checkAll(@DestinationVariable final Long jobId, final Long sectionId) {
-        taskService.checkRunningTasksInSection(sectionId);
-        template.convertAndSend("/topic/jobs" + jobId, taskService.showRunningTasks(jobId));
+    public void checkAll(@DestinationVariable final Long jobId, final AllCheckRequest request) {
+        taskService.checkRunningTasksInSection(request.getSectionId());
+        template.convertAndSend("/topic/jobs/" + jobId, taskService.showRunningTasks(jobId));
     }
 
     @SubscribeMapping("/topic/jobs/{jobId}")
