@@ -1,6 +1,11 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Button from '@/components/common/Button';
+
+import useToast from '@/hooks/useToast';
+
+import errorMessage from '@/constants/errorMessage';
 
 import homeCover_360w from '@/assets/homeCover-360w.webp';
 import homeCover_480w from '@/assets/homeCover-480w.webp';
@@ -8,8 +13,22 @@ import homeCover_fallback from '@/assets/homeCover-fallback.png';
 
 import styles from './styles';
 
-const NotFound: React.FC = () => {
+interface NotFoundProps {
+  errorCode?: keyof typeof errorMessage;
+}
+
+const NotFound: React.FC<NotFoundProps> = ({ errorCode }) => {
   const navigate = useNavigate();
+  const { openToast } = useToast();
+
+  useEffect(() => {
+    if (!errorCode) {
+      openToast('ERROR', '존재하지 않는 페이지입니다.');
+      return;
+    }
+
+    openToast('ERROR', errorMessage[`${errorCode}`]);
+  }, []);
 
   return (
     <div css={styles.layout}>

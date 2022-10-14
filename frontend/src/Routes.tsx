@@ -23,7 +23,7 @@ const JobUpdatePage = lazy(() => import('@/pages/host/JobUpdate'));
 const UpdatePage = lazy(() => import('@/pages/host/Update'));
 
 // common
-const NotFoundPage = lazy(() => import('@/pages/common/NotFound'));
+const NotFoundPage = lazy(() => import('@/pages/errorPages/NotFound'));
 
 const routes = [
   {
