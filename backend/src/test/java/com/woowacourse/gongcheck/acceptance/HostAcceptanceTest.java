@@ -88,4 +88,20 @@ class HostAcceptanceTest extends AcceptanceTest {
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
     }
+
+    @Test
+    void Host_토큰으로_호스트_profile을_변경할_때_nickname이_null이면_예외가_발생한다() {
+        String token = Host_토큰을_요청한다().getToken();
+
+        ExtractableResponse<Response> response = RestAssured
+                .given().log().all()
+                .body(new HostProfileChangeRequest(null))
+                .auth().oauth2(token)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().put("/api/hosts")
+                .then().log().all()
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
 }
