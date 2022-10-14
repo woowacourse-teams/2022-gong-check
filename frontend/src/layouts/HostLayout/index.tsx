@@ -1,4 +1,4 @@
-import ErrorHostToken from '@/ErrorBoundary/ErrorHostToken';
+import ErrorHost from '@/ErrorBoundary/ErrorHost';
 import { Suspense, useEffect, useMemo } from 'react';
 import { Outlet } from 'react-router-dom';
 
@@ -16,13 +16,13 @@ const HostLayout: React.FC = () => {
   }, []);
 
   return (
-    <ErrorHostToken>
+    <ErrorHost>
       <Suspense fallback={<Loading />}>
         <div css={styles.layout(isManagePath)}>
           <Outlet />
         </div>
       </Suspense>
-    </ErrorHostToken>
+    </ErrorHost>
   );
 };
 

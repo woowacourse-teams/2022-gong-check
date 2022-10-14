@@ -6,11 +6,11 @@ import ErrorPage from '@/pages/errorPages/ErrorPage';
 
 import errorMessage from '@/constants/errorMessage';
 
-interface ErrorHostTokenProps {
+interface ErrorHostProps {
   children: React.ReactNode;
 }
 
-const ErrorHostToken: React.FC<ErrorHostTokenProps> = ({ children }) => {
+const ErrorHost: React.FC<ErrorHostProps> = ({ children }) => {
   const { reset } = useQueryErrorResetBoundary();
 
   return (
@@ -28,4 +28,4 @@ const ErrorHostToken: React.FC<ErrorHostTokenProps> = ({ children }) => {
   );
 };
 
-export default ErrorHostToken;
+export default ErrorHost;
