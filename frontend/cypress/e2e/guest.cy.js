@@ -16,15 +16,20 @@ describe('사용자, - 비밀번호 입력 페이지', () => {
   });
 
   it('사용자가 잘못된 비밀번호를 입력하면, 토스트바로 안내해준다.', () => {
-    cy.get('input')
-      .type(WRONG_PASSWORD)
-      .then(() => {
-        cy.get('button')
-          .click()
-          .then(() => {
-            cy.get('#toast > div').should('be.contain', '비밀번호를 확인해주세요.');
-          });
-      });
+    cy.on('uncaught:exception', (err, runnable) => {
+      // returning false here prevents Cypress from failing the test
+      if (err.response.data.errorCode === 'A003') return false;
+
+      cy.get('input')
+        .type(WRONG_PASSWORD)
+        .then(() => {
+          cy.get('button')
+            .click()
+            .then(() => {
+              cy.get('#toast > div').should('be.contain', '비밀번호가 일치하지 않습니다.');
+            });
+        });
+    });
   });
 });
 

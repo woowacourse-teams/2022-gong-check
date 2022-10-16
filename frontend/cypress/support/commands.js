@@ -43,6 +43,9 @@ Cypress.Commands.addAll({
             }
           : {
               statusCode: 401,
+              body: {
+                errorCode: 'H001',
+              },
             }
       );
     }).as('spaceEnter');
