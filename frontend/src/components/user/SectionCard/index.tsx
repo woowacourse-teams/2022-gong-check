@@ -1,5 +1,6 @@
 import SectionInfoPreview from './SectionInfoPreview';
 import { RiInformationLine } from '@react-icons/all-files/ri/RiInformationLine';
+import { useMutation } from 'react-query';
 
 import Button from '@/components/common/Button';
 import CheckBox from '@/components/common/Checkbox';
@@ -28,9 +29,11 @@ const SectionCard: React.FC<SectionCardProps> = ({
 }) => {
   const { openModal } = useModal();
 
+  const { mutate: postCheckTask } = useMutation((id: ID) => apis.postCheckTask(id));
+
   const onClickCheckBox = (e: React.MouseEvent<HTMLElement, MouseEvent> | React.ChangeEvent<HTMLElement>, id: ID) => {
     e.preventDefault();
-    apis.postCheckTask(id);
+    postCheckTask(id);
   };
 
   const onClickTaskDetail = (task: TaskType) => {

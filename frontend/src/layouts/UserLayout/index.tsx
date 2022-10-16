@@ -1,5 +1,4 @@
-import ErrorUserTask from '@/ErrorBoundary/ErrorUserTask';
-import ErrorUserToken from '@/ErrorBoundary/ErrorUserToken';
+import ErrorUserBoundary from '@/ErrorBoundary/ErrorUserBoundary';
 import { Global } from '@emotion/react';
 import { Suspense, useEffect } from 'react';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
@@ -25,16 +24,14 @@ const UserLayout: React.FC = () => {
   }, []);
 
   return (
-    <ErrorUserToken>
-      <ErrorUserTask>
-        <div css={styles.layout}>
-          <Global styles={transitions} />
-          <Suspense fallback={<div css={styles.fallback} />}>
-            <Outlet />
-          </Suspense>
-        </div>
-      </ErrorUserTask>
-    </ErrorUserToken>
+    <ErrorUserBoundary>
+      <div css={styles.layout}>
+        <Global styles={transitions} />
+        <Suspense fallback={<div css={styles.fallback} />}>
+          <Outlet />
+        </Suspense>
+      </div>
+    </ErrorUserBoundary>
   );
 };
 
