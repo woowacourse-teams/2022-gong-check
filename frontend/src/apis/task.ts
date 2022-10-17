@@ -30,12 +30,12 @@ const getTasks = async (jobId: ID) => {
   return data;
 };
 
-const postCheckTask = (taskId: ID) => {
-  return axiosInstanceToken({
-    method: 'POST',
-    url: `/api/tasks/${taskId}/flip`,
-  });
-};
+// const postCheckTask = (taskId: ID) => {
+//   return axiosInstanceToken({
+//     method: 'POST',
+//     url: `/api/tasks/${taskId}/flip`,
+//   });
+// };
 
 const postSectionAllCheckTask = (sectionId: ID) => {
   return axiosInstanceToken({
@@ -44,6 +44,6 @@ const postSectionAllCheckTask = (sectionId: ID) => {
   });
 };
 
-const apiTask = { postCheckTask, getRunningTasks, getTasks, postNewRunningTasks, postSectionAllCheckTask };
+const apiTask = { getRunningTasks, getTasks, postNewRunningTasks, postSectionAllCheckTask };
 
 export default apiTask;

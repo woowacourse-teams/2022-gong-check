@@ -1,16 +1,16 @@
-import { EventSourcePolyfill } from 'event-source-polyfill';
+import { Stomp } from '@stomp/stompjs';
 import { useEffect, useState } from 'react';
+import { useRef } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useLocation, useParams } from 'react-router-dom';
+import SockJS from 'sockjs-client';
 
 import DetailInfoModal from '@/components/user/DetailInfoModal';
 import NameModal from '@/components/user/NameModal';
 
 import useGoPreviousPage from '@/hooks/useGoPreviousPage';
 import useModal from '@/hooks/useModal';
-import useScroll from '@/hooks/useScroll';
 import useSectionCheck from '@/hooks/useSectionCheck';
-import useToast from '@/hooks/useToast';
 
 import apis from '@/apis';
 
@@ -25,8 +25,7 @@ const useTaskList = () => {
   const location = useLocation();
   const locationState = location.state as { jobName: string };
 
-  const { openModal, closeModal } = useModal();
-  const { openToast } = useToast();
+  const { openModal } = useModal();
 
   const { goPreviousPage } = useGoPreviousPage();
 
@@ -43,12 +42,15 @@ const useTaskList = () => {
   });
 
   const { data: spaceData } = useQuery(['space', jobId], () => apis.getSpace(spaceId));
+  const { data: runningTasksData } = useQuery(['runningTask'], () => apis.getRunningTasks(jobId));
 
   const { mutate: postSectionAllCheck } = useMutation((sectionId: ID) => apis.postSectionAllCheckTask(sectionId));
 
   const { sectionsAllCheckMap, totalCount, checkedCount, percent, isAllChecked } = useSectionCheck(
     sectionsData?.sections || []
   );
+
+  const stomp = useRef<any>(null);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -71,36 +73,36 @@ const useTaskList = () => {
     postSectionAllCheck(sectionId);
   };
 
+  const flipTaskCheck = (taskId: ID) => {
+    if (!stomp.current) return;
+    stomp.current.send(`/app/jobs/${jobId}/tasks/flip`, {}, JSON.stringify({ taskId }));
+  };
+
   useEffect(() => {
-    const tokenKey = sessionStorage.getItem('tokenKey');
-    if (!tokenKey) return;
+    const sock = new SockJS(`${API_URL}/ws/connect`);
+    stomp.current = Stomp.over(sock);
 
-    const sse = new EventSourcePolyfill(`${API_URL}/api/jobs/${jobId}/runningTasks/connect`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem(tokenKey)}`,
-      },
+    stomp.current.connect({}, () => {
+      stomp.current.subscribe(`/topic/${jobId}`, (data: any) => {
+        setSectionsData(JSON.parse(data.body));
+      });
     });
 
-    sse.addEventListener('connect', (e: any) => {
-      const { data: receivedSections } = e;
+    return () => {
+      stomp.current.disconnect();
+      sock.close();
+    };
 
-      setSectionsData(JSON.parse(receivedSections));
-    });
-
-    sse.addEventListener('flip', (e: any) => {
-      const { data: receivedSections } = e;
-
-      setSectionsData(JSON.parse(receivedSections));
-    });
-
-    sse.addEventListener('submit', () => {
-      closeModal();
-      openToast('SUCCESS', '해당 체크리스트는 제출되었습니다.');
-      goPreviousPage();
-    });
-
-    return () => sse.close();
+    // sse.addEventListener('submit', () => {
+    //   closeModal();
+    //   openToast('SUCCESS', '해당 체크리스트는 제출되었습니다.');
+    //   goPreviousPage();
+    // });
   }, []);
+
+  useEffect(() => {
+    if (runningTasksData) setSectionsData(runningTasksData);
+  }, [runningTasksData]);
 
   return {
     spaceData,
@@ -115,6 +117,7 @@ const useTaskList = () => {
     sectionsData,
     onClickSectionDetail,
     onClickSectionAllCheck,
+    flipTaskCheck,
   };
 };
 

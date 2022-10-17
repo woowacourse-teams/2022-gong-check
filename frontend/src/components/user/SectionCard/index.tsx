@@ -8,8 +8,6 @@ import DetailInfoModal from '@/components/user/DetailInfoModal';
 
 import useModal from '@/hooks/useModal';
 
-import apis from '@/apis';
-
 import { ID, SectionType, TaskType } from '@/types';
 
 import styles from './styles';
@@ -19,6 +17,7 @@ type SectionCardProps = {
   sectionsAllCheckMap: any;
   onClickSectionDetail: any;
   onClickSectionAllCheck: any;
+  flipTaskCheck: any;
 };
 
 const SectionCard: React.FC<SectionCardProps> = ({
@@ -26,14 +25,13 @@ const SectionCard: React.FC<SectionCardProps> = ({
   sectionsAllCheckMap,
   onClickSectionDetail,
   onClickSectionAllCheck,
+  flipTaskCheck,
 }) => {
   const { openModal } = useModal();
 
-  const { mutate: postCheckTask } = useMutation((id: ID) => apis.postCheckTask(id));
-
   const onClickCheckBox = (e: React.MouseEvent<HTMLElement, MouseEvent> | React.ChangeEvent<HTMLElement>, id: ID) => {
     e.preventDefault();
-    postCheckTask(id);
+    flipTaskCheck(id);
   };
 
   const onClickTaskDetail = (task: TaskType) => {
