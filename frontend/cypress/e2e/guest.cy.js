@@ -59,6 +59,7 @@ describe('사용자, - 공간 선택 페이지', () => {
 describe('사용자 - 업무 선택 페이지', () => {
   beforeEach(() => {
     cy.setToken();
+    cy.getSpaces();
     cy.visit(PAGE.JOB_LIST);
     cy.getJobs();
     cy.getSpaceInfo();
