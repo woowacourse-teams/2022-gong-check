@@ -102,14 +102,11 @@ class HostDocumentation extends DocumentationTest {
 
     @Test
     void 호스트_프로필을_조회한다() {
-        when(jwtTokenProvider.extractAuthority(anyString())).thenReturn(Authority.HOST);
         when(hostService.findProfile(anyLong())).thenReturn(HostProfileResponse.from(
                 Host_아이디_지정_생성(1L, "0000", 1L)));
-        when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
 
         docsGiven
-                .header("Authorization", "Bearer jwt.token.here")
-                .when().get("/api/hosts/me")
+                .when().get("/api/hosts/1/profile")
                 .then().log().all()
                 .apply(document("hosts/profile",
                         responseFields(

@@ -60,13 +60,10 @@ class HostAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    void Host_토큰으로_호스트_profile을_조회한다() {
-        String token = Host_토큰을_요청한다().getToken();
-
+    void 호스트_profile을_조회한다() {
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()
-                .auth().oauth2(token)
-                .when().get("/api/hosts/me")
+                .when().get("/api/hosts/1/profile")
                 .then().log().all()
                 .extract();
 
