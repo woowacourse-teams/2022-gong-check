@@ -38,7 +38,7 @@ class AcceptanceTest {
     private DatabaseInitializer databaseInitializer;
 
     @LocalServerPort
-    private int port;
+    protected int port;
 
     @BeforeEach
     void setUp() {

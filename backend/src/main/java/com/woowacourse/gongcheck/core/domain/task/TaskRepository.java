@@ -15,6 +15,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
+    Optional<Task> findById(final Long id);
+
     @Query("select t from Task t left join fetch t.runningTask join fetch t.section s join fetch s.job j where j = :job")
     List<Task> findAllBySectionJob(@Param("job") final Job job);
 
@@ -34,5 +36,12 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
                     String message = String.format("존재하지 않는 작업입니다. hostId = %d, taskId = %d", host.getId(), id);
                     throw new NotFoundException(message, ErrorCode.T003);
                 });
+    }
+
+    default Task getById(final Long id) {
+        return findById(id).orElseThrow(() -> {
+            String message = String.format("존재하지 않는 Task입니다. taskId = %d", id);
+            throw new NotFoundException(message, ErrorCode.T004);
+        });
     }
 }

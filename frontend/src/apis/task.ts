@@ -44,6 +44,6 @@ const postSectionAllCheckTask = (sectionId: ID) => {
   });
 };
 
-const apiTask = { postCheckTask, getRunningTasks, getTasks, postNewRunningTasks, postSectionAllCheckTask };
+const apiTask = { getRunningTasks, getTasks, postNewRunningTasks, postCheckTask, postSectionAllCheckTask };
 
 export default apiTask;

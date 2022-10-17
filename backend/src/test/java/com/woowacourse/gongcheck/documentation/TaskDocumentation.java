@@ -256,24 +256,4 @@ class TaskDocumentation extends DocumentationTest {
                 ))
                 .statusCode(HttpStatus.OK.value());
     }
-
-    @Nested
-    class 해당_Section의_RunningTask를_전부_체크한다 {
-
-        @Test
-        void 전부_체크에_성공한다() {
-            doNothing().when(taskService).checkRunningTasksInSection(anyLong(), any());
-            when(authenticationContext.getPrincipal()).thenReturn(String.valueOf(anyLong()));
-
-            docsGiven
-                    .header("Authorization", "Bearer jwt.token.here")
-                    .when().post("/api/sections/{sectionId}/runningTask/allCheck", 1)
-                    .then().log().all()
-                    .apply(document("runningTasks/allCheck/success",
-                            pathParameters(
-                                    parameterWithName("sectionId").description("RunningTask를 모두 체크 상태로 바꿀 sectionId"))
-                    ))
-                    .statusCode(HttpStatus.OK.value());
-        }
-    }
 }

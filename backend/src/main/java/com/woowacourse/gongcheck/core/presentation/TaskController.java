@@ -4,6 +4,7 @@ import com.woowacourse.gongcheck.auth.presentation.AuthenticationPrincipal;
 import com.woowacourse.gongcheck.auth.presentation.HostOnly;
 import com.woowacourse.gongcheck.core.application.TaskService;
 import com.woowacourse.gongcheck.core.application.response.JobActiveResponse;
+import com.woowacourse.gongcheck.core.application.response.RunningTasksResponse;
 import com.woowacourse.gongcheck.core.application.response.TasksResponse;
 import java.net.URI;
 import org.springframework.http.MediaType;
@@ -21,7 +22,7 @@ public class TaskController {
 
     private final TaskService taskService;
 
-    public TaskController(final TaskService taskService) {
+    public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
 
@@ -46,6 +47,12 @@ public class TaskController {
         return ResponseEntity.ok(emitter);
     }
 
+    @GetMapping("/jobs/{jobId}/runningTasks")
+    public ResponseEntity<RunningTasksResponse> showRunningTasks(@AuthenticationPrincipal final Long hostId,
+                                                                 @PathVariable Long jobId) {
+        return ResponseEntity.ok(taskService.showRunningTasks(jobId));
+    }
+
     @PostMapping("/tasks/{taskId}/flip")
     public ResponseEntity<Void> flipRunningTask(@AuthenticationPrincipal final Long hostId,
                                                 @PathVariable final Long taskId) {
@@ -59,12 +66,5 @@ public class TaskController {
                                                    @PathVariable final Long jobId) {
         TasksResponse response = taskService.findTasks(hostId, jobId);
         return ResponseEntity.ok(response);
-    }
-
-    @PostMapping("/sections/{sectionId}/runningTask/allCheck")
-    public ResponseEntity<Void> checkRunningTasksInSection(@AuthenticationPrincipal final Long hostId,
-                                                           @PathVariable final Long sectionId) {
-        taskService.checkRunningTasksInSection(hostId, sectionId);
-        return ResponseEntity.ok().build();
     }
 }

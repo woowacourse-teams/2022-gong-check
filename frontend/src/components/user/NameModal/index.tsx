@@ -15,11 +15,11 @@ interface NameModalProps {
   detail: string;
   placeholder: string;
   buttonText: string;
-  jobId: ID;
+  completeJobs: (name: string) => void;
 }
 
-const NameModal: React.FC<NameModalProps> = ({ title, detail, placeholder, buttonText, jobId }) => {
-  const { name, isDisabledButton, onChangeInput, onClickButton } = useNameModal(jobId);
+const NameModal: React.FC<NameModalProps> = ({ title, detail, placeholder, buttonText, completeJobs }) => {
+  const { name, isDisabledButton, onChangeInput, onClickButton } = useNameModal(completeJobs);
 
   return (
     <ModalPortal>
