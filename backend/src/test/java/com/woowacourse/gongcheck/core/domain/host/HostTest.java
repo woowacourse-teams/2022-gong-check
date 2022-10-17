@@ -49,4 +49,14 @@ class HostTest {
 
         assertThat(host.getSpacePassword()).isEqualTo(new SpacePassword(changedPassword));
     }
+
+    @Test
+    void nickname을_변경한다() {
+        Host host = Host_생성("0123", 1234L);
+        String expected = "changedName";
+
+        host.changeNickname(new Nickname(expected));
+
+        assertThat(host.getNickname().getValue()).isEqualTo(expected);
+    }
 }

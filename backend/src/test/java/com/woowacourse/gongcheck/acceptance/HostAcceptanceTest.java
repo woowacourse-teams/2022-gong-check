@@ -3,6 +3,7 @@ package com.woowacourse.gongcheck.acceptance;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
+import com.woowacourse.gongcheck.core.presentation.request.HostProfileChangeRequest;
 import com.woowacourse.gongcheck.core.presentation.request.SpacePasswordChangeRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -70,5 +71,37 @@ class HostAcceptanceTest extends AcceptanceTest {
                 .extract();
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    void Host_토큰으로_호스트_profile을_변경한다() {
+        String token = Host_토큰을_요청한다().getToken();
+
+        ExtractableResponse<Response> response = RestAssured
+                .given().log().all()
+                .body(new HostProfileChangeRequest("changedName"))
+                .auth().oauth2(token)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().put("/api/hosts")
+                .then().log().all()
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+    }
+
+    @Test
+    void Host_토큰으로_호스트_profile을_변경할_때_nickname이_null이면_예외가_발생한다() {
+        String token = Host_토큰을_요청한다().getToken();
+
+        ExtractableResponse<Response> response = RestAssured
+                .given().log().all()
+                .body(new HostProfileChangeRequest(null))
+                .auth().oauth2(token)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().put("/api/hosts")
+                .then().log().all()
+                .extract();
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
 }

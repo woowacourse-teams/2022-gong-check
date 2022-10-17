@@ -5,11 +5,13 @@ import com.woowacourse.gongcheck.auth.presentation.HostOnly;
 import com.woowacourse.gongcheck.core.application.HostService;
 import com.woowacourse.gongcheck.core.application.response.EntranceCodeResponse;
 import com.woowacourse.gongcheck.core.application.response.HostProfileResponse;
+import com.woowacourse.gongcheck.core.presentation.request.HostProfileChangeRequest;
 import com.woowacourse.gongcheck.core.presentation.request.SpacePasswordChangeRequest;
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,5 +46,13 @@ public class HostController {
     public ResponseEntity<HostProfileResponse> showProfile(@AuthenticationPrincipal final Long hostId) {
         HostProfileResponse response = hostService.findProfile(hostId);
         return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/hosts")
+    @HostOnly
+    public ResponseEntity<Void> changeProfile(@AuthenticationPrincipal final Long hostId,
+                                              @Valid @RequestBody final HostProfileChangeRequest request) {
+        hostService.changeProfile(hostId, request);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -12,3 +12,7 @@ operation::hosts/entranceCode[snippets='http-request,http-response,response-fiel
 === 호스트 프로필 조회
 
 operation::hosts/profile[snippets='http-request,http-response,response-fields']
+
+=== 호스트 프로필 변경
+
+operation::hosts/profile/change[snippets='http-request,http-response,request-fields']
