@@ -61,11 +61,13 @@ public class TaskService {
         runningTaskRepository.saveAll(tasks.createRunningTasks());
     }
 
+    @Transactional
     public JobActiveResponse isJobActivated(final Long hostId, final Long jobId) {
         Tasks tasks = findTasksByHostIdAndJobId(hostId, jobId);
         return JobActiveResponse.from(existsAnyRunningTaskIn(tasks));
     }
 
+    @Transactional
     public SseEmitter connectRunningTasks(final Long hostId, final Long jobId) {
         RunningTasksResponse runningTasks = findExistingRunningTasks(hostId, jobId);
         return runningTaskSseEmitterContainer.createEmitterWithConnectionEvent(jobId, runningTasks);
