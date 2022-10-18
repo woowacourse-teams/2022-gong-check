@@ -1,8 +1,9 @@
 import { AxiosResponse } from 'axios';
 
+import { ID } from '@/types';
 import { ApiEntranceCodedData, ApiHostProfileData } from '@/types/apis';
 
-import { axiosInstanceToken } from './config';
+import { axiosInstance, axiosInstanceToken } from './config';
 
 const getEntranceCode = async () => {
   const { data }: AxiosResponse<ApiEntranceCodedData> = await axiosInstanceToken({
@@ -13,10 +14,10 @@ const getEntranceCode = async () => {
   return data;
 };
 
-const getHostProfile = async () => {
-  const { data }: AxiosResponse<ApiHostProfileData> = await axiosInstanceToken({
+const getHostProfile = async (hostId: ID) => {
+  const { data }: AxiosResponse<ApiHostProfileData> = await axiosInstance({
     method: 'GET',
-    url: `/api/hosts/me`,
+    url: `/api/hosts/${hostId}/profile`,
   });
 
   return data;

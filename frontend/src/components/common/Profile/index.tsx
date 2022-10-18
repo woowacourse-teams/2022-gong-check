@@ -2,10 +2,16 @@ import { useQuery } from 'react-query';
 
 import apis from '@/apis';
 
+import { ID } from '@/types';
+
 import styles from './styles';
 
-const Profile: React.FC = () => {
-  const { data: profileData } = useQuery(['hostProfile'], apis.getHostProfile, {
+interface ProfileProps {
+  hostId: ID;
+}
+
+const Profile: React.FC<ProfileProps> = ({ hostId }) => {
+  const { data: profileData } = useQuery(['hostProfile'], () => apis.getHostProfile(hostId), {
     suspense: false,
     useErrorBoundary: false,
   });
