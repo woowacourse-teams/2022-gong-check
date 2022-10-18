@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { useRef } from 'react';
 import { useQuery } from 'react-query';
 import { useLocation, useParams } from 'react-router-dom';
-import SockJS from 'sockjs-client';
 
 import DetailInfoModal from '@/components/user/DetailInfoModal';
 import NameModal from '@/components/user/NameModal';
@@ -17,8 +16,6 @@ import apis from '@/apis';
 
 import { ID, SectionType } from '@/types';
 import { ApiTaskData } from '@/types/apis';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
 
 const useTaskList = () => {
   const { spaceId, jobId } = useParams() as { spaceId: ID; jobId: ID };
@@ -85,8 +82,7 @@ const useTaskList = () => {
   };
 
   useEffect(() => {
-    const sock = new SockJS(`${API_URL}/ws-connect`);
-    stomp.current = Stomp.over(sock);
+    stomp.current = Stomp.client(`${process.env.REACT_APP_WS_URL}/ws-connect`);
 
     stomp.current.connect({}, () => {
       stomp.current.subscribe(`/topic/jobs/${jobId}`, (data: any) => {
@@ -102,7 +98,6 @@ const useTaskList = () => {
 
     return () => {
       stomp.current.disconnect();
-      sock.close();
     };
   }, []);
 
