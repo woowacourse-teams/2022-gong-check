@@ -6,7 +6,7 @@ interface ScrollInfo {
   progress: number;
 }
 
-const useOnContainerScroll = (container: RefObject<HTMLElement>, onScroll: (info: ScrollInfo) => void) => {
+const useOnContainerScroll = (container: RefObject<HTMLElement>, onScroll: () => void) => {
   const { isLoaded } = useIntersectionObserver<HTMLElement>(container);
 
   const dimension = {
@@ -16,15 +16,13 @@ const useOnContainerScroll = (container: RefObject<HTMLElement>, onScroll: (info
     scrollHeight: 0,
     windowHeight: 0,
   };
-  const scrollInfo: ScrollInfo = {
-    scrollY: 0,
-    progress: 0,
-  };
+  const scrollInfo: ScrollInfo = { scrollY: 0, progress: 0 };
   const buffer = 1000;
+
   let isRunning = false;
   let latestRequestedTime = 0;
 
-  const onFireScroll = () => {
+  const onRunScroll = () => {
     latestRequestedTime = Date.now();
 
     if (isRunning) {
@@ -36,10 +34,12 @@ const useOnContainerScroll = (container: RefObject<HTMLElement>, onScroll: (info
     const play = () => {
       requestAnimationFrame(() => {
         const now = Date.now() - buffer;
-        const scrolled = window.pageYOffset + window.innerHeight;
-        scrollInfo.scrollY = Math.max(scrolled - dimension.top, 0);
+        const scrolledY = window.pageYOffset + window.innerHeight;
+        scrollInfo.scrollY = Math.max(scrolledY - dimension.top, 0);
         scrollInfo.progress = Math.min(scrollInfo.scrollY / dimension.scrollHeight, 1);
-        onScroll(scrollInfo);
+
+        onScroll();
+
         if (now < latestRequestedTime) {
           play();
         } else {
@@ -47,36 +47,35 @@ const useOnContainerScroll = (container: RefObject<HTMLElement>, onScroll: (info
         }
       });
     };
+
     play();
   };
 
   const setDimension = () => {
-    if (container.current) {
-      dimension.width = container.current.clientWidth;
-      dimension.height = container.current.clientHeight;
-      dimension.scrollHeight = container.current.clientHeight;
-      dimension.top = container.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top;
-      dimension.windowHeight = window.innerHeight;
+    if (!container.current) {
+      return;
     }
-    onFireScroll();
+
+    dimension.top = container.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top;
+    dimension.width = container.current.clientWidth;
+    dimension.height = container.current.clientHeight;
+    dimension.scrollHeight = container.current.clientHeight;
+    dimension.windowHeight = window.innerHeight;
   };
 
   useEffect(() => {
     if (isLoaded) {
-      window.addEventListener('scroll', onFireScroll);
+      window.addEventListener('scroll', onRunScroll);
       window.addEventListener('resize', setDimension);
       setDimension();
     }
     return () => {
-      window.removeEventListener('scroll', onFireScroll);
+      window.removeEventListener('scroll', onRunScroll);
       window.removeEventListener('resize', setDimension);
     };
   }, [isLoaded]);
 
-  return {
-    dimension,
-    scrollInfo,
-  };
+  return { dimension, scrollInfo };
 };
 
 export default useOnContainerScroll;
