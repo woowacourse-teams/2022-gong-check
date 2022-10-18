@@ -9,7 +9,7 @@ import homeCoverWebp from '@/assets/homeCover.webp';
 import styles from './styles';
 
 const Password: React.FC = () => {
-  const { isActiveSubmit, onSubmit, onChangeInput } = usePassword();
+  const { isActiveSubmit, onSubmit, onChangeInput, hostId } = usePassword();
 
   return (
     <div css={styles.layout}>
@@ -17,7 +17,7 @@ const Password: React.FC = () => {
         <img srcSet={`${homeCoverWebp}`} src={homeCover} alt="공책" />
       </div>
       <div css={styles.profile}>
-        <Profile />
+        <Profile hostId={hostId} />
         <p>의 공간입니다.</p>
       </div>
       <div css={styles.textWrapper}>

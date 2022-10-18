@@ -8,14 +8,14 @@ import Profile from '@/components/common/Profile';
 import styles from './styles';
 
 const Menu = () => {
-  const { selectedSpaceId, spaceData, onClickUpdate, onClickSpace, onClickNewSpace, onClickLogout } = useMenu();
+  const { selectedSpaceId, spaceData, onClickUpdate, onClickSpace, onClickNewSpace, onClickLogout, hostId } = useMenu();
 
   return (
     <>
       <div css={styles.category}>
         <div css={styles.categoryList}>
           <span css={styles.categoryTitle}>내 정보</span>
-          <Profile />
+          <Profile hostId={hostId} />
           <div css={styles.categoryTextWrapper} onClick={onClickUpdate}>
             <RiHomeGearLine size={20} />
             <span>공간 정보 변경</span>

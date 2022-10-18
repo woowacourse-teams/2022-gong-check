@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import apiHost from '@/apis/host';
 import apiSpace from '@/apis/space';
 
 import { ID } from '@/types';
@@ -16,6 +17,10 @@ const useHostNavigator = () => {
   const { data: spaceData } = useQuery(['spaces'], apiSpace.getSpaces, {
     suspense: false,
   });
+
+  const { data: entranceCodeData } = useQuery(['entranceCode'], () => apiHost.getEntranceCode());
+
+  const hostId = entranceCodeData?.entranceCode!;
 
   const onClickUpdate = () => {
     navigate('/host/manage/update');
@@ -38,7 +43,7 @@ const useHostNavigator = () => {
     }
   };
 
-  return { selectedSpaceId, spaceData, onClickUpdate, onClickSpace, onClickNewSpace, onClickLogout };
+  return { selectedSpaceId, spaceData, onClickUpdate, onClickSpace, onClickNewSpace, onClickLogout, hostId };
 };
 
 export default useHostNavigator;
