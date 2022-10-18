@@ -167,23 +167,6 @@ class SubmissionServiceTest {
 
                 assertThat(submissionRepository.findAll()).hasSize(1);
             }
-
-            @Test
-            void 여러명이_제출한다면_하나의_Submission만_생성한다() throws InterruptedException {
-                final ExecutorService executorService = Executors.newFixedThreadPool(11);
-                final CountDownLatch countDownLatch = new CountDownLatch(11);
-                for (int i = 0; i < 11; i++) {
-                    executorService.submit(() -> {
-                        try {
-                            submissionService.submitJobCompletion(host.getId(), job.getId(), request);
-                        } finally {
-                            countDownLatch.countDown();
-                        }
-                    });
-                }
-                countDownLatch.await();
-                assertThat(submissionRepository.findAll()).hasSize(1);
-            }
         }
     }
 
