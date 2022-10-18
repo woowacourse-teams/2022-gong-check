@@ -32,7 +32,7 @@ class AcceptanceTest {
     protected ImageUploader imageUploader;
 
     @Autowired
-    private EntranceCodeProvider entranceCodeProvider;
+    protected EntranceCodeProvider entranceCodeProvider;
 
     @Autowired
     private DatabaseInitializer databaseInitializer;

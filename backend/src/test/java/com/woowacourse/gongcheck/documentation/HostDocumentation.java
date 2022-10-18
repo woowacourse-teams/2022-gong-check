@@ -102,7 +102,7 @@ class HostDocumentation extends DocumentationTest {
 
     @Test
     void 호스트_프로필을_조회한다() {
-        when(hostService.findProfile(anyLong())).thenReturn(HostProfileResponse.from(
+        when(hostService.findProfile(anyString())).thenReturn(HostProfileResponse.from(
                 Host_아이디_지정_생성(1L, "0000", 1L)));
 
         docsGiven

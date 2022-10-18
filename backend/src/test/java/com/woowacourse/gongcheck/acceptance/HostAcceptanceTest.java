@@ -61,9 +61,10 @@ class HostAcceptanceTest extends AcceptanceTest {
 
     @Test
     void 호스트_profile을_조회한다() {
+        String entranceCode = entranceCodeProvider.createEntranceCode(1L);
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()
-                .when().get("/api/hosts/1/profile")
+                .when().get("/api/hosts/" + entranceCode + "/profile")
                 .then().log().all()
                 .extract();
 
