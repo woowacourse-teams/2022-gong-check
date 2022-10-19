@@ -38,6 +38,9 @@ const image = css`
   margin-top: 8px;
   cursor: pointer;
   border-radius: 8px;
+  height: 240px;
+  max-height: 240px;
+  object-fit: cover;
 `;
 
 const description = css`
