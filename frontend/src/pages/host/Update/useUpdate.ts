@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
 import useToast from '@/hooks/useToast';
@@ -11,24 +11,27 @@ import apiPassword from '@/apis/password';
 import errorMessage from '@/constants/errorMessage';
 
 const useUpdate = () => {
+  const queryClient = useQueryClient();
+
   const { openToast } = useToast();
 
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
   const [isShowPassword, setIsShowPassword] = useState(false);
 
-  const { mutate: updatePassword } = useMutation(() => apiPassword.patchSpacePassword(password), {
+  const { mutate: updateNickname } = useMutation(() => apiHost.putHostProfile(nickname), {
     onSuccess: () => {
-      openToast('SUCCESS', '비밀번호 변경에 성공하였습니다.');
+      openToast('SUCCESS', '닉네임 변경에 성공하였습니다.');
+      queryClient.invalidateQueries('hostProfile');
     },
     onError: (err: AxiosError<{ errorCode: keyof typeof errorMessage }>) => {
       openToast('ERROR', errorMessage[`${err.response?.data.errorCode!}`]);
     },
   });
 
-  const { mutate: updateNickname } = useMutation(() => apiHost.putHostProfile(nickname), {
+  const { mutate: updatePassword } = useMutation(() => apiPassword.patchSpacePassword(password), {
     onSuccess: () => {
-      openToast('SUCCESS', '닉네임 변경에 성공하였습니다.');
+      openToast('SUCCESS', '비밀번호 변경에 성공하였습니다.');
     },
     onError: (err: AxiosError<{ errorCode: keyof typeof errorMessage }>) => {
       openToast('ERROR', errorMessage[`${err.response?.data.errorCode!}`]);
