@@ -9,6 +9,8 @@ import ModalPortal from '@/portals/ModalPortal';
 
 import styles from './styles';
 
+const DEFAULT_NO_IMAGE = 'https://velog.velcdn.com/images/cks3066/post/7f506718-7a3c-4d63-b9ac-f21b6417f3c2/image.png';
+
 interface SectionDetailModalProps {
   target: 'section' | 'task';
   sectionIndex: number;
@@ -44,7 +46,13 @@ const SectionDetailModal: React.FC<SectionDetailModalProps> = props => {
               ? getSectionInfo(sectionIndex).name
               : getTaskInfo(sectionIndex, taskIndex as number).name}
           </h1>
-          <img css={styles.image} src={imageUrl} alt="" onClick={() => fileInput.current?.click()} />
+
+          <img
+            css={styles.image}
+            src={imageUrl === '' ? DEFAULT_NO_IMAGE : imageUrl}
+            alt=""
+            onClick={() => fileInput.current?.click()}
+          />
           <input
             type="file"
             accept="image/gif, image/jpg, image/jpeg, image/png, image/svg, , image/webp"

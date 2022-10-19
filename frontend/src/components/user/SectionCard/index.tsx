@@ -1,6 +1,5 @@
 import SectionInfoPreview from './SectionInfoPreview';
 import { RiInformationLine } from '@react-icons/all-files/ri/RiInformationLine';
-import { useMutation } from 'react-query';
 
 import Button from '@/components/common/Button';
 import CheckBox from '@/components/common/Checkbox';
@@ -10,6 +9,8 @@ import useModal from '@/hooks/useModal';
 
 import { ID, SectionType, TaskType } from '@/types';
 
+import homeCover_fallback from '@/assets/homeCover-fallback.png';
+
 import styles from './styles';
 
 type SectionCardProps = {
@@ -18,6 +19,10 @@ type SectionCardProps = {
   onClickSectionDetail: any;
   onClickSectionAllCheck: any;
   flipTaskCheck: any;
+};
+
+const getImageUrl = (url: string): string => {
+  return url === '' ? homeCover_fallback : url;
 };
 
 const SectionCard: React.FC<SectionCardProps> = ({
@@ -53,7 +58,10 @@ const SectionCard: React.FC<SectionCardProps> = ({
             </Button>
           )}
           {(section.imageUrl || section.description) && (
-            <SectionInfoPreview imageUrl={section.imageUrl} onClick={() => onClickSectionDetail(section)} />
+            <SectionInfoPreview
+              imageUrl={getImageUrl(section.imageUrl)}
+              onClick={() => onClickSectionDetail(section)}
+            />
           )}
         </div>
       </div>
