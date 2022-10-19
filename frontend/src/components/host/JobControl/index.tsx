@@ -14,7 +14,7 @@ const JobControl: React.FC<JobControlProps> = ({ mode, jobName, onChangeJobName 
       <input
         css={styles.jobNameInput}
         value={jobName}
-        placeholder="업무 이름을 입력해주세요."
+        placeholder="업무 이름을 입력해주세요. (10자 이내)"
         maxLength={10}
         onChange={onChangeJobName}
         required
