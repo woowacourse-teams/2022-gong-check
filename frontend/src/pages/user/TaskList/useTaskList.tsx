@@ -40,14 +40,15 @@ const useTaskList = () => {
     ],
   });
 
-  const { data: spaceData } = useQuery(['space', jobId], () => apis.getSpace(spaceId));
-  const { data: runningTasksData } = useQuery(['runningTask'], () => apis.getRunningTasks(jobId));
+  const { data: spaceData } = useQuery(['space', spaceId], () => apis.getSpace(spaceId));
+  const { data: runningTasksData } = useQuery(['runningTask', jobId], () => apis.getRunningTasks(jobId));
 
   const { sectionsAllCheckMap, totalCount, checkedCount, percent, isAllChecked } = useSectionCheck(
     sectionsData?.sections || []
   );
 
   const stomp = useRef<any>(null);
+  const isSubmitted = useRef<boolean>(false);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -68,6 +69,7 @@ const useTaskList = () => {
 
   const completeJobs = (author: string) => {
     if (!stomp.current) return;
+    isSubmitted.current = true;
     stomp.current.send(`/app/jobs/${jobId}/complete`, {}, JSON.stringify({ author }));
   };
 
@@ -91,8 +93,11 @@ const useTaskList = () => {
 
       stomp.current.subscribe(`/topic/jobs/${jobId}/complete`, (data: any) => {
         closeModal();
-        openToast('SUCCESS', '해당 체크리스트는 제출되었습니다.');
         goPreviousPage();
+
+        isSubmitted.current
+          ? openToast('SUCCESS', '체크리스트를 제출하였습니다.')
+          : openToast('ERROR', '해당 체크리스트를 다른 사용자가 제출하였습니다.');
       });
     });
 

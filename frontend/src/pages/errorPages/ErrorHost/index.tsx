@@ -1,5 +1,6 @@
 import NotFound from '../NotFound';
 import { useEffect } from 'react';
+import { useQueryClient } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import useToast from '@/hooks/useToast';
@@ -14,10 +15,13 @@ const ErrorHost: React.FC<ErrorHostProps> = ({ errorCode }) => {
   const navigate = useNavigate();
   const { openToast } = useToast();
 
+  const queryClient = useQueryClient();
+
   useEffect(() => {
     if (errorCode === 'A001' || errorCode === 'A002' || errorCode === 'A003') {
       navigate('/host');
       openToast('ERROR', '로그아웃 되었습니다.');
+      queryClient.clear();
     }
   }, []);
 
