@@ -25,7 +25,7 @@ const ErrorUser: React.FC<ErrorUserProps> = ({ errorCode }) => {
 
     if (errorCode === 'A001' || errorCode === 'A002' || errorCode === 'A003') {
       navigate(`/enter/${hostId}/pwd`);
-      openToast('ERROR', '회원 인증 시간이 만료 되었습니다.');
+      openToast('ERROR', '입장코드를 다시 입력해주세요.');
     }
   }, []);
 
