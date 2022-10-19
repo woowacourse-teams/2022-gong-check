@@ -3,6 +3,9 @@ import { css } from '@emotion/react';
 import theme from '@/styles/theme';
 
 const container = css`
+  max-width: 400px;
+  min-width: 320px;
+  max-height: 400px;
   width: 80%;
   background-color: ${theme.colors.white};
   display: flex;
@@ -27,7 +30,8 @@ const imageWrapper = css`
 
 const image = css`
   width: 100%;
-  height: 100%;
+  height: 240px;
+  max-height: 240px;
   object-fit: cover;
 `;
 

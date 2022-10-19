@@ -33,6 +33,7 @@
     "recoil": "^0.7.4"
   },
   "devDependencies": {
+    "@stomp/stompjs": "^6.1.2",
     "@babel/core": "^7.18.6",
     "@babel/preset-env": "^7.18.6",
     "@babel/preset-react": "^7.18.6",
@@ -44,7 +45,6 @@
     "@emotion/styled": "^11.9.3",
     "@lhci/cli": "^0.9.0",
     "@trivago/prettier-plugin-sort-imports": "^3.2.0",
-    "@types/event-source-polyfill": "^1.0.0",
     "@types/node": "^18.0.0",
     "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",
@@ -63,8 +63,8 @@
     "eslint": "^8.19.0",
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-react": "^7.30.1",
-    "event-source-polyfill": "1.0.28",
     "file-loader": "^6.2.0",
+    "gongcheck-util-types": "^1.1.0",
     "html-webpack-plugin": "^5.5.0",
     "nanoid": "^4.0.0",
     "prettier": "^2.7.1",

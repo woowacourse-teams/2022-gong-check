@@ -61,28 +61,53 @@ public class TaskService {
         runningTaskRepository.saveAll(tasks.createRunningTasks());
     }
 
+    @Transactional
     public JobActiveResponse isJobActivated(final Long hostId, final Long jobId) {
         Tasks tasks = findTasksByHostIdAndJobId(hostId, jobId);
         return JobActiveResponse.from(existsAnyRunningTaskIn(tasks));
     }
 
+    @Transactional
     public SseEmitter connectRunningTasks(final Long hostId, final Long jobId) {
         RunningTasksResponse runningTasks = findExistingRunningTasks(hostId, jobId);
         return runningTaskSseEmitterContainer.createEmitterWithConnectionEvent(jobId, runningTasks);
     }
 
     @Transactional
+    public void flipRunningTask(Long taskId) {
+        Task task = taskRepository.getById(taskId);
+        RunningTask runningTask = task.getRunningTask();
+        if (runningTask == null) {
+            String message = String.format("현재 진행 중인 작업이 아닙니다. taskId = %d", taskId);
+            throw new BusinessException(message, ErrorCode.R002);
+        }
+        runningTask.flipCheckedStatus();
+    }
+
+    // runningTaskRepository.existsByTaskIdIn() 메서드, Lock 거는 조회 분리되면 readOnly transaction으로 변경해야함.
+    @Transactional
+    public RunningTasksResponse showRunningTasks(final Long jobId) {
+        Job job = jobRepository.getById(jobId);
+        Tasks tasks = new Tasks(taskRepository.findAllBySectionJob(job));
+
+        if (!existsAnyRunningTaskIn(tasks)) {
+            String message = String.format("현재 진행중인 RunningTask가 없습니다. jobId = %d", jobId);
+            throw new BusinessException(message, ErrorCode.R001);
+        }
+        return RunningTasksResponse.from(tasks);
+    }
+
+    @Transactional
     public void flipRunningTask(final Long hostId, final Long taskId) {
         Host host = hostRepository.getById(hostId);
         Task task = taskRepository.getBySectionJobSpaceHostAndId(host, taskId);
-        RunningTask runningTask = runningTaskRepository.findByTaskId(task.getId())
-                .orElseThrow(() -> {
-                    String message = String.format("현재 진행 중인 작업이 아닙니다. hostId = %d, taskId = %d", hostId, taskId);
-                    throw new BusinessException(message, ErrorCode.R002);
-                });
+        RunningTask runningTask = task.getRunningTask();
+        if (runningTask == null) {
+            String message = String.format("현재 진행 중인 작업이 아닙니다. hostId = %d, taskId = %d", hostId, taskId);
+            throw new BusinessException(message, ErrorCode.R002);
+        }
 
         runningTask.flipCheckedStatus();
-
         Long jobId = task.getSection().getJob().getId();
         RunningTasksResponse runningTasks = findExistingRunningTasks(hostId, jobId);
 
@@ -95,21 +120,16 @@ public class TaskService {
     }
 
     @Transactional
-    public void checkRunningTasksInSection(final Long hostId, final Long sectionId) {
-        Host host = hostRepository.getById(hostId);
-        Section section = sectionRepository.getByJobSpaceHostAndId(host, sectionId);
-        Long jobId = section.getJob().getId();
+    public void checkRunningTasksInSection(final Long sectionId) {
+        Section section = sectionRepository.getById(sectionId);
         Tasks tasks = new Tasks(taskRepository.findAllBySection(section));
 
         if (!existsAnyRunningTaskIn(tasks)) {
-            String message = String.format("현재 진행중인 RunningTask가 없습니다 hostId = %d, sectionId = %d", hostId, sectionId);
+            String message = String.format("현재 진행중인 RunningTask가 없습니다, sectionId = %d", sectionId);
             throw new BusinessException(message, ErrorCode.R002);
         }
         RunningTasks runningTasks = tasks.getRunningTasks();
         runningTasks.check();
-
-        Tasks allTasks = new Tasks(taskRepository.findAllBySectionJob(section.getJob()));
-        runningTaskSseEmitterContainer.publishFlipEvent(jobId, RunningTasksResponse.from(allTasks));
     }
 
     private RunningTasksResponse findExistingRunningTasks(final Long hostId, final Long jobId) {

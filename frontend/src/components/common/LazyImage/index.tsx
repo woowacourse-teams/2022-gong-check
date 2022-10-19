@@ -7,14 +7,13 @@ interface LazyImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
 const LazyImage: React.FC<LazyImageProps> = ({ imageUrl, ...props }) => {
   const lazyImageRef = useRef<HTMLImageElement>(null);
   const observerRef = useRef<IntersectionObserver>();
-  const [isLoaded, setIsLoaded] = useState(false);
 
   const intersectionCallBack = (entries: IntersectionObserverEntry[], io: IntersectionObserver) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        io.unobserve(entry.target);
-        setIsLoaded(true);
-      }
+      if (!entry.isIntersecting) return;
+
+      entry.target.setAttribute('src', imageUrl || '');
+      io.unobserve(entry.target);
     });
   };
 
@@ -28,7 +27,7 @@ const LazyImage: React.FC<LazyImageProps> = ({ imageUrl, ...props }) => {
     return () => observerRef.current && observerRef.current.disconnect();
   }, []);
 
-  return <img src={isLoaded ? imageUrl : ''} ref={lazyImageRef} {...props} />;
+  return <img ref={lazyImageRef} {...props} />;
 };
 
 export default LazyImage;

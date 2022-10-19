@@ -13,7 +13,6 @@ sourceCompatibility = '11'
 
 configurations {
     asciidoctorExtensions
-    cucumberRuntime.extendsFrom(implementation, testImplementation, runtimeOnly)
 }
 
 repositories {
@@ -30,6 +29,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // websocket
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
     // webflux
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
@@ -58,11 +60,6 @@ dependencies {
     asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
-
-    //cucumber
-    testImplementation 'io.cucumber:cucumber-java:6.10.4'
-    testImplementation 'io.cucumber:cucumber-spring:6.10.4'
-    testImplementation 'io.cucumber:cucumber-junit-platform-engine:6.10.4'
 
     // slack
     implementation 'com.squareup.okhttp3:okhttp:4.10.0'
@@ -109,8 +106,8 @@ task createDocument(type: Copy) {
 task displaceDocument(type: Copy) {
     dependsOn asciidoctor
 
-    from ("${asciidoctor.outputDir}")
-    into ("build/resources/main/static")
+    from("${asciidoctor.outputDir}")
+    into("build/resources/main/static")
 }
 
 bootJar {
@@ -123,25 +120,6 @@ jacocoTestReport {
         html.enabled true
         xml.enabled true
     }
-}
-
-task cucumber() {
-    dependsOn assemble, compileTestJava
-    doLast {
-        javaexec {
-            main = "io.cucumber.core.cli.Main"
-            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
-            args = [
-                    '--plugin', 'pretty',
-                    '--plugin', 'html:build/reports/cucumber/cucumber-report.html',
-                    '--glue', 'com.woowacourse.gongcheck',
-                    'src/test/resources/features']
-        }
-    }
-}
-
-build {
-    dependsOn cucumber
 }
 
 sonarqube {

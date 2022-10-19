@@ -22,6 +22,7 @@ const TaskList: React.FC = () => {
     isAllChecked,
     locationState,
     sectionsData,
+    flipTaskCheck,
     onClickSectionDetail,
     onClickSectionAllCheck,
   } = useTaskList();
@@ -55,6 +56,7 @@ const TaskList: React.FC = () => {
             sectionsAllCheckMap={sectionsAllCheckMap}
             onClickSectionDetail={onClickSectionDetail}
             onClickSectionAllCheck={onClickSectionAllCheck}
+            flipTaskCheck={flipTaskCheck}
           />
         ))}
         <Button type="submit" css={styles.button(isAllChecked)} disabled={!isAllChecked}>

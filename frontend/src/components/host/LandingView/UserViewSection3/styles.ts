@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { ScreenModeType } from '@/types';
+import screenSize from '@/constants/screenSize';
 
 import animation from '@/styles/animation';
 import theme from '@/styles/theme';
@@ -8,6 +8,7 @@ import theme from '@/styles/theme';
 const layout = css`
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
 `;
 
 const content = css`
@@ -17,45 +18,109 @@ const content = css`
   position: relative;
 `;
 
-const title = (screenMode: ScreenModeType) => css`
+const title = css`
   position: absolute;
-  top: 2.2vw;
   z-index: 11;
   color: ${theme.colors.primary};
-  ${screenMode === 'DESKTOP'
-    ? `left: 38.5%; font-size: 4.1vw;`
-    : `left: 50%; transform: translateX(-50%); font-size: 6vw;`}
+  width: max-content;
+  font-size: 4.1vw;
+  top: 2.2vw;
+  left: 38.5%;
+
+  @media screen and (max-width: ${screenSize.TABLET}px) {
+    font-size: 6vw;
+    top: 10vh;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  @media screen and (max-width: ${screenSize.MOBILE}px) {
+    font-size: 7.4vw;
+    top: 14vh;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 `;
 
-const subTitle = (screenMode: ScreenModeType) => css`
+const subTitle = css`
   position: absolute;
   z-index: 11;
-  color: ${theme.colors.gray800};
   animation: ${animation.fadeIn} 1.5s;
   animation-fill-mode: forwards;
-  ${screenMode === 'DESKTOP'
-    ? `top: 10.5vw; left: 40.4%; font-size: 1.3vw;`
-    : `top: 16vw; left: 50%; transform: translateX(-50%); font-size: 3vw;`}
+  color: ${theme.colors.gray800};
+  font-size: 2vw;
+  width: max-content;
+  top: 11vw;
+  left: 50%;
+  transform: translateX(-50%);
 
   b {
     color: ${theme.colors.green};
   }
+
+  @media screen and (max-width: ${screenSize.TABLET}px) {
+    font-size: 3.7vw;
+    top: 24vh;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  @media screen and (max-width: ${screenSize.MOBILE}px) {
+    font-size: 4.7vw;
+    top: 28vh;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 `;
 
-const leftSection = (screenMode: ScreenModeType) => css`
-  position: absolute;
-  z-index: 11;
-  animation: ${animation.moveRight} 1.5s;
-  animation-fill-mode: forwards;
-  ${screenMode === 'DESKTOP' ? `top: 15vw; left: 26%; width: 18%;` : `top: 20%; left: 20%;`}
+const leftSection = css`
+  img,
+  source {
+    position: absolute;
+    animation: ${animation.moveRight} 1.5s;
+    animation-fill-mode: forwards;
+    z-index: 11;
+    width: 16%;
+    top: 17vw;
+    left: 26%;
+
+    @media screen and (max-width: ${screenSize.TABLET}px) {
+      width: 30%;
+      top: 38vh;
+      left: 16%;
+    }
+
+    @media screen and (max-width: ${screenSize.MOBILE}px) {
+      width: 30%;
+      top: 42vh;
+      left: 16%;
+    }
+  }
 `;
 
-const rightSection = (screenMode: ScreenModeType) => css`
-  position: absolute;
-  z-index: 11;
-  animation: ${animation.moveLeft} 1.5s;
-  animation-fill-mode: forwards;
-  ${screenMode === 'DESKTOP' ? `top: 15vw; right: 26%; width: 18%;` : `top: 28%; right: 20%;`}
+const rightSection = css`
+  img,
+  source {
+    position: absolute;
+    animation: ${animation.moveLeft} 1.5s;
+    animation-fill-mode: forwards;
+    z-index: 11;
+    width: 16%;
+    top: 17vw;
+    right: 26%;
+
+    @media screen and (max-width: ${screenSize.TABLET}px) {
+      width: 30%;
+      top: 38vh;
+      right: 16%;
+    }
+
+    @media screen and (max-width: ${screenSize.MOBILE}px) {
+      width: 30%;
+      top: 42vh;
+      right: 16%;
+    }
+  }
 `;
 
 const styles = {

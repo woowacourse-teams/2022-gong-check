@@ -10,7 +10,7 @@ public class EntranceCodeResponse {
     private EntranceCodeResponse() {
     }
 
-    private EntranceCodeResponse(String entranceCode) {
+    private EntranceCodeResponse(final String entranceCode) {
         this.entranceCode = entranceCode;
     }
 

@@ -2,6 +2,7 @@ package com.woowacourse.gongcheck.core.presentation.request;
 
 import java.util.List;
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
 
@@ -12,6 +13,7 @@ public class JobCreateRequest {
     private String name;
 
     @Valid
+    @NotEmpty(message = "sections 값은 비어있을 수 없습니다.")
     private List<SectionCreateRequest> sections;
 
     private JobCreateRequest() {

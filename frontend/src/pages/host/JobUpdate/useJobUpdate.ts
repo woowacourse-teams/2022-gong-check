@@ -10,7 +10,6 @@ import apiJobs from '@/apis/job';
 import apiTask from '@/apis/task';
 
 import { ID, SectionType } from '@/types';
-import { ApiError } from '@/types/apis';
 
 import errorMessage from '@/constants/errorMessage';
 

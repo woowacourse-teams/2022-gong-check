@@ -1,5 +1,7 @@
 import Dimmer from '@/components/common/Dimmer';
 
+import homeCover_fallback from '@/assets/homeCover-fallback.png';
+
 import ModalPortal from '@/portals/ModalPortal';
 
 import styles from './styles';
@@ -16,9 +18,7 @@ const DetailInfoModal: React.FC<DetailInfoModalProps> = ({ name, imageUrl, descr
       <Dimmer>
         <div css={styles.container}>
           <h1 css={styles.title}>{name}</h1>
-          <div css={styles.imageWrapper}>
-            <img css={styles.image} src={imageUrl} />
-          </div>
+          <div css={styles.imageWrapper}>{imageUrl !== '' && <img css={styles.image} src={imageUrl} />}</div>
           <span css={styles.description}>{description}</span>
         </div>
       </Dimmer>

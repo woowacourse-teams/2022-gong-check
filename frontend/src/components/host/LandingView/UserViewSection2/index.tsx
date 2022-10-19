@@ -1,7 +1,6 @@
 import UserPicture from '../UserPicture';
 import useUserViewSection2 from './useUserViewSection2';
-
-import { ScreenModeType, UserImageType } from '@/types';
+import { UserImageType } from 'gongcheck-util-types/image';
 
 import mobileView3_160w from '@/assets/mobileView3-160w.webp';
 import mobileView3_240w from '@/assets/mobileView3-240w.webp';
@@ -32,33 +31,28 @@ const mobileView4: UserImageType = {
   fallback: mobileView4_fallback,
 };
 
-interface UserViewSection2Props {
-  screenMode: ScreenModeType;
-}
-
-const UserViewSection2: React.FC<UserViewSection2Props> = ({ screenMode }) => {
+const UserViewSection2: React.FC = () => {
   const { sectionRef, eventNumber } = useUserViewSection2();
 
   return (
     <section css={styles.layout} ref={sectionRef}>
       <div css={styles.content}>
-        <h1 css={styles.title(screenMode)}>간단하게 체크해요.</h1>
+        <h1 css={styles.title}>간단하게 체크해요.</h1>
         {eventNumber >= 1 && (
-          <div css={styles.leftSectionWrapper}>
-            <UserPicture image={mobileView3} css={styles.leftSection(screenMode)} />
-            <h1 css={styles.leftSectionTitle(screenMode)}>
+          <>
+            <UserPicture image={mobileView3} css={styles.leftSection} />
+            <h1 css={styles.leftSectionTitle}>
               <b>체크리스트</b>와
             </h1>
-          </div>
+          </>
         )}
         {eventNumber === 2 && (
-          <div css={styles.rightSectionWrapper}>
-            <UserPicture image={mobileView4} css={styles.rightSection(screenMode)} />
-            <h1 css={styles.rightSectionTitle(screenMode)}>
+          <>
+            <UserPicture image={mobileView4} css={styles.rightSection} />
+            <h1 css={styles.rightSectionTitle}>
               <b>상세정보</b> 제공
             </h1>
-            {screenMode === 'DESKTOP' && <h1 css={styles.rightSectionLittleTitle}>How, Where</h1>}
-          </div>
+          </>
         )}
       </div>
     </section>

@@ -13,6 +13,7 @@ const transitions = css`
   .transitions-group::-webkit-scrollbar {
     display: none;
   }
+
   // slide right
   .slide-right-enter {
     z-index: 1;

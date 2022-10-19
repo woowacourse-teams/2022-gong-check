@@ -10,11 +10,11 @@ interface SectionInfoPreviewProps {
 }
 
 const SectionInfoPreview: React.FC<SectionInfoPreviewProps> = ({ imageUrl, onClick }) => {
+  const isImage = imageUrl !== '';
+
   return (
     <div css={styles.wrapper} onClick={onClick}>
-      <div css={styles.imageWrapper}>
-        <LazyImage css={styles.image} imageUrl={imageUrl} />
-      </div>
+      <div css={styles.imageWrapper(isImage)}>{isImage && <LazyImage css={styles.image} imageUrl={imageUrl} />}</div>
       <FaMapMarkedAlt css={styles.icon} size={24} />
     </div>
   );

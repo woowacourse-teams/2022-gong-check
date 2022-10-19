@@ -7,12 +7,13 @@ const wrapper = css`
   cursor: pointer;
 `;
 
-const imageWrapper = css`
+const imageWrapper = (isImage: boolean) => css`
   width: 56px;
   height: 40px;
   overflow: hidden;
   border-radius: 8px;
   box-shadow: 2px 2px 4px 0px ${theme.colors.gray500};
+  background-color: ${!isImage && theme.colors.skyblue200};
 `;
 
 const image = css`

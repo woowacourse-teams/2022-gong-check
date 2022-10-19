@@ -21,6 +21,7 @@ const globalStyle = css`
   }
 
   body {
+    overflow-x: hidden;
     margin: 0;
   }
 

@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class DatabaseInitializer {
 
     private static final String TRUNCATE_QUERY = "TRUNCATE TABLE %s";
-    private static final String ALTER_COLUMN_QUERY = "ALTER TABLE %s ALTER COLUMN id RESTART WITH 1";
+    private static final String ALTER_COLUMN_QUERY = "ALTER TABLE %s AUTO_INCREMENT = 1";
 
     @Autowired
     private EntityManager entityManager;
@@ -41,17 +41,18 @@ public class DatabaseInitializer {
 
     @Transactional
     public void truncateTables() {
-        entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY FALSE").executeUpdate();
+        entityManager.createNativeQuery("SET FOREIGN_KEY_CHECKS = 0").executeUpdate();
         for (String tableName : tableNames) {
             truncateTable(tableName);
         }
-        entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();
+        entityManager.createNativeQuery("SET FOREIGN_KEY_CHECKS = 1").executeUpdate();
     }
 
     @Transactional
     public void initTable() {
-        entityManager.createNativeQuery("INSERT INTO host (id, space_password, github_id, image_url, created_at)\n"
-                + "VALUES (1, '1234', 2, 'test.com', current_timestamp())").executeUpdate();
+        entityManager.createNativeQuery(
+                "INSERT INTO host (id, space_password, github_id, image_url, nickname, created_at)\n"
+                        + "VALUES (1, '1234', 2, 'test.com', 'nickname', current_timestamp())").executeUpdate();
         entityManager.createNativeQuery("INSERT INTO space (host_id, name, created_at)\n"
                 + "VALUES (1, '잠실', current_timestamp())").executeUpdate();
         entityManager.createNativeQuery("INSERT INTO job (space_id, name, slack_url, created_at)\n"

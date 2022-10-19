@@ -1,4 +1,4 @@
-import { HostImageType } from '@/types';
+import { HostImageType } from 'gongcheck-util-types/types/image';
 
 import screenSize from '@/constants/screenSize';
 

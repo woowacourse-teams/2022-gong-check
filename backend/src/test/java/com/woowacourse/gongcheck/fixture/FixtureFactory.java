@@ -1,6 +1,7 @@
 package com.woowacourse.gongcheck.fixture;
 
 import com.woowacourse.gongcheck.core.domain.host.Host;
+import com.woowacourse.gongcheck.core.domain.host.Nickname;
 import com.woowacourse.gongcheck.core.domain.host.SpacePassword;
 import com.woowacourse.gongcheck.core.domain.job.Job;
 import com.woowacourse.gongcheck.core.domain.section.Section;
@@ -18,8 +19,21 @@ public class FixtureFactory {
         return Host.builder()
                 .spacePassword(new SpacePassword(password))
                 .githubId(githubId)
-                .imageUrl("test.com")
-                .createdAt(LocalDateTime.now()).build();
+                .imageUrl("image.url")
+                .nickname(new Nickname("nickname"))
+                .createdAt(LocalDateTime.now())
+                .build();
+    }
+
+    public static Host Host_아이디_지정_생성(final Long id, final String password, final Long githubId) {
+        return Host.builder()
+                .id(id)
+                .spacePassword(new SpacePassword(password))
+                .githubId(githubId)
+                .imageUrl("image.url")
+                .nickname(new Nickname("nickname"))
+                .createdAt(LocalDateTime.now())
+                .build();
     }
 
     public static Space Space_생성(final Host host, final String name) {
