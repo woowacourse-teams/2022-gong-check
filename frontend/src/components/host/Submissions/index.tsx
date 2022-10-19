@@ -1,8 +1,7 @@
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Button from '@/components/common/Button';
-
-import emptyFolder from '@/assets/emptyFolder.png';
 
 import styles from './styles';
 
@@ -40,6 +39,8 @@ const Submissions: React.FC<SubmissionsProps> = ({ submissions, isFullSize = fal
     navigate('spaceRecord');
   };
 
+  const reversedSubmissions = useMemo(() => [...submissions].reverse(), [submissions]);
+
   return (
     <div css={styles.layout({ isFullSize })}>
       <div css={styles.header}>
@@ -62,7 +63,7 @@ const Submissions: React.FC<SubmissionsProps> = ({ submissions, isFullSize = fal
           </thead>
 
           <tbody>
-            {submissions.map(({ submissionId, author, jobName, createdAt }) => (
+            {reversedSubmissions.map(({ submissionId, author, jobName, createdAt }) => (
               <tr key={submissionId}>
                 <td>{author}</td>
                 <td>{jobName}</td>
