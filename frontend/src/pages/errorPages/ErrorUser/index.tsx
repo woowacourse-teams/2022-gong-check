@@ -1,5 +1,6 @@
 import NotFound from '../NotFound';
 import { useEffect } from 'react';
+import { useQueryClient } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import useToast from '@/hooks/useToast';
@@ -17,6 +18,8 @@ const ErrorUser: React.FC<ErrorUserProps> = ({ errorCode }) => {
   const { hostId } = useParams() as { hostId: ID };
   const { openToast } = useToast();
 
+  const queryClient = useQueryClient();
+
   useEffect(() => {
     if (errorCode === 'R001' || errorCode === 'R002' || errorCode === 'T003') {
       openToast('ERROR', errorMessage[`${errorCode}`]);
@@ -26,6 +29,7 @@ const ErrorUser: React.FC<ErrorUserProps> = ({ errorCode }) => {
     if (errorCode === 'A001' || errorCode === 'A002' || errorCode === 'A003') {
       navigate(`/enter/${hostId}/pwd`);
       openToast('ERROR', '입장코드를 다시 입력해주세요.');
+      queryClient.clear();
     }
   }, []);
 
