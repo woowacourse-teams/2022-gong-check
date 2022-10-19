@@ -13,7 +13,7 @@ const layout = ({ isFullSize }: { isFullSize: boolean }) => css`
   ${isFullSize &&
   css`
     margin-top: 5rem;
-    height: 480px;
+    height: 520px;
   `}
 
   @media screen and (min-width: 1024px) {

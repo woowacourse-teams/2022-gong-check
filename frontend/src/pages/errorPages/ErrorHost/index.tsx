@@ -17,11 +17,11 @@ const ErrorHost: React.FC<ErrorHostProps> = ({ errorCode }) => {
   useEffect(() => {
     if (errorCode === 'A001' || errorCode === 'A002' || errorCode === 'A003') {
       navigate('/host');
-      openToast('ERROR', '회원 인증 시간이 만료 되었습니다.');
+      openToast('ERROR', '로그아웃 되었습니다.');
     }
   }, []);
 
-  if (!errorCode) return <NotFound errorCode={errorCode} />;
+  if (!errorCode) return <NotFound />;
 
   if (['A001', 'A002', 'A003'].includes(errorCode)) return <></>;
 

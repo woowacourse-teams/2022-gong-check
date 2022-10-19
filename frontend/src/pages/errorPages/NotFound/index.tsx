@@ -32,7 +32,7 @@ const NotFound: React.FC<NotFoundProps> = ({ errorCode }) => {
       <div css={styles.content}>
         <BsFillExclamationTriangleFill css={styles.mark} size={80} />
       </div>
-      <div css={styles.description}>존재하지 않는 페이지입니다!</div>
+      <div css={styles.description}>{errorCode ? '에러가 발생하였습니다.' : '존재하지 않는 페이지입니다!'}</div>
       <Button css={styles.button} onClick={() => navigate(-1)}>
         이전 페이지로 이동
       </Button>

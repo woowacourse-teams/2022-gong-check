@@ -15,10 +15,10 @@ const UserLayout: React.FC = () => {
   const { hostId } = useParams() as { hostId: ID };
 
   useEffect(() => {
-    const tokenKey = sessionStorage.getItem('tokenKey');
+    sessionStorage.setItem('tokenKey', `${hostId}`);
     const token = localStorage.getItem(`${hostId}`);
 
-    if (!tokenKey || tokenKey !== hostId || !token) {
+    if (!token) {
       navigate(`/enter/${hostId}/pwd`);
     }
   }, []);

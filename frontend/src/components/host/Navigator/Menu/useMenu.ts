@@ -18,7 +18,10 @@ const useHostNavigator = () => {
     suspense: false,
   });
 
-  const { data: entranceCodeData } = useQuery(['entranceCode'], () => apiHost.getEntranceCode());
+  const { data: entranceCodeData } = useQuery(['entranceCode'], () => apiHost.getEntranceCode(), {
+    staleTime: Infinity,
+    cacheTime: Infinity,
+  });
 
   const hostId = entranceCodeData?.entranceCode!;
 
