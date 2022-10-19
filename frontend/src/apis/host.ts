@@ -23,6 +23,18 @@ const getHostProfile = async (hostId: ID) => {
   return data;
 };
 
-const apiHost = { getEntranceCode, getHostProfile };
+const putHostProfile = async (nickname: string) => {
+  const { data }: AxiosResponse<ApiHostProfileData> = await axiosInstanceToken({
+    method: 'PUT',
+    url: `/api/hosts`,
+    data: {
+      nickname,
+    },
+  });
+
+  return data;
+};
+
+const apiHost = { getEntranceCode, getHostProfile, putHostProfile };
 
 export default apiHost;

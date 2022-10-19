@@ -9,18 +9,34 @@ import Button from '@/components/common/Button';
 import styles from './styles';
 
 const Update: React.FC = () => {
-  const { password, isShowPassword, onChangePassword, onClickToggleShowPassword, onSubmitChangePassword } = useUpdate();
+  const {
+    nickname,
+    onChangeNickname,
+    password,
+    isShowPassword,
+    onChangePassword,
+    onClickToggleShowPassword,
+    onSubmitChangePassword,
+    onSubmitChangeNickname,
+  } = useUpdate();
 
   return (
     <div css={styles.layout}>
-      <form css={styles.content} onSubmit={onSubmitChangePassword}>
+      <form css={styles.content} onSubmit={onSubmitChangeNickname}>
         <div css={styles.label}>
           <RiEmotionLine size={32} />
           <label htmlFor="profile-name">사용자에게 보여질 닉네임입니다.</label>
         </div>
         <div css={styles.flex}>
           <div css={styles.inputWrapper}>
-            <input id="profile-name" type="text" placeholder="새 닉네임 입력" />
+            <input
+              id="profile-name"
+              type="text"
+              placeholder="새 닉네임 입력"
+              maxLength={10}
+              value={nickname}
+              onChange={onChangeNickname}
+            />
           </div>
           <Button css={styles.button}>변경</Button>
         </div>
