@@ -34,7 +34,8 @@ public class HostService {
         return entranceCodeProvider.createEntranceCode(host.getId());
     }
 
-    public HostProfileResponse findProfile(final Long hostId) {
+    public HostProfileResponse findProfile(final String entranceCode) {
+        Long hostId = entranceCodeProvider.parseId(entranceCode);
         Host host = hostRepository.getById(hostId);
         return HostProfileResponse.from(host);
     }

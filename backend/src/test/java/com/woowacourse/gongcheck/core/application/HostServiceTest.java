@@ -11,6 +11,7 @@ import com.woowacourse.gongcheck.core.application.response.HostProfileResponse;
 import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.presentation.request.HostProfileChangeRequest;
 import com.woowacourse.gongcheck.core.presentation.request.SpacePasswordChangeRequest;
+import com.woowacourse.gongcheck.exception.InfrastructureException;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -106,28 +107,28 @@ class HostServiceTest {
     class findProfile_메소드는 {
 
         @Nested
-        class 존재하는_HostId를_입력받는_경우 {
+        class 존재하는_EntranceCode를_입력받는_경우 {
 
             private final Host host = repository.save(Host_생성("1234", 1L));
 
             @Test
             void profile을_반환한다() {
-                HostProfileResponse actual = hostService.findProfile(host.getId());
+                String entranceCode = entranceCodeProvider.createEntranceCode(host.getId());
+                HostProfileResponse actual = hostService.findProfile(entranceCode);
                 assertThat(actual).extracting("imageUrl", "nickname")
                         .containsExactly("image.url", "nickname");
             }
         }
 
         @Nested
-        class 존재하지_않는_HostId를_입력받는_경우 {
+        class 존재하지_않는_EntranceCode를_입력받는_경우 {
 
-            private static final long NON_EXIST_HOST_ID = 0L;
+            private static final String NON_EXIST_ENTRANCE_CODE = "ABCDEFGHIJKLMNOP";
 
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> hostService.findProfile(NON_EXIST_HOST_ID))
-                        .isInstanceOf(NotFoundException.class)
-                        .hasMessageContaining("존재하지 않는 호스트입니다.");
+                assertThatThrownBy(() -> hostService.findProfile(NON_EXIST_ENTRANCE_CODE))
+                        .isInstanceOf(InfrastructureException.class);
             }
         }
     }

@@ -42,9 +42,9 @@ public class HostController {
         return ResponseEntity.ok(EntranceCodeResponse.from(entranceCode));
     }
 
-    @GetMapping("/hosts/{hostId}/profile")
-    public ResponseEntity<HostProfileResponse> showProfile(@PathVariable final Long hostId) {
-        HostProfileResponse response = hostService.findProfile(hostId);
+    @GetMapping("/hosts/{entranceCode}/profile")
+    public ResponseEntity<HostProfileResponse> showProfile(@PathVariable final String entranceCode) {
+        HostProfileResponse response = hostService.findProfile(entranceCode);
         return ResponseEntity.ok(response);
     }
 
