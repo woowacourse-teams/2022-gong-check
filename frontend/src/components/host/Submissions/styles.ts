@@ -8,12 +8,12 @@ const layout = ({ isFullSize }: { isFullSize: boolean }) => css`
   border-radius: 8px;
   font-size: 16px;
   box-shadow: 2px 2px 2px 2px ${theme.colors.shadow10};
-  height: 360px;
+  padding-bottom: 24px;
 
   ${isFullSize &&
   css`
     margin-top: 5rem;
-    height: 520px;
+    height: calc(50vh + 10em);
   `}
 
   @media screen and (min-width: 1024px) {
@@ -62,7 +62,7 @@ const table = ({ isFullSize }: { isFullSize: boolean }) => css`
     display: flex;
     flex-direction: column;
     justify-content: start;
-    height: 100%;
+
     width: 100%;
     overflow-y: ${isFullSize ? 'scroll' : 'hidden'};
     height: ${isFullSize ? '50vh' : '12.5em'};
