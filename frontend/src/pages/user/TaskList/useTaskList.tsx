@@ -2,7 +2,7 @@ import { Stomp } from '@stomp/stompjs';
 import { useEffect, useState } from 'react';
 import { useRef } from 'react';
 import { useQuery } from 'react-query';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 import DetailInfoModal from '@/components/user/DetailInfoModal';
 import NameModal from '@/components/user/NameModal';
@@ -18,8 +18,6 @@ import { ID, SectionType } from '@/types';
 import { ApiTaskData } from '@/types/apis';
 
 const useTaskList = () => {
-  const navigate = useNavigate();
-
   const { spaceId, jobId } = useParams() as { spaceId: ID; jobId: ID };
 
   const location = useLocation();
@@ -50,6 +48,7 @@ const useTaskList = () => {
   );
 
   const stomp = useRef<any>(null);
+  const isConnected = useRef<boolean>(false);
   const isSubmitted = useRef<boolean>(false);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -67,6 +66,11 @@ const useTaskList = () => {
 
   const onClickSectionDetail = (section: SectionType) => {
     openModal(<DetailInfoModal name={section.name} imageUrl={section.imageUrl} description={section.description} />);
+  };
+
+  const onClickGoPreviousPage = () => {
+    isConnected.current = false;
+    goPreviousPage();
   };
 
   const completeJobs = (author: string) => {
@@ -87,6 +91,7 @@ const useTaskList = () => {
 
   const connectSocket = () => {
     stomp.current = Stomp.client(`${process.env.REACT_APP_WS_URL}/ws-connect`);
+    isConnected.current = true;
 
     stomp.current.reconnect_delay = 1000;
     stomp.current.heartbeat.outgoing = 600000;
@@ -111,7 +116,7 @@ const useTaskList = () => {
       },
       () => {
         openToast('ERROR', '연결에 문제가 있습니다.');
-        navigate(-1);
+        goPreviousPage();
       }
     );
   };
@@ -120,9 +125,11 @@ const useTaskList = () => {
     connectSocket();
 
     stomp.current.onDisconnect = () => {
-      alert('이전 페이지로 이동하기');
-      openToast('ERROR', '장시간 이용이 없어, 이전 페이지로 이동합니다.');
-      navigate(-1);
+      if (isConnected.current) {
+        alert('이전 페이지로 이동하기');
+        openToast('ERROR', '연결에 문제가 있어 이전 페이지로 이동합니다.');
+        goPreviousPage();
+      }
     };
 
     return () => {
@@ -137,7 +144,7 @@ const useTaskList = () => {
   return {
     spaceData,
     onSubmit,
-    goPreviousPage,
+    onClickGoPreviousPage,
     totalCount,
     checkedCount,
     percent,
