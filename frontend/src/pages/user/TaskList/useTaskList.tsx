@@ -86,6 +86,8 @@ const useTaskList = () => {
   useEffect(() => {
     stomp.current = Stomp.client(`${process.env.REACT_APP_WS_URL}/ws-connect`);
 
+    stomp.current.reconnect_delay = 1000;
+
     stomp.current.connect({}, () => {
       stomp.current.subscribe(`/topic/jobs/${jobId}`, (data: any) => {
         setSectionsData(JSON.parse(data.body));
