@@ -85,8 +85,13 @@ const useTaskList = () => {
     stomp.current.send(`/app/jobs/${jobId}/sections/checkAll`, {}, JSON.stringify({ sectionId }));
   };
 
-  useEffect(() => {
+  const connectSocket = () => {
     stomp.current = Stomp.client(`${process.env.REACT_APP_WS_URL}/ws-connect`);
+
+    stomp.current.reconnect_delay = 1000;
+    stomp.current.heartbeat.outgoing = 600000;
+    stomp.current.heartbeat.incoming = 600000;
+    stomp.current.debug = () => {};
 
     stomp.current.connect(
       {},
@@ -105,10 +110,20 @@ const useTaskList = () => {
         });
       },
       () => {
-        openToast('ERROR', '장시간 이용이 없어, 이전 페이지로 이동하였습니다.');
+        openToast('ERROR', '연결에 문제가 있습니다.');
         navigate(-1);
       }
     );
+  };
+
+  useEffect(() => {
+    connectSocket();
+
+    stomp.current.onDisconnect = () => {
+      alert('이전 페이지로 이동하기');
+      openToast('ERROR', '장시간 이용이 없어, 이전 페이지로 이동합니다.');
+      navigate(-1);
+    };
 
     return () => {
       stomp.current.disconnect();
