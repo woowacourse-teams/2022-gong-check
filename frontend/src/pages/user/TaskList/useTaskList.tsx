@@ -2,7 +2,7 @@ import { Stomp } from '@stomp/stompjs';
 import { useEffect, useState } from 'react';
 import { useRef } from 'react';
 import { useQuery } from 'react-query';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import DetailInfoModal from '@/components/user/DetailInfoModal';
 import NameModal from '@/components/user/NameModal';
@@ -18,6 +18,8 @@ import { ID, SectionType } from '@/types';
 import { ApiTaskData } from '@/types/apis';
 
 const useTaskList = () => {
+  const navigate = useNavigate();
+
   const { spaceId, jobId } = useParams() as { spaceId: ID; jobId: ID };
 
   const location = useLocation();
@@ -86,22 +88,27 @@ const useTaskList = () => {
   useEffect(() => {
     stomp.current = Stomp.client(`${process.env.REACT_APP_WS_URL}/ws-connect`);
 
-    stomp.current.reconnect_delay = 1000;
+    stomp.current.connect(
+      {},
+      () => {
+        stomp.current.subscribe(`/topic/jobs/${jobId}`, (data: any) => {
+          setSectionsData(JSON.parse(data.body));
+        });
 
-    stomp.current.connect({}, () => {
-      stomp.current.subscribe(`/topic/jobs/${jobId}`, (data: any) => {
-        setSectionsData(JSON.parse(data.body));
-      });
+        stomp.current.subscribe(`/topic/jobs/${jobId}/complete`, (data: any) => {
+          closeModal();
+          goPreviousPage();
 
-      stomp.current.subscribe(`/topic/jobs/${jobId}/complete`, (data: any) => {
-        closeModal();
-        goPreviousPage();
-
-        isSubmitted.current
-          ? openToast('SUCCESS', '체크리스트를 제출하였습니다.')
-          : openToast('ERROR', '해당 체크리스트를 다른 사용자가 제출하였습니다.');
-      });
-    });
+          isSubmitted.current
+            ? openToast('SUCCESS', '체크리스트를 제출하였습니다.')
+            : openToast('ERROR', '해당 체크리스트를 다른 사용자가 제출하였습니다.');
+        });
+      },
+      () => {
+        openToast('ERROR', '장시간 이용이 없어, 이전 페이지로 이동하였습니다.');
+        navigate(-1);
+      }
+    );
 
     return () => {
       stomp.current.disconnect();
