@@ -98,6 +98,11 @@ const useTaskList = () => {
     stomp.current.heartbeat.incoming = 600000;
     stomp.current.debug = () => {};
 
+    stomp.current.reconnect_delay = 1000;
+    stomp.current.heartbeat.outgoing = 600000;
+    stomp.current.heartbeat.incoming = 600000;
+    stomp.current.debug = () => {};
+
     stomp.current.connect(
       {},
       () => {
