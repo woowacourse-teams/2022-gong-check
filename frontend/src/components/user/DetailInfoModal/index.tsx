@@ -1,6 +1,6 @@
-import Dimmer from '@/components/common/Dimmer';
+import { useState } from 'react';
 
-import homeCover_fallback from '@/assets/homeCover-fallback.png';
+import Dimmer from '@/components/common/Dimmer';
 
 import ModalPortal from '@/portals/ModalPortal';
 
@@ -13,12 +13,21 @@ export interface DetailInfoModalProps {
 }
 
 const DetailInfoModal: React.FC<DetailInfoModalProps> = ({ name, imageUrl, description }) => {
+  const [isLoadImg, setIsLoadImg] = useState<boolean>(true);
+
+  const onLoad = () => {
+    setIsLoadImg(false);
+  };
+
   return (
     <ModalPortal>
       <Dimmer>
         <div css={styles.container}>
           <h1 css={styles.title}>{name}</h1>
-          <div css={styles.imageWrapper}>{imageUrl !== '' && <img css={styles.image} src={imageUrl} />}</div>
+          <div css={styles.imageWrapper}>
+            {imageUrl !== '' && isLoadImg && <div css={styles.skeletonImage}></div>}
+            {imageUrl !== '' && <img css={styles.image} onLoad={onLoad} src={imageUrl} />}
+          </div>
           <span css={styles.description}>{description}</span>
         </div>
       </Dimmer>
