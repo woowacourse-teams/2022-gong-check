@@ -5,9 +5,10 @@ const useSocket = (url: string) => {
   const stomp = useRef<any>(null);
   const isConnected = useRef<boolean>(false);
 
-  const checkIsConnect = () => {
+  const checkIsConnected = () => {
     return isConnected.current;
   };
+
   const connectSocket = (callbackConnect: () => void, callbackError: () => void, callbackDisconnect: () => void) => {
     stomp.current = Stomp.client(url);
     isConnected.current = true;
@@ -39,7 +40,7 @@ const useSocket = (url: string) => {
   };
 
   return {
-    checkIsConnect,
+    checkIsConnected,
     connectSocket,
     disconnectSocket,
     subscribeTopic,

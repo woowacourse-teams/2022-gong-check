@@ -25,7 +25,7 @@ const useTaskList = () => {
   const location = useLocation();
   const locationState = location.state as { jobName: string };
 
-  const { connectSocket, disconnectSocket, subscribeTopic, sendMessage } = useSocket(
+  const { checkIsConnected, connectSocket, disconnectSocket, subscribeTopic, sendMessage } = useSocket(
     `${process.env.REACT_APP_WS_URL}/ws-connect`
   );
 
@@ -110,7 +110,12 @@ const useTaskList = () => {
   };
 
   const onDisconnectSocket = () => {
-    goPreviousPage();
+    const isConnected = checkIsConnected();
+
+    if (isConnected) {
+      openToast('ERROR', '장시간 동작이 없어 이전 페이지로 이동합니다.');
+      goPreviousPage();
+    }
   };
 
   useEffect(() => {
