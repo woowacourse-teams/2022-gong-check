@@ -8,7 +8,7 @@ const layout = css`
   width: 100%;
   align-items: center;
   font-size: 16px;
-  padding-bottom: 32px;
+  padding-bottom: 5em;
 `;
 
 const contents = css`

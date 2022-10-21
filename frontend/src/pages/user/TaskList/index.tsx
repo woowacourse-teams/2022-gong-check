@@ -1,6 +1,5 @@
 import useTaskList from './useTaskList';
 import { IoIosArrowBack } from '@react-icons/all-files/io/IoIosArrowBack';
-import React from 'react';
 
 import Button from '@/components/common/Button';
 import Sticky from '@/components/common/Sticky';
@@ -14,7 +13,7 @@ const TaskList: React.FC = () => {
   const {
     spaceData,
     onSubmit,
-    goPreviousPage,
+    onClickGoPreviousPage,
     totalCount,
     checkedCount,
     percent,
@@ -31,7 +30,7 @@ const TaskList: React.FC = () => {
     <div css={styles.layout}>
       <div css={styles.header}>
         <div css={styles.arrowBackIcon}>
-          <IoIosArrowBack size={30} onClick={goPreviousPage} />
+          <IoIosArrowBack size={30} onClick={onClickGoPreviousPage} />
         </div>
         <div css={styles.headerInfo}>
           <div css={styles.thumbnail(spaceData?.imageUrl || DEFAULT_IMAGE)} />

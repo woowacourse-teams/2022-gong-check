@@ -1,4 +1,3 @@
-import { Stomp } from '@stomp/stompjs';
 import { useEffect, useState } from 'react';
 import { useRef } from 'react';
 import { useQuery } from 'react-query';
@@ -10,6 +9,7 @@ import NameModal from '@/components/user/NameModal';
 import useGoPreviousPage from '@/hooks/useGoPreviousPage';
 import useModal from '@/hooks/useModal';
 import useSectionCheck from '@/hooks/useSectionCheck';
+import useSocket from '@/hooks/useSocket';
 import useToast from '@/hooks/useToast';
 
 import apis from '@/apis';
@@ -18,10 +18,16 @@ import { ID, SectionType } from '@/types';
 import { ApiTaskData } from '@/types/apis';
 
 const useTaskList = () => {
+  const isSubmitted = useRef<boolean>(false);
+
   const { spaceId, jobId } = useParams() as { spaceId: ID; jobId: ID };
 
   const location = useLocation();
   const locationState = location.state as { jobName: string };
+
+  const { checkIsConnected, connectSocket, disconnectSocket, subscribeTopic, sendMessage } = useSocket(
+    `${process.env.REACT_APP_WS_URL}/ws-connect`
+  );
 
   const { openModal, closeModal } = useModal();
   const { openToast } = useToast();
@@ -47,9 +53,6 @@ const useTaskList = () => {
     sectionsData?.sections || []
   );
 
-  const stomp = useRef<any>(null);
-  const isSubmitted = useRef<boolean>(false);
-
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     openModal(
@@ -67,44 +70,59 @@ const useTaskList = () => {
     openModal(<DetailInfoModal name={section.name} imageUrl={section.imageUrl} description={section.description} />);
   };
 
+  const onClickGoPreviousPage = () => {
+    disconnectSocket();
+    goPreviousPage();
+  };
+
   const completeJobs = (author: string) => {
-    if (!stomp.current) return;
     isSubmitted.current = true;
-    stomp.current.send(`/app/jobs/${jobId}/complete`, {}, JSON.stringify({ author }));
+    sendMessage(`/app/jobs/${jobId}/complete`, { author });
   };
 
   const flipTaskCheck = (taskId: ID) => {
-    if (!stomp.current) return;
-    stomp.current.send(`/app/jobs/${jobId}/tasks/flip`, {}, JSON.stringify({ taskId }));
+    sendMessage(`/app/jobs/${jobId}/tasks/flip`, { taskId });
   };
 
   const onClickSectionAllCheck = (sectionId: ID) => {
-    if (!stomp.current) return;
-    stomp.current.send(`/app/jobs/${jobId}/sections/checkAll`, {}, JSON.stringify({ sectionId }));
+    sendMessage(`/app/jobs/${jobId}/sections/checkAll`, { sectionId });
+  };
+
+  const onConnectSocket = () => {
+    subscribeTopic(`/topic/jobs/${jobId}`, (data: any) => {
+      setSectionsData(JSON.parse(data.body));
+    });
+
+    subscribeTopic(`/topic/jobs/${jobId}/complete`, () => {
+      closeModal();
+      goPreviousPage();
+
+      isSubmitted.current
+        ? openToast('SUCCESS', '체크리스트를 제출하였습니다.')
+        : openToast('ERROR', '해당 체크리스트를 다른 사용자가 제출하였습니다.');
+    });
+  };
+
+  const onErrorSocket = () => {
+    openToast('ERROR', '연결에 문제가 있습니다.');
+    disconnectSocket();
+    goPreviousPage();
+  };
+
+  const onDisconnectSocket = () => {
+    const isConnected = checkIsConnected();
+
+    if (isConnected) {
+      openToast('ERROR', '장시간 동작이 없어 이전 페이지로 이동합니다.');
+      goPreviousPage();
+    }
   };
 
   useEffect(() => {
-    stomp.current = Stomp.client(`${process.env.REACT_APP_WS_URL}/ws-connect`);
-
-    stomp.current.reconnect_delay = 1000;
-
-    stomp.current.connect({}, () => {
-      stomp.current.subscribe(`/topic/jobs/${jobId}`, (data: any) => {
-        setSectionsData(JSON.parse(data.body));
-      });
-
-      stomp.current.subscribe(`/topic/jobs/${jobId}/complete`, (data: any) => {
-        closeModal();
-        goPreviousPage();
-
-        isSubmitted.current
-          ? openToast('SUCCESS', '체크리스트를 제출하였습니다.')
-          : openToast('ERROR', '해당 체크리스트를 다른 사용자가 제출하였습니다.');
-      });
-    });
+    connectSocket(onConnectSocket, onErrorSocket, onDisconnectSocket);
 
     return () => {
-      stomp.current.disconnect();
+      disconnectSocket();
     };
   }, []);
 
@@ -115,7 +133,7 @@ const useTaskList = () => {
   return {
     spaceData,
     onSubmit,
-    goPreviousPage,
+    onClickGoPreviousPage,
     totalCount,
     checkedCount,
     percent,
