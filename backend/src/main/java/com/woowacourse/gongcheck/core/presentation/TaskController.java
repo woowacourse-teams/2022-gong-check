@@ -45,12 +45,6 @@ public class TaskController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/jobs/{jobId}/runningTasks")
-    public ResponseEntity<RunningTasksResponse> showRunningTasks(@AuthenticationPrincipal final Long hostId,
-                                                                 @PathVariable Long jobId) {
-        return ResponseEntity.ok(taskService.showRunningTasks(jobId));
-    }
-
     @PostMapping("/tasks/{taskId}/flip")
     public ResponseEntity<Void> flipRunningTask(@AuthenticationPrincipal final Long hostId,
                                                 @PathVariable final Long taskId) {

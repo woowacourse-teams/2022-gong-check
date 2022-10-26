@@ -16,7 +16,7 @@ public class FlipController {
     private final TaskService taskService;
     private final SimpMessagingTemplate template;
 
-    public FlipController(TaskService taskService, SimpMessagingTemplate template) {
+    public FlipController(final TaskService taskService, final SimpMessagingTemplate template) {
         this.taskService = taskService;
         this.template = template;
     }
@@ -29,7 +29,6 @@ public class FlipController {
 
     @MessageMapping("/jobs/{jobId}/sections/checkAll")
     public void checkAll(@DestinationVariable final Long jobId, final AllCheckRequest request) {
-        System.out.println("called");
         taskService.checkRunningTasksInSection(request.getSectionId());
         template.convertAndSend("/topic/jobs/" + jobId, taskService.showRunningTasks(jobId));
     }
