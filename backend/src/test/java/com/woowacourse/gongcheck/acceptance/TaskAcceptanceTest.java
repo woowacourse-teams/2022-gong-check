@@ -7,11 +7,13 @@ import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
 import com.woowacourse.gongcheck.core.application.response.RunningTaskResponse;
 import com.woowacourse.gongcheck.core.application.response.RunningTasksResponse;
 import com.woowacourse.gongcheck.core.application.response.TasksResponse;
+import com.woowacourse.gongcheck.core.presentation.request.AllCheckRequest;
 import com.woowacourse.gongcheck.core.presentation.request.FlipRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.lang.reflect.Type;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -33,6 +35,7 @@ class TaskAcceptanceTest extends AcceptanceTest {
     private static final String CONNECTION_PATH_FORMAT = "ws://localhost:%d/ws-connect";
     private static final String SUBSCRIPTION_PATH_FORMAT = "/topic/jobs/%s";
     private static final String FLIP_PATH_FORMAT = "/app/jobs/%d/tasks/flip";
+    private static final String ALL_CHECK_PATH_FORMAT = "/app/jobs/%d/sections/checkAll";
 
     @Test
     void Task를_조회한다() {
@@ -126,6 +129,28 @@ class TaskAcceptanceTest extends AcceptanceTest {
         assertThatRunningTaskChecked(actual, 0, 0);
     }
 
+    @Test
+    void 모든_RunningTask의_상태를_true로_바꾼다() throws Exception {
+        // given
+        GuestEnterRequest guestEnterRequest = new GuestEnterRequest("1234");
+        String token = 토큰을_요청한다(guestEnterRequest);
+        RunningTask를_생성한다(token);
+        StompSession stompSession = 웹소켓을_연결한다();
+
+        BlockingQueue<RunningTasksResponse> response = new LinkedBlockingDeque<>();
+        StompFrameHandlerImpl<RunningTasksResponse> handler = new StompFrameHandlerImpl<>(RunningTasksResponse.class,
+                response);
+        stompSession.subscribe(String.format(SUBSCRIPTION_PATH_FORMAT, 1L), handler);
+
+        // when
+        stompSession.send(String.format(ALL_CHECK_PATH_FORMAT, 1L), new AllCheckRequest(1L));
+
+        // then
+        RunningTasksResponse actual = response.poll(5, TimeUnit.SECONDS);
+        assertThat(actual).isNotNull();
+        assertThatAllRunningTasksChecked(actual, 0);
+    }
+
     private void assertThatRunningTaskChecked(final RunningTasksResponse runningTasksResponse,
                                               final int sectionIndex,
                                               final int taskIndex) {
@@ -134,6 +159,16 @@ class TaskAcceptanceTest extends AcceptanceTest {
                 .getTasks().get(taskIndex);
 
         assertThat(runningTaskResponse.isChecked()).isTrue();
+    }
+
+    private void assertThatAllRunningTasksChecked(final RunningTasksResponse runningTasksResponse,
+                                                  final int sectionIndex) {
+        List<RunningTaskResponse> tasks = runningTasksResponse.getSections()
+                .get(sectionIndex).getTasks();
+        for (RunningTaskResponse task : tasks) {
+            assertThat(task.isChecked()).isTrue();
+        }
+
     }
 
 

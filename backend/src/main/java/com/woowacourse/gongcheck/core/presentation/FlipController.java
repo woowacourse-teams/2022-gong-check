@@ -29,6 +29,7 @@ public class FlipController {
 
     @MessageMapping("/jobs/{jobId}/sections/checkAll")
     public void checkAll(@DestinationVariable final Long jobId, final AllCheckRequest request) {
+        System.out.println("called");
         taskService.checkRunningTasksInSection(request.getSectionId());
         template.convertAndSend("/topic/jobs/" + jobId, taskService.showRunningTasks(jobId));
     }
