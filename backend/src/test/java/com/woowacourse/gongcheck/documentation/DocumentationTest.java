@@ -21,7 +21,6 @@ import com.woowacourse.gongcheck.core.presentation.HostController;
 import com.woowacourse.gongcheck.core.presentation.ImageUploadController;
 import com.woowacourse.gongcheck.core.presentation.JobController;
 import com.woowacourse.gongcheck.core.presentation.SpaceController;
-import com.woowacourse.gongcheck.core.presentation.SubmissionController;
 import com.woowacourse.gongcheck.core.presentation.TaskController;
 import com.woowacourse.gongcheck.core.presentation.filter.RequestContext;
 import com.woowacourse.gongcheck.documentation.support.ErrorCodeController;
@@ -43,7 +42,6 @@ import org.springframework.web.context.WebApplicationContext;
         SpaceController.class,
         JobController.class,
         TaskController.class,
-        SubmissionController.class,
         HostController.class,
         ImageUploadController.class,
         ErrorCodeController.class

@@ -32,18 +32,15 @@ public class TaskService {
     private final SectionRepository sectionRepository;
     private final TaskRepository taskRepository;
     private final RunningTaskRepository runningTaskRepository;
-    private final RunningTaskSseEmitterContainer runningTaskSseEmitterContainer;
 
     public TaskService(final HostRepository hostRepository, final JobRepository jobRepository,
                        final SectionRepository sectionRepository, final TaskRepository taskRepository,
-                       final RunningTaskRepository runningTaskRepository,
-                       final RunningTaskSseEmitterContainer runningTaskSseEmitterContainer) {
+                       final RunningTaskRepository runningTaskRepository) {
         this.hostRepository = hostRepository;
         this.jobRepository = jobRepository;
         this.sectionRepository = sectionRepository;
         this.taskRepository = taskRepository;
         this.runningTaskRepository = runningTaskRepository;
-        this.runningTaskSseEmitterContainer = runningTaskSseEmitterContainer;
     }
 
     @Transactional
@@ -68,12 +65,6 @@ public class TaskService {
     }
 
     @Transactional
-    public SseEmitter connectRunningTasks(final Long hostId, final Long jobId) {
-        RunningTasksResponse runningTasks = findExistingRunningTasks(hostId, jobId);
-        return runningTaskSseEmitterContainer.createEmitterWithConnectionEvent(jobId, runningTasks);
-    }
-
-    @Transactional
     public void flipRunningTask(Long taskId) {
         Task task = taskRepository.getById(taskId);
         RunningTask runningTask = task.getRunningTask();
@@ -95,23 +86,6 @@ public class TaskService {
             throw new BusinessException(message, ErrorCode.R001);
         }
         return RunningTasksResponse.from(tasks);
-    }
-
-    @Transactional
-    public void flipRunningTask(final Long hostId, final Long taskId) {
-        Host host = hostRepository.getById(hostId);
-        Task task = taskRepository.getBySectionJobSpaceHostAndId(host, taskId);
-        RunningTask runningTask = task.getRunningTask();
-        if (runningTask == null) {
-            String message = String.format("현재 진행 중인 작업이 아닙니다. hostId = %d, taskId = %d", hostId, taskId);
-            throw new BusinessException(message, ErrorCode.R002);
-        }
-
-        runningTask.flipCheckedStatus();
-        Long jobId = task.getSection().getJob().getId();
-        RunningTasksResponse runningTasks = findExistingRunningTasks(hostId, jobId);
-
-        runningTaskSseEmitterContainer.publishFlipEvent(jobId, runningTasks);
     }
 
     public TasksResponse findTasks(final Long hostId, final Long jobId) {
