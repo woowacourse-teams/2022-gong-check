@@ -11,7 +11,6 @@ import com.woowacourse.gongcheck.core.domain.section.Section;
 import com.woowacourse.gongcheck.core.domain.section.SectionRepository;
 import com.woowacourse.gongcheck.core.domain.task.RunningTask;
 import com.woowacourse.gongcheck.core.domain.task.RunningTaskRepository;
-import com.woowacourse.gongcheck.core.domain.task.RunningTaskSseEmitterContainer;
 import com.woowacourse.gongcheck.core.domain.task.RunningTasks;
 import com.woowacourse.gongcheck.core.domain.task.Task;
 import com.woowacourse.gongcheck.core.domain.task.TaskRepository;
@@ -21,7 +20,6 @@ import com.woowacourse.gongcheck.exception.ErrorCode;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @Service
 @Transactional(readOnly = true)

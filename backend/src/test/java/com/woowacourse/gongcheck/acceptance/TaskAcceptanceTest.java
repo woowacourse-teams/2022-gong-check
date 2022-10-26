@@ -208,7 +208,6 @@ class TaskAcceptanceTest extends AcceptanceTest {
 
         @Override
         public void handleFrame(final StompHeaders headers, final Object payload) {
-            System.out.println(payload);
             responses.offer((T) payload);
         }
     }
