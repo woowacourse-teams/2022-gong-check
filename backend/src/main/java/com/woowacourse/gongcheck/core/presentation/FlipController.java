@@ -16,7 +16,7 @@ public class FlipController {
     private final TaskService taskService;
     private final SimpMessagingTemplate template;
 
-    public FlipController(TaskService taskService, SimpMessagingTemplate template) {
+    public FlipController(final TaskService taskService, final SimpMessagingTemplate template) {
         this.taskService = taskService;
         this.template = template;
     }

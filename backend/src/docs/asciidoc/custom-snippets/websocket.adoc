@@ -1,0 +1,119 @@
+[[WebSocket]]
+== WebSocket API
+
+=== 웹 소켓 연결
+
+==== HTTP Request
+
+[source,http,options="nowrap"]
+----
+GET /ws-connect HTTP/1.1
+----
+
+==== HTTP Response
+
+[source,http,options="nowrap"]
+----
+HTTP/1.1 101 Switching Protocols
+----
+
+=== RunningTask 조회 채널 구독
+
+==== WebSocket Subscribe
+
+[source,http,options="nowrap"]
+----
+SUBSCRIBE
+id:sub-0
+destination:/topic/jobs/1
+
+^@
+----
+
+==== Subscription Message
+
+[source,http,options="nowrap"]
+----
+MESSAGE
+destination:/topic/jobs/1
+content-type:application/json
+subscription:sub-0
+message-id:306e1fce-54c4-1e1d-0679-ccfacfe1427e-10
+content-length:216
+
+{
+  "sections" : [ {
+    "id" : 1,
+    "name" : "굿샷 강의장",
+    "imageUrl": "https://image.gongcheck.com/12sdf124sx.jpg",
+    "description": "",
+    "tasks": [ {
+        "id" : 1,
+        "name" : "책상 닦기",
+        "checked" : false,
+        "imageUrl" : "https://image.gongcheck.com/13saf124sx.jpg",
+        "description" : ""
+        }, {
+        "id" : 2,
+        "name" : "의자 정리",
+        "checked" : false,
+        "imageUrl" : "https://image.gongcheck.com/13saf124sx.jpg",
+        "description" : ""
+        } ]
+    } ]
+}^@
+----
+
+=== RunningTask 체크 상태 변경
+
+==== WebSocket Send
+
+[source,http,options="nowrap"]
+----
+SEND /app/jobs/1/tasks/flip
+Content-Type: application/json
+
+{
+    "taskId": 1
+}^@
+----
+
+=== Section의 모든 RunningTask를 체크 상태로 변경
+
+==== WebSocket Send
+
+[source,http,options="nowrap"]
+----
+SEND /app/jobs/1/sections/checkAll
+Content-Type: application/json
+
+{
+    "sectionId": 1
+}^@
+----
+
+=== Submission 채널 구독
+
+==== WebSocket Subscribe
+
+----
+SUBSCRIBE
+id:sub-0
+destination:/jobs/1/complete
+
+^@
+----
+
+==== Subscription Message
+
+[source,http,options="nowrap"]
+----
+MESSAGE
+destination:/jobs/1/complete
+content-type:application/json
+subscription:sub-0
+message-id:306e1fce-54c4-1e1d-0679-ccfacfe1427e-10
+content-length:4
+
+true^@
+----

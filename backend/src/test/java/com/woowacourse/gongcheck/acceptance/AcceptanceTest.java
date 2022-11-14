@@ -8,7 +8,6 @@ import com.woowacourse.gongcheck.auth.application.response.TokenResponse;
 import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
 import com.woowacourse.gongcheck.core.application.ImageUploader;
 import com.woowacourse.gongcheck.core.application.NotificationService;
-import com.woowacourse.gongcheck.core.domain.task.RunningTaskSseEmitterContainer;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,9 +23,6 @@ class AcceptanceTest {
 
     @MockBean
     private NotificationService notificationService;
-
-    @MockBean
-    protected RunningTaskSseEmitterContainer runningTaskSseEmitterContainer;
 
     @MockBean
     protected ImageUploader imageUploader;
