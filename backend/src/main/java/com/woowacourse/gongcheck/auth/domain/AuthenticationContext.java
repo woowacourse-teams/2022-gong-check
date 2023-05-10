@@ -10,13 +10,8 @@ import org.springframework.web.context.annotation.RequestScope;
 public class AuthenticationContext {
 
     private String principal;
-    private Authority authority;
 
     public void setPrincipal(final String principal) {
         this.principal = principal;
-    }
-
-    public void setAuthority(final Authority authority) {
-        this.authority = authority;
     }
 }

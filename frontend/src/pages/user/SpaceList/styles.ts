@@ -10,8 +10,9 @@ const layout = css`
 `;
 
 const logo = css`
-  width: 248px;
+  width: 264px;
   margin: 32px 0;
+  aspect-ratio: auto 5 / 1;
 `;
 
 const text = css`

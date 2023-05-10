@@ -1,6 +1,6 @@
 package com.woowacourse.gongcheck.core.presentation;
 
-import com.woowacourse.gongcheck.auth.presentation.aop.HostOnly;
+import com.woowacourse.gongcheck.auth.presentation.HostOnly;
 import com.woowacourse.gongcheck.core.application.ImageUploader;
 import com.woowacourse.gongcheck.core.application.response.ImageUrlResponse;
 import lombok.extern.slf4j.Slf4j;

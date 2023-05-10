@@ -7,11 +7,11 @@ const container = css`
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 480px;
-  height: 360px;
+  min-width: 320px;
+  height: 356px;
   overflow-y: scroll;
-  padding: 32px;
-  background-color: ${theme.colors.white};
+  padding: 40px 32px;
+  background-color: ${theme.colors.skyblue200};
   box-shadow: 2px 2px 2px 2px ${theme.colors.shadow20};
   border-radius: 8px;
   position: relative;
@@ -42,7 +42,6 @@ const titleWrapper = css`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 20px;
   margin-bottom: 8px;
   padding-bottom: 16px;
   border-bottom: 2px solid ${theme.colors.shadow20};
@@ -60,7 +59,7 @@ const deleteButton = css`
 const detailButton = (hasSectionDetailInfo: boolean) => css`
   margin: 0 4px;
   cursor: pointer;
-  color: ${hasSectionDetailInfo ? theme.colors.green : theme.colors.gray400};
+  color: ${hasSectionDetailInfo ? theme.colors.green : theme.colors.shadow40};
   :hover {
     animation: ${animation.shake} 2s infinite linear alternate;
   }
@@ -72,23 +71,24 @@ const newTaskButton = css`
   font-size: 12px;
   padding: 8px 16px;
   border-radius: 24px;
-  background-color: ${theme.colors.shadow10};
-  :hover {
-    background-color: ${theme.colors.shadow20};
-  }
+  color: ${theme.colors.white};
+  background-color: ${theme.colors.primary};
 `;
 
 const input = css`
-  font-size: 18px;
-  line-height: 38px;
+  font-size: 16px;
   border: 1px solid ${theme.colors.shadow30};
   border-radius: 12px;
-  padding: 0 16px;
-  background-color: ${theme.colors.white};
+  padding: 4px 16px;
+  background-color: ${theme.colors.gray100};
   width: 80%;
 
   :focus {
     outline: 2px solid ${theme.colors.primary};
+  }
+
+  ::placeholder {
+    font-size: 14px;
   }
 `;
 

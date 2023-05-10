@@ -1,8 +1,8 @@
 package com.woowacourse.gongcheck.exception;
 
-public class NotFoundException extends RuntimeException {
+public class NotFoundException extends CustomException {
 
-    public NotFoundException(final String message) {
-        super(message);
+    public NotFoundException(final String message, final ErrorCode errorCode) {
+        super(message, errorCode);
     }
 }

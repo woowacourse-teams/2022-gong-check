@@ -30,6 +30,18 @@ const shake = keyframes`
   }
 `;
 
+const littleShake = keyframes`
+  0%, 50%{
+    transform: rotate(0deg);
+	}
+  5%, 15%, 25%, 35%, 45% {
+    transform: rotate(5deg);
+  }
+  10%, 20%, 30%, 40% {
+    transform: rotate(-5deg);
+  }
+`;
+
 const spinnerFace = keyframes`
   0% {
     transform: translate(-50%, 20%);
@@ -58,7 +70,7 @@ const spinnerEye = keyframes`
 const moveUp = keyframes`
   0% {
     opacity: 0;
-    transform: translateY(25px);
+    transform: translateY(50px);
   }
   100% {
     opacity: 1;
@@ -66,6 +78,121 @@ const moveUp = keyframes`
   }
 `;
 
-const animation = { fadeIn, fadeOut, shake, spinnerFace, spinnerEye, moveUp };
+const scaleUp = keyframes`
+  from {
+    transform: scale(0.7);
+  }
+  to {
+    transform: scale(1);
+  }
+`;
+
+const scaleDown = keyframes`
+  from {
+    opacity: 1;
+    transform: scale(1);
+    
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.7);
+    
+  }
+`;
+
+const customMoveUp = (y: string) => keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(${y});
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const moveDown = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const moveLeft = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+const moveRight = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+const wave = keyframes`
+ from {
+    transform: skew(0);
+  }
+  33% {
+    transform: skew(2deg, 2deg);
+  }
+  66% {
+    transform: skew(4deg, 4deg);
+  }
+  to {
+    transform: skew(2deg, 2deg);
+  }`;
+
+const navigatorOpen = keyframes`
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0)
+  }
+`;
+
+const navigatorClose = keyframes`
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%)
+  }
+`;
+
+const animation = {
+  fadeIn,
+  fadeOut,
+  shake,
+  littleShake,
+  spinnerFace,
+  spinnerEye,
+  moveUp,
+  customMoveUp,
+  moveDown,
+  moveRight,
+  moveLeft,
+  wave,
+  scaleUp,
+  scaleDown,
+  navigatorOpen,
+  navigatorClose,
+};
 
 export default animation;

@@ -17,6 +17,7 @@ import static org.springframework.restdocs.snippet.Attributes.key;
 import com.woowacourse.gongcheck.auth.application.response.GuestTokenResponse;
 import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
+import com.woowacourse.gongcheck.exception.ErrorCode;
 import com.woowacourse.gongcheck.exception.ErrorResponse;
 import io.restassured.module.mockmvc.response.MockMvcResponse;
 import io.restassured.response.ExtractableResponse;
@@ -61,7 +62,7 @@ class GuestAuthDocumentation extends DocumentationTest {
         @Test
         void 비밀번호_길이가_맞지_않을_경우_예외가_발생한다() {
             GuestEnterRequest guestEnterRequest = new GuestEnterRequest("12345");
-            doThrow(new BusinessException("비밀번호는 네 자리 숫자로 이루어져야 합니다."))
+            doThrow(new BusinessException("비밀번호는 네 자리 숫자로 이루어져야 합니다.", ErrorCode.SP03))
                     .when(guestAuthService).createToken(anyLong(), any());
 
             ExtractableResponse<MockMvcResponse> response = docsGiven
@@ -74,15 +75,15 @@ class GuestAuthDocumentation extends DocumentationTest {
 
             assertAll(
                     () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value()),
-                    () -> assertThat(response.jsonPath().getObject(".", ErrorResponse.class).getMessage())
-                            .isEqualTo("비밀번호는 네 자리 숫자로 이루어져야 합니다.")
+                    () -> assertThat(response.jsonPath().getObject(".", ErrorResponse.class).getErrorCode())
+                            .isEqualTo(ErrorCode.SP03.name())
             );
         }
 
         @Test
         void 비밀번호가_숫자가_아닐_경우_예외가_발생한다() {
             GuestEnterRequest guestEnterRequest = new GuestEnterRequest("abcd");
-            doThrow(new BusinessException("비밀번호는 네 자리 숫자로 이루어져야 합니다."))
+            doThrow(new BusinessException("비밀번호는 네 자리 숫자로 이루어져야 합니다.", ErrorCode.SP03))
                     .when(guestAuthService).createToken(anyLong(), any());
 
             ExtractableResponse<MockMvcResponse> response = docsGiven
@@ -95,8 +96,8 @@ class GuestAuthDocumentation extends DocumentationTest {
 
             assertAll(
                     () -> assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value()),
-                    () -> assertThat(response.jsonPath().getObject(".", ErrorResponse.class).getMessage())
-                            .isEqualTo("비밀번호는 네 자리 숫자로 이루어져야 합니다.")
+                    () -> assertThat(response.jsonPath().getObject(".", ErrorResponse.class).getErrorCode())
+                            .isEqualTo(ErrorCode.SP03.name())
             );
         }
     }

@@ -1,27 +1,34 @@
 package com.woowacourse.gongcheck.core.presentation;
 
 import com.woowacourse.gongcheck.auth.presentation.AuthenticationPrincipal;
-import com.woowacourse.gongcheck.auth.presentation.aop.HostOnly;
+import com.woowacourse.gongcheck.auth.presentation.HostOnly;
+import com.woowacourse.gongcheck.core.application.SubmissionService;
 import com.woowacourse.gongcheck.core.application.TaskService;
 import com.woowacourse.gongcheck.core.application.response.JobActiveResponse;
 import com.woowacourse.gongcheck.core.application.response.RunningTasksResponse;
+import com.woowacourse.gongcheck.core.application.response.SubmissionsResponse;
 import com.woowacourse.gongcheck.core.application.response.TasksResponse;
 import java.net.URI;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @RestController
 @RequestMapping("/api")
 public class TaskController {
 
     private final TaskService taskService;
+    private final SubmissionService submissionService;
 
-    public TaskController(final TaskService taskService) {
+    public TaskController(final TaskService taskService, final SubmissionService submissionService) {
         this.taskService = taskService;
+        this.submissionService = submissionService;
     }
 
     @PostMapping("/jobs/{jobId}/runningTasks/new")
@@ -38,17 +45,10 @@ public class TaskController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/jobs/{jobId}/runningTasks")
-    public ResponseEntity<RunningTasksResponse> showRunningTasks(@AuthenticationPrincipal final Long hostId,
-                                                                 @PathVariable final Long jobId) {
-        RunningTasksResponse response = taskService.findRunningTasks(hostId, jobId);
-        return ResponseEntity.ok(response);
-    }
-
     @PostMapping("/tasks/{taskId}/flip")
     public ResponseEntity<Void> flipRunningTask(@AuthenticationPrincipal final Long hostId,
                                                 @PathVariable final Long taskId) {
-        taskService.flipRunningTask(hostId, taskId);
+        taskService.flipRunningTask(taskId);
         return ResponseEntity.ok().build();
     }
 
@@ -57,6 +57,15 @@ public class TaskController {
     public ResponseEntity<TasksResponse> showTasks(@AuthenticationPrincipal final Long hostId,
                                                    @PathVariable final Long jobId) {
         TasksResponse response = taskService.findTasks(hostId, jobId);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/spaces/{spaceId}/submissions")
+    @HostOnly
+    public ResponseEntity<SubmissionsResponse> showSubmissions(@AuthenticationPrincipal final Long hostId,
+                                                               @PathVariable final Long spaceId,
+                                                               final Pageable pageable) {
+        SubmissionsResponse response = submissionService.findPage(hostId, spaceId, pageable);
         return ResponseEntity.ok(response);
     }
 }

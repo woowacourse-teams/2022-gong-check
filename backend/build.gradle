@@ -30,6 +30,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    // websocket
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
     // webflux
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
@@ -103,8 +106,8 @@ task createDocument(type: Copy) {
 task displaceDocument(type: Copy) {
     dependsOn asciidoctor
 
-    from ("${asciidoctor.outputDir}")
-    into ("build/resources/main/static")
+    from("${asciidoctor.outputDir}")
+    into("build/resources/main/static")
 }
 
 bootJar {
@@ -121,10 +124,6 @@ jacocoTestReport {
 
 sonarqube {
     properties {
-        property "sonar.projectKey", "woowacourse-teams_2022-gong-check"
-        property "sonar.organization", "woowacourse-teams"
-        property "sonar.host.url", "https://sonarcloud.io"
-        property 'sonar.coverage.jacoco.xmlReportPaths', 'build/reports/jacoco/test/jacocoTestReport.xml'
-        property 'sonar.language', 'java'
+        property "sonar.projectKey", "woowacourse-teams_2022-gong-check_AYKm4KvOS_3Pe1LEsoLu"
     }
 }

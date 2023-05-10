@@ -6,8 +6,9 @@ const spaceCard = (imageUrl: string) => css`
   display: flex;
   justify-content: flex-start;
   align-items: flex-end;
-  width: 90%;
-  height: 25vh;
+  max-width: 400px;
+  height: 180px;
+  width: 80%;
   margin: 16px;
   padding: 24px;
   box-shadow: 2px 2px 2px 2px ${theme.colors.shadow40};
@@ -17,13 +18,13 @@ const spaceCard = (imageUrl: string) => css`
   cursor: pointer;
 
   :hover {
-    transform: scale(1.01);
+    transform: scale(1.02);
   }
 `;
 
 const title = css`
   color: ${theme.colors.white};
-  font-size: 36px;
+  font-size: 28px;
   text-shadow: -1px -1px 6px #000, 1px -1px 6px #000, -1px 1px 6px #000, 1px 1px 6px #000;
   background-image: linear-gradient(transparent 90%, ${theme.colors.primary} 10%);
 `;
@@ -33,6 +34,8 @@ const arrow = css`
   box-shadow: 0 0 4px 2px ${theme.colors.shadow90};
   margin-left: auto;
   align-self: center;
+  width: 2rem;
+  aspect-ratio: auto 1 / 1;
 `;
 
 const styles = { spaceCard, title, arrow };

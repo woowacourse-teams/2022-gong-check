@@ -1,6 +1,7 @@
-import TaskBox from '../TaskBox';
+import TaskBox from './TaskBox';
 import useSectionCardDefault from './useSectionCardDefault';
-import { BiNews, BiX } from 'react-icons/bi';
+import { BiNews } from '@react-icons/all-files/bi/BiNews';
+import { BiX } from '@react-icons/all-files/bi/BiX';
 
 import { SectionType } from '@/types';
 
@@ -21,7 +22,7 @@ const SectionCard: React.FC<SectionCardProps> = ({ section, sectionIndex }) => {
       <div css={styles.titleWrapper}>
         <input
           css={styles.input}
-          placeholder="새 구역"
+          placeholder="구역 이름을 입력주세요."
           defaultValue={section.name}
           maxLength={10}
           onChange={onChange}

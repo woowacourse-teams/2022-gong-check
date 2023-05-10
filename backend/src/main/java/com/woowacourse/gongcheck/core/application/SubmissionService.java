@@ -2,6 +2,7 @@ package com.woowacourse.gongcheck.core.application;
 
 import com.woowacourse.gongcheck.core.application.response.SubmissionCreatedResponse;
 import com.woowacourse.gongcheck.core.application.response.SubmissionsResponse;
+import com.woowacourse.gongcheck.core.application.support.LoggingFormatConverter;
 import com.woowacourse.gongcheck.core.domain.host.Host;
 import com.woowacourse.gongcheck.core.domain.host.HostRepository;
 import com.woowacourse.gongcheck.core.domain.job.Job;
@@ -16,11 +17,11 @@ import com.woowacourse.gongcheck.core.domain.task.TaskRepository;
 import com.woowacourse.gongcheck.core.domain.task.Tasks;
 import com.woowacourse.gongcheck.core.presentation.request.SubmissionRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
+import com.woowacourse.gongcheck.exception.ErrorCode;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -49,19 +50,13 @@ public class SubmissionService {
         this.notificationService = notificationService;
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
-    public void submitJobCompletion(final Long hostId, final Long jobId,
-                                    final SubmissionRequest request) {
-        Host host = hostRepository.getById(hostId);
-        Job job = jobRepository.getBySpaceHostAndId(host, jobId);
+    @Transactional
+    public void submitJobCompletion(Long jobId, SubmissionRequest request) {
+        Job job = jobRepository.getById(jobId);
         saveSubmissionAndClearRunningTasks(request, job);
         if (job.hasUrl()) {
             sendNotification(request, job);
         }
-    }
-
-    private void sendNotification(final SubmissionRequest request, final Job job) {
-        notificationService.sendMessage(SubmissionCreatedResponse.of(request.getAuthor(), job));
     }
 
     public SubmissionsResponse findPage(final Long hostId, final Long spaceId, final Pageable pageable) {
@@ -70,6 +65,10 @@ public class SubmissionService {
         List<Job> jobs = jobRepository.findAllBySpace(space);
         Slice<Submission> submissions = submissionRepository.findAllByJobIn(jobs, pageable);
         return SubmissionsResponse.from(submissions);
+    }
+
+    private void sendNotification(final SubmissionRequest request, final Job job) {
+        notificationService.sendMessage(SubmissionCreatedResponse.of(request.getAuthor(), job));
     }
 
     private void saveSubmissionAndClearRunningTasks(final SubmissionRequest request, final Job job) {
@@ -82,8 +81,11 @@ public class SubmissionService {
     }
 
     private void validateRunning(final Tasks tasks) {
-        if (!runningTaskRepository.existsByTaskIdIn(tasks.getTaskIds())) {
-            throw new BusinessException("현재 제출할 수 있는 진행중인 작업이 존재하지 않습니다.");
+        List<Long> taskIds = tasks.getTaskIds();
+        if (!runningTaskRepository.existsByTaskIdIn(taskIds)) {
+            String message = String.format("현재 제출할 수 있는 진행중인 작업이 존재하지 않습니다. taskIds = %s",
+                    LoggingFormatConverter.convertIdsToString(taskIds));
+            throw new BusinessException(message, ErrorCode.S001);
         }
     }
 }

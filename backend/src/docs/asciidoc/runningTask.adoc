@@ -1,18 +1,12 @@
 [[RunningTask]]
 == RunningTask
 
-=== RunningTask 정보 조회
-
-operation::runningTasks/find/success[snippets='http-request,http-response,path-parameters,response-fields']
 
 === RunningTask 완료 여부 확인
 
 operation::runningTasks/active/success[snippets='http-request,http-response,path-parameters,response-fields']
 
-=== RunningTask check 상태 변환
-
-operation::runningTasks/check/success[snippets='http-request,http-response,path-parameters']
-
 === RunningTask 생성
 
 operation::runningTasks/create/success[snippets='http-request,http-response,path-parameters']
+

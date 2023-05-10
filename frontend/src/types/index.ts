@@ -12,7 +12,7 @@ export type JobType = {
 };
 
 export type SectionType = {
-  id: ID | undefined;
+  id: ID;
   name: string;
   description: string;
   imageUrl: string;
@@ -26,3 +26,5 @@ export type TaskType = {
   description: string;
   imageUrl: string;
 };
+
+export type ScreenModeType = 'DESKTOP' | 'MOBILE';

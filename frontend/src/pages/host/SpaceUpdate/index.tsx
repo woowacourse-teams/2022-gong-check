@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
-import SpaceInfoUpdateBox from '@/components/host/SpaceInfoUpdateBox';
+import SpaceInfoUpdateBox from '@/components/host/SpaceInfo/SpaceInfoUpdateBox';
 
 import apiSpace from '@/apis/space';
 

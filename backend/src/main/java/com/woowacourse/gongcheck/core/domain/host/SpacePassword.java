@@ -1,6 +1,7 @@
 package com.woowacourse.gongcheck.core.domain.host;
 
 import com.woowacourse.gongcheck.exception.BusinessException;
+import com.woowacourse.gongcheck.exception.ErrorCode;
 import java.util.Objects;
 import java.util.regex.Pattern;
 import javax.persistence.Column;
@@ -22,7 +23,8 @@ public class SpacePassword {
 
     public SpacePassword(final String value) {
         if (!SPACE_PASSWORD_PATTERN.matcher(value).find()) {
-            throw new BusinessException("비밀번호는 네 자리 숫자로 이루어져야 합니다.");
+            String message = String.format("비밀번호는 네 자리 숫자로 이루어져야 합니다. value = %s", value);
+            throw new BusinessException(message, ErrorCode.SP03);
         }
         this.value = value;
     }

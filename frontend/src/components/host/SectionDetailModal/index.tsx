@@ -1,12 +1,15 @@
 import useSectionDetailModal from './useSectionDetailModal';
-import { BiX } from 'react-icons/bi';
+import { BiX } from '@react-icons/all-files/bi/BiX';
 
 import Button from '@/components/common/Button';
 import Dimmer from '@/components/common/Dimmer';
+import LoadingOverlay from '@/components/common/LoadingOverlay';
 
 import ModalPortal from '@/portals/ModalPortal';
 
 import styles from './styles';
+
+const DEFAULT_NO_IMAGE = 'https://velog.velcdn.com/images/cks3066/post/7f506718-7a3c-4d63-b9ac-f21b6417f3c2/image.png';
 
 interface SectionDetailModalProps {
   target: 'section' | 'task';
@@ -30,11 +33,12 @@ const SectionDetailModal: React.FC<SectionDetailModalProps> = props => {
     closeModal,
     imageUrl,
     description,
+    isImageLoading,
   } = useSectionDetailModal(props);
 
   return (
     <ModalPortal>
-      <Dimmer mode="full" isAbleClick={false}>
+      <Dimmer isAbleClick={false}>
         <div css={styles.container}>
           <BiX size={36} onClick={closeModal} />
           <h1>
@@ -42,10 +46,16 @@ const SectionDetailModal: React.FC<SectionDetailModalProps> = props => {
               ? getSectionInfo(sectionIndex).name
               : getTaskInfo(sectionIndex, taskIndex as number).name}
           </h1>
-          <img css={styles.image} src={imageUrl} alt="" onClick={() => fileInput.current?.click()} />
+
+          <img
+            css={styles.image}
+            src={imageUrl === '' ? DEFAULT_NO_IMAGE : imageUrl}
+            alt=""
+            onClick={() => fileInput.current?.click()}
+          />
           <input
             type="file"
-            accept="image/gif, image/jpg, image/jpeg, image/png, image/svg"
+            accept="image/gif, image/jpg, image/jpeg, image/png, image/svg, , image/webp"
             ref={fileInput}
             onChange={onChangeImage}
           />
@@ -53,16 +63,17 @@ const SectionDetailModal: React.FC<SectionDetailModalProps> = props => {
             <textarea
               rows={4}
               value={description}
-              placeholder="사용자가 확인할 안내사항을 입력주세요. (128자이내)"
+              placeholder="사용자가 확인할 안내사항을 입력주세요."
               maxLength={128}
               onChange={onChangeText}
             />
             <span>{description?.length || 0}/128</span>
           </div>
           <Button css={styles.saveButton(isDisabledButton)} disabled={isDisabledButton} onClick={onClickSaveButton}>
-            저장
+            {target === 'section' ? '업무 정보 저장' : '작업 정보 저장'}
           </Button>
         </div>
+        {isImageLoading && <LoadingOverlay />}
       </Dimmer>
     </ModalPortal>
   );

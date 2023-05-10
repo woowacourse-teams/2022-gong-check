@@ -28,13 +28,13 @@ class AcceptanceTest {
     protected ImageUploader imageUploader;
 
     @Autowired
-    private EntranceCodeProvider entranceCodeProvider;
+    protected EntranceCodeProvider entranceCodeProvider;
 
     @Autowired
     private DatabaseInitializer databaseInitializer;
 
     @LocalServerPort
-    private int port;
+    protected int port;
 
     @BeforeEach
     void setUp() {
@@ -48,6 +48,7 @@ class AcceptanceTest {
     void clean() {
         databaseInitializer.truncateTables();
     }
+
     public String 토큰을_요청한다(final GuestEnterRequest guestEnterRequest) {
         String entranceCode = entranceCodeProvider.createEntranceCode(1L);
         return RestAssured

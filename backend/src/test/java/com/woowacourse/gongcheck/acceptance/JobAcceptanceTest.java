@@ -47,6 +47,102 @@ class JobAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
+    void Host_토큰으로_Job_생성_시_Job에_대한_Section이_존재하지_않으면_예외가_발생한다() {
+        String token = Host_토큰을_요청한다().getToken();
+
+        JobCreateRequest request = new JobCreateRequest("청소", List.of());
+
+        RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
+                .auth().oauth2(token)
+                .when().post("/api/spaces/1/jobs")
+                .then().log().all()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    void Host_토큰으로_Job_생성_시_Section에_대한_Task가_존재하지_않으면_예외가_발생한다() {
+        String token = Host_토큰을_요청한다().getToken();
+
+        List<SectionCreateRequest> sections = List
+                .of(new SectionCreateRequest("대강의실", "대강의실 설명", "https://image.gongcheck.shop/degang123", List.of()));
+        JobCreateRequest request = new JobCreateRequest("청소", sections);
+
+        RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
+                .auth().oauth2(token)
+                .when().post("/api/spaces/1/jobs")
+                .then().log().all()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    void Host_토큰으로_Job_생성_시_Job의_name이_비어있으면_예외가_발생한다() {
+        String token = Host_토큰을_요청한다().getToken();
+
+        List<TaskCreateRequest> tasks = List
+                .of(new TaskCreateRequest("책상 닦기", "책상 닦기 설명", "https://image.gongcheck.shop/checksang123"),
+                        new TaskCreateRequest("칠판 닦기", "칠판 닦기 설명", "https://image.gongcheck.shop/chilpan123"));
+        List<SectionCreateRequest> sections = List
+                .of(new SectionCreateRequest("", "대강의실 설명", "https://image.gongcheck.shop/degang123", tasks));
+        JobCreateRequest request = new JobCreateRequest("", sections);
+
+        RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
+                .auth().oauth2(token)
+                .when().post("/api/spaces/1/jobs")
+                .then().log().all()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    void Host_토큰으로_Job_생성_시_Section의_name이_비어있으면_예외가_발생한다() {
+        String token = Host_토큰을_요청한다().getToken();
+
+        List<TaskCreateRequest> tasks = List
+                .of(new TaskCreateRequest("책상 닦기", "책상 닦기 설명", "https://image.gongcheck.shop/checksang123"),
+                        new TaskCreateRequest("칠판 닦기", "칠판 닦기 설명", "https://image.gongcheck.shop/chilpan123"));
+        List<SectionCreateRequest> sections = List
+                .of(new SectionCreateRequest("", "대강의실 설명", "https://image.gongcheck.shop/degang123", tasks));
+        JobCreateRequest request = new JobCreateRequest("청소", sections);
+
+        RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
+                .auth().oauth2(token)
+                .when().post("/api/spaces/1/jobs")
+                .then().log().all()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    void Host_토큰으로_Job_생성_시_Task의_name이_비어있으면_예외가_발생한다() {
+        String token = Host_토큰을_요청한다().getToken();
+
+        List<TaskCreateRequest> tasks = List
+                .of(new TaskCreateRequest("", "책상 닦기 설명", "https://image.gongcheck.shop/checksang123"));
+        List<SectionCreateRequest> sections = List
+                .of(new SectionCreateRequest("대강의실", "대강의실 설명", "https://image.gongcheck.shop/degang123", tasks));
+        JobCreateRequest request = new JobCreateRequest("청소", sections);
+
+        RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
+                .auth().oauth2(token)
+                .when().post("/api/spaces/1/jobs")
+                .then().log().all()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
     void Host_토큰으로_Job을_수정한다() {
         String token = Host_토큰을_요청한다().getToken();
 

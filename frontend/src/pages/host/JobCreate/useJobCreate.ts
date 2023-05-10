@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -8,7 +9,8 @@ import useToast from '@/hooks/useToast';
 import apiJobs from '@/apis/job';
 
 import { ID, SectionType } from '@/types';
-import { ApiError } from '@/types/apis';
+
+import errorMessage from '@/constants/errorMessage';
 
 type MutationParams = { spaceId: ID; newJobName: string; sections: SectionType[] };
 
@@ -30,8 +32,8 @@ const useJobCreate = () => {
         openToast('SUCCESS', '업무가 생성 되었습니다.');
         navigate(`/host/manage/${spaceId}`);
       },
-      onError: (err: ApiError) => {
-        openToast('ERROR', `${err.response?.data.message}`);
+      onError: (err: AxiosError<{ errorCode: keyof typeof errorMessage }>) => {
+        openToast('ERROR', errorMessage[`${err.response?.data.errorCode!}`]);
       },
     }
   );

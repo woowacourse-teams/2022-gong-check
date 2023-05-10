@@ -21,12 +21,16 @@ import com.woowacourse.gongcheck.core.domain.section.Section;
 import com.woowacourse.gongcheck.core.domain.space.Space;
 import com.woowacourse.gongcheck.core.domain.submission.Submission;
 import com.woowacourse.gongcheck.core.domain.submission.SubmissionRepository;
+import com.woowacourse.gongcheck.core.domain.task.RunningTask;
 import com.woowacourse.gongcheck.core.domain.task.RunningTaskRepository;
 import com.woowacourse.gongcheck.core.domain.task.Task;
 import com.woowacourse.gongcheck.core.presentation.request.SubmissionRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.NotFoundException;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -57,122 +61,58 @@ class SubmissionServiceTest {
     class submitJobCompletion_메소드는 {
 
         @Nested
-        class 입력받은_Host가_존재하지_않는_경우 {
-
-            private static final long NON_EXIST_HOST_ID = 0L;
-
-            private Long jobId;
-            private SubmissionRequest request;
-
-            @BeforeEach
-            void setUp() {
-                jobId = 1L;
-                request = new SubmissionRequest("제출자");
-            }
-
-            @Test
-            void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> submissionService.submitJobCompletion(NON_EXIST_HOST_ID, jobId, request))
-                        .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
-            }
-        }
-
-        @Nested
         class 입력받은_Job이_존재하지_않는_경우 {
 
             private static final long NON_EXIST_JOB_ID = 0L;
 
-            private Host host;
-            private SubmissionRequest request;
-
-            @BeforeEach
-            void setUp() {
-                host = repository.save(Host_생성("1234", 1234L));
-                request = new SubmissionRequest("제출자");
-            }
+            private final Host host = repository.save(Host_생성("1234", 1234L));
+            private final SubmissionRequest request = new SubmissionRequest("제출자");
+            ;
 
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> submissionService.submitJobCompletion(host.getId(), NON_EXIST_JOB_ID, request))
+                assertThatThrownBy(() -> submissionService.submitJobCompletion(NON_EXIST_JOB_ID, request))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
-            }
-        }
-
-        @Nested
-        class 다른_Host의_Job을_입력받는_경우 {
-
-            private Host anotherHost;
-            private Job job;
-            private SubmissionRequest request;
-
-            @BeforeEach
-            void setUp() {
-                Host host = repository.save(Host_생성("1234", 1234L));
-                anotherHost = repository.save(Host_생성("1234", 2345L));
-                Space space = repository.save(Space_생성(host, "잠실"));
-                job = repository.save(Job_생성(space, "청소"));
-                request = new SubmissionRequest("제출자");
-            }
-
-            @Test
-            void 예외를_발생시킨다() {
-                assertThatThrownBy(
-                        () -> submissionService.submitJobCompletion(anotherHost.getId(), job.getId(), request))
-                        .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 작업입니다.");
+                        .hasMessageContaining("존재하지 않는 Job입니다.");
             }
         }
 
         @Nested
         class RunningTask가_존재하지_않는_경우 {
 
-            private Host host;
-            private Job job;
-            private SubmissionRequest request;
-
-            @BeforeEach
-            void setUp() {
-                host = repository.save(Host_생성("1234", 1234L));
-                Space space = repository.save(Space_생성(host, "잠실"));
-                job = repository.save(Job_생성(space, "청소"));
-                request = new SubmissionRequest("제출자");
-            }
+            private final Host host = repository.save(Host_생성("1234", 1234L));
+            ;
+            private final Space space = repository.save(Space_생성(host, "잠실"));
+            private final Job job = repository.save(Job_생성(space, "청소"));
+            ;
+            private final SubmissionRequest request = new SubmissionRequest("제출자");
 
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> submissionService.submitJobCompletion(host.getId(), job.getId(), request))
+                assertThatThrownBy(() -> submissionService.submitJobCompletion(job.getId(), request))
                         .isInstanceOf(BusinessException.class)
-                        .hasMessage("현재 제출할 수 있는 진행중인 작업이 존재하지 않습니다.");
+                        .hasMessageContaining("현재 제출할 수 있는 진행중인 작업이 존재하지 않습니다.");
             }
         }
 
         @Nested
         class 모든_RunningTask가_체크상태가_아닌_경우 {
 
-            private Host host;
-            private Job job;
-            private SubmissionRequest request;
-
-            @BeforeEach
-            void setUp() {
-                host = repository.save(Host_생성("1234", 1234L));
-                Space space = repository.save(Space_생성(host, "잠실"));
-                job = repository.save(Job_생성(space, "청소"));
-                Section section = repository.save(Section_생성(job, "트랙룸"));
-                Task task_1 = repository.save(Task_생성(section, "책상 청소"));
-                Task task_2 = repository.save(Task_생성(section, "의자 넣기"));
-                repository.save(RunningTask_생성(task_1.getId(), false));
-                repository.save(RunningTask_생성(task_2.getId(), false));
-                request = new SubmissionRequest("제출자");
-            }
+            private final Host host = repository.save(Host_생성("1234", 1234L));
+            private final Space space = repository.save(Space_생성(host, "잠실"));
+            private final Job job = repository.save(Job_생성(space, "청소"));
+            private final Section section = repository.save(Section_생성(job, "트랙룸"));
+            private final Task task_1 = repository.save(Task_생성(section, "책상 청소"));
+            private final Task task_2 = repository.save(Task_생성(section, "의자 넣기"));
+            private final RunningTask runningTask_1 = repository.save(RunningTask_생성(task_1.getId(), false));
+            private final RunningTask runningTask_2 = repository.save(RunningTask_생성(task_2.getId(), false));
+            private final SubmissionRequest request = new SubmissionRequest("제출자");
 
             @Test
             void 예외를_발생시킨다() {
-                assertThatThrownBy(() -> submissionService.submitJobCompletion(host.getId(), job.getId(), request))
+                assertThatThrownBy(() -> submissionService.submitJobCompletion(job.getId(), request))
                         .isInstanceOf(BusinessException.class)
-                        .hasMessage("모든 작업이 완료되지않아 제출이 불가합니다.");
+                        .hasMessageContaining("모든 작업이 완료되지않아 제출이 불가합니다.");
             }
         }
 
@@ -199,7 +139,7 @@ class SubmissionServiceTest {
 
             @Test
             void Submission을_생성한다() {
-                submissionService.submitJobCompletion(host.getId(), job.getId(), request);
+                submissionService.submitJobCompletion(job.getId(), request);
                 List<Submission> submissions = submissionRepository.findAll();
                 int runningTaskSize = runningTaskRepository.findAll()
                         .size();
@@ -209,6 +149,23 @@ class SubmissionServiceTest {
                         () -> assertThat(submissions.get(0).getAuthor()).isEqualTo(request.getAuthor()),
                         () -> assertThat(runningTaskSize).isZero()
                 );
+            }
+
+            @Test
+            void 여러명이_제출한다면_하나의_Submission만_생성한다() throws InterruptedException {
+                final ExecutorService executorService = Executors.newFixedThreadPool(11);
+                final CountDownLatch countDownLatch = new CountDownLatch(11);
+                for (int i = 0; i < 11; i++) {
+                    executorService.submit(() -> {
+                        try {
+                            submissionService.submitJobCompletion(job.getId(), request);
+                        } finally {
+                            countDownLatch.countDown();
+                        }
+                    });
+                }
+                countDownLatch.await();
+                assertThat(submissionRepository.findAll()).hasSize(1);
             }
         }
     }
@@ -234,7 +191,7 @@ class SubmissionServiceTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> submissionService.findPage(NON_EXIST_HOST_ID, spaceId, request))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
 
@@ -256,7 +213,7 @@ class SubmissionServiceTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> submissionService.findPage(host.getId(), NON_EXIST_SPACE_ID, request))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 공간입니다.");
+                        .hasMessageContaining("존재하지 않는 공간입니다.");
             }
         }
 
@@ -280,7 +237,7 @@ class SubmissionServiceTest {
                 assertThatThrownBy(
                         () -> submissionService.findPage(anotherHost.getId(), space.getId(), request))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 공간입니다.");
+                        .hasMessageContaining("존재하지 않는 공간입니다.");
             }
         }
 

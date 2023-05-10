@@ -37,7 +37,7 @@ class EntranceCodeProviderTest {
             void 예외를_발생시킨다(final Long hostId) {
                 assertThatThrownBy(() -> entranceCodeProvider.createEntranceCode(hostId))
                         .isInstanceOf(BusinessException.class)
-                        .hasMessage("유효하지 않은 id입니다.");
+                        .hasMessageContaining("유효하지 않은 id입니다.");
             }
         }
 
@@ -71,7 +71,7 @@ class EntranceCodeProviderTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> entranceCodeProvider.parseId(invalidEntranceCode))
                         .isInstanceOf(BusinessException.class)
-                        .hasMessage("유효하지 않은 입장코드입니다.");
+                        .hasMessageContaining("유효하지 않은 입장코드입니다.");
             }
         }
 
@@ -89,7 +89,7 @@ class EntranceCodeProviderTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> entranceCodeProvider.parseId(invalidEntranceCode))
                         .isInstanceOf(BusinessException.class)
-                        .hasMessage("유효하지 않은 입장코드입니다.");
+                        .hasMessageContaining("유효하지 않은 입장코드입니다.");
             }
         }
 

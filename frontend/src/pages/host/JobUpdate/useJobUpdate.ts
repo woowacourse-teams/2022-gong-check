@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -9,7 +10,8 @@ import apiJobs from '@/apis/job';
 import apiTask from '@/apis/task';
 
 import { ID, SectionType } from '@/types';
-import { ApiError } from '@/types/apis';
+
+import errorMessage from '@/constants/errorMessage';
 
 type MutationParams = { jobId: ID; jobName: string; sections: SectionType[] };
 
@@ -32,8 +34,8 @@ const useJobUpdate = () => {
     onSuccess: data => {
       updateSection(data.sections);
     },
-    onError: (err: ApiError) => {
-      openToast('ERROR', `${err.response?.data.message}`);
+    onError: (err: AxiosError<{ errorCode: keyof typeof errorMessage }>) => {
+      openToast('ERROR', errorMessage[`${err.response?.data.errorCode!}`]);
     },
   });
 
@@ -44,8 +46,8 @@ const useJobUpdate = () => {
         openToast('SUCCESS', '업무 수정에 성공하였습니다.');
         navigate(`/host/manage/${spaceId}`);
       },
-      onError: (err: ApiError) => {
-        openToast('ERROR', `${err.response?.data.message}`);
+      onError: (err: AxiosError<{ errorCode: keyof typeof errorMessage }>) => {
+        openToast('ERROR', errorMessage[`${err.response?.data.errorCode!}`]);
       },
     }
   );

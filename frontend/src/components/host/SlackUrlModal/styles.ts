@@ -3,13 +3,14 @@ import { css } from '@emotion/react';
 import theme from '@/styles/theme';
 
 const container = css`
-  width: 560px;
+  max-width: 480px;
+  width: 80%;
   background-color: ${theme.colors.white};
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 40px 16px;
+  padding: 40px 24px;
   border-radius: 18px;
 
   div {
@@ -19,24 +20,26 @@ const container = css`
 
 const title = css`
   margin: 0;
+  font-size: 1.5rem;
 `;
 
 const detail = css`
   color: ${theme.colors.gray400};
-  margin: 16px 0;
+  margin: 24px 0;
+  font-size: 0.9rem;
 `;
 
 const icon = css`
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   margin-right: 12px;
 `;
 
 const contents = css`
   display: flex;
   flex-direction: column;
-  width: 80%;
-  height: 30vh;
+  width: 90%;
+  height: 24vh;
   overflow-y: scroll;
 
   ::-webkit-scrollbar {
@@ -68,7 +71,7 @@ const noJobsInfo = css`
   width: 100%;
   height: 100%;
 
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 500;
 `;
 

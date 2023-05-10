@@ -10,7 +10,7 @@ const useGitHubLogin = () => {
 
   useEffect(() => {
     if (tokenData) {
-      localStorage.setItem('token', tokenData.token);
+      localStorage.setItem('host', tokenData.token);
     }
   }, [tokenData]);
 

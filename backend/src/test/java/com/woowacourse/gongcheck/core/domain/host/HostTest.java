@@ -30,7 +30,7 @@ class HostTest {
 
             assertThatThrownBy(() -> host.checkPassword(spacePassword))
                     .isInstanceOf(BusinessException.class)
-                    .hasMessage("공간 비밀번호와 입력하신 비밀번호가 일치하지 않습니다.");
+                    .hasMessageContaining("공간 비밀번호와 입력하신 비밀번호가 일치하지 않습니다.");
         }
 
         @Test
@@ -48,5 +48,15 @@ class HostTest {
         host.changeSpacePassword(new SpacePassword(changedPassword));
 
         assertThat(host.getSpacePassword()).isEqualTo(new SpacePassword(changedPassword));
+    }
+
+    @Test
+    void nickname을_변경한다() {
+        Host host = Host_생성("0123", 1234L);
+        String expected = "changedName";
+
+        host.changeNickname(new Nickname(expected));
+
+        assertThat(host.getNickname().getValue()).isEqualTo(expected);
     }
 }

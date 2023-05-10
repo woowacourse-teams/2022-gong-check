@@ -7,7 +7,7 @@ spring:
       max-request-size: 60MB
 
 file:
-  upload-dir: src/main/resources/static/images
+  upload-dir:
   server-path: https://image.gongcheck.shop/images/
 
 server:

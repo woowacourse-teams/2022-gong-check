@@ -37,6 +37,13 @@ const postCheckTask = (taskId: ID) => {
   });
 };
 
-const apiTask = { postCheckTask, getRunningTasks, getTasks, postNewRunningTasks };
+const postSectionAllCheckTask = (sectionId: ID) => {
+  return axiosInstanceToken({
+    method: 'POST',
+    url: `/api/sections/${sectionId}/runningTask/allCheck`,
+  });
+};
+
+const apiTask = { getRunningTasks, getTasks, postNewRunningTasks, postCheckTask, postSectionAllCheckTask };
 
 export default apiTask;

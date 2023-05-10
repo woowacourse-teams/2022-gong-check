@@ -3,7 +3,8 @@ import { css } from '@emotion/react';
 import theme from '@/styles/theme';
 
 const container = css`
-  width: 560px;
+  max-width: 480px;
+  width: 80%;
   background-color: ${theme.colors.white};
   display: flex;
   flex-direction: column;
@@ -15,8 +16,9 @@ const container = css`
 
   h1 {
     align-self: start;
-    font-size: 24px;
-    margin: 0 0 16px 32px;
+    font-size: 1.2rem;
+    margin: 0 0 8px 32px;
+    height: 24px;
   }
 
   svg {
@@ -32,9 +34,13 @@ const container = css`
 `;
 
 const image = css`
-  width: 400px;
-  height: 250px;
+  width: 90%;
+  margin-top: 8px;
   cursor: pointer;
+  border-radius: 8px;
+  height: 240px;
+  max-height: 240px;
+  object-fit: cover;
 `;
 
 const description = css`
@@ -48,11 +54,11 @@ const description = css`
     outline: none;
     border: 2px solid ${theme.colors.shadow20};
     border-radius: 8px;
-    font-size: 16px;
+    font-size: 0.9rem;
     color: ${theme.colors.black};
     padding: 8px;
     ::placeholder {
-      font-size: 16px;
+      font-size: 0.9rem;
       color: ${theme.colors.gray500};
     }
     :focus {
@@ -72,7 +78,8 @@ const description = css`
 `;
 
 const saveButton = (isDisabledButton: boolean) => css`
-  font-size: 20px;
+  width: 90%;
+  font-size: 1rem;
   margin: 0;
   background-color: ${isDisabledButton ? theme.colors.gray400 : theme.colors.green};
 `;

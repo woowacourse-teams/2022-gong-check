@@ -9,7 +9,6 @@ import com.woowacourse.gongcheck.auth.presentation.request.GuestEnterRequest;
 import com.woowacourse.gongcheck.core.domain.host.HostRepository;
 import com.woowacourse.gongcheck.exception.BusinessException;
 import com.woowacourse.gongcheck.exception.NotFoundException;
-import com.woowacourse.gongcheck.exception.UnauthorizedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -73,7 +72,7 @@ class GuestAuthServiceTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> guestAuthService.createToken(NON_EXIST_ID, guestEnterRequest))
                         .isInstanceOf(NotFoundException.class)
-                        .hasMessage("존재하지 않는 호스트입니다.");
+                        .hasMessageContaining("존재하지 않는 호스트입니다.");
             }
         }
 
@@ -96,7 +95,7 @@ class GuestAuthServiceTest {
             void 예외를_발생시킨다() {
                 assertThatThrownBy(() -> guestAuthService.createToken(hostId, errorGuestEnterRequest))
                         .isInstanceOf(BusinessException.class)
-                        .hasMessage("공간 비밀번호와 입력하신 비밀번호가 일치하지 않습니다.");
+                        .hasMessageContaining("공간 비밀번호와 입력하신 비밀번호가 일치하지 않습니다.");
             }
         }
     }

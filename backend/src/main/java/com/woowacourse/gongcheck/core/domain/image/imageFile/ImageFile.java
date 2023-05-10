@@ -3,6 +3,7 @@ package com.woowacourse.gongcheck.core.domain.image.imageFile;
 import static org.springframework.util.StringUtils.getFilenameExtension;
 
 import com.woowacourse.gongcheck.exception.BusinessException;
+import com.woowacourse.gongcheck.exception.ErrorCode;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.UUID;
@@ -40,25 +41,29 @@ public class ImageFile {
             return new ImageFile(multipartFile.getOriginalFilename(), multipartFile.getContentType(),
                     getFilenameExtension(multipartFile.getOriginalFilename()), multipartFile.getBytes());
         } catch (IOException exception) {
-            throw new BusinessException("잘못된 파일입니다.");
+            String message = String.format("잘못된 파일입니다. multipartFile = %s", multipartFile.getName());
+            throw new BusinessException(message, ErrorCode.IM05);
         }
     }
 
     private static void validateNullFile(final MultipartFile multipartFile) {
         if (Objects.isNull(multipartFile)) {
-            throw new BusinessException("이미지 파일은 null이 들어올 수 없습니다.");
+            String message = "이미지 파일은 null이 들어올 수 없습니다.";
+            throw new BusinessException(message, ErrorCode.IM01);
         }
     }
 
     private static void validateEmptyFile(final MultipartFile multipartFile) {
         if (multipartFile.getSize() == 0) {
-            throw new BusinessException("이미지 파일은 빈값이 들어올 수 없습니다.");
+            String message = String.format("이미지 파일은 빈값이 들어올 수 없습니다. multipartFile = %s", multipartFile.getName());
+            throw new BusinessException(message, ErrorCode.IM02);
         }
     }
 
     private static void validateNullFileName(final MultipartFile multipartFile) {
         if (Objects.requireNonNull(multipartFile.getOriginalFilename()).isEmpty()) {
-            throw new BusinessException("이미지 파일 이름은 빈값이 들어올 수 없습니다.");
+            String message = String.format("이미지 파일 이름은 빈값이 들어올 수 없습니다. multipartFile = %s", multipartFile.getName());
+            throw new BusinessException(message, ErrorCode.IM03);
         }
     }
 
@@ -66,7 +71,8 @@ public class ImageFile {
         String fileExtension = getFilenameExtension(multipartFile.getOriginalFilename());
         assert fileExtension != null;
         if (!IMAGE_FILE_EXTENSION_PATTERN.matcher(fileExtension).matches()) {
-            throw new BusinessException("이미지 파일 확장자만 들어올 수 있습니다.");
+            String message = String.format("이미지 파일 확장자만 들어올 수 있습니다. fileExtension = %s", fileExtension);
+            throw new BusinessException(message, ErrorCode.IM04);
         }
     }
 

@@ -1,7 +1,7 @@
 package com.woowacourse.gongcheck.core.domain.host;
 
 import com.woowacourse.gongcheck.exception.BusinessException;
-import com.woowacourse.gongcheck.exception.UnauthorizedException;
+import com.woowacourse.gongcheck.exception.ErrorCode;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -41,6 +41,9 @@ public class Host {
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
 
+    @Embedded
+    private Nickname nickname;
+
     @CreatedDate
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
@@ -53,23 +56,29 @@ public class Host {
     }
 
     public Host(final Long id, final SpacePassword spacePassword, final Long githubId, final String imageUrl,
-                final LocalDateTime createdAt, final LocalDateTime updatedAt) {
+                final Nickname nickname, final LocalDateTime createdAt, final LocalDateTime updatedAt) {
         this.id = id;
         this.spacePassword = spacePassword;
         this.githubId = githubId;
         this.imageUrl = imageUrl;
+        this.nickname = nickname;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
     public void checkPassword(final SpacePassword spacePassword) {
         if (!this.spacePassword.equals(spacePassword)) {
-            throw new BusinessException("공간 비밀번호와 입력하신 비밀번호가 일치하지 않습니다.");
+            String message = String.format("공간 비밀번호와 입력하신 비밀번호가 일치하지 않습니다. spacePassword = %s", spacePassword);
+            throw new BusinessException(message, ErrorCode.H001);
         }
     }
 
     public void changeSpacePassword(final SpacePassword spacePassword) {
         this.spacePassword = spacePassword;
+    }
+
+    public void changeNickname(final Nickname nickname) {
+        this.nickname = nickname;
     }
 
     @Override

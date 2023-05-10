@@ -1,33 +1,22 @@
 {
   "compilerOptions": {
     "target": "es2016",
-    "composite": true,
+    "composite": false,
     "jsx": "react-jsx",
     "jsxImportSource": "@emotion/react",
-    "module": "commonjs",
+    "module": "esnext",
     "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "allowJs": true,
-    "noEmit": true,
     "isolatedModules": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "strictNullChecks": true,
-    "noImplicitThis": true,
-    "useUnknownInCatchVariables": true,
     "exactOptionalPropertyTypes": true,
-    "noImplicitReturns": true,
+    "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "allowUnreachableCode": false,
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
-    },
-    "types": ["cypress", "node"]
+    }
   },
-  "include": ["src"],
-  "exclude": ["cypress", "**/*.cy.ts"]
+  "include": ["src"]
 }

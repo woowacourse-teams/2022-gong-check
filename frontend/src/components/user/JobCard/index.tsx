@@ -2,7 +2,7 @@ import useJobCard from './useJobCard';
 
 import { ID } from '@/types';
 
-import checklistImage from '@/assets/checklistImage.svg';
+import checklistImage from '@/assets/checklistImage2.svg';
 
 import styles from './styles';
 
@@ -18,9 +18,9 @@ const JobCard: React.FC<JobCardProps> = ({ jobName, jobId }) => {
     <div css={styles.jobCard} onClick={onClickJobCard}>
       <div css={styles.textWrapper}>
         <span>{jobName}</span>
-        <span>체크리스트</span>
+        <span>체크하러 가기</span>
       </div>
-      <img src={checklistImage} alt="" />
+      <img css={styles.img} src={checklistImage} alt="" />
     </div>
   );
 };

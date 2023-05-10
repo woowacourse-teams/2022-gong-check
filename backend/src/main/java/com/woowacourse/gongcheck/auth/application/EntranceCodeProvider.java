@@ -1,6 +1,7 @@
 package com.woowacourse.gongcheck.auth.application;
 
 import com.woowacourse.gongcheck.exception.BusinessException;
+import com.woowacourse.gongcheck.exception.ErrorCode;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -26,13 +27,15 @@ public class EntranceCodeProvider {
             validateIdSize(id);
             return id;
         } catch (NumberFormatException | BusinessException e) {
-            throw new BusinessException("유효하지 않은 입장코드입니다.");
+            String message = String.format("유효하지 않은 입장코드입니다. entranceCode = %s", entranceCode);
+            throw new BusinessException(message, ErrorCode.H002);
         }
     }
 
     private void validateIdSize(final Long id) {
         if (id < MINIMUM_ID_SIZE) {
-            throw new BusinessException("유효하지 않은 id입니다.");
+            String message = String.format("유효하지 않은 id입니다. id = %d", id);
+            throw new BusinessException(message, ErrorCode.H003);
         }
     }
 }

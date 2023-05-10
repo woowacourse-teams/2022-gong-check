@@ -23,16 +23,17 @@ const SpaceDeleteModal: React.FC<SpaceDeleteModalProps> = ({ text, onClick }) =>
 
   return (
     <ModalPortal>
-      <Dimmer mode="full">
+      <Dimmer>
         <div css={styles.container}>
           <div css={styles.textWrapper}>
-            <span>다음 내용을 입력하시면 공간을 삭제 할 수 있습니다.</span>
+            <span>다음 내용을 입력하시면, 공간을 삭제 할 수 있습니다.</span>
             <span>{text}</span>
           </div>
           <input css={styles.input} onChange={onChange} type="text" required />
           <Button css={styles.button(isDisabledButton)} onClick={onClick} disabled={isDisabledButton}>
-            삭제된 공간은 복구되지 않습니다.
+            삭제
           </Button>
+          <span css={styles.alert}>※ 한번 삭제된 공간은 복구되지 않습니다.</span>
         </div>
       </Dimmer>
     </ModalPortal>

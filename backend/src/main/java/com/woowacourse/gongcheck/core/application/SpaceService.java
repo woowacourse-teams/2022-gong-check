@@ -19,6 +19,7 @@ import com.woowacourse.gongcheck.core.domain.vo.Name;
 import com.woowacourse.gongcheck.core.presentation.request.SpaceChangeRequest;
 import com.woowacourse.gongcheck.core.presentation.request.SpaceCreateRequest;
 import com.woowacourse.gongcheck.exception.BusinessException;
+import com.woowacourse.gongcheck.exception.ErrorCode;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,6 +46,12 @@ public class SpaceService {
         this.runningTaskRepository = runningTaskRepository;
     }
 
+    public SpaceResponse findSpace(final Long hostId, final Long spaceId) {
+        Host host = hostRepository.getById(hostId);
+        Space space = spaceRepository.getByHostAndId(host, spaceId);
+        return SpaceResponse.from(space);
+    }
+
     public SpacesResponse findSpaces(final Long hostId) {
         Host host = hostRepository.getById(hostId);
         List<Space> spaces = spaceRepository.findAllByHost(host);
@@ -66,23 +73,6 @@ public class SpaceService {
                 .getId();
     }
 
-    public SpaceResponse findSpace(final Long hostId, final Long spaceId) {
-        Host host = hostRepository.getById(hostId);
-        Space space = spaceRepository.getByHostAndId(host, spaceId);
-        return SpaceResponse.from(space);
-    }
-
-    @Transactional
-    public void changeSpace(final Long hostId, final Long spaceId, final SpaceChangeRequest request) {
-        Host host = hostRepository.getById(hostId);
-        Space space = spaceRepository.getByHostAndId(host, spaceId);
-        Name changeName = new Name(request.getName());
-        checkDuplicateSpaceName(changeName, host, space);
-
-        space.changeName(changeName);
-        space.changeImageUrl(request.getImageUrl());
-    }
-
     @Transactional
     public void removeSpace(final Long hostId, final Long spaceId) {
         Host host = hostRepository.getById(hostId);
@@ -100,15 +90,30 @@ public class SpaceService {
         spaceRepository.deleteById(spaceId);
     }
 
+    @Transactional
+    public void changeSpace(final Long hostId, final Long spaceId, final SpaceChangeRequest request) {
+        Host host = hostRepository.getById(hostId);
+        Space space = spaceRepository.getByHostAndId(host, spaceId);
+        Name changeName = new Name(request.getName());
+        checkDuplicateSpaceName(changeName, host, space);
+
+        space.changeName(changeName);
+        space.changeImageUrl(request.getImageUrl());
+    }
+
     private void checkDuplicateSpaceName(final Name spaceName, final Host host) {
         if (spaceRepository.existsByHostAndName(host, spaceName)) {
-            throw new BusinessException("이미 존재하는 이름입니다.");
+            String message = String.format("이미 존재하는 이름입니다. hostId = %d, spaceName = %s", host.getId(),
+                    spaceName.getValue());
+            throw new BusinessException(message, ErrorCode.SP01);
         }
     }
 
     private void checkDuplicateSpaceName(final Name spaceName, final Host host, final Space space) {
         if (spaceRepository.existsByHostAndNameAndIdNot(host, spaceName, space.getId())) {
-            throw new BusinessException("이미 존재하는 이름입니다.");
+            String message = String.format("이미 존재하는 이름입니다. hostId = %d, spaceName = %s, spaceId = %d", host.getId(),
+                    spaceName.getValue(), space.getId());
+            throw new BusinessException(message, ErrorCode.SP02);
         }
     }
 }

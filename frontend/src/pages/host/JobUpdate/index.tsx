@@ -3,8 +3,6 @@ import useJobUpdate from './useJobUpdate';
 import JobControl from '@/components/host/JobControl';
 import SectionCard from '@/components/host/SectionCard';
 
-import useSections from '@/hooks/useSections';
-
 import styles from './styles';
 
 const JobUpdate: React.FC = () => {

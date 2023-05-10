@@ -3,33 +3,45 @@ import { css } from '@emotion/react';
 import theme from '@/styles/theme';
 
 const layout = ({ isFullSize }: { isFullSize: boolean }) => css`
-  background: ${theme.colors.white};
+  min-width: 320px;
+  background-color: ${theme.colors.white};
   border-radius: 8px;
   font-size: 16px;
   box-shadow: 2px 2px 2px 2px ${theme.colors.shadow10};
+  padding-bottom: 24px;
+
   ${isFullSize &&
   css`
     margin-top: 5rem;
+    height: calc(50vh + 10em);
   `}
+
+  @media screen and (min-width: 1024px) {
+    width: 100%;
+  }
+
+  @media screen and (max-width: 1023px) {
+    width: 90%;
+  }
 `;
 
 const header = css`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1.25em;
-
+  padding: 0 24px;
+  border-bottom: 1px solid ${theme.colors.gray300};
   p {
-    font-size: 1.3em;
+    font-size: 1.2rem;
   }
 `;
 
 const detailButton = css`
-  width: 5rem;
+  width: auto;
   height: 2rem;
   margin: 0;
-  font-size: 1rem;
-  padding: 8px 0;
+  font-size: 0.9rem;
+  padding: 0 12px;
 `;
 
 const table = ({ isFullSize }: { isFullSize: boolean }) => css`
@@ -50,6 +62,7 @@ const table = ({ isFullSize }: { isFullSize: boolean }) => css`
     display: flex;
     flex-direction: column;
     justify-content: start;
+
     width: 100%;
     overflow-y: ${isFullSize ? 'scroll' : 'hidden'};
     height: ${isFullSize ? '50vh' : '12.5em'};
@@ -88,36 +101,14 @@ const table = ({ isFullSize }: { isFullSize: boolean }) => css`
   td {
     padding: 1em;
     height: 10px;
-    width: 28vw;
-    min-width: 160px;
+    width: 20vw;
+    min-width: 80px;
     word-wrap: break-word;
     text-align: left;
     &:nth-of-type(3) {
-      width: 60vw;
-      min-width: 320px;
+      width: 30vw;
+      min-width: 160px;
     }
-  }
-`;
-
-const empty = css`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  td {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  img {
-    max-width: 100px;
-    margin-bottom: 12px;
   }
 `;
 
@@ -125,6 +116,6 @@ const greenText = css`
   color: ${theme.colors.green};
 `;
 
-const styles = { layout, header, detailButton, table, empty, greenText };
+const styles = { layout, header, detailButton, table, greenText };
 
 export default styles;

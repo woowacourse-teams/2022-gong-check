@@ -1,45 +1,20 @@
-import { css } from '@emotion/react';
-
 import GitHubLoginButton from '@/components/common/GitHubLoginButton';
 
 import homeCover from '@/assets/homeCover.png';
+import homeCoverWebp from '@/assets/homeCover.webp';
+import logoTitle from '@/assets/logoTitle.png';
+import logoTitleWebp from '@/assets/logoTitle.webp';
 
-import theme from '@/styles/theme';
+import styles from './styles';
 
 const Home: React.FC = () => {
   return (
     <>
-      <div
-        id="헤더"
-        css={css`
-          display: flex;
-          align-items: center;
-          width: 100vw;
-          height: 64px;
-          padding: 0 48px;
-          font-size: 32px;
-          color: ${theme.colors.white};
-          background-color: ${theme.colors.primary};
-        `}
-      >
-        <span>GongCheck</span>
+      <div css={styles.header}>
+        <img srcSet={`${logoTitleWebp}`} src={logoTitle} alt="공책" />
       </div>
-      <div
-        id="레이아웃"
-        css={css`
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        `}
-      >
-        <div
-          id="커버"
-          css={css`
-            margin: 1em 0;
-          `}
-        >
-          <img src={homeCover} alt="" />
-        </div>
+      <div css={styles.layout}>
+        <img srcSet={`${homeCoverWebp}`} src={homeCover} alt="함께 사용하는 우리의 공간 우리가 체크하자, 공책" />
         <GitHubLoginButton />
       </div>
     </>

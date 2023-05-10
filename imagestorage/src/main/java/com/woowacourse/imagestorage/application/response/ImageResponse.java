@@ -1,17 +1,23 @@
 package com.woowacourse.imagestorage.application.response;
 
+import lombok.Getter;
+import org.springframework.http.MediaType;
+
+@Getter
 public class ImageResponse {
 
-    private String imagePath;
+    private byte[] bytes;
+    private MediaType contentType;
 
     private ImageResponse() {
     }
 
-    public ImageResponse(final String imagePath) {
-        this.imagePath = imagePath;
+    public ImageResponse(final byte[] bytes, final MediaType contentType) {
+        this.bytes = bytes;
+        this.contentType = contentType;
     }
 
-    public String getImagePath() {
-        return imagePath;
+    public static ImageResponse of(final byte[] bytes, final MediaType contentType) {
+        return new ImageResponse(bytes, contentType);
     }
 }

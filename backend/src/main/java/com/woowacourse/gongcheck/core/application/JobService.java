@@ -47,13 +47,6 @@ public class JobService {
         this.runningTaskRepository = runningTaskRepository;
     }
 
-    public JobsResponse findJobs(final Long hostId, final Long spaceId) {
-        Host host = hostRepository.getById(hostId);
-        Space space = spaceRepository.getByHostAndId(host, spaceId);
-        List<Job> jobs = jobRepository.findAllBySpaceHostAndSpace(host, space);
-        return JobsResponse.from(jobs);
-    }
-
     @Transactional
     public Long createJob(final Long hostId, final Long spaceId, final JobCreateRequest request) {
         Host host = hostRepository.getById(hostId);
@@ -61,14 +54,11 @@ public class JobService {
         return saveJob(request, space);
     }
 
-    @Transactional
-    public void removeJob(final Long hostId, final Long jobId) {
+    public JobsResponse findJobs(final Long hostId, final Long spaceId) {
         Host host = hostRepository.getById(hostId);
-        Job job = jobRepository.getBySpaceHostAndId(host, jobId);
-        List<Section> sections = sectionRepository.findAllByJob(job);
-        List<Task> tasks = taskRepository.findAllBySectionIn(sections);
-
-        deleteJob(jobId, sections, tasks);
+        Space space = spaceRepository.getByHostAndId(host, spaceId);
+        List<Job> jobs = jobRepository.findAllBySpaceHostAndSpace(host, space);
+        return JobsResponse.from(jobs);
     }
 
     @Transactional
@@ -81,6 +71,16 @@ public class JobService {
         job.changeName(new Name(request.getName()));
         deleteSectionsAndTasks(sections, tasks);
         createSectionsAndTasks(request.getSections(), job);
+    }
+
+    @Transactional
+    public void removeJob(final Long hostId, final Long jobId) {
+        Host host = hostRepository.getById(hostId);
+        Job job = jobRepository.getBySpaceHostAndId(host, jobId);
+        List<Section> sections = sectionRepository.findAllByJob(job);
+        List<Task> tasks = taskRepository.findAllBySectionIn(sections);
+
+        deleteJob(jobId, sections, tasks);
     }
 
     public SlackUrlResponse findSlackUrl(final Long hostId, final Long jobId) {

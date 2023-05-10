@@ -12,6 +12,7 @@ const theme = Object.freeze({
     gray100: '#f9fbfd',
     gray200: '#f5f5f5',
     gray300: '#d9d9d9',
+    gray330: '#EDE4E0',
     gray350: '#f5f6fa',
     gray400: '#d1ccc0',
     gray500: '#84817a',

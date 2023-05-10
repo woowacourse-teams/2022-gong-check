@@ -1,8 +1,9 @@
-import { clip } from '@/utils/copy';
-import { useQuery } from 'react-query';
+import copyUrlToClipboard from '@/utils/copyUrlToClipboard';
+import { useMutation, useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import SlackUrlModal from '@/components/host/SlackUrlModal';
+import SpaceDeleteModal from '@/components/host/SpaceDeleteModal';
 
 import useModal from '@/hooks/useModal';
 import useToast from '@/hooks/useToast';
@@ -17,7 +18,7 @@ import { ID } from '@/types';
 const useDashBoard = () => {
   const navigate = useNavigate();
 
-  const { openModal } = useModal();
+  const { openModal, closeModal } = useModal();
   const { openToast } = useToast();
 
   const { spaceId } = useParams() as { spaceId: ID };
@@ -28,14 +29,30 @@ const useDashBoard = () => {
   });
   const { data: jobsData } = useQuery(['jobs', spaceId], () => apiJobs.getJobs(spaceId));
   const { data: submissionData } = useQuery(['submissions', spaceId], () => apiSubmission.getSubmission(spaceId));
-  const { refetch: copyEntranceLink } = useQuery(['entranceCode'], () => apiHost.getEntranceCode(), {
+  const { data: entranceCodeData } = useQuery(['entranceCode'], () => apiHost.getEntranceCode(), {
+    suspense: false,
+  });
+
+  const { refetch } = useQuery(['deleteSpaces'], apiSpace.getSpaces, {
     enabled: false,
     onSuccess: data => {
-      clip(`${location.origin}/enter/${data.entranceCode}/pwd`);
-      openToast('SUCCESS', '공간 입장 링크가 복사되었습니다.');
+      const { spaces } = data;
+
+      if (spaces.length === 0) {
+        navigate('/host/manage/spaceCreate');
+        return;
+      }
+
+      const space = spaces[0];
+      navigate(`/host/manage/${space.id}`);
     },
-    onError: () => {
-      openToast('ERROR', '잠시 후 다시 시도해주세요.');
+  });
+
+  const { mutate: deleteSpace } = useMutation((spaceId: ID) => apiSpace.deleteSpace(spaceId), {
+    onSuccess: () => {
+      refetch();
+      closeModal();
+      openToast('SUCCESS', '공간이 삭제되었습니다.');
     },
   });
 
@@ -44,7 +61,18 @@ const useDashBoard = () => {
   };
 
   const onClickLinkButton = () => {
-    copyEntranceLink();
+    if (entranceCodeData) {
+      copyUrlToClipboard(`${location.origin}/enter/${entranceCodeData.entranceCode}/pwd`);
+      openToast('SUCCESS', '공간 입장 링크가 복사되었습니다.');
+      return;
+    }
+    openToast('ERROR', '다시 시도해주세요.');
+  };
+
+  const onClickDeleteSpace = () => {
+    openModal(
+      <SpaceDeleteModal text={`${spaceData?.name} 공간을 삭제합니다` || ''} onClick={() => deleteSpace(spaceId)} />
+    );
   };
 
   return {
@@ -54,6 +82,7 @@ const useDashBoard = () => {
     submissionData,
     onClickSlackButton,
     onClickLinkButton,
+    onClickDeleteSpace,
   };
 };
 

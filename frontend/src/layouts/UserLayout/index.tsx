@@ -1,5 +1,4 @@
-import ErrorUserTask from '@/ErrorBoundary/ErrorUserTask';
-import ErrorUserToken from '@/ErrorBoundary/ErrorUserToken';
+import ErrorUserBoundary from '@/ErrorBoundary/ErrorUserBoundary';
 import { Global } from '@emotion/react';
 import { Suspense, useEffect } from 'react';
 import { useQuery } from 'react-query';
@@ -21,22 +20,23 @@ const UserLayout: React.FC = () => {
   const { data: entranceCodeData } = useQuery(['hostId', hostId], apiHost.getEntranceCode);
 
   useEffect(() => {
-    if (!localStorage.getItem('token') || entranceCodeData?.entranceCode !== hostId) {
+    sessionStorage.setItem('tokenKey', `${hostId}`);
+    const token = localStorage.getItem(`${hostId}`);
+
+    if (!token) {
       navigate(`/enter/${hostId}/pwd`);
     }
   }, []);
 
   return (
-    <ErrorUserToken>
-      <ErrorUserTask>
-        <Suspense fallback={<></>}>
-          <div css={styles.layout}>
-            <Global styles={transitions} />
-            <Outlet />
-          </div>
+    <ErrorUserBoundary>
+      <div css={styles.layout}>
+        <Global styles={transitions} />
+        <Suspense fallback={<div css={styles.fallback} />}>
+          <Outlet />
         </Suspense>
-      </ErrorUserTask>
-    </ErrorUserToken>
+      </div>
+    </ErrorUserBoundary>
   );
 };
 

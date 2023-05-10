@@ -41,6 +41,13 @@ public class SupportRepository {
                 .orElseThrow(EntityNotFoundExcpetion::new);
     }
 
+    public <T> List<T> findAll(final Class<T> entityClass) {
+        entityManager.clear();
+        String className = entityClass.getSimpleName();
+        return entityManager.createQuery(String.format("SELECT entity FROM %s entity", className))
+                .getResultList();
+    }
+
     static class EntityNotFoundExcpetion extends RuntimeException {
 
         public EntityNotFoundExcpetion() {

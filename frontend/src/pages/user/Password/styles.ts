@@ -21,6 +21,7 @@ const homeCoverImage = css`
 
   img {
     width: 22em;
+    aspect-ratio: auto 1 / 1;
   }
 `;
 
@@ -30,20 +31,23 @@ const textWrapper = css`
   align-items: center;
 
   p {
-    margin-bottom: 0;
+    font-size: 1.2em;
   }
 
-  p:nth-of-type(1) {
-    margin-top: 12px;
-    font-weight: bold;
-    font-size: 1.4em;
-  }
-  p:nth-of-type(2) {
+  > p {
+    :nth-of-type(1) {
+      margin-top: 12px;
+      font-weight: bold;
+      font-size: 1.2em;
+      color: black;
+    }
+
+    margin-bottom: 0;
     font-size: 1em;
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: ${theme.colors.gray300};
+    color: ${theme.colors.gray400};
     line-height: 1.5rem;
   }
 `;
@@ -81,6 +85,13 @@ const form = ({ isActiveSubmit }: { isActiveSubmit: boolean }) => css`
   }
 `;
 
-const styles = { layout, textWrapper, form, homeCoverImage };
+const profile = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4em;
+`;
+
+const styles = { layout, textWrapper, form, homeCoverImage, profile };
 
 export default styles;

@@ -20,7 +20,10 @@ const SpaceUpdatePage = lazy(() => import('@/pages/host/SpaceUpdate'));
 const SpaceRecordPage = lazy(() => import('@/pages/host/SpaceRecord'));
 const JobCreatePage = lazy(() => import('@/pages/host/JobCreate'));
 const JobUpdatePage = lazy(() => import('@/pages/host/JobUpdate'));
-const PasswordUpdatePage = lazy(() => import('@/pages/host/PasswordUpdate'));
+const UpdatePage = lazy(() => import('@/pages/host/Update'));
+
+// errorPages
+const NotFoundPage = lazy(() => import('@/pages/errorPages/NotFound'));
 
 const routes = [
   {
@@ -66,8 +69,8 @@ const routes = [
             element: <ManageLayout />,
             children: [
               {
-                path: 'passwordUpdate',
-                element: <PasswordUpdatePage />,
+                path: 'update',
+                element: <UpdatePage />,
               },
               {
                 path: 'spaceCreate',
@@ -101,7 +104,7 @@ const routes = [
   },
   {
     path: '*',
-    element: <div>잘못된 접근입니다.</div>,
+    element: <NotFoundPage />,
   },
 ];
 
