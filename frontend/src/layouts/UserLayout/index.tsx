@@ -21,9 +21,7 @@ const UserLayout: React.FC = () => {
 
   useEffect(() => {
     sessionStorage.setItem('tokenKey', `${hostId}`);
-    const token = localStorage.getItem(`${hostId}`);
-
-
+    const token = localStorage.getItem(`${hostId}`)
 
     console.log('123123');
     if (!token) {
