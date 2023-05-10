@@ -23,6 +23,9 @@ const UserLayout: React.FC = () => {
     sessionStorage.setItem('tokenKey', `${hostId}`);
     const token = localStorage.getItem(`${hostId}`);
 
+
+
+    console.log('123123');
     if (!token) {
       navigate(`/enter/${hostId}/pwd`);
     }
